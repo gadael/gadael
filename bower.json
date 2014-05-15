@@ -1,0 +1,13 @@
+{
+  "name": "inga-server",
+  "dependencies": {
+    "bootstrap": "~3.1.1",
+    "font-awesome": "~4.0.3",
+    "jquery": "~1.11.0",
+	"angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "angular-loader": "1.2.x",
+    "angular-mocks": "~1.2.x",
+    "html5-boilerplate": "~4.3.0"
+  }
+}
