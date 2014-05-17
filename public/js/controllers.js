@@ -8,6 +8,7 @@ define(['angular', 'services'], function (angular) {
 		.controller('MyCtrl1', ['$scope', 'version', function ($scope, version) {
 			$scope.scopedAppVersion = version;
 		}])
+		
 		// More involved example where controller is required from an external file
 		.controller('MyCtrl2', ['$scope', '$injector', function($scope, $injector) {
 			require(['controllers/myctrl2'], function(myctrl2) {
@@ -16,6 +17,25 @@ define(['angular', 'services'], function (angular) {
 				// any of your other modules, make sure you include it together with 'ng'
 				// Furthermore we need to pass on the $scope as it's unique to this controller
 				$injector.invoke(myctrl2, this, {'$scope': $scope});
+			});
+		}])
+	
+		
+		.controller('Home', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/home'], function(home) {
+				$injector.invoke(home, this, {'$scope': $scope});
+			});
+		}])
+	
+		.controller('Login', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/login'], function(login) {
+				$injector.invoke(login, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('Signup', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/signup'], function(signup) {
+				$injector.invoke(signup, this, {'$scope': $scope});
 			});
 		}]);
 });

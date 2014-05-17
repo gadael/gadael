@@ -1,6 +1,6 @@
 bower_components/*
-public/vendor/*
 node_modules/*
+public/fonts/*.ttf
 *.min.js
 *.min.js.map
 *.min.css

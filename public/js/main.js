@@ -3,7 +3,9 @@ require.config({
 		angular: '../bower_components/angular/angular',
 		angularRoute: '../bower_components/angular-route/angular-route',
 		angularMocks: '../bower_components/angular-mocks/angular-mocks',
-		requirejstext: '../bower_components/requirejs-text/text'
+		requirejstext: '../bower_components/requirejs-text/text',
+    	jquery: '../bower_components/jquery/dist/jquery.min',
+    	bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -11,7 +13,9 @@ require.config({
 		'angularMocks': {
 			deps:['angular'],
 			'exports':'angular.mock'
-		}
+		},
+		'jquery': {'exports' : 'jquery'},
+		'bootstrap': ['jquery']
 	},
 	priority: ["angular"]
 });
@@ -38,3 +42,8 @@ require( [
 			angular.resumeBootstrap([app['name']]);
 		});
 	});
+
+
+require(['bootstrap'], function(bootstrap) {
+	// bootstrap is loaded
+});
