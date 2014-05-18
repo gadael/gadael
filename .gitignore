@@ -1,6 +1,7 @@
-bower_components/*
+public/bower_components/*
 node_modules/*
 public/fonts/*.ttf
+public/fonts/*.woff
 *.min.js
 *.min.js.map
 *.min.css
@@ -8,3 +9,4 @@ public/fonts/*.ttf
 .nodemonignore
 /bower_components
 /node_modules
+po/*.mo

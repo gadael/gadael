@@ -1,8 +1,13 @@
 define([], function() {
 	return ['$scope', '$http', function($scope, $http) {
 		
-		$scope.welcomeMessage = 'hey this is myctrl2.js!';
+		
+		$scope.home = {
+				title: 'hey this is home.js!'
+		};
 
 		$scope.$apply();
+		
+		console.debug($scope);
 	}];
 });
