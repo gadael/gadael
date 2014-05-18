@@ -5,7 +5,8 @@ require.config({
 		angularMocks: '../bower_components/angular-mocks/angular-mocks',
 		requirejstext: '../bower_components/requirejs-text/text',
     	jquery: '../bower_components/jquery/dist/jquery.min',
-    	bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min'
+    	bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
+    	angularGettext: '../bower_components/angular-gettext/dist/angular-gettext'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -15,7 +16,8 @@ require.config({
 			'exports':'angular.mock'
 		},
 		'jquery': {'exports' : 'jquery'},
-		'bootstrap': ['jquery']
+		'bootstrap': ['jquery'],
+		'angularGettext' : ['angular', 'jquery']
 	},
 	priority: ["angular"]
 });
@@ -40,10 +42,20 @@ require( [
 		
 		angular.element().ready(function() {
 			angular.resumeBootstrap([app['name']]);
+			
+			require(['angularGettext'], function(angularGettext) {
+				app.run(function(gettextCatalog) {
+					gettextCatalog.currentLanguage = 'fr';
+					gettextCatalog.debug = true;
+				});
+			});
 		});
+		
+		
 	});
 
 
 require(['bootstrap'], function(bootstrap) {
 	// bootstrap is loaded
 });
+

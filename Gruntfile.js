@@ -37,7 +37,8 @@ module.exports = function(grunt) {
           flatten: true,
           cwd: 'public/bower_components/',
           src: [
-              '*/fonts/*.ttf'
+              '*/fonts/*.ttf',
+              '*/fonts/*.woff'
               ],
           dest: 'public/fonts'
         }
@@ -74,6 +75,23 @@ module.exports = function(grunt) {
         ]
       }
     },
+    
+    nggettext_extract: {
+    	pot: {
+    		files: {
+    			'po/template.pot' : ['public/**/*.html']
+    		}
+    	}
+    },
+    
+    nggettext_compile: {
+    	all: {
+    		files: {
+    			'public/js/translation.js': ['po/*.po']
+    		}
+    	}
+    }
+    
 //    less: {
 //      options: {
 //        compress: true
@@ -128,6 +146,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-newer');
+  grunt.loadNpmTasks('grunt-angular-gettext');
 
   grunt.registerTask('default', [ 'jshint:server', 'concurrent']);
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
