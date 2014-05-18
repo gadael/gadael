@@ -3,10 +3,11 @@ define(['angular', 'services'], function(angular, services) {
 
   /* Directives */
 
-	angular.module('myApp.directives', ['myApp.services'])
-		.directive('appVersion', ['version', function(version) {
+	angular.module('inga.directives', ['inga.services'])
+		.directive('ingaLang', function() {
 			return function(scope, elm, attrs) {
-				elm.text(version);
+				elm.attr('lang', 'fr');
+				elm.removeAttr('inga-lang');
 		};
-	}]);
+	});
 });

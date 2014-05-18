@@ -7,7 +7,5 @@ define([], function() {
 		};
 
 		$scope.$apply();
-		
-		console.debug($scope);
 	}];
 });

@@ -17,7 +17,8 @@ require.config({
 		},
 		'jquery': {'exports' : 'jquery'},
 		'bootstrap': ['jquery'],
-		'angularGettext' : ['angular', 'jquery']
+		'angularGettext' : ['angular', 'jquery'],
+		'translation': ['angularGettext']
 	},
 	priority: ["angular"]
 });
@@ -34,7 +35,7 @@ require( [
 	'app',
 	'routes'
 	], 
-	function(angular, app, routes) {
+	function(angular, app, routes, angularGettext) {
 	
 		'use strict';
 		
@@ -42,16 +43,7 @@ require( [
 		
 		angular.element().ready(function() {
 			angular.resumeBootstrap([app['name']]);
-			
-			require(['angularGettext'], function(angularGettext) {
-				app.run(function(gettextCatalog) {
-					gettextCatalog.currentLanguage = 'fr';
-					gettextCatalog.debug = true;
-				});
-			});
-		});
-		
-		
+		});	
 	});
 
 
