@@ -10,7 +10,7 @@ define(['angular', 'angularGettext', 'translation'], function (angular, angularG
 	
 	var app = angular.module('inga.gettext', ['gettext']);
 	
-	var lang = jQuery('html').attr('lang');
+	var lang = jQuery('html').attr('lang'); // TODO get by rest api?
 	
 	switch(lang)
 	{
@@ -19,7 +19,7 @@ define(['angular', 'angularGettext', 'translation'], function (angular, angularG
 		break;
 		
 		default: // unsuported language
-			lang = 'en';
+			lang = 'fr';
 	}
 	
 	
