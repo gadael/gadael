@@ -37,7 +37,8 @@
     "passport-google-oauth": "^0.1.5",
     "passport-tumblr": "^0.1.2",
     "helmet": "^0.2.1",
-    "bcrypt": "^0.7.8"
+    "bcrypt": "^0.7.8",
+    "i18n-abide": "^0.0.20"
   },
   "devDependencies": {
     "karma": "~0.10",

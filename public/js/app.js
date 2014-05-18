@@ -5,22 +5,24 @@ define([
     	'filters',
     	'services',
     	'directives',
+    	'gettext',
     	'controllers',
     	'angularRoute'
-    	
-
     	
     	], function (angular, filters, services, directives, controllers) {
     		'use strict';
 
     		// Declare app level module which depends on filters, and services
     		
-    		return angular.module('myApp', [
+    		return angular.module('inga', [
     			'ngRoute',
-    			'myApp.controllers',
-    			'myApp.filters',
-    			'myApp.services',
-    			'myApp.directives'
+    			'inga.controllers',
+    			'inga.filters',
+    			'inga.services',
+    			'inga.directives',
+    			'inga.gettext'
     		]);
+    		
+    		
     });
 
