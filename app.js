@@ -68,7 +68,7 @@ app.locals.copyrightName = app.config.companyName;
 app.locals.cacheBreaker = 'br34k-01';
 
 //setup passport
-//require('./passport')(app, passport);
+require('./modules/passport')(app, passport);
 
 //setup routes
 require('./routes')(app);
