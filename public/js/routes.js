@@ -28,6 +28,14 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'Login'
 		});
 		
+		
+		// authenticated pages
+		
+		$routeProvider.when('/admin', {
+			templateUrl: 'partials/admin/home.html',
+			controller: 'AdminHome'
+		});
+		
 		$routeProvider.otherwise({redirectTo: '/home'});
 	}]);
 

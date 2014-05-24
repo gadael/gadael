@@ -34,6 +34,12 @@ define(['angular', 'services'], function (angular) {
 			});
 		}])
 		
+		.controller('AdminHome', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/home'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
 		.controller('Signup', ['$scope', '$injector', function($scope, $injector) {
 			require(['controllers/signup'], function(signup) {
 				$injector.invoke(signup, this, {'$scope': $scope});

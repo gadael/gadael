@@ -1,0 +1,26 @@
+'use strict';
+
+/**
+ * Retrive session information for all page
+ * language
+ * user access rights
+ * who is logged
+ * etc...
+ */  
+exports.getInfos = function (req, res) {
+	
+  // detect language from HTTP-ACCEPT
+  
+  var lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
+  
+
+  res.json({ 
+	  lang: lang[0].lang,
+  //  header: req.headers['accept-language'],
+	  user: {
+		isAuthenticated: req.isAuthenticated(),
+		user: req.user
+	  }
+	});
+};
+
