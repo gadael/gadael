@@ -24,6 +24,10 @@ msgid "Home"
 msgstr ""
 
 #: public/partials/login.html
+msgid "Or sign in using..."
+msgstr ""
+
+#: public/partials/login.html
 msgid "Password:"
 msgstr ""
 

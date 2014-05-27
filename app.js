@@ -73,7 +73,11 @@ require('./modules/passport')(app, passport);
 //setup routes
 require('./routes')(app, passport);
 
-
+//setup utilities
+app.utility = {};
+app.utility.sendmail = require('./modules/sendmail');
+app.utility.slugify = require('./modules/slugify');
+app.utility.workflow = require('./modules/workflow');
 
 //listen up
 app.server.listen(app.config.port, function(){

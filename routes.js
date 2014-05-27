@@ -46,6 +46,7 @@ exports = module.exports = function(app, passport) {
 	app.get('/rest/account', require('./rest/Account').getAccount);
 	app.get('/rest/common', require('./rest/Common').getInfos);
 	app.get('/rest/admin', require('./rest/admin/home').getInfos);
+	app.post('/rest/login', require('./rest/login').authenticate);
 	
 	//social login
 	app.get('/login/twitter/', passport.authenticate('twitter', { callbackURL: '#/login/twitter/callback/' }));
