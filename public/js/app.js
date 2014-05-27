@@ -28,10 +28,16 @@ define([
 		
 
 		inga.run(function($rootScope, $location) {
+			
+			
+			$rootScope.$on('$routeChangeStart', function(next, current) { 
+				// reset alert messages on page change
+				$rootScope.pageAlerts = [];
+			});
 
 		   	$rootScope.$on('$viewContentLoaded', function() {
-			    	require(['jquery'], function() {
-
+			    require(['jquery'], function() {
+					
 					// hide the login form and display the loaded page, 
 					// usefull if the user exit from an autorization required page
 					jQuery('body>.container').show();

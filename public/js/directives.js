@@ -1,44 +1,50 @@
 define(['angular', 'services'], function(angular, services) {
 	'use strict';
 
-  /* Directives */
+	/**
+	 *  Directives 
+	 */
 
 	angular.module('inga.directives', ['inga.services'])
-		.directive('ingaLang', function() {
-			return function(scope, elm, attrs) {
-				
-				var lang = navigator.language || navigator.userLanguage;
-				
-				switch(lang)
-				{
-					case 'en':
-					case 'fr':
-					break;
-					
-					default: // unsuported language
-						lang = 'fr';
-				}
-				
-				elm.attr('lang', lang);
-				elm.removeAttr('inga-lang');
-		};
-	})
 	
 	/**
-	 *
+	 * set the html lang attribute
+	 */ 
+	.directive('ingaLang', function() {
+		return function(scope, elm, attrs) {
+			
+			var lang = navigator.language || navigator.userLanguage;
+			
+			switch(lang)
+			{
+				case 'en':
+				case 'fr':
+				break;
+				
+				default: // unsuported language
+					lang = 'fr';
+			}
+			
+			elm.attr('lang', lang);
+			elm.removeAttr('inga-lang');
+		};
+	})
+
+	/**
+	 * This scope in page will be replaced by the partial/login.html if a http 401 is encountred 
+	 * 
 	 */
 	.directive('ingaAuth', ['$compile', function($compile) {
 
 		
+		return function(scope, elem, attrs) {
 
-	    return function(scope, elem, attrs) {
-
-	        //once Angular is started, remove class:
-	        //elem.removeClass('waiting-for-angular');
-
-			var main = jQuery('body>.container');
-	        
-	        scope.$on('event:auth-loginRequired', function() {
+			//once Angular is started, remove class:
+			//elem.removeClass('waiting-for-angular');
+			
+			var main = jQuery(elem);
+			
+			scope.$on('event:auth-loginRequired', function() {
 				
 				var login = jQuery('.inga-auth-form');
 				if (login.length == 0)
@@ -47,18 +53,18 @@ define(['angular', 'services'], function(angular, services) {
 					$compile(login.contents())(scope);
 					login = jQuery(login[0]);
 					login.hide();
-					elem.append(login);
+					main.parent().append(login);
 				}
 
-	        	login.slideDown('slow', function() {
-	            	main.hide();
-	        	});
-	        });
+				login.slideDown('slow', function() {
+					main.hide();
+				});
+			});
 
-	        scope.$on('event:auth-loginConfirmed', function() {
-	        	main.show();
-	        	jQuery('.inga-auth-form').slideUp();
-	        });
-	    }
+			scope.$on('event:auth-loginConfirmed', function() {
+				main.show();
+				jQuery('.inga-auth-form').slideUp();
+			});
+		}
 	}]);
 });
