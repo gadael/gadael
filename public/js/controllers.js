@@ -4,7 +4,7 @@ define(['angular', 'services'], function (angular) {
 	/* Controllers */
 	
 	return angular.module('inga.controllers', ['inga.services'])
-	
+
 		// Sample controller where service is being used
 		.controller('MyCtrl1', ['$scope', 'version', function ($scope, version) {
 			$scope.scopedAppVersion = version;
@@ -30,6 +30,36 @@ define(['angular', 'services'], function (angular) {
 	
 		.controller('Login', ['$scope', '$injector', function($scope, $injector) {
 			require(['controllers/login'], function(login) {
+				$injector.invoke(login, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('LoginTwitter', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/login/twitter'], function(login) {
+				$injector.invoke(login, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('LoginGithub', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/login/github'], function(login) {
+				$injector.invoke(login, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('LoginFacebook', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/login/facebook'], function(login) {
+				$injector.invoke(login, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('LoginGoogle', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/login/google'], function(login) {
+				$injector.invoke(login, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('LoginTumblr', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/login/tumblr'], function(login) {
 				$injector.invoke(login, this, {'$scope': $scope});
 			});
 		}])

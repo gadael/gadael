@@ -71,7 +71,7 @@ app.locals.cacheBreaker = 'br34k-01';
 require('./modules/passport')(app, passport);
 
 //setup routes
-require('./routes')(app);
+require('./routes')(app, passport);
 
 
 
