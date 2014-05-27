@@ -28,6 +28,31 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'Login'
 		});
 		
+		$routeProvider.when('/login/twitter/callback/', {
+			templateUrl: 'partials/login/twitter.html',
+			controller: 'LoginTwitter'
+		});
+		
+		$routeProvider.when('/login/github/callback/', {
+			templateUrl: 'partials/login/github.html',
+			controller: 'LoginGithub'
+		});
+		
+		$routeProvider.when('/login/facebook/callback/', {
+			templateUrl: 'partials/login/facebook.html',
+			controller: 'LoginFacebook'
+		});
+		
+		$routeProvider.when('/login/google/callback/', {
+			templateUrl: 'partials/login/google.html',
+			controller: 'LoginGoogle'
+		});
+		
+		$routeProvider.when('/login/tumblr/callback/', {
+			templateUrl: 'partials/login/tumblr.html',
+			controller: 'LoginTumblr'
+		});
+		
 		
 		// authenticated pages
 		

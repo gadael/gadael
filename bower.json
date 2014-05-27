@@ -2,12 +2,14 @@
   "name": "inga-server",
   "dependencies": {
     "bootstrap": "~3.1.1",
-    "font-awesome": "~4.0.3",
+    "font-awesome": "~4.1.0",
     "jquery": "~1.11.0",
 	"angular": "1.2.x",
     "angular-route": "1.2.x",
     "angular-loader": "1.2.x",
     "angular-mocks": "~1.2.x",
+    "angular-http-auth": "~1.2.1",
+    "angular-gettext": "~0.2.9",
     "requirejs": "~2.1.9",
     "requirejs-text": "~2.0.10"
   }

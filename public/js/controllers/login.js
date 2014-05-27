@@ -1,8 +1,10 @@
 define([], function() {
-	return ['$scope', '$http', function($scope, $http) {
+	return ['$scope', '$http', 'authService', function($scope, $http, authService) {
 		
-		$scope.welcomeMessage = 'hey this is myctrl2.js!';
-
-		$scope.$apply();
+		$scope.submit = function() {
+	      $http.post('auth/login').success(function() {
+	        authService.loginConfirmed();
+	      });
+	    }
 	}];
 });
