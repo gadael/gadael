@@ -76,10 +76,29 @@ module.exports = function(grunt) {
       }
     },
     
+
+	pot: {
+		options: {
+			text_domain: 'template', 	//Your text domain. Produces my-text-domain.pot
+			dest: 'po/server/', 		//directory to place the pot file
+			keywords: [ 'gettext', '__', 'dgettext:2', 'ngettext:1,2' ]
+		},
+		files: {
+			// Specify files to scan
+			src:  [ 
+				'modules/**/*.js',
+				'rest/**/*.js',
+				'schema/**/*.js'    
+			], 
+			expand: true,
+		},
+	},
+
+    
     nggettext_extract: {
     	pot: {
     		files: {
-    			'po/template.pot' : ['public/**/*.html']
+    			'po/client/template.pot' : ['public/**/*.html']
     		}
     	}
     },
@@ -87,7 +106,7 @@ module.exports = function(grunt) {
     nggettext_compile: {
     	all: {
     		files: {
-    			'public/js/translation.js': ['po/*.po']
+    			'public/js/translation.js': ['po/client/*.po']
     		}
     	}
     }
@@ -147,6 +166,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-angular-gettext');
+  grunt.loadNpmTasks('grunt-pot');
 
   grunt.registerTask('default', [ 'jshint:server', 'nodemon']);
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
