@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: public/index.html
+msgid "Admin"
+msgstr ""
+
+#: public/index.html
+msgid "Admin summary"
+msgstr ""
+
+#: public/partials/login/forgot.html
+msgid "Back to Login"
+msgstr ""
+
+#: public/partials/login/forgot.html
+msgid "Enter Your Email:"
+msgstr ""
+
+#: public/partials/login.html
+msgid "Forget your password?"
+msgstr ""
+
+#: public/partials/login/forgot.html
+msgid "Forgot Your Password?"
+msgstr ""
+
+#: public/index.html
+msgid "Groups list"
+msgstr ""
+
+#: public/index.html
+msgid "Home"
+msgstr ""
+
+#: public/partials/login.html
+msgid "Or sign in using..."
+msgstr ""
+
+#: public/partials/login.html
+msgid "Password:"
+msgstr ""
+
+#: public/index.html
+msgid "Requests"
+msgstr ""
+
+#: public/index.html
+msgid "Right types"
+msgstr ""
+
+#: public/index.html
+msgid "Rights configuration"
+msgstr ""
+
+#: public/partials/login/forgot.html
+msgid "Send Reset"
+msgstr ""
+
+#: public/partials/login.html
+msgid "Sign In"
+msgstr ""
+
+#: public/partials/home.html
+msgid "This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique."
+msgstr ""
+
+#: public/partials/login.html
+msgid "Username or Email:"
+msgstr ""
+
+#: public/index.html
+msgid "Users"
+msgstr ""
+
+#: public/index.html
+msgid "Users list"
+msgstr ""
+
+#: public/index.html
+msgid "Vacation rights"
+msgstr ""
+
+#: public/index.html
+msgid "Vacations"
+msgstr ""
