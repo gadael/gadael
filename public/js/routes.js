@@ -28,6 +28,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'Login'
 		});
 		
+		$routeProvider.when('/login/forgot', {
+			templateUrl: 'partials/login/forgot.html',
+			controller: 'LoginForgot'
+		});
+		
 		$routeProvider.when('/login/twitter/callback/', {
 			templateUrl: 'partials/login/twitter.html',
 			controller: 'LoginTwitter'
