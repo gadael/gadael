@@ -56,14 +56,14 @@ define(['angular', 'services'], function(angular, services) {
 					main.parent().append(login);
 				}
 
-				login.slideDown('slow', function() {
-					main.hide();
-				});
+				login.show();
+				main.hide();
+				
 			});
 
 			scope.$on('event:auth-loginConfirmed', function() {
 				main.show();
-				jQuery('.inga-auth-form').slideUp();
+				jQuery('.inga-auth-form').hide();
 			});
 		}
 	}]);

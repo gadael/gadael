@@ -27,7 +27,7 @@
             <li><a href="#/view1">View 1</a></li>
             <li><a href="#/view2">View 2</a></li>
             <li class="dropdown">
-              <a href="#/admin" class="dropdown-toggle" data-toggle="dropdown"><span translate>Admin</span> <b class="caret"></b></a>
+              <a href="" class="dropdown-toggle" data-toggle="dropdown"><span translate>Admin</span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#/admin" translate>Admin summary</a></li>
                 <li><a href="#/admin/requests" translate>Requests</a></li>
@@ -43,9 +43,17 @@
             </li>
           </ul>
           
-          <ul class="nav navbar-nav navbar-right">
-          	<li><a href="#/login"><i class="fa fa-user"></i> Sign In</a></li>
-          </ul>
+          
+			<ul class="nav navbar-nav navbar-right" ng-switch on="user.intAuthenticated">
+				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-user"></i> Sign In</a></li>
+				<li class="dropdown" ng-switch-when="1">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{user.user.username}} <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="" ng-click="logout()" translate>Logout</a></li>
+						<li><a href="#/user/settings" translate>Settings</a></li>
+					</ul>
+				</li>
+			</ul>
           
         </div><!--/.nav-collapse -->
       </div>
@@ -59,7 +67,10 @@
 	  <![endif]-->
 	  
 	  
-	  <div ng-repeat="alert in pageAlerts" class="container alert alert-{{alert.type}}">{{alert.text}}</div>
+	  <div ng-repeat="alert in pageAlerts" class="container alert alert-{{alert.type}} alert-dismissable">
+		  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  {{alert.message}}
+	  </div>
 	  
 	  <div ng-view inga-auth></div>
 

@@ -33,6 +33,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'LoginForgot'
 		});
 		
+		$routeProvider.when('/login/reset/:email/:token/', {
+			templateUrl: 'partials/login/reset.html',
+			controller: 'LoginReset'
+		});
+		
 		$routeProvider.when('/login/twitter/callback/', {
 			templateUrl: 'partials/login/twitter.html',
 			controller: 'LoginTwitter'
