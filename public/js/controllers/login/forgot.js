@@ -9,16 +9,11 @@ define(['jquery'], function() {
 			
 			.success(function(data) {
 				
+				$rootScope.pageAlerts = data.alert;
+				
 				if (data.success)
 				{
-					console.log(data);
-					
-				} else {
-					
-					for(var i=0; i<data.errors.length; i++)
-					{
-						$rootScope.pageAlerts = [{ type: 'danger', text: data.errors[i]}];
-					}
+					// OK
 				}
 			})
 			

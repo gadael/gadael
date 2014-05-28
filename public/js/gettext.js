@@ -27,7 +27,7 @@ define(['angular', 'angularGettext', 'translation'], function (angular, angularG
 	
 	app.run(function(gettextCatalog) {
 		gettextCatalog.currentLanguage = lang;
-		gettextCatalog.debug = true;
+		gettextCatalog.debug = false;
 		
 	});
 	

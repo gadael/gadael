@@ -43,8 +43,8 @@
         </div>
 
         <div role="navigation" id="sidebar" class="col-xs-6 col-sm-3">
-          <div class="list-group" ng-repeat="item in menu">
-            <a class="list-group-item" ng-href="#/{{item.url}}">{{item.name}}</a>
+          <div class="list-group">
+            <a ng-repeat="item in menu" class="list-group-item" ng-href="#/{{item.url}}">{{item.name}}</a>
           </div>
         </div>
       </div>

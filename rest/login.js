@@ -6,6 +6,8 @@
  */  
 exports.authenticate = function(req, res) {
 	
+	var gt = req.app.utility.gettext;
+	
 	var workflow = req.app.utility.workflow(req, res);
 
 	  workflow.on('validate', function() {
@@ -56,7 +58,10 @@ exports.authenticate = function(req, res) {
 		  }
 
 		  if (results.ip >= req.app.config.loginAttempts.forIp || results.ipUser >= req.app.config.loginAttempts.forIpAndUser) {
-			workflow.outcome.errors.push('You\'ve reached the maximum number of login attempts. Please try again later.');
+			workflow.outcome.alert.push({
+				type: 'warning', 
+				message: gt.gettext('You\'ve reached the maximum number of login attempts. Please try again later.')
+			});
 			return workflow.emit('response');
 		  }
 		  else {
@@ -80,7 +85,10 @@ exports.authenticate = function(req, res) {
 				return workflow.emit('exception', err);
 			  }
 
-			  workflow.outcome.errors.push('Username and password combination not found or your account is inactive.');
+			  workflow.outcome.alert.push({ 
+				  type: 'danger', 
+				  message: gt.gettext('Username and password combination not found or your account is inactive.')
+			  });
 			  return workflow.emit('response');
 			});
 		  }
@@ -90,6 +98,10 @@ exports.authenticate = function(req, res) {
 				return workflow.emit('exception', err);
 			  }
 
+			  workflow.outcome.alert.push({ 
+				  type: 'info', 
+				  message: gt.gettext('You are now loged in')
+			  });
 			  workflow.emit('response');
 			});
 		  }
@@ -153,7 +165,10 @@ exports.forgotPassword = function(req, res, next) {
       if (!user) {
 		var gt = req.app.utility.gettext;
 		var util = require('util');
-		workflow.outcome.errors.push(util.format(gt.gettext('No user found with email %s'), req.body.email.toLowerCase()));
+		workflow.outcome.alert.push({
+			type: 'danger',
+			message: util.format(gt.gettext('No user found with email %s'), req.body.email.toLowerCase())
+		});
         return workflow.emit('response');
       }
 
@@ -162,23 +177,63 @@ exports.forgotPassword = function(req, res, next) {
     });
   });
 
+  
   workflow.on('sendEmail', function(token, user) {
+	  
+	var gt = req.app.utility.gettext;  
+	var marked = require('marked');
+	var util = require('util');
+	
+	var email = {
+        username: user.username,
+        resetLink: req.protocol +'://'+ req.headers.host +'/#/login/reset/'+ user.email +'/'+ token +'/',
+        projectName: req.app.config.projectName
+    };
+    
+	  
+	// prepare a message in markdown format
+	
+	var textBody = util.format(gt.gettext('Forgot your password?\n\
+---------------------\n\
+\n\
+We received a request to reset the password for your account (%s).\n\
+\n\
+To reset your password, click on this [link][1] (or copy and paste the URL into your browser):\n\
+\n\
+[1]: %s\n\
+\n\
+Thanks,\n\
+%s'), email.username, email.resetLink, email.projectName);
+
+	
+	// build an html alternative
+	
+	var htmlBody = marked(textBody);
+	
+	  
     req.app.utility.sendmail(req, res, {
       from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
       to: user.email,
-      subject: 'Reset your '+ req.app.config.projectName +' password',
-      textPath: 'login/forgot/email-text',
-      htmlPath: 'login/forgot/email-html',
-      locals: {
-        username: user.username,
-        resetLink: req.protocol +'://'+ req.headers.host +'/login/reset/'+ user.email +'/'+ token +'/',
-        projectName: req.app.config.projectName
-      },
+      subject: util.format(gt.gettext('Reset your %s password'), req.app.config.projectName),
+      text: textBody,
+      html: htmlBody,
       success: function(message) {
-        workflow.emit('response');
+		  
+			var util = require('util');
+			var gt = req.app.utility.gettext;
+		  
+			workflow.outcome.alert.push({
+					type: 'info',
+					message: util.format(gt.gettext('An email has been sent to %s'), user.email)
+			});
+			
+			workflow.emit('response');
       },
       error: function(err) {
-        workflow.outcome.errors.push('Error Sending: '+ err);
+        workflow.outcome.alert.push({ 
+			type: 'danger',
+			message: 'Error Sending: '+ err
+		});
         workflow.emit('response');
       }
     });
@@ -186,6 +241,111 @@ exports.forgotPassword = function(req, res, next) {
 
   workflow.emit('validate');
 };
+
+
+
+
+
+
+
+/**
+ * Reset password
+ */  
+exports.resetPassword = function(req, res) {
+	
+	var workflow = req.app.utility.workflow(req, res);
+
+	  workflow.on('validate', function() {
+
+		if (!req.body.password) {
+		  workflow.outcome.errfor.password = 'required';
+		  workflow.httpstatus = 400; // Bad Request
+		}
+
+		if (!req.body.confirm) {
+		  workflow.outcome.errfor.confirm = 'required';
+		  workflow.httpstatus = 400; // Bad Request
+		}
+		
+		if (req.body.confirm !== req.body.password) {
+		  workflow.outcome.errfor.confirm = 'error';
+		  workflow.httpstatus = 400; // Bad Request
+		  workflow.outcome.alert.push({
+				type: 'danger', 
+				message: req.app.utility.gettext.gettext('The password confirmation does not match the new password field')
+			});
+		}
+
+		if (workflow.hasErrors()) {
+		  return workflow.emit('response');
+		}
+
+		workflow.emit('findUser');
+	  });
+
+
+	workflow.on('findUser', function() {
+		
+		var conditions = {
+		  email: req.body.email,
+		  resetPasswordExpires: { $gt: Date.now() }
+		};
+		req.app.db.models.User.findOne(conditions, function(err, user) {
+		  if (err) {
+			return workflow.emit('exception', err);
+		  }
+
+		  if (!user) {
+			workflow.outcome.alert.push({ 
+				type: 'danger', 
+				message: req.app.utility.gettext.gettext('Invalid request. user not found')
+			});
+			return workflow.emit('response');
+		  }
+
+		  req.app.db.models.User.validatePassword(req.body.token, user.resetPasswordToken, function(err, isValid) {
+			if (err) {
+			  return workflow.emit('exception', err);
+			}
+
+			if (!isValid) {
+			  workflow.outcome.alert.push({
+					type: 'danger',
+					message: req.app.utility.gettext.gettext('Invalid request.')
+				});
+			  return workflow.emit('response');
+			}
+
+			workflow.emit('patchUser', user);
+		  });
+		});
+	  });
+
+	  workflow.on('patchUser', function(user) {
+		req.app.db.models.User.encryptPassword(req.body.password, function(err, hash) {
+		  if (err) {
+			return workflow.emit('exception', err);
+		  }
+
+		  var fieldsToSet = { password: hash, resetPasswordToken: '' };
+		  req.app.db.models.User.findByIdAndUpdate(user._id, fieldsToSet, function(err, user) {
+			if (err) {
+			  return workflow.emit('exception', err);
+			}
+
+			workflow.outcome.alert.push({
+				type: 'success',
+				message: req.app.utility.gettext.gettext('The password has been modified')
+			});
+			workflow.emit('response');
+		  });
+		});
+	  });
+
+	 workflow.emit('validate');
+};
+
+
 
 
 

@@ -40,6 +40,12 @@ define(['angular', 'services'], function (angular) {
 			});
 		}])
 		
+		.controller('LoginReset', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/login/reset'], function(reset) {
+				$injector.invoke(reset, this, {'$scope': $scope});
+			});
+		}])
+		
 		.controller('LoginTwitter', ['$scope', '$injector', function($scope, $injector) {
 			require(['controllers/login/twitter'], function(login) {
 				$injector.invoke(login, this, {'$scope': $scope});

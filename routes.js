@@ -48,6 +48,8 @@ exports = module.exports = function(app, passport) {
 	app.get('/rest/admin', require('./rest/admin/home').getInfos);
 	app.post('/rest/login', require('./rest/login').authenticate);
 	app.post('/rest/login/forgot', require('./rest/login').forgotPassword);
+	app.post('/rest/login/reset', require('./rest/login').resetPassword);
+	app.get('/rest/logout', require('./rest/logout').init);
 	
 	//social login
 	app.get('/login/twitter/', passport.authenticate('twitter', { callbackURL: '#/login/twitter/callback/' }));
