@@ -29,7 +29,7 @@ define(['angular', 'services'], function (angular) {
 		}])
 	
 		.controller('Login', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login'], function(login) {
+			require(['controllers/login/index'], function(login) {
 				$injector.invoke(login, this, {'$scope': $scope});
 			});
 		}])
@@ -76,8 +76,38 @@ define(['angular', 'services'], function (angular) {
 			});
 		}])
 		
-		.controller('AdminHome', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/home'], function(admin) {
+		.controller('Admin', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/index'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('AdminRequests', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/requests'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('AdminUsers', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/users'], function(adminusers) {
+				$injector.invoke(adminusers, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('AdminDepartments', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/departments'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('AdminTypes', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/types'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('AdminRights', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/rights'], function(admin) {
 				$injector.invoke(admin, this, {'$scope': $scope});
 			});
 		}])

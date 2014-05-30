@@ -66,9 +66,41 @@ define(['angular', 'app'], function(angular, app) {
 		
 		// authenticated pages
 		
+		// user pages
+		
+		// departments pages
+		
+		
+		// administration pages
+		
 		$routeProvider.when('/admin', {
-			templateUrl: 'partials/admin/home.html',
-			controller: 'AdminHome'
+			templateUrl: 'partials/admin/index.html',
+			controller: 'Admin'
+		});
+		
+		$routeProvider.when('/admin/requests', {
+			templateUrl: 'partials/admin/requests.html',
+			controller: 'AdminRequests'
+		});
+		
+		$routeProvider.when('/admin/users', {
+			templateUrl: 'partials/admin/users.html',
+			controller: 'AdminUsers'
+		});
+		
+		$routeProvider.when('/admin/departments', {
+			templateUrl: 'partials/admin/departments.html',
+			controller: 'AdminDepartments'
+		});
+		
+		$routeProvider.when('/admin/types', {
+			templateUrl: 'partials/admin/types.html',
+			controller: 'AdminTypes'
+		});
+		
+		$routeProvider.when('/admin/rights', {
+			templateUrl: 'partials/admin/rights.html',
+			controller: 'AdminRights'
 		});
 		
 		$routeProvider.otherwise({redirectTo: '/home'});
