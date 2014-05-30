@@ -8,8 +8,8 @@ define([
 	'gettext',
 	'controllers',
 	'angularRoute',
-	'angularAuth'
-	
+	'angularAuth',
+	'paginateAnything'
 	], 
 	
 	function (angular, filters, services, directives, controllers) {
@@ -24,7 +24,8 @@ define([
 		'inga.services',
 		'inga.directives',
 		'inga.gettext',
-		'http-auth-interceptor'
+		'http-auth-interceptor',
+		'begriffs.paginate-anything'
 	]);
 
 	

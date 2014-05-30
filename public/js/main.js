@@ -1,13 +1,15 @@
 require.config({
 	paths: {
-		angular: '../bower_components/angular/angular',
-		angularRoute: '../bower_components/angular-route/angular-route',
-		angularMocks: '../bower_components/angular-mocks/angular-mocks',
-		requirejstext: '../bower_components/requirejs-text/text',
-    		jquery: '../bower_components/jquery/dist/jquery.min',
-    		bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
-    		angularGettext: '../bower_components/angular-gettext/dist/angular-gettext',
-		angularAuth: '../bower_components/angular-http-auth/src/http-auth-interceptor'
+		angular: 			'../bower_components/angular/angular.min',
+		angularRoute: 		'../bower_components/angular-route/angular-route',
+		angularMocks: 		'../bower_components/angular-mocks/angular-mocks',
+		angularResource: 	'../bower_components/angular-resource/angular-resource.min',
+		requirejstext: 		'../bower_components/requirejs-text/text',
+    	jquery: 			'../bower_components/jquery/dist/jquery.min',
+    	bootstrap: 			'../bower_components/bootstrap/dist/js/bootstrap.min',
+    	angularGettext: 	'../bower_components/angular-gettext/dist/angular-gettext',
+		angularAuth: 		'../bower_components/angular-http-auth/src/http-auth-interceptor',
+		paginateAnything:	'../bower_components/angular-paginate-anything/src/paginate-anything'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -16,11 +18,13 @@ require.config({
 			deps:['angular'],
 			'exports':'angular.mock'
 		},
+		'angularResource': ['angular'],
 		'angularAuth':['angular'],
 		'jquery': {'exports' : 'jquery'},
 		'bootstrap': ['jquery'],
 		'angularGettext' : ['angular', 'jquery'],
-		'translation': ['angularGettext']
+		'translation': ['angularGettext'],
+		'paginateAnything': ['angular']
 	},
 	priority: ["angular"]
 });

@@ -193,6 +193,7 @@ exports.forgotPassword = function(req, res, next) {
 	  
 	// prepare a message in markdown format
 	
+	/*jshint multistr: true */
 	var textBody = util.format(gt.gettext('Forgot your password?\n\
 ---------------------\n\
 \n\

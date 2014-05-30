@@ -18,14 +18,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#" translate>Vacations</a>
+          <a class="navbar-brand" href="#/home"><span class="navbar-brand-label">Inga server</span></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#/home" translate>Home</a></li>
-            <li><a href="#/signup">Sign up</a></li>
-            <li><a href="#/view1">View 1</a></li>
-            <li><a href="#/view2">View 2</a></li>
+            <li class="dropdown">
+				<a href="" class="dropdown-toggle" data-toggle="dropdown"><span translate>My vacations</span> <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#/user/calendar" translate>Calendar</a></li>
+					<li><a href="#/user/requests" translate>My requests</a></li>
+					<li><a href="#/user/vacation-request" translate>Request a vacation period</a></li>
+				</ul>
+			</li>
+            
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown"><span translate>Admin</span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -34,8 +39,8 @@
                 <li class="divider"></li>
                 <li class="dropdown-header" translate>Users</li>
                 <li><a href="#/admin/users" translate>Users list</a></li>
-                <li><a href="#/admin/groups" translate>Groups list</a></li>
-		<li class="divider"></li>
+                <li><a href="#/admin/departments" translate>Departments list</a></li>
+				<li class="divider"></li>
                 <li class="dropdown-header" translate>Vacation rights</li>
                 <li><a href="#/admin/types" translate>Right types</a></li>
                 <li><a href="#/admin/rights" translate>Rights configuration</a></li>
@@ -45,12 +50,13 @@
           
           
 			<ul class="nav navbar-nav navbar-right" ng-switch on="user.intAuthenticated">
-				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-user"></i> Sign In</a></li>
+				<li ng-switch-when="0"><a href="#/signup"><i class="fa fa-user"></i> <span translate>Sign up</span></a></li>
+				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-sign-in"></i> <span translate>Sign In</span></a></li>
 				<li class="dropdown" ng-switch-when="1">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{user.user.username}} <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="" ng-click="logout()" translate>Logout</a></li>
-						<li><a href="#/user/settings" translate>Settings</a></li>
+						<li><a href="" ng-click="logout()"><i class="fa fa-sign-out"></i> <span translate>Logout</span></a></li>
+						<li><a href="#/user/settings"><i class="fa fa-edit"></i> <span translate>Settings</span></a></li>
 					</ul>
 				</li>
 			</ul>
