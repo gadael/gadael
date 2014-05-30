@@ -1,0 +1,95 @@
+'use strict';
+
+/**
+ * Retrive list of users
+ */  
+exports.getList = function (req, res) {
+	
+	if(!req.isAuthenticated()) {
+		res.send(401); // not logged in
+		return;
+	}
+
+
+	if (null === req.user.roles.admin)
+	{
+		res.send(401); // not admin
+		return;
+	}
+	
+
+	
+	req.app.db.models.User.count(function(err, total) {
+		var query = req.app.db.models.User.find()
+			.select('username email firstname lastname')
+			.skip((req.param('page') -1) * req.param('count'))
+			.limit(req.param('count'))
+			.sort(req.param('sorting'));
+
+		query.exec(function (err, docs) {
+			if (err) {
+				return console.error(err);
+			}
+			res.json({
+				result:docs, 
+				total:total
+			});
+		});
+		
+	});
+
+
+	
+};
+
+
+
+
+
+/**
+ * Retrive list of users
+ */  
+exports.getPage = function (req, res) {
+	
+	if(!req.isAuthenticated()) {
+		res.send(401); // not logged in
+		return;
+	}
+
+
+	if (null === req.user.roles.admin)
+	{
+		res.send(401); // not admin
+		return;
+	}
+	
+	// Range-Unit: items
+	// Range: 0-24
+	
+	console.log(req.headers['range-unit']);
+	console.log(req.headers.range);
+	
+	req.app.db.models.User.count(function(err, total) {
+		var query = req.app.db.models.User.find()
+			.select('username email firstname lastname')
+			.skip((req.param('page') -1) * req.param('count'))
+			.limit(req.param('count'))
+			.sort(req.param('sorting'));
+
+		query.exec(function (err, docs) {
+			if (err) {
+				return console.error(err);
+			}
+			
+			res.header('Accept-Ranges', 'items');
+			res.header('Content-Range', '0-1/1');
+			res.header('Range-Unit', 'items');
+			res.status(206);
+			res.json(docs);
+		});
+		
+	});
+
+
+	
+};
