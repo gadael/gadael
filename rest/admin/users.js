@@ -63,31 +63,22 @@ exports.getPage = function (req, res) {
 		return;
 	}
 	
-	// Range-Unit: items
-	// Range: 0-24
-	
-	console.log(req.headers['range-unit']);
-	console.log(req.headers.range);
+	var paginate = require('../../modules/paginate');
 	
 	req.app.db.models.User.count(function(err, total) {
 		var query = req.app.db.models.User.find()
-			.select('username email firstname lastname')
-			.skip((req.param('page') -1) * req.param('count'))
-			.limit(req.param('count'))
+			.select('username email')
 			.sort(req.param('sorting'));
-
+			
+		paginate(req, res, total, 100);
+		
 		query.exec(function (err, docs) {
 			if (err) {
 				return console.error(err);
 			}
 			
-			res.header('Accept-Ranges', 'items');
-			res.header('Content-Range', '0-1/1');
-			res.header('Range-Unit', 'items');
-			res.status(206);
 			res.json(docs);
 		});
-		
 	});
 
 

@@ -14,9 +14,6 @@ exports = module.exports = function(app, mongoose) {
       last: { type: String, default: '' },
       full: { type: String, default: '' }
     },
-    company: { type: String, default: '' },
-    phone: { type: String, default: '' },
-    zip: { type: String, default: '' },
     status: {
       id: { type: String, ref: 'Status' },
       name: { type: String, default: '' },
@@ -27,18 +24,17 @@ exports = module.exports = function(app, mongoose) {
       }
     },
     statusLog: [mongoose.modelSchemas.StatusLog],
-    notes: [mongoose.modelSchemas.Note],
     userCreated: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-      name: { type: String, default: '' },
-      time: { type: Date, default: Date.now }
+      name: { type: String, default: '' }
     },
     search: [String]
   });
-  accountSchema.plugin(require('./plugins/pagedFind'));
+  
   accountSchema.index({ user: 1 });
   accountSchema.index({ 'status.id': 1 });
   accountSchema.index({ search: 1 });
   accountSchema.set('autoIndex', (app.get('env') === 'development'));
+  
   app.db.model('Account', accountSchema);
 };
