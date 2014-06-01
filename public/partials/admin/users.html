@@ -1,7 +1,8 @@
 
 
-<div ng-repeat="user in users">
-	<p>{{user.username}}</p>
-</div>
+<p ng-repeat="user in users">
+		<strong>{{user.username}}</strong> 
+		- {{user.email}}
+</p>
 
 <begriffs.pagination collection="users" url="'/rest/admin/users'" template-url="bower_components/angular-paginate-anything/tpl/paginate-anything.html" />

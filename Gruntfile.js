@@ -15,6 +15,7 @@ module.exports = function(grunt) {
       dev: {
         script: 'app.js',
         options: {
+		  args: ['3000', 'inga'],
           ignore: [
             'node_modules/**',
             'public/**'
