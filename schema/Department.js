@@ -12,4 +12,15 @@ exports = module.exports = function(app, mongoose) {
   departmentSchema.set('autoIndex', (app.get('env') === 'development'));
   
   app.db.model('Department', departmentSchema);
+  
+  
+	/**
+	 * Find all managers of department
+	 * 
+	 */ 
+	departmentSchema.methods.getManagers = function(callback) {
+		return this.model('Manager')
+			.find({ 'department._id': this._id })
+			.exec(callback);
+	};
 };

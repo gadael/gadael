@@ -15,8 +15,8 @@ exports = module.exports = function(app, mongoose) {
 			quantity_unit: { type: String, enum:['D', 'H'] },
 			type: { 
 				id: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
-				name: { type: String, default: '' },
-				color: { type: String, default: '' }
+				name: { type: String },
+				color: { type: String }
 			}
 		}
 	});
@@ -38,5 +38,5 @@ exports = module.exports = function(app, mongoose) {
 			.limit(1)
 			.sort('event.dtstart')
 			.exec(callback);
-	}
+	};
 };

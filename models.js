@@ -13,9 +13,6 @@ exports = module.exports = function(app, mongoose) {
   require('./schema/User_Account')(app, mongoose);
   require('./schema/Department')(app, mongoose);
   require('./schema/LoginAttempt')(app, mongoose);
-  
   require('./schema/Request')(app, mongoose);
-  require('./schema/Request_Absence')(app, mongoose);
-  require('./schema/Request_TimeSavingDeposit')(app, mongoose);
-  require('./schema/Request_WorkperiodRecover')(app, mongoose);
+  
 };

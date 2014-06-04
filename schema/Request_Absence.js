@@ -14,10 +14,7 @@
  * 
  */  
 exports = module.exports = function(app, mongoose) {
-	var absenceSchema = new mongoose.Schema({
-		timeCreated: { type: Date, default: Date.now },
-		distribution: [mongoose.modelSchemas.AbsenceElem]
-  });
+	var absenceSchema = new mongoose.Schema();
   
   absenceSchema.set('autoIndex', (app.get('env') === 'development'));
   

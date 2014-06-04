@@ -12,12 +12,30 @@ exports = module.exports = function(app, mongoose) {
       name: { type: String, required: true }
     },
     
-    absence: { type: mongoose.Schema.Types.ObjectId, ref: 'Absence' },
-    time_saving_deposit: { type: mongoose.Schema.Types.ObjectId, ref: 'TimeSavingDeposit' },
-    workperiod_recover: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkperiodRecover' },
-    timeCreated: { type: Date, default: Date.now },
+    absence: {
+		timeCreated: { type: Date, default: Date.now },
+		distribution: [mongoose.modelSchemas.AbsenceElem]
+	},
+	
+    time_saving_deposit: {
+		from: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
+		to: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
+		quantity: { type: Number, required: true }
+	},
+	
+    workperiod_recover: {
+		event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true  },
+		user_right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
+		timeCreated: { type: Date, default: Date.now }
+	},
     
-    requestLog: [mongoose.modelSchemas.RequestLog],
+    deleted: { type: Boolean, default: false },
+    
+    approvalSteps: [mongoose.modelSchemas.approvalStep],			// on request creation, approval steps are copied and contain references to users 
+																	// informations about approval are stored in requestLog sub-documents instead
+																	
+    requestLog: [mongoose.modelSchemas.RequestLog],					// linear representation of all actions
+																	// create, edit, delete, and effectives approval steps
   });
 
   requestSchema.index({ 'user.id': 1 });

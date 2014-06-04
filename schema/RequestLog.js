@@ -13,12 +13,11 @@ exports = module.exports = function(app, mongoose) {
 	];
 	
   var requestLogSchema = new mongoose.Schema({
-    id: { type: String, ref: 'Status' },
-    comment: { type: String, default: '' },
+    comment: { type: String, default: '' },							// Approver comment
     action: { type: String, enum: requestActions },
     userCreated: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-      name: { type: String, default: '' }
+      name: { type: String, default: '' }							// Name to display in request history
     },
     timeCreated: { type: Date, default: Date.now }
   });
