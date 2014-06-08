@@ -67,11 +67,19 @@ exports.getPage = function (req, res) {
 	
 	req.app.db.models.User.count(function(err, total) {
 		var query = req.app.db.models.User.find()
-			.select('username email')
-			.sort(req.param('sorting'));
+			.select('lastname firstname email')
+			.sort('lastname');
 			
-		paginate(req, res, total, 100);
+		var p = paginate(req, res, total, 50);
 		
+		if (!p) {
+			res.json({});
+			return; // 416
+		}
+		
+		query.limit(p.limit);
+		query.skip(p.skip);
+
 		query.exec(function (err, docs) {
 			if (err) {
 				return console.error(err);

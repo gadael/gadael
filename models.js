@@ -6,6 +6,7 @@ exports = module.exports = function(app, mongoose) {
 	require('./schema/StatusLog')(app, mongoose);
 	require('./schema/RequestLog')(app, mongoose);
 	require('./schema/Request_AbsenceElem')(app, mongoose);
+	require('./schema/AccountCollection')(app, mongoose);
 
   //then regular docs
   require('./schema/User')(app, mongoose);

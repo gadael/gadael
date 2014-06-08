@@ -37,11 +37,12 @@ exports = module.exports = function(req, res, total_items, max_range_size)
 		to: (total_items -1)
 	};
 	
-	if ('items' !== req.headers['range-unit'])
+	if ('items' === req.headers['range-unit'])
 	{
-		if (r = parseRange(req.headers.range))
+		var parsedRange = parseRange(req.headers.range);
+		if (parsedRange)
 		{
-			range = r;
+			range = parsedRange;
 		}
 	}
 	
@@ -83,7 +84,7 @@ exports = module.exports = function(req, res, total_items, max_range_size)
 		return '<'+req.url+'>; rel="'+rel+'"; items="'+items_from+'-'+to+'"';
 	}
 	
-	
+	var requested_limit = range.to - range.from + 1;
 	var links = [];
 	
 	if (available_to < total_items -1)
@@ -107,7 +108,7 @@ exports = module.exports = function(req, res, total_items, max_range_size)
 	
 	if (range.from > 0)
 	{
-		var previous_from = Math.max(0, requested_from - Math.min(requested_limit, max_range_size));
+		var previous_from = Math.max(0, range.from - Math.min(requested_limit, max_range_size));
 		links.push(buildLink('prev',  
 			previous_from, 
 			previous_from + requested_limit - 1

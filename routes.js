@@ -61,7 +61,9 @@ exports = module.exports = function(app, passport) {
 	app.get('/login/google/', passport.authenticate('google', { callbackURL: '#/login/google/callback/', scope: ['profile email'] }));
 	app.get('/login/tumblr/', passport.authenticate('tumblr', { callbackURL: '#/login/tumblr/callback/', scope: ['profile email'] }));
 
-
+	// tests
+	app.get('/rest/populate', require('./rest/tests/index').populate);
+	
 	
 
 	//route not found

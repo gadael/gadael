@@ -1,8 +1,12 @@
 
 
 <p ng-repeat="user in users">
-		<strong>{{user.username}}</strong> 
-		- {{user.email}}
+		<strong>{{user.lastname}} {{user.firstname}}</strong> 
+		- <a href="mailto:{{user.email}}">{{user.email}}</a>
 </p>
 
-<begriffs.pagination collection="users" url="'/rest/admin/users'" template-url="bower_components/angular-paginate-anything/tpl/paginate-anything.html" />
+<begriffs.pagination 
+	collection="users" 
+	url="'/rest/admin/users'" 
+	template-url="bower_components/angular-paginate-anything/tpl/paginate-anything.html">
+</begriffs.pagination>

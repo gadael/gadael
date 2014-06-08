@@ -22,13 +22,9 @@ define(['jquery'], function() {
 					
 					if (jQuery('[inga-auth]').is(':visible'))
 					{
-						console.log('[inga-auth] visible');
-						
 						// redirect
 						$location.path("/");
 					} else {
-						
-						console.log('[inga-auth] not visible');
 						
 						// re-send failed HTTP request on 401 status if authentication form displayed 
 						// because of the http-auth-interceptor 

@@ -1,16 +1,21 @@
 'use strict';
 
+/**
+ * a user can be an account, a manager or an administrator
+ * 
+ */ 
 exports = module.exports = function(app, mongoose) {
   var userSchema = new mongoose.Schema({
-    username: { type: String, unique: true },
-    password: String,
-    email: { type: String, unique: true },
+    password: { type: String, required: true },
+    email: { type: String, required: true },
+    lastname: { type: String, required: true },
+    firstname: { type: String },
     roles: {
       admin: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
       account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
       manager: { type: mongoose.Schema.Types.ObjectId, ref: 'Manager' }
     },
-    isActive: String,
+    isActive: { type:Boolean, default:true },
     timeCreated: { type: Date, default: Date.now },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
@@ -18,9 +23,14 @@ exports = module.exports = function(app, mongoose) {
     github: {},
     facebook: {},
     google: {},
-    tumblr: {},
-    search: [String]
+    tumblr: {}
   });
+  
+  
+  userSchema.path('email').validate(function (value) {
+	   var emailRegex = /^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/;
+	   return emailRegex.test(value);
+	}, 'The e-mail field cannot be empty.');
   
   
   /**
@@ -98,15 +108,42 @@ exports = module.exports = function(app, mongoose) {
   };
   
   
-  // userSchema.plugin(require('./plugins/pagedFind'));
-  userSchema.index({ username: 1 }, { unique: true });
+  
+  /**
+   * test method to create random user
+   */  
+  userSchema.statics.createRandom = function(password, done) {
+		
+		var Charlatan = require('../node_modules/charlatan/lib/charlatan.js');
+		var model = this;
+		
+		this.encryptPassword(password, function(err, hash) {
+			
+			if (err)
+			{
+				return done(err);
+			}
+			
+			var fieldsToSet = {
+				email: Charlatan.Internet.email(),
+				lastname: Charlatan.Name.lastName(),
+				firstname: Charlatan.Name.firstName(),
+				password: hash
+			};
+		  
+			model.create(fieldsToSet, done);
+			
+		});
+  };
+  
+  
+  
   userSchema.index({ email: 1 }, { unique: true });
   userSchema.index({ timeCreated: 1 });
   userSchema.index({ 'twitter.id': 1 });
   userSchema.index({ 'github.id': 1 });
   userSchema.index({ 'facebook.id': 1 });
   userSchema.index({ 'google.id': 1 });
-  userSchema.index({ search: 1 });
   userSchema.set('autoIndex', (app.get('env') === 'development'));
   
   app.db.model('User', userSchema);
