@@ -1,0 +1,19 @@
+
+
+.inga-list-rows {
+	padding:1em 0;
+}
+
+.inga-list-rows .row {
+	padding:.8em 0;
+	border-bottom:#ccc 1px dotted;
+}
+
+.paginate-anything ul {
+	padding-top:0;
+	margin-top:0;
+}
+
+.inga-list-header button {
+	margin-bottom:1em;
+}

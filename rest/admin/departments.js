@@ -1,9 +1,7 @@
 'use strict';
 
-
-
 /**
- * Retrive list of users
+ * Retrive list of departments
  */  
 exports.getList = function (req, res) {
 	
@@ -24,15 +22,11 @@ exports.getList = function (req, res) {
 	
 	var query = function() {
 		
-		var find = req.app.db.models.User.find();
+		var find = req.app.db.models.Department.find();
 		
 		if (req.param('name'))
 		{
-			find.or([
-				{ firstname: new RegExp('^'+req.param('name'), 'i') },
-				{ lastname: new RegExp('^'+req.param('name'), 'i') }
-			]);
-
+			find.where({ name: new RegExp('^'+req.param('name'), 'i') });
 		}
 		
 		return find;
@@ -49,7 +43,7 @@ exports.getList = function (req, res) {
 			return; // 416
 		}
 		
-		var q = query().select('lastname firstname email').sort('lastname');
+		var q = query().select('name').sort('name');
 		
 		q.limit(p.limit);
 		q.skip(p.skip);

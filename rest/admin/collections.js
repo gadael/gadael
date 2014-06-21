@@ -1,9 +1,8 @@
 'use strict';
 
 
-
 /**
- * Retrive list of users
+ * Retrive list of collection
  */  
 exports.getList = function (req, res) {
 	
@@ -24,15 +23,11 @@ exports.getList = function (req, res) {
 	
 	var query = function() {
 		
-		var find = req.app.db.models.User.find();
+		var find = req.app.db.models.RightCollection.find();
 		
 		if (req.param('name'))
 		{
-			find.or([
-				{ firstname: new RegExp('^'+req.param('name'), 'i') },
-				{ lastname: new RegExp('^'+req.param('name'), 'i') }
-			]);
-
+			find.where({ name: new RegExp('^'+req.param('name'), 'i') });
 		}
 		
 		return find;
@@ -49,12 +44,12 @@ exports.getList = function (req, res) {
 			return; // 416
 		}
 		
-		var q = query().select('lastname firstname email').sort('lastname');
-		
-		q.limit(p.limit);
-		q.skip(p.skip);
-
-		q.exec(function (err, docs) {
+		query()
+		.select('name')
+		.sort('name')
+		.limit(p.limit)
+		.skip(p.skip)
+		.exec(function (err, docs) {
 			if (err) {
 				return console.error(err);
 			}
