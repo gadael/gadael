@@ -1,14 +1,20 @@
 'use strict';
 
-exports = module.exports = function(app, mongoose) {
-  var statusLogSchema = new mongoose.Schema({
-    id: { type: String, ref: 'Status' },
-    name: { type: String, default: '' },
-    userCreated: {
-      id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-      name: { type: String, default: '' },
-      time: { type: Date, default: Date.now }
-    }
-  });
-  app.db.model('StatusLog', statusLogSchema);
+exports = module.exports = function(params) {
+	
+	var mongoose = params.mongoose;
+	
+	var statusLogSchema = new mongoose.Schema({
+		id: { type: String, ref: 'Status' },
+		name: { type: String, default: '' },
+		userCreated: {
+			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+			name: { type: String, default: '' },
+			time: { type: Date, default: Date.now }
+		}
+	});
+	
+	statusLogSchema.set('autoIndex', params.autoIndex);
+  
+	params.db.model('StatusLog', statusLogSchema);
 };

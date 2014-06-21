@@ -10,18 +10,21 @@
  * 
  * 
  */
-exports = module.exports = function(app, mongoose) {
-  var eventSchema = new mongoose.Schema({
-    dtstart: { type: Date, required: true },
-    dtend: { type: Date, required: true },
-    rrule: { type: String },
-    ics: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarIcs' },
-    absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' },
-    timeCreated: { type: Date, default: Date.now }
-  });
+exports = module.exports = function(params) {
+	
+	var mongoose = params.mongoose;
+	
+	var eventSchema = new mongoose.Schema({
+		dtstart: { type: Date, required: true },
+		dtend: { type: Date, required: true },
+		rrule: { type: String },
+		ics: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarIcs' },
+		absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' },
+		timeCreated: { type: Date, default: Date.now }
+	});
 
-  eventSchema.index({ 'dtstart': 1 });
-  eventSchema.set('autoIndex', (app.get('env') === 'development'));
+	eventSchema.index({ 'dtstart': 1 });
+	eventSchema.set('autoIndex', params.autoIndex);
   
-  app.db.model('CalendarEvent', eventSchema);
+	params.db.model('CalendarEvent', eventSchema);
 };

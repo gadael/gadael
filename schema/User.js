@@ -4,27 +4,29 @@
  * a user can be an account, a manager or an administrator
  * 
  */ 
-exports = module.exports = function(app, mongoose) {
-  var userSchema = new mongoose.Schema({
-    password: { type: String, required: true },
-    email: { type: String, required: true },
-    lastname: { type: String, required: true },
-    firstname: { type: String },
-    roles: {
-      admin: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
-      account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
-      manager: { type: mongoose.Schema.Types.ObjectId, ref: 'Manager' }
-    },
-    isActive: { type:Boolean, default:true },
-    timeCreated: { type: Date, default: Date.now },
-    resetPasswordToken: String,
-    resetPasswordExpires: Date,
-    twitter: {},
-    github: {},
-    facebook: {},
-    google: {},
-    tumblr: {}
-  });
+exports = module.exports = function(params) {
+	
+	var mongoose = params.mongoose;
+	var userSchema = new mongoose.Schema({
+		password: { type: String, required: true },
+		email: { type: String, required: true },
+		lastname: { type: String, required: true },
+		firstname: { type: String },
+		roles: {
+		  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
+		  account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
+		  manager: { type: mongoose.Schema.Types.ObjectId, ref: 'Manager' }
+		},
+		isActive: { type:Boolean, default:true },
+		timeCreated: { type: Date, default: Date.now },
+		resetPasswordToken: String,
+		resetPasswordExpires: Date,
+		twitter: {},
+		github: {},
+		facebook: {},
+		google: {},
+		tumblr: {}
+	});
   
   
   userSchema.path('email').validate(function (value) {
@@ -144,7 +146,7 @@ exports = module.exports = function(app, mongoose) {
   userSchema.index({ 'github.id': 1 });
   userSchema.index({ 'facebook.id': 1 });
   userSchema.index({ 'google.id': 1 });
-  userSchema.set('autoIndex', (app.get('env') === 'development'));
+  userSchema.set('autoIndex', params.autoIndex);
   
-  app.db.model('User', userSchema);
+  params.db.model('User', userSchema);
 };

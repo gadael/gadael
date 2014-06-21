@@ -1,7 +1,7 @@
 'use strict';
 
-exports = module.exports = function(app, mongoose) {
-	var companySchema = new mongoose.Schema({
+exports = module.exports = function(params) {
+	var companySchema = new params.mongoose.Schema({
 		name: { type: String, default: '' },							// company name, site title
 		workperiod_recover_request: { type: Boolean, default: false },	// allow creation of workperiod recover requests
 		maintenance:  { type: Boolean, default: false },				// maintenance mode, the app is read only
@@ -15,7 +15,7 @@ exports = module.exports = function(app, mongoose) {
 
 	companySchema.index({ name: 1 });
 	
-	companySchema.set('autoIndex', (app.get('env') === 'development'));
+	companySchema.set('autoIndex', params.autoIndex);
   
-	app.db.model('Department', companySchema);
+	params.db.model('Company', companySchema);
 };

@@ -4,7 +4,10 @@
  * Account is a user with a collection or rights
  * registrations on site create accounts
  */ 
-exports = module.exports = function(app, mongoose) {
+exports = module.exports = function(params) {
+	
+  var mongoose = params.mongoose;
+	
   var accountSchema = new mongoose.Schema({
     user: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -34,7 +37,7 @@ exports = module.exports = function(app, mongoose) {
   
   accountSchema.index({ user: 1 });
   accountSchema.index({ 'status.id': 1 });
-  accountSchema.set('autoIndex', (app.get('env') === 'development'));
+  accountSchema.set('autoIndex', params.autoIndex);
   
-  app.db.model('Account', accountSchema);
+  params.db.model('Account', accountSchema);
 };

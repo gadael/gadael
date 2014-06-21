@@ -32,6 +32,13 @@ exports = module.exports = function(req, res, total_items, max_range_size)
 	res.header('Accept-Ranges', 'items');
 	res.header('Range-Unit', 'items');
 	
+	if (0 == total_items)
+	{
+		// pagination not appliquable
+		res.header('Content-Range', '*/'+total_items);
+		return;
+	}
+	
 	var range =  {
 		from: 0,
 		to: (total_items -1)

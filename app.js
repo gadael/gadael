@@ -21,14 +21,22 @@ app.config = config;
 app.server = http.createServer(app);
 
 //setup mongoose
-app.db = mongoose.createConnection(config.mongodb.uri);
+app.db = mongoose.createConnection(config.mongodb.prefix + config.mongodb.dbName);
 app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
 app.db.once('open', function () {
   //and... we have a data store
 });
 
+
 //config data models
-require('./models')(app, mongoose);
+var models = require('./models');
+
+models.requirements = {
+	mongoose: mongoose,
+	db: app.db,	
+	autoIndex: (app.get('env') === 'development')
+}
+models.load();
 
 //settings
 app.disable('x-powered-by');

@@ -50,7 +50,8 @@ module.exports = function(grunt) {
           src: [
             'public/bower_components/font-awesome/css/font-awesome.css',
             'public/bower_components/bootstrap/dist/css/bootstrap.css',
-            'public/bower_components/bootstrap/dist/css/bootstrap-theme.css'
+            'public/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+            'styles/main.css'
           ],
           dest: 'public/css/merged.min.css'
         }
@@ -72,7 +73,9 @@ module.exports = function(grunt) {
         },
         src: [
           'schema/**/*.js',
-          'rest/**/*.js'
+          'rest/**/*.js',
+          'api/**/*.js',
+          'spec/**/*.js'
         ]
       }
     },
@@ -110,7 +113,27 @@ module.exports = function(grunt) {
     			'public/js/translation.js': ['po/client/*.po']
     		}
     	}
-    }
+    },
+    
+    
+    jasmine_node: {
+		options: {
+		  forceExit: true,
+		  match: '.',
+		  matchall: false,
+		  extensions: 'js',
+		  specNameMatcher: 'spec',
+		  jUnit: {
+			report: true,
+			savePath : "./build/reports/jasmine/",
+			useDotNotation: true,
+			consolidate: true
+		  }
+		},
+		all: ['spec/']
+	}
+    
+    
     
 //    less: {
 //      options: {
@@ -168,8 +191,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-pot');
+  grunt.loadNpmTasks('grunt-jasmine-node');
 
   grunt.registerTask('default', [ 'jshint:server', 'nodemon']);
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
   grunt.registerTask('lint', ['jshint']);
+  grunt.registerTask('test', ['jasmine_node']);
 };

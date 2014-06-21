@@ -13,10 +13,10 @@
  * 
  * 
  */  
-exports = module.exports = function(app, mongoose) {
-	var absenceSchema = new mongoose.Schema();
+exports = module.exports = function(params) {
+	var absenceSchema = new params.mongoose.Schema();
   
-  absenceSchema.set('autoIndex', (app.get('env') === 'development'));
+  absenceSchema.set('autoIndex', params.autoIndex);
   
-  app.db.model('Absence', absenceSchema);
+  params.db.model('Absence', absenceSchema);
 };

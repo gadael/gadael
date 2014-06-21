@@ -1,13 +1,14 @@
 'use strict';
 
-exports = module.exports = function(app, mongoose) {
+exports = module.exports = function(params) {
+	var mongoose = params.mongoose;
   var tsdSchema = new mongoose.Schema({
     from: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
     to: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
     quantity: { type: Number, required: true }
   });
   
-  tsdSchema.set('autoIndex', (app.get('env') === 'development'));
+  tsdSchema.set('autoIndex', params.autoIndex);
   
-  app.db.model('TimeSavingDeposit', tsdSchema);
+  params.db.model('TimeSavingDeposit', tsdSchema);
 };

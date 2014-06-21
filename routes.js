@@ -47,7 +47,9 @@ exports = module.exports = function(app, passport) {
 	app.get('/rest/common', require('./rest/Common').getInfos);
 	
 	app.get('/rest/admin', require('./rest/admin/index').getInfos);
-	app.get('/rest/admin/users', require('./rest/admin/users').getPage);
+	app.get('/rest/admin/users', require('./rest/admin/users').getList);
+	app.get('/rest/admin/departments', require('./rest/admin/departments').getList);
+	app.get('/rest/admin/collections', require('./rest/admin/collections').getList);
 	
 	app.post('/rest/login', require('./rest/login').authenticate);
 	app.post('/rest/login/forgot', require('./rest/login').forgotPassword);

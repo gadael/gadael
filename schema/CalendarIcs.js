@@ -6,16 +6,16 @@
  * The events in CalendarEvent schema will be delete and recreated according to the ics source file
  * the past events will never be modified
  */  
-exports = module.exports = function(app, mongoose) {
-  var icsSchema = new mongoose.Schema({
+exports = module.exports = function(params) {
+  var icsSchema = new params.mongoose.Schema({
     url: { type: String, required: true },
     lastUpdate: { type: Date }, 
     timeCreated: { type: Date, default: Date.now }
   });
 
   icsSchema.index({ 'lastUpdate': 1 });
-  icsSchema.set('autoIndex', (app.get('env') === 'development'));
+  icsSchema.set('autoIndex', params.autoIndex);
   
-  app.db.model('CalendarIcs', icsSchema);
+  params.db.model('CalendarIcs', icsSchema);
 };
 

@@ -1,13 +1,15 @@
 'use strict';
 
-exports = module.exports = function(app, mongoose) {
+exports = module.exports = function(params) {
+	var mongoose = params.mongoose;
+	var approvalSchemeSchema = new mongoose.Schema({
+		name: { type: String, required: true, unique: true },
+		steps: [mongoose.modelSchemas.approvalStep],
+		timeCreated: { type: Date, default: Date.now }
+	});
 	
-  var approvalSchemeSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
-    steps: [mongoose.modelSchemas.approvalStep],
-    timeCreated: { type: Date, default: Date.now }
-  });
-  app.db.model('ApprovalScheme', approvalSchemeSchema);
+	approvalSchemeSchema.set('autoIndex', params.autoIndex);
+	params.db.model('ApprovalScheme', approvalSchemeSchema);
 };
 
 

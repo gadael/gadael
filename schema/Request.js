@@ -1,6 +1,9 @@
 'use strict';
 
-exports = module.exports = function(app, mongoose) {
+exports = module.exports = function(params) {
+	
+	var mongoose = params.mongoose;
+	
   var requestSchema = new mongoose.Schema({
     user: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -39,7 +42,7 @@ exports = module.exports = function(app, mongoose) {
   });
 
   requestSchema.index({ 'user.id': 1 });
-  requestSchema.set('autoIndex', (app.get('env') === 'development'));
+  requestSchema.set('autoIndex', params.autoIndex);
   
-  app.db.model('Request', requestSchema);
+  params.db.model('Request', requestSchema);
 };

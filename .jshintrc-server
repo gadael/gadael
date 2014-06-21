@@ -79,5 +79,9 @@
   "white"         : false,    // true: Check against strict whitespace and indentation rules
 
   // Custom Globals
-  "predef"        : [ ]       // additional predefined global variables
+  "globals"        : {		  	// additional predefined global variables
+	"describe"   : false,	  	// jasmine
+    "it"         : false,		// jasmine
+    "expect"     : false		// jasmine
+  }       
 }

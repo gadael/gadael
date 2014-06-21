@@ -4,7 +4,8 @@
 /**
  *
  */  
-exports = module.exports = function(app, mongoose) {
+exports = module.exports = function(params) {
+	var mongoose = params.mongoose;
 	var absenceElemSchema = new mongoose.Schema({
 	absence: { type: mongoose.Schema.Types.ObjectId, ref: 'Absence', required: true },
 	quantity: { type: Number },
@@ -21,9 +22,9 @@ exports = module.exports = function(app, mongoose) {
 		}
 	});
   
-	absenceElemSchema.set('autoIndex', (app.get('env') === 'development'));
+	absenceElemSchema.set('autoIndex', params.autoIndex);
   
-	app.db.model('AbsenceElem', absenceElemSchema);
+	params.db.model('AbsenceElem', absenceElemSchema);
   
 
 	/**
