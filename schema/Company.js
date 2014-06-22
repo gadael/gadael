@@ -2,7 +2,8 @@
 
 exports = module.exports = function(params) {
 	var companySchema = new params.mongoose.Schema({
-		name: { type: String, default: '' },							// company name, site title
+		name: { type: String, required: true, unique: true },			// company name, site title
+		port: { type: Number, required: true },							// server port
 		workperiod_recover_request: { type: Boolean, default: false },	// allow creation of workperiod recover requests
 		maintenance:  { type: Boolean, default: false },				// maintenance mode, the app is read only
 		approb_alert: { type: Number },									// number of days after no action on request approbation

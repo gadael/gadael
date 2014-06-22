@@ -8,7 +8,6 @@ var config = require('./config'),
     http = require('http'),
     path = require('path'),
     passport = require('passport'),
-    mongoose = require('mongoose'),
     helmet = require('helmet');
 
 //create express app
@@ -20,19 +19,16 @@ app.config = config;
 //setup the web server
 app.server = http.createServer(app);
 
-//setup mongoose
-app.db = mongoose.createConnection(config.mongodb.prefix + config.mongodb.dbName);
-app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
-app.db.once('open', function () {
-  //and... we have a data store
+var companyApi = require('./api/Company.api');
+companyApi.bindToDb(app, config.mongodb.dbName, function() {
+	// db connexion ready
 });
-
 
 //config data models
 var models = require('./models');
 
 models.requirements = {
-	mongoose: mongoose,
+	mongoose: app.mongoose,
 	db: app.db,	
 	autoIndex: (app.get('env') === 'development')
 }
@@ -55,7 +51,7 @@ app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(session({
   secret: config.cryptoKey,
-  store: new mongoStore({ url: config.mongodb.uri })
+  store: new mongoStore({ url: config.mongodb.prefix + config.mongodb.dbName })
 }));
 app.use(passport.initialize());
 app.use(passport.session());

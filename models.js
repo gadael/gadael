@@ -26,6 +26,7 @@ models.load = function() {
 	require('./schema/AccountCollection')(requirements);
 
 	//then regular docs
+	require('./schema/Company')(requirements);
 	require('./schema/User')(requirements);
 	require('./schema/User_Admin')(requirements);
 	require('./schema/User_Account')(requirements);

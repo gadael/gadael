@@ -29,13 +29,45 @@ describe("Company API", function CompanyTestSuite() {
 	
 	it("forbid creation of an existing database", function(done) {
 		
-		expect(existingName).not.toBe(null);
+		expect(existingName).not.toBeNull();
 		
 		api.isDbNameValid(app, existingName, function(status) {
-			expect(status).toBe(false);
+			expect(status).toBeFalsy();
 			done();
 		});
 	});
+	
+	
+	
+	var testDbName = 'testDatabase';
+	
+	it("create a test database", function(done) {
+		
+		api.isDbNameValid(app, testDbName, function(status) {
+			expect(status).toBeTruthy();
+			var company = { 
+				name: 'The Fake Company',
+				port: 3001 
+			};
+			
+			api.createDb(app, testDbName, company, function() {
+
+				api.getCompany(app, testDbName, function(companyDoc) {
+					expect(companyDoc).toEqual(company);
+					done();
+				});
+			});
+		});
+	});
+	
+	/*
+	it("drop the test database", function(done) {
+		api.dropDb(app, testDbName, function() {
+			done();
+		});
+	});
+	*/
+	
 });
 
 
