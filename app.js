@@ -20,7 +20,7 @@ app.config = config;
 app.server = http.createServer(app);
 
 var companyApi = require('./api/Company.api');
-companyApi.bindToDb(app, config.mongodb.dbName, function() {
+companyApi.bindToDb(app, config.mongodb.dbname, function() {
 	// db connexion ready
 });
 
@@ -51,7 +51,7 @@ app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(session({
   secret: config.cryptoKey,
-  store: new mongoStore({ url: config.mongodb.prefix + config.mongodb.dbName })
+  store: new mongoStore({ url: config.mongodb.prefix + config.mongodb.dbname })
 }));
 app.use(passport.initialize());
 app.use(passport.session());

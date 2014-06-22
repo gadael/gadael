@@ -138,9 +138,8 @@ api.createDb = function(app, dbName, company, callback) {
 				console.error(err);
 			} else {
 				callback();
+				db.close();
 			}
-			
-			db.close();
 		});
 		
 	});
@@ -166,11 +165,11 @@ api.dropDb = function(app, dbName, callback) {
 		db.db.dropDatabase(function(err, result) {
 			if (err)
 			{
-				throw Exception(err);
+				throw err;
 			} else {
 				callback();
+				db.close();
 			}
-			db.close();
 		});
 	});
 };
@@ -211,9 +210,10 @@ api.getCompany = function(app, dbName, callback) {
 		
 		db.models.Company.find().exec(function (err, docs) {
 			if (err) {
-				throw Exception(err);
+				throw err;
 			}
-			callback(null);
+
+			callback(docs[0]);
 			db.close();
 		});
 
@@ -221,6 +221,8 @@ api.getCompany = function(app, dbName, callback) {
 	});
 };
 
+
+/*jshint loopfunc: true */
 
 /**
  * Get all comany documents from all the databases

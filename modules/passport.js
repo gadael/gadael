@@ -10,13 +10,12 @@ exports = module.exports = function(app, passport) {
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
-      var conditions = { isActive: 'yes' };
-      if (username.indexOf('@') === -1) {
-        conditions.username = username;
-      }
-      else {
-        conditions.email = username;
-      }
+      var conditions = { 
+		  isActive: true,
+		  email: username
+	  };
+	  
+	  app.db.models.User.find(function(err, all) { console.log(all); });
 
       app.db.models.User.findOne(conditions, function(err, user) {
         if (err) {
