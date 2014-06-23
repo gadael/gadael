@@ -229,18 +229,51 @@ api.getCompany = function(app, dbName, callback) {
  */  
 api.getCompanies = function(app, callback) {
 	this.listDatabases(app, function(databases) {
-		
+
 		var async = require('async');
 		
 		var asyncTasks = [];
 		for(var i=0; i<databases.length; i++) {
-			asyncTasks.push(function(async_done) {
-				this.getCompany(app, databases[i].name, async_done);
-			});
+
+			if (databases[i]) {
+				
+				var task = {
+					db: databases[i].name,
+					getCompany: function(async_done) {
+						api.getCompany(app, this.db, async_done);
+					}
+				};
+				
+				asyncTasks.push(task.getCompany.bind(task));
+			}
 		}
 		
-		async.parallel(asyncTasks, function(results) {
+		async.parallel(asyncTasks, function(err, results) {
+			if (err) {
+				throw err;
+			}
+			
 			callback(results);
 		});
+	});
+};
+
+
+
+/**
+ * Get the hightest port number
+ * 
+ */  
+api.getHighestPort = function(app, callback) {
+	this.getCompanies(app, function(arr) {
+		var max = 0;
+		for(var i=0; i<arr.length; i++) {
+			if (max < arr[i].port)
+			{
+				max = arr[i].port;
+			}
+		}
+		
+		callback(max);
 	});
 };

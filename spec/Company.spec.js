@@ -3,7 +3,10 @@
 
 var api = require('../api/Company.api');
 var app = require('../api/Headless.api');
-
+var company = { 
+			name: 'The Fake Company',
+			port: 3001 
+		};
 
 
 
@@ -53,14 +56,7 @@ describe("Company API", function CompanyTestSuite() {
 	
 	
 	it("create a test company", function(done) {
-		
-		var company = { 
-			name: 'The Fake Company',
-			port: 3001 
-		};
-		
 		api.createDb(app, testDbName, company, function() {
-
 			api.getCompany(app, testDbName, function(companyDoc) {
 				expect(companyDoc.name).toEqual(company.name);
 				expect(companyDoc.port).toEqual(company.port);
@@ -69,6 +65,21 @@ describe("Company API", function CompanyTestSuite() {
 		});
 	});
 	
+	
+	it("create a test company", function(done) {
+		api.getCompanies(app, function(res) {
+			
+			var found = false;
+			
+			for(var i=0; i<res.length; i++) {
+				if (company.name === res[i].name)
+				{
+					found = true;
+				}
+			}
+			expect(found).toBeTruthy();
+		});
+	});
 	
 	
 	it("drop the test database", function(done) {
