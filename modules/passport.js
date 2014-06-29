@@ -133,4 +133,52 @@ exports = module.exports = function(app, passport) {
       }
     });
   });
+  
+  
+  var http = require('http')
+	, req = http.IncomingMessage.prototype;
+  
+	/**
+	 * Test if logged in
+	 * output a 401 unauthorized header on failure
+	 */ 
+	req.ensureAuthenticated = function(req, res, next) {
+	  if (req.isAuthenticated()) {
+		return next();
+	  }
+	  res.send(401);
+	}
+
+
+
+
+	/**
+	 * Test if logged in as administrator
+	 * output a 401 unauthorized header on failure
+	 */ 
+	req.ensureAdmin = function(req, res, next) {
+	  if (req.isAuthenticated() && req.user.canPlayRoleOf('admin')) {
+		return next(req, res);
+	  }
+	  res.send(401);
+	};
+
+
+	/**
+	 * Test if logged in as user a verified user account
+	 * output a 401 unauthorized header on failure
+	 */  
+	req.ensureAccount = function(req, res, next) {
+	  if (req.user.canPlayRoleOf('account')) {
+		if (req.app.config.requireAccountVerification) {
+		  if (req.user.roles.account.isVerified !== 'yes') {
+			res.send(401);
+		  }
+		}
+		return next(req, res);
+	  }
+	  res.send(401);
+	}
+
+  
 };

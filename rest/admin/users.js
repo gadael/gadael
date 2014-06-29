@@ -35,6 +35,13 @@ exports.getList = function (req, res) {
 
 		}
 		
+		if (req.param('collection'))
+		{
+			find.where('roles.account.accountCollection').equals(req.param('collection'));
+
+		}
+		
+		
 		return find;
 	};
 	

@@ -41,3 +41,9 @@ app.connect = function(callback) {
 		callback();
 	});
 };
+
+app.disconnect = function(callback) {
+	app.db.close(function () {
+	    callback();
+	});
+};

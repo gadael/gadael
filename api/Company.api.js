@@ -131,15 +131,15 @@ api.createDb = function(app, dbName, company, callback) {
 		// create the company entry
 		
 		var companyDoc = new db.models.Company(company);
-		
-		
+
 		companyDoc.save(function (err) {
 			if (err) {
-				console.error(err);
+				console.error(err.err);
 			} else {
 				callback();
-				db.close();
 			}
+			
+			db.close();
 		});
 		
 	});
@@ -165,11 +165,12 @@ api.dropDb = function(app, dbName, callback) {
 		db.db.dropDatabase(function(err, result) {
 			if (err)
 			{
-				throw err;
+				console.error(err.err);
 			} else {
 				callback();
-				db.close();
 			}
+			
+			db.close();
 		});
 	});
 };

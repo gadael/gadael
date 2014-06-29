@@ -12,7 +12,7 @@ var company = {
 
 describe("Company API", function CompanyTestSuite() {
 	
-	it("should connect to database", function(done) {
+	it("should connect to the inga database", function(done) {
 		app.connect(function() {
 			done();
 		});
@@ -64,22 +64,7 @@ describe("Company API", function CompanyTestSuite() {
 			});
 		});
 	});
-	
-	
-	it("create a test company", function(done) {
-		api.getCompanies(app, function(res) {
-			
-			var found = false;
-			
-			for(var i=0; i<res.length; i++) {
-				if (company.name === res[i].name)
-				{
-					found = true;
-				}
-			}
-			expect(found).toBeTruthy();
-		});
-	});
+
 	
 	
 	it("drop the test database", function(done) {
@@ -88,6 +73,13 @@ describe("Company API", function CompanyTestSuite() {
 		});
 	});
 	
+	
+	
+	it("should disconnect from the inga database", function(done) {
+		app.disconnect(function() {
+			done();
+		});
+	});
 	
 });
 

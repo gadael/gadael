@@ -43,7 +43,7 @@
 		
 		<div class="form-group">
 			<label for="search_collection" translate>By Collection:</label><br />
-			<select class="form-control" id="search_name" ng-model="search.collection" ng-options="collection.name for collection in collections">
+			<select class="form-control" id="search_name" ng-model="search.collection" ng-options="collection._id as collection.name for collection in collections" ng-init="search.collection=''">
 			</select>
 		</div>
 	</div>

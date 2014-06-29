@@ -4,9 +4,8 @@ define([], function() {
 		$http.get('/rest/admin/collections')
                .then(function(result) {
 					$scope.collections = result.data;
+					$scope.collections.unshift({ name: '', _id:'' });
 		});
-		
-		$scope.usersUrl = '/rest/admin/users?name='; // +$scope.search.name
 		
 	}];
 });

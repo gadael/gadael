@@ -10,7 +10,7 @@
 			<div class="col-xs-12 col-sm-8 text-center">
 				<begriffs.pagination 
 					per-page="25" 
-					collection="users" 
+					collection="collections" 
 					url="'/rest/admin/collections?name='+search.name" 
 					template-url="partials/utils/paginate-anything.html">
 				</begriffs.pagination>
@@ -21,7 +21,7 @@
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="collection in collections">
 				<div class="col-md-12">
-					<button class="btn btn-info btn-xs hidden-print" ng-click="editCollection()" type="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></button> 
+					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/collections/{{collection._id}}" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
 					 &nbsp; {{collection.name}}
 				</div>
 			</div>

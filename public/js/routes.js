@@ -98,9 +98,14 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminCollections'
 		});
 		
+		$routeProvider.when('/admin/collections/:id', {
+			templateUrl: 'partials/admin/collection-edit.html',
+			controller: 'AdminCollectionEdit'
+		});
+		
 		$routeProvider.when('/admin/collection-edit', {
 			templateUrl: 'partials/admin/collection-edit.html',
-			controller: 'AdminCollections'
+			controller: 'AdminCollectionEdit'
 		});
 		
 		$routeProvider.when('/admin/types', {

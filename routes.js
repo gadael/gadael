@@ -1,45 +1,15 @@
 'use strict';
 
-/**
- * Test if logged in
- */ 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.set('X-Auth-Required', 'true');
-  req.session.returnUrl = req.originalUrl;
-  res.redirect('/login/');
-}
-
-/**
- * Test if logged in as administrator
- */ 
-function ensureAdmin(req, res, next) {
-  if (req.user.canPlayRoleOf('admin')) {
-    return next();
-  }
-  res.redirect('/');
-}
 
 
-/**
- * Test if logged in as user account
- */  
-function ensureAccount(req, res, next) {
-  if (req.user.canPlayRoleOf('account')) {
-    if (req.app.config.requireAccountVerification) {
-      if (req.user.roles.account.isVerified !== 'yes' && !/^\/account\/verification\//.test(req.url)) {
-        return res.redirect('/account/verification/');
-      }
-    }
-    return next();
-  }
-  res.redirect('/');
-}
+
 
 exports = module.exports = function(app, passport) {
+	
 	//front end use the index.html and the partials folder
+	
+	
+	
 	
 	// rest api used by angular
 	app.get('/rest/accounts', require('./rest/Account').getAccounts);
@@ -50,6 +20,9 @@ exports = module.exports = function(app, passport) {
 	app.get('/rest/admin/users', require('./rest/admin/users').getList);
 	app.get('/rest/admin/departments', require('./rest/admin/departments').getList);
 	app.get('/rest/admin/collections', require('./rest/admin/collections').getList);
+	app.get('/rest/admin/collections/:id', require('./rest/admin/collections').getCollection);
+	app.post('/rest/admin/collections/save', require('./rest/admin/collections').save);
+	app.post('/rest/admin/collections/save/:id', require('./rest/admin/collections').save);
 	
 	app.post('/rest/login', require('./rest/login').authenticate);
 	app.post('/rest/login/forgot', require('./rest/login').forgotPassword);
