@@ -36,7 +36,7 @@
 		
 		<div class="form-group">
 			<label for="search_name" translate>By name:</label><br />
-			<input type="text" class="form-control" id="search_name" ng-model="search.name" />
+			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
 		</div>
 	</div>
 </div>

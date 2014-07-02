@@ -25,8 +25,8 @@ exports.getList = function (req, res) {
 			var p = paginate(req, res, total, 50);
 			
 			if (!p) {
-				res.json({});
-				return; // 416
+				res.json([]);
+				return;
 			}
 			
 			query()
@@ -73,9 +73,9 @@ exports.save = function(req, res) {
 
 			var fieldsToSet = { name: req.body.name };
 
-			if (req.params.id)
+			if (req.body._id)
 			{
-				rightCollection.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, collection) {
+				rightCollection.findByIdAndUpdate(req.body._id, fieldsToSet, function(err, collection) {
 					if (err) {
 						return workflow.emit('exception', err.err);
 					}
@@ -113,7 +113,7 @@ exports.save = function(req, res) {
 
 exports.getCollection = function(req, res) {
 	req.ensureAdmin(req, res, function() {
-		var gt = req.app.utility.gettext;
+		// var gt = req.app.utility.gettext;
 		var workflow = req.app.utility.workflow(req, res);
 		
 		req.app.db.models.RightCollection.findOne({ '_id' : req.params.id}, 'name', function(err, collection) {

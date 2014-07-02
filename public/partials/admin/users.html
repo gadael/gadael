@@ -38,12 +38,18 @@
 		
 		<div class="form-group">
 			<label for="search_name" translate>By name:</label><br />
-			<input type="text" class="form-control" id="search_name" ng-model="search.name" />
+			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
 		</div>
 		
 		<div class="form-group">
-			<label for="search_collection" translate>By Collection:</label><br />
-			<select class="form-control" id="search_name" ng-model="search.collection" ng-options="collection._id as collection.name for collection in collections" ng-init="search.collection=''">
+			<label for="search_department" translate>By department:</label><br />
+			<select class="form-control" id="search_department" ng-model="search.department" ng-options="department._id as department.name for department in departments" ng-init="search.department=''">
+			</select>
+		</div>
+		
+		<div class="form-group">
+			<label for="search_collection" translate>By collection:</label><br />
+			<select class="form-control" id="search_collection" ng-model="search.collection" ng-options="collection._id as collection.name for collection in collections" ng-init="search.collection=''">
 			</select>
 		</div>
 	</div>

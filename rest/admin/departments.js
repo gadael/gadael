@@ -39,8 +39,8 @@ exports.getList = function (req, res) {
 		var p = paginate(req, res, total, 50);
 		
 		if (!p) {
-			res.json({});
-			return; // 416
+			res.json([]);
+			return;
 		}
 		
 		var q = query().select('name').sort('name');

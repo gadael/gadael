@@ -1,11 +1,11 @@
 define([], function() {
-	return ['$scope', '$http', function($scope, $http) {
+	return [
+		'$scope', 
+		'loadCollectionsOptions', 
+		'loadDepartmentsOptions', 
+		function($scope, loadCollectionsOptions, loadDepartmentsOptions) {
 
-		$http.get('/rest/admin/collections')
-               .then(function(result) {
-					$scope.collections = result.data;
-					$scope.collections.unshift({ name: '', _id:'' });
-		});
-		
+		loadCollectionsOptions($scope);
+		loadDepartmentsOptions($scope);
 	}];
 });
