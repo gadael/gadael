@@ -18,6 +18,9 @@ exports = module.exports = function(app, passport) {
 	
 	app.get('/rest/admin', require('./rest/admin/index').getInfos);
 	app.get('/rest/admin/users', require('./rest/admin/users').getList);
+	app.get('/rest/admin/users/:id', require('./rest/admin/users').getUser);
+	app.post('/rest/admin/users/save', require('./rest/admin/users').save);
+	app.post('/rest/admin/users/save/:id', require('./rest/admin/users').save);
 	app.get('/rest/admin/departments', require('./rest/admin/departments').getList);
 	app.get('/rest/admin/collections', require('./rest/admin/collections').getList);
 	app.get('/rest/admin/collections/:id', require('./rest/admin/collections').getCollection);
@@ -42,5 +45,5 @@ exports = module.exports = function(app, passport) {
 	
 
 	//route not found
-	//app.all('*', require('./rest').http404);
+	app.all('*', require('./rest/Common').http404);
 };

@@ -1,0 +1,21 @@
+
+<form role="form">
+  
+  <div class="form-group">
+    <label for="user_firstname" translate>Firstname</label>
+    <input type="text" class="form-control" id="user_firstname" ng-model="user.firstname" />
+  </div>
+  
+  <div class="form-group">
+    <label for="user_lastname" translate>Lastname</label>
+    <input type="text" class="form-control" id="user_lastname" ng-model="user.lastname" />
+  </div>
+  
+  <div class="form-group">
+    <label for="user_email" translate>Email</label>
+    <input type="text" class="form-control" id="user_email" ng-model="user.email" />
+  </div>
+  
+  <button class="btn btn-primary" ng-click="saveUser()" translate>Save</button> 
+  <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
+</form>

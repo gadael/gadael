@@ -7,20 +7,25 @@
  * who is logged
  * etc...
  */  
-exports.getInfos = function (req, res) {
+exports.getInfos = function(req, res) {
 	
   // detect language from HTTP-ACCEPT
   
-  var lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
+	var lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
   
 
-  res.json({ 
-	  lang: lang[0].lang,
-  //  header: req.headers['accept-language'],
-	  user: {
-		isAuthenticated: req.isAuthenticated(),
-		user: req.user
-	  }
+	res.json({ 
+		lang: lang[0].lang,
+		user: {
+			isAuthenticated: req.isAuthenticated(),
+			lastname: req.user.lastname,
+			firstname: req.user.firstname 
+		}
 	});
 };
 
+
+
+exports.http404 = function(req, res) {
+	res.json({ http: 404 });
+}
