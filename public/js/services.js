@@ -1,11 +1,11 @@
-define(['angular', 'jquery'], function (angular) {
+define(['angular', 'jquery', 'angularResource'], function (angular) {
 	'use strict';
 	
-  /* Services */
-
-	angular.module('inga.services', [])
+	/* Services */
 	
-//	.value('version', '0.1')
+	angular.module('inga.services', ['ngResource'])
+	
+	
 		
 	/**
 	 * Populate a select box with collections
@@ -38,14 +38,24 @@ define(['angular', 'jquery'], function (angular) {
 	
 	/**
 	 * Save item to rest path (ex: edit form)
-	 * Use a post http request
+	 * Use a post http request if _id does not exists on item, for creation
+	 * Use a put http request if _id exists on the item, for modification
 	 */ 
 	.factory('saveItem', ['$http', '$rootScope', function($http, $rootScope) {
 		
 		return function(path, item) {
-			$http.post('rest/admin/collections/save', item)
 			
-			.success(function(data) {
+			if (item._id)
+			{
+				path += '/'+item._id;
+				delete item._id;
+				var httpQuery = $http.put(path, item);
+				
+			} else {
+				var httpQuery = $http.post(path, item);
+			}
+
+			httpQuery.success(function(data) {
 			
 				$rootScope.pageAlerts = data.alert;
 				if (data.success)
@@ -100,5 +110,46 @@ define(['angular', 'jquery'], function (angular) {
 		};
 	}])
 	
+
+
+	/**
+	 * Create a resource to an object or to a collection
+	 * the object resource is created only if the angular route contain a :id
+	 */ 
+	.factory('IngaResource', ['$resource', '$routeParams', function($resource, $routeParams){
+		
+		
+		return function(collectionPath)
+		{
+			if ($routeParams['id'])
+			{
+				var item = $resource(collectionPath+'/:id', $routeParams, {
+					'save': { method:'PUT' }  // overwrite default save method (POST)
+				});
+				
+				item.load = function(callback) {
+					return this.get(callback);
+				};
+				
+				return item;
+			}
+			
+			var collection = $resource(collectionPath);
+			
+			collection.load = function(callback) {
+				// scope will be loaded with an empty instance
+				callback(new collection);
+			};
+			
+			return collection;
+		};
+
+	}])
+
+
+	
 	;
+	
+	
+	
 });

@@ -1,19 +1,16 @@
-define(['jquery'], function() {
-	return ['$scope', '$location', 'loadItem', 'saveItem', function($scope, $location, loadItem, saveItem) {
+define([], function() {
 
-		loadItem('rest/admin/collections/:id', function(data) {
-			$scope.collection = data;
-		});
-		
-		
-		$scope.cancel = function() {
+	return ['$scope', '$location', 'IngaResource', function($scope, $location, IngaResource) {
+
+		$scope.collection = IngaResource('rest/admin/collections').load();
+
+		$scope.back = function() {
 			$location.path('/admin/collections');
 		}
 		
-		
 		$scope.saveCollection = function() {
-			saveItem('rest/admin/collections/save', $scope.collection);
-			$scope.cancel();
+			$scope.collection.$save();
+			$scope.back();
 	    }
 	}];
 });

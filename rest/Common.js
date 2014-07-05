@@ -28,4 +28,4 @@ exports.getInfos = function(req, res) {
 
 exports.http404 = function(req, res) {
 	res.json({ http: 404 });
-}
+};

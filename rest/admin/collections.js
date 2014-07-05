@@ -73,9 +73,9 @@ exports.save = function(req, res) {
 
 			var fieldsToSet = { name: req.body.name };
 
-			if (req.body._id)
+			if (req.params.id)
 			{
-				rightCollection.findByIdAndUpdate(req.body._id, fieldsToSet, function(err, collection) {
+				rightCollection.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, collection) {
 					if (err) {
 						return workflow.emit('exception', err.err);
 					}

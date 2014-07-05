@@ -74,9 +74,9 @@ exports.getUser = function (req, res) {
 		});
 	
 	});
-}
+};
 
 
 exports.save = function (req, res) {
 	res.json({});
-}
+};
