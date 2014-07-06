@@ -116,19 +116,29 @@ define(['angular', 'jquery', 'angularResource'], function (angular) {
 	 * Create a resource to an object or to a collection
 	 * the object resource is created only if the angular route contain a :id
 	 */ 
-	.factory('IngaResource', ['$resource', '$routeParams', function($resource, $routeParams){
+	.factory('IngaResource', ['$resource', '$routeParams', '$rootScope', function($resource, $routeParams, $rootScope){
 		
 		
 		return function(collectionPath)
 		{
+			var ingaSave = function() {
+				this.$save(function(data) {
+					// receive 400 bad request on missing parameters
+					$rootScope.pageAlerts = data.alert;
+				});
+			};
+			
+			
 			if ($routeParams['id'])
 			{
 				var item = $resource(collectionPath+'/:id', $routeParams, {
 					'save': { method:'PUT' }  // overwrite default save method (POST)
 				});
 				
-				item.load = function(callback) {
-					return this.get(callback);
+				item.loadRouteId = function() {
+					return this.get(function(data) {
+						data.ingaSave = ingaSave;
+					});
 				};
 				
 				return item;
@@ -136,9 +146,13 @@ define(['angular', 'jquery', 'angularResource'], function (angular) {
 			
 			var collection = $resource(collectionPath);
 			
-			collection.load = function(callback) {
+			collection.loadRouteId = function() {
 				// scope will be loaded with an empty instance
-				callback(new collection);
+				
+				var inst = new collection;
+				inst.ingaSave = ingaSave;
+
+				return inst;
 			};
 			
 			return collection;
