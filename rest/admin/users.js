@@ -60,7 +60,7 @@ exports.getList = function (req, res) {
 
 
 
-exports.getUser = function (req, res) {
+exports.getItem = function (req, res) {
 	req.ensureAdmin(req, res, function() {
 		var workflow = req.app.utility.workflow(req, res);
 		

@@ -17,17 +17,21 @@ exports = module.exports = function(app, passport) {
 	app.get('/rest/common', require('./rest/Common').getInfos);
 	
 	app.get('/rest/admin', require('./rest/admin/index').getInfos);
-	app.get('/rest/admin/users', require('./rest/admin/users').getList);
-	app.get('/rest/admin/users/:id', require('./rest/admin/users').getUser);
-	app.post('/rest/admin/users', require('./rest/admin/users').save);
-	app.put('/rest/admin/users/:id', require('./rest/admin/users').save);
 	
-	app.get('/rest/admin/departments', require('./rest/admin/departments').getList);
+	app.get('/rest/admin/users'				, require('./rest/admin/users').getList);
+	app.get('/rest/admin/users/:id'			, require('./rest/admin/users').getItem);
+	app.post('/rest/admin/users'			, require('./rest/admin/users').save);
+	app.put('/rest/admin/users/:id'			, require('./rest/admin/users').save);
 	
-	app.get('/rest/admin/collections', require('./rest/admin/collections').getList);
-	app.get('/rest/admin/collections/:id', require('./rest/admin/collections').getCollection);
-	app.post('/rest/admin/collections', require('./rest/admin/collections').save);
-	app.put('/rest/admin/collections/:id', require('./rest/admin/collections').save);
+	app.get('/rest/admin/departments'		, require('./rest/admin/departments').getList);
+	app.get('/rest/admin/departments/:id'	, require('./rest/admin/departments').getItem);
+	app.post('/rest/admin/departments'		, require('./rest/admin/departments').save);
+	app.put('/rest/admin/departments/:id'	, require('./rest/admin/departments').save);
+	
+	app.get('/rest/admin/collections'		, require('./rest/admin/collections').getList);
+	app.get('/rest/admin/collections/:id'	, require('./rest/admin/collections').getItem);
+	app.post('/rest/admin/collections'		, require('./rest/admin/collections').save);
+	app.put('/rest/admin/collections/:id'	, require('./rest/admin/collections').save);
 
 	
 	app.post('/rest/login', require('./rest/login').authenticate);

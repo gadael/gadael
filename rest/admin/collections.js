@@ -20,8 +20,6 @@ exports.getList = function (req, res) {
 
 		query().count(function(err, total) {
 			
-			
-				
 			var p = paginate(req, res, total, 50);
 			
 			if (!p) {
@@ -111,7 +109,7 @@ exports.save = function(req, res) {
 };
 
 
-exports.getCollection = function(req, res) {
+exports.getItem = function(req, res) {
 	req.ensureAdmin(req, res, function() {
 		// var gt = req.app.utility.gettext;
 		var workflow = req.app.utility.workflow(req, res);

@@ -106,6 +106,12 @@ define(['angular', 'services'], function (angular) {
 			});
 		}])
 		
+		.controller('AdminDepartmentEdit', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/department-edit'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
 		.controller('AdminCollections', ['$scope', '$injector', function($scope, $injector) {
 			require(['controllers/admin/collections'], function(admin) {
 				$injector.invoke(admin, this, {'$scope': $scope});
