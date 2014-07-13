@@ -1,9 +1,9 @@
-define(['angular', 'services'], function (angular) {
+define(['angular', 'services', 'angularBootstrap'], function (angular) {
 	'use strict';
 
 	/* Controllers */
 	
-	return angular.module('inga.controllers', ['inga.services'])
+	return angular.module('inga.controllers', ['inga.services', 'ui.bootstrap'])
 
 		// Sample controller where service is being used
 		.controller('MyCtrl1', ['$scope', 'version', function ($scope, version) {
