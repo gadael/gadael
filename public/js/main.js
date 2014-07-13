@@ -10,7 +10,8 @@ require.config({
     	angularBootstrap:		'../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
     	angularGettext: 		'../bower_components/angular-gettext/dist/angular-gettext',
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',
-		paginateAnything:		'../bower_components/angular-paginate-anything/src/paginate-anything'
+		paginateAnything:		'../bower_components/angular-paginate-anything/src/paginate-anything',
+		passwordStrength: 		'../bower_components/angular-password-strength/build/angular-password-strength.min'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},

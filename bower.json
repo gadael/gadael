@@ -14,6 +14,7 @@
     "requirejs-text": "~2.0.10",
     "ng-table": "~0.3.2",
     "angular-paginate-anything": "~2.1.0",
-    "angular-bootstrap": "~0.11.0"
+    "angular-bootstrap": "~0.11.0",
+    "angular-password-strength": "~0.0.4"
   }
 }

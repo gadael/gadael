@@ -9,7 +9,8 @@ define([
 	'controllers',
 	'angularRoute',
 	'angularAuth',
-	'paginateAnything'
+	'paginateAnything',
+	'passwordStrength'
 	], 
 	
 	function (angular, filters, services, directives, controllers) {
@@ -25,7 +26,8 @@ define([
 		'inga.directives',
 		'inga.gettext',
 		'http-auth-interceptor',
-		'begriffs.paginate-anything'
+		'begriffs.paginate-anything',
+		'vr.directives.passwordStrength.width'
 	]);
 
 	

@@ -1,7 +1,10 @@
-define(['jquery'], function() {
-	return ['$scope', '$location', 'IngaResource', function($scope, $location, IngaResource) {
+define([], function() {
+	return ['$scope', '$location', 'IngaResource', 'loadCollectionsOptions', 'loadDepartmentsOptions', function($scope, $location, IngaResource, loadCollectionsOptions, loadDepartmentsOptions) {
 
 		$scope.user = IngaResource('rest/admin/users').loadRouteId();
+		
+		loadCollectionsOptions($scope);
+		loadDepartmentsOptions($scope);
 		
 		
 		$scope.cancel = function() {

@@ -17,6 +17,7 @@ exports = module.exports = function(params) {
 		  account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
 		  manager: { type: mongoose.Schema.Types.ObjectId, ref: 'Manager' }
 		},
+		department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department' },
 		isActive: { type:Boolean, default:true },
 		timeCreated: { type: Date, default: Date.now },
 		resetPasswordToken: String,

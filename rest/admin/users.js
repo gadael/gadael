@@ -21,6 +21,12 @@ exports.getList = function (req, res) {
 
 			}
 			
+			if (req.param('department'))
+			{
+				find.where('department').equals(req.param('department'));
+
+			}
+			
 			if (req.param('collection'))
 			{
 				find.where('roles.account.accountCollection').equals(req.param('collection'));
@@ -64,7 +70,10 @@ exports.getItem = function (req, res) {
 	req.ensureAdmin(req, res, function() {
 		var workflow = req.app.utility.workflow(req, res);
 		
-		req.app.db.models.User.findOne({ '_id' : req.params.id}, 'lastname firstname email', function(err, user) {
+		req.app.db.models.User
+		.findOne({ '_id' : req.params.id}, 'lastname firstname email isActive department')
+		.populate('roles.account')
+		.exec(function(err, user) {
 			if (err)
 			{
 				return workflow.emit('exception', err.message);
