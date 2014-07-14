@@ -3,6 +3,8 @@ define(['jquery'], function() {
 		
 		$scope.submit = function() {
 			
+			console.log('Submit');
+			
 			$http.post('rest/login', { 
 				username: $scope.username, 
 				password: $scope.password 

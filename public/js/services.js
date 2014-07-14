@@ -40,7 +40,7 @@ define(['angular', 'jquery', 'angularResource'], function (angular) {
 	 * Save item to rest path (ex: edit form)
 	 * Use a post http request if _id does not exists on item, for creation
 	 * Use a put http request if _id exists on the item, for modification
-	 */ 
+	  
 	.factory('saveItem', ['$http', '$rootScope', function($http, $rootScope) {
 		
 		return function(path, item) {
@@ -76,7 +76,7 @@ define(['angular', 'jquery', 'angularResource'], function (angular) {
 			});
 		};
 	}])
-	
+	*/
 	
 	/**
 	 * Load Json from rest path (ex: edit form)
@@ -84,7 +84,7 @@ define(['angular', 'jquery', 'angularResource'], function (angular) {
 	 * to the path parameter of the rest service
 	 * the two routes must use the same path parameter
 	 * if a parmeter has not been found, the service do nothing (ex: object creation url)
-	 */ 
+	  
 	.factory('loadItem', ['$http', '$routeParams', '$rootScope', function($http, $routeParams, $rootScope) {
 		
 		return function(path, callback) {
@@ -109,7 +109,7 @@ define(['angular', 'jquery', 'angularResource'], function (angular) {
 			}
 		};
 	}])
-	
+	*/
 
 
 	/**

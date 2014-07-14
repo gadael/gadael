@@ -1,0 +1,44 @@
+
+
+
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+		
+		<div class="row inga-list-header">
+			<div class="col-sm-3 text-center">
+				<a ng-href="#/admin/type-edit" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add Type</span></a>
+			</div>
+			
+			<div class="col-xs-12 col-sm-8 text-center">
+				<begriffs.pagination 
+					per-page="25" 
+					collection="types" 
+					url="'/rest/admin/types?name='+search.name" 
+					template-url="partials/utils/paginate-anything.html">
+				</begriffs.pagination>
+			</div>
+		</div>
+		
+		<div class="inga-list-rows">
+			<div class="row" ng-repeat="type in types">
+				<div class="col-md-12">
+					<a ng-href="#/admin/types/{{type._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+					 &nbsp; {{type.name}}
+				</div> 
+			</div>
+		</div>
+
+		
+	</div>
+	
+	<div role="search" class="col-xs-12 col-sm-3">
+		
+		<h2><i class="fa fa-search"></i> <span translate>Search in right types</span></h2>
+		
+		<div class="form-group">
+			<label for="search_name" translate>By name:</label><br />
+			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
+		</div>
+		
+	</div>
+</div>

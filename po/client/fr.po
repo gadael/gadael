@@ -11,6 +11,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 
+#: public/partials/admin/user-edit.html
+msgid "Absences user account"
+msgstr "Compte utilisateur \"Absences\""
+
+#: public/partials/user/settings.html
+msgid "Account parameters"
+msgstr "Paramètres du compte"
+
+#: public/partials/admin/collections.html
+msgid "Add Collection"
+msgstr "Ajouter un régime"
+
+#: public/partials/admin/departments.html
+msgid "Add Department"
+msgstr "Ajouter un service"
+
+#: public/partials/admin/users.html
+msgid "Add User"
+msgstr "Ajouter un utilisateur"
+
 #: public/index.html
 msgid "Admin"
 msgstr "Administration"
@@ -19,17 +39,85 @@ msgstr "Administration"
 msgid "Admin summary"
 msgstr "Résumé des fonctions d'administration"
 
+#: public/partials/admin/user-edit.html
+msgid "Application administrator"
+msgstr "Administrateur de l'application"
+
 #: public/partials/login/forgot.html public/partials/login/reset.html
 msgid "Back to Login"
 msgstr "Retour à l'authentification"
+
+#: public/partials/admin/users.html
+msgid "By collection:"
+msgstr "Par régime :"
+
+#: public/partials/admin/users.html
+msgid "By department:"
+msgstr "Par service :"
+
+#: public/partials/admin/collections.html
+#: public/partials/admin/departments.html public/partials/admin/users.html
+msgid "By name:"
+msgstr "Par nom :"
+
+#: public/index.html
+msgid "Calendar"
+msgstr "Agenda"
+
+#: public/partials/admin/collection-edit.html
+#: public/partials/admin/department-edit.html
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "Cancel"
+msgstr "Annuler"
+
+#: public/partials/admin/collection-edit.html
+msgid "Collection name"
+msgstr "Nom du régime"
+
+#: public/index.html
+msgid "Collections list"
+msgstr "Liste des régimes"
 
 #: public/partials/login/reset.html
 msgid "Confirm Password:"
 msgstr "Confirmer le mot de passe :"
 
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "Confirm new password"
+msgstr "Confirmer le nouveau mot de passe"
+
+#: public/partials/admin/user-edit.html
+msgid "Department"
+msgstr "Service"
+
+#: public/partials/admin/user-edit.html
+msgid "Department manager"
+msgstr "Chef de service"
+
+#: public/partials/admin/department-edit.html
+msgid "Department name"
+msgstr "Nom du service"
+
+#: public/index.html
+msgid "Departments list"
+msgstr "Liste des services"
+
+#: public/partials/admin/collections.html
+#: public/partials/admin/departments.html public/partials/admin/users.html
+msgid "Edit"
+msgstr "Modifier"
+
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "Email"
+msgstr "Email"
+
 #: public/partials/login/forgot.html
 msgid "Enter Your Email:"
 msgstr "Entrez votre email :"
+
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "Firstname"
+msgstr "Prénom"
 
 #: public/partials/login.html
 msgid "Forget your password?"
@@ -39,29 +127,58 @@ msgstr "Mot de passe oublié?"
 msgid "Forgot Your Password?"
 msgstr "Mot de passe oublié?"
 
-#: public/index.html
-msgid "Groups list"
-msgstr "Liste des groupes"
-
-#: public/index.html
-msgid "Home"
-msgstr "Accueil"
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "Lastname"
+msgstr "Nom"
 
 #: public/index.html
 msgid "Logout"
 msgstr "Se déconnecter"
 
+#: public/index.html
+msgid "My requests"
+msgstr "Mes demandes"
+
+#: public/index.html
+msgid "My vacations"
+msgstr "Mes congés"
+
 #: public/partials/login/reset.html
 msgid "New Password:"
 msgstr "Nouveau mot de passe :"
+
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: public/partials/user/settings.html
+msgid "Notifications parameters"
+msgstr "Paramètres des notifications"
+
+#: public/partials/user/settings.html
+msgid "Notify me when a request is accepted or rejected"
+msgstr "Me notifier si une demande à été acceptée ou refusée"
+
+#: public/partials/user/settings.html
+msgid "Notify me when new vacation rights are opened or closed for my account"
+msgstr ""
+"Me notifier si des droits de congés on été ouverts ou fermés sur mon compte"
 
 #: public/partials/login.html
 msgid "Or sign in using..."
 msgstr "Ou connectez-vous avec..."
 
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "Password Strength:"
+msgstr "Solidité du mot de passe :"
+
 #: public/partials/login.html
 msgid "Password:"
 msgstr "Mot de passe :"
+
+#: public/index.html
+msgid "Request a vacation period"
+msgstr "Demander une période de congés"
 
 #: public/index.html
 msgid "Requests"
@@ -75,9 +192,35 @@ msgstr "Réinitialiser votre mot de passe?"
 msgid "Right types"
 msgstr "Types de droits"
 
+#: public/partials/admin/user-edit.html
+msgid "Rights collection"
+msgstr "Régime de congés"
+
 #: public/index.html
 msgid "Rights configuration"
 msgstr "Configuration des droits"
+
+#: public/partials/admin/user-edit.html
+msgid "Roles:"
+msgstr "Rôles :"
+
+#: public/partials/admin/collection-edit.html
+#: public/partials/admin/department-edit.html
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "Save"
+msgstr "Enregistrer"
+
+#: public/partials/admin/collections.html
+msgid "Search in collections"
+msgstr "Rechercher dans les régimes"
+
+#: public/partials/admin/departments.html
+msgid "Search in departments"
+msgstr "Rechercher dans les services"
+
+#: public/partials/admin/users.html
+msgid "Search in users"
+msgstr "Rechercher dans les utilisateurs"
 
 #: public/partials/login/forgot.html
 msgid "Send Reset"
@@ -87,13 +230,49 @@ msgstr "Réinitialiser"
 msgid "Set Password"
 msgstr "Définir le mot de passe"
 
+#: public/partials/admin/user-edit.html public/partials/user/settings.html
+msgid "Set a new password"
+msgstr "Définir un nouveau mot de passe"
+
 #: public/index.html
 msgid "Settings"
 msgstr "Paramètres"
 
-#: public/partials/login.html
+#: public/index.html public/partials/login.html
 msgid "Sign In"
 msgstr "Connexion"
+
+#: public/index.html
+msgid "Sign up"
+msgstr "S'inscrire"
+
+#: public/partials/admin/user-edit.html
+msgid ""
+"The user can have vacations rights, absences requests, time saving "
+"account ..."
+msgstr ""
+"L'utilisateur peut avoir des droits de congés, des demandes de congés, un "
+"compte épargne temps ..."
+
+#: public/partials/admin/user-edit.html
+msgid ""
+"The user can manager other users and departments, the application "
+"parameters ..."
+msgstr ""
+"L'utilisateur peut gérer les autres utilisateurs et les services, tous les "
+"paramètres de l'application..."
+
+#: public/partials/admin/user-edit.html
+msgid "The user is allowed to log in"
+msgstr "Cet utilisateur peut se connecter à l'application"
+
+#: public/partials/admin/user-edit.html
+msgid ""
+"The user may be involved in the validation of requests by the members of his "
+"deparment"
+msgstr ""
+"L'utilisateur peut être impliqué dans la validation des demandes des membres "
+"de son service"
 
 #: public/partials/home.html
 msgid ""
@@ -118,6 +297,8 @@ msgstr "Liste des utilisateurs"
 msgid "Vacation rights"
 msgstr "Droits de congés"
 
-#: public/index.html
-msgid "Vacations"
-msgstr "Congés"
+#~ msgid "Groups list"
+#~ msgstr "Liste des groupes"
+
+#~ msgid "Home"
+#~ msgstr "Accueil"

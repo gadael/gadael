@@ -3,6 +3,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: public/partials/admin/user-edit.html
+msgid "Absences user account"
+msgstr ""
+
+#: public/partials/user/settings.html
+msgid "Account parameters"
+msgstr ""
+
+#: public/partials/admin/collections.html
+msgid "Add Collection"
+msgstr ""
+
+#: public/partials/admin/departments.html
+msgid "Add Department"
+msgstr ""
+
+#: public/partials/admin/users.html
+msgid "Add User"
+msgstr ""
+
 #: public/index.html
 msgid "Admin"
 msgstr ""
@@ -11,17 +31,91 @@ msgstr ""
 msgid "Admin summary"
 msgstr ""
 
+#: public/partials/admin/user-edit.html
+msgid "Application administrator"
+msgstr ""
+
 #: public/partials/login/forgot.html
 #: public/partials/login/reset.html
 msgid "Back to Login"
+msgstr ""
+
+#: public/partials/admin/users.html
+msgid "By collection:"
+msgstr ""
+
+#: public/partials/admin/users.html
+msgid "By department:"
+msgstr ""
+
+#: public/partials/admin/collections.html
+#: public/partials/admin/departments.html
+#: public/partials/admin/users.html
+msgid "By name:"
+msgstr ""
+
+#: public/index.html
+msgid "Calendar"
+msgstr ""
+
+#: public/partials/admin/collection-edit.html
+#: public/partials/admin/department-edit.html
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "Cancel"
+msgstr ""
+
+#: public/partials/admin/collection-edit.html
+msgid "Collection name"
+msgstr ""
+
+#: public/index.html
+msgid "Collections list"
 msgstr ""
 
 #: public/partials/login/reset.html
 msgid "Confirm Password:"
 msgstr ""
 
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "Confirm new password"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+msgid "Department"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+msgid "Department manager"
+msgstr ""
+
+#: public/partials/admin/department-edit.html
+msgid "Department name"
+msgstr ""
+
+#: public/index.html
+msgid "Departments list"
+msgstr ""
+
+#: public/partials/admin/collections.html
+#: public/partials/admin/departments.html
+#: public/partials/admin/users.html
+msgid "Edit"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "Email"
+msgstr ""
+
 #: public/partials/login/forgot.html
 msgid "Enter Your Email:"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "Firstname"
 msgstr ""
 
 #: public/partials/login.html
@@ -32,28 +126,59 @@ msgstr ""
 msgid "Forgot Your Password?"
 msgstr ""
 
-#: public/index.html
-msgid "Groups list"
-msgstr ""
-
-#: public/index.html
-msgid "Home"
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "Lastname"
 msgstr ""
 
 #: public/index.html
 msgid "Logout"
 msgstr ""
 
+#: public/index.html
+msgid "My requests"
+msgstr ""
+
+#: public/index.html
+msgid "My vacations"
+msgstr ""
+
 #: public/partials/login/reset.html
 msgid "New Password:"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "New password"
+msgstr ""
+
+#: public/partials/user/settings.html
+msgid "Notifications parameters"
+msgstr ""
+
+#: public/partials/user/settings.html
+msgid "Notify me when a request is accepted or rejected"
+msgstr ""
+
+#: public/partials/user/settings.html
+msgid "Notify me when new vacation rights are opened or closed for my account"
 msgstr ""
 
 #: public/partials/login.html
 msgid "Or sign in using..."
 msgstr ""
 
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "Password Strength:"
+msgstr ""
+
 #: public/partials/login.html
 msgid "Password:"
+msgstr ""
+
+#: public/index.html
+msgid "Request a vacation period"
 msgstr ""
 
 #: public/index.html
@@ -68,8 +193,35 @@ msgstr ""
 msgid "Right types"
 msgstr ""
 
+#: public/partials/admin/user-edit.html
+msgid "Rights collection"
+msgstr ""
+
 #: public/index.html
 msgid "Rights configuration"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+msgid "Roles:"
+msgstr ""
+
+#: public/partials/admin/collection-edit.html
+#: public/partials/admin/department-edit.html
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "Save"
+msgstr ""
+
+#: public/partials/admin/collections.html
+msgid "Search in collections"
+msgstr ""
+
+#: public/partials/admin/departments.html
+msgid "Search in departments"
+msgstr ""
+
+#: public/partials/admin/users.html
+msgid "Search in users"
 msgstr ""
 
 #: public/partials/login/forgot.html
@@ -80,12 +232,38 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
+msgid "Set a new password"
+msgstr ""
+
 #: public/index.html
 msgid "Settings"
 msgstr ""
 
+#: public/index.html
 #: public/partials/login.html
 msgid "Sign In"
+msgstr ""
+
+#: public/index.html
+msgid "Sign up"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+msgid "The user can have vacations rights, absences requests, time saving account ..."
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+msgid "The user can manager other users and departments, the application parameters ..."
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+msgid "The user is allowed to log in"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+msgid "The user may be involved in the validation of requests by the members of his deparment"
 msgstr ""
 
 #: public/partials/home.html
@@ -106,8 +284,4 @@ msgstr ""
 
 #: public/index.html
 msgid "Vacation rights"
-msgstr ""
-
-#: public/index.html
-msgid "Vacations"
 msgstr ""

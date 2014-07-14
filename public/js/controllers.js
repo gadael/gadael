@@ -1,9 +1,9 @@
-define(['angular', 'services', 'angularBootstrap'], function (angular) {
+define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 	'use strict';
 
 	/* Controllers */
 	
-	return angular.module('inga.controllers', ['inga.services', 'ui.bootstrap'])
+	return angular.module('inga.controllers', ['inga.services'])
 
 		// Sample controller where service is being used
 		.controller('MyCtrl1', ['$scope', 'version', function ($scope, version) {
@@ -138,6 +138,14 @@ define(['angular', 'services', 'angularBootstrap'], function (angular) {
 		
 		.controller('Signup', ['$scope', '$injector', function($scope, $injector) {
 			require(['controllers/signup'], function(signup) {
+				$injector.invoke(signup, this, {'$scope': $scope});
+			});
+		}])
+		
+		
+		
+		.controller('UserSettings', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/user/settings'], function(signup) {
 				$injector.invoke(signup, this, {'$scope': $scope});
 			});
 		}]);

@@ -68,6 +68,12 @@ define(['angular', 'app'], function(angular, app) {
 		
 		// user pages
 		
+		$routeProvider.when('/user/settings', {
+			templateUrl: 'partials/user/settings.html',
+			controller: 'UserSettings'
+		});
+		
+		
 		// departments pages
 		
 		

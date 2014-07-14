@@ -27,7 +27,8 @@ require.config({
 		'angularBootstrap': ['angular', 'bootstrap'],
 		'angularGettext' : ['angular', 'jquery'],
 		'translation': ['angularGettext'],
-		'paginateAnything': ['angular']
+		'paginateAnything': ['angular'],
+		'passwordStrength': ['angular']
 	},
 	priority: ["angular"]
 });

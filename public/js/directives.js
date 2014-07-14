@@ -44,7 +44,7 @@ define(['angular', 'services'], function(angular, services) {
 			
 			var main = jQuery(elem);
 			
-			scope.$on('event:auth-loginRequired', function() {
+			var unregister = scope.$on('event:auth-loginRequired', function() {
 				
 				var login = jQuery('.inga-auth-form');
 				if (login.length == 0)
@@ -59,6 +59,7 @@ define(['angular', 'services'], function(angular, services) {
 				login.show();
 				main.hide();
 				
+				unregister();
 			});
 
 			scope.$on('event:auth-loginConfirmed', function() {
