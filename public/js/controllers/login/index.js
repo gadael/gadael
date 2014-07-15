@@ -1,10 +1,8 @@
-define(['jquery'], function() {
+define([], function() {
 	return ['$scope', '$http', 'authService', '$rootScope', '$location', function($scope, $http, authService, $rootScope, $location) {
 		
 		$scope.submit = function() {
-			
-			console.log('Submit');
-			
+
 			$http.post('rest/login', { 
 				username: $scope.username, 
 				password: $scope.password 
@@ -22,7 +20,7 @@ define(['jquery'], function() {
 					// update the main menu
 					$rootScope.reloadSession();
 					
-					if (jQuery('[inga-auth]').is(':visible'))
+					if (angular.element('[inga-auth]').is(':visible'))
 					{
 						// redirect
 						$location.path("/");
@@ -33,8 +31,8 @@ define(['jquery'], function() {
 						authService.loginConfirmed();
 						
 						// hide the login form if displayed because of a 401 status on HTTP request
-						jQuery('[inga-auth]').show();
-						jQuery('.inga-auth-form').hide();
+						angular.element(document.querySelector('[inga-auth]')).css('display', 'block');
+						angular.element(document.querySelector('.inga-auth-form')).css('display', 'none');
 					}
 					
 					
@@ -48,7 +46,7 @@ define(['jquery'], function() {
 				
 				for (var fieldname in data.errfor)
 				{
-					jQuery('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
+					angular.element('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
 				}
 			});
 	    }

@@ -35,4 +35,5 @@ models.load = function() {
 	require('./schema/Request')(requirements);
   
 	require('./schema/RightCollection')(requirements);
+	require('./schema/Type')(requirements);
 };

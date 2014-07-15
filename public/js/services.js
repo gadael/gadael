@@ -1,4 +1,4 @@
-define(['angular', 'jquery', 'angularResource'], function (angular) {
+define(['angular',  'angularResource'], function (angular) {
 	'use strict';
 	
 	/* Services */
@@ -36,80 +36,7 @@ define(['angular', 'jquery', 'angularResource'], function (angular) {
 	}])
 	
 	
-	/**
-	 * Save item to rest path (ex: edit form)
-	 * Use a post http request if _id does not exists on item, for creation
-	 * Use a put http request if _id exists on the item, for modification
-	  
-	.factory('saveItem', ['$http', '$rootScope', function($http, $rootScope) {
-		
-		return function(path, item) {
-			
-			if (item._id)
-			{
-				path += '/'+item._id;
-				delete item._id;
-				var httpQuery = $http.put(path, item);
-				
-			} else {
-				var httpQuery = $http.post(path, item);
-			}
-
-			httpQuery.success(function(data) {
-			
-				$rootScope.pageAlerts = data.alert;
-				if (data.success)
-				{
-					// saved
-				}
-			})
-			
-			.error(function(data) {
-				// receive 400 bad request on missing parameters
-				
-				$rootScope.pageAlerts = data.alert;
-				
-				for (var fieldname in data.errfor)
-				{
-					jQuery('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
-				}
-			});
-		};
-	}])
-	*/
 	
-	/**
-	 * Load Json from rest path (ex: edit form)
-	 * forward the path parameters in the current angular url
-	 * to the path parameter of the rest service
-	 * the two routes must use the same path parameter
-	 * if a parmeter has not been found, the service do nothing (ex: object creation url)
-	  
-	.factory('loadItem', ['$http', '$routeParams', '$rootScope', function($http, $routeParams, $rootScope) {
-		
-		return function(path, callback) {
-			
-			var newpath = path.replace(/:(\w+)/g, function(match, p1) {
-				if ($routeParams[p1])
-				{
-					return $routeParams[p1];
-				} else {
-					return match;
-				}
-			});
-			
-			if (newpath != path)
-			{
-				$http.get(newpath)
-				.success(callback)
-				.error(function(data) {
-					// receive 400 bad request on missing parameters
-					$rootScope.pageAlerts = data.alert;
-				});
-			}
-		};
-	}])
-	*/
 
 
 	/**

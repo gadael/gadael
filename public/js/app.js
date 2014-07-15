@@ -64,17 +64,15 @@ define([
 		});
 
 		$rootScope.$on('$viewContentLoaded', function() {
-			require(['jquery'], function() {
-				
-				// hide the login form and display the loaded page, 
-				// usefull if the user exit from an autorization required page
-				jQuery('[inga-auth]').show();
-				jQuery('.inga-auth-form').hide();
 
-				// select active menu item according to the current path
-				jQuery('.navbar-default').find('a').closest('li').removeClass('active');
-				jQuery('.navbar-default').find('a[href="#'+$location.path()+'"]').closest('li').addClass('active');
-			});
+			// hide the login form and display the loaded page, 
+			// usefull if the user exit from an autorization required page
+			angular.element(document.querySelector('[inga-auth]')).css('display', 'block');
+			angular.element(document.querySelector('.inga-auth-form')).css('display', 'none');
+
+			// select active menu item according to the current path
+			angular.element(document.querySelectorAll('.navbar-default li')).removeClass('active');
+			angular.element(document.querySelector('.navbar-default a[href="#'+$location.path()+'"]')).parent().addClass('active');
 		});
 	}]);
 		

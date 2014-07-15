@@ -10,7 +10,7 @@ define(['angular', 'angularGettext', 'translation'], function (angular, angularG
 	
 	var app = angular.module('inga.gettext', ['gettext']);
 	
-	//var lang = jQuery('html').attr('lang'); 
+	//var lang = angular.element('html').attr('lang'); 
 	var lang = navigator.language || navigator.userLanguage;
 	
 	switch(lang)

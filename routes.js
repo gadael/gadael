@@ -32,6 +32,11 @@ exports = module.exports = function(app, passport) {
 	app.get('/rest/admin/collections/:id'	, require('./rest/admin/collections').getItem);
 	app.post('/rest/admin/collections'		, require('./rest/admin/collections').save);
 	app.put('/rest/admin/collections/:id'	, require('./rest/admin/collections').save);
+	
+	app.get('/rest/admin/types'				, require('./rest/admin/types').getList);
+	app.get('/rest/admin/types/:id'			, require('./rest/admin/types').getItem);
+	app.post('/rest/admin/types'			, require('./rest/admin/types').save);
+	app.put('/rest/admin/types/:id'			, require('./rest/admin/types').save);
 
 	
 	app.post('/rest/login', require('./rest/login').authenticate);

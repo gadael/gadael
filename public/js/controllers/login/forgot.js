@@ -1,4 +1,4 @@
-define(['jquery'], function() {
+define([], function() {
 	return ['$scope', '$http', 'authService', '$rootScope', function($scope, $http, authService, $rootScope) {
 		
 		$scope.submit = function() {
@@ -22,7 +22,7 @@ define(['jquery'], function() {
 				
 				for (var fieldname in data.errfor)
 				{
-					jQuery('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
+					angular.element('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
 				}
 			});
 	    }

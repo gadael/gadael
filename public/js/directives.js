@@ -42,16 +42,16 @@ define(['angular', 'services'], function(angular, services) {
 			//once Angular is started, remove class:
 			//elem.removeClass('waiting-for-angular');
 			
-			var main = jQuery(elem);
+			var main = angular.element(elem);
 			
 			var unregister = scope.$on('event:auth-loginRequired', function() {
 				
-				var login = jQuery('.inga-auth-form');
+				var login = angular.element('.inga-auth-form');
 				if (login.length == 0)
 				{
 					login = angular.element('<div><div class="inga-auth-form container" ng-include="\'partials/login.html\'"></div></div>');
 					$compile(login.contents())(scope);
-					login = jQuery(login[0]);
+					login = angular.element(login[0]);
 					login.hide();
 					main.parent().append(login);
 				}
@@ -64,7 +64,7 @@ define(['angular', 'services'], function(angular, services) {
 
 			scope.$on('event:auth-loginConfirmed', function() {
 				main.show();
-				jQuery('.inga-auth-form').hide();
+				angular.element('.inga-auth-form').hide();
 			});
 		}
 	}]);

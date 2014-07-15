@@ -130,6 +130,12 @@ define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 			});
 		}])
 		
+		.controller('AdminTypeEdit', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/type-edit'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
 		.controller('AdminRights', ['$scope', '$injector', function($scope, $injector) {
 			require(['controllers/admin/rights'], function(admin) {
 				$injector.invoke(admin, this, {'$scope': $scope});
