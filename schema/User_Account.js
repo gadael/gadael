@@ -32,7 +32,12 @@ exports = module.exports = function(params) {
     userCreated: {											// the user who create this account
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
       name: { type: String, default: '' }
-    }
+    },
+    
+    notify: {
+		approvals: { type: Boolean, default: false },
+		allocations: { type: Boolean, default: false }
+	}
   });
   
   accountSchema.index({ user: 1 });

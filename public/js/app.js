@@ -27,7 +27,8 @@ define([
 		'inga.gettext',
 		'http-auth-interceptor',
 		'begriffs.paginate-anything',
-		'vr.directives.passwordStrength.width'
+		'vr.directives.passwordStrength.width',
+		'ui.bootstrap.dropdown'
 	]);
 
 	

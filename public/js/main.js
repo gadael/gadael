@@ -22,9 +22,7 @@ require.config({
 		},
 		'angularResource': ['angular'],
 		'angularAuth':['angular'],
-	//	'jquery': {'exports' : 'jquery'},
 		'bootstrap': ['angular'],
-	//	'angularBootstrap': ['angular', 'bootstrap'],
 		'angularGettext' : ['angular'],
 		'translation': ['angularGettext'],
 		'paginateAnything': ['angular'],
@@ -43,7 +41,8 @@ window.name = "NG_DEFER_BOOTSTRAP!";
 require( [
 	'angular',
 	'app',
-	'routes'
+	'routes',
+	'bootstrap'
 	], 
 	function(angular, app, routes) {
 	
@@ -52,11 +51,5 @@ require( [
 			angular.resumeBootstrap([app['name']]);
 		});	
 	});
-
-
-require(['bootstrap'], function(bootstrap) {
-	// bootstrap is loaded
-});
-
 
 
