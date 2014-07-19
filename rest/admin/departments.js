@@ -54,12 +54,7 @@ exports.save = function(req, res) {
 		
 		workflow.on('validate', function() {
 
-			if (!req.body.name) {
-			  workflow.outcome.errfor.name = 'required';
-			  workflow.httpstatus = 400; // Bad Request
-			}
-			
-			if (workflow.hasErrors()) {
+			if (workflow.needRequiredFields(['name'])) {
 			  return workflow.emit('response');
 			}
 

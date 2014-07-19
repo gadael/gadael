@@ -48,10 +48,32 @@ define(['angular',  'angularResource'], function (angular) {
 		
 		return function(collectionPath)
 		{
-			var ingaSave = function() {
-				this.$save(function(data) {
-					// receive 400 bad request on missing parameters
+			var ingaSave = function(nextaction) {
+				
+				var p = this.$save()
+				.catch()
+				.then(function(data) {
+
 					$rootScope.pageAlerts = data.alert;
+					
+					if (nextaction && data.success) {
+						nextaction();
+					}
+				},
+				function(badRequest) {
+					
+					var data = badRequest.data;
+					
+					$rootScope.pageAlerts = data.alert;
+
+					// receive 400 bad request on missing parameters
+					// mark required fields
+					
+					for(var fname in data.errfor) {
+						if ('required' === data.errfor[fname]) {
+							angular.element(document.querySelector('[ng-model$='+fname+']')).parent().addClass('has-error');
+						}
+					}
 				});
 			};
 			

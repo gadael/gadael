@@ -9,8 +9,7 @@ define([], function() {
 		}
 		
 		$scope.saveCollection = function() {
-			$scope.collection.ingaSave();
-			$scope.back();
+			$scope.collection.ingaSave($scope.back);
 	    }
 	}];
 });

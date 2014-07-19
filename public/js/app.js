@@ -59,10 +59,24 @@ define([
 			});
 		}
 		
+		$rootScope.closeAlert = function(index) {
+			$rootScope.pageAlerts.splice(index, 1);
+		};
+		
+		
 		$rootScope.$on('$routeChangeStart', function(next, current) { 
 			// reset alert messages on page change
-			$rootScope.pageAlerts = [];
+			
+			setTimeout(function() {
+				
+				// the message stay on page because the bind is broken
+				// it will not be displayed on the next page change
+				
+				$rootScope.pageAlerts = [];
+			}, 2000);
+			
 		});
+		
 
 		$rootScope.$on('$viewContentLoaded', function() {
 

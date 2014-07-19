@@ -15,8 +15,6 @@ exports = module.exports = function(app, passport) {
 		  email: username
 	  };
 	  
-	  app.db.models.User.find(function(err, all) { console.log(all); });
-
       app.db.models.User.findOne(conditions, function(err, user) {
         if (err) {
           return done(err);

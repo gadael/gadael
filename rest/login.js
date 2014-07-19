@@ -12,17 +12,7 @@ exports.authenticate = function(req, res) {
 
 	  workflow.on('validate', function() {
 
-		if (!req.body.username) {
-		  workflow.outcome.errfor.username = 'required';
-		  workflow.httpstatus = 400; // Bad Request
-		}
-
-		if (!req.body.password) {
-		  workflow.outcome.errfor.password = 'required';
-		  workflow.httpstatus = 400; // Bad Request
-		}
-
-		if (workflow.hasErrors()) {
+		if (workflow.needRequiredFields(['username', 'password'])) {
 		  return workflow.emit('response');
 		}
 

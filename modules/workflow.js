@@ -48,6 +48,26 @@ exports = module.exports = function(req, res) {
 	  
     return false;
   };
+  
+  /**
+   * Test required fields in req.body
+   * @return bool
+   */  
+  workflow.needRequiredFields = function(list) {
+
+	  
+	 for(var i=0; i<list.length; i++)
+	 {
+		if (!req.body[list[i]]) {
+			workflow.outcome.errfor[list[i]] = 'required';
+			workflow.httpstatus = 400; // Bad Request
+		}
+	 }
+	 
+	 return this.hasErrors();
+  };
+  
+  
 
   workflow.on('exception', function(err) {
     workflow.outcome.alert.push({ type:'danger' ,message: err});
