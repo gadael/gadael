@@ -1,7 +1,7 @@
 
 
-.inga-list-rows {
-	padding:1em 0;
+.inga-list-rows .row:first-child {
+	border-top:#ccc 1px dotted;
 }
 
 .inga-list-rows .row {
@@ -10,13 +10,11 @@
 }
 
 .paginate-anything ul {
-	padding-top:0;
-	margin-top:0;
+    margin: 0;
+    padding: 0;
 }
 
-.inga-list-header button {
-	margin-bottom:1em;
-}
+
 
 
 
@@ -29,3 +27,16 @@
 .top40 { margin-top:40px; }
 .top50 { margin-top:50px; }
 .top60 { margin-top:60px; }
+
+
+.inga-list-header {
+	background-image: linear-gradient(to bottom, #eee 0px, #f8f8f8 100%);
+    background-repeat: repeat-x;
+    border-radius: 6px 6px 0 0;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    padding:0;
+}
+
+.inga-list-header>* {
+	margin:.8em 0;
+}
