@@ -9,8 +9,7 @@ define([], function() {
 		}
 		
 		$scope.saveDepartment = function() {
-			$scope.department.ingaSave();
-			$scope.back();
+			$scope.department.ingaSave($scope.back);
 	    }
 	}];
 });

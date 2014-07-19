@@ -13,8 +13,7 @@ define([], function() {
 		
 		
 		$scope.saveUser = function() {
-			$scope.user.ingaSave();
-			$scope.cancel();
+			$scope.user.ingaSave($scope.cancel);
 	    }
 	}];
 });
