@@ -1,0 +1,79 @@
+
+
+<form role="form" name="userSettings">
+	
+	
+
+	
+	<div class="row">
+	
+		
+		<h3 translate>Account parameters</h3>
+		
+		
+		<div class="form-group col-md-6">
+			<label for="user_firstname" translate>Firstname</label>
+			<input type="text" class="form-control" id="user_firstname" ng-model="user.firstname" ng-required="true" />
+		</div>
+		
+		<div class="form-group col-md-6">
+			<label for="user_lastname" translate>Lastname</label>
+			<input type="text" class="form-control" id="user_lastname" ng-model="user.lastname" ng-required="true" />
+		</div>
+	  
+		<div class="form-group col-md-12">
+			<label for="user_email" translate>Email</label>
+			<input type="text" class="form-control" id="user_email" ng-model="user.email" />
+		</div>
+		
+		
+		<div class="form-group col-md-12">
+			<input type="checkbox" id="user_setpassword" ng-model="user.setpassword" />
+			<label for="user_setpassword" translate>Set a new password</label>
+		</div>
+		
+		<div ng-if="user.setpassword" ng-class="{true:'', false:'has-error'}[user.newpassword==user.newpassword2]">
+		
+			<div class="form-group col-md-4">
+				<label for="user_newpassword" translate>New password</label>
+				<input type="password" class="form-control" id="user_newpassword" ng-model="user.newpassword" />
+			</div>
+			
+			<div class="form-group col-md-4">
+				<label for="user_newpassword2" translate>Confirm new password</label>
+				<input type="password" class="form-control" id="user_newpassword2" ng-model="user.newpassword2" />
+			</div>
+			<div class="col-md-3 top30">
+				<small translate>Password Strength:</small><br />
+				<div style="border:#ccc 1px solid;padding:0;">
+					<div pw-width="{{ user.newpassword }}" style="background:green;height:5px;"></div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+	<div class="row top30" ng-if="user.role.account">
+		<h3 translate>Notifications parameters</h3>
+	
+		<div class="form-group col-md-12">
+			<input type="checkbox" id="notify_approvals" ng-model="user.notify.approvals" />
+			<label for="notify_approvals" translate>Notify me when a request is accepted or rejected</label>
+		</div>
+		
+		
+		<div class="form-group col-md-12">
+			<input type="checkbox" id="notify_allocations" ng-model="user.notify.allocations" />
+			<label for="notify_allocations" translate>Notify me when new vacation rights are opened or closed for my account</label>
+		</div>
+	</div>
+	
+	
+	<div class="row top30">
+		<button class="btn btn-primary" ng-click="userEdit.$valid && saveUser()" translate>Save</button> 
+		<button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+	</div>
+	
+
+</form>
