@@ -74,10 +74,7 @@ exports.getItem = function (req, res) {
 		.findOne({ '_id' : req.params.id}, 'lastname firstname email isActive department')
 		.populate('roles.account')
 		.exec(function(err, user) {
-			if (err)
-			{
-				return workflow.emit('exception', err.message);
-			}
+			workflow.handleMongoError(err);
 			
 			res.json(user);
 		});
@@ -87,5 +84,96 @@ exports.getItem = function (req, res) {
 
 
 exports.save = function (req, res) {
-	res.json({});
+	req.ensureAdmin(req, res, function() {
+		var gt = req.app.utility.gettext;
+		var workflow = req.app.utility.workflow(req, res);
+		var User = req.app.db.models.User;
+		
+		workflow.on('validate', function() {
+
+			if (workflow.needRequiredFields(['firstname lastname email'])) {
+			  return workflow.emit('response');
+			}
+
+			workflow.emit('save');
+		});
+		
+		
+		/**
+		 * Update/create the user document
+		 */  
+		workflow.on('save', function() {
+
+			if (req.params.id)
+			{
+				workflow.outcome.document = req.params.id;
+				
+				User.findById(req.params.id, function (err, user) {
+					workflow.handleMongoError(err);
+				  
+					user.firstname = req.body.firstname;
+					user.lastname = req.body.lastname;
+					user.email = req.body.email;
+					
+					user.save(function (err) {
+						workflow.handleMongoError(err);
+						
+						workflow.outcome.alert.push({
+							type: 'success',
+							message: gt.gettext('The user has been modified')
+						});
+						
+						workflow.emit('saveRoles');
+					});
+				});
+				
+			} else {
+				
+				User.create({
+					firstname: req.body.firstname,
+					lastname: req.body.lastname,
+					email: req.body.email,
+				}, function(err, user) {
+					
+					workflow.handleMongoError(err);
+					
+					
+					workflow.outcome.document = user._id;
+					
+					workflow.outcome.alert.push({
+						type: 'success',
+						message: gt.gettext('The user has been created')
+					});
+
+					workflow.emit('saveRoles');
+				});
+			}
+		});
+		
+		
+		
+		workflow.on('saveRoles', function() {
+			
+			if (!workflow.outcome.document)
+			{
+				return workflow.emit('exception', 'No user document to save roles on');
+			}
+			
+			
+			var removeOrUpdate = function(checkedRole, model, updateCallback) {
+				if (checkedRole) {
+					// if exists, update, else create
+					
+					model.findById(workflow.outcome.document, function(err, role) {
+						//TODO
+					});
+				}
+			};
+			
+		});
+		
+		
+		
+		workflow.emit('validate');
+	});
 };

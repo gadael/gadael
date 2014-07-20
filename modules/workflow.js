@@ -12,7 +12,7 @@
  * success: workflow result
  * alert: a list of message with { type: 'success|info|warning|danger' message: '' } type is one of bootstrap alert class
  * errfor: name of fields to highlight to client (empty value)
- * 
+ * document: reference to the processed document (id or object)
  * 
  * @return EventEmitter
  */ 
@@ -24,7 +24,8 @@ exports = module.exports = function(req, res) {
   workflow.outcome = {
     success: false,
     alert: [], 
-    errfor: {}
+    errfor: {},
+    document: null
   };
 
 
@@ -67,17 +68,28 @@ exports = module.exports = function(req, res) {
 	 return this.hasErrors();
   };
   
+  /**
+   * emit exception if parameter contain a mongoose error
+   */  
+  workflow.handleMongoError = function(err) {
+	  if (err) {
+		  return workflow.emit('exception', err.err);
+	  }
+  };
   
 
   workflow.on('exception', function(err) {
     workflow.outcome.alert.push({ type:'danger' ,message: err});
     return workflow.emit('response');
   });
+  
 
   workflow.on('response', function() {
     workflow.outcome.success = !workflow.hasErrors();
     res.status(workflow.httpstatus).send(workflow.outcome);
   });
+  
+  
 
   return workflow;
 };
