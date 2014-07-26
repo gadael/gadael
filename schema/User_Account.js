@@ -27,7 +27,7 @@ exports = module.exports = function(params) {
     },
     statusLog: [mongoose.modelSchemas.StatusLog],
     
-    accountCollection: [mongoose.modelSchemas.AccountCollection],
+    accountCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'AccountCollection' },
     
     userCreated: {											// the user who create this account
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

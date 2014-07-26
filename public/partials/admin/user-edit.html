@@ -34,13 +34,14 @@
 			<input type="text" class="form-control" id="user_email" ng-model="user.email" />
 		</div>
 		
-		<div ng-if="user.isAccount">
-			<div class="col-md-6 form-group">
-				<label for="user_department" translate>Department</label>
-				<select class="form-control" id="user_department" ng-model="user.department" ng-options="department._id as department.name for department in departments">
-				</select>
-			</div>
-			
+		
+		<div class="col-md-6 form-group">
+			<label for="user_department" translate>Department</label>
+			<select class="form-control" id="user_department" ng-model="user.department" ng-options="department._id as department.name for department in departments">
+			</select>
+		</div>
+		
+		<div ng-if="user.isAccount">	
 			<div class="col-md-6 form-group">
 				<label for="user_accountCollection" translate>Rights collection</label>
 				<select class="form-control" id="user_accountCollection" ng-model="user.roles.account.accountCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections">

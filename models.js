@@ -30,6 +30,7 @@ models.load = function() {
 	require('./schema/User')(requirements);
 	require('./schema/User_Admin')(requirements);
 	require('./schema/User_Account')(requirements);
+	require('./schema/User_Manager')(requirements);
 	require('./schema/Department')(requirements);
 	require('./schema/LoginAttempt')(requirements);
 	require('./schema/Request')(requirements);

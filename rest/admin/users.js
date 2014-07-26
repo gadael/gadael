@@ -71,11 +71,12 @@ exports.getItem = function (req, res) {
 		var workflow = req.app.utility.workflow(req, res);
 		
 		req.app.db.models.User
-		.findOne({ '_id' : req.params.id}, 'lastname firstname email isActive department')
+		.findOne({ '_id' : req.params.id}, 'lastname firstname email isActive department roles')
 		.populate('roles.account')
+		.populate('roles.admin')
+		.populate('roles.manager')
 		.exec(function(err, user) {
 			workflow.handleMongoError(err);
-			
 			res.json(user);
 		});
 	
@@ -89,9 +90,11 @@ exports.save = function (req, res) {
 		var workflow = req.app.utility.workflow(req, res);
 		var User = req.app.db.models.User;
 		
+		var userDocument = null;
+		
 		workflow.on('validate', function() {
 
-			if (workflow.needRequiredFields(['firstname lastname email'])) {
+			if (workflow.needRequiredFields(['firstname', 'lastname',  'email'])) {
 			  return workflow.emit('response');
 			}
 
@@ -123,6 +126,8 @@ exports.save = function (req, res) {
 							message: gt.gettext('The user has been modified')
 						});
 						
+						userDocument = user;
+						
 						workflow.emit('saveRoles');
 					});
 				});
@@ -139,6 +144,7 @@ exports.save = function (req, res) {
 					
 					
 					workflow.outcome.document = user._id;
+					userDocument = user;
 					
 					workflow.outcome.alert.push({
 						type: 'success',
@@ -160,16 +166,110 @@ exports.save = function (req, res) {
 			}
 			
 			
-			var removeOrUpdate = function(checkedRole, model, updateCallback) {
-				if (checkedRole) {
-					// if exists, update, else create
+			var removeOrUpdate = function(checkedRole, model, userReference, updateCallback, noRoleCallback) {
+				
+
+				var promise = model.find({ user: { id: workflow.outcome.document }}).exec();
+				
+				promise.then(function(roles) {
 					
-					model.findById(workflow.outcome.document, function(err, role) {
-						//TODO
-					});
-				}
+					if (0 === roles.length) {
+						
+						if (checkedRole) {
+							var role = new model();
+							role.user = {
+								id: workflow.outcome.document,
+								name: userDocument.lastname+' '+userDocument.firstname
+							};
+							userReference = role._id;
+							
+							updateCallback(role);
+							return;
+						}
+						
+					} else if (1 <= roles.length) {
+						
+						if (checkedRole) {
+							updateCallback(roles[0]);
+							return;
+						} else {
+							userReference = undefined;
+							roles.forEach(function(role) { 
+								role.remove();
+								
+							});
+						}
+					}
+					
+					noRoleCallback();
+					
+					
+				}, function (err) {
+					workflow.handleMongoError(err);
+					noRoleCallback();
+				});
+		
 			};
 			
+			
+			require('async').parallel([
+				function(asyncTaskEnd) {
+					
+					console.log('removeOrUpdate(isAccount');
+					
+					removeOrUpdate(req.body.isAccount, req.app.db.models.Account, userDocument.roles.account, function(role) {
+						
+						if (req.body.roles && req.body.roles.account) {
+							role.accountCollection = req.body.roles.account.accountCollection;
+						}
+						
+						role.save(
+							function(err) {
+								workflow.handleMongoError(err);
+								asyncTaskEnd(null, 'account');
+							}
+						);
+					}, function() {
+						asyncTaskEnd(null, 'account');
+					});
+				},
+				
+				function(asyncTaskEnd) {
+					removeOrUpdate(req.body.isAdmin, req.app.db.models.Admin, userDocument.roles.admin, function(role) {
+						
+						role.save(
+							function(err) {
+								workflow.handleMongoError(err);
+								asyncTaskEnd(null, 'admin');
+							}
+						);
+					}, function() {
+						asyncTaskEnd(null, 'admin');
+					});
+				},
+				
+				function(asyncTaskEnd) {
+					removeOrUpdate(req.body.isManager, req.app.db.models.Manager, userDocument.roles.manager, function(role) {
+						
+						role.save(
+							function(err) {
+								workflow.handleMongoError(err);
+								asyncTaskEnd(null, 'manager');
+							}
+						);
+					}, function() {
+						asyncTaskEnd(null, 'manager');
+					});
+				}],
+				
+				function updateUserWithSavedRoles(err, results) {
+					
+					userDocument.save(function(err) {
+						workflow.handleMongoError(err);
+						workflow.emit('response');
+					});
+				}
+			);
 		});
 		
 		
