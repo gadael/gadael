@@ -37,4 +37,6 @@ models.load = function() {
   
 	require('./schema/RightCollection')(requirements);
 	require('./schema/Type')(requirements);
+	
+	require('./schema/Calendar')(requirements);
 };

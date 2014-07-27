@@ -5,10 +5,11 @@
  * 
  * can be associated to:
  * 	- vacation requests elements (quantity + right + absence request)
- *  - workshedules (external url provide source as ICS, stored here for cache)
+ *  - workschedules (external url provide source as ICS, stored here for cache)
  *  - non working days (external url provide source as ICS, stored here for cache)
  * 
- * 
+ *  ics link to a calendar (workschedule or non working days)
+ *  user.id link to to vacation entry owner
  */
 exports = module.exports = function(params) {
 	
@@ -19,7 +20,11 @@ exports = module.exports = function(params) {
 		dtend: { type: Date, required: true },
 		rrule: { type: String },
 		ics: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarIcs' },
-		absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' },
+		user: {
+			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+			name: { type: String, default: '' },
+			absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }
+		},
 		timeCreated: { type: Date, default: Date.now }
 	});
 

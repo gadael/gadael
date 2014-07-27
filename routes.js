@@ -33,6 +33,11 @@ exports = module.exports = function(app, passport) {
 	app.post('/rest/admin/collections'		, require('./rest/admin/collections').save);
 	app.put('/rest/admin/collections/:id'	, require('./rest/admin/collections').save);
 	
+	app.get('/rest/admin/calendars'			, require('./rest/admin/calendars').getList);
+	app.get('/rest/admin/calendars/:id'		, require('./rest/admin/calendars').getItem);
+	app.post('/rest/admin/calendars'		, require('./rest/admin/calendars').save);
+	app.put('/rest/admin/calendars/:id'		, require('./rest/admin/calendars').save);
+	
 	app.get('/rest/admin/types'				, require('./rest/admin/types').getList);
 	app.get('/rest/admin/types/:id'			, require('./rest/admin/types').getItem);
 	app.post('/rest/admin/types'			, require('./rest/admin/types').save);

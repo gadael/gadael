@@ -124,6 +124,18 @@ define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 			});
 		}])
 		
+		.controller('AdminCalendars', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/calendars'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
+		.controller('AdminCalendarEdit', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/calendar-edit'], function(admin) {
+				$injector.invoke(admin, this, {'$scope': $scope});
+			});
+		}])
+		
 		.controller('AdminTypes', ['$scope', '$injector', function($scope, $injector) {
 			require(['controllers/admin/types'], function(admin) {
 				$injector.invoke(admin, this, {'$scope': $scope});

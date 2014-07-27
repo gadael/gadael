@@ -1,0 +1,42 @@
+
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+		
+		<div class="row inga-list-header">
+			<div class="col-sm-3 text-center">
+				<a ng-href="#/admin/calendar-edit" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add a calendar</span></a>
+			</div>
+			
+			<div class="col-xs-12 col-sm-8 text-center">
+				<begriffs.pagination 
+					per-page="25" 
+					collection="calendars" 
+					url="'/rest/admin/calendars?name='+search.name" 
+					template-url="partials/utils/paginate-anything.html">
+				</begriffs.pagination>
+			</div>
+		</div>
+		
+		
+		<div class="inga-list-rows">
+			<div class="row" ng-repeat="calendar in calendars">
+				<div class="col-md-12">
+					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/calendars/{{calendar._id}}" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+					 &nbsp; {{calendar.name}}
+				</div>
+			</div>
+		</div>
+
+		
+	</div>
+	
+	<div role="search" class="col-xs-12 col-sm-3">
+		
+		<h2><i class="fa fa-search"></i> <span translate>Search in calendars</span></h2>
+		
+		<div class="form-group">
+			<label for="search_name" translate>By name:</label><br />
+			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
+		</div>
+	</div>
+</div>

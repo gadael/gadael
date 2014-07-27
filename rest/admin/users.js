@@ -114,9 +114,10 @@ exports.save = function (req, res) {
 				User.findById(req.params.id, function (err, user) {
 					workflow.handleMongoError(err);
 				  
-					user.firstname = req.body.firstname;
-					user.lastname = req.body.lastname;
-					user.email = req.body.email;
+					user.firstname 	= req.body.firstname;
+					user.lastname 	= req.body.lastname;
+					user.email 		= req.body.email;
+					user.department = req.body.department;
 					
 					user.save(function (err) {
 						workflow.handleMongoError(err);
@@ -166,10 +167,13 @@ exports.save = function (req, res) {
 			}
 			
 			
-			var removeOrUpdate = function(checkedRole, model, userReference, updateCallback, noRoleCallback) {
+			
+			/**
+			 * Remove or update a role for one user
+			 */  
+			var removeOrUpdate = function(checkedRole, model, updateCallback, noRoleCallback) {
 				
-
-				var promise = model.find({ user: { id: workflow.outcome.document }}).exec();
+				var promise = model.find({ 'user.id': workflow.outcome.document }).exec();
 				
 				promise.then(function(roles) {
 					
@@ -181,8 +185,7 @@ exports.save = function (req, res) {
 								id: workflow.outcome.document,
 								name: userDocument.lastname+' '+userDocument.firstname
 							};
-							userReference = role._id;
-							
+
 							updateCallback(role);
 							return;
 						}
@@ -196,7 +199,6 @@ exports.save = function (req, res) {
 							userReference = undefined;
 							roles.forEach(function(role) { 
 								role.remove();
-								
 							});
 						}
 					}
@@ -214,10 +216,8 @@ exports.save = function (req, res) {
 			
 			require('async').parallel([
 				function(asyncTaskEnd) {
-					
-					console.log('removeOrUpdate(isAccount');
-					
-					removeOrUpdate(req.body.isAccount, req.app.db.models.Account, userDocument.roles.account, function(role) {
+
+					removeOrUpdate(req.body.isAccount, req.app.db.models.Account, function(role) {
 						
 						if (req.body.roles && req.body.roles.account) {
 							role.accountCollection = req.body.roles.account.accountCollection;
@@ -226,6 +226,7 @@ exports.save = function (req, res) {
 						role.save(
 							function(err) {
 								workflow.handleMongoError(err);
+								userDocument.roles.account = role._id;
 								asyncTaskEnd(null, 'account');
 							}
 						);
@@ -235,11 +236,12 @@ exports.save = function (req, res) {
 				},
 				
 				function(asyncTaskEnd) {
-					removeOrUpdate(req.body.isAdmin, req.app.db.models.Admin, userDocument.roles.admin, function(role) {
+					removeOrUpdate(req.body.isAdmin, req.app.db.models.Admin, function(role) {
 						
 						role.save(
 							function(err) {
 								workflow.handleMongoError(err);
+								userDocument.roles.admin = role._id;
 								asyncTaskEnd(null, 'admin');
 							}
 						);
@@ -249,11 +251,12 @@ exports.save = function (req, res) {
 				},
 				
 				function(asyncTaskEnd) {
-					removeOrUpdate(req.body.isManager, req.app.db.models.Manager, userDocument.roles.manager, function(role) {
+					removeOrUpdate(req.body.isManager, req.app.db.models.Manager, function(role) {
 						
 						role.save(
 							function(err) {
 								workflow.handleMongoError(err);
+								userDocument.roles.manager = role._id;
 								asyncTaskEnd(null, 'manager');
 							}
 						);

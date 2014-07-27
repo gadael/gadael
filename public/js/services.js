@@ -36,6 +36,34 @@ define(['angular',  'angularResource'], function (angular) {
 	}])
 	
 	
+	/**
+	 * Populate a select box with workschedule calendars
+	 */  
+	.factory('loadWorkschedulesOptions', ['$http', function($http) {
+		
+		return function(scope) {
+			$http.get('/rest/admin/calendars?type=workschedule')
+				.then(function(result) {
+					scope.workschedules = result.data;
+					scope.workschedules.unshift({ name: '', _id:'' });
+			});
+		};
+	}])
+	
+	
+	/**
+	 * Populate a select box with nonworkingday calendars
+	 */  
+	.factory('loadNonWorkingDaysOptions', ['$http', function($http) {
+		
+		return function(scope) {
+			$http.get('/rest/admin/calendars?type=nonworkingday')
+				.then(function(result) {
+					scope.nonworkingdays = result.data;
+					scope.nonworkingdays.unshift({ name: '', _id:'' });
+			});
+		};
+	}])
 	
 
 

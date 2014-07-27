@@ -73,7 +73,8 @@ exports = module.exports = function(req, res) {
    */  
   workflow.handleMongoError = function(err) {
 	  if (err) {
-		  return workflow.emit('exception', err.err);
+		  console.trace(err);
+		  return workflow.emit('exception', err.message);
 	  }
   };
   

@@ -134,6 +134,23 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminCollectionEdit'
 		});
 		
+		
+		$routeProvider.when('/admin/calendars', {
+			templateUrl: 'partials/admin/calendars.html',
+			controller: 'AdminCalendars'
+		});
+		
+		$routeProvider.when('/admin/calendars/:id', {
+			templateUrl: 'partials/admin/calendar-edit.html',
+			controller: 'AdminCalendarEdit'
+		});
+		
+		$routeProvider.when('/admin/calendar-edit', {
+			templateUrl: 'partials/admin/calendar-edit.html',
+			controller: 'AdminCalendarEdit'
+		});
+		
+		
 		$routeProvider.when('/admin/types', {
 			templateUrl: 'partials/admin/types.html',
 			controller: 'AdminTypes'

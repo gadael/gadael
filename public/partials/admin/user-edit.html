@@ -46,6 +46,18 @@
 				<label for="user_accountCollection" translate>Rights collection</label>
 				<select class="form-control" id="user_accountCollection" ng-model="user.roles.account.accountCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections">
 				</select>
+			</div>
+			
+			<div class="col-md-6 form-group">
+				<label for="user_workschedule" translate>Workschedule calendar</label>
+				<select class="form-control" id="user_workschedule" ng-model="user.roles.account.workschedule" ng-options="workschedule._id as workschedule.name for workschedule in workschedules">
+				</select>
+			</div>
+			
+			<div class="col-md-6 form-group">
+				<label for="user_nonworkingday" translate>Non Working days calendar</label>
+				<select class="form-control" id="user_nonworkingday" ng-model="user.roles.account.nonworkingday" ng-options="nonworkingday._id as nonworkingday.name for nonworkingday in nonworkingdays">
+				</select>
 			</div>			
 		</div>
 		
