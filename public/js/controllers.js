@@ -131,8 +131,8 @@ define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 		}])
 		
 		.controller('AdminCalendarEdit', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/calendar-edit'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
+			require(['controllers/admin/calendar-edit'], function(calendarEdit) {
+				$injector.invoke(calendarEdit, this, {'$scope': $scope});
 			});
 		}])
 		

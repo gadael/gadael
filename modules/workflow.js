@@ -73,9 +73,23 @@ exports = module.exports = function(req, res) {
    */  
   workflow.handleMongoError = function(err) {
 	  if (err) {
-		  console.trace(err);
-		  return workflow.emit('exception', err.message);
+		  workflow.httpstatus = 400; // Bad Request
+		  
+		  if (err.errors) {
+			  for(var field in err.errors) {
+				  var e = err.errors[field];
+				  workflow.outcome.errfor[field] = e.type;
+				  workflow.outcome.alert.push({ type:'danger' ,message: e.message});
+			  }
+		  }
+		  
+		  workflow.outcome.alert.push({ type:'danger' ,message: err.message});
+		  workflow.outcome.success = !workflow.hasErrors();
+		  res.status(workflow.httpstatus).send(workflow.outcome);
+		  return false;
 	  }
+	  
+	  return true;
   };
   
 

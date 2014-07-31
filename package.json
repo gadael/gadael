@@ -40,7 +40,8 @@
     "bcrypt": "^0.7.8",
     "i18n-abide": "^0.0.20",
     "node-gettext": "~0.2.14",
-    "marked": "~0.3.2"
+    "marked": "~0.3.2",
+    "ical":"~0.2.0"
   },
   "devDependencies": {
     "karma": "~0.10",

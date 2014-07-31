@@ -1,16 +1,26 @@
 define([], function() {
 
 	return ['$scope', '$location', 'IngaResource', function($scope, $location, IngaResource) {
+		
+		
+		$scope.calendar = IngaResource('rest/admin/calendars').loadRouteId();
 
-		$scope.collection = IngaResource('rest/admin/calendars').loadRouteId();
-
+		if (!$scope.calendar.$promise)
+		{
+			
+			// no promise, new instance
+			$scope.calendar.type = 'workschedule';
+			$scope.$apply();
+		}
+		
 		$scope.back = function() {
 			$location.path('/admin/calendars');
 		}
 		
-		$scope.saveCollection = function() {
-			$scope.collection.ingaSave($scope.back);
+		$scope.saveCalendar = function() {
+			$scope.calendar.ingaSave($scope.back);
 	    }
+	    
 	}];
 });
 

@@ -196,7 +196,6 @@ exports.save = function (req, res) {
 							updateCallback(roles[0]);
 							return;
 						} else {
-							userReference = undefined;
 							roles.forEach(function(role) { 
 								role.remove();
 							});

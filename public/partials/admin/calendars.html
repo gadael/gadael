@@ -11,7 +11,7 @@
 				<begriffs.pagination 
 					per-page="25" 
 					collection="calendars" 
-					url="'/rest/admin/calendars?name='+search.name" 
+					url="'/rest/admin/calendars?name='+search.name+'&type='+search.type" 
 					template-url="partials/utils/paginate-anything.html">
 				</begriffs.pagination>
 			</div>
@@ -37,6 +37,15 @@
 		<div class="form-group">
 			<label for="search_name" translate>By name:</label><br />
 			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
+		</div>
+		
+		<div class="form-group">
+			<label for="search_type" translate>By type:</label><br />
+			<select class="form-control" id="search_type" ng-model="search.type" ng-model-options="{ debounce: 500 }">
+				<option value=""></option>
+				<option value="workschedule">Work schedule</option>
+				<option value="nonworkingday">Nonworking days</option>
+			</select>
 		</div>
 	</div>
 </div>
