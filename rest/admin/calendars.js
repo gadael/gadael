@@ -23,7 +23,7 @@ exports.getList = function (req, res) {
 		};
 		
 		var workflow = req.app.utility.workflow(req, res);
-		var paginate = require('../../modules/paginate');
+		var paginate = require('node-paginate-anything');
 
 		query().count(function(err, total) {
 			
@@ -118,7 +118,10 @@ exports.getItem = function(req, res) {
 		var workflow = req.app.utility.workflow(req, res);
 		
 		req.app.db.models.Calendar.findOne({ '_id' : req.params.id}, 'name url type', function(err, calendar) {
-			workflow.handleMongoError(err) && res.json(calendar);
+			if (workflow.handleMongoError(err))
+			{
+				res.json(calendar);
+			}
 		});
 	});
 };	

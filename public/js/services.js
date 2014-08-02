@@ -113,7 +113,8 @@ define(['angular',  'angularResource'], function (angular) {
 				});
 				
 				item.loadRouteId = function() {
-					return this.get(function(data) {
+					return this.get(function(data, responseHeaders) {
+						console.log(responseHeaders);
 						data.ingaSave = ingaSave;
 					});
 				};

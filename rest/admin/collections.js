@@ -17,7 +17,7 @@ exports.getList = function (req, res) {
 			return find;
 		};
 		
-		var paginate = require('../../modules/paginate');
+		var paginate = require('node-paginate-anything');
 
 		query().count(function(err, total) {
 			

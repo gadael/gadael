@@ -20,7 +20,7 @@ define([], function() {
 					// update the main menu
 					$rootScope.reloadSession();
 					
-					if (angular.element('[inga-auth]').is(':visible'))
+					if ('block' === angular.element(document.querySelector('[inga-auth]')).css('display'))
 					{
 						// redirect
 						$location.path("/");
@@ -46,7 +46,7 @@ define([], function() {
 				
 				for (var fieldname in data.errfor)
 				{
-					angular.element('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
+					angular.element(document.querySelector('input[name="'+fieldname+'"]')).closest('.form-group').addClass('has-error');
 				}
 			});
 	    }
