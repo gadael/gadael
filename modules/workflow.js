@@ -73,6 +73,9 @@ exports = module.exports = function(req, res) {
    */  
   workflow.handleMongoError = function(err) {
 	  if (err) {
+		  
+		  console.trace(err);
+		  
 		  workflow.httpstatus = 400; // Bad Request
 		  
 		  if (err.errors) {

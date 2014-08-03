@@ -76,8 +76,10 @@ exports.getItem = function (req, res) {
 		.populate('roles.admin')
 		.populate('roles.manager')
 		.exec(function(err, user) {
-			workflow.handleMongoError(err);
-			res.json(user);
+			if (workflow.handleMongoError(err))
+			{
+				res.json(user);
+			}
 		});
 	
 	});
@@ -112,25 +114,26 @@ exports.save = function (req, res) {
 				workflow.outcome.document = req.params.id;
 				
 				User.findById(req.params.id, function (err, user) {
-					workflow.handleMongoError(err);
-				  
-					user.firstname 	= req.body.firstname;
-					user.lastname 	= req.body.lastname;
-					user.email 		= req.body.email;
-					user.department = req.body.department;
-					
-					user.save(function (err) {
-						workflow.handleMongoError(err);
+					if (workflow.handleMongoError(err))
+					{
+						user.firstname 	= req.body.firstname;
+						user.lastname 	= req.body.lastname;
+						user.email 		= req.body.email;
+						user.department = req.body.department;
 						
-						workflow.outcome.alert.push({
-							type: 'success',
-							message: gt.gettext('The user has been modified')
+						user.save(function (err) {
+							workflow.handleMongoError(err);
+							
+							workflow.outcome.alert.push({
+								type: 'success',
+								message: gt.gettext('The user has been modified')
+							});
+							
+							userDocument = user;
+							
+							workflow.emit('saveRoles');
 						});
-						
-						userDocument = user;
-						
-						workflow.emit('saveRoles');
-					});
+					}
 				});
 				
 			} else {
@@ -139,20 +142,21 @@ exports.save = function (req, res) {
 					firstname: req.body.firstname,
 					lastname: req.body.lastname,
 					email: req.body.email,
+					department: req.body.department 
 				}, function(err, user) {
 					
-					workflow.handleMongoError(err);
-					
-					
-					workflow.outcome.document = user._id;
-					userDocument = user;
-					
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The user has been created')
-					});
+					if (workflow.handleMongoError(err))
+					{
+						workflow.outcome.document = user._id;
+						userDocument = user;
+						
+						workflow.outcome.alert.push({
+							type: 'success',
+							message: gt.gettext('The user has been created')
+						});
 
-					workflow.emit('saveRoles');
+						workflow.emit('saveRoles');
+					}
 				});
 			}
 		});
@@ -206,8 +210,9 @@ exports.save = function (req, res) {
 					
 					
 				}, function (err) {
-					workflow.handleMongoError(err);
-					noRoleCallback();
+					if (workflow.handleMongoError(err)) {
+						noRoleCallback();
+					}
 				});
 		
 			};
@@ -224,9 +229,10 @@ exports.save = function (req, res) {
 						
 						role.save(
 							function(err) {
-								workflow.handleMongoError(err);
-								userDocument.roles.account = role._id;
-								asyncTaskEnd(null, 'account');
+								if (workflow.handleMongoError(err)) {
+									userDocument.roles.account = role._id;
+									asyncTaskEnd(null, 'account');
+								}
 							}
 						);
 					}, function() {
@@ -239,9 +245,10 @@ exports.save = function (req, res) {
 						
 						role.save(
 							function(err) {
-								workflow.handleMongoError(err);
-								userDocument.roles.admin = role._id;
-								asyncTaskEnd(null, 'admin');
+								if (workflow.handleMongoError(err)) {
+									userDocument.roles.admin = role._id;
+									asyncTaskEnd(null, 'admin');
+								}
 							}
 						);
 					}, function() {
@@ -254,9 +261,10 @@ exports.save = function (req, res) {
 						
 						role.save(
 							function(err) {
-								workflow.handleMongoError(err);
-								userDocument.roles.manager = role._id;
-								asyncTaskEnd(null, 'manager');
+								if (workflow.handleMongoError(err)) {
+									userDocument.roles.manager = role._id;
+									asyncTaskEnd(null, 'manager');
+								}
 							}
 						);
 					}, function() {
@@ -267,8 +275,9 @@ exports.save = function (req, res) {
 				function updateUserWithSavedRoles(err, results) {
 					
 					userDocument.save(function(err) {
-						workflow.handleMongoError(err);
-						workflow.emit('response');
+						if (workflow.handleMongoError(err)) {
+							workflow.emit('response');
+						}
 					});
 				}
 			);

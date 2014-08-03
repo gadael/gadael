@@ -110,7 +110,6 @@ exports = module.exports = function(params) {
 	calendarSchema.methods.getEvents = function(span_start, span_end, callback) {
 		
 		var EventModel = params.db.models.CalendarEvent;
-		var rrule = require('rrule').RRule;
 		var async = require('async');
 		
 		EventModel.find({ 

@@ -66,24 +66,25 @@ exports.save = function(req, res) {
 			if (req.params.id)
 			{
 				rightCollection.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, collection) {
-					workflow.handleMongoError(err);
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The collection has been modified')
-					});
-					
-					workflow.emit('response');
+					if (workflow.handleMongoError(err)) {
+						workflow.outcome.alert.push({
+							type: 'success',
+							message: gt.gettext('The collection has been modified')
+						});
+						
+						workflow.emit('response');
+					}
 				});
 			} else {
 				rightCollection.create(fieldsToSet, function(err, collection) {
-					
-					workflow.handleMongoError(err);
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The collection has been created')
-					});
-					
-					workflow.emit('response');
+					if (workflow.handleMongoError(err)) {
+						workflow.outcome.alert.push({
+							type: 'success',
+							message: gt.gettext('The collection has been created')
+						});
+						
+						workflow.emit('response');
+					}
 				});
 			}
 			
@@ -101,8 +102,9 @@ exports.getItem = function(req, res) {
 		var workflow = req.app.utility.workflow(req, res);
 		
 		req.app.db.models.RightCollection.findOne({ '_id' : req.params.id}, 'name', function(err, collection) {
-			workflow.handleMongoError(err);
-			res.json(collection);
+			if (workflow.handleMongoError(err)) {
+				res.json(collection);
+			}
 		});
 	});
 };	

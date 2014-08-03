@@ -27,14 +27,11 @@ exports = module.exports = function(params) {
     },
     statusLog: [mongoose.modelSchemas.StatusLog],
     
-    // collection of vacation rights
-    accountCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'AccountCollection' },
-    
     // link to the non working days calendar
-    nonWorkingDays: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarIcs' },
+    nonWorkingDays: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
     
     // link to the workschedule calendar
-    workschedule: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarIcs' },
+    workschedule: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
     
 
     userCreated: {											// the user who create this account

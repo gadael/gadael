@@ -42,10 +42,32 @@
 		</div>
 		
 		<div ng-if="user.isAccount">	
-			<div class="col-md-6 form-group">
-				<label for="user_accountCollection" translate>Rights collection</label>
-				<select class="form-control" id="user_accountCollection" ng-model="user.roles.account.accountCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections">
-				</select>
+			
+			<div class="row col-md-12">
+				<div class="col-md-5 form-group">
+					<label for="user_accountCollection" translate>Rights collection</label>
+					<select class="form-control" id="user_accountCollection" ng-model="accountCollection.rightCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections">
+					</select>
+				</div>
+				
+				<div class="col-md-3 form-group">
+					<label for="user_from" translate>From</label>
+					<p class="input-group">
+					  <input type="text" class="form-control" datepicker-popup="'shortDate'" ng-model="from" is-open="opened" ng-required="true" close-text="Close" />
+					  <span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="datePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					  </span>
+					</p>
+				</div>
+				
+				<div class="col-md-3 form-group">
+					<label for="user_accountCollection" translate>To</label>
+					
+				</div>
+				
+				<div class="col-md-1">
+					<button>Remove</button>
+				</div>
 			</div>
 			
 			<div class="col-md-6 form-group">
