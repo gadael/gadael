@@ -41,7 +41,11 @@ define([
 		 */  
 		$rootScope.reloadSession = function() {
 			$http.get('/rest/common').success(function(response) { 
-				$rootScope.user = response.user;
+				
+				for(var prop in response) {
+					$rootScope[prop] = response[prop];
+				}
+
 				$rootScope.user.intAuthenticated = response.user.isAuthenticated ? 1 : 0;
 			});
 			

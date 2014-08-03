@@ -25,12 +25,20 @@ exports.getInfos = function(req, res) {
 		};
 		
 	} else {
-		user = { isAuthenticated: false };
+		user = { 
+			isAuthenticated: false 
+		};
 	}
 
 	res.json({ 
 		lang: lang[0].lang,
-		user: user
+		user: user,
+		date: {
+			short: 'dd-MM-yyyy',
+			long: 'EEEE d MMMM yyyy',
+			shortTime: 'dd-MM-yyyy HH:mm Z',
+			longTime: 'EEEE d MMMM yyyy HH:mm Z'
+		}
 	});
 };
 

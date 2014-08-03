@@ -4,14 +4,14 @@ require.config({
 		angularRoute: 			'../bower_components/angular-route/angular-route',
 		angularMocks: 			'../bower_components/angular-mocks/angular-mocks',
 		angularResource: 		'../bower_components/angular-resource/angular-resource.min',
-		requirejstext: 			'../bower_components/requirejs-text/text',
-    //	jquery: 				'../bower_components/jquery/dist/jquery.min',
-    //	bootstrap: 				'../bower_components/bootstrap/dist/js/bootstrap.min',
+	// TODO: remove from bower.json
+	//	requirejstext: 			'../bower_components/requirejs-text/text',
     	bootstrap:				'../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
+    	angular_frfr:			'../bower_components/angular-i18n/angular-locale_fr-fr',	
     	angularGettext: 		'../bower_components/angular-gettext/dist/angular-gettext',
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',
 		paginateAnything:		'../bower_components/angular-paginate-anything/src/paginate-anything',
-		passwordStrength: 		'../bower_components/angular-password-strength/build/angular-password-strength.min'
+		passwordStrength: 		'../bower_components/angular-password-strength/build/angular-password-strength.min' 
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -26,7 +26,8 @@ require.config({
 		'angularGettext' : ['angular'],
 		'translation': ['angularGettext'],
 		'paginateAnything': ['angular'],
-		'passwordStrength': ['angular']
+		'passwordStrength': ['angular'],
+		'angular_frfr': ['angular']
 	},
 	priority: ["angular"]
 });
@@ -42,7 +43,8 @@ require( [
 	'angular',
 	'app',
 	'routes',
-	'bootstrap'
+	'bootstrap',
+	'angular_frfr'
 	], 
 	function(angular, app, routes) {
 	

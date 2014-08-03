@@ -41,7 +41,9 @@
     "i18n-abide": "^0.0.20",
     "node-gettext": "~0.2.14",
     "marked": "~0.3.2",
-    "ical":"~0.2.0"
+    "ical":"~0.2.0",
+    "rrule":"~2.1.0",
+    "node-paginate-anything":"~0.0.4"
   },
   "devDependencies": {
     "karma": "~0.10",
@@ -64,7 +66,6 @@
     "grunt-pot": "~0.1.2",
     "grunt-jasmine-node": "~0.2.1",
     "jasmine-node": "~1.14.3",
-    "charlatan": "~0.1.9",
-    "node-paginate-anything": "~0.0.3"
+    "charlatan": "~0.1.9"
   }
 }

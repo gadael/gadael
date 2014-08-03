@@ -35,13 +35,15 @@ exports.getList = function (req, res) {
 			}
 			
 			query()
-			.select('name')
+			.select('name type lastUpdate')
 			.sort('name')
 			.limit(p.limit)
 			.skip(p.skip)
 			.exec(function (err, docs) {
-				workflow.handleMongoError(err);
-				res.json(docs);
+				if (workflow.handleMongoError(err))
+				{
+					res.json(docs);
+				}
 			});
 		});
 	});

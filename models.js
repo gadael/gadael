@@ -39,4 +39,5 @@ models.load = function() {
 	require('./schema/Type')(requirements);
 	
 	require('./schema/Calendar')(requirements);
+	require('./schema/CalendarEvent')(requirements);
 };
