@@ -3,6 +3,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: public/partials/admin/calendar-edit.html
+msgid "Absences or vacations requests can not be reserved over these periods"
+msgstr ""
+
 #: public/partials/admin/user-edit.html
 msgid "Absences user account"
 msgstr ""
@@ -19,8 +23,16 @@ msgstr ""
 msgid "Add Department"
 msgstr ""
 
+#: public/partials/admin/types.html
+msgid "Add Type"
+msgstr ""
+
 #: public/partials/admin/users.html
 msgid "Add User"
+msgstr ""
+
+#: public/partials/admin/calendars.html
+msgid "Add a calendar"
 msgstr ""
 
 #: public/index.html
@@ -48,18 +60,38 @@ msgstr ""
 msgid "By department:"
 msgstr ""
 
+#: public/partials/admin/calendars.html
 #: public/partials/admin/collections.html
 #: public/partials/admin/departments.html
+#: public/partials/admin/types.html
 #: public/partials/admin/users.html
 msgid "By name:"
+msgstr ""
+
+#: public/partials/admin/calendars.html
+msgid "By type:"
 msgstr ""
 
 #: public/index.html
 msgid "Calendar"
 msgstr ""
 
+#: public/partials/admin/calendar-edit.html
+msgid "Calendar name"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "Calendar type:"
+msgstr ""
+
+#: public/index.html
+msgid "Calendars list"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
+#: public/partials/admin/type-edit.html
 #: public/partials/admin/user-edit.html
 #: public/partials/user/settings.html
 msgid "Cancel"
@@ -98,8 +130,10 @@ msgstr ""
 msgid "Departments list"
 msgstr ""
 
+#: public/partials/admin/calendars.html
 #: public/partials/admin/collections.html
 #: public/partials/admin/departments.html
+#: public/partials/admin/types.html
 #: public/partials/admin/users.html
 msgid "Edit"
 msgstr ""
@@ -152,6 +186,14 @@ msgstr ""
 msgid "New password"
 msgstr ""
 
+#: public/partials/admin/user-edit.html
+msgid "Non Working days calendar"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "Non working days"
+msgstr ""
+
 #: public/partials/user/settings.html
 msgid "Notifications parameters"
 msgstr ""
@@ -189,6 +231,10 @@ msgstr ""
 msgid "Reset Your Password?"
 msgstr ""
 
+#: public/partials/admin/type-edit.html
+msgid "Right type name"
+msgstr ""
+
 #: public/index.html
 msgid "Right types"
 msgstr ""
@@ -205,11 +251,17 @@ msgstr ""
 msgid "Roles:"
 msgstr ""
 
+#: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
+#: public/partials/admin/type-edit.html
 #: public/partials/admin/user-edit.html
 #: public/partials/user/settings.html
 msgid "Save"
+msgstr ""
+
+#: public/partials/admin/calendars.html
+msgid "Search in calendars"
 msgstr ""
 
 #: public/partials/admin/collections.html
@@ -218,6 +270,10 @@ msgstr ""
 
 #: public/partials/admin/departments.html
 msgid "Search in departments"
+msgstr ""
+
+#: public/partials/admin/types.html
+msgid "Search in right types"
 msgstr ""
 
 #: public/partials/admin/users.html
@@ -270,6 +326,10 @@ msgstr ""
 msgid "This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique."
 msgstr ""
 
+#: public/partials/admin/calendar-edit.html
+msgid "Url of the calendar ICS file"
+msgstr ""
+
 #: public/partials/login.html
 msgid "Username or Email:"
 msgstr ""
@@ -284,4 +344,12 @@ msgstr ""
 
 #: public/index.html
 msgid "Vacation rights"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "Work schedule"
+msgstr ""
+
+#: public/partials/admin/user-edit.html
+msgid "Workschedule calendar"
 msgstr ""

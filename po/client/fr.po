@@ -11,6 +11,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 
+#: public/partials/admin/calendar-edit.html
+msgid "Absences or vacations requests can not be reserved over these periods"
+msgstr ""
+"Les absences et demandes de congés ne peuvent pas êtres réservées sur ces "
+"périodes"
+
 #: public/partials/admin/user-edit.html
 msgid "Absences user account"
 msgstr "Compte utilisateur \"Absences\""
@@ -27,9 +33,17 @@ msgstr "Ajouter un régime"
 msgid "Add Department"
 msgstr "Ajouter un service"
 
+#: public/partials/admin/types.html
+msgid "Add Type"
+msgstr "Ajouter un type"
+
 #: public/partials/admin/users.html
 msgid "Add User"
 msgstr "Ajouter un utilisateur"
+
+#: public/partials/admin/calendars.html
+msgid "Add a calendar"
+msgstr "Ajouter un agenda"
 
 #: public/index.html
 msgid "Admin"
@@ -55,18 +69,37 @@ msgstr "Par régime :"
 msgid "By department:"
 msgstr "Par service :"
 
-#: public/partials/admin/collections.html
-#: public/partials/admin/departments.html public/partials/admin/users.html
+#: public/partials/admin/calendars.html public/partials/admin/collections.html
+#: public/partials/admin/departments.html public/partials/admin/types.html
+#: public/partials/admin/users.html
 msgid "By name:"
 msgstr "Par nom :"
+
+#: public/partials/admin/calendars.html
+msgid "By type:"
+msgstr "Par type :"
 
 #: public/index.html
 msgid "Calendar"
 msgstr "Agenda"
 
+#: public/partials/admin/calendar-edit.html
+msgid "Calendar name"
+msgstr "Nom de l'agenda"
+
+#: public/partials/admin/calendar-edit.html
+msgid "Calendar type:"
+msgstr "Type d'agenda :"
+
+#: public/index.html
+msgid "Calendars list"
+msgstr "Liste des agendas"
+
+#: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
-#: public/partials/admin/user-edit.html public/partials/user/settings.html
+#: public/partials/admin/type-edit.html public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -102,8 +135,9 @@ msgstr "Nom du service"
 msgid "Departments list"
 msgstr "Liste des services"
 
-#: public/partials/admin/collections.html
-#: public/partials/admin/departments.html public/partials/admin/users.html
+#: public/partials/admin/calendars.html public/partials/admin/collections.html
+#: public/partials/admin/departments.html public/partials/admin/types.html
+#: public/partials/admin/users.html
 msgid "Edit"
 msgstr "Modifier"
 
@@ -151,6 +185,14 @@ msgstr "Nouveau mot de passe :"
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
+#: public/partials/admin/user-edit.html
+msgid "Non Working days calendar"
+msgstr "Agenda des jours fériés"
+
+#: public/partials/admin/calendar-edit.html
+msgid "Non working days"
+msgstr "Jours fériés"
+
 #: public/partials/user/settings.html
 msgid "Notifications parameters"
 msgstr "Paramètres des notifications"
@@ -188,6 +230,10 @@ msgstr "Demandes"
 msgid "Reset Your Password?"
 msgstr "Réinitialiser votre mot de passe?"
 
+#: public/partials/admin/type-edit.html
+msgid "Right type name"
+msgstr "Nom du type de droit"
+
 #: public/index.html
 msgid "Right types"
 msgstr "Types de droits"
@@ -204,11 +250,17 @@ msgstr "Configuration des droits"
 msgid "Roles:"
 msgstr "Rôles :"
 
+#: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
-#: public/partials/admin/user-edit.html public/partials/user/settings.html
+#: public/partials/admin/type-edit.html public/partials/admin/user-edit.html
+#: public/partials/user/settings.html
 msgid "Save"
 msgstr "Enregistrer"
+
+#: public/partials/admin/calendars.html
+msgid "Search in calendars"
+msgstr "Rechercher dans les agendas"
 
 #: public/partials/admin/collections.html
 msgid "Search in collections"
@@ -217,6 +269,10 @@ msgstr "Rechercher dans les régimes"
 #: public/partials/admin/departments.html
 msgid "Search in departments"
 msgstr "Rechercher dans les services"
+
+#: public/partials/admin/types.html
+msgid "Search in right types"
+msgstr "Rechercher dans les types de droits"
 
 #: public/partials/admin/users.html
 msgid "Search in users"
@@ -281,6 +337,10 @@ msgid ""
 "content. Use it as a starting point to create something more unique."
 msgstr "Ceci est un template pour un site marketing simple"
 
+#: public/partials/admin/calendar-edit.html
+msgid "Url of the calendar ICS file"
+msgstr "Url du fichier ICS de l'agenda"
+
 #: public/partials/login.html
 msgid "Username or Email:"
 msgstr "Identifiant ou email :"
@@ -296,6 +356,14 @@ msgstr "Liste des utilisateurs"
 #: public/index.html
 msgid "Vacation rights"
 msgstr "Droits de congés"
+
+#: public/partials/admin/calendar-edit.html
+msgid "Work schedule"
+msgstr "Rythme de travail"
+
+#: public/partials/admin/user-edit.html
+msgid "Workschedule calendar"
+msgstr "Agenda du rythme de travail"
 
 #~ msgid "Groups list"
 #~ msgstr "Liste des groupes"
