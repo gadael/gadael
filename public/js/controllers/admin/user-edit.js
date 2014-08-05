@@ -41,12 +41,13 @@ define([], function() {
 			$scope.user.ingaSave($scope.cancel);
 	    }
 	    
+		
 	    $scope.datePicker = function($event) {
+
 			$event.preventDefault();
 			$event.stopPropagation();
-			$scope.opened = true;
 			
-			console.log('test');
+			$scope.from_opened = !$scope.from_opened;
 		}
 	}];
 });

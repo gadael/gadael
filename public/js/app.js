@@ -28,7 +28,7 @@ define([
 		'http-auth-interceptor',
 		'begriffs.paginate-anything',
 		'vr.directives.passwordStrength.width',
-		'ui.bootstrap.dropdown'
+		'ui.bootstrap'
 	]);
 
 	
