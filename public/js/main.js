@@ -13,7 +13,8 @@ require.config({
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',
 		paginateAnything:		'../bower_components/angular-paginate-anything/src/paginate-anything',
 		passwordStrength: 		'../bower_components/angular-password-strength/build/angular-password-strength.min',
-		angularAnimate:			'../bower_components/angular-animate/angular-animate.min'		 
+		angularAnimate:			'../bower_components/angular-animate/angular-animate.min',
+		angularSanitize:		'../bower_components/angular-sanitize/angular-sanitize.min'		 
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -31,7 +32,8 @@ require.config({
 		'paginateAnything': ['angular'],
 		'passwordStrength': ['angular'],
 		'angular_frfr': ['angular'],
-		'angularAnimate': ['angular']
+		'angularAnimate': ['angular'],
+		'angularSanitize': ['angular']
 	},
 	priority: ["angular"]
 });
@@ -50,7 +52,8 @@ require( [
 	'bootstrap',
 	'bootstraptpl',
 	'angular_frfr',
-	'angularAnimate'
+	'angularAnimate',
+	'angularSanitize'
 	], 
 	function(angular, app, routes) {
 	

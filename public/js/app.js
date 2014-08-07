@@ -30,7 +30,7 @@ define([
 		'vr.directives.passwordStrength.width',
 	//	'ui.bootstrap', remove from bower
 		'ngAnimate', 
-	//	'ngSanitize',
+		'ngSanitize',
 		'mgcrea.ngStrap'
 
 	]);

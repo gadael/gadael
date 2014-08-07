@@ -11,7 +11,7 @@
     "requirejs": "~2.1.9",
     "angular-paginate-anything": "~2.1.0",
     "bootstrap": "~3.2.0",
-    "angular-bootstrap": "~0.11.0",
+    "angular-sanitize":"^1.2.22",
     "angular-strap":"~2.0.0",
     "angular-motion":"~0.3.2",
     "angular-password-strength": "~0.0.4",
