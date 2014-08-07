@@ -44,33 +44,24 @@
 		<div ng-if="user.isAccount">	
 			
 			<div class="row col-md-12">
-				<div class="col-md-4 form-group">
+				<div class="col-md-5 form-group">
 					<label for="user_accountCollection" translate>Rights collection</label>
 					<select class="form-control" id="user_accountCollection" ng-model="accountCollection.rightCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections">
 					</select>
 				</div>
 				
-				<div class="col-md-3 form-group">
+				<div class="col-md-2 form-group">
 					<label for="user_from" translate>From</label>
-					<p class="input-group">
-					  <input type="text" id="user_from" class="form-control" datepicker-popup="shortDate" ng-model="from" is-open="from_opened" close-text="Close" />
-					  <span class="input-group-btn">
-						<button type="button" class="btn btn-default" ng-click="datePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-					  </span>
-					</p>
+					<input type="text" id="user_from" class="form-control" ng-model="from" data-autoclose="1" container="body" bs-datepicker />
 				</div>
 				
-				<div class="col-md-3 form-group">
+				<div class="col-md-2 form-group">
 					<label for="user_to" translate>To</label>
-					<p class="input-group">
-					  <input type="text" id="user_to" class="form-control" datepicker-popup="shortDate" ng-model="to" is-open="to_opened" close-text="Close" />
-					  <span class="input-group-btn">
-						<button type="button" class="btn btn-default" ng-click="datePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-					  </span>
-					</p>
+					<input type="text" id="user_to" class="form-control"  ng-model="to" data-autoclose="1" container="body" bs-datepicker />
 				</div>
 				
 				<div class="col-md-2">
+					<br />
 					<button class="btn btn-default">Remove</button>
 				</div>
 			</div>

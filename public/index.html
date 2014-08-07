@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/merged.min.css">
 </head>
 <body role="document">
-    <div class="navbar navbar-default" role="navigation" >
+    <div class="navbar navbar-default" role="navigation" bs-navbar>
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"  ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
           <ul class="nav navbar-nav">
             <li class="dropdown">
-				<a href="" class="dropdown-toggle" data-toggle="dropdown"><span translate>My vacations</span> <b class="caret"></b></a>
+				<a href="" class="dropdown-toggle" bs-dropdown="menu.account"><span translate>My vacations</span> <b class="caret"></b></a>
 				<ul class="dropdown-menu" role="menu">
 					<li><a href="#/user/calendar" translate>Calendar</a></li>
 					<li><a href="#/user/requests" translate>My requests</a></li>
@@ -32,7 +32,7 @@
 			</li>
             
             <li class="dropdown">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown"><span translate>Admin</span> <b class="caret"></b></a>
+              <a href="" class="dropdown-toggle" bs-dropdown="menu.admin"><span translate>Admin</span> <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#/admin" translate>Admin summary</a></li>
                 <li><a href="#/admin/requests" translate>Requests</a></li>
@@ -55,7 +55,7 @@
 				<li ng-switch-when="0"><a href="#/signup"><i class="fa fa-user"></i> <span translate>Sign up</span></a></li>
 				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-sign-in"></i> <span translate>Sign In</span></a></li>
 				<li class="dropdown" ng-switch-when="1">
-					<a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{user.firstname}} {{user.lastname}} <b class="caret"></b></a>
+					<a href="" class="dropdown-toggle" bs-dropdown="menu.user"><i class="fa fa-user"></i> {{user.firstname}} {{user.lastname}} <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="" ng-click="logout()"><i class="fa fa-sign-out"></i> <span translate>Logout</span></a></li>
 						<li><a href="#/user/settings"><i class="fa fa-edit"></i> <span translate>Settings</span></a></li>

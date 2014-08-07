@@ -28,7 +28,11 @@ define([
 		'http-auth-interceptor',
 		'begriffs.paginate-anything',
 		'vr.directives.passwordStrength.width',
-		'ui.bootstrap'
+	//	'ui.bootstrap', remove from bower
+		'ngAnimate', 
+	//	'ngSanitize',
+		'mgcrea.ngStrap'
+
 	]);
 
 	

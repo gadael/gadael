@@ -51,7 +51,9 @@ module.exports = function(grunt) {
             'public/bower_components/font-awesome/css/font-awesome.css',
             'public/bower_components/bootstrap/dist/css/bootstrap.css',
             'public/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+            'public/bower_components/angular-motion/dist/angular-motion.css',
             'styles/main.css'
+            
           ],
           dest: 'public/css/merged.min.css'
         }

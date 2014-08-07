@@ -41,14 +41,27 @@ define([], function() {
 			$scope.user.ingaSave($scope.cancel);
 	    }
 	    
+	    
+	    
 		
-	    $scope.datePicker = function($event) {
-
-			$event.preventDefault();
-			$event.stopPropagation();
-			
-			$scope.from_opened = !$scope.from_opened;
+	    $scope.from_datePicker = function() {
+			$scope.from_opened = true;
 		}
+		
+		$scope.to_datePicker = function() {
+			$scope.to_opened = true;
+		}
+		
+		
+		$scope.$watch('user.isAccount', function(newValue, oldValue) {
+             if (newValue) {
+				 angular.element(document.getElementById('user_from')).bind('focus', $scope.from_datePicker);
+				 angular.element(document.getElementById('user_to')).bind('focus', $scope.to_datePicker);
+			 }
+        });
+
+		
+		
 	}];
 });
 

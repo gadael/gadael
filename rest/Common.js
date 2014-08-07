@@ -14,6 +14,12 @@ exports.getInfos = function(req, res) {
 	var lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
 	
 	var user = null;
+	
+	var menu = {
+		account: null,
+		admin: null,
+		user: null
+	};
   
 	if (req.isAuthenticated())
 	{
@@ -24,15 +30,19 @@ exports.getInfos = function(req, res) {
 			email: req.user.email
 		};
 		
+
 	} else {
 		user = { 
 			isAuthenticated: false 
 		};
+		
+		
 	}
 
 	res.json({ 
 		lang: lang[0].lang,
 		user: user,
+		menu: menu,
 		date: {
 			short: 'dd-MM-yyyy',
 			long: 'EEEE d MMMM yyyy',
