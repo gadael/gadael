@@ -16,7 +16,6 @@ define(['angular',  'angularResource'], function (angular) {
 			$http.get('/rest/admin/collections')
 				.then(function(result) {
 					scope.collections = result.data;
-					scope.collections.unshift({ name: '', _id:'' });
 			});
 		};
 	}])
@@ -30,7 +29,6 @@ define(['angular',  'angularResource'], function (angular) {
 			$http.get('/rest/admin/departments')
 				.then(function(result) {
 					scope.departments = result.data;
-					scope.departments.unshift({ name: '', _id:'' });
 			});
 		};
 	}])
@@ -45,7 +43,6 @@ define(['angular',  'angularResource'], function (angular) {
 			$http.get('/rest/admin/calendars?type=workschedule')
 				.then(function(result) {
 					scope.workschedules = result.data;
-					scope.workschedules.unshift({ name: '', _id:'' });
 			});
 		};
 	}])
@@ -60,7 +57,6 @@ define(['angular',  'angularResource'], function (angular) {
 			$http.get('/rest/admin/calendars?type=nonworkingday')
 				.then(function(result) {
 					scope.nonworkingdays = result.data;
-					scope.nonworkingdays.unshift({ name: '', _id:'' });
 			});
 		};
 	}])

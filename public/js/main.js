@@ -4,10 +4,8 @@ require.config({
 		angularRoute: 			'../bower_components/angular-route/angular-route',
 		angularMocks: 			'../bower_components/angular-mocks/angular-mocks',
 		angularResource: 		'../bower_components/angular-resource/angular-resource.min',
-	// TODO: remove from bower.json
-	//	requirejstext: 			'../bower_components/requirejs-text/text',
-    	bootstrap:				'../bower_components/angular-strap/dist/angular-strap.min',
-    	bootstraptpl:			'../bower_components/angular-strap/dist/angular-strap.tpl.min',
+    	angularstrap:			'../bower_components/angular-strap/dist/angular-strap.min',
+    	angularstraptpl:		'../bower_components/angular-strap/dist/angular-strap.tpl.min',
     	angular_frfr:			'../bower_components/angular-i18n/angular-locale_fr-fr',	
     	angularGettext: 		'../bower_components/angular-gettext/dist/angular-gettext',
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',
@@ -18,15 +16,16 @@ require.config({
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
-		'angularRoute': ['angular'],
+		'app': ['angular'],
+		'routes': ['angular'],
 		'angularMocks': {
 			deps:['angular'],
 			'exports':'angular.mock'
 		},
 		'angularResource': ['angular'],
 		'angularAuth':['angular'],
-		'bootstrap': ['angular'],
-		'bootstraptpl': ['angular'],
+		'angularstrap': ['angular'],
+		'angularstraptpl': ['angular', 'angularstrap'],
 		'angularGettext' : ['angular'],
 		'translation': ['angularGettext'],
 		'paginateAnything': ['angular'],
@@ -49,8 +48,7 @@ require( [
 	'angular',
 	'app',
 	'routes',
-	'bootstrap',
-	'bootstraptpl',
+	'angularstraptpl',
 	'angular_frfr',
 	'angularAnimate',
 	'angularSanitize'

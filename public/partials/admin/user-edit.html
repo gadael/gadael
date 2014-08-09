@@ -38,6 +38,7 @@
 		<div class="col-md-6 form-group">
 			<label for="user_department" translate>Department</label>
 			<select class="form-control" id="user_department" ng-model="user.department" ng-options="department._id as department.name for department in departments">
+				<option></option>
 			</select>
 		</div>
 		
@@ -47,6 +48,7 @@
 				<div class="col-md-5 form-group">
 					<label for="user_accountCollection" translate>Rights collection</label>
 					<select class="form-control" id="user_accountCollection" ng-model="accountCollection.rightCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections">
+						<option></option>
 					</select>
 				</div>
 				
@@ -69,6 +71,7 @@
 			<div class="col-md-6 form-group">
 				<label for="user_workschedule" translate>Workschedule calendar</label>
 				<select class="form-control" id="user_workschedule" ng-model="user.roles.account.workschedule" ng-options="workschedule._id as workschedule.name for workschedule in workschedules">
+					<option></option>
 				</select>
 			</div>
 			

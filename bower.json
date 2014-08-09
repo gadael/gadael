@@ -9,7 +9,7 @@
     "angular-http-auth": "~1.2.1",
     "angular-gettext": "~0.2.9",
     "requirejs": "~2.1.9",
-    "angular-paginate-anything": "~2.1.0",
+    "angular-paginate-anything": "2.5.3",
     "bootstrap": "~3.2.0",
     "angular-sanitize":"^1.2.22",
     "angular-strap":"~2.0.0",
