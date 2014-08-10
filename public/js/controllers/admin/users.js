@@ -7,10 +7,7 @@ define([], function() {
 
 			loadCollectionsOptions($scope);
 			loadDepartmentsOptions($scope);
-			
-			
-			
-			// name='+search.name+'&department='+search.department+'&collection='+search.collection
+
 		}
 	];
 });

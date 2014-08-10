@@ -8,7 +8,9 @@
 exports.getList = function (req, res) {
 	req.ensureAdmin(req, res, function() {
 	
-		var query = function() {
+		var workflow = req.app.utility.workflow(req, res);
+		
+		var query = function(next) {
 			
 			var find = req.app.db.models.User.find();
 			
@@ -29,37 +31,58 @@ exports.getList = function (req, res) {
 			
 			if (req.param('collection'))
 			{
-				find.where('roles.account.accountCollection').equals(req.param('collection'));
+				var collFind = req.app.db.models.AccountCollection.find();
+				collFind.where('rightCollection').equals(req.param('collection'));
+				collFind.select('account');
+				
+				collFind.exec(function (err, docs) {
+					if (workflow.handleMongoError(err))
+					{
+						var accountIdList = [];
+						for(var i=0; i<docs.length; i++) {
+							accountIdList.push(docs[i]._id);
+						}
+						
+						find.where('roles.account').in(accountIdList);
+						next(find);
+					}
+				});
 
+			} else {
+				next(find);
 			}
-			
-			
-			return find;
 		};
 		
 		var paginate = require('node-paginate-anything');
 
-		query().count(function(err, total) {
+		query(function(find) {
+			
+			find.count(function(err, total) {
 				
-			var p = paginate(req, res, total, 50);
-			
-			if (!p) {
-				res.json({});
-				return; // 416
-			}
-			
-			var q = query().select('lastname firstname email').sort('lastname');
-			
-			q.limit(p.limit);
-			q.skip(p.skip);
-
-			q.exec(function (err, docs) {
-				if (err) {
-					return console.error(err);
+				var p = paginate(req, res, total, 50);
+				
+				if (!p) {
+					res.json({});
+					return; // 416
 				}
 				
-				res.json(docs);
+				query(function(find) {
+					
+					var q = find.select('lastname firstname email').sort('lastname');
+				
+					q.limit(p.limit);
+					q.skip(p.skip);
+
+					q.exec(function (err, docs) {
+						if (workflow.handleMongoError(err))
+						{
+							res.json(docs);
+						}
+					});
+					
+				});
 			});
+			
 		});
 	});
 };
@@ -222,11 +245,7 @@ exports.save = function (req, res) {
 				function(asyncTaskEnd) {
 
 					removeOrUpdate(req.body.isAccount, req.app.db.models.Account, function(role) {
-						
-						if (req.body.roles && req.body.roles.account) {
-							role.accountCollection = req.body.roles.account.accountCollection;
-						}
-						
+
 						role.save(
 							function(err) {
 								if (workflow.handleMongoError(err)) {

@@ -23,6 +23,11 @@ exports = module.exports = function(app, passport) {
 	app.post('/rest/admin/users'			, require('./rest/admin/users').save);
 	app.put('/rest/admin/users/:id'			, require('./rest/admin/users').save);
 	
+	app.get('/rest/admin/accountcollections'		, require('./rest/admin/accountcollections').getList);
+	app.get('/rest/admin/accountcollections/:id'	, require('./rest/admin/accountcollections').getItem);
+	app.post('/rest/admin/accountcollections'		, require('./rest/admin/accountcollections').save);
+	app.put('/rest/admin/accountcollections/:id'	, require('./rest/admin/accountcollections').save);
+	
 	app.get('/rest/admin/departments'		, require('./rest/admin/departments').getList);
 	app.get('/rest/admin/departments/:id'	, require('./rest/admin/departments').getItem);
 	app.post('/rest/admin/departments'		, require('./rest/admin/departments').save);

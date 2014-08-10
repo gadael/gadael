@@ -10,7 +10,8 @@
 				<begriffs.pagination 
 					per-page="25" 
 					collection="departments" 
-					url="'/rest/admin/departments?name='+search.name" 
+					url="'/rest/admin/departments'" 
+					url-params="search" 
 					template-url="partials/utils/paginate-anything.html">
 				</begriffs.pagination>
 			</div>

@@ -11,7 +11,8 @@
 				<begriffs.pagination 
 					per-page="25" 
 					collection="calendars" 
-					url="'/rest/admin/calendars?name='+search.name+'&type='+search.type" 
+					url="'/rest/admin/calendars'" 
+					url-params="search" 
 					template-url="partials/utils/paginate-anything.html">
 				</begriffs.pagination>
 			</div>

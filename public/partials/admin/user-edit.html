@@ -31,7 +31,7 @@
 	  
 		<div class="form-group col-md-12">
 			<label for="user_email" translate>Email</label>
-			<input type="text" class="form-control" id="user_email" ng-model="user.email" />
+			<input type="email" class="form-control" id="user_email" ng-model="user.email" />
 		</div>
 		
 		
@@ -44,28 +44,35 @@
 		
 		<div ng-if="user.isAccount">	
 			
-			<div class="row col-md-12">
-				<div class="col-md-5 form-group">
-					<label for="user_accountCollection" translate>Rights collection</label>
-					<select class="form-control" id="user_accountCollection" ng-model="accountCollection.rightCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections">
-						<option></option>
-					</select>
+			<div class="form-group">
+				<div class="col-md-10">
+					<div class="row" ng-repeat="accountCollection in accountCollections">
+						<div class="col-md-6 form-group">
+							<label for="user_accountCollection" translate>Rights collection</label>
+							
+							<div class="input-group">
+								<div class="input-group-btn">
+									<button type="button" class="btn btn-warning" ng-click="removeAccountCollection($index)" ng-disabled="removeIsDisabled(accountCollection)"><span class="glyphicon glyphicon-remove"></span><span class="sr-only" translate>Remove</span></button>
+								</div>
+								<select class="form-control" id="user_accountCollection" ng-model="accountCollection.rightCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections" ng-required>
+									<option></option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-md-3 form-group">
+							<label for="user_from" translate>From</label>
+							<input type="text" id="user_from" class="form-control" ng-disabled="fromIsDisabled(accountCollection)" ng-model="accountCollection.from" data-autoclose="1" container="body" ng-required bs-datepicker />
+						</div>
+						
+						<div class="col-md-3 form-group">
+							<label for="user_to" translate>To</label>
+							<input type="text" id="user_to" class="form-control"  ng-disabled="toIsDisabled(accountCollection)" ng-model="accountCollection.to" data-autoclose="1" container="body" bs-datepicker />
+						</div>
+					</div>
 				</div>
 				
-				<div class="col-md-2 form-group">
-					<label for="user_from" translate>From</label>
-					<input type="text" id="user_from" class="form-control" ng-model="from" data-autoclose="1" container="body" bs-datepicker />
-				</div>
-				
-				<div class="col-md-2 form-group">
-					<label for="user_to" translate>To</label>
-					<input type="text" id="user_to" class="form-control"  ng-model="to" data-autoclose="1" container="body" bs-datepicker />
-				</div>
-				
-				<div class="col-md-2">
-					<br />
-					<button class="btn btn-default">Remove</button>
-				</div>
+				<div class="col-md-2"><button class="btn btn-primary" ng-click="addAccountCollection()" translate><span class="fa fa-plus-circle fa-2x"></span><br /><small>Right collection</small></button></div>
 			</div>
 			
 			<div class="col-md-6 form-group">
