@@ -22,31 +22,12 @@
         </div>
         <div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
           <ul class="nav navbar-nav">
-            <li class="dropdown">
+            <li class="dropdown" ng-if="user.isAccount">
 				<a href="" class="dropdown-toggle" bs-dropdown="menu.account"><span translate>My vacations</span> <b class="caret"></b></a>
-				<ul class="dropdown-menu" role="menu">
-					<li><a href="#/user/calendar" translate>Calendar</a></li>
-					<li><a href="#/user/requests" translate>My requests</a></li>
-					<li><a href="#/user/vacation-request" translate>Request a vacation period</a></li>
-				</ul>
 			</li>
             
-            <li class="dropdown">
-              <a href="" class="dropdown-toggle" bs-dropdown="menu.admin"><span translate>Admin</span> <b class="caret"></b></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#/admin" translate>Admin summary</a></li>
-                <li><a href="#/admin/requests" translate>Requests</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header" translate>Users</li>
-                <li><a href="#/admin/users" translate>Users list</a></li>
-                <li><a href="#/admin/departments" translate>Departments list</a></li>
-                <li><a href="#/admin/collections" translate>Collections list</a></li>
-                <li><a href="#/admin/calendars" translate>Calendars list</a></li>
-				<li class="divider"></li>
-                <li class="dropdown-header" translate>Vacation rights</li>
-                <li><a href="#/admin/types" translate>Right types</a></li>
-                <li><a href="#/admin/rights" translate>Rights configuration</a></li>
-              </ul>
+            <li class="dropdown" ng-if="user.isAdmin">
+                <a href="" class="dropdown-toggle" bs-dropdown="menu.admin"><span translate>Admin</span> <b class="caret"></b></a>
             </li>
           </ul>
           
@@ -56,10 +37,6 @@
 				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-sign-in"></i> <span translate>Sign In</span></a></li>
 				<li class="dropdown" ng-switch-when="1">
 					<a href="" class="dropdown-toggle" bs-dropdown="menu.user"><i class="fa fa-user"></i> {{user.firstname}} {{user.lastname}} <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="" ng-click="logout()"><i class="fa fa-sign-out"></i> <span translate>Logout</span></a></li>
-						<li><a href="#/user/settings"><i class="fa fa-edit"></i> <span translate>Settings</span></a></li>
-					</ul>
 				</li>
 			</ul>
           

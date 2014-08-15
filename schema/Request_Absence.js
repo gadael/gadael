@@ -12,11 +12,6 @@
  * ]
  * 
  * 
- */  
-exports = module.exports = function(params) {
-	var absenceSchema = new params.mongoose.Schema();
-  
-  absenceSchema.set('autoIndex', params.autoIndex);
-  
-  params.db.model('Absence', absenceSchema);
-};
+ * Moved to Request.js
+ * 
+ */

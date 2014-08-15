@@ -170,6 +170,16 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/rights.html',
 			controller: 'AdminRights'
 		});
+        
+        $routeProvider.when('/admin/rights/:id', {
+			templateUrl: 'partials/admin/right-edit.html',
+			controller: 'AdminRightEdit'
+		});
+		
+		$routeProvider.when('/admin/right-edit', {
+			templateUrl: 'partials/admin/right-edit.html',
+			controller: 'AdminRightEdit'
+		});
 		
 		$routeProvider.otherwise({redirectTo: '/home'});
 	}]);

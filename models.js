@@ -23,9 +23,11 @@ models.load = function() {
 	require('./schema/StatusLog')(requirements);
 	require('./schema/RequestLog')(requirements);
 	require('./schema/Request_AbsenceElem')(requirements);
-	require('./schema/AccountCollection')(requirements);
+    require('./schema/Right_Rule')(requirements);
+	
 
 	//then regular docs
+    require('./schema/AccountCollection')(requirements);
 	require('./schema/Company')(requirements);
 	require('./schema/User')(requirements);
 	require('./schema/User_Admin')(requirements);
@@ -37,7 +39,7 @@ models.load = function() {
   
 	require('./schema/RightCollection')(requirements);
 	require('./schema/Type')(requirements);
-	
+	require('./schema/Right')(requirements);
 	require('./schema/Calendar')(requirements);
 	require('./schema/CalendarEvent')(requirements);
 };

@@ -22,11 +22,18 @@
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="user in users">
-				<div class="col-md-6">
+				<div class="col-xs-2">
 					<a ng-href="#/admin/users/{{user._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
-					 &nbsp; {{user.lastname}} {{user.firstname}}
-				</div> 
-				<div class="col-md-6"><a href="mailto:{{user.email}}">{{user.email}}</a></div>
+				</div>	 
+                 <div class="col-md-5">
+                    <i class="text-danger" ng-class="user.isActive ? '' : 'fa fa-ban'"></i>
+                    <strong>{{user.lastname}} {{user.firstname}}</strong><br />
+                    <span class="text-muted text-nowrap" ng-if="user.roles.account">&nbsp;<i class="text-info fa fa-male"></i>&nbsp;<span translate>Absences account</span></span>
+                    <span class="text-muted text-nowrap" ng-if="user.roles.admin">&nbsp;<i class="text-info glyphicon glyphicon-star"></i>&nbsp;<span translate>Administrator</span></span>
+                    <span class="text-muted text-nowrap" ng-if="user.roles.manager">&nbsp;<i class="text-info fa fa-sitemap"></i>&nbsp;<span translate>Department manager</span></span>
+                 </div>
+				 
+				<div class="col-md-5 hidden-xs hidden-sm"><a href="mailto:{{user.email}}">{{user.email}}</a></div>
 			</div>
 		</div>
 

@@ -14,8 +14,8 @@ define(['angular',  'angularResource'], function (angular) {
 		
 		return function(scope) {
 			$http.get('/rest/admin/collections')
-				.then(function(result) {
-					scope.collections = result.data;
+            .then(function(result) {
+                scope.collections = result.data;
 			});
 		};
 	}])
@@ -27,8 +27,8 @@ define(['angular',  'angularResource'], function (angular) {
 		
 		return function(scope) {
 			$http.get('/rest/admin/departments')
-				.then(function(result) {
-					scope.departments = result.data;
+            .then(function(result) {
+                scope.departments = result.data;
 			});
 		};
 	}])
@@ -41,8 +41,8 @@ define(['angular',  'angularResource'], function (angular) {
 		
 		return function(scope) {
 			$http.get('/rest/admin/calendars?type=workschedule')
-				.then(function(result) {
-					scope.workschedules = result.data;
+            .then(function(result) {
+                scope.workschedules = result.data;
 			});
 		};
 	}])
@@ -55,12 +55,27 @@ define(['angular',  'angularResource'], function (angular) {
 		
 		return function(scope) {
 			$http.get('/rest/admin/calendars?type=nonworkingday')
-				.then(function(result) {
-					scope.nonworkingdays = result.data;
+            .then(function(result) {
+                scope.nonworkingdays = result.data;
 			});
 		};
 	}])
 	
+    
+    /**
+	 * Populate a select box with right types
+	 */  
+	.factory('loadTypesOptions', ['$http', function($http) {
+		
+		return function(scope) {
+			$http.get('/rest/admin/types')
+            .then(function(result) {
+                scope.types = result.data;
+            });
+		};
+	}])
+    
+    
 
 
 	/**

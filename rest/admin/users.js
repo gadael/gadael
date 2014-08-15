@@ -68,7 +68,7 @@ exports.getList = function (req, res) {
 				
 				query(function(find) {
 					
-					var q = find.select('lastname firstname email').sort('lastname');
+					var q = find.select('lastname firstname email roles isActive').sort('lastname');
 				
 					q.limit(p.limit);
 					q.skip(p.skip);
@@ -143,6 +143,7 @@ exports.save = function (req, res) {
 						user.lastname 	= req.body.lastname;
 						user.email 		= req.body.email;
 						user.department = req.body.department;
+                        user.isActive   = req.body.isActive;
 						
 						user.save(function (err) {
 							workflow.handleMongoError(err);

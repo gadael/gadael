@@ -47,6 +47,12 @@ exports = module.exports = function(app, passport) {
 	app.get('/rest/admin/types/:id'			, require('./rest/admin/types').getItem);
 	app.post('/rest/admin/types'			, require('./rest/admin/types').save);
 	app.put('/rest/admin/types/:id'			, require('./rest/admin/types').save);
+    
+    app.get('/rest/admin/rights'			, require('./rest/admin/rights').getList);
+	app.get('/rest/admin/rights/:id'		, require('./rest/admin/rights').getItem);
+	app.post('/rest/admin/rights'			, require('./rest/admin/rights').save);
+	app.put('/rest/admin/rights/:id'		, require('./rest/admin/rights').save);
+    
 
 	
 	app.post('/rest/login', require('./rest/login').authenticate);

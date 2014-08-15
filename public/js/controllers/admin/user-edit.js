@@ -46,7 +46,7 @@ define([], function() {
 	    var accountCollection = $resource('rest/admin/accountcollections/:accCollId');
 	    
 	    $scope.user.$promise.then(function() {
-			if ($scope.user.roles.account !== undefined) {
+			if ($scope.user.roles !== undefined && $scope.user.roles.account !== undefined) {
 				$scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
 			} else {
 				$scope.accountCollections = [];

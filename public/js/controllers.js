@@ -137,8 +137,8 @@ define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 		}])
 		
 		.controller('AdminTypes', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/types'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
+			require(['controllers/admin/types'], function(types) {
+				$injector.invoke(types, this, {'$scope': $scope});
 			});
 		}])
 		
@@ -149,8 +149,14 @@ define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 		}])
 		
 		.controller('AdminRights', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/rights'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
+			require(['controllers/admin/rights'], function(rights) {
+				$injector.invoke(rights, this, {'$scope': $scope});
+			});
+		}])
+        
+        .controller('AdminRightEdit', ['$scope', '$injector', function($scope, $injector) {
+			require(['controllers/admin/right-edit'], function(right) {
+				$injector.invoke(right, this, {'$scope': $scope});
 			});
 		}])
 		

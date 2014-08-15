@@ -31,8 +31,16 @@ define([
 		'ngAnimate', 
 		'ngSanitize',
 		'mgcrea.ngStrap'
-
 	]);
+    
+    
+    
+    inga.config(function($dropdownProvider) {
+        angular.extend($dropdownProvider.defaults, {
+            animation: 'am-flip-x',
+            html: true
+        });
+    })
 
 	
 
@@ -52,7 +60,7 @@ define([
 				$rootScope.user.intAuthenticated = response.user.isAuthenticated ? 1 : 0;
 			});
 			
-			// TODO: reload the ng-view content
+			
 		};
 		
 		// sync with serveur session on app start
