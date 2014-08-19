@@ -6,7 +6,9 @@ define([], function() {
 		'loadDepartmentsOptions',
 		'loadWorkschedulesOptions',
 		'loadNonWorkingDaysOptions',
-		'$resource', function(
+		'$resource',
+        '$q',
+        'SaveResource', function(
 			$scope, 
 			$location, 
 			IngaResource, 
@@ -14,7 +16,9 @@ define([], function() {
 			loadDepartmentsOptions, 
 			loadWorkschedulesOptions, 
 			loadNonWorkingDaysOptions,
-			$resource
+			$resource,
+            $q,
+            SaveResource
 		) {
 
 		$scope.user = IngaResource('rest/admin/users').loadRouteId();
@@ -37,15 +41,44 @@ define([], function() {
 		$scope.cancel = function() {
 			$location.path('/admin/users');
 		}
+        
+        
+        
+        /**
+         * Save all account collections
+         * 
+         */
+        var saveAccountCollection = function() {
+            
+            var promises = [];
+            
+            for(var i=0; i<$scope.accountCollections.length; i++) {
+                promises.push(SaveResource($scope.accountCollections[i]));
+            }
+            
+            var promise = $q.all(promises);
+            
+            return promise;
+        };
 		
-		
+		/**
+         * Save button
+         */
 		$scope.saveUser = function() {
-			$scope.user.ingaSave($scope.cancel);
+			$scope.user.ingaSave()
+            .then(saveAccountCollection)
+            .then($scope.cancel);
 	    }
 	    
-	    var accountCollection = $resource('rest/admin/accountcollections/:accCollId');
+	    var accountCollection = $resource('rest/admin/accountcollections/:accCollId',
+            { accCollId:'@_id' }, 
+            { 'save': { method:'PUT' }}  // overwrite default save method (POST)
+        );
 	    
 	    $scope.user.$promise.then(function() {
+            
+            // after user resource loaded, load account Collections
+            
 			if ($scope.user.roles !== undefined && $scope.user.roles.account !== undefined) {
 				$scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
 			} else {
@@ -57,6 +90,10 @@ define([], function() {
 			}
 		});
 		
+        
+        /**
+         * Add a row to account collection list
+         */
 		$scope.addAccountCollection = function() {
 			
 			var length = $scope.accountCollections.length;
@@ -74,13 +111,14 @@ define([], function() {
 				var nextDate = new Date();
 			}
 			
-			var accountCollection = {
-				rightCollection: null,
-				from: nextDate,
-				to: null
-			};
+			var newAc = new accountCollection;
+            
+            newAc.account = $scope.user.roles.account._id;
+			newAc.rightCollection = null;
+			newAc.from = nextDate;
+			newAc.to = null;
 			
-			$scope.accountCollections.push(accountCollection);
+			$scope.accountCollections.push(newAc);
 		};
 		
 		

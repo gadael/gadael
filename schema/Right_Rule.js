@@ -47,13 +47,12 @@ exports = module.exports = function(params) {
 		
 		var rule = this;
         
-        if (undefined === rule.interval 
-        || (undefined === rule.interval.min && undefined === rule.interval.max)) {
+        if (undefined === rule.interval || (undefined === rule.interval.min && undefined === rule.interval.max)) {
             next(new Error('At least one value must be set in interval to save the rule'));
         }
         
-        var min = undefined === rule.interval.min ? null : rule.interval.min;
-        var max = undefined === rule.interval.max ? null : rule.interval.max;
+        var min = (undefined === rule.interval.min) ? null : rule.interval.min;
+        var max = (undefined === rule.interval.max) ? null : rule.interval.max;
         
         
 		

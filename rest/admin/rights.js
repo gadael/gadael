@@ -28,8 +28,8 @@ exports.getList = function (req, res) {
 			}
 			
 			query()
-			.select('name')
-			.sort('name')
+			.select('name description type quantity quantity_unit')
+			.sort('sortkey')
 			.limit(p.limit)
 			.skip(p.skip)
 			.exec(function (err, docs) {
@@ -110,7 +110,7 @@ exports.getItem = function(req, res) {
 		// var gt = req.app.utility.gettext;
 		var workflow = req.app.utility.workflow(req, res);
 		
-		req.app.db.models.Right.findOne({ '_id' : req.params.id}, 'name', function(err, type) {
+		req.app.db.models.Right.findOne({ '_id' : req.params.id}, 'name description type require_approval autoDistribution quantity quantity_unit activeFor activeSpan', function(err, type) {
 			if (err)
 			{
 				return workflow.emit('exception', err.message);

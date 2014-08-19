@@ -76,6 +76,8 @@ exports.getItem = function (req, res) {
 
 exports.save = function (req, res) {
 	req.ensureAdmin(req, res, function() {
+        
+        var util = require('util');
 		var gt = req.app.utility.gettext;
 		var workflow = req.app.utility.workflow(req, res);
 		var AccountCollection = req.app.db.models.AccountCollection;
@@ -101,7 +103,12 @@ exports.save = function (req, res) {
 				AccountCollection.findById(req.params.id, function (err, document) {
 					if (workflow.handleMongoError(err))
 					{
-						document.account 			= req.body.account;
+                        if (null === document) {
+                            workflow.emit('exception', util.format(gt.gettext('AccountCollection document not found for id %s'), req.params.id));
+                            return;
+                        }
+                        
+					//	document.account 			= req.body.account;
 						document.rightCollection 	= req.body.rightCollection;
 						document.from 				= req.body.from;
 						document.to 				= req.body.to;

@@ -76,44 +76,69 @@ define(['angular',  'angularResource'], function (angular) {
 	}])
     
     
+    
+    /**
+     * Save a resource and forward messages to rootscope
+     */
+    .factory('SaveResource', ['$rootScope', function($rootScope) {
+        
+        
+        var addErrorMessages = function(data) {
+            for(var i=0; i<data.alert.length; i++) {
+                $rootScope.pageAlerts.push(data.alert[i]);
+            }
+        };
+        
+        /**
+         * @return promise
+         */
+        return function(resource) {
+            
+            var p = resource.$save()
+            .then(function(data) {
+                addErrorMessages(data);
+            },
+            function(badRequest) {
+                
+                var data = badRequest.data;
+                
+                addErrorMessages(data);
+
+                // receive 400 bad request on missing parameters
+                // mark required fields
+                
+                for(var fname in data.errfor) {
+                    if ('required' === data.errfor[fname]) {
+                        angular.element(document.querySelector('[ng-model$='+fname+']')).parent().addClass('has-error');
+                    }
+                }
+            });
+                
+            return p;
+            
+        };
+        
+    }])
 
 
 	/**
 	 * Create a resource to an object or to a collection
 	 * the object resource is created only if the angular route contain a :id
 	 */ 
-	.factory('IngaResource', ['$resource', '$routeParams', '$rootScope', function($resource, $routeParams, $rootScope){
+	.factory('IngaResource', ['$resource', '$routeParams', 'SaveResource', function($resource, $routeParams, SaveResource){
 		
-		
+
 		return function(collectionPath)
 		{
 			var ingaSave = function(nextaction) {
-				
-				var p = this.$save()
-				.catch()
-				.then(function(data) {
+                
+                var p = SaveResource(this);
+                
+                if (nextaction) {
+                    p = p.then(nextaction);
+                }
 
-					$rootScope.pageAlerts = data.alert;
-					
-					if (nextaction && data.success) {
-						nextaction();
-					}
-				},
-				function(badRequest) {
-					
-					var data = badRequest.data;
-					
-					$rootScope.pageAlerts = data.alert;
-
-					// receive 400 bad request on missing parameters
-					// mark required fields
-					
-					for(var fname in data.errfor) {
-						if ('required' === data.errfor[fname]) {
-							angular.element(document.querySelector('[ng-model$='+fname+']')).parent().addClass('has-error');
-						}
-					}
-				});
+                return p;
 			};
 			
 			
