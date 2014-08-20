@@ -256,6 +256,7 @@ exports.save = function (req, res) {
 							}
 						);
 					}, function() {
+                        userDocument.roles.account = undefined;
 						asyncTaskEnd(null, 'account');
 					});
 				},
@@ -272,6 +273,7 @@ exports.save = function (req, res) {
 							}
 						);
 					}, function() {
+                        userDocument.roles.admin = undefined;
 						asyncTaskEnd(null, 'admin');
 					});
 				},
@@ -288,6 +290,7 @@ exports.save = function (req, res) {
 							}
 						);
 					}, function() {
+                        userDocument.roles.manager = undefined;
 						asyncTaskEnd(null, 'manager');
 					});
 				}],

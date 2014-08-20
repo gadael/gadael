@@ -48,13 +48,23 @@ define([], function() {
          * Save all account collections
          * 
          */
-        var saveAccountCollection = function() {
+        var saveAccountCollection = function(userId) {
+            
+            if (!$scope.user.isAccount) {
+                // TODO remove the existing collections
+                return;
+            }
             
             var promises = [];
             
             for(var i=0; i<$scope.accountCollections.length; i++) {
                 
                 var document = $scope.accountCollections[i];
+                if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
+                    document.account = $scope.user.roles.account._id;
+                } else {
+                    document.user = userId;
+                }
                 
                 if (document._id) {
                     var p = $scope.accountCollections[i].$save();
@@ -90,7 +100,7 @@ define([], function() {
             
             // after user resource loaded, load account Collections
             
-			if ($scope.user.roles !== undefined && $scope.user.roles.account !== undefined) {
+			if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
 				$scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
 			} else {
 				$scope.accountCollections = [];
@@ -124,7 +134,6 @@ define([], function() {
 			
 			var newAc = new accountCollection;
             
-            newAc.account = $scope.user.roles.account._id;
 			newAc.rightCollection = null;
 			newAc.from = nextDate;
 			newAc.to = null;

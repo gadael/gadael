@@ -90,6 +90,43 @@ exports.save = function (req, res) {
 
 			workflow.emit('save');
 		});
+        
+        
+        /**
+         * Get account ID from query
+         */ 
+        var getAccount = function(next) {
+            
+            if (req.body.account) {
+                next(req.body.account);
+                return;
+            }
+            
+            if (!req.body.user) {
+                workflow.emit('exception', 'Cant create accountCollection, missing user or account');
+                return;
+            }
+            
+            // find account from user
+            req.app.db.models.User.findById(req.body.user, function(err, user) {
+                if (workflow.handleMongoError(err)) {
+                    
+                    if (!user) {
+                        workflow.emit('exception', 'User not found '+req.body.user);
+                        return;
+                    }
+                    
+                    if (!user.account) {
+                        
+                        // user without account
+                        return;
+                    }
+                    
+                    next(user.account);
+                }
+            });
+        }
+        
 		
 		
 		/**
@@ -108,7 +145,6 @@ exports.save = function (req, res) {
                             return;
                         }
                         
-					//	document.account 			= req.body.account;
 						document.rightCollection 	= req.body.rightCollection;
 						document.from 				= req.body.from;
 						document.to 				= req.body.to;
@@ -122,20 +158,24 @@ exports.save = function (req, res) {
 				});
 				
 			} else {
+                
+                getAccount(function(accountId) {
 				
-				AccountCollection.create({
-					account: req.body.account,
-					rightCollection: req.body.rightCollection,
-					from: req.body.from,
-					to: req.body.to 
-				}, function(err, document) {
-					
-					if (workflow.handleMongoError(err))
-					{
-						workflow.outcome.document = document._id;
-						workflow.success(gt.gettext('The account collection has been created'));
-					}
-				});
+                    AccountCollection.create({
+                        account: accountId,
+                        rightCollection: req.body.rightCollection,
+                        from: req.body.from,
+                        to: req.body.to 
+                    }, function(err, document) {
+                        
+                        if (workflow.handleMongoError(err))
+                        {
+                            workflow.outcome.document = document._id;
+                            workflow.success(gt.gettext('The account collection has been created'));
+                        }
+                    });
+                
+                });
 			}
 		});
 

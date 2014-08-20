@@ -100,6 +100,12 @@ define(['angular',  'angularResource'], function (angular) {
             promise = promise.then(
                 function(data) {
                     addMessages(data);
+                    
+                    if (data.document) {
+                        // workflow return the saved document object id
+                        // value is fowarded to the next promise on success
+                        return data.document;
+                    }
                 },
                 function(badRequest) {
                     
