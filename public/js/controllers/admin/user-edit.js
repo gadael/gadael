@@ -23,14 +23,27 @@ define([], function() {
 
 		$scope.user = IngaResource('rest/admin/users').loadRouteId();
 		
-		$scope.user.$promise.then(function() {
-			
-			$scope.user.isAccount 	= ($scope.user.roles && $scope.user.roles.account 	!== undefined);
-			$scope.user.isAdmin 	= ($scope.user.roles && $scope.user.roles.admin 	!== undefined);
-			$scope.user.isManager 	= ($scope.user.roles && $scope.user.roles.manager 	!== undefined);
-			
-		});
-		
+        if ($scope.user._id) {
+            $scope.user.$promise.then(function() {
+                
+                $scope.user.isAccount 	= ($scope.user.roles && $scope.user.roles.account 	!== undefined);
+                $scope.user.isAdmin 	= ($scope.user.roles && $scope.user.roles.admin 	!== undefined);
+                $scope.user.isManager 	= ($scope.user.roles && $scope.user.roles.manager 	!== undefined);
+                
+                // after user resource loaded, load account Collections
+                
+                if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
+                    $scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
+                } else {
+                    $scope.accountCollections = [];
+                }
+                
+                if (0 === $scope.accountCollections.length) {
+                    $scope.addAccountCollection();
+                }
+                
+            });
+        }
 		
 		loadCollectionsOptions($scope);
 		loadDepartmentsOptions($scope);
@@ -95,21 +108,7 @@ define([], function() {
                 'create': { method:'POST' }
             }  
         );
-	    
-	    $scope.user.$promise.then(function() {
-            
-            // after user resource loaded, load account Collections
-            
-			if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
-				$scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
-			} else {
-				$scope.accountCollections = [];
-			}
-			
-			if (0 === $scope.accountCollections.length) {
-				$scope.addAccountCollection();
-			}
-		});
+
 		
         
         /**

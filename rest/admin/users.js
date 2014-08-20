@@ -193,117 +193,27 @@ exports.save = function (req, res) {
 			{
 				return workflow.emit('exception', 'No user document to save roles on');
 			}
-			
-			
-			
-			/**
-			 * Remove or update a role for one user
-			 */  
-			var removeOrUpdate = function(checkedRole, model, updateCallback, noRoleCallback) {
-				
-				var promise = model.find({ 'user.id': workflow.outcome.document }).exec();
-				
-				promise.then(function(roles) {
-					
-					if (0 === roles.length) {
-						
-						if (checkedRole) {
-							var role = new model();
-							role.user = {
-								id: workflow.outcome.document,
-								name: userDocument.lastname+' '+userDocument.firstname
-							};
+            
+            var saveRoles = require('../../modules/roles');
+            
+            saveRoles(
+                req.app.db.models, 
+                userDocument, 
+                req.body.isAccount, 
+                req.body.isAdmin, 
+                req.body.isManager, 
+                function updateUserWithSavedRoles(err, results) {
 
-							updateCallback(role);
-							return;
-						}
-						
-					} else if (1 <= roles.length) {
-						
-						if (checkedRole) {
-							updateCallback(roles[0]);
-							return;
-						} else {
-							roles.forEach(function(role) { 
-								role.remove();
-							});
-						}
-					}
-					
-					noRoleCallback();
-					
-					
-				}, function (err) {
-					if (workflow.handleMongoError(err)) {
-						noRoleCallback();
-					}
-				});
-		
-			};
-			
-			
-			require('async').parallel([
-				function(asyncTaskEnd) {
-
-					removeOrUpdate(req.body.isAccount, req.app.db.models.Account, function(role) {
-
-						role.save(
-							function(err) {
-								if (workflow.handleMongoError(err)) {
-									userDocument.roles.account = role._id;
-									asyncTaskEnd(null, 'account');
-								}
-							}
-						);
-					}, function() {
-                        userDocument.roles.account = undefined;
-						asyncTaskEnd(null, 'account');
-					});
-				},
-				
-				function(asyncTaskEnd) {
-					removeOrUpdate(req.body.isAdmin, req.app.db.models.Admin, function(role) {
-						
-						role.save(
-							function(err) {
-								if (workflow.handleMongoError(err)) {
-									userDocument.roles.admin = role._id;
-									asyncTaskEnd(null, 'admin');
-								}
-							}
-						);
-					}, function() {
-                        userDocument.roles.admin = undefined;
-						asyncTaskEnd(null, 'admin');
-					});
-				},
-				
-				function(asyncTaskEnd) {
-					removeOrUpdate(req.body.isManager, req.app.db.models.Manager, function(role) {
-						
-						role.save(
-							function(err) {
-								if (workflow.handleMongoError(err)) {
-									userDocument.roles.manager = role._id;
-									asyncTaskEnd(null, 'manager');
-								}
-							}
-						);
-					}, function() {
-                        userDocument.roles.manager = undefined;
-						asyncTaskEnd(null, 'manager');
-					});
-				}],
-				
-				function updateUserWithSavedRoles(err, results) {
-					
-					userDocument.save(function(err) {
-						if (workflow.handleMongoError(err)) {
-							workflow.emit('response');
-						}
-					});
+                    if (workflow.handleMongoError(err)) { // error forwarded by async
+                        
+                        userDocument.save(function(err) {
+                            if (workflow.handleMongoError(err)) { // error for userDocument
+                                workflow.emit('response');
+                            }
+                        });
+                    }
 				}
-			);
+            );
 		});
 		
 		
