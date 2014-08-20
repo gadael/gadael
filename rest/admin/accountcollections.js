@@ -115,13 +115,7 @@ exports.save = function (req, res) {
 						
 						document.save(function (err) {
 							if (workflow.handleMongoError(err)) {
-							
-								workflow.outcome.alert.push({
-									type: 'success',
-									message: gt.gettext('The account collection has been modified')
-								});
-								
-								workflow.emit('response');
+								workflow.success(gt.gettext('The account collection has been modified'));
 							}
 						});
 					}
@@ -139,13 +133,7 @@ exports.save = function (req, res) {
 					if (workflow.handleMongoError(err))
 					{
 						workflow.outcome.document = document._id;
-						
-						workflow.outcome.alert.push({
-							type: 'success',
-							message: gt.gettext('The account collection has been created')
-						});
-
-						workflow.emit('response');
+						workflow.success(gt.gettext('The account collection has been created'));
 					}
 				});
 			}

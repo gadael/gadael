@@ -78,43 +78,47 @@ define(['angular',  'angularResource'], function (angular) {
     
     
     /**
-     * Save a resource and forward messages to rootscope
+     * catch workflow messages from the rest service and 
+     *  - forward messages to rootscope
+     *  - highlight the missing fields
      */
-    .factory('SaveResource', ['$rootScope', function($rootScope) {
+    .factory('catchWorkflow', ['$rootScope', function($rootScope) {
         
         
-        var addErrorMessages = function(data) {
+        var addMessages = function(data) {
             for(var i=0; i<data.alert.length; i++) {
                 $rootScope.pageAlerts.push(data.alert[i]);
             }
         };
         
         /**
+         * 
          * @return promise
          */
-        return function(resource) {
+        return function(promise) {
             
-            var p = resource.$save()
-            .then(function(data) {
-                addErrorMessages(data);
-            },
-            function(badRequest) {
-                
-                var data = badRequest.data;
-                
-                addErrorMessages(data);
+            promise = promise.then(
+                function(data) {
+                    addMessages(data);
+                },
+                function(badRequest) {
+                    
+                    var data = badRequest.data;
+                    
+                    addMessages(data);
 
-                // receive 400 bad request on missing parameters
-                // mark required fields
-                
-                for(var fname in data.errfor) {
-                    if ('required' === data.errfor[fname]) {
-                        angular.element(document.querySelector('[ng-model$='+fname+']')).parent().addClass('has-error');
+                    // receive 400 bad request on missing parameters
+                    // mark required fields
+                    
+                    for(var fname in data.errfor) {
+                        if ('required' === data.errfor[fname]) {
+                            angular.element(document.querySelector('[ng-model$='+fname+']')).parent().addClass('has-error');
+                        }
                     }
                 }
-            });
+            );
                 
-            return p;
+            return promise;
             
         };
         
@@ -125,14 +129,14 @@ define(['angular',  'angularResource'], function (angular) {
 	 * Create a resource to an object or to a collection
 	 * the object resource is created only if the angular route contain a :id
 	 */ 
-	.factory('IngaResource', ['$resource', '$routeParams', 'SaveResource', function($resource, $routeParams, SaveResource){
+	.factory('IngaResource', ['$resource', '$routeParams', 'catchWorkflow', function($resource, $routeParams, catchWorkflow){
 		
 
 		return function(collectionPath)
 		{
 			var ingaSave = function(nextaction) {
                 
-                var p = SaveResource(this);
+                var p = catchWorkflow(this.$save());
                 
                 if (nextaction) {
                     p = p.then(nextaction);

@@ -8,7 +8,7 @@ define([], function() {
 		'loadNonWorkingDaysOptions',
 		'$resource',
         '$q',
-        'SaveResource', function(
+        'catchWorkflow', function(
 			$scope, 
 			$location, 
 			IngaResource, 
@@ -18,7 +18,7 @@ define([], function() {
 			loadNonWorkingDaysOptions,
 			$resource,
             $q,
-            SaveResource
+            catchWorkflow
 		) {
 
 		$scope.user = IngaResource('rest/admin/users').loadRouteId();
@@ -53,7 +53,15 @@ define([], function() {
             var promises = [];
             
             for(var i=0; i<$scope.accountCollections.length; i++) {
-                promises.push(SaveResource($scope.accountCollections[i]));
+                
+                var document = $scope.accountCollections[i];
+                
+                if (document._id) {
+                    var p = $scope.accountCollections[i].$save();
+                } else {
+                    var p = $scope.accountCollections[i].$create();
+                }
+                promises.push(catchWorkflow(p));
             }
             
             var promise = $q.all(promises);
@@ -72,7 +80,10 @@ define([], function() {
 	    
 	    var accountCollection = $resource('rest/admin/accountcollections/:accCollId',
             { accCollId:'@_id' }, 
-            { 'save': { method:'PUT' }}  // overwrite default save method (POST)
+            { 
+                'save': { method:'PUT' },    // overwrite default save method (POST)
+                'create': { method:'POST' }
+            }  
         );
 	    
 	    $scope.user.$promise.then(function() {

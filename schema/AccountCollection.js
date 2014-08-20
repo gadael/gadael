@@ -29,6 +29,34 @@ exports = module.exports = function(params) {
 			next(new Error('Collection end date must be greater than the start date'));
 			return;
 		}
+        
+        
+        var testOverlap = function(period1, period2) {
+
+            if (period2.to && period1.to) {
+                if (period1.to > period2.from && period1.from < period2.to) {
+                    // the current period overlap one of the existing periods
+                    console.log(period1._id+' '+period2._id);
+                    return false;
+                }
+                return true;
+            }
+            
+            
+            if (!period2.to && period1.to > period2.from) {
+                // the current infinite period overlap one of the existing periods
+                return false;
+            }
+            
+            
+            if (!period1.to && period1.from < period2.to) {
+                // the current period overlap the end infinite period
+                return false;
+            }
+            
+            return true;
+        }
+        
 		
 		// verify that the new period start date is greater than all other dates
 		var model = params.db.models.AccountCollection;
@@ -40,11 +68,12 @@ exports = module.exports = function(params) {
 					next(new Error('To add a new collection period, all other collections must have a end date'));
 					return;
 				}
-				
-				if (acEntries[i].to >= accountCollection.from) {
-					next(new Error('The collection period must begin after the previous collection end date'));
-					return;
-				}
+                
+                if (!accountCollection._id.equals(acEntries[i]._id) && !testOverlap(acEntries[i], accountCollection)) {
+                    next(new Error('The collection period must begin after the previous collection end date'));
+                    return;
+                }
+                
 			}
 			
 			next();

@@ -62,12 +62,12 @@
 						
 						<div class="col-md-3 form-group">
 							<label for="user_from" translate>From</label>
-							<input type="text" id="user_from" class="form-control" ng-disabled="fromIsDisabled(accountCollection)" ng-model="accountCollection.from" data-autoclose="1" container="body" ng-required bs-datepicker />
+							<input type="text" id="user_from" class="form-control" ng-disabled="fromIsDisabled(accountCollection)" ng-model="accountCollection.from" data-max-date="{{accountCollection.to}}" data-autoclose="1" container="body" ng-required bs-datepicker />
 						</div>
 						
 						<div class="col-md-3 form-group">
 							<label for="user_to" translate>To</label>
-							<input type="text" id="user_to" class="form-control"  ng-disabled="toIsDisabled(accountCollection)" ng-model="accountCollection.to" data-autoclose="1" container="body" bs-datepicker />
+							<input type="text" id="user_to" class="form-control"  ng-disabled="toIsDisabled(accountCollection)" ng-model="accountCollection.to" data-min-date="{{accountCollection.from}}" data-autoclose="1" container="body" bs-datepicker />
 						</div>
 					</div>
 				</div>

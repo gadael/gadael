@@ -136,5 +136,7 @@ exports.getInfos = function(req, res) {
 
 
 exports.http404 = function(req, res) {
-	res.json({ http: 404 });
+    var workflow = req.app.utility.workflow(req, res);
+    workflow.httpstatus = 404;
+    workflow.emit('exception', 'Page not found');
 };

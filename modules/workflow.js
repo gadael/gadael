@@ -95,6 +95,16 @@ exports = module.exports = function(req, res) {
 	  return true;
   };
   
+  
+  workflow.success = function(message) {
+    workflow.outcome.alert.push({
+        type: 'success',
+        message: message
+    });
+    
+    workflow.emit('response');
+  }
+  
 
   workflow.on('exception', function(err) {
     workflow.outcome.alert.push({ type:'danger' ,message: err});
