@@ -125,7 +125,7 @@ exports.save = function (req, res) {
                     next(user.account);
                 }
             });
-        }
+        };
         
 		
 		
@@ -135,7 +135,7 @@ exports.save = function (req, res) {
 		workflow.on('save', function() {
 
 			if (req.params.id) {
-				workflow.outcome.document = req.params.id;
+				
 				
 				AccountCollection.findById(req.params.id, function (err, document) {
 					if (workflow.handleMongoError(err))
@@ -151,6 +151,7 @@ exports.save = function (req, res) {
 						
 						document.save(function (err) {
 							if (workflow.handleMongoError(err)) {
+                                workflow.document = document;
 								workflow.success(gt.gettext('The account collection has been modified'));
 							}
 						});
@@ -170,7 +171,7 @@ exports.save = function (req, res) {
                         
                         if (workflow.handleMongoError(err))
                         {
-                            workflow.outcome.document = document._id;
+                            workflow.document = document;
                             workflow.success(gt.gettext('The account collection has been created'));
                         }
                     });

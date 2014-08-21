@@ -4,15 +4,15 @@
  * Event workflow 
  * 
  * @property	int		httpstatus		Response HTTP code
+ * @property	Object	document		the processed document, will be return by the http query (mongoose document)
  * @property	Object	outcome			client infos
  * 
  * 
- * the outcome object is sent to client in json format
+ * the outcome object is sent to client in json format inside the document in the $outcome property
  * 
  * success: workflow result
  * alert: a list of message with { type: 'success|info|warning|danger' message: '' } type is one of bootstrap alert class
  * errfor: name of fields to highlight to client (empty value)
- * document: reference to the processed document (id or object)
  * 
  * @return EventEmitter
  */ 
@@ -20,12 +20,14 @@ exports = module.exports = function(req, res) {
   var workflow = new (require('events').EventEmitter)();
   
   workflow.httpstatus = 200;
+  
+  workflow.document = null;
 
+  
   workflow.outcome = {
     success: false,
     alert: [], 
-    errfor: {},
-    document: null
+    errfor: {}
   };
 
 
@@ -114,7 +116,20 @@ exports = module.exports = function(req, res) {
 
   workflow.on('response', function() {
     workflow.outcome.success = !workflow.hasErrors();
-    res.status(workflow.httpstatus).send(workflow.outcome);
+    
+    if (!workflow.document) {
+        console.log('missing document in outcome');
+        workflow.document = {}; // return empty document
+    }
+    
+    if (workflow.document.constructor.name === 'model') {
+        // force as a plain object to add the new property
+        workflow.document = workflow.document.toObject();
+    }
+        
+    workflow.document['$outcome'] = workflow.outcome;
+    
+    res.status(workflow.httpstatus).send(workflow.document);
   });
   
   

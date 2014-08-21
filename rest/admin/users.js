@@ -115,8 +115,6 @@ exports.save = function (req, res) {
 		var workflow = req.app.utility.workflow(req, res);
 		var User = req.app.db.models.User;
 		
-		var userDocument = null;
-		
 		workflow.on('validate', function() {
 
 			if (workflow.needRequiredFields(['firstname', 'lastname',  'email'])) {
@@ -134,7 +132,7 @@ exports.save = function (req, res) {
 
 			if (req.params.id)
 			{
-				workflow.outcome.document = req.params.id;
+				
 				
 				User.findById(req.params.id, function (err, user) {
 					if (workflow.handleMongoError(err))
@@ -146,16 +144,17 @@ exports.save = function (req, res) {
                         user.isActive   = req.body.isActive;
 						
 						user.save(function (err) {
-							workflow.handleMongoError(err);
+							if (workflow.handleMongoError(err)) {
+                                
+                                workflow.document = user;
 							
-							workflow.outcome.alert.push({
-								type: 'success',
-								message: gt.gettext('The user has been modified')
-							});
-							
-							userDocument = user;
-							
-							workflow.emit('saveRoles');
+                                workflow.outcome.alert.push({
+                                    type: 'success',
+                                    message: gt.gettext('The user has been modified')
+                                });
+                                
+                                workflow.emit('saveRoles');
+                            }
 						});
 					}
 				});
@@ -171,8 +170,7 @@ exports.save = function (req, res) {
 					
 					if (workflow.handleMongoError(err))
 					{
-						workflow.outcome.document = user._id;
-						userDocument = user;
+						workflow.document = user;
 						
 						workflow.outcome.alert.push({
 							type: 'success',
@@ -189,25 +187,37 @@ exports.save = function (req, res) {
 		
 		workflow.on('saveRoles', function() {
 			
-			if (!workflow.outcome.document)
+			if (!workflow.document)
 			{
 				return workflow.emit('exception', 'No user document to save roles on');
 			}
             
             var saveRoles = require('../../modules/roles');
             
+            var account = null;
+            if (req.body.isAccount) {
+                account = {
+                    nonWorkingDays: req.body.roles.account.nonWorkingDays,
+                    workschedule: req.body.roles.account.workschedule
+                };
+            }
+            
+            var admin = req.body.isAccount ? {} : null;
+            var manager = req.body.isManager ? {} : null;
+            
+            
             saveRoles(
                 req.app.db.models, 
-                userDocument, 
-                req.body.isAccount, 
-                req.body.isAdmin, 
-                req.body.isManager, 
+                workflow.document, 
+                account, 
+                admin, 
+                manager, 
                 function updateUserWithSavedRoles(err, results) {
 
                     if (workflow.handleMongoError(err)) { // error forwarded by async
                         
-                        userDocument.save(function(err) {
-                            if (workflow.handleMongoError(err)) { // error for userDocument
+                        workflow.document.save(function(err) {
+                            if (workflow.handleMongoError(err)) { // error for user document
                                 workflow.emit('response');
                             }
                         });

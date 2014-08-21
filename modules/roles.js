@@ -53,17 +53,21 @@ var removeOrUpdate = function(userDocument, checkedRole, model, updateCallback, 
  * 
  * @param object    models
  * @param object    userDocument
- * @param boolean   checkedRole     TRUE if user must be set account
+ * @param object    roleProperties
  * 
  * @return function
  */
-var asyncAccountTask = function(models, userDocument, checkedRole) {
+var asyncAccountTask = function(models, userDocument, roleProperties) {
+    
+    var checkedRole = (null !== roleProperties);
     
     return function(asyncTaskEnd) {
-        
-        
-    
+
         removeOrUpdate(userDocument, checkedRole, models.Account, function(role) {
+            
+            for(var pname in roleProperties) {
+                role[pname] = roleProperties[pname];
+            }
 
             role.save(
                 function(err) {
@@ -94,15 +98,21 @@ var asyncAccountTask = function(models, userDocument, checkedRole) {
  * 
  * @param object    models
  * @param object    userDocument
- * @param boolean   checkedRole     TRUE if user must be set admin
+ * @param object    roleProperties
  * 
  * @return function
  */
-var asyncAdminTask = function(models, userDocument, checkedRole) {
+var asyncAdminTask = function(models, userDocument, roleProperties) {
+    
+    var checkedRole = (null !== roleProperties);
     
     return function(asyncTaskEnd) {
     
         removeOrUpdate(userDocument, checkedRole, models.Admin, function(role) {
+            
+            for(var pname in roleProperties) {
+                role[pname] = roleProperties[pname];
+            }
 
             role.save(
                 function(err) {
@@ -133,15 +143,21 @@ var asyncAdminTask = function(models, userDocument, checkedRole) {
  * 
  * @param object    models
  * @param object    userDocument
- * @param boolean   checkedRole     TRUE if user must be set manager
+ * @param object    roleProperties
  * 
  * @return function
  */
-var asyncManagerTask = function(models, userDocument, checkedRole) {
+var asyncManagerTask = function(models, userDocument, roleProperties) {
+    
+    var checkedRole = (null !== roleProperties);
     
     return function(asyncTaskEnd) {
     
         removeOrUpdate(userDocument, checkedRole, models.Manager, function(role) {
+            
+            for(var pname in roleProperties) {
+                role[pname] = roleProperties[pname];
+            }
 
             role.save(
                 function(err) {
@@ -167,12 +183,20 @@ var asyncManagerTask = function(models, userDocument, checkedRole) {
 /**
  * Process an async task for the 3 roles
  * 
+ * @param   object models
+ * @param   object userDocument
+ * 
+ * @param   object account          If null, unset role, object contain property to set in role
+ * @param   object admin            If null, unset role, object contain property to set in role
+ * @param   object manager          If null, unset role, object contain property to set in role
+ * 
+ * @param   function callback       Async task callback
  */
-exports = module.exports = function(models, userDocument, isAccount, isAdmin, isManager, callback) {
+exports = module.exports = function(models, userDocument, account, admin, manager, callback) {
     
     require('async').parallel([
-        asyncAccountTask(models, userDocument, isAccount),
-        asyncAdminTask(models, userDocument, isAdmin),
-        asyncManagerTask(models, userDocument, isManager)
+        asyncAccountTask(models, userDocument, account),
+        asyncAdminTask(models, userDocument, admin),
+        asyncManagerTask(models, userDocument, manager)
     ], callback);
 };

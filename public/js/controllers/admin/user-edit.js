@@ -22,8 +22,8 @@ define([], function() {
 		) {
 
 		$scope.user = IngaResource('rest/admin/users').loadRouteId();
-		
-        if ($scope.user._id) {
+
+        if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
                 
                 $scope.user.isAccount 	= ($scope.user.roles && $scope.user.roles.account 	!== undefined);
@@ -63,11 +63,14 @@ define([], function() {
          */
         var saveAccountCollection = function(userId) {
             
+            console.log('saveAccountCollection');
+            console.log($scope.user);
+            
             if (!$scope.user.isAccount) {
                 // TODO remove the existing collections
                 return;
             }
-            
+
             var promises = [];
             
             for(var i=0; i<$scope.accountCollections.length; i++) {

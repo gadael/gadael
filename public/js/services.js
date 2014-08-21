@@ -85,9 +85,9 @@ define(['angular',  'angularResource'], function (angular) {
     .factory('catchWorkflow', ['$rootScope', function($rootScope) {
         
         
-        var addMessages = function(data) {
-            for(var i=0; i<data.alert.length; i++) {
-                $rootScope.pageAlerts.push(data.alert[i]);
+        var addMessages = function(outcome) {
+            for(var i=0; i<outcome.alert.length; i++) {
+                $rootScope.pageAlerts.push(outcome.alert[i]);
             }
         };
         
@@ -99,25 +99,33 @@ define(['angular',  'angularResource'], function (angular) {
             
             promise = promise.then(
                 function(data) {
-                    addMessages(data);
-                    
-                    if (data.document) {
-                        // workflow return the saved document object id
-                        // value is fowarded to the next promise on success
-                        return data.document;
+                    if (data.$outcome) {
+                        addMessages(data.$outcome);
+                    } else {
+                        console.log(data);
                     }
+                    
+                    // workflow return the saved document object
+                    // value is fowarded to the next promise on success
+                    return data;
+                    
                 },
                 function(badRequest) {
                     
                     var data = badRequest.data;
+                    var outcome = data.$outcome;
                     
-                    addMessages(data);
+                    if (!outcome) {
+                        return;
+                    }
+                    
+                    addMessages(outcome);
 
                     // receive 400 bad request on missing parameters
                     // mark required fields
                     
-                    for(var fname in data.errfor) {
-                        if ('required' === data.errfor[fname]) {
+                    for(var fname in outcome.errfor) {
+                        if ('required' === outcome.errfor[fname]) {
                             angular.element(document.querySelector('[ng-model$='+fname+']')).parent().addClass('has-error');
                         }
                     }
@@ -182,7 +190,6 @@ define(['angular',  'angularResource'], function (angular) {
 		};
 
 	}])
-
 
 	
 	;

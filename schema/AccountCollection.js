@@ -55,7 +55,7 @@ exports = module.exports = function(params) {
             }
             
             return true;
-        }
+        };
         
 		
 		// verify that the new period start date is greater than all other dates
