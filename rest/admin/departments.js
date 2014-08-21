@@ -33,11 +33,9 @@ exports.getList = function (req, res) {
 			.limit(p.limit)
 			.skip(p.skip)
 			.exec(function (err, docs) {
-				if (err) {
-					return console.error(err);
-				}
-				
-				res.json(docs);
+				if (workflow.handleMongoError(err)) {
+                    res.json(docs);
+                }
 			});
 		});
 	});
@@ -68,30 +66,30 @@ exports.save = function(req, res) {
 			if (req.params.id)
 			{
 				Department.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, department) {
-					if (err) {
-						return workflow.emit('exception', err.err);
-					}
+					if (workflow.handleMongoError(err)) {
 					
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The department has been modified')
-					});
-					
-					workflow.emit('response');
+                        workflow.outcome.alert.push({
+                            type: 'success',
+                            message: gt.gettext('The department has been modified')
+                        });
+                        
+                        workflow.document = department;
+                        workflow.emit('response');
+                    }
 				});
 			} else {
 				Department.create(fieldsToSet, function(err, department) {
 					
-					if (err) {
-						return workflow.emit('exception', err.err);
-					}
+					if (workflow.handleMongoError(err)) {
 					
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The department has been created')
-					});
-					
-					workflow.emit('response');
+                        workflow.outcome.alert.push({
+                            type: 'success',
+                            message: gt.gettext('The department has been created')
+                        });
+                        
+                        workflow.document = department;
+                        workflow.emit('response');
+                    }
 				});
 			}
 			
@@ -109,12 +107,9 @@ exports.getItem = function(req, res) {
 		var workflow = req.app.utility.workflow(req, res);
 		
 		req.app.db.models.Department.findOne({ '_id' : req.params.id}, 'name', function(err, department) {
-			if (err)
-			{
-				return workflow.emit('exception', err.message);
-			}
-			
-			res.json(department);
+			if (workflow.handleMongoError(err)) {
+                res.json(department);
+            }
 		});
 	});
 };	

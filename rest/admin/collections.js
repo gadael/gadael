@@ -7,6 +7,8 @@
 exports.getList = function (req, res) {
 	
 	req.ensureAdmin(req, res, function(req, res) {
+        
+        var workflow = req.app.utility.workflow(req, res);
 
 		var query = function() {
 			var find = req.app.db.models.RightCollection.find();
@@ -34,7 +36,9 @@ exports.getList = function (req, res) {
 			.limit(p.limit)
 			.skip(p.skip)
 			.exec(function (err, docs) {
-				res.json(docs);
+                if (workflow.handleMongoError(err)) {
+                    res.json(docs);
+                }
 			});
 		});
 	});
@@ -72,6 +76,7 @@ exports.save = function(req, res) {
 							message: gt.gettext('The collection has been modified')
 						});
 						
+                        workflow.document = collection;
 						workflow.emit('response');
 					}
 				});
@@ -83,6 +88,7 @@ exports.save = function(req, res) {
 							message: gt.gettext('The collection has been created')
 						});
 						
+                        workflow.document = collection;
 						workflow.emit('response');
 					}
 				});

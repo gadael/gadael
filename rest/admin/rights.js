@@ -33,11 +33,9 @@ exports.getList = function (req, res) {
 			.limit(p.limit)
 			.skip(p.skip)
 			.exec(function (err, docs) {
-				if (err) {
-					return console.error(err);
-				}
-				
-				res.json(docs);
+				if (workflow.handleMongoError(err)) {
+                    res.json(docs);
+                }
 			});
 		});
 	});
@@ -69,31 +67,28 @@ exports.save = function(req, res) {
 
 			if (req.params.id)
 			{
-				Right.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, type) {
-					if (err) {
-						return workflow.emit('exception', err.err);
-					}
-					
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The right type has been modified')
-					});
-					
-					workflow.emit('response');
+				Right.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, right) {
+					if (workflow.handleMongoError(err)) {
+                        workflow.outcome.alert.push({
+                            type: 'success',
+                            message: gt.gettext('The right type has been modified')
+                        });
+                        
+                        workflow.document = right;
+                        workflow.emit('response');
+                    }
 				});
 			} else {
-				Right.create(fieldsToSet, function(err, type) {
-					
-					if (err) {
-						return workflow.emit('exception', err.err);
-					}
-					
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The right type has been created')
-					});
-					
-					workflow.emit('response');
+				Right.create(fieldsToSet, function(err, right) {
+					if (workflow.handleMongoError(err)) {
+                        workflow.outcome.alert.push({
+                            type: 'success',
+                            message: gt.gettext('The right type has been created')
+                        });
+                        
+                        workflow.document = right;
+                        workflow.emit('response');
+                    }
 				});
 			}
 			
@@ -111,12 +106,9 @@ exports.getItem = function(req, res) {
 		var workflow = req.app.utility.workflow(req, res);
 		
 		req.app.db.models.Right.findOne({ '_id' : req.params.id}, 'name description type require_approval autoDistribution quantity quantity_unit activeFor activeSpan', function(err, type) {
-			if (err)
-			{
-				return workflow.emit('exception', err.message);
-			}
-			
-			res.json(type);
+			if (workflow.handleMongoError(err)) {
+                res.json(type);
+            }
 		});
 	});
 };	

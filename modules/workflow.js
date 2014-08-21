@@ -4,7 +4,7 @@
  * Event workflow 
  * 
  * @property	int		httpstatus		Response HTTP code
- * @property	Object	document		the processed document, will be return by the http query (mongoose document)
+ * @property	Object	document		the processed document, will be return by the http query for save method (mongoose document)
  * @property	Object	outcome			client infos
  * 
  * 

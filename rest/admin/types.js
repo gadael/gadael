@@ -70,30 +70,30 @@ exports.save = function(req, res) {
 			if (req.params.id)
 			{
 				Type.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, type) {
-					if (err) {
-						return workflow.emit('exception', err.err);
-					}
-					
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The right type has been modified')
-					});
-					
-					workflow.emit('response');
+					if (workflow.handleMongoError(err)) {
+                        
+                        workflow.outcome.alert.push({
+                            type: 'success',
+                            message: gt.gettext('The right type has been modified')
+                        });
+                        
+                        workflow.document = type;
+                        workflow.emit('response');
+                    }
 				});
 			} else {
 				Type.create(fieldsToSet, function(err, type) {
 					
-					if (err) {
-						return workflow.emit('exception', err.err);
-					}
+					if (workflow.handleMongoError(err)) {
 					
-					workflow.outcome.alert.push({
-						type: 'success',
-						message: gt.gettext('The right type has been created')
-					});
-					
-					workflow.emit('response');
+                        workflow.outcome.alert.push({
+                            type: 'success',
+                            message: gt.gettext('The right type has been created')
+                        });
+                        
+                        workflow.document = type;
+                        workflow.emit('response');
+                    }
 				});
 			}
 			

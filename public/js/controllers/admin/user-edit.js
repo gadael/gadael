@@ -63,21 +63,19 @@ define([], function() {
          */
         var saveAccountCollection = function(userId) {
             
-            console.log('saveAccountCollection');
-            console.log($scope.user);
             
-            if (!$scope.user.isAccount) {
+            if (!$scope.user.roles.account) {
                 // TODO remove the existing collections
                 return;
             }
-
+            
             var promises = [];
             
             for(var i=0; i<$scope.accountCollections.length; i++) {
                 
                 var document = $scope.accountCollections[i];
-                if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
-                    document.account = $scope.user.roles.account._id;
+                if ($scope.user.roles && $scope.user.roles.account) {
+                    document.account = $scope.user.roles.account;
                 } else {
                     document.user = userId;
                 }

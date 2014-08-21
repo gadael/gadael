@@ -89,6 +89,7 @@ exports.save = function(req, res) {
 							message: gt.gettext('The calendar has been modified')
 						});
 						
+                        workflow.document = calendar;
 						workflow.emit('response');
 					}
 				});
@@ -101,6 +102,7 @@ exports.save = function(req, res) {
 							message: gt.gettext('The calendar has been created')
 						});
 						
+                        workflow.document = calendar;
 						workflow.emit('response');
 					}
 				});

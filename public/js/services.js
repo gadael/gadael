@@ -101,8 +101,6 @@ define(['angular',  'angularResource'], function (angular) {
                 function(data) {
                     if (data.$outcome) {
                         addMessages(data.$outcome);
-                    } else {
-                        console.log(data);
                     }
                     
                     // workflow return the saved document object
