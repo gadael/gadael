@@ -6,6 +6,8 @@
 exports.getList = function (req, res) {
 	
 	req.ensureAdmin(req, res, function(req, res) {
+        
+        var workflow = req.app.utility.workflow(req, res);
 		
 		var query = function() {
 			var find = req.app.db.models.Right.find();
@@ -19,7 +21,6 @@ exports.getList = function (req, res) {
 		var paginate = require('node-paginate-anything');
 
 		query().count(function(err, total) {
-				
 			var p = paginate(req, res, total, 50);
 			
 			if (!p) {

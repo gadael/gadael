@@ -122,15 +122,27 @@ define([], function() {
 				var lastItem = $scope.accountCollections[length - 1];
 				
 				if (!lastItem.to) {
-					lastItem.to = new Date(Math.max.apply(null,[lastItem.from, new Date()]));
+                    
+                    var from = new Date(lastItem.from);
+                    var today = new Date();
+                    
+                    var maxTime = Math.max.apply(null,[from.getTime(), today.getTime()]);
+                    
+                    lastItem.to = new Date();
+					lastItem.to.setTime(maxTime);
+                    
+                    
 					lastItem.to.setDate(lastItem.to.getDate()+1);
 				}
 				
+                
 				var nextDate = new Date(lastItem.to);
 				nextDate.setDate(nextDate.getDate()+1);
 			} else {
 				var nextDate = new Date();
 			}
+            
+            
 			
 			var newAc = new accountCollection;
             
@@ -148,7 +160,7 @@ define([], function() {
 				return false;
 			}
 			
-			return (undefined !== item._id && item.from < Date.now());
+			return (undefined !== item._id && item.from && item.from < Date.now());
 		};
 		
 		$scope.toIsDisabled = function(item) {
@@ -156,7 +168,7 @@ define([], function() {
 				return false;
 			}
 			
-			return (undefined !== item._id && item.to < Date.now());
+			return (undefined !== item._id && item.to && item.to < Date.now());
 		};
 		
 		$scope.removeIsDisabled = function(item) {

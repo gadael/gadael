@@ -7,6 +7,8 @@ exports.getList = function (req, res) {
 	
 	req.ensureAdmin(req, res, function(req, res) {
 		
+        var workflow = req.app.utility.workflow(req, res);
+        
 		var query = function() {
 			var find = req.app.db.models.Department.find();
 			if (req.param('name'))
