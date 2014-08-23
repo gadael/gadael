@@ -100,22 +100,22 @@ exports = module.exports = function(params) {
   };
   
   
-  /**
-   *
-   */  
-  userSchema.statics.validatePassword = function(password, hash, done) {
-    var bcrypt = require('bcrypt');
-    bcrypt.compare(password, hash, function(err, res) {
-      done(err, res);
-    });
-  };
+    /**
+    *
+    */  
+    userSchema.statics.validatePassword = function(password, hash, done) {
+        var bcrypt = require('bcrypt');
+        bcrypt.compare(password, hash, function(err, res) {
+            done(err, res);
+        });
+    };
   
   
   
-  /**
-   * test method to create random user
-   */  
-  userSchema.statics.createRandom = function(password, done) {
+    /**
+     * test method to create random user
+     */  
+    userSchema.statics.createRandom = function(password, done) {
 		
 		var Charlatan = require('../node_modules/charlatan/lib/charlatan.js');
 		var model = this;
@@ -137,17 +137,30 @@ exports = module.exports = function(params) {
 			model.create(fieldsToSet, done);
 			
 		});
-  };
+    };
+  
+  
+    userSchema.pre('remove', function(next) {
+        
+        var models = params.db.models;
+        
+        models.User_Admin.remove({ 'user.id': this._id }).exec();
+        models.User_Account.remove({ 'user.id': this._id }).exec();
+        models.User_Manager.remove({ 'user.id': this._id }).exec();
+        
+        next();
+    });
   
   
   
-  userSchema.index({ email: 1 }, { unique: true });
-  userSchema.index({ timeCreated: 1 });
-  userSchema.index({ 'twitter.id': 1 });
-  userSchema.index({ 'github.id': 1 });
-  userSchema.index({ 'facebook.id': 1 });
-  userSchema.index({ 'google.id': 1 });
-  userSchema.set('autoIndex', params.autoIndex);
+    userSchema.index({ email: 1 }, { unique: true });
+    userSchema.index({ timeCreated: 1 });
+    userSchema.index({ 'twitter.id': 1 });
+    userSchema.index({ 'github.id': 1 });
+    userSchema.index({ 'facebook.id': 1 });
+    userSchema.index({ 'google.id': 1 });
+    userSchema.set('autoIndex', params.autoIndex);
   
-  params.db.model('User', userSchema);
+    params.db.model('User', userSchema);
+
 };

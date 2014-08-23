@@ -213,7 +213,7 @@ exports.remove = function (req, res) {
             }
             
             if (workflow.document.from < new Date()) {
-                workflow.emit('exception', gt.gettext('Delete a collection aulready started is not allowed'));
+                workflow.emit('exception', gt.gettext('Delete a collection allready started is not allowed'));
                 return;
             }
 			
