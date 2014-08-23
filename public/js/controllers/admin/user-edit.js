@@ -183,8 +183,13 @@ define([], function() {
 		};
 		
 		
-		
+		/**
+         * Delete
+         */
 		$scope.removeAccountCollection = function(index) {
+            var accountCollection = $scope.accountCollections[index];
+            catchWorkflow(accountCollection.$delete());
+            
 			$scope.accountCollections.splice(index, 1);
 		};
 		

@@ -200,10 +200,9 @@ exports.remove = function (req, res) {
             AccountCollection.findById(req.params.id, function (err, document) {
                 if (workflow.handleMongoError(err)) {
                     workflow.document = document;
+                    workflow.emit('validate');
                 }
             });
-            
-            workflow.emit('validate');
         });
         
 		
