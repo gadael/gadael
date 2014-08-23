@@ -27,6 +27,7 @@ exports = module.exports = function(app, passport) {
 	app.get('/rest/admin/accountcollections/:id'	, require('./rest/admin/accountcollections').getItem);
 	app.post('/rest/admin/accountcollections'		, require('./rest/admin/accountcollections').save);
 	app.put('/rest/admin/accountcollections/:id'	, require('./rest/admin/accountcollections').save);
+    app.delete('/rest/admin/accountcollections/:id'	, require('./rest/admin/accountcollections').remove);
 	
 	app.get('/rest/admin/departments'		, require('./rest/admin/departments').getList);
 	app.get('/rest/admin/departments/:id'	, require('./rest/admin/departments').getItem);

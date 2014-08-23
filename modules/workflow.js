@@ -89,8 +89,8 @@ exports = module.exports = function(req, res) {
 		  }
 		  
 		  workflow.outcome.alert.push({ type:'danger' ,message: err.message});
-		  workflow.outcome.success = !workflow.hasErrors();
-		  res.status(workflow.httpstatus).send(workflow.outcome);
+          
+          workflow.emit('response');
 		  return false;
 	  }
 	  

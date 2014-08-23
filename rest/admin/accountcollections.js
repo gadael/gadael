@@ -184,3 +184,50 @@ exports.save = function (req, res) {
 		workflow.emit('validate');
 	});
 };
+
+
+exports.remove = function (req, res) {
+    req.ensureAdmin(req, res, function() {
+        
+        var util = require('util');
+		var gt = req.app.utility.gettext;
+		var workflow = req.app.utility.workflow(req, res);
+		var AccountCollection = req.app.db.models.AccountCollection;
+        
+        
+        workflow.on('find', function() {
+            
+            AccountCollection.findById(req.params.id, function (err, document) {
+                if (workflow.handleMongoError(err)) {
+                    workflow.document = document;
+                }
+            });
+            
+            workflow.emit('validate');
+        });
+        
+		
+		workflow.on('validate', function() {
+            
+            if (!workflow.document) {
+                workflow.emit('exception', 'Document not found '+req.params.id);
+                return;
+            }
+            
+            if (workflow.document.from < new Date()) {
+                workflow.emit('exception', gt.gettext('Delete a collection aulready started is not allowed'));
+                return;
+            }
+			
+			workflow.emit('delete');
+		});
+        
+        
+        workflow.on('delete', function() {
+            workflow.document.remove();
+            workflow.success(gt.gettext('The collection has been removed from account'));
+        });
+        
+        workflow.emit('find');
+    });
+};

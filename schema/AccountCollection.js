@@ -60,11 +60,16 @@ exports = module.exports = function(params) {
 		
 		// verify that the new period start date is greater than all other dates
 		var model = params.db.models.AccountCollection;
-		model.find({ account: this.account }).exec(function(err, acEntries) {
+		model.find({ account: this.account }).sort('from').exec(function(err, acEntries) {
 			
 			for(var i=0; i < acEntries.length; i++) {
 				
-				if (acEntries[i].to === null) {
+				if (acEntries[i].to === null && i !== acEntries.length) {
+					next(new Error('All collections except the last must have a end date'));
+					return;
+				}
+                
+                if (acEntries[i].to === null && i === acEntries.length && accountCollection._id !== acEntries[i]._id) {
 					next(new Error('To add a new collection period, all other collections must have a end date'));
 					return;
 				}

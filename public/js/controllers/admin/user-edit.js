@@ -130,6 +130,9 @@ define([], function() {
                     
                     lastItem.to = new Date();
 					lastItem.to.setTime(maxTime);
+                    lastItem.to.setHours(0);
+                    lastItem.to.setMinutes(0);
+                    lastItem.to.setSeconds(0);
                     
                     
 					lastItem.to.setDate(lastItem.to.getDate()+1);
