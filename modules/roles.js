@@ -171,7 +171,7 @@ var asyncManagerTask = function(models, userDocument, roleProperties) {
                 }
             );
         }, function() {
-            userDocument.roles.admin = undefined;
+            userDocument.roles.manager = undefined;
             asyncTaskEnd(null, 'manager');
         });
     };

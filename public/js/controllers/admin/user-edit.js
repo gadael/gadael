@@ -26,9 +26,9 @@ define([], function() {
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
                 
-                $scope.user.isAccount 	= ($scope.user.roles && $scope.user.roles.account 	!== undefined);
-                $scope.user.isAdmin 	= ($scope.user.roles && $scope.user.roles.admin 	!== undefined);
-                $scope.user.isManager 	= ($scope.user.roles && $scope.user.roles.manager 	!== undefined);
+                $scope.user.isAccount 	= ($scope.user.roles && $scope.user.roles.account 	!== undefined && $scope.user.roles.account 	!== null);
+                $scope.user.isAdmin 	= ($scope.user.roles && $scope.user.roles.admin 	!== undefined && $scope.user.roles.admin 	!== null);
+                $scope.user.isManager 	= ($scope.user.roles && $scope.user.roles.manager 	!== undefined && $scope.user.roles.manager 	!== null);
                 
                 // after user resource loaded, load account Collections
                 

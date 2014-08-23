@@ -202,7 +202,7 @@ exports.save = function (req, res) {
                 };
             }
             
-            var admin = req.body.isAccount ? {} : null;
+            var admin = req.body.isAdmin ? {} : null;
             var manager = req.body.isManager ? {} : null;
             
             
