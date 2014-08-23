@@ -189,7 +189,6 @@ exports.save = function (req, res) {
 exports.remove = function (req, res) {
     req.ensureAdmin(req, res, function() {
         
-        var util = require('util');
 		var gt = req.app.utility.gettext;
 		var workflow = req.app.utility.workflow(req, res);
 		var AccountCollection = req.app.db.models.AccountCollection;
