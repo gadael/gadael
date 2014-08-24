@@ -14,14 +14,21 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/**/*.js',
-      'public/js/app.js'
+      //  'public/bower_components/angular/angular.js',
+      //  'public/bower_components/angular-mocks/angular-mocks.js',
+      //  'test/test-main.js'
+        
+      {pattern: 'public/bower_components/**/*.js', included: false},
+      {pattern: 'public/js/**/*.js', included: false},
+      {pattern: 'test/**/*Spec.js', included: false},
+
+      'test/test-main.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-      
+        'public/js/main.js'
     ],
 
 
@@ -55,7 +62,7 @@ module.exports = function(config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['Firefox'],
+    browsers: ['PhantomJS'],
 
 
     // If browser does not capture in given timeout [ms], kill it
@@ -64,6 +71,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: true
   });
 };

@@ -45,7 +45,7 @@ require.config({
 window.name = "NG_DEFER_BOOTSTRAP!";
 
 require( [
-	'angular',
+    'angular',
 	'app',
 	'routes',
 	'angularstraptpl',
