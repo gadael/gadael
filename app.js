@@ -43,15 +43,20 @@ app.set('port', config.port);
 // app.set('view engine', 'jade');
 
 //middleware
+
+var bodyParser = require('body-parser');
+
 app.use(require('morgan')('dev'));
 app.use(require('compression')());
 app.use(require('serve-static')(path.join(__dirname, 'public')));
-app.use(require('body-parser')());
+app.use(bodyParser.json());
 app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(session({
   secret: config.cryptoKey,
-  store: new mongoStore({ url: config.mongodb.prefix + config.mongodb.dbname })
+  store: new mongoStore({ url: config.mongodb.prefix + config.mongodb.dbname }),
+  saveUninitialized: true,
+  resave: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
