@@ -5,7 +5,7 @@ define([], function() {
 		$scope.home = {
 				title: 'hey this is home.js!'
 		};
-
+        
 		$scope.$apply();
 	}];
 });

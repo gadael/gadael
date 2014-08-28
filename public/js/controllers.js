@@ -1,5 +1,17 @@
 define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 	'use strict';
+    
+    var invokeController = function(path, module, $scope, $injector) {
+        
+        if (require.defined(path)) {
+            // synchronous load if controller file allready loaded
+            $injector.invoke(require(path), module, {'$scope': $scope});
+        } else {
+            require([path], function(ctrlFn) {
+				$injector.invoke(ctrlFn, module, {'$scope': $scope});
+			});
+        }
+    };
 
 	/* Controllers */
 	
@@ -23,9 +35,7 @@ define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 	
 		
 		.controller('Home', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/home'], function(home) {
-				$injector.invoke(home, this, {'$scope': $scope});
-			});
+            invokeController('controllers/home', this, $scope, $injector);
 		}])
 	
 		.controller('Login', ['$scope', '$injector', function($scope, $injector) {

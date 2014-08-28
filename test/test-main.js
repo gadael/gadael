@@ -27,7 +27,7 @@ requirejs.config({
 		paginateAnything:		'../bower_components/angular-paginate-anything/src/paginate-anything',
 		passwordStrength: 		'../bower_components/angular-password-strength/build/angular-password-strength.min',
 		angularAnimate:			'../bower_components/angular-animate/angular-animate.min',
-		angularSanitize:		'../bower_components/angular-sanitize/angular-sanitize.min'		 
+		angularSanitize:		'../bower_components/angular-sanitize/angular-sanitize.min'
     },
 
     shim: {
