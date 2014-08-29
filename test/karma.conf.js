@@ -14,16 +14,26 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      //  'public/bower_components/angular/angular.js',
-      //  'public/bower_components/angular-mocks/angular-mocks.js',
-      //  'test/test-main.js'
-        
+
       {pattern: 'public/bower_components/**/*.js', included: false},
       {pattern: 'public/js/**/*.js', included: false},
       {pattern: 'test/**/*Spec.js', included: false},
+      {
+        pattern: 'public/partials/**/*.html',
+        included: false
+      },
 
       'test/test-main.js'
     ],
+    
+    preprocessors: {
+      'public/partials/**/*.html': ['ng-html2js']
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'public/',
+      prependPrefix: ''
+    },
 
 
     // list of files to exclude

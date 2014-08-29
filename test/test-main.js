@@ -27,7 +27,10 @@ requirejs.config({
 		paginateAnything:		'../bower_components/angular-paginate-anything/src/paginate-anything',
 		passwordStrength: 		'../bower_components/angular-password-strength/build/angular-password-strength.min',
 		angularAnimate:			'../bower_components/angular-animate/angular-animate.min',
-		angularSanitize:		'../bower_components/angular-sanitize/angular-sanitize.min'
+		angularSanitize:		'../bower_components/angular-sanitize/angular-sanitize.min',
+        
+        paginateAnythingTpl:    '../partials/utils/paginate-anything.html',
+        usersTpl:               '../partials/admin/users.html'
     },
 
     shim: {
@@ -48,7 +51,10 @@ requirejs.config({
 		'passwordStrength': ['angular'],
 		'angular_frfr': ['angular'],
 		'angularAnimate': ['angular'],
-		'angularSanitize': ['angular']
+		'angularSanitize': ['angular'],
+        
+        'paginateAnythingTpl': ['angular'],
+        'usersTpl': ['angular', 'paginateAnythingTpl']
     },
 
     // ask Require.js to load these files (all our tests)

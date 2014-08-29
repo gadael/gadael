@@ -1,4 +1,7 @@
-define([], function() {
+define(['angularstraptpl',
+	'angular_frfr',
+	'angularAnimate',
+	'angularSanitize'], function() {
 	return ['$scope', '$http', function($scope, $http) {
 		
 		

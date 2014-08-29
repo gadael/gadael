@@ -1,13 +1,5 @@
 
-define([
-    'angular',
-	'app',
-	'routes',
-	'angularstraptpl',
-	'angular_frfr',
-	'angularAnimate',
-	'angularSanitize',
-    'controllers/home'], function(angular, app, routes) {
+define(['controllers/home'], function() {
 
     describe('Home controller', function () {
         'use strict';

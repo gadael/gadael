@@ -1,4 +1,4 @@
-define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
+define(['angular', 'services'], function (angular) {
 	'use strict';
     
     var invokeController = function(path, module, $scope, $injector) {
@@ -7,6 +7,9 @@ define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
             // synchronous load if controller file allready loaded
             $injector.invoke(require(path), module, {'$scope': $scope});
         } else {
+            
+            // console.log('Loading controller async '+path);
+            
             require([path], function(ctrlFn) {
 				$injector.invoke(ctrlFn, module, {'$scope': $scope});
 			});
@@ -39,148 +42,98 @@ define(['angular', 'services'], function (angular) { // , 'angularBootstrap'
 		}])
 	
 		.controller('Login', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login/index'], function(login) {
-				$injector.invoke(login, this, {'$scope': $scope});
-			});
+            invokeController('controllers/login/index', this, $scope, $injector);
 		}])
 		
 		.controller('LoginForgot', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login/forgot'], function(login) {
-				$injector.invoke(login, this, {'$scope': $scope});
-			});
+            invokeController('controllers/login/forgot', this, $scope, $injector);
 		}])
 		
 		.controller('LoginReset', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login/reset'], function(reset) {
-				$injector.invoke(reset, this, {'$scope': $scope});
-			});
+            invokeController('controllers/login/reset', this, $scope, $injector);
 		}])
 		
 		.controller('LoginTwitter', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login/twitter'], function(login) {
-				$injector.invoke(login, this, {'$scope': $scope});
-			});
+            invokeController('controllers/login/twitter', this, $scope, $injector);
 		}])
 		
 		.controller('LoginGithub', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login/github'], function(login) {
-				$injector.invoke(login, this, {'$scope': $scope});
-			});
+            invokeController('controllers/login/github', this, $scope, $injector);
 		}])
 		
 		.controller('LoginFacebook', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login/facebook'], function(login) {
-				$injector.invoke(login, this, {'$scope': $scope});
-			});
+            invokeController('controllers/login/facebook', this, $scope, $injector);
 		}])
 		
 		.controller('LoginGoogle', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login/google'], function(login) {
-				$injector.invoke(login, this, {'$scope': $scope});
-			});
+            invokeController('controllers/login/google', this, $scope, $injector);
 		}])
 		
 		.controller('LoginTumblr', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/login/tumblr'], function(login) {
-				$injector.invoke(login, this, {'$scope': $scope});
-			});
+            invokeController('controllers/login/tumblr', this, $scope, $injector);
 		}])
 		
 		.controller('Admin', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/index'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/index', this, $scope, $injector);
 		}])
 		
 		.controller('AdminRequests', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/requests'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/requests', this, $scope, $injector);
 		}])
 		
 		.controller('AdminUsers', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/users'], function(adminusers) {
-				$injector.invoke(adminusers, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/users', this, $scope, $injector);
 		}])
 		
 		.controller('AdminUserEdit', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/user-edit'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/user-edit', this, $scope, $injector);
 		}])
 		
 		.controller('AdminDepartments', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/departments'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/departments', this, $scope, $injector);
 		}])
 		
 		.controller('AdminDepartmentEdit', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/department-edit'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/department-edit', this, $scope, $injector);
 		}])
 		
 		.controller('AdminCollections', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/collections'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/collections', this, $scope, $injector);
 		}])
 		
 		.controller('AdminCollectionEdit', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/collection-edit'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/collection-edit', this, $scope, $injector);
 		}])
 		
 		.controller('AdminCalendars', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/calendars'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/calendars', this, $scope, $injector);
 		}])
 		
 		.controller('AdminCalendarEdit', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/calendar-edit'], function(calendarEdit) {
-				$injector.invoke(calendarEdit, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/calendar-edit', this, $scope, $injector);
 		}])
 		
 		.controller('AdminTypes', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/types'], function(types) {
-				$injector.invoke(types, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/types', this, $scope, $injector);
 		}])
 		
 		.controller('AdminTypeEdit', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/type-edit'], function(admin) {
-				$injector.invoke(admin, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/type-edit', this, $scope, $injector);
 		}])
 		
 		.controller('AdminRights', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/rights'], function(rights) {
-				$injector.invoke(rights, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/rights', this, $scope, $injector);
 		}])
         
         .controller('AdminRightEdit', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/admin/right-edit'], function(right) {
-				$injector.invoke(right, this, {'$scope': $scope});
-			});
+            invokeController('controllers/admin/right-edit', this, $scope, $injector);
 		}])
 		
 		.controller('Signup', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/signup'], function(signup) {
-				$injector.invoke(signup, this, {'$scope': $scope});
-			});
+            invokeController('controllers/signup', this, $scope, $injector);
 		}])
-		
-		
-		
+
 		.controller('UserSettings', ['$scope', '$injector', function($scope, $injector) {
-			require(['controllers/user/settings'], function(signup) {
-				$injector.invoke(signup, this, {'$scope': $scope});
-			});
+            invokeController('controllers/user/settings', this, $scope, $injector);
 		}]);
 });
