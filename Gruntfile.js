@@ -117,6 +117,15 @@ module.exports = function(grunt) {
     	}
     },
     
+    // test public angular pages with karma
+    
+    karma: {
+      unit: {
+        configFile: 'test/public/karma.conf.js'
+      }
+    },
+    
+    // test REST services with jasmine node
     
     jasmine_node: {
 		options: {
@@ -124,15 +133,15 @@ module.exports = function(grunt) {
 		  match: '.',
 		  matchall: false,
 		  extensions: 'js',
-		  specNameMatcher: 'spec',
+		  specNameMatcher: 'Spec',
 		  jUnit: {
-			report: true,
+			report: false,
 			savePath : "./build/reports/jasmine/",
 			useDotNotation: true,
 			consolidate: true
 		  }
 		},
-		all: ['spec/']
+		all: ['test/rest/']
 	}
     
     
@@ -194,9 +203,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-pot');
   grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-karma');
+
 
   grunt.registerTask('default', [ 'jshint:server', 'nodemon']);
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
   grunt.registerTask('lint', ['jshint']);
-  grunt.registerTask('test', ['jasmine_node']);
+  grunt.registerTask('test', ['karma', 'jasmine_node']);
 };
