@@ -19,7 +19,6 @@ exports = module.exports = function(params) {
 		
 		var model = this;
         var async = require('async');
-        var gt = require('gettext');
 		
 		async.each([
             { name: 'Congé payé annuel' },
