@@ -14,19 +14,38 @@ exports = module.exports = function(params) {
     /**
      * initialize default types
      */  
-    typeSchema.statics.createDefaults = function(done) {
+    typeSchema.statics.createFrenchDefaults = function(done) {
 		
 		
 		var model = this;
         var async = require('async');
+        var gt = require('gettext');
 		
 		async.each([
-            { name: '', color: '' },
-            { name: '', color: '' },
-            { name: '', color: '' },
-            { name: '', color: '' },
-            { name: '', color: '' }
-            
+            { name: 'Congé payé annuel' },
+            { name: 'Congé ancienneté' },
+            { name: 'RTT' },
+            { name: 'Récupération' },
+            { name: 'Compte épargne temps' },
+            { name: 'Absence maladie' },
+            { name: 'Accident du travail' },
+            { name: 'Maternité' },
+            { name: 'Paternité' },
+            { name: 'Enfant malade' },
+            { name: 'Mariage' },
+            { name: 'Naissance' },
+            { name: 'Décès' },
+            { name: 'Formation' },
+            { name: 'Déménagement' },
+            { name: 'Congé sans solde' },
+            { name: 'Grève' },
+            { name: 'Congés payés anticipés' },
+            { name: 'Congés pour résultat' },
+            { name: 'Congé parental' },
+            { name: 'Représentation syndicale' },
+            { name: 'Absence en tant qu\'élu' },
+            { name: 'Absence réserviste' },
+            { name: 'Congés de fractionnement', group: true }
         ], function( type, callback) {
             
           model.create(type, function(err) {
@@ -39,8 +58,13 @@ exports = module.exports = function(params) {
           });
         }, function(err){
             // if any of the file processing produced an error, err would equal that error
-            if( err ) {
-              console.log(err);
+            if(err) {
+                console.log(err);
+                return;
+            }
+            
+            if (done) {
+                done();
             }
         });
     };
