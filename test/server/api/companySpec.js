@@ -1,8 +1,8 @@
 'use strict';
 
+var api = require('../../../api/Company.api.js');
+var app = require('../../../api/Headless.api.js');
 
-var api = require('../api/Company.api');
-var app = require('../api/Headless.api');
 var company = { 
 			name: 'The Fake Company',
 			port: 3001 
@@ -12,7 +12,7 @@ var company = {
 
 describe("Company API", function CompanyTestSuite() {
 	
-	it("should connect to the inga database", function(done) {
+	it("should connect to the database", function(done) {
 		app.connect(function() {
 			done();
 		});
@@ -75,7 +75,7 @@ describe("Company API", function CompanyTestSuite() {
 	
 	
 	
-	it("should disconnect from the inga database", function(done) {
+	it("should disconnect from the database", function(done) {
 		app.disconnect(function() {
 			done();
 		});

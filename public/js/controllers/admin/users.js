@@ -8,6 +8,8 @@ define([
 		'loadCollectionsOptions', 
 		'loadDepartmentsOptions', 
 		function($scope, loadCollectionsOptions, loadDepartmentsOptions) {
+            
+            $scope.search = {};
 
 			loadCollectionsOptions($scope);
 			loadDepartmentsOptions($scope);

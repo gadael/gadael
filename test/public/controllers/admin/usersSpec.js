@@ -75,6 +75,24 @@ define([
         it('should contain a department in filter list', function(){
             expect(scope.departments.length).toBe(1);
         });
+        
+        it('must filter out the user on collection filter use', function(){
+            
+            $httpBackend.when('GET', /\/rest\/admin\/users\?collection=\w+/).respond([]);
+            scope.search.collection = "53b05d546db97e6b2da74b44";
+            $httpBackend.flush();
+            
+            expect(scope.users.length).toBe(0);
+        });
+        
+        it('must filter out the user on department filter use', function(){
+            
+            $httpBackend.when('GET', /\/rest\/admin\/users\?department=\w+/).respond([]);
+            scope.search.department = "53baf3e018b413fd35d27b33";
+            $httpBackend.flush();
+            
+            expect(scope.users.length).toBe(0);
+        });
     });
 
 

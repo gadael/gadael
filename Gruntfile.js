@@ -141,7 +141,7 @@ module.exports = function(grunt) {
 			consolidate: true
 		  }
 		},
-		all: ['test/rest/']
+		all: ['test/server/']
 	}
     
     

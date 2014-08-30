@@ -86,7 +86,7 @@ api.isDbNameValid = function(app, dbName, callback) {
 /**
  * Get all databases
  * 
- * @param	object		db			database connexion
+ * @param	object		app			headless application
  * @param	function 	callback	function to receive results
  * 
  * @return Array
@@ -226,7 +226,7 @@ api.getCompany = function(app, dbName, callback) {
 /*jshint loopfunc: true */
 
 /**
- * Get all comany documents from all the databases
+ * Get all company documents from all the databases
  */  
 api.getCompanies = function(app, callback) {
 	this.listDatabases(app, function(databases) {

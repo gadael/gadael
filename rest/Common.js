@@ -3,7 +3,7 @@
 /**
  * Retrive session information for all page
  * language
- * user access rights
+ * user menu
  * who is logged
  * etc...
  */  
