@@ -48,15 +48,15 @@ exports = module.exports = function(params) {
    */ 
   userSchema.methods.canPlayRoleOf = function(role) {
     if (role === "admin" && this.roles.admin) {
-      return true;
+        return true;
     }
 
     if (role === "account" && this.roles.account) {
-      return true;
+        return true;
     }
     
-     if (role === "manager" && this.roles.manager) {
-      return true;
+    if (role === "manager" && this.roles.manager) {
+        return true;
     }
 
     return false;
@@ -140,6 +140,9 @@ exports = module.exports = function(params) {
     };
   
   
+    /**
+     * delete documents associated to the user
+     */
     userSchema.pre('remove', function(next) {
         
         var models = params.db.models;
