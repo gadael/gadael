@@ -286,6 +286,77 @@ api.getHighestPort = function(app, callback) {
 	});
 };
 
+/**
+ * @return app
+ */
+api.getExpress = function(config, models) {
+    
+    var express = require('express'),
+    session = require('express-session'),
+    mongoStore = require('connect-mongo')(session),
+    passport = require('passport'),
+    helmet = require('helmet');
+
+    //create express app
+    var app = express();
+
+    //keep reference to config
+    app.config = config;
+    
+    this.bindToDb(app, config.mongodb.dbname, function() {
+        // db connexion ready
+    });
+    
+    models.requirements = {
+        mongoose: app.mongoose,
+        db: app.db,	
+        autoIndex: (app.get('env') === 'development')
+    }
+    
+    models.load();
+    
+    //settings
+    app.disable('x-powered-by');
+    app.set('port', config.port);
+    
+    //middleware
+
+    var bodyParser = require('body-parser');
+
+    app.use(require('morgan')('dev'));
+    app.use(require('compression')());
+    app.use(require('serve-static')(config.staticPath));
+    app.use(bodyParser.json());
+    app.use(require('method-override')());
+    app.use(require('cookie-parser')());
+    app.use(session({
+      secret: config.cryptoKey,
+      store: new mongoStore({ url: config.mongodb.prefix + config.mongodb.dbname }),
+      saveUninitialized: true,
+      resave: true
+    }));
+    app.use(passport.initialize());
+    app.use(passport.session());
+    helmet.defaults(app);
+
+    //response locals
+    app.use(function(req, res, next) {
+        
+      res.locals.user = {};
+      res.locals.user.defaultReturnUrl = req.user && req.user.defaultReturnUrl();
+      res.locals.user.username = req.user && req.user.username;
+      next();
+    });
+
+    //global locals
+    app.locals.projectName = app.config.projectName;
+    app.locals.copyrightYear = new Date().getFullYear();
+    app.locals.copyrightName = app.config.companyName;
+    app.locals.cacheBreaker = 'br34k-01';
+
+    return app;
+};
+
 
 /**
  * @param app   Express app
