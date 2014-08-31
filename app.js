@@ -5,7 +5,6 @@ var config = require('./config'),
     express = require('express'),
     session = require('express-session'),
     mongoStore = require('connect-mongo')(session),
-    http = require('http'),
     path = require('path'),
     passport = require('passport'),
     helmet = require('helmet');
@@ -15,9 +14,6 @@ var app = express();
 
 //keep reference to config
 app.config = config;
-
-//setup the web server
-app.server = http.createServer(app);
 
 var companyApi = require('./api/Company.api');
 companyApi.bindToDb(app, config.mongodb.dbname, function() {
@@ -38,9 +34,6 @@ models.load();
 app.disable('x-powered-by');
 app.set('port', config.port);
 
-
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
 
 //middleware
 
@@ -90,7 +83,6 @@ app.utility.slugify = require('./modules/slugify');
 app.utility.workflow = require('./modules/workflow');
 app.utility.gettext = require('./modules/gettext');
 
-//listen up
-app.server.listen(app.config.port, function(){
-  //and... we're live
+app.server = companyApi.startServer(app, function() {
+    //and... we're live
 });

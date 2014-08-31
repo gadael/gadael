@@ -114,7 +114,7 @@ api.listDatabases = function(app, callback) {
  * 
  * @param	Object 		app			express app or mock headless app variable
  * @param	string		dbname		database name, verified with this.isDbNameValid
- * @param	object		companyDoc	A company document object
+ * @param	object		company 	A company document object
  * @param	function	callback()	done function
  */  
 api.createDb = function(app, dbName, company, callback) {
@@ -129,19 +129,26 @@ api.createDb = function(app, dbName, company, callback) {
 		inga_loadMockModels(app, db);
 		
 		// create the company entry
+        
+        var async = require('async');
 		
 		var companyDoc = new db.models.Company(company);
-
-		companyDoc.save(function (err) {
-			if (err) {
-				console.error(err.err);
+        var typeModel = db.models.Type;
+        
+        
+        async.parallel([
+            companyDoc.save.bind(companyDoc),
+            typeModel.createFrenchDefaults.bind(typeModel)
+        ],
+        function(err) {
+            if (err) {
+				console.error(err);
 			} else {
 				callback();
 			}
 			
 			db.close();
-		});
-		
+        });
 	});
 	
 };
@@ -277,4 +284,20 @@ api.getHighestPort = function(app, callback) {
 		
 		callback(max);
 	});
+};
+
+
+/**
+ * @param app   Express app
+ * 
+ * @return server
+ */
+api.startServer = function(app, callback) {
+    
+    var http = require('http');
+    var server = http.createServer(app);
+    
+    server.listen(app.config.port, callback);
+    
+    return server;
 };
