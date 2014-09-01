@@ -144,7 +144,7 @@ exports = module.exports = function(app, passport) {
 	  if (req.isAuthenticated()) {
 		return next();
 	  }
-	  res.send(401);
+	  res.status(401).end();
 	}
 
 
@@ -158,7 +158,7 @@ exports = module.exports = function(app, passport) {
 	  if (req.isAuthenticated() && req.user.canPlayRoleOf('admin')) {
 		return next(req, res);
 	  }
-	  res.send(401);
+	  res.status(401).end();
 	};
 
 
@@ -170,12 +170,12 @@ exports = module.exports = function(app, passport) {
 	  if (req.user.canPlayRoleOf('account')) {
 		if (req.app.config.requireAccountVerification) {
 		  if (req.user.roles.account.isVerified !== 'yes') {
-			res.send(401);
+			res.status(401).end();
 		  }
 		}
 		return next(req, res);
 	  }
-	  res.send(401);
+	  res.status(401).end();
 	}
 
   

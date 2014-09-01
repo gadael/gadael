@@ -311,7 +311,7 @@ api.getExpress = function(config, models) {
         mongoose: app.mongoose,
         db: app.db,	
         autoIndex: (app.get('env') === 'development')
-    }
+    };
     
     models.load();
     
@@ -353,9 +353,26 @@ api.getExpress = function(config, models) {
     app.locals.copyrightYear = new Date().getFullYear();
     app.locals.copyrightName = app.config.companyName;
     app.locals.cacheBreaker = 'br34k-01';
+    
+    
+    //setup passport
+    require('../modules/passport')(app, passport);
+
+    //setup routes
+    require('../routes')(app, passport);
+
+    //setup utilities
+    app.utility = {};
+    app.utility.sendmail = require('../modules/sendmail');
+    app.utility.slugify = require('../modules/slugify');
+    app.utility.workflow = require('../modules/workflow');
+    app.utility.gettext = require('../modules/gettext');
 
     return app;
 };
+
+
+
 
 
 /**
@@ -368,7 +385,13 @@ api.startServer = function(app, callback) {
     var http = require('http');
     var server = http.createServer(app);
     
-    server.listen(app.config.port, callback);
+    server.listen(app.config.port);
+    
+    if (callback) {
+        server.on('listening', callback);
+    }
+    
+    app.server = server;
     
     return server;
 };
