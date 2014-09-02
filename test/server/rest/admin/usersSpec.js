@@ -13,11 +13,11 @@ describe('users admin rest service', function() {
       headers: { 'Connection': 'Close' }
     };
     var http = require('http');
-    
+    var closeMockServer;
     
     
     it('create the mock server', function(done) {
-        mockServer(function(mockApp) {
+        closeMockServer = mockServer(function(mockApp) {
             app = mockApp;
             urlOptions.port = app.config.port;
             expect(app).toBeDefined();
@@ -25,23 +25,21 @@ describe('users admin rest service', function() {
         });
     });
     
-    /*
+    
     it('request users list as anonymous', function(done) {
         
         urlOptions.path = '/rest/admin/users';
-
-        var req = http.request(urlOptions, function(res) {
+        http.request(urlOptions, function(res) {
             expect(res.statusCode).toEqual(401);
             done();
-        });
-        
-        req.shouldKeepAlive = false;
-        req.end();
-        
+        }).end();
     });
-    */
     
-    it('Destroy the mock server', function(done) {
-        app.server.close(done);
+    
+    it('Close the mock server', function(done) {
+        closeMockServer(function() {
+            done();
+        });
     });
+    
 });

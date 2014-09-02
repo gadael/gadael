@@ -320,7 +320,7 @@ api.getExpress = function(config, models) {
     app.set('port', config.port);
     
     //middleware
-
+    
     var bodyParser = require('body-parser');
 
     app.use(require('morgan')('dev'));
@@ -329,12 +329,17 @@ api.getExpress = function(config, models) {
     app.use(bodyParser.json());
     app.use(require('method-override')());
     app.use(require('cookie-parser')());
+    
+    
     app.use(session({
       secret: config.cryptoKey,
-      store: new mongoStore({ url: config.mongodb.prefix + config.mongodb.dbname }),
+// the mongostore lock the gracefull stop of the app
+//    store: new mongoStore({ mongoose_connection: app.db }),
       saveUninitialized: true,
       resave: true
     }));
+    
+    
     app.use(passport.initialize());
     app.use(passport.session());
     helmet.defaults(app);
@@ -367,7 +372,7 @@ api.getExpress = function(config, models) {
     app.utility.slugify = require('../modules/slugify');
     app.utility.workflow = require('../modules/workflow');
     app.utility.gettext = require('../modules/gettext');
-
+    
     return app;
 };
 

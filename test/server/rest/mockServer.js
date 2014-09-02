@@ -12,12 +12,11 @@ exports = module.exports = function(readyCallback) {
         port: 3002 
     };
     
+    var app;
     
     var createRestService = function() {
         api.createDb(headless, mockServerDbName, company, function() {
-            
-            headless.disconnect();
-                
+
             var config = require('../../../config');
             var models = require('../../../models');
             
@@ -25,25 +24,12 @@ exports = module.exports = function(readyCallback) {
             config.companyName = company.name;
             config.mongodb.dbname = mockServerDbName;
             
-            var app = api.getExpress(config, models);
+            app = api.getExpress(config, models);
             
             var server = api.startServer(app, function() {
                 readyCallback(app);
             });
             
-            /*    
-            server.on('request', function(req, res) {
-                
-                req.shouldKeepAlive = false;
-                res.set("Connection", "close");
-                
-                // warning! are we after the express response?
-                setTimeout(function() {
-                    res.end();
-                    req.connection.destroy();
-                },100);
-            });
-            */
             
             var sockets = [];
 
@@ -51,19 +37,17 @@ exports = module.exports = function(readyCallback) {
               sockets.push(socket);
               socket.setTimeout(4000);
               socket.once('close', function () {
-                console.log('socket closed');
+                //console.log('socket closed');
                 sockets.splice(sockets.indexOf(socket), 1);
               });
             });
 
-            server.once('close', function() {
-                console.log('close event');
+            server.on('close', function() {
+                //console.log('close event');
                 for (var i = 0; i < sockets.length; i++) {
-                    console.log('socket #' + i + ' destroyed');
+                    //console.log('socket #' + i + ' destroyed');
                     sockets[i].destroy();
                 }
-                
-                app.db.close();
             });
         
         });
@@ -81,4 +65,15 @@ exports = module.exports = function(readyCallback) {
             createRestService();
         });
     });
+    
+    
+    return function close(doneExit) {
+        app.db.close(function() {
+            api.dropDb(headless, mockServerDbName, function() {
+                headless.disconnect(function() {
+                    app.server.close(doneExit);
+                });
+            });
+        });
+    };
 };
