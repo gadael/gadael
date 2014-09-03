@@ -36,73 +36,75 @@ exports = module.exports = function(params) {
 	}, 'The e-mail field cannot be empty.');
   
   
-  /**
-   * Test role
-   * 	admin: administrator of vacations application
-   * 	account: regular user, can create vacation requests if rights are availables
-   * 	manager: department(s) manager, can supervise one or more departments
-   * 
-   * @param	string	role
-   * 
-   * @return bool
-   */ 
-  userSchema.methods.canPlayRoleOf = function(role) {
-    if (role === "admin" && this.roles.admin) {
-        return true;
-    }
+    /**
+     * Test role
+     * 	admin: administrator of vacations application
+     * 	account: regular user, can create vacation requests if rights are availables
+     * 	manager: department(s) manager, can supervise one or more departments
+     * 
+     * @param	string	role
+     * 
+     * @return bool
+     */ 
+    userSchema.methods.canPlayRoleOf = function(role) {
+        if (role === "admin" && this.roles.admin) {
+            return true;
+        }
 
-    if (role === "account" && this.roles.account) {
-        return true;
-    }
-    
-    if (role === "manager" && this.roles.manager) {
-        return true;
-    }
+        if (role === "account" && this.roles.account) {
+            return true;
+        }
+        
+        if (role === "manager" && this.roles.manager) {
+            return true;
+        }
 
-    return false;
-  };
-  
-  
-  /**
-   * Default return URL after login
-   */ 
-  userSchema.methods.defaultReturnUrl = function() {
-    var returnUrl = '/';
-
-    if (this.canPlayRoleOf('admin')) {
-      // TODO
-      return returnUrl;
-    }
-    
-    if (this.canPlayRoleOf('manager')) {
-      // TODO
-      return returnUrl;
-    }
-
-    return returnUrl;
-  };
-  
-  
-  /**
-   *
-   */ 
-  userSchema.statics.encryptPassword = function(password, done) {
-    var bcrypt = require('bcrypt');
-    bcrypt.genSalt(10, function(err, salt) {
-      if (err) {
-        return done(err);
-      }
-
-      bcrypt.hash(password, salt, function(err, hash) {
-        done(err, hash);
-      });
-    });
-  };
+        return false;
+    };
   
   
     /**
-    *
-    */  
+     * Default return URL after login
+     */ 
+    userSchema.methods.defaultReturnUrl = function() {
+        var returnUrl = '/';
+
+        if (this.canPlayRoleOf('admin')) {
+            // TODO
+            return returnUrl;
+        }
+
+        if (this.canPlayRoleOf('manager')) {
+            // TODO
+            return returnUrl;
+        }
+
+        return returnUrl;
+    };
+    
+    
+  
+  
+    /**
+     *
+     */ 
+    userSchema.statics.encryptPassword = function(password, done) {
+        var bcrypt = require('bcrypt');
+        bcrypt.genSalt(10, function(err, salt) {
+            if (err) {
+                return done(err);
+            }
+
+            bcrypt.hash(password, salt, function(err, hash) {
+                done(err, hash);
+            });
+        });
+    };
+  
+  
+    /**
+     *
+     */  
     userSchema.statics.validatePassword = function(password, hash, done) {
         var bcrypt = require('bcrypt');
         bcrypt.compare(password, hash, function(err, res) {

@@ -2,25 +2,15 @@
 
 describe('users admin rest service', function() {
     
-    var mockServer = require('../mockServer');
-    var app = null;
-    var urlOptions = {
-      hostname: 'localhost',
-      port: 80,
-      path: '/rest',
-      method: 'GET',
-      agent: false,
-      headers: { 'Connection': 'Close' }
-    };
-    var http = require('http');
-    var closeMockServer;
+    var mockServer = require('../mockServer')();
     
+    var server;
+    var app;
     
     it('create the mock server', function(done) {
-        closeMockServer = mockServer(function(mockApp) {
+        server = new mockServer(function(mockApp) {
+            expect(mockApp).toBeDefined();
             app = mockApp;
-            urlOptions.port = app.config.port;
-            expect(app).toBeDefined();
             done();
         });
     });
@@ -28,16 +18,34 @@ describe('users admin rest service', function() {
     
     it('request users list as anonymous', function(done) {
         
-        urlOptions.path = '/rest/admin/users';
-        http.request(urlOptions, function(res) {
+        server.get('/rest/admin/users', function(res) {
             expect(res.statusCode).toEqual(401);
             done();
-        }).end();
+        });
     });
     
     
+    it('Create admin account', function(done) {
+        
+        var userModel = app.db.models.User;
+        
+        userModel.encryptPassword('secret', function(err, hash) {
+            var admin = new userModel();
+            admin.password = hash;
+            admin.email = 'admin@exemple.com';
+            admin.lastname = 'admin';
+            admin.save(function(err) {
+                expect(err).toEqual(null);
+                done();
+            });
+        });
+        
+    });
+    
+    
+    
     it('Close the mock server', function(done) {
-        closeMockServer(function() {
+        server.close(function() {
             done();
         });
     });

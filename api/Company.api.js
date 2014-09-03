@@ -331,10 +331,13 @@ api.getExpress = function(config, models) {
     app.use(require('cookie-parser')());
     
     
+    // the mongostore lock the gracefull stop of the app
+    app.session_mongoStore = new mongoStore({ mongoose_connection: app.db });
+    
+    
     app.use(session({
       secret: config.cryptoKey,
-// the mongostore lock the gracefull stop of the app
-//    store: new mongoStore({ mongoose_connection: app.db }),
+      store: app.session_mongoStore,
       saveUninitialized: true,
       resave: true
     }));
