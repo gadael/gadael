@@ -75,6 +75,9 @@ exports = module.exports = function() {
      */
     mockServer.prototype.get = function(path, done) {
         
+        
+        this.clientCookies = [];
+        
         var urlOptions = {
             hostname: 'localhost',
             port: mockServer.app.config.port,
@@ -87,6 +90,9 @@ exports = module.exports = function() {
         var http = require('http');
 
         http.request(urlOptions, function(res) {
+            
+            // grab session cookie to set in browser
+            this.clientCookies = res.headers['set-cookie'];
             done(res);
         }).end();
     };

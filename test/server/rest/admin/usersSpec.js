@@ -19,8 +19,20 @@ describe('users admin rest service', function() {
     it('request users list as anonymous', function(done) {
         
         server.get('/rest/admin/users', function(res) {
+            console.log(JSON.stringify(res.headers['set-cookie']));
             expect(res.statusCode).toEqual(401);
             done();
+        });
+    });
+    
+    
+    it('must have same set-cookie in two consecutives requests', function(done) {
+        
+        server.get('/rest/admin/users', function(res1) {
+            server.get('/rest/admin/users', function(res2) {
+                expect(res1.headers['set-cookie']).toEqual(res2.headers['set-cookie']);
+                done();
+            });
         });
     });
     
