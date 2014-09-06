@@ -13,6 +13,10 @@ exports = module.exports = function() {
     };
     
     function mockServer(readyCallback) {
+        
+        
+        this.sessionCookie = null;
+        
 
         var createRestService = function() {
             api.createDb(headless, mockServerDbName, company, function() {
@@ -70,33 +74,91 @@ exports = module.exports = function() {
     };
     
     
-    /**
-     * get request on server
-     */
-    mockServer.prototype.get = function(path, done) {
+    mockServer.prototype.request = function(method, headers, path, done) {
         
+        var server = this;
         
-        this.clientCookies = [];
+        headers['Connection'] = 'Close';
+        if (server.sessionCookie) {
+            headers['Cookie'] = server.sessionCookie;
+        }
         
         var urlOptions = {
             hostname: 'localhost',
             port: mockServer.app.config.port,
             path: path,
-            method: 'GET',
+            method: method,
             agent: false,
-            headers: { 'Connection': 'Close' }
+            headers: headers
         };
         
         var http = require('http');
 
-        http.request(urlOptions, function(res) {
+        var req = http.request(urlOptions, function(res) {
             
             // grab session cookie to set in browser
-            this.clientCookies = res.headers['set-cookie'];
+            if (res.headers['set-cookie']) {
+                res.headers['set-cookie'].forEach(function(cookieStr) {
+                    server.sessionCookie = cookieStr.split(';')[0];
+                });
+            }
+            
+            res.setEncoding('utf8');
             done(res);
-        }).end();
+        });
+        
+        return req;
     };
     
+    
+    /**
+     * get request on server
+     */
+    mockServer.prototype.get = function(path, done) {
+        
+        var req = this.request('GET', {}, path, done);
+        req.end();
+    };
+    
+    
+    /**
+     * put request on server
+     */
+    mockServer.prototype.send = function(method, path, data, done) {
+        
+        var querystring = require('querystring');
+        
+        var postStr = JSON.stringify(data);
+        
+        var headers = {
+            'Content-Type': 'application/json',
+            'Content-Length': postStr.length
+        }
+        
+        var req = this.request(method, headers, path, done);
+
+        req.write(postStr);
+        
+        req.end();
+    };
+    
+    
+    /**
+     * put request on server
+     */
+    mockServer.prototype.put = function(path, data, done) {
+        
+        this.send('PUT', path, data, done);
+    };
+    
+    
+    /**
+     * Post request on server
+     */
+    mockServer.prototype.post = function(path, data, done) {
+        
+        this.send('POST', path, data, done);
+    }
 
 
     /**

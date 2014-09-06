@@ -30,7 +30,7 @@ exports = module.exports = function(params) {
 	});
   
   
-  userSchema.path('email').validate(function (value) {
+    userSchema.path('email').validate(function (value) {
 	   var emailRegex = /^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/;
 	   return emailRegex.test(value);
 	}, 'The e-mail field cannot be empty.');
@@ -81,6 +81,41 @@ exports = module.exports = function(params) {
 
         return returnUrl;
     };
+    
+    
+    /**
+     * Save user and create admin role if necessary
+     */
+    userSchema.methods.saveAdmin = function(callback) {
+        
+        this.save(function(err, user) {
+
+            if (err || user.roles.admin) {
+                callback(err, user);
+                return;
+            }
+            
+            var adminModel = params.db.models.Admin;
+            
+            var admin = new adminModel();
+            admin.user = {
+                id: user._id,
+                name: user.lastname+' '+user.firstname
+            }
+            
+            admin.save(function(err, role) {
+                
+                if (err) {
+                    callback(err, user);
+                    return;
+                }
+                
+                user.roles.admin = role._id;
+                user.save(callback);
+            });
+        
+        });
+    }
     
     
   
@@ -149,9 +184,9 @@ exports = module.exports = function(params) {
         
         var models = params.db.models;
         
-        models.User_Admin.remove({ 'user.id': this._id }).exec();
-        models.User_Account.remove({ 'user.id': this._id }).exec();
-        models.User_Manager.remove({ 'user.id': this._id }).exec();
+        models.Admin.remove({ 'user.id': this._id }).exec();
+        models.Account.remove({ 'user.id': this._id }).exec();
+        models.Manager.remove({ 'user.id': this._id }).exec();
         
         next();
     });

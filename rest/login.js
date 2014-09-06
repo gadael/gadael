@@ -2,7 +2,9 @@
 
 
 /**
- * Authenticate with a post
+ * Authenticate with a post and fields
+ *  - username
+ *  - password
  */  
 exports.authenticate = function(req, res) {
 	
@@ -11,7 +13,6 @@ exports.authenticate = function(req, res) {
 	var workflow = req.app.utility.workflow(req, res);
 
 	  workflow.on('validate', function() {
-
 		if (workflow.needRequiredFields(['username', 'password'])) {
 		  return workflow.emit('response');
 		}
@@ -50,7 +51,7 @@ exports.authenticate = function(req, res) {
 		  if (results.ip >= req.app.config.loginAttempts.forIp || results.ipUser >= req.app.config.loginAttempts.forIpAndUser) {
 			workflow.outcome.alert.push({
 				type: 'warning', 
-				message: gt.gettext('You\'ve reached the maximum number of login attempts. Please try again later.')
+				message: gt.gettext("You've reached the maximum number of login attempts. Please try again later.")
 			});
 			return workflow.emit('response');
 		  }
@@ -59,12 +60,13 @@ exports.authenticate = function(req, res) {
 		  }
 		};
 
-		require('async').parallel({ ip: getIpCount, ipUser: getIpUserCount }, asyncFinally);
+		require('async').parallel({ 
+            ip: getIpCount,
+            ipUser: getIpUserCount
+        }, asyncFinally);
 	  });
 
 	  workflow.on('attemptLogin', function() {
-		  
-		
 		  
 		req._passport.instance.authenticate('local', function(err, user, info) {
 		  if (err) {
