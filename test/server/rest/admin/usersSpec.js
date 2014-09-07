@@ -7,7 +7,15 @@ describe('users admin rest service', function() {
     var server;
     var app;
     
+    /**
+     * Admin document created by test 
+     */
     var admin;
+    
+    /**
+     * Json result from REST service
+     */
+    var restAdmin;
     
     it('create the mock server', function(done) {
         server = new mockServer(function(mockApp) {
@@ -62,72 +70,76 @@ describe('users admin rest service', function() {
         server.post('/rest/login', {
             'username': 'admin@example.com',
             'password': 'secret'
-        }, function(res) {
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            
-            res.on('data', function (chunk) {
-                var jsonResult = JSON.parse(chunk);
-                expect(jsonResult.$outcome).toBeDefined();
-                expect(jsonResult.$outcome.success).toBeTruthy();
-                done();
-            });
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            done();
         });
     });
     
-    
-    
+
     it('request users list as admin', function(done) {
-        server.get('/rest/admin/users', function(res) {
+        server.get('/rest/admin/users', function(res, body) {
             expect(res.statusCode).toEqual(200);
-            
-            res.on('data', function (chunk) {
-                var jsonResult = JSON.parse(chunk);
-                expect(jsonResult.length).toEqual(1);
-                done();
-            });
+            expect(body.length).toEqual(1);
+            done();
         });
     });
     
     
+    it('get user', function(done) {
+        
+        expect(admin._id).toBeDefined();
+        
+        server.get('/rest/admin/users/'+admin._id, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toEqual(admin._id.toString());
+            expect(body.email).toEqual(admin.email);
+            expect(body.firstname).toEqual(admin.firstname);
+            expect(body.lastname).toEqual(admin.lastname);
+            
+            restAdmin = body;
+            
+            done();
+        });
+    });
+    
+    
+
     it('edit a user', function(done) {
         
-        expect(admin._id).toBeDefined();
+        expect(restAdmin).toBeDefined();
+        restAdmin.firstname = 'admin';
         
-        server.put('/rest/admin/users/'+admin._id, {
-            firstname: 'admin',
-            lastname: 'admin',
-            email: 'admin@example.com'
-        }, function(res) {
+        server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            
-            res.on('data', function (chunk) {
-                var jsonResult = JSON.parse(chunk);
-                expect(jsonResult.$outcome).toBeDefined();
-                expect(jsonResult.$outcome.success).toBeTruthy();
-                done();
-            });
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            done();
         });
     });
+
+
     
-    
-    
+    /*
     it('prevent to remove a mandatory value', function(done) {
         
-        expect(admin._id).toBeDefined();
+        expect(restAdmin).toBeDefined();
         
-        server.put('/rest/admin/users/'+admin._id, {
-            firstname: '',
-            lastname: '',
-            email: ''
-        }, function(res) {
-            expect(res.statusCode).toEqual(401);
-            
-            res.on('data', function (chunk) {
-                var jsonResult = JSON.parse(chunk);
-                expect(jsonResult.$outcome).toBeDefined();
-                expect(jsonResult.$outcome.success).toBeFalsy();
-                done();
-            });
+        restAdmin.lastname = '';
+        restAdmin.email = '';
+
+        console.log(restAdmin);
+
+        server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
+            expect(res.statusCode).toEqual(400);
+            expect(body).toBeDefined();
+            if (body) {
+                expect(body.$outcome).toBeDefined();
+                expect(body.$outcome.success).toBeFalsy();
+            }
+            done();
         });
     });
     
@@ -154,7 +166,7 @@ describe('users admin rest service', function() {
             });
         });
     });
-    
+    */
     
     it('close the mock server', function(done) {
         server.close(function() {

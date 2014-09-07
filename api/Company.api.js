@@ -294,8 +294,9 @@ api.getExpress = function(config, models) {
     var express = require('express'),
     session = require('express-session'),
     mongoStore = require('connect-mongo')(session),
-    passport = require('passport'),
-    helmet = require('helmet');
+    passport = require('passport');
+    
+    
 
     //create express app
     var app = express();
@@ -324,7 +325,7 @@ api.getExpress = function(config, models) {
     var bodyParser = require('body-parser');
 
     // logging HTTP requests
-    // app.use(require('morgan')('dev'));
+    app.use(require('morgan')('dev'));
     
     app.use(require('compression')());
     app.use(require('serve-static')(config.staticPath));
@@ -347,6 +348,8 @@ api.getExpress = function(config, models) {
     
     app.use(passport.initialize());
     app.use(passport.session());
+    
+    var helmet = require('helmet');
     helmet.defaults(app);
 
     //response locals

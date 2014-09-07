@@ -14,7 +14,7 @@ exports = module.exports = function(app, passport) {
 		  isActive: true,
 		  email: username
 	  };
-	  
+
       app.db.models.User.findOne(conditions, function(err, user) {
         if (err) {
           return done(err);
@@ -141,10 +141,15 @@ exports = module.exports = function(app, passport) {
 	 * output a 401 unauthorized header on failure
 	 */ 
 	req.ensureAuthenticated = function(req, res, next) {
-	  if (req.isAuthenticated()) {
-		return next();
-	  }
-	  res.status(401).end();
+        if (req.isAuthenticated()) {
+            return next();
+        }
+
+        var workflow = req.app.utility.workflow(req, res);
+        var gt = req.app.utility.gettext;
+        
+        workflow.httpstatus = 401;
+        workflow.emit('exception', gt.gettext('Access denied for anonymous users'));
 	}
 
 
@@ -155,10 +160,16 @@ exports = module.exports = function(app, passport) {
 	 * output a 401 unauthorized header on failure
 	 */ 
 	req.ensureAdmin = function(req, res, next) {
+        
 	  if (req.isAuthenticated() && req.user.canPlayRoleOf('admin')) {
 		return next(req, res);
 	  }
-	  res.status(401).end();
+      
+      var workflow = req.app.utility.workflow(req, res);
+      var gt = req.app.utility.gettext;
+      
+      workflow.httpstatus = 401;
+      workflow.emit('exception', gt.gettext('Access denied for non administrators'));
 	};
 
 
@@ -167,15 +178,26 @@ exports = module.exports = function(app, passport) {
 	 * output a 401 unauthorized header on failure
 	 */  
 	req.ensureAccount = function(req, res, next) {
-	  if (req.user.canPlayRoleOf('account')) {
-		if (req.app.config.requireAccountVerification) {
-		  if (req.user.roles.account.isVerified !== 'yes') {
-			res.status(401).end();
-		  }
-		}
-		return next(req, res);
-	  }
-	  res.status(401).end();
+
+        var denyAccess = function() {
+            
+            var workflow = req.app.utility.workflow(req, res);
+            var gt = req.app.utility.gettext;
+            
+            workflow.httpstatus = 401;
+            workflow.emit('exception', gt.gettext('Access denied'));
+        }
+        
+        if (req.user.canPlayRoleOf('account')) {
+            if (req.app.config.requireAccountVerification) {
+                if (req.user.roles.account.isVerified !== 'yes') {
+                    return denyAccess();
+                }
+            }
+            return next(req, res);
+        }
+        
+        return denyAccess();
 	}
 
   

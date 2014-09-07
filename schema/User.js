@@ -101,7 +101,7 @@ exports = module.exports = function(params) {
             admin.user = {
                 id: user._id,
                 name: user.lastname+' '+user.firstname
-            }
+            };
             
             admin.save(function(err, role) {
                 
@@ -115,7 +115,7 @@ exports = module.exports = function(params) {
             });
         
         });
-    }
+    };
     
     
   

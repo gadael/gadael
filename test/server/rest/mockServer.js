@@ -77,10 +77,11 @@ exports = module.exports = function() {
     mockServer.prototype.request = function(method, headers, path, done) {
         
         var server = this;
-        
-        headers['Connection'] = 'Close';
+
         if (server.sessionCookie) {
             headers['Cookie'] = server.sessionCookie;
+        } else {
+            console.log('Session cookie is not set on client');
         }
         
         var urlOptions = {
@@ -104,7 +105,20 @@ exports = module.exports = function() {
             }
             
             res.setEncoding('utf8');
-            done(res);
+            
+            var body = '';
+            
+            res.on('data', function(chunk) {
+                body += chunk;
+            });
+            
+            res.on('end', function() {
+                if (body) {
+                    done(res, JSON.parse(body));
+                } else {
+                    done(res, null);
+                }
+            });
         });
         
         return req;
