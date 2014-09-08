@@ -161,6 +161,8 @@ exports = module.exports = function(app, passport) {
 	 */ 
 	req.ensureAdmin = function(req, res, next) {
         
+        
+        
 	  if (req.isAuthenticated() && req.user.canPlayRoleOf('admin')) {
 		return next(req, res);
 	  }

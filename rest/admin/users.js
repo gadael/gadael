@@ -145,7 +145,7 @@ exports.save = function (req, res) {
 						
 						user.save(function (err) {
 							if (workflow.handleMongoError(err)) {
-                                
+
                                 workflow.document = user;
 							
                                 workflow.outcome.alert.push({

@@ -47,6 +47,7 @@ exports = module.exports = function(params) {
      * @return bool
      */ 
     userSchema.methods.canPlayRoleOf = function(role) {
+        
         if (role === "admin" && this.roles.admin) {
             return true;
         }

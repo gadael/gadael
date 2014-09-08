@@ -111,6 +111,7 @@ describe('users admin rest service', function() {
         
         expect(restAdmin).toBeDefined();
         restAdmin.firstname = 'admin';
+        restAdmin.isAdmin = true;
         
         server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -122,16 +123,14 @@ describe('users admin rest service', function() {
 
 
     
-    /*
+    
     it('prevent to remove a mandatory value', function(done) {
         
         expect(restAdmin).toBeDefined();
         
         restAdmin.lastname = '';
         restAdmin.email = '';
-
-        console.log(restAdmin);
-
+        
         server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
             expect(res.statusCode).toEqual(400);
             expect(body).toBeDefined();
@@ -143,7 +142,7 @@ describe('users admin rest service', function() {
         });
     });
     
-    
+    /*
     
     it('create new user', function(done) {
         server.post('/rest/admin/users', {
