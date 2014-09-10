@@ -165,7 +165,9 @@ exports.save = function (req, res) {
 					firstname: req.body.firstname,
 					lastname: req.body.lastname,
 					email: req.body.email,
-					department: req.body.department 
+					department: req.body.department,
+                    password: req.body.newpassword,
+                    isActive: req.body.isActive 
 				}, function(err, user) {
 					
 					if (workflow.handleMongoError(err))

@@ -142,7 +142,7 @@ describe('users admin rest service', function() {
         });
     });
     
-    /*
+    
     
     it('create new user', function(done) {
         server.post('/rest/admin/users', {
@@ -154,18 +154,14 @@ describe('users admin rest service', function() {
             newpassword: 'secret',
             newpassword2: 'secret',
             isActive: true
-        }, function(res) {
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            
-            res.on('data', function (chunk) {
-                var jsonResult = JSON.parse(chunk);
-                expect(jsonResult.$outcome).toBeDefined();
-                expect(jsonResult.$outcome.success).toBeTruthy();
-                done();
-            });
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            done();
         });
     });
-    */
+    
     
     it('close the mock server', function(done) {
         server.close(function() {
