@@ -43,7 +43,8 @@
     "marked": "~0.3.2",
     "ical":"~0.2.0",
     "rrule":"~2.1.0",
-    "node-paginate-anything":"~0.0.5"
+    "node-paginate-anything":"~0.0.5",
+    "q":"~1.0.1"
   },
   "devDependencies": {
     "karma": "~0.12.0",

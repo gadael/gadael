@@ -192,5 +192,54 @@ exports = module.exports = function() {
     
     
     
+    /**
+     * Create admin account in database and login with it
+     * @return promise
+     */
+    mockServer.prototype.createAdminSession = function() {
+        
+        var Q = require('q');
+        
+        var deferred = Q.defer();
+        var userModel = app.db.models.User;
+        var server = this;
+        var password = 'secret';
+        
+        userModel.encryptPassword(password, function(err, hash) {
+            
+            if (err) {
+                deferred.reject(new Error(err));
+            }
+            
+            admin = new userModel();
+            admin.password = hash;
+            admin.email = 'admin@example.com';
+            admin.lastname = 'admin';
+            admin.saveAdmin(function(err, user) {
+                
+                if (err) {
+                    deferred.reject(new Error(err));
+                }
+                admin = user;
+                
+                
+                server.post('/rest/login', {
+                    'username': admin.email,
+                    'password': password
+                }, function(res, body) {
+                    
+                    if (res.statusCode != 200 || !body.$outcome.success) {
+                        deferred.reject(new Error('Error while login with admin account'));
+                    }
+                    
+                    deferred.resolve();
+                });
+            });
+        });
+        
+    };
+    
+    
+    
     return mockServer;
 };
