@@ -29,9 +29,9 @@ exports = module.exports = function() {
                 var config = require('../../../config');
                 var models = require('../../../models');
                 
-                config.port = company.port;
+                config.port = company.port++;
                 config.companyName = company.name;
-                config.mongodb.dbname = mockServerDbName;
+                config.mongodb.dbname = mockServerDbName+config.port;
 
                 var app = api.getExpress(config, models);
                 
