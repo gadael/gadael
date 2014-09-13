@@ -2,19 +2,24 @@
 
 exports = module.exports = function() {
     
-    var api = require('../../../api/Company.api.js');
-    var headless = require('../../../api/Headless.api.js');
+    
 
-    var mockServerDbName = 'MockServerDb';
-
-    var company = { 
-        name: 'The Fake Company REST service',
-        port: 3002 
-    };
     
     
-    function mockServer(readyCallback) {
+    /**
+     * The mock server object
+     * 
+     */
+    function mockServer(port, readyCallback) {
         
+        
+        var api = require('../../../api/Company.api.js');
+        var headless = require('../../../api/Headless.api.js');
+
+        var mockServerDbName = 'MockServerDb'+port;
+        
+        
+        this.dbname = mockServerDbName;
         
         this.sessionCookie = null;
         
@@ -24,14 +29,20 @@ exports = module.exports = function() {
 
         var createRestService = function() {
             
+            
+            var company = { 
+                name: 'The Fake Company REST service',
+                port: port 
+            };
+            
             api.createDb(headless, mockServerDbName, company, function() {
 
-                var config = require('../../../config');
+                var config = require('../../../config')();
                 var models = require('../../../models');
                 
-                config.port = company.port++;
+                config.port = company.port;
                 config.companyName = company.name;
-                config.mongodb.dbname = mockServerDbName+config.port;
+                config.mongodb.dbname = mockServerDbName;
 
                 var app = api.getExpress(config, models);
                 
@@ -189,7 +200,10 @@ exports = module.exports = function() {
      */
     mockServer.prototype.close = function(doneExit) {
         
+        var mockServerDbName = this.dbname;
         var app = this.app;
+        var api = require('../../../api/Company.api.js');
+        var headless = require('../../../api/Headless.api.js');
         
         app.db.close(function() {
             api.dropDb(headless, mockServerDbName, function() {

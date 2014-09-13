@@ -5,13 +5,11 @@ describe('vacations types admin rest service', function() {
     var mockServer = require('../mockServer')();
     
     var server;
-    var app;
 
-    /*
+    
     it('create the mock server', function(done) {
-        server = new mockServer(function(mockApp) {
+        server = new mockServer(3003, function(mockApp) {
             expect(mockApp).toBeDefined();
-            app = mockApp;
             done();
         });
     });
@@ -31,5 +29,5 @@ describe('vacations types admin rest service', function() {
             done();
         });
     });
-    */
+    
 });

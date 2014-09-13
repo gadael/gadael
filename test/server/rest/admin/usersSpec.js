@@ -12,8 +12,10 @@ describe('users admin rest service', function() {
      */
     var restAdmin;
     
+    
+    
     it('create the mock server', function(done) {
-        server = new mockServer(function(mockApp) {
+        server = new mockServer(3002, function(mockApp) {
             expect(mockApp).toBeDefined();
             expect(server.app).toBeDefined();
             done();
@@ -39,6 +41,7 @@ describe('users admin rest service', function() {
         });
     });
     
+    
     it('Create admin session', function(done) {
         server.createAdminSession().then(function() {
             done();
@@ -46,7 +49,7 @@ describe('users admin rest service', function() {
     });
     
     
-
+    /*
     it('request users list as admin', function(done) {
         server.get('/rest/admin/users', function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -130,7 +133,7 @@ describe('users admin rest service', function() {
             done();
         });
     });
-    
+    */
     
     it('close the mock server', function(done) {
         server.close(function() {

@@ -9,7 +9,8 @@ var app = {};
 exports = module.exports = app;
 	
 var mongoose = require('mongoose');
-var config = require('../config');
+var config = require('../config')();
+
 
 app.config = config;
 app.mongoose = mongoose;
