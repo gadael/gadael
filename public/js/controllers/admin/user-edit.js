@@ -1,4 +1,6 @@
 define([], function() {
+    'use strict';
+    
 	return ['$scope', 
 		'$location', 
 		'IngaResource', 
@@ -53,7 +55,7 @@ define([], function() {
 		
 		$scope.cancel = function() {
 			$location.path('/admin/users');
-		}
+		};
         
         
         
@@ -71,6 +73,7 @@ define([], function() {
             
             var promises = [];
             
+            
             for(var i=0; i<$scope.accountCollections.length; i++) {
                 
                 var document = $scope.accountCollections[i];
@@ -80,10 +83,12 @@ define([], function() {
                     document.user = userId;
                 }
                 
+                var p;
+                
                 if (document._id) {
-                    var p = $scope.accountCollections[i].$save();
+                    p = $scope.accountCollections[i].$save();
                 } else {
-                    var p = $scope.accountCollections[i].$create();
+                    p = $scope.accountCollections[i].$create();
                 }
                 promises.push(catchWorkflow(p));
             }
@@ -100,7 +105,7 @@ define([], function() {
 			$scope.user.ingaSave()
             .then(saveAccountCollection)
             .then($scope.cancel);
-	    }
+	    };
 	    
 	    var accountCollection = $resource('rest/admin/accountcollections/:accCollId',
             { accCollId:'@_id' }, 
@@ -117,6 +122,7 @@ define([], function() {
          */
 		$scope.addAccountCollection = function() {
 			
+            var nextDate;
 			var length = $scope.accountCollections.length;
 			if (length > 0) {
 				var lastItem = $scope.accountCollections[length - 1];
@@ -139,15 +145,15 @@ define([], function() {
 				}
 				
                 
-				var nextDate = new Date(lastItem.to);
+				nextDate = new Date(lastItem.to);
 				nextDate.setDate(nextDate.getDate()+1);
 			} else {
-				var nextDate = new Date();
+				nextDate = new Date();
 			}
             
             
 			
-			var newAc = new accountCollection;
+			var newAc = new accountCollection();
             
 			newAc.rightCollection = null;
 			newAc.from = nextDate;

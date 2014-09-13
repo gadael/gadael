@@ -1,5 +1,6 @@
 define([], function() {
-return [
+    'use strict';
+    return [
 		'$scope', 
 		'loadTypesOptions',
 		function($scope, loadTypesOptions) {

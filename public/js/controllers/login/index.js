@@ -1,4 +1,7 @@
-define([], function() {
+define(['angular'], function(angular) {
+    
+    'use strict';
+    
 	return ['$scope', '$http', 'authService', '$rootScope', '$location', function($scope, $http, authService, $rootScope, $location) {
 		
 		$scope.submit = function() {
@@ -46,9 +49,11 @@ define([], function() {
 				
 				for (var fieldname in data.errfor)
 				{
-					angular.element(document.querySelector('input[name="'+fieldname+'"]')).closest('.form-group').addClass('has-error');
+                    if (data.errfor.hasOwnProperty(fieldname)) {
+                        angular.element(document.querySelector('input[name="'+fieldname+'"]')).closest('.form-group').addClass('has-error');
+                    }
 				}
 			});
-	    }
+	    };
 	}];
 });

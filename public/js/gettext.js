@@ -5,7 +5,7 @@
  * @see http://lostechies.com/gabrielschenker/2014/02/11/angularjspart-12-multi-language-support/
  */ 
 
-define(['angular', 'angularGettext', 'translation'], function (angular, angularGettext) {
+define(['angular', 'angularGettext', 'translation'], function (angular) {
 	'use strict';
 	
 	var app = angular.module('inga.gettext', ['gettext']);

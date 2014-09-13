@@ -66,7 +66,15 @@ module.exports = function(grunt) {
           ignores: []
         },
         src: [
-          'public/js/**/*.js'
+            'public/js/controllers/**/*.js',
+            'public/js/app.js',
+            'public/js/controllers.js',
+            'public/js/directives.js',
+            'public/js/filters.js',
+            'public/js/gettext.js',
+            'public/js/main.js',
+            'public/js/routes.js',
+            'public/js/services.js'
         ]
       },
       server: {

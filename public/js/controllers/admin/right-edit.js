@@ -1,4 +1,6 @@
 define([], function() {
+    
+    'use strict';
 
 	return ['$scope', '$location', 'IngaResource', 'loadTypesOptions', function($scope, $location, IngaResource, loadTypesOptions) {
 
@@ -8,11 +10,11 @@ define([], function() {
 
 		$scope.back = function() {
 			$location.path('/admin/rights');
-		}
+		};
 		
 		$scope.saveRight = function() {
 			$scope.right.ingaSave($scope.back);
-	    }
+	    };
 	}];
 });
 

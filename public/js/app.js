@@ -13,7 +13,7 @@ define([
 	'passwordStrength'
 	], 
 	
-	function (angular, filters, services, directives, controllers) {
+	function (angular) {
 	'use strict';
 
 	// Declare app level module which depends on filters, and services
@@ -40,7 +40,7 @@ define([
             animation: 'am-flip-x',
             html: true
         });
-    })
+    });
 
 	
 
@@ -54,7 +54,9 @@ define([
 			$http.get('/rest/common').success(function(response) { 
 				
 				for(var prop in response) {
-					$rootScope[prop] = response[prop];
+                    if (response.hasOwnProperty(prop)) {
+                        $rootScope[prop] = response[prop];
+                    }
 				}
 
 				$rootScope.user.intAuthenticated = response.user.isAuthenticated ? 1 : 0;
@@ -68,18 +70,18 @@ define([
 		
 		$rootScope.logout = function()
 		{
-			$http.get('/rest/logout').success(function(data) { 
+			$http.get('/rest/logout').success(function() { 
 				$rootScope.reloadSession(); 
 				$location.path("/");
 			});
-		}
+		};
 		
 		$rootScope.closeAlert = function(index) {
 			$rootScope.pageAlerts.splice(index, 1);
 		};
 		
 		
-		$rootScope.$on('$routeChangeStart', function(next, current) { 
+		$rootScope.$on('$routeChangeStart', function() { 
 			// reset alert messages on page change
 			
 			setTimeout(function() {

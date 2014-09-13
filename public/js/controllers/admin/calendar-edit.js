@@ -1,5 +1,7 @@
 define([], function() {
 
+    'use strict';
+
 	return ['$scope', '$location', 'IngaResource', function($scope, $location, IngaResource) {
 		
 		
@@ -15,11 +17,11 @@ define([], function() {
 		
 		$scope.back = function() {
 			$location.path('/admin/calendars');
-		}
+		};
 		
 		$scope.saveCalendar = function() {
 			$scope.calendar.ingaSave($scope.back);
-	    }
+	    };
 	    
 	}];
 });

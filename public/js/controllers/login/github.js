@@ -1,5 +1,8 @@
 define([], function() {
-	return ['$scope', '$http', function($scope, $http) {
+    
+    'use strict';
+    
+	return ['$scope', function($scope) {
 		
 	}];
 });

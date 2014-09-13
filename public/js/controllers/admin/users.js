@@ -3,6 +3,9 @@ define([
 	'angular_frfr',
 	'angularAnimate',
 	'angularSanitize'], function() {
+        
+    'use strict';
+        
 	return [
 		'$scope', 
 		'loadCollectionsOptions', 

@@ -12,13 +12,18 @@ exports = module.exports = function() {
         port: 3002 
     };
     
+    
     function mockServer(readyCallback) {
         
         
         this.sessionCookie = null;
         
+        var serverInst = this;
+        
+        
 
         var createRestService = function() {
+            
             api.createDb(headless, mockServerDbName, company, function() {
 
                 var config = require('../../../config');
@@ -27,11 +32,15 @@ exports = module.exports = function() {
                 config.port = company.port;
                 config.companyName = company.name;
                 config.mongodb.dbname = mockServerDbName;
+
+                var app = api.getExpress(config, models);
                 
-                mockServer.app = api.getExpress(config, models);
+                Object.defineProperty(serverInst, 'app', { 
+                    value: app
+                });
                 
-                var server = api.startServer(mockServer.app, function() {
-                    readyCallback(mockServer.app);
+                var server = api.startServer(app, function() {
+                    readyCallback(app);
                 });
                 
                 
@@ -86,7 +95,7 @@ exports = module.exports = function() {
         
         var urlOptions = {
             hostname: 'localhost',
-            port: mockServer.app.config.port,
+            port: this.app.config.port,
             path: path,
             method: method,
             agent: false,
@@ -179,11 +188,14 @@ exports = module.exports = function() {
      * close all connexions to database and stop http server
      */
     mockServer.prototype.close = function(doneExit) {
-        mockServer.app.db.close(function() {
+        
+        var app = this.app;
+        
+        app.db.close(function() {
             api.dropDb(headless, mockServerDbName, function() {
                 headless.disconnect(function() {
-                    mockServer.app.session_mongoStore.db.close(function() {
-                        mockServer.app.server.close(doneExit);
+                    app.session_mongoStore.db.close(function() {
+                        app.server.close(doneExit);
                     });
                 });
             });
@@ -194,6 +206,8 @@ exports = module.exports = function() {
     
     /**
      * Create admin account in database and login with it
+     * Set the admin property on the mockServer object
+     * 
      * @return promise
      */
     mockServer.prototype.createAdminSession = function() {
@@ -201,9 +215,11 @@ exports = module.exports = function() {
         var Q = require('q');
         
         var deferred = Q.defer();
-        var userModel = app.db.models.User;
+        var userModel = this.app.db.models.User;
         var server = this;
         var password = 'secret';
+
+        var server = this;
         
         userModel.encryptPassword(password, function(err, hash) {
             
@@ -211,7 +227,7 @@ exports = module.exports = function() {
                 deferred.reject(new Error(err));
             }
             
-            admin = new userModel();
+            var admin = new userModel();
             admin.password = hash;
             admin.email = 'admin@example.com';
             admin.lastname = 'admin';
@@ -232,11 +248,14 @@ exports = module.exports = function() {
                         deferred.reject(new Error('Error while login with admin account'));
                     }
                     
-                    deferred.resolve();
+                    Object.defineProperty(server, 'admin', { value: admin });
+                    
+                    deferred.resolve(admin);
                 });
             });
         });
         
+        return deferred.promise;
     };
     
     

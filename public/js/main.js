@@ -53,11 +53,11 @@ require( [
 	'angularAnimate',
 	'angularSanitize'
 	], 
-	function(angular, app, routes) {
+	function(angular, app) {
 	
 		'use strict';
 		angular.element().ready(function() {
-			angular.resumeBootstrap([app['name']]);
+			angular.resumeBootstrap([app.name]);
 		});	
 	});
 

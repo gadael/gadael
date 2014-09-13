@@ -1,4 +1,7 @@
-define([], function() {
+define(['angular'], function(angular) {
+    
+    'use strict';
+    
 	return ['$scope', '$http', '$rootScope', '$routeParams', function($scope, $http, $rootScope, $routeParams) {
 		
 
@@ -14,10 +17,10 @@ define([], function() {
 			.success(function(data) {
 			
 				$rootScope.pageAlerts = data.alert;
-				if (data.success)
-				{
-					// password reseted
-				}
+				// if (data.success)
+				// {
+				// 	password reseted
+				// }
 			})
 			
 			.error(function(data) {
@@ -27,9 +30,11 @@ define([], function() {
 				
 				for (var fieldname in data.errfor)
 				{
-					angular.element('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
+                    if (data.errfor.hasOwnProperty(fieldname)) {
+                        angular.element('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
+                    }
 				}
 			});
-	    }
+	    };
 	}];
 });

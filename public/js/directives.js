@@ -1,4 +1,4 @@
-define(['angular', 'services'], function(angular, services) {
+define(['angular', 'services'], function(angular) {
 	'use strict';
 
 	/**
@@ -11,7 +11,7 @@ define(['angular', 'services'], function(angular, services) {
 	 * set the html lang attribute
 	 */ 
 	.directive('ingaLang', function() {
-		return function(scope, elm, attrs) {
+		return function(scope, elm) {
 			
 			var lang = navigator.language || navigator.userLanguage;
 			
@@ -37,7 +37,7 @@ define(['angular', 'services'], function(angular, services) {
 	.directive('ingaAuth', ['$compile', function($compile) {
 
 		
-		return function(scope, elem, attrs) {
+		return function(scope, elem) {
 
 			//once Angular is started, remove class:
 			//elem.removeClass('waiting-for-angular');
@@ -47,7 +47,7 @@ define(['angular', 'services'], function(angular, services) {
 			
 			var unregister = scope.$on('event:auth-loginRequired', function() {
 
-				if (login.length == 0)
+				if (login.length === 0)
 				{
 					login = angular.element('<div><div class="inga-auth-form container" ng-include="\'partials/login.html\'"></div></div>');
 					$compile(login.contents())(scope);
@@ -66,6 +66,6 @@ define(['angular', 'services'], function(angular, services) {
 				main.css('display', 'block');
 				login.css('display', 'none');
 			});
-		}
+		};
 	}]);
 });

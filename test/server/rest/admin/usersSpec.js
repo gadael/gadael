@@ -5,12 +5,7 @@ describe('users admin rest service', function() {
     var mockServer = require('../mockServer')();
     
     var server;
-    var app;
     
-    /**
-     * Admin document created by test 
-     */
-    var admin;
     
     /**
      * Json result from REST service
@@ -20,7 +15,7 @@ describe('users admin rest service', function() {
     it('create the mock server', function(done) {
         server = new mockServer(function(mockApp) {
             expect(mockApp).toBeDefined();
-            app = mockApp;
+            expect(server.app).toBeDefined();
             done();
         });
     });
@@ -44,39 +39,12 @@ describe('users admin rest service', function() {
         });
     });
     
-    
-    it('Create admin account on server', function(done) {
-        
-        var userModel = app.db.models.User;
-        
-        userModel.encryptPassword('secret', function(err, hash) {
-            admin = new userModel();
-            admin.password = hash;
-            admin.email = 'admin@example.com';
-            admin.lastname = 'admin';
-            admin.saveAdmin(function(err, user) {
-                expect(err).toEqual(null);
-                expect(user.roles.admin).toBeDefined();
-                admin = user;
-                done();
-            });
-        });
-        
-    });
-    
-    
-    it('authenticate as admin', function(done) {
-        
-        server.post('/rest/login', {
-            'username': 'admin@example.com',
-            'password': 'secret'
-        }, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+    it('Create admin session', function(done) {
+        server.createAdminSession().then(function() {
             done();
         });
     });
+    
     
 
     it('request users list as admin', function(done) {
@@ -90,6 +58,7 @@ describe('users admin rest service', function() {
     
     it('get user', function(done) {
         
+        var admin = server.admin;
         expect(admin._id).toBeDefined();
         
         server.get('/rest/admin/users/'+admin._id, function(res, body) {

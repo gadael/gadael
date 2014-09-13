@@ -158,7 +158,7 @@ define(['angular',  'angularResource'], function (angular) {
 			};
 			
 			
-			if ($routeParams['id'])
+			if ($routeParams.id)
 			{
 				var item = $resource(collectionPath+'/:id', $routeParams, {
 					'save': { method:'PUT' }  // overwrite default save method (POST)
@@ -178,7 +178,7 @@ define(['angular',  'angularResource'], function (angular) {
 			collection.loadRouteId = function() {
 				// scope will be loaded with an empty instance
 				
-				var inst = new collection;
+				var inst = new collection();
 				inst.ingaSave = ingaSave;
 
 				return inst;
