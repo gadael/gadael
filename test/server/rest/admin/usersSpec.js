@@ -1,12 +1,25 @@
 'use strict';
 
+
 describe('users admin rest service', function() {
     
-    var mockServer = require('../mockServer')();
     
     var server;
     
+
+    beforeEach(function(done) {
+        
+        var helpers = require('../mockServerHelper');
+        
+        helpers.mockServer(function(_mockServer) {
+            server = _mockServer;
+            done();
+        });
+    });
     
+    
+
+
     /**
      * Json result from REST service
      */
@@ -14,17 +27,15 @@ describe('users admin rest service', function() {
     
     
     
-    it('create the mock server', function(done) {
-        server = new mockServer(3002, function(mockApp) {
-            expect(mockApp).toBeDefined();
-            expect(server.app).toBeDefined();
-            done();
-        });
+    it('verify the mock server', function(done) {
+        
+        expect(server.app).toBeDefined();
+        done();
     });
     
     
     it('request users list as anonymous', function(done) {
-        server.get('/rest/admin/users', function(res) {
+        server.get('/rest/admin/users', {}, function(res) {
             expect(res.statusCode).toEqual(401);
             done();
         });
@@ -33,8 +44,8 @@ describe('users admin rest service', function() {
     
     it('must have same set-cookie in two consecutives requests', function(done) {
         
-        server.get('/rest/admin/users', function(res1) {
-            server.get('/rest/admin/users', function(res2) {
+        server.get('/rest/admin/users', {}, function(res1) {
+            server.get('/rest/admin/users', {}, function(res2) {
                 expect(res1.headers['set-cookie']).toEqual(res2.headers['set-cookie']);
                 done();
             });
@@ -49,9 +60,10 @@ describe('users admin rest service', function() {
     });
     
     
-    /*
+    
     it('request users list as admin', function(done) {
-        server.get('/rest/admin/users', function(res, body) {
+        
+        server.get('/rest/admin/users', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             done();
@@ -64,7 +76,7 @@ describe('users admin rest service', function() {
         var admin = server.admin;
         expect(admin._id).toBeDefined();
         
-        server.get('/rest/admin/users/'+admin._id, function(res, body) {
+        server.get('/rest/admin/users/'+admin._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toEqual(admin._id.toString());
             expect(body.email).toEqual(admin.email);
@@ -133,12 +145,20 @@ describe('users admin rest service', function() {
             done();
         });
     });
-    */
     
-    it('close the mock server', function(done) {
-        server.close(function() {
+    
+    
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
             done();
         });
+    });
+    
+    
+    
+    it('close the mock server if no more uses', function() {
+        server.closeOnFinish();
     });
     
 });

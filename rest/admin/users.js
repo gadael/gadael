@@ -6,6 +6,7 @@
  * Retrive list of users
  */  
 exports.getList = function (req, res) {
+    
 	req.ensureAdmin(req, res, function() {
 	
 		var workflow = req.app.utility.workflow(req, res);

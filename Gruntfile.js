@@ -141,7 +141,10 @@ module.exports = function(grunt) {
 		  match: '.',
 		  matchall: false,
 		  extensions: 'js',
+          helperNameMatcher: 'Helper', 
 		  specNameMatcher: 'Spec',
+          showColors: true,
+          includeStackTrace: true,
 		  jUnit: {
 			report: false,
 			savePath : "./build/reports/jasmine/",
