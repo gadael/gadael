@@ -93,6 +93,7 @@ exports.getList = function (req, res) {
 exports.getItem = function (req, res) {
 	req.ensureAdmin(req, res, function() {
 		var workflow = req.app.utility.workflow(req, res);
+        var gt = req.app.utility.gettext;
 		
 		req.app.db.models.User
 		.findOne({ '_id' : req.params.id}, 'lastname firstname email isActive department roles')
@@ -102,7 +103,12 @@ exports.getItem = function (req, res) {
 		.exec(function(err, user) {
 			if (workflow.handleMongoError(err))
 			{
-				res.json(user);
+                if (user) {
+                    res.json(user);
+                } else {
+                    workflow.httpstatus = 404;
+                    workflow.emit('exception', gt.gettext('This user does not exists'));
+                }
 			}
 		});
 	
@@ -232,5 +238,37 @@ exports.save = function (req, res) {
 		
 		
 		workflow.emit('validate');
+	});
+};
+
+
+
+
+
+exports.remove = function (req, res) {
+	req.ensureAdmin(req, res, function() {
+        var gt = req.app.utility.gettext;
+		var workflow = req.app.utility.workflow(req, res);
+        var User = req.app.db.models.User;
+        
+        workflow.on('find', function() {
+            User.findById(req.params.id, function (err, document) {
+                if (workflow.handleMongoError(err)) {
+                    workflow.document = document;
+                    workflow.emit('delete');
+                }
+            });
+        });
+		
+		workflow.on('delete', function() {
+            workflow.document.remove(function(err) {
+                if (workflow.handleMongoError(err)) {
+                    workflow.success(gt.gettext('The user has been deleted'));
+                }
+            });
+        });
+        
+        workflow.emit('find');
+	
 	});
 };

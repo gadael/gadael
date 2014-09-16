@@ -222,8 +222,11 @@ exports.remove = function (req, res) {
         
         
         workflow.on('delete', function() {
-            workflow.document.remove();
-            workflow.success(gt.gettext('The collection has been removed from account'));
+            workflow.document.remove(function(err) {
+                if (workflow.handleMongoError(err)) {
+                    workflow.success(gt.gettext('The collection has been removed from account'));
+                }
+            });
         });
         
         workflow.emit('find');

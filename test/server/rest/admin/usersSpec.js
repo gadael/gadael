@@ -25,7 +25,10 @@ describe('users admin rest service', function() {
      */
     var restAdmin;
     
-    
+    /**
+     * Document created by the test
+     */
+    var createdUser;
     
     it('verify the mock server', function(done) {
         
@@ -142,6 +145,35 @@ describe('users admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
+
+            createdUser = body;
+            delete createdUser.$outcome;
+            
+            done();
+        });
+    });
+    
+    
+    
+    it('delete the new user', function(done) {
+        
+        server.delete('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            expect(body._id).toEqual(createdUser._id);
+            
+            done();
+        });
+    });
+    
+    
+    it('failed to get the deleted user', function(done) {
+        
+        server.get('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
+            expect(res.statusCode).toEqual(404);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeFalsy();
             done();
         });
     });
