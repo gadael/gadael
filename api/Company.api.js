@@ -373,7 +373,7 @@ api.getExpress = function(config, models) {
     require('../modules/passport')(app, passport);
 
     //setup routes
-    require('../routes')(app, passport);
+    require('../rest/routes')(app, passport);
 
     //setup utilities
     app.utility = {};
