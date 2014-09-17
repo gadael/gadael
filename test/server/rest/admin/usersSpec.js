@@ -9,7 +9,7 @@ describe('users admin rest service', function() {
 
     beforeEach(function(done) {
         
-        var helpers = require('../mockServerHelper');
+        var helpers = require('../mockServer');
         
         helpers.mockServer(function(_mockServer) {
             server = _mockServer;
