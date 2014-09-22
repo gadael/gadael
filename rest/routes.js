@@ -18,8 +18,11 @@ exports = module.exports = function(app, passport) {
 	
 	app.get('/rest/admin', require('./admin/index').getInfos);
 	
-	app.get('/rest/admin/users'				, require('./admin/users').getList);
-	app.get('/rest/admin/users/:id'			, require('./admin/users').getItem);
+    require('./admin/users/list').addRoute(app);
+    require('./admin/users/get').addRoute(app);
+    
+	//app.get('/rest/admin/users'				, require('./admin/users').getList);
+	//app.get('/rest/admin/users/:id'			, require('./admin/users').getItem);
 	app.post('/rest/admin/users'			, require('./admin/users').save);
 	app.put('/rest/admin/users/:id'			, require('./admin/users').save);
     app.delete('/rest/admin/users/:id'	    , require('./admin/users').remove);
