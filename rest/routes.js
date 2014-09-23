@@ -20,13 +20,11 @@ exports = module.exports = function(app, passport) {
 	
     require('./admin/users/list').addRoute(app);
     require('./admin/users/get').addRoute(app);
+    require('./admin/users/save').create.addRoute(app);
+    require('./admin/users/save').update.addRoute(app);
+    require('./admin/users/delete').addRoute(app);
     
-	//app.get('/rest/admin/users'				, require('./admin/users').getList);
-	//app.get('/rest/admin/users/:id'			, require('./admin/users').getItem);
-	app.post('/rest/admin/users'			, require('./admin/users').save);
-	app.put('/rest/admin/users/:id'			, require('./admin/users').save);
-    app.delete('/rest/admin/users/:id'	    , require('./admin/users').remove);
-	
+
 	app.get('/rest/admin/accountcollections'		, require('./admin/accountcollections').getList);
 	app.get('/rest/admin/accountcollections/:id'	, require('./admin/accountcollections').getItem);
 	app.post('/rest/admin/accountcollections'		, require('./admin/accountcollections').save);
