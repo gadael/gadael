@@ -173,7 +173,9 @@ describe('users admin rest service', function() {
         server.get('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(404);
             expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeFalsy();
+            if (body.$outcome) {
+                expect(body.$outcome.success).toBeFalsy();
+            }
             done();
         });
     });

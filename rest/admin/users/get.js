@@ -17,6 +17,6 @@ controller.controllerAction = function() {
         ctrl.res.status(service.httpstatus).json(user);
         
     }).catch(function(err) {
-        ctrl.res.status(service.httpstatus).json(service.outcome);
+        ctrl.res.status(service.httpstatus).json({ $outcome: service.outcome });
     });
 };
