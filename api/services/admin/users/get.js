@@ -1,10 +1,16 @@
 'use strict';
 
-var getService = require('../../../../modules/service').get;
+
 
 
 
 exports = module.exports = function(app) {
+    
+    
+    var services = require('../../../../modules/service');
+    
+    var getService = services.get;
+    
     var get = new getService(app);
     
     /**
@@ -34,6 +40,9 @@ exports = module.exports = function(app) {
         
         return service.deferred.promise;
     };
+    
+    
+    return get;
 };
 
 

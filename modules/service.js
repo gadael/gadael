@@ -35,15 +35,20 @@ function apiService(app) {
      */
     this.deferred = this.Q.defer();
     
-    /**
-     * Shortcut for gettext utility
-     */
-    this.gt = app.utility.gettext;
     
-    /**
-     * Shortcut for db models
-     */
-    this.models = app.db.models;
+    
+    
+    this.setApp = function(app) {
+        /**
+         * Shortcut for gettext utility
+         */
+        this.gt = app.utility.gettext;
+        
+        /**
+         * Shortcut for db models
+         */
+        this.models = app.db.models;
+    }
     
     
     this.notFound = function(message) {
@@ -74,7 +79,7 @@ function apiService(app) {
             }
 
             service.outcome.alert.push({ type:'danger' ,message: err.message});
-
+            service.outcome.success = false;
 
             service.deferred.reject(new Error(err.message));
             return false;
@@ -89,8 +94,9 @@ function apiService(app) {
  * Service to get a list of items
  * output a mongoose query in a promise (this query can be paginated afterward by the controller)
  */
-function listItemsService(path) {
+function listItemsService(app) {
     apiService.call(this);
+    this.setApp(app);
 }
 
 listItemsService.prototype = new apiService();
@@ -103,7 +109,8 @@ listItemsService.prototype = new apiService();
  * output one object
  */
 function getItemService(app) {
-    apiService.call(this, app);
+    apiService.call(this);
+    this.setApp(app);
 }
 
 getItemService.prototype = new apiService();
@@ -117,7 +124,8 @@ getItemService.prototype = new apiService();
  * output the saved object
  */
 function saveItemService(app) {
-    apiService.call(this, app);
+    apiService.call(this);
+    this.setApp(app);
 }
 
 saveItemService.prototype = new apiService();
@@ -128,7 +136,8 @@ saveItemService.prototype = new apiService();
  * output the deleted object
  */
 function deleteItemService(app) {
-    apiService.call(this, app);
+    apiService.call(this);
+    this.setApp(app);
 }
 
 deleteItemService.prototype = new apiService();

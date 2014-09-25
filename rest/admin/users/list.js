@@ -69,7 +69,7 @@ controller.controllerAction = function() {
                 q.exec(function (err, docs) {
                     if (ctrl.workflow.handleMongoError(err))
                     {
-                        ctrl.res.json(docs);
+                        ctrl.res.json(docs); 
                     }
                 });
                 

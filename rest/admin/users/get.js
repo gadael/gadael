@@ -8,14 +8,15 @@ exports = module.exports = controller;
 
 controller.controllerAction = function() {
     var ctrl = this;
-    
-    var service = require('../../../api/services/admin/users/get')(ctrl.req.app);
+
+    var getService = require('../../../api/services/admin/users/get');
+    var service = getService(ctrl.req.app);
     
     
     service.call(ctrl.req.params).then(function(user) {
-        ctrl.res.json(user);
+        ctrl.res.status(service.httpstatus).json(user);
+        
     }).catch(function(err) {
-        ctrl.res.json(service.outcome);
+        ctrl.res.status(service.httpstatus).json(service.outcome);
     });
-    
 };
