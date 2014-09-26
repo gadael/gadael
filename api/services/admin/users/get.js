@@ -1,25 +1,15 @@
 'use strict';
 
 
-
-
-
-exports = module.exports = function(app) {
+exports = module.exports = function(services, app) {
     
-    
-    var services = require('../../../../modules/service');
-    
-    var getService = services.get;
-    
-    var get = new getService(app);
+    var service = new services.get(app);
     
     /**
-     * 
+     * Call the users get service
+     * @return Promise
      */
-    get.call = function(params) {
-
-        
-        var service = this;
+    service.call = function(params) {
         
         service.models.User
         .findOne({ '_id' : params.id}, 'lastname firstname email isActive department roles')
@@ -42,7 +32,7 @@ exports = module.exports = function(app) {
     };
     
     
-    return get;
+    return service;
 };
 
 

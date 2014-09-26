@@ -27,7 +27,7 @@
     "cookie-parser": "^1.0.1",
     "express-session": "^1.0.4",
     "morgan": "^1.0.1",
-    "mongoose": "^3.8.9",
+    "mongoose": "^3.8.16",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "passport-oauth": "^1.0.0",

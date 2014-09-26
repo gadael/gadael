@@ -9,8 +9,8 @@ exports = module.exports = controller;
 controller.controllerAction = function() {
     var ctrl = this;
 
-    var getService = require('../../../api/services/admin/users/get');
-    var service = getService(ctrl.req.app);
+    
+    var service = ctrl.service('admin/users/get');
     
     
     service.call(ctrl.req.params).then(function(user) {

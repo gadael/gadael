@@ -14,6 +14,8 @@ function restController(method, path) {
     
     var ctrl = this;
     
+    
+    
     this.onRequest = function(req, res) {
         ctrl.req = req;
         ctrl.res = res;
@@ -27,8 +29,20 @@ function restController(method, path) {
             return;
         }
         
+        /**
+         * Declare a new method to get the service object
+         * @param string path relative path from the services folder
+         * @return function
+         */
+        ctrl.service = function(path) {
+            var getService = require('../api/services/'+path);
+            var services = require('../modules/service');
+            return getService(services, ctrl.req.app);
+        };
+        
         ctrl.controllerAction();
     };
+    
     
     this.accessDenied = function(message) {
          ctrl.workflow.httpstatus = 401;

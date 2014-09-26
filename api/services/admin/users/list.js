@@ -1,83 +1,87 @@
 'use strict';
 
-var listController = require('../../controller').list;
 
+/**
+ * Create the query with filters
+ * 
+ */
+var query = function(service, params, next) {
 
-var controller = new listController('/rest/admin/users');
-exports = module.exports = controller;
+    var find = service.models.User.find();
 
-controller.controllerAction = function() {
-    
-    var ctrl = this;
+    if (params.name)
+    {
+        find.or([
+            { firstname: new RegExp('^'+params.name, 'i') },
+            { lastname: new RegExp('^'+params.name, 'i') }
+        ]);
 
-    var query = function(next) {
-        
-        var find = ctrl.models.User.find();
-        
-        if (ctrl.req.param('name'))
-        {
-            find.or([
-                { firstname: new RegExp('^'+ctrl.req.param('name'), 'i') },
-                { lastname: new RegExp('^'+ctrl.req.param('name'), 'i') }
-            ]);
+    }
 
-        }
-        
-        if (ctrl.req.param('department'))
-        {
-            find.where('department').equals(ctrl.req.param('department'));
+    if (params.department)
+    {
+        find.where('department').equals(params.department);
 
-        }
-        
-        if (ctrl.req.param('collection'))
-        {
-            var collFind = ctrl.models.AccountCollection.find();
-            collFind.where('rightCollection').equals(ctrl.req.param('collection'));
-            collFind.select('account');
-            
-            collFind.exec(function (err, docs) {
-                if (ctrl.workflow.handleMongoError(err))
-                {
-                    var accountIdList = [];
-                    for(var i=0; i<docs.length; i++) {
-                        accountIdList.push(docs[i]._id);
-                    }
-                    
-                    find.where('roles.account').in(accountIdList);
-                    next(find);
+    }
+
+    if (params.collection)
+    {
+        var collFind = service.models.AccountCollection.find();
+        collFind.where('rightCollection').equals(params.collection);
+        collFind.select('account');
+
+        collFind.exec(function (err, docs) {
+            if (service.handleMongoError(err))
+            {
+                var accountIdList = [];
+                for(var i=0; i<docs.length; i++) {
+                    accountIdList.push(docs[i]._id);
                 }
-            });
 
-        } else {
-            next(find);
-        }
+                find.where('roles.account').in(accountIdList);
+                next(find);
+            }
+        });
+
+    } else {
+        next(find);
+    }
+};
+
+
+
+
+exports = module.exports = function(services, app) {
+    
+    var service = new services.list(app);
+    
+    /**
+     * Call the users list service
+     * 
+     * @param object params
+     * @param function [paginate]  Optional parameter to paginate the results
+     *
+     * @return Query
+     */
+    service.call = function(params, paginate) {
+        
+        
+        query(service, params, function(find) {
+            
+            var cols = 'lastname firstname email roles isActive';
+            var sortkey = 'lastname';
+            
+            service.resolveQuery(find, cols, sortkey, paginate);
+        });
+        
+        
+        return service.deferred.promise;
     };
     
     
-
-    query(function(find) {
-
-        ctrl.paginate(find).then(function(p) {
-
-            query(function(find) {
-                
-                var q = find.select('lastname firstname email roles isActive').sort('lastname');
-            
-                q.limit(p.limit);
-                q.skip(p.skip);
-
-                q.exec(function (err, docs) {
-                    if (ctrl.workflow.handleMongoError(err))
-                    {
-                        ctrl.res.json(docs);
-                    }
-                });
-                
-            });
-        });
-        
-    });
-
+    return service;
 };
+
+
 
 

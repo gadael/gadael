@@ -10,72 +10,14 @@ controller.controllerAction = function() {
     
     var ctrl = this;
 
-    var query = function(next) {
-        
-        var find = ctrl.models.User.find();
-        
-        if (ctrl.req.param('name'))
-        {
-            find.or([
-                { firstname: new RegExp('^'+ctrl.req.param('name'), 'i') },
-                { lastname: new RegExp('^'+ctrl.req.param('name'), 'i') }
-            ]);
-
-        }
-        
-        if (ctrl.req.param('department'))
-        {
-            find.where('department').equals(ctrl.req.param('department'));
-
-        }
-        
-        if (ctrl.req.param('collection'))
-        {
-            var collFind = ctrl.models.AccountCollection.find();
-            collFind.where('rightCollection').equals(ctrl.req.param('collection'));
-            collFind.select('account');
-            
-            collFind.exec(function (err, docs) {
-                if (ctrl.workflow.handleMongoError(err))
-                {
-                    var accountIdList = [];
-                    for(var i=0; i<docs.length; i++) {
-                        accountIdList.push(docs[i]._id);
-                    }
-                    
-                    find.where('roles.account').in(accountIdList);
-                    next(find);
-                }
-            });
-
-        } else {
-            next(find);
-        }
-    };
+    var service = ctrl.service('admin/users/list');
     
     
-
-    query(function(find) {
-
-        ctrl.paginate(find).then(function(p) {
-
-            query(function(find) {
-                
-                var q = find.select('lastname firstname email roles isActive').sort('lastname');
-            
-                q.limit(p.limit);
-                q.skip(p.skip);
-
-                q.exec(function (err, docs) {
-                    if (ctrl.workflow.handleMongoError(err))
-                    {
-                        ctrl.res.json(docs); 
-                    }
-                });
-                
-            });
-        });
+    service.call(ctrl.req.params, ctrl.paginate).then(function(docs) {
+        ctrl.res.status(service.httpstatus).json(docs);
         
+    }).catch(function(err) {
+        ctrl.res.status(service.httpstatus).json({ $outcome: service.outcome });
     });
 
 };
