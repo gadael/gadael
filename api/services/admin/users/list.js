@@ -2,8 +2,18 @@
 
 
 /**
+ * The Admin users list service
+ */
+
+
+
+
+/**
  * Create the query with filters
  * 
+ * @param {listItemsService} service
+ * @param {array} params      query parameters if called by controller
+ * @param {function} next
  */
 var query = function(service, params, next) {
 
@@ -58,13 +68,12 @@ exports = module.exports = function(services, app) {
     /**
      * Call the users list service
      * 
-     * @param object params
-     * @param function [paginate]  Optional parameter to paginate the results
+     * @param {Object} params
+     * @param {function} [paginate]  Optional parameter to paginate the results
      *
-     * @return Query
+     * @return {Query}
      */
     service.call = function(params, paginate) {
-        
         
         query(service, params, function(find) {
             

@@ -7,7 +7,9 @@ exports = module.exports = function(services, app) {
     
     /**
      * Call the users get service
-     * @return Promise
+     * 
+     * @param {Object} params
+     * @return {Promise}
      */
     service.call = function(params) {
         

@@ -3,8 +3,11 @@
 /**
  * Service base class
  * Return output usable in a REST service but also usable via js API
+ *
+ * @constructor
+ * 
  */
-function apiService(app) {
+function apiService() {
     
     var service = this;
     
@@ -18,7 +21,7 @@ function apiService(app) {
      * Service output
      * array for listItems
      * object for getItem and save and delete
-     * @var array | object 
+     * @var {array|object} 
      */
     this.output = null;
 
@@ -35,9 +38,18 @@ function apiService(app) {
      */
     this.deferred = this.Q.defer();
     
+    /**
+     * Services instances must implement
+     * this method
+     */
+    this.call = function() {
+        console.log('Not implemented');   
+    }
     
-    
-    
+    /**
+     * Set application
+     * @param {Object} app
+     */
     this.setApp = function(app) {
         /**
          * Shortcut for gettext utility
@@ -51,6 +63,12 @@ function apiService(app) {
     }
     
     
+    /**
+     * Ouput a 404 error
+     * with an outcome message
+     * 
+     * @param {String} message
+     */
     this.notFound = function(message) {
          service.httpstatus = 404;
          service.outcome.success = false;
@@ -62,6 +80,10 @@ function apiService(app) {
     
     /**
      * emit exception if parameter contain a mongoose error
+     *
+     * @param {Error|null} err - a mongoose error or no error
+     *
+     * @return {Boolean}
      */  
     this.handleMongoError = function(err) {
         if (err) {
@@ -116,7 +138,7 @@ function listItemsService(app) {
     this.resolveQuery = function(find, cols, sortkey, paginate) {
         
 
-        var mongOutcome = function (err, docs) {
+        var mongOutcome = function(err, docs) {
             if (service.handleMongoError(err))
             {
                 service.outcome.success = true;
@@ -125,30 +147,14 @@ function listItemsService(app) {
         };
         
         
-        if (!paginate) {
-            // no pagination required, output all items
-
-            return find.select(cols).sort(sortkey).exec(mongOutcome);
-        }
-        
-        //return service.notFound('FAIL');
-
-        paginate(find).then(function(page) {
-
-            //query(service, params, function(find) {
-
-                var q = find.select(cols).sort(sortkey);
-
-                q.limit(page.limit);
-                q.skip(page.skip);
-                q.exec(mongOutcome);
-
-            //});
-        }).catch(function(err) {
-            console.log(err);
-            service.outcome.success = false;
-            service.deferred.reject(err);
-        });  
+        var q = find.select(cols).sort(sortkey);
+        q.exec(function(err, docs) {
+            if (null !== paginate) {
+                return paginate(docs.length, q).exec(mongOutcome);
+            }
+            
+            return mongOutcome(err, docs);
+        });
     }
 }
 
@@ -160,6 +166,9 @@ listItemsService.prototype = new apiService();
 /**
  * Service to get one item
  * output one object
+ * @constructor
+ *
+ * @param {Object} app
  */
 function getItemService(app) {
     apiService.call(this);
@@ -175,6 +184,9 @@ getItemService.prototype = new apiService();
 /**
  * Service to create or update one item
  * output the saved object
+ * @constructor
+ *
+ * @param {Object} app
  */
 function saveItemService(app) {
     apiService.call(this);
@@ -187,6 +199,9 @@ saveItemService.prototype = new apiService();
 /**
  * Service to delete one item
  * output the deleted object
+ * @constructor
+ *
+ * @param {Object} app
  */
 function deleteItemService(app) {
     apiService.call(this);
