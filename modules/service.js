@@ -17,14 +17,13 @@ function apiService() {
      */
     this.httpstatus = 200;
     
-    /**
-     * Service output
-     * array for listItems
-     * object for getItem and save and delete
-     * @var {array|object} 
-     */
-    this.output = null;
 
+    /**
+     * Service outcome
+     * contain success boolean
+     * a list of alert messages
+     * errfor: errors associated to fields
+     */
     this.outcome = {
         success: true, 
         alert: [], 
@@ -111,6 +110,26 @@ function apiService() {
     };
     
     
+    
+    /**
+     * @return {Boolean}
+     */  
+    this.hasErrors = function() {
+
+        if (Object.keys(service.outcome.errfor).length !== 0) {
+            return true;
+        }
+
+        for(var i=0; i<service.outcome.alert.length; i++) {
+            if (service.outcome.alert[i].type === 'danger') {
+                return true;
+            }
+        }
+
+        return false;
+    };
+    
+    
 };
 
 
@@ -191,6 +210,30 @@ getItemService.prototype = new apiService();
 function saveItemService(app) {
     apiService.call(this);
     this.setApp(app);
+    
+    var service = this;
+    
+    /**
+     * Test required fields in params
+     * complete outcome and http status if a fields is empty
+     *
+     * @param {Object} params - parameters to save
+     * @param {Array} list - list of fields to test
+     *
+     * @return {bool}
+     */  
+    service.needRequiredFields = function(params, list) {
+
+        for(var i=0; i<list.length; i++)
+        {
+            if (!params[list[i]]) {
+                service.outcome.errfor[list[i]] = 'required';
+                service.httpstatus = 400; // Bad Request
+            }
+        }
+
+        return service.hasErrors();
+    };
 }
 
 saveItemService.prototype = new apiService();

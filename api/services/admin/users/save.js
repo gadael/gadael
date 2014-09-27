@@ -1,140 +1,148 @@
 'use strict';
 
-var createController = require('../../controller').create;
-var updateController = require('../../controller').update;
 
-exports = module.exports = {
-    create: new createController('/rest/admin/users'),
-    update: new updateController('/rest/admin/users/:id')
+
+/**
+ * Validate params fields
+ * 
+ */
+function validate(service, params) {
+
+    if (service.needRequiredFields(params, ['firstname', 'lastname',  'email'])) {
+        return service.deferred.reject(new Error('Missing mandatory fields'));
+    }
+
+    save(service, params);
 };
-
-
-function save() {
-    var ctrl = this;
     
     
-    var gt = ctrl.req.app.utility.gettext;
-    var workflow = ctrl.workflow;
-    var User = ctrl.models.User;
-    var req = ctrl.req;
+/**
+ * Update/create the user document
+ */  
+function saveUser(service, params) {
     
-    workflow.on('validate', function() {
+    var User = service.models.User;
 
-        if (workflow.needRequiredFields(['firstname', 'lastname',  'email'])) {
-          return workflow.emit('response');
+    if (params.id)
+    {
+        User.findById(params.id, function (err, user) {
+            if (service.handleMongoError(err))
+            {
+                user.firstname 	= params.firstname;
+                user.lastname 	= params.lastname;
+                user.email 		= params.email;
+                user.department = params.department;
+                user.isActive   = params.isActive;
+
+                user.save(function (err) {
+                    if (service.handleMongoError(err)) {
+
+                        service.outcome.alert.push({
+                            type: 'success',
+                            message: gt.gettext('The user has been modified')
+                        });
+
+                        saveUserRoles(service, params, user);
+                    }
+                });
+            }
+        });
+
+    } else {
+
+        User.create({
+            firstname: params.firstname,
+            lastname: params.lastname,
+            email: params.email,
+            department: params.department,
+            password: params.newpassword,
+            isActive: params.isActive 
+        }, function(err, userDocument) {
+
+            if (workflow.handleMongoError(err))
+            {
+                service.outcome.alert.push({
+                    type: 'success',
+                    message: service.gt.gettext('The user has been created')
+                });
+
+                saveUserRoles(service, params, userDocument);
+            }
+        });
+    }
+};
+    
+    
+/**
+ * 
+ */
+function saveUserRoles(service, params, userDocument) {
+
+    if (!userDocument)
+    {
+        return service.deferred.reject(new Error('No user document to save roles on'));
+    }
+
+    var saveRoles = require('../../../../modules/roles');
+
+    var account = null;
+    if (params.isAccount) {
+        account = {
+            nonWorkingDays: params.roles.account.nonWorkingDays,
+            workschedule: params.roles.account.workschedule
+        };
+    }
+
+    var admin = params.isAdmin ? {} : null;
+    var manager = params.isManager ? {} : null;
+
+
+    saveRoles(
+        service.models, 
+        userDocument, 
+        account, 
+        admin, 
+        manager, 
+        function updateUserWithSavedRoles(err, results) {
+
+            if (service.handleMongoError(err)) { // error forwarded by async
+
+                userDocument.save(function(err) {
+                    if (service.handleMongoError(err)) { // error for user document
+                        service.deferred.resolve(userDocument);
+                    }
+                });
+            }
         }
-
-        workflow.emit('save');
-    });
+    );
+};
     
+    
+    
+    
+
+
+
+
+exports = module.exports = function(services, app) {
+    
+    var service = new services.save(app);
     
     /**
-     * Update/create the user document
-     */  
-    workflow.on('save', function() {
-
-        if (req.params.id)
-        {
-            User.findById(req.params.id, function (err, user) {
-                if (workflow.handleMongoError(err))
-                {
-                    user.firstname 	= req.body.firstname;
-                    user.lastname 	= req.body.lastname;
-                    user.email 		= req.body.email;
-                    user.department = req.body.department;
-                    user.isActive   = req.body.isActive;
-                    
-                    user.save(function (err) {
-                        if (workflow.handleMongoError(err)) {
-
-                            workflow.document = user;
-                        
-                            workflow.outcome.alert.push({
-                                type: 'success',
-                                message: gt.gettext('The user has been modified')
-                            });
-                            
-                            workflow.emit('saveRoles');
-                        }
-                    });
-                }
-            });
-            
-        } else {
-            
-            User.create({
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                email: req.body.email,
-                department: req.body.department,
-                password: req.body.newpassword,
-                isActive: req.body.isActive 
-            }, function(err, user) {
-                
-                if (workflow.handleMongoError(err))
-                {
-                    workflow.document = user;
-                    
-                    workflow.outcome.alert.push({
-                        type: 'success',
-                        message: gt.gettext('The user has been created')
-                    });
-
-                    workflow.emit('saveRoles');
-                }
-            });
-        }
-    });
+     * Call the users save service
+     * 
+     * @param {Object} user
+     *
+     * @return {Query}
+     */
+    service.call = function(params) {
+        
+        validate(service, params);
+        return service.deferred.promise;
+    };
     
     
-    
-    workflow.on('saveRoles', function() {
-        
-        if (!workflow.document)
-        {
-            return workflow.emit('exception', 'No user document to save roles on');
-        }
-        
-        var saveRoles = require('../../../modules/roles');
-        
-        var account = null;
-        if (req.body.isAccount) {
-            account = {
-                nonWorkingDays: req.body.roles.account.nonWorkingDays,
-                workschedule: req.body.roles.account.workschedule
-            };
-        }
-        
-        var admin = req.body.isAdmin ? {} : null;
-        var manager = req.body.isManager ? {} : null;
-        
-        
-        saveRoles(
-            req.app.db.models, 
-            workflow.document, 
-            account, 
-            admin, 
-            manager, 
-            function updateUserWithSavedRoles(err, results) {
-
-                if (workflow.handleMongoError(err)) { // error forwarded by async
-                    
-                    workflow.document.save(function(err) {
-                        if (workflow.handleMongoError(err)) { // error for user document
-                            workflow.emit('response');
-                        }
-                    });
-                }
-            }
-        );
-    });
-    
-    
-    
-    workflow.emit('validate');
+    return service;
 }
 
-
-exports.create.controllerAction = save;
-exports.update.controllerAction = save;
 
