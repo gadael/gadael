@@ -229,6 +229,7 @@ function saveItemService(app) {
             if (!params[list[i]]) {
                 service.outcome.errfor[list[i]] = 'required';
                 service.httpstatus = 400; // Bad Request
+                service.outcome.success = false;
             }
         }
 

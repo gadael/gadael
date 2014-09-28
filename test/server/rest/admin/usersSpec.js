@@ -101,6 +101,7 @@ describe('users admin rest service', function() {
         restAdmin.isAdmin = true;
         
         server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
+
             expect(res.statusCode).toEqual(200);
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();

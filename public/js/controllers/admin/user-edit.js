@@ -66,7 +66,7 @@ define([], function() {
         var saveAccountCollection = function(userId) {
             
             
-            if (!$scope.user.roles.account) {
+            if (!$scope.user.roles || !$scope.user.roles.account) {
                 // TODO remove the existing collections
                 return;
             }

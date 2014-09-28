@@ -12,8 +12,8 @@ function validate(service, params) {
         return service.deferred.reject(new Error('Missing mandatory fields'));
     }
 
-    save(service, params);
-};
+    saveUser(service, params);
+}
     
     
 /**
@@ -39,9 +39,9 @@ function saveUser(service, params) {
 
                         service.outcome.alert.push({
                             type: 'success',
-                            message: gt.gettext('The user has been modified')
+                            message: service.gt.gettext('The user has been modified')
                         });
-
+                        
                         saveUserRoles(service, params, user);
                     }
                 });
@@ -59,7 +59,7 @@ function saveUser(service, params) {
             isActive: params.isActive 
         }, function(err, userDocument) {
 
-            if (workflow.handleMongoError(err))
+            if (service.handleMongoError(err))
             {
                 service.outcome.alert.push({
                     type: 'success',
@@ -70,7 +70,7 @@ function saveUser(service, params) {
             }
         });
     }
-};
+}
     
     
 /**
@@ -96,6 +96,8 @@ function saveUserRoles(service, params, userDocument) {
     var admin = params.isAdmin ? {} : null;
     var manager = params.isManager ? {} : null;
 
+    
+                        
 
     saveRoles(
         service.models, 
@@ -109,13 +111,17 @@ function saveUserRoles(service, params, userDocument) {
 
                 userDocument.save(function(err) {
                     if (service.handleMongoError(err)) { // error for user document
-                        service.deferred.resolve(userDocument);
+                        
+                        var output = userDocument.toObject();
+                        output.$outcome = service.outcome;
+                        
+                        service.deferred.resolve(output);
                     }
                 });
             }
         }
     );
-};
+}
     
     
     
@@ -143,6 +149,6 @@ exports = module.exports = function(services, app) {
     
     
     return service;
-}
+};
 
 
