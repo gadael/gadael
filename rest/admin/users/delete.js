@@ -10,26 +10,13 @@ controller.controllerAction = function() {
     
     var ctrl = this;
     
-    var gt = ctrl.req.app.utility.gettext;
-    var workflow = ctrl.workflow;
-    var User = ctrl.req.app.db.models.User;
+    var service = ctrl.service('admin/users/delete');
     
-    workflow.on('find', function() {
-        User.findById(ctrl.req.params.id, function (err, document) {
-            if (workflow.handleMongoError(err)) {
-                workflow.document = document;
-                workflow.emit('delete');
-            }
-        });
+    
+    service.call(ctrl.req.params.id).then(function(user) {
+        ctrl.res.status(service.httpstatus).json(user);
+        
+    }).catch(function(err) {
+        ctrl.res.status(service.httpstatus).json({ $outcome: service.outcome });
     });
-    
-    workflow.on('delete', function() {
-        workflow.document.remove(function(err) {
-            if (workflow.handleMongoError(err)) {
-                workflow.success(gt.gettext('The user has been deleted'));
-            }
-        });
-    });
-    
-    workflow.emit('find');
 };

@@ -19,7 +19,7 @@ var query = function(service, params, next) {
 
     var find = service.models.User.find();
 
-    if (params.name)
+    if (params && params.name)
     {
         find.or([
             { firstname: new RegExp('^'+params.name, 'i') },
@@ -28,13 +28,13 @@ var query = function(service, params, next) {
 
     }
 
-    if (params.department)
+    if (params && params.department)
     {
         find.where('department').equals(params.department);
 
     }
 
-    if (params.collection)
+    if (params && params.collection)
     {
         var collFind = service.models.AccountCollection.find();
         collFind.where('rightCollection').equals(params.collection);

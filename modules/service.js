@@ -76,6 +76,19 @@ function apiService() {
          service.deferred.reject(new Error(message));
     };
     
+    /**
+     * Set a success message into outcome
+     * @param {String} message
+     */
+    this.success = function(message) {
+        service.outcome.alert.push({
+            type: 'success',
+            message: message
+        });
+    }
+    
+    
+    
     
     /**
      * emit exception if parameter contain a mongoose error
@@ -168,7 +181,7 @@ function listItemsService(app) {
         
         var q = find.select(cols).sort(sortkey);
         q.exec(function(err, docs) {
-            if (null !== paginate) {
+            if (typeof paginate === 'function') {
                 return paginate(docs.length, q).exec(mongOutcome);
             }
             
