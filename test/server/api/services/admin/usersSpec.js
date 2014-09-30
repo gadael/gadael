@@ -1,15 +1,7 @@
 'use strict';
 
 var app = require('../../../../../api/Headless.api.js');
-
-var service = {
-    list: require('../../../../../api/services/admin/users/list.js'),
-    get: require('../../../../../api/services/admin/users/get.js'),
-    save: require('../../../../../api/services/admin/users/save.js'),
-    delete: require('../../../../../api/services/admin/users/delete.js')
-};
-
-var services = require('../../../../../modules/service');
+var service = require('../../../../../modules/service');
 
 describe('users admin API service', function UsersTestSuite() {
     
@@ -20,7 +12,7 @@ describe('users admin API service', function UsersTestSuite() {
 	});
     
     it("load all users without parameters", function(done) {
-		var list = service.list(services, app);
+        var list = service.load(app, 'admin/users/list');
         list.call().then(function(val) {
             expect(list.httpstatus).toEqual(200);
             done();

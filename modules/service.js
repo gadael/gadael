@@ -268,10 +268,24 @@ function deleteItemService(app) {
 deleteItemService.prototype = new apiService();
 
 
+/**
+ * Load a service object
+ * @param {express|Object} app      Express app or headless app
+ * @param {String} path
+ *
+ * @return {apiService}
+ */
+function loader(app, path) {
+    var getService = require('../api/services/'+path);
+    return getService(exports, app);
+}
+
+
 
 exports = module.exports = {
     list: listItemsService,
     get: getItemService,
     save: saveItemService,
-    delete: deleteItemService
+    delete: deleteItemService,
+    load:loader
 };

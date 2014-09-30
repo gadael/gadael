@@ -44,9 +44,7 @@ function restController(method, path) {
          * @return {function}
          */
         ctrl.service = function(path) {
-            var getService = require('../api/services/'+path);
-            var services = require('../modules/service');
-            return getService(services, ctrl.req.app);
+            return require('../modules/service').load(ctrl.req.app, path);
         };
         
         ctrl.controllerAction();
