@@ -15,13 +15,7 @@ var config = require('../config')();
 app.config = config;
 app.mongoose = mongoose;
 
-//setup utilities
-app.utility = {};
-app.utility.sendmail = require('../modules/sendmail');
-app.utility.slugify = require('../modules/slugify');
-app.utility.workflow = require('../modules/workflow');
-app.utility.gettext = require('../modules/gettext');
-
+require('../modules/apputil')(app);
 
 app.connect = function(callback) {
 

@@ -276,8 +276,7 @@ deleteItemService.prototype = new apiService();
  * @return {apiService}
  */
 function loader(app, path) {
-    var getService = require('../api/services/'+path);
-    return getService(exports, app);
+    return app.service(path);
 }
 
 
