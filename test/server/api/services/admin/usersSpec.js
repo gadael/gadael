@@ -17,6 +17,16 @@ describe('users admin API service', function UsersTestSuite() {
             done();
         });
 	});
+    
+    
+    it("Fail on create a user with a missing mandatory field", function(done) {
+        var save = app.service('admin/users/save');
+        save.call({}).fail(function(err) {
+            expect(save.httpstatus).toEqual(400);
+            done();
+        });
+    });
+    
 
     it("should disconnect from the database", function(done) {
 		app.disconnect(function() {

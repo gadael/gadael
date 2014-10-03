@@ -18,13 +18,21 @@ exports = module.exports = function(app, passport) {
 	
 	app.get('/rest/admin', require('./admin/index').getInfos);
 	
+    /*
     require('./admin/users/list').addRoute(app);
     require('./admin/users/get').addRoute(app);
     require('./admin/users/save').create.addRoute(app);
     require('./admin/users/save').update.addRoute(app);
     require('./admin/users/delete').addRoute(app);
+    */
     
-
+    var users = require('./admin/users');
+    users.list.addRoute(app);
+    users.get.addRoute(app);
+    users.create.addRoute(app);
+    users.update.addRoute(app);
+    users.delete.addRoute(app);
+    
 	app.get('/rest/admin/accountcollections'		, require('./admin/accountcollections').getList);
 	app.get('/rest/admin/accountcollections/:id'	, require('./admin/accountcollections').getItem);
 	app.post('/rest/admin/accountcollections'		, require('./admin/accountcollections').save);

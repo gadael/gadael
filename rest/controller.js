@@ -81,6 +81,15 @@ function restController(method, path) {
         app[ctrl.method](ctrl.path, ctrl.onRequest);
     };
     
+    /**
+     * Controller use this method to output a service as a rest
+     * service
+     * 
+     * @param {apiService} service
+     */
+    this.jsonService = function(service) {
+        throw new Error('not implemented');
+    };
 }
 
 
@@ -119,6 +128,24 @@ function listItemsController(path) {
 
         return query;
     };
+    
+    
+    /**
+     * Controller use this method to output a service as a rest
+     * service
+     * 
+     * This default method is paginated
+     * 
+     * @param {apiService} service
+     */
+    this.jsonService = function(service) {
+        service.call(ctrl.req.query, ctrl.paginate).then(function(docs) {
+            ctrl.res.status(service.httpstatus).json(docs);
+            
+        }).catch(function(err) {
+            ctrl.res.status(service.httpstatus).json({ $outcome: service.outcome });
+        });
+    };
 }
 
 listItemsController.prototype = new restController();
@@ -132,9 +159,64 @@ listItemsController.prototype = new restController();
  */
 function getItemController(path) {
     restController.call(this, 'get', path);
+    var ctrl = this;
+    
+    /**
+     * Controller use this method to output a service as a rest
+     * service
+     * Output the document with the $outcome property
+     * 
+     * @param {apiService} service
+     */
+    this.jsonService = function(service) {
+        service.call(ctrl.req.params).then(function(document) {
+            ctrl.res.status(service.httpstatus).json(document);
+            
+        }).catch(function(err) {
+            ctrl.res.status(service.httpstatus).json({ $outcome: service.outcome });
+        });
+    };
 }
 
 getItemController.prototype = new restController();
+
+
+/**
+ * Base class for create or update an item
+ * 
+ * @param {string} method   post|put
+ * @param {string} path
+ * 
+ * 
+ */
+function saveItemController(method, path) {
+    restController.call(this, method, path);
+    var ctrl = this;
+    
+    /**
+     * Controller use this method to output a service as a rest
+     * service
+     * Output the saved document with the $outcome property
+     * 
+     * @param {apiService} service
+     */
+    this.jsonService = function(service) {
+        
+        var params = ctrl.req.body;
+        if (ctrl.req.params.id) {
+            params.id = ctrl.req.params.id;
+        }
+        
+        service.call(params).then(function(document) {
+            ctrl.res.status(service.httpstatus).json(document);
+            
+        }).catch(function(err) {
+            ctrl.res.status(service.httpstatus).json({ $outcome: service.outcome });
+        });
+    };
+}
+
+saveItemController.prototype = new restController();
 
 
 /**
@@ -145,10 +227,10 @@ getItemController.prototype = new restController();
  * @param {String} path
  */
 function createItemController(path) {
-    restController.call(this, 'post', path);
+    saveItemController.call(this, 'post', path);
 }
 
-createItemController.prototype = new restController();
+createItemController.prototype = new saveItemController();
 
 
 /**
@@ -159,10 +241,10 @@ createItemController.prototype = new restController();
  * @param {String} path
  */
 function updateItemController(path) {
-    restController.call(this, 'put', path);
+    saveItemController.call(this, 'put', path);
 }
 
-updateItemController.prototype = new restController();
+updateItemController.prototype = new saveItemController();
 
 
 /**
@@ -173,6 +255,23 @@ updateItemController.prototype = new restController();
  */
 function deleteItemController(path) {
     restController.call(this, 'delete', path);
+    var ctrl = this;
+    
+    /**
+     * Controller use this method to output a service as a rest
+     * service
+     * Output the deleted document with the $outcome property
+     * 
+     * @param {apiService} service
+     */
+    this.jsonService = function(service) {
+        service.call(ctrl.req.params.id).then(function(document) {
+            ctrl.res.status(service.httpstatus).json(document);
+            
+        }).catch(function(err) {
+            ctrl.res.status(service.httpstatus).json({ $outcome: service.outcome });
+        });
+    };
 }
 
 deleteItemController.prototype = new restController();
