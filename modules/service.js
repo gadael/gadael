@@ -246,7 +246,12 @@ function saveItemService(app) {
             }
         }
 
-        return service.hasErrors();
+        if (service.hasErrors()) {
+            service.deferred.reject(new Error('Missing mandatory fields'));
+            return true;
+        }
+        
+        return false;
     };
 }
 

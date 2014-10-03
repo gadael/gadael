@@ -13,8 +13,8 @@ controller.controllerAction = function() {
     var service = ctrl.service('admin/users/delete');
     
     
-    service.call(ctrl.req.params.id).then(function(user) {
-        ctrl.res.status(service.httpstatus).json(user);
+    service.call(ctrl.req.params.id).then(function(document) {
+        ctrl.res.status(service.httpstatus).json(document);
         
     }).catch(function(err) {
         ctrl.res.status(service.httpstatus).json({ $outcome: service.outcome });

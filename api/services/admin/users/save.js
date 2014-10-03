@@ -9,7 +9,7 @@
 function validate(service, params) {
 
     if (service.needRequiredFields(params, ['firstname', 'lastname',  'email'])) {
-        return service.deferred.reject(new Error('Missing mandatory fields'));
+        return;
     }
 
     saveUser(service, params);
@@ -78,9 +78,8 @@ function saveUser(service, params) {
  */
 function saveUserRoles(service, params, userDocument) {
 
-    if (!userDocument)
-    {
-        return service.deferred.reject(new Error('No user document to save roles on'));
+    if (!userDocument) {
+        return service.notFound(service.gt.gettext('No user document to save roles on'));
     }
 
     var saveRoles = require('../../../../modules/roles');

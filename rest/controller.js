@@ -80,6 +80,7 @@ function restController(method, path) {
     this.addRoute = function(app) {
         app[ctrl.method](ctrl.path, ctrl.onRequest);
     };
+    
 }
 
 
