@@ -54,7 +54,7 @@ function getAccount(service, params, next) {
             next(user.account);
         }
     });
-};
+}
 
 
 

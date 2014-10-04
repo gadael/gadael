@@ -49,12 +49,8 @@ exports = module.exports = function(app, passport)
 	
     controllers.add('./admin/collections');
     controllers.add('./admin/calendars');
+    controllers.add('./admin/types');
 	
-	app.get('/rest/admin/types'				, require('./admin/types').getList);
-	app.get('/rest/admin/types/:id'			, require('./admin/types').getItem);
-	app.post('/rest/admin/types'			, require('./admin/types').save);
-	app.put('/rest/admin/types/:id'			, require('./admin/types').save);
-    
     app.get('/rest/admin/rights'			, require('./admin/rights').getList);
 	app.get('/rest/admin/rights/:id'		, require('./admin/rights').getItem);
 	app.post('/rest/admin/rights'			, require('./admin/rights').save);

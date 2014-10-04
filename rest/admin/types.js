@@ -1,122 +1,31 @@
 'use strict';
 
-/**
- * Retrive list of types
- */  
-exports.getList = function (req, res) {
-	
-	req.ensureAdmin(req, res, function(req, res) {
-		
-		var query = function() {
-			var find = req.app.db.models.Type.find();
-			if (req.param('name'))
-			{
-				find.where({ name: new RegExp('^'+req.param('name'), 'i') });
-			}
-			return find;
-		};
-		
-		var paginate = require('node-paginate-anything');
+var ctrlFactory = require('../controller');
 
-		query().count(function(err, total) {
-				
-			var p = paginate(req, res, total, 50);
-			
-			if (!p) {
-				res.json([]);
-				return;
-			}
-			
-			query()
-			.select('name')
-			.sort('name')
-			.limit(p.limit)
-			.skip(p.skip)
-			.exec(function (err, docs) {
-				if (err) {
-					return console.error(err);
-				}
-				
-				res.json(docs);
-			});
-		});
-	});
+
+exports = module.exports = {
+    list: new ctrlFactory.list('/rest/admin/types'),
+    get: new ctrlFactory.get('/rest/admin/types/:id'),
+    create: new ctrlFactory.create('/rest/admin/types'),
+    update: new ctrlFactory.update('/rest/admin/types/:id'),
+    delete: new ctrlFactory.delete('/rest/admin/types/:id')
 };
 
-
-
-
-exports.save = function(req, res) {
-	req.ensureAdmin(req, res, function() {
-		var gt = req.app.utility.gettext;
-		var workflow = req.app.utility.workflow(req, res);
-		var Type = req.app.db.models.Type;
-		
-		workflow.on('validate', function() {
-
-			if (workflow.needRequiredFields(['name'])) {
-			  return workflow.emit('response');
-			}
-
-			workflow.emit('save');
-		});
-		
-		workflow.on('save', function() {
-
-			var fieldsToSet = { 
-				name: req.body.name
-			};
-
-			if (req.params.id)
-			{
-				Type.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, type) {
-					if (workflow.handleMongoError(err)) {
-                        
-                        workflow.outcome.alert.push({
-                            type: 'success',
-                            message: gt.gettext('The right type has been modified')
-                        });
-                        
-                        workflow.document = type;
-                        workflow.emit('response');
-                    }
-				});
-			} else {
-				Type.create(fieldsToSet, function(err, type) {
-					
-					if (workflow.handleMongoError(err)) {
-					
-                        workflow.outcome.alert.push({
-                            type: 'success',
-                            message: gt.gettext('The right type has been created')
-                        });
-                        
-                        workflow.document = type;
-                        workflow.emit('response');
-                    }
-				});
-			}
-			
-			
-		});
-		
-		workflow.emit('validate');
-	});
+exports.list.controllerAction = function() {
+    this.jsonService(this.service('admin/types/list'));
 };
 
+exports.get.controllerAction = function() {
+    this.jsonService(this.service('admin/types/get'));
+};
 
-exports.getItem = function(req, res) {
-	req.ensureAdmin(req, res, function() {
-		// var gt = req.app.utility.gettext;
-		var workflow = req.app.utility.workflow(req, res);
-		
-		req.app.db.models.Type.findOne({ '_id' : req.params.id}, 'name', function(err, type) {
-			if (err)
-			{
-				return workflow.emit('exception', err.message);
-			}
-			
-			res.json(type);
-		});
-	});
-};	
+function save() {
+    this.jsonService(this.service('admin/types/save'));
+}
+
+exports.create.controllerAction = save;
+exports.update.controllerAction = save;
+
+exports.delete.controllerAction = function() {
+    this.jsonService(this.service('admin/types/delete'));
+};

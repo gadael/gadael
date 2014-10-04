@@ -49,7 +49,11 @@ exports = module.exports = function(services, app) {
         service.models.AccountCollection.findById(id, function (err, document) {
             if (service.handleMongoError(err)) {
                 
-                validate(document) && document.remove(function(err) {
+                if (!validate(document)) {
+                    return;
+                }
+                
+                document.remove(function(err) {
                     if (service.handleMongoError(err)) {
                         service.success(service.gt.gettext('The collection has been removed from account'));
                         
