@@ -71,7 +71,7 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @param {function} [paginate]  Optional parameter to paginate the results
      *
-     * @return {Query}
+     * @return {Promise}
      */
     service.call = function(params, paginate) {
         

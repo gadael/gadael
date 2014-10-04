@@ -40,6 +40,8 @@ function apiService() {
     /**
      * Services instances must implement
      * this method
+     *
+     * @return {Promise}
      */
     this.call = function() {
         console.log('Not implemented');   
@@ -59,6 +61,24 @@ function apiService() {
          * Shortcut for db models
          */
         this.models = app.db.models;
+    }
+    
+    /**
+     * The server understood the request, but is refusing to fulfill it. 
+     * Authorization will not help and the request SHOULD NOT be repeated. 
+     * If the request method was not HEAD and the server wishes to make public 
+     * why the request has not been fulfilled, it SHOULD describe the reason for 
+     * the refusal in the entity. If the server does not wish to make this 
+     * information available to the client, the status code 404 (Not Found) 
+     * can be used instead. 
+     * @param {[[Type]]} message [[Description]]
+     */
+    this.forbidden = function(message) {
+        service.httpstatus = 403;
+        service.outcome.success = false;
+        service.outcome.alert.push({ type:'danger' ,message: message});
+         
+        service.deferred.reject(new Error(message));
     }
     
     
@@ -86,6 +106,25 @@ function apiService() {
             message: message
         });
     }
+    
+    
+    /**
+     * output document and $outcome with a sucess message
+     * 
+     * @param {Document} document           Mongoose document
+     * @param {String} message              message for outcome
+     */  
+    this.resolveSuccess = function(document, message) {
+
+        service.outcome.success = true;
+        service.success(message);
+        
+        var output = document.toObject();
+        output.$outcome = service.outcome;
+
+        service.deferred.resolve(output);
+    }
+    
     
     
     

@@ -34,13 +34,10 @@ function saveUser(service, params) {
                 user.department = params.department;
                 user.isActive   = params.isActive;
 
-                user.save(function (err) {
+                user.save(function(err) {
                     if (service.handleMongoError(err)) {
 
-                        service.outcome.alert.push({
-                            type: 'success',
-                            message: service.gt.gettext('The user has been modified')
-                        });
+                        service.success(service.gt.gettext('The user has been modified'));
                         
                         saveUserRoles(service, params, user);
                     }
@@ -61,10 +58,7 @@ function saveUser(service, params) {
 
             if (service.handleMongoError(err))
             {
-                service.outcome.alert.push({
-                    type: 'success',
-                    message: service.gt.gettext('The user has been created')
-                });
+                service.success(service.gt.gettext('The user has been created'));
 
                 saveUserRoles(service, params, userDocument);
             }
