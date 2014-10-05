@@ -41,21 +41,11 @@ exports = module.exports = function(app, passport)
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountcollections');
-	
-	app.get('/rest/admin/departments'		, require('./admin/departments').getList);
-	app.get('/rest/admin/departments/:id'	, require('./admin/departments').getItem);
-	app.post('/rest/admin/departments'		, require('./admin/departments').save);
-	app.put('/rest/admin/departments/:id'	, require('./admin/departments').save);
-	
+    controllers.add('./admin/departments');
     controllers.add('./admin/collections');
     controllers.add('./admin/calendars');
     controllers.add('./admin/types');
-	
-    app.get('/rest/admin/rights'			, require('./admin/rights').getList);
-	app.get('/rest/admin/rights/:id'		, require('./admin/rights').getItem);
-	app.post('/rest/admin/rights'			, require('./admin/rights').save);
-	app.put('/rest/admin/rights/:id'		, require('./admin/rights').save);
-    
+    controllers.add('./admin/rights');
 
 	
 	app.post('/rest/login', require('./login').authenticate);
