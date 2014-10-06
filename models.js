@@ -40,6 +40,7 @@ models.load = function() {
 	require('./schema/RightCollection')(requirements);
 	require('./schema/Type')(requirements);
 	require('./schema/Right')(requirements);
+    require('./schema/Right_Renewal')(requirements);
 	require('./schema/Calendar')(requirements);
 	require('./schema/CalendarEvent')(requirements);
 };

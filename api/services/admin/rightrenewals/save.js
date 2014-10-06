@@ -9,56 +9,57 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['name'])) {
+    if (service.needRequiredFields(params, ['right', 'start', 'finish'])) {
         return;
     }
 
-    saveRight(service, params);
+    saveCalendar(service, params);
 }
     
     
 /**
- * Update/create the vacation right document
+ * Update/create the calendar document
  * 
  * @param {apiService} service
  * @param {Object} params
  */  
-function saveRight(service, params) {
+function saveCalendar(service, params) {
     
-    var RightModel = service.models.Right;
+    var RightRenewalModel = service.models.RightRenewal;
     
     
     var fieldsToSet = { 
-        name: params.name,
-        description: params.description,
-        type: params.type,
-        require_approval: params.require_approval,
-        quantity: params.quantity,
-        quantity_unit: params.quantity_unit  
+        right: params.right, 
+        start: params.start,
+        finish: params.finish,
+        lastUpdate: new Date()  
     };
+    
+    
+    
     
 
     if (params.id)
     {
-        RightModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
+        RightRenewalModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The vacation right has been modified')
+                    service.gt.gettext('The right renewal period has been modified')
                 );
             }
         });
 
     } else {
 
-        RightModel.create(fieldsToSet, function(err, document) {
+        RightRenewalModel.create(fieldsToSet, function(err, document) {
 
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The vacation right has been created')
+                    service.gt.gettext('The right renewal period has been created')
                 );
             }
         });

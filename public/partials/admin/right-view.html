@@ -1,0 +1,44 @@
+
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+		
+		<div class="row inga-list-header">
+			<div class="col-sm-3 text-center">
+				<a ng-href="#/admin/rightrenewal-edit" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add a renewal</span></a>
+			</div>
+			
+			<div class="col-xs-12 col-sm-8 text-center">
+				<begriffs.pagination 
+					per-page="25" 
+					collection="rightrenewals" 
+					url="'/rest/admin/rightrenewals?right='+{{right.id}}" 
+					url-params="search" 
+					template-url="partials/utils/paginate-anything.html">
+				</begriffs.pagination>
+			</div>
+		</div>
+		
+		
+		<div class="inga-list-rows">
+			<div class="row" ng-repeat="calendar in calendars">
+				<div class="col-md-9">
+					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/rightrenewals/{{rightrenewal._id}}" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+					&nbsp;
+					{{rightrenewal.start}}
+				</div>
+				<div class="col-md-3">
+					{{rightrenewal.finish}}
+				</div>
+			</div>
+		</div>
+
+		
+	</div>
+	
+	<div class="col-xs-12 col-sm-3">
+		
+		<h2>{{right.name}}</h2>
+		
+        {{right.description}}
+	</div>
+</div>
