@@ -128,6 +128,14 @@ define(['angular', 'services'], function (angular) {
         .controller('AdminRightEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/right-edit', this, $scope, $injector);
 		}])
+    
+        .controller('AdminRightRenewals', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/rightrenewals', this, $scope, $injector);
+		}])
+        
+        .controller('AdminRightRenewalEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/rightrenewal-edit', this, $scope, $injector);
+		}])
 		
 		.controller('Signup', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/signup', this, $scope, $injector);

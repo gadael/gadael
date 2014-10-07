@@ -1,0 +1,16 @@
+
+<form role="form">
+    <div class="form-group">
+        <label for="rightrenewal_start" translate>Start</label>
+        <input type="text" id="rightrenewal_start" class="form-control" ng-model="rightrenewal.start" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
+    </div>
+    
+    <div class="form-group">
+        <label for="rightrenewal_start" translate>Start</label>
+        <input type="text" id="rightrenewal_start" class="form-control" ng-model="rightrenewal.start" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
+    </div>
+  
+
+    <button class="btn btn-primary" ng-click="saveRightRenewal()" translate>Save</button> 
+    <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+</form>
