@@ -45,7 +45,7 @@ exports = module.exports = function(services, app) {
      */
     service.call = function(params, paginate) {
           
-        var cols = 'name';
+        var cols = 'name group';
         var sortkey = 'name';
         
         service.resolveQuery(

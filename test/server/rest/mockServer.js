@@ -112,7 +112,6 @@ mockServer.prototype.request = function(method, headers, path, done) {
     
     var http = require('http');
     
-
     var req = http.request(urlOptions, function(res) {
         
         // grab session cookie to set in browser
@@ -196,9 +195,9 @@ mockServer.prototype.post = function(path, data, done) {
 /**
  * delete request on server
  */
-mockServer.prototype.delete = function(path, data, done) {
+mockServer.prototype.delete = function(path, done) {
     
-    var req = this.request('DELETE', data, path, done);
+    var req = this.request('DELETE', {}, path, done);
     req.end();
 };
 

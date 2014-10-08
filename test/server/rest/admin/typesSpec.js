@@ -6,6 +6,8 @@ describe('vacations types admin rest service', function() {
     
     var server;
     
+    var type;
+    
 
     beforeEach(function(done) {
         
@@ -54,6 +56,34 @@ describe('vacations types admin rest service', function() {
             group: true
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            
+            type = body._id;
+            
+            done();
+        });
+    });
+    
+    it('get the created type', function(done) {
+        
+        expect(type).toBeDefined();
+        
+        server.get('/rest/admin/types/'+type, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.name).toEqual('Rest type test');
+            expect(body._id).toEqual(type);
+            expect(body.group).toBeTruthy();
+            done();
+        });
+    });
+    
+    it('delete the created type', function(done) {
+        server.delete('/rest/admin/types/'+type, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toEqual(type);
+            expect(body.name).toEqual('Rest type test');
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
             done();

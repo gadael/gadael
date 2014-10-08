@@ -158,7 +158,7 @@ describe('users admin rest service', function() {
     
     it('delete the new user', function(done) {
         
-        server.delete('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
+        server.delete('/rest/admin/users/'+createdUser._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
