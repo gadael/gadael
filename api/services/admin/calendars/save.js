@@ -59,6 +59,8 @@ function saveCalendar(service, params) {
 
             if (service.handleMongoError(err))
             {
+                calendar.downloadEvents();
+                
                 service.resolveSuccess(
                     calendar, 
                     service.gt.gettext('The calendar has been created')

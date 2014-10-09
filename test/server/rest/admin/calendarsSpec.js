@@ -44,7 +44,7 @@ describe('calendars admin rest service', function() {
     it('request calendars list as admin', function(done) {
         server.get('/rest/admin/calendars', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toBeGreaterThan(1); // default calendars
+            expect(body.length).toBeGreaterThan(0); // default calendars
             done();
         });
     });

@@ -38,20 +38,23 @@ exports = module.exports = function(params) {
   
   
 	/**
-	 *  Download events from url
+	 * Download events from url
+     * prmise resolve the number of copied events
+     *
+     * @return promise
 	 */ 
 	calendarSchema.methods.downloadEvents = function() {
+        
+        var Q = require('q');
 		var ical = require('ical');
 		var calendar = this;
-		
-		console.log('Download '+calendar.url);
+        
+        var deferred = Q.defer();
 		
 		ical.fromURL(this.url, {}, function(err, data) {
 			
-			if (err)
-			{
-				console.log(err);
-				return;
+			if (err) {
+                return deferred.reject(new Error(err));
 			}
 			
 			var EventModel = params.db.models.CalendarEvent;
@@ -60,17 +63,11 @@ exports = module.exports = function(params) {
 				
 				if (err)
 				{
-					console.log(err);
-					return;
+					return deferred.reject(new Error(err));
 				}
 			
 				var entry = null;
-				
-				var saved = function (err) {
-					if (err) {
-						console.log(err);
-					}
-				};
+                var eventPromises = [];
 				
 				for (var k in data){
 					if (data.hasOwnProperty(k)) {
@@ -91,13 +88,26 @@ exports = module.exports = function(params) {
 							}
 							event.calendar = calendar._id;
 							
-							event.save(saved);
+							eventPromises.push(event.save());
 						}
 					}
 				}
 			
+                Q.allSettled(eventPromises)
+                .then(function(results) {
+                    
+                    for(var i=0; i<results.length; i++) {
+                        if (results[i].state !== "fulfilled") {
+                            return deferred.reject(new Error(results[i].reason));
+                        }
+                    }
+                    
+                    deferred.resolve(results.length);
+                });
 			});
 		});
+        
+        return deferred.promise;
 	};
 	
 	
@@ -146,6 +156,57 @@ exports = module.exports = function(params) {
 			});
 		});
 	};
+    
+    
+    
+    
+    
+    /**
+     * initialize default calendars
+     */  
+    calendarSchema.statics.createFrenchDefaults = function(done) {
+		
+		
+		var model = this;
+        var async = require('async');
+		
+		async.each([
+            {
+                name: 'Jours fériés en France',
+                url: 'http://www.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics',
+                type: 'nonworkingday'
+            },
+            {
+                name: '	Rythme de travail des temps complets 35H',
+                url: 'http://www.calconnect.org/tests/iCalendar-RRULE-Interop/Mozilla_Lightning_0.9/02.ics',
+                type: 'workschedule'
+            }
+        ], function( type, callback) {
+            
+          model.create(type, function(err, calendar) {
+              if (err) {
+                  callback(err);
+                  return;
+              }
+              
+              //calendar.downloadEvents();
+              calendar.downloadEvents().then(function() { 
+                  callback();
+              }, callback);
+              
+          });
+        }, function(err){
+            // if any of the file processing produced an error, err would equal that error
+            if(err) {
+                console.log(err);
+                return;
+            }
+            
+            if (done) {
+                done();
+            }
+        });
+    };
 	
 	
   
