@@ -28,6 +28,7 @@ models.load = function() {
 
 	//then regular docs
     require('./schema/AccountCollection')(requirements);
+    require('./schema/AccountScheduleCalendar')(requirements);
 	require('./schema/Company')(requirements);
 	require('./schema/User')(requirements);
 	require('./schema/User_Admin')(requirements);
