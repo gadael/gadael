@@ -30,7 +30,7 @@ exports = module.exports = function(params) {
 			return;
 		}
         
-        var testOverlap = require('../models/testoverlap');
+        var testOverlap = require('../modules/testoverlap');
 		
 		// verify that the new period start date is greater than all other dates
 		var model = params.db.models.AccountCollection;

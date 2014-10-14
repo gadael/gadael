@@ -35,6 +35,53 @@ exports = module.exports = function(params) {
 	   return emailRegex.test(value);
 	}, 'The e-mail field cannot be empty.');
   
+    
+    /**
+     * Get the department and ancestors 
+     * @return {Promise}
+     */
+    userSchema.methods.getDepartments = function() {
+        
+        var Q = require('q');
+        var deferred = Q.defer();
+        var stack = [];
+        
+        var addToStack = function(err, department) {
+            if (err) {
+                deferred.reject(new Error(err));
+                return;
+            }
+            
+            if (null === department.populated('parent')) {
+                deferred.resolve(stack);
+                return;
+            }
+            
+            stack.push(department.parent);
+            
+            department.parent.populate('parent', addToStack);
+            
+            
+        };
+        
+        this.populate('department', function(err, user) {
+            
+            if (null === user.populated('department')) {
+                // no department on user
+                deferred.resolve([]);
+                return;
+            }
+            
+            var department = user.department;
+            stack.push(department);
+            
+            addToStack(null, department);
+        });
+        
+        return deferred.promise;
+    };
+    
+    
   
     /**
      * Test role

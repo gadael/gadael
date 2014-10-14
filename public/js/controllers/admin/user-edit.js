@@ -7,7 +7,6 @@ define([], function() {
 		'loadCollectionsOptions', 
 		'loadDepartmentsOptions',
 		'loadWorkschedulesOptions',
-		'loadNonWorkingDaysOptions',
 		'$resource',
         '$q',
         'catchWorkflow', function(
@@ -17,7 +16,6 @@ define([], function() {
 			loadCollectionsOptions, 
 			loadDepartmentsOptions, 
 			loadWorkschedulesOptions, 
-			loadNonWorkingDaysOptions,
 			$resource,
             $q,
             catchWorkflow
@@ -50,7 +48,7 @@ define([], function() {
 		loadCollectionsOptions($scope);
 		loadDepartmentsOptions($scope);
 		loadWorkschedulesOptions($scope);
-		loadNonWorkingDaysOptions($scope);
+		
 		
 		
 		$scope.cancel = function() {

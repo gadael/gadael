@@ -27,8 +27,6 @@ exports = module.exports = function(params) {
     },
     statusLog: [mongoose.modelSchemas.StatusLog],
 
-    // link to the non working days calendar
-    nonWorkingDays: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
 
     // link to the workschedule calendar
     workschedule: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },

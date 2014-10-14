@@ -7,18 +7,18 @@
 exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var absenceElemSchema = new mongoose.Schema({
-	absence: { type: mongoose.Schema.Types.ObjectId, ref: 'Absence', required: true },
-	quantity: { type: Number },
-	event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true },
-	right: {
-			id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-			name: { type: String, default: '' },
-			quantity_unit: { type: String, enum:['D', 'H'] },
-			type: { 
-				id: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
-				name: { type: String },
-				color: { type: String }
-			}
+        absence: { type: mongoose.Schema.Types.ObjectId, ref: 'Absence', required: true },
+        quantity: { type: Number },
+        event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true },
+        right: {
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
+            name: { type: String, default: '' },
+            quantity_unit: { type: String, enum:['D', 'H'] },
+            type: { 
+                id: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
+                name: { type: String },
+                color: { type: String }
+            }
 		}
 	});
   

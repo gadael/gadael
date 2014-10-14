@@ -27,14 +27,10 @@ function saveDepartment(service, params) {
     
     var DepartmentModel = service.models.Department;
     
-    
     var fieldsToSet = { 
-        name: params.name
+        name: params.name,
+        nonWorkingDays: params.nonWorkingDays
     };
-    
-    
-    
-    
 
     if (params.id)
     {

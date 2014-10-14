@@ -14,7 +14,7 @@ exports = module.exports = function(services, app) {
     service.call = function(params) {
         
         service.models.Department
-        .findOne({ '_id' : params.id}, 'name')
+        .findOne({ '_id' : params.id}, 'name nonWorkingDays')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

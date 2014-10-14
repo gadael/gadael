@@ -5,7 +5,10 @@ exports = module.exports = function(params) {
 	var departmentSchema = new mongoose.Schema({
 		name: { type: String, unique: true },
 		parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Department' },
-		timeCreated: { type: Date, default: Date.now }
+		timeCreated: { type: Date, default: Date.now },
+        
+        // list of non working days calendars
+        nonWorkingDays: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' }]
 	});
 
 	departmentSchema.index({ 'name': 1 }, { unique: true });
