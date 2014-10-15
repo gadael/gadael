@@ -9,11 +9,11 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['account', 'rightCollection', 'from'])) {
+    if (service.needRequiredFields(params, ['account', 'calendar', 'from'])) {
         return;
     }
     
-    saveAccountCollection(service, params);
+    saveAccountScheduleCalendar(service, params);
 }
 
 
@@ -33,7 +33,7 @@ function getAccount(service, params, next) {
     }
 
     if (!params.user) {
-        service.forbidden(service.gt.gettext('Cant create accountCollection, missing user or account'));
+        service.forbidden(service.gt.gettext('Cant create AccountScheduleCalendar, missing user or account'));
         return;
     }
 
@@ -47,7 +47,7 @@ function getAccount(service, params, next) {
             }
 
             if (!user.account) {
-                service.forbidden(service.gt.gettext('The user has no vacation account, collections are only linkable to accounts'));
+                service.forbidden(service.gt.gettext('The user has no vacation account, schedule calendars are only linkable to accounts'));
                 return;
             }
 
@@ -61,34 +61,34 @@ function getAccount(service, params, next) {
     
     
 /**
- * Update/create the AccountCollection document
+ * Update/create the AccountScheduleCalendar document
  * 
  * @param {saveItemService} service
  * @param {Object} params
  */  
-function saveAccountCollection(service, params) {
+function saveAccountScheduleCalendar(service, params) {
     
-    var AccountCollection = service.models.AccountCollection;
+    var scheduleCalendar = service.models.AccountScheduleCalendar;
     var util = require('util');
     
 
     if (params.id) {
-        AccountCollection.findById(params.id, function(err, document) {
+        scheduleCalendar.findById(params.id, function(err, document) {
             if (service.handleMongoError(err)) {
                 if (null === document) {
-                    service.notFound(util.format(service.gt.gettext('AccountCollection document not found for id %s'), params.id));
+                    service.notFound(util.format(service.gt.gettext('AccountScheduleCalendar document not found for id %s'), params.id));
                     return;
                 }
                 
-                document.rightCollection 	= params.rightCollection;
-                document.from 				= params.from;
-                document.to 				= params.to;
+                document.calendar 	= params.calendar;
+                document.from 		= params.from;
+                document.to 		= params.to;
 
                 document.save(function (err) {
                     if (service.handleMongoError(err)) {
                         service.resolveSuccess(
                             document, 
-                            service.gt.gettext('The account collection has been modified')
+                            service.gt.gettext('The account schedule calendar period has been modified')
                         );
                     }
                 });
@@ -99,9 +99,9 @@ function saveAccountCollection(service, params) {
 
         getAccount(service, params, function(accountId) {
         
-            AccountCollection.create({
+            scheduleCalendar.create({
                     account: accountId,
-                    rightCollection: params.rightCollection,
+                    calendar: params.calendar,
                     from: params.from,
                     to: params.to 
                 }, function(err, document) {
@@ -110,7 +110,7 @@ function saveAccountCollection(service, params) {
                 {
                     service.resolveSuccess(
                         document, 
-                        service.gt.gettext('The account collection has been created')
+                        service.gt.gettext('The account schedule calendar period has been created')
                     );
                 }
             });
@@ -129,7 +129,7 @@ function saveAccountCollection(service, params) {
 
 
 /**
- * Construct the AccountCollection save service
+ * Construct the account schedule calendar save service
  * @param   {object}          services list of base classes from apiService
  * @param   {express|object}  app      express or headless app
  * @returns {saveItemService}
