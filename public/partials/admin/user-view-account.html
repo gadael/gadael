@@ -1,0 +1,40 @@
+<h3 translate>Collections</h3>
+
+<table>
+    <tbody>
+    <tr ng-repeat="accountCollection in accountCollections">
+        <td>{{accountCollection.rightCollection.name}}</td>
+        <td>{{accountCollection.from}}</td>
+        <td>{{accountCollection.to}}</td>
+    </tr>
+    </tbody>
+    <thead>
+    <tr>
+        <td>Collection name</td>  
+        <td>From</td>
+        <td>To</td>
+    </tr>
+    </thead>
+</table>
+
+
+<h3 translate>Workschedule calendars</h3>
+    
+
+<table>
+    <tbody>
+    <tr ng-repeat="accountScheduleCalendar in accountScheduleCalendars">
+        <td>{{accountScheduleCalendar.calendar.name}}</td>
+        <td>{{accountScheduleCalendar.from}}</td>
+        <td>{{accountScheduleCalendar.to}}</td>
+    </tr>
+    </tbody>
+    <thead>
+    <tr>
+        <td>Calendar name</td>  
+        <td>From</td>
+        <td>To</td>
+    </tr>
+    </thead>
+</table>
+

@@ -88,6 +88,10 @@ define(['angular', 'services'], function (angular) {
 		.controller('AdminUserEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/user-edit', this, $scope, $injector);
 		}])
+    
+        .controller('AdminUserView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/user-view', this, $scope, $injector);
+		}])
 		
 		.controller('AdminDepartments', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/departments', this, $scope, $injector);
