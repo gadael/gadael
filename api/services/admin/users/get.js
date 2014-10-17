@@ -15,6 +15,7 @@ exports = module.exports = function(services, app) {
         
         service.models.User
         .findOne({ '_id' : params.id}, 'lastname firstname email isActive department roles')
+        .populate('department')
         .populate('roles.account')
         .populate('roles.admin')
         .populate('roles.manager')

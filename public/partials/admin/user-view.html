@@ -3,32 +3,51 @@
         <h3 translate>Roles:</h3>
         
         <p ng-if="user.isAccount">
-            <span translate>Absences user account</span>
+            <strong translate>Absences user account</strong><br />
             <small translate>The user can have vacations rights, absences requests, time saving account ...</small>
         </p>
         
         <p ng-if="user.isAdmin">
-            <span translate>Application administrator</span>
+            <strong translate>Application administrator</strong><br />
             <small translate>The user can manager other users and departments, the application parameters ...</small>
         </p>
         
         <p ng-if="user.isManager">
-            <span translate>Department manager</span>
+            <strong translate>Department manager</strong><br />
             <small translate>The user may be involved in the validation of requests by the members of his deparment</small>
         </p>
+        
+        <br />
+        
+        <div id="sidebar" role="navigation">
+            <div class="list-group">
+                <a class="list-group-item" ng-href="#/admin/users">Users list</a>
+                <a class="list-group-item" ng-href="#/admin/requests?user={{user._id}}">User requests</a>
+            </div>
+        </div>
+        
     </div>
     
     <div class="col-xs-12 col-sm-9">
-        <h2>{{user.lastname}} {{user.firstname}}</h2>
         
-        <p>
-            <a href="mailto:{{user.email}}">{{user.email}}</a>
-        </p>
-        
-        <p><span translate>Department:</span> {{user.department.name}}</p>
-        
+        <div class="row panel panel-info">
+            <div class="col-xs-10">
+                <h2>{{user.lastname}} {{user.firstname}}</h2>
+
+                <p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
+
+                <p><span translate>Department:</span> {{user.department.name}}</p>
+            </div>
+
+            <div class="col-xs-2">
+                <br />
+                <a ng-href="#/admin/user-edit/{{user._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+            </div>
+        </div>
         
         <div ng-if="user.isAccount" ng-include="'partials/admin/user-view-account.html'">
         
     </div>
+        
+    
 </div>

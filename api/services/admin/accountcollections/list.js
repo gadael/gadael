@@ -19,6 +19,7 @@
 var query = function(service, params) {
 
     var find = service.models.AccountCollection.find();
+    find.populate('rightCollection');
 
     if (params && params.account)
     {

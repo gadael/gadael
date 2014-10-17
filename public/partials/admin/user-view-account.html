@@ -1,40 +1,53 @@
-<h3 translate>Collections</h3>
+<div class="row">
+<h3 translate>Vacations collections planning</h3>
 
-<table>
+<table class="table">
     <tbody>
     <tr ng-repeat="accountCollection in accountCollections">
-        <td>{{accountCollection.rightCollection.name}}</td>
-        <td>{{accountCollection.from}}</td>
-        <td>{{accountCollection.to}}</td>
+        <td>
+            <a ng-href="#/admin/collections/{{accountCollection.rightCollection._id}}">
+                {{accountCollection.rightCollection.name}}
+            </a>
+        </td>
+        <td>{{accountCollection.from|date}}</td>
+        <td>{{accountCollection.to|date}}</td>
     </tr>
     </tbody>
     <thead>
     <tr>
-        <td>Collection name</td>  
-        <td>From</td>
-        <td>To</td>
+        <th>Collection name</th>  
+        <th class="col-sm-3">From</th>
+        <th class="col-sm-3">To</th>
     </tr>
     </thead>
 </table>
+</div>
 
+<div class="row">
+    <h3 translate>Workschedule calendars planning</h3>
 
-<h3 translate>Workschedule calendars</h3>
-    
+    <table class="table">
+        <tbody>
+        <tr ng-repeat="accountScheduleCalendar in accountScheduleCalendars">
+            <td>
+                <a ng-href="#/admin/calendars/{{accountScheduleCalendar.calendar._id}}">
+                    {{accountScheduleCalendar.calendar.name}}
+                </a>
+            </td>
+            <td>{{accountScheduleCalendar.from|date}}</td>
+            <td>{{accountScheduleCalendar.to|date}}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th>Calendar name</th>  
+            <th class="col-sm-3">From</th>
+            <th class="col-sm-3">To</th>
+        </tr>
+        </thead>
+    </table>
 
-<table>
-    <tbody>
-    <tr ng-repeat="accountScheduleCalendar in accountScheduleCalendars">
-        <td>{{accountScheduleCalendar.calendar.name}}</td>
-        <td>{{accountScheduleCalendar.from}}</td>
-        <td>{{accountScheduleCalendar.to}}</td>
-    </tr>
-    </tbody>
-    <thead>
-    <tr>
-        <td>Calendar name</td>  
-        <td>From</td>
-        <td>To</td>
-    </tr>
-    </thead>
-</table>
-
+    <div class="alert alert-danger" role="alert" ng-if="!accountScheduleCalendars.length">
+        <span>This user has no configured work schedule</span>
+    </div>
+</div>
