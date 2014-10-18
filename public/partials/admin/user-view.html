@@ -1,28 +1,33 @@
 <div class="row">
     <div class="col-xs-12 col-sm-3">
-        <h3 translate>Roles:</h3>
         
-        <p ng-if="user.isAccount">
-            <strong translate>Absences user account</strong><br />
-            <small translate>The user can have vacations rights, absences requests, time saving account ...</small>
-        </p>
         
-        <p ng-if="user.isAdmin">
-            <strong translate>Application administrator</strong><br />
-            <small translate>The user can manager other users and departments, the application parameters ...</small>
-        </p>
+        <div class="panel panel-info hidden-xs">
+            <div class="panel-heading">
+                <h3 class="panel-title" translate>Roles</h3>
+            </div>
+            <div class="panel-body">
+                <p ng-if="user.isAccount">
+                    <strong translate>Absences user account</strong><br />
+                    <small translate>The user can have vacations rights, absences requests, time saving account ...</small>
+                </p>
+
+                <p ng-if="user.isAdmin">
+                    <strong translate>Application administrator</strong><br />
+                    <small translate>The user can manager other users and departments, the application parameters ...</small>
+                </p>
+
+                <p ng-if="user.isManager">
+                    <strong translate>Department manager</strong><br />
+                    <small translate>The user may be involved in the validation of requests by the members of his deparment</small>
+                </p>
+            </div>
+        </div>
         
-        <p ng-if="user.isManager">
-            <strong translate>Department manager</strong><br />
-            <small translate>The user may be involved in the validation of requests by the members of his deparment</small>
-        </p>
-        
-        <br />
-        
-        <div id="sidebar" role="navigation">
+        <div role="navigation">
             <div class="list-group">
-                <a class="list-group-item" ng-href="#/admin/users">Users list</a>
-                <a class="list-group-item" ng-href="#/admin/requests?user={{user._id}}">User requests</a>
+                <a class="list-group-item" ng-href="#/admin/users"><i class="fa fa-user"></i> <span translate>Users list</span></a>
+                <a class="list-group-item" ng-href="#/admin/requests?user={{user._id}}"><i class="fa fa-folder text-primary"></i> <span translate>User requests</span></a>
             </div>
         </div>
         
@@ -30,7 +35,7 @@
     
     <div class="col-xs-12 col-sm-9">
         
-        <div class="row panel panel-info">
+        <div class="row panel panel-primary">
             <div class="col-xs-10">
                 <h2>{{user.lastname}} {{user.firstname}}</h2>
 
@@ -41,7 +46,7 @@
 
             <div class="col-xs-2">
                 <br />
-                <a ng-href="#/admin/user-edit/{{user._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+                <a ng-href="#/admin/user-edit/{{user._id}}" class="btn btn-info hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
             </div>
         </div>
         

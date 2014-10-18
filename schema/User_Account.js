@@ -27,10 +27,6 @@ exports = module.exports = function(params) {
     },
     statusLog: [mongoose.modelSchemas.StatusLog],
 
-
-    // link to the workschedule calendar
-    workschedule: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
-
     // start date for seniority vacation rights
     seniority: Date,
  
