@@ -92,6 +92,14 @@ define(['angular', 'services'], function (angular) {
         .controller('AdminUserView', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/user-view', this, $scope, $injector);
 		}])
+    
+        .controller('AdminAccountCollectionsEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/account-collections-edit', this, $scope, $injector);
+		}])
+    
+        .controller('AdminAccountScheduleCalendarsEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/account-schedulecalendars-edit', this, $scope, $injector);
+		}])
 		
 		.controller('AdminDepartments', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/departments', this, $scope, $injector);

@@ -1,0 +1,51 @@
+
+<form role="form" name="accountCollectionsEdit">
+	
+
+
+    <div class="row">
+        
+        <h3 class="col-md-9">Right collections scheduling for {{user.lastname}} {{user.firstname}}</h3>
+        
+        <div class="col-md-3 text-right">
+            <br />
+            <button class="btn btn-primary" ng-click="addAccountCollection()">
+                <i class="fa fa-plus-circle"></i> <span translate>Add right collection</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row" ng-repeat="accountCollection in accountCollections">
+        <div class="col-md-6 form-group">
+            <label for="user_accountCollection" translate>Rights collection</label>
+
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-warning" ng-click="removeAccountCollection($index)" ng-disabled="removeIsDisabled(accountCollection)"><span class="glyphicon glyphicon-remove"></span><span class="sr-only" translate>Remove</span></button>
+                </div>
+                <select class="form-control" id="user_accountCollection" ng-model="accountCollection.rightCollection" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections" ng-required>
+                    <option></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3 form-group">
+            <label for="user_from" translate>From</label>
+            <input type="text" id="user_from" class="form-control" ng-disabled="fromIsDisabled(accountCollection)" ng-model="accountCollection.from" data-max-date="{{accountCollection.to}}" data-autoclose="1" container="body" ng-required bs-datepicker />
+        </div>
+
+        <div class="col-md-3 form-group">
+            <label for="user_to" translate>To</label>
+            <input type="text" id="user_to" class="form-control"  ng-disabled="toIsDisabled(accountCollection)" ng-model="accountCollection.to" data-min-date="{{accountCollection.from}}" data-autoclose="1" container="body" bs-datepicker />
+        </div>
+    </div>
+
+
+    
+    <div class="col-sm-12 text-center top30">
+        <button class="btn btn-primary" ng-click="accountCollectionsEdit.$valid && saveAccountCollections()" translate>Save</button> 
+        <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
+    </div>
+    
+</form>

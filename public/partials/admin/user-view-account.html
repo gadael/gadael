@@ -3,16 +3,16 @@
     <p><span translate>Seniority date:</span> {{account.seniority|date}}</p>
     
     <p><span translate>Notifications options:</span> 
-        <span ng-if="account.notify.approval" translate>Notify on approval</span>
-        <span ng-if="!account.notify.approval" translate>Do not notify on approval</span>
+        <span ng-if="account.notify.approval"><span translate>Notify on approval</span></span>
+        <span ng-if="!account.notify.approval"><span translate>Do not notify on approval</span></span>
         
-        <span ng-if="account.notify.allocations" translate>Notify on new rights allocations</span>
-        <span ng-if="!account.notify.allocations" translate>Do not notify on new rights allocations</span>
+        <span ng-if="account.notify.allocations"><span translate>Notify on new rights allocations</span></span>
+        <span ng-if="!account.notify.allocations"><span translate>Do not notify on new rights allocations</span></span>
     </p>
 </div>
 
 <div class="row">
-    <h3 translate>Vacations rights</h3>
+    <h3  class="col-xs-10" translate>Vacations rights</h3>
 
     <table class="table">
         <tbody>
@@ -46,7 +46,11 @@
 
 
 <div class="row">
-    <h3 translate>Vacations collections planning</h3>
+    <h3  class="col-xs-10" translate>Vacations collections planning</h3>
+    <div class="col-xs-2 text-right">
+        <br />
+        <a ng-href="#/admin/users/{{user._id}}/account-collections" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+    </div>
 
     <table class="table">
         <tbody>
@@ -71,7 +75,11 @@
 </div>
 
 <div class="row">
-    <h3 translate>Workschedule calendars planning</h3>
+    <h3  class="col-xs-10" translate>Workschedule calendars planning</h3>
+    <div class="col-xs-2 text-right">
+        <br />
+        <a ng-href="#/admin/users/{{user._id}}/account-schedulecalendars" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+    </div>
 
     <table class="table">
         <tbody>

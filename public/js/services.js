@@ -97,7 +97,7 @@ define(['angular',  'angularResource'], function (angular) {
          */
         return function(promise) {
             
-            promise = promise.then(
+            return promise.then(
                 function(data) {
                     if (data.$outcome) {
                         addMessages(data.$outcome);
@@ -128,10 +128,7 @@ define(['angular',  'angularResource'], function (angular) {
                         }
                     }
                 }
-            );
-                
-            return promise;
-            
+            ); 
         };
         
     }])

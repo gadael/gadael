@@ -108,7 +108,18 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/user-view.html',
 			controller: 'AdminUserView'
 		});
+        
+        $routeProvider.when('/admin/users/:id/account-collections', {
+			templateUrl: 'partials/admin/account-collections-edit.html',
+			controller: 'AdminAccountCollectionsEdit'
+		});
 		
+        $routeProvider.when('/admin/users/:id/account-schedulecalendars', {
+			templateUrl: 'partials/admin/account-schedulecalendars-edit.html',
+			controller: 'AdminAccountScheduleCalendarsEdit'
+		});
+		
+        
 		$routeProvider.when('/admin/departments', {
 			templateUrl: 'partials/admin/departments.html',
 			controller: 'AdminDepartments'
