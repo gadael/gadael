@@ -7,14 +7,16 @@ define([], function() {
 		'loadCollectionsOptions', 
 		'$resource',
         '$q',
-        'catchWorkflow', function(
+        'catchWorkflow',
+        'addPeriodRow', function(
 			$scope, 
 			$location, 
 			IngaResource, 
 			loadCollectionsOptions, 
 			$resource,
             $q,
-            catchWorkflow
+            catchWorkflow,
+            addPeriodRow
 		) {
 
 		$scope.user = IngaResource('rest/admin/users').loadRouteId();
@@ -93,6 +95,9 @@ define([], function() {
             .then($scope.cancel);
 	    };
 	    
+        /**
+         * The account collection ressource
+         */
 	    var accountCollection = $resource('rest/admin/accountcollections/:accCollId',
             { accCollId:'@_id' }, 
             { 
@@ -101,51 +106,13 @@ define([], function() {
             }  
         );
 
-		
+        
         
         /**
          * Add a row to account collection list
          */
 		$scope.addAccountCollection = function() {
-			
-            var nextDate;
-			var length = $scope.accountCollections.length;
-			if (length > 0) {
-				var lastItem = $scope.accountCollections[length - 1];
-				
-				if (!lastItem.to) {
-                    
-                    var from = new Date(lastItem.from);
-                    var today = new Date();
-                    
-                    var maxTime = Math.max.apply(null,[from.getTime(), today.getTime()]);
-                    
-                    lastItem.to = new Date();
-					lastItem.to.setTime(maxTime);
-                    lastItem.to.setHours(0);
-                    lastItem.to.setMinutes(0);
-                    lastItem.to.setSeconds(0);
-                    
-                    
-					lastItem.to.setDate(lastItem.to.getDate()+1);
-				}
-				
-                
-				nextDate = new Date(lastItem.to);
-				nextDate.setDate(nextDate.getDate()+1);
-			} else {
-				nextDate = new Date();
-			}
-            
-            
-			
-			var newAc = new accountCollection();
-            
-			newAc.rightCollection = null;
-			newAc.from = nextDate;
-			newAc.to = null;
-			
-			$scope.accountCollections.push(newAc);
+            addPeriodRow($scope.accountCollections, accountCollection);
 		};
 		
 		
