@@ -113,6 +113,11 @@ define([], function() {
          */
 		$scope.addAccountCollection = function() {
             addPeriodRow($scope.accountCollections, accountCollection);
+            /*
+            addPeriodRow.then(function(process) {
+                process($scope.accountCollections, accountCollection);
+            });
+            */
 		};
 		
 		
