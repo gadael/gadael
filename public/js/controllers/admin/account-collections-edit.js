@@ -7,7 +7,8 @@ define([], function() {
 		'loadCollectionsOptions', 
 		'$resource',
         '$q',
-        'catchWorkflow',
+        'catchOutcome',
+        'saveAccountCollection',
         'addPeriodRow', function(
 			$scope, 
 			$location, 
@@ -15,7 +16,8 @@ define([], function() {
 			loadCollectionsOptions, 
 			$resource,
             $q,
-            catchWorkflow,
+            catchOutcome,
+            saveAccountCollection,
             addPeriodRow
 		) {
 
@@ -47,54 +49,14 @@ define([], function() {
 		$scope.cancel = function() {
 			$location.path('/admin/users/'+$scope.user._id);
 		};
-        
-        
-        
-        /**
-         * Save all account collections
-         * 
-         */
-        var saveAccountCollection = function(userId) {
-            
-            
-            if (!$scope.user.roles || !$scope.user.roles.account) {
-                // TODO remove the existing collections
-                return;
-            }
-            
-            var promises = [];
-            
-            
-            for(var i=0; i<$scope.accountCollections.length; i++) {
                 
-                var document = $scope.accountCollections[i];
-                if ($scope.user.roles && $scope.user.roles.account) {
-                    document.account = $scope.user.roles.account;
-                } else {
-                    document.user = userId;
-                }
                 
-                var p;
-                
-                if (document._id) {
-                    p = $scope.accountCollections[i].$save();
-                } else {
-                    p = $scope.accountCollections[i].$create();
-                }
-                promises.push(catchWorkflow(p));
-            }
-            
-            var promise = $q.all(promises);
-            
-            return promise;
-        };
-		
+
 		/**
          * Save button
          */
 		$scope.saveAccountCollections = function() {
-            saveAccountCollection()
-            .then($scope.cancel);
+            saveAccountCollection($scope).then($scope.cancel);
 	    };
 	    
         /**
@@ -113,15 +75,8 @@ define([], function() {
         /**
          * Add a row to account collection list
          */
-		$scope.addAccountCollection = function() {
-            
+		$scope.addAccountCollection = function() {   
             addPeriodRow($scope, $scope.accountCollections, accountCollection);
-
-            /*
-            addPeriodRow.then(function(process) {
-                process($scope.accountCollections, accountCollection);
-            });
-            */
 		};
 		
 		
@@ -166,7 +121,7 @@ define([], function() {
                 $scope.accountCollections.splice(index, 1);
             });
             
-            catchWorkflow(p);
+            catchOutcome(p);
 		};
 		
 	}];

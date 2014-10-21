@@ -82,7 +82,7 @@ define(['angular',  'angularResource'], function (angular) {
      *  - forward messages to rootscope
      *  - highlight the missing fields
      */
-    .factory('catchWorkflow', ['$rootScope', function($rootScope) {
+    .factory('catchOutcome', ['$rootScope', function($rootScope) {
         
         
         var addMessages = function(outcome) {
@@ -138,14 +138,14 @@ define(['angular',  'angularResource'], function (angular) {
 	 * Create a resource to an object or to a collection
 	 * the object resource is created only if the angular route contain a :id
 	 */ 
-	.factory('IngaResource', ['$resource', '$routeParams', 'catchWorkflow', function($resource, $routeParams, catchWorkflow){
+	.factory('IngaResource', ['$resource', '$routeParams', 'catchOutcome', function($resource, $routeParams, catchOutcome){
 		
 
 		return function(collectionPath)
 		{
 			var ingaSave = function(nextaction) {
                 
-                var p = catchWorkflow(this.$save());
+                var p = catchOutcome(this.$save());
                 
                 if (nextaction) {
                     p = p.then(nextaction);
@@ -194,7 +194,7 @@ define(['angular',  'angularResource'], function (angular) {
 	 * Add periods form in the array of items
      * 
 	 */  
-	.factory('addPeriodRow', ['$q', function($q) {
+	.factory('addPeriodRow', function() {
         
       
         /**
@@ -209,6 +209,25 @@ define(['angular',  'angularResource'], function (angular) {
                 serviceFn(items, itemResource);
                 $scope.$apply();
             });
+        }
+	})
+    
+ 
+	.factory('saveAccountCollection', ['$q', 'catchOutcome', function($q, catchOutcome) {
+        
+        
+        
+        /**
+         * Save account collections in scope
+         *
+         */
+        return function($scope) {
+            var deferred = $q.defer();
+            require(['services/saveAccountCollection'], function(serviceFn) {
+                serviceFn($scope, $q, catchOutcome).then(deferred.resolve);
+            });
+            
+            return deferred.promise;
         }
 	}]);
 	

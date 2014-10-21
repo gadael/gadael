@@ -27,8 +27,8 @@ function validate(service, params) {
  */ 
 function getAccount(service, params, next) {
 
-    if (params.account) {
-        next(params.account);
+    if (params.account._id) {
+        next(params.account._id);
         return;
     }
 
@@ -80,7 +80,7 @@ function saveAccountCollection(service, params) {
                     return;
                 }
                 
-                document.rightCollection 	= params.rightCollection;
+                document.rightCollection 	= params.rightCollection._id;
                 document.from 				= params.from;
                 document.to 				= params.to;
 
@@ -101,7 +101,7 @@ function saveAccountCollection(service, params) {
         
             AccountCollection.create({
                     account: accountId,
-                    rightCollection: params.rightCollection,
+                    rightCollection: params.rightCollection._id,
                     from: params.from,
                     to: params.to 
                 }, function(err, document) {

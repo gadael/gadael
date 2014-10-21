@@ -38,7 +38,7 @@ exports = module.exports = function(params) {
 			
 			for(var i=0; i < acEntries.length; i++) {
 				
-				if (acEntries[i].to === null && i !== acEntries.length) {
+				if (acEntries[i].to === null && 1+i !== acEntries.length) {
 					next(new Error('All collections except the last must have a end date'));
 					return;
 				}
