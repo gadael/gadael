@@ -214,9 +214,7 @@ define(['angular',  'angularResource'], function (angular) {
     
  
 	.factory('saveAccountCollection', ['$q', 'catchOutcome', function($q, catchOutcome) {
-        
-        
-        
+
         /**
          * Save account collections in scope
          *
