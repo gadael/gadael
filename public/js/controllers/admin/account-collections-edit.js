@@ -27,15 +27,17 @@ define([], function() {
                 // after user resource loaded, load account Collections
                 
                 if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
-                    $scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
+                    $scope.accountCollections = accountCollection.query(
+                        { account: $scope.user.roles.account._id }, function() {
+                            if (0 === $scope.accountCollections.length) {
+                                $scope.addAccountCollection();
+                            }
+                        }
+                    );
                 } else {
                     $scope.accountCollections = [];
-                }
-                
-                if (0 === $scope.accountCollections.length) {
                     $scope.addAccountCollection();
                 }
-                
             });
         }
 		
@@ -112,7 +114,9 @@ define([], function() {
          * Add a row to account collection list
          */
 		$scope.addAccountCollection = function() {
-            addPeriodRow($scope.accountCollections, accountCollection);
+            
+            addPeriodRow($scope, $scope.accountCollections, accountCollection);
+
             /*
             addPeriodRow.then(function(process) {
                 process($scope.accountCollections, accountCollection);

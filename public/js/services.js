@@ -195,16 +195,19 @@ define(['angular',  'angularResource'], function (angular) {
      * 
 	 */  
 	.factory('addPeriodRow', ['$q', function($q) {
-
+        
+      
         /**
          * Add periods form in the array of items (deferred service call)
          *
          * @param {Array}    items         items binded to rows
          * @param {$resource} itemResource resource for one row
          */
-        return function(items, itemResource) {
+        return function($scope, items, itemResource) {
+
             require(['services/addPeriodRow'], function(serviceFn) {
                 serviceFn(items, itemResource);
+                $scope.$apply();
             });
         }
 	}]);
