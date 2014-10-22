@@ -88,22 +88,12 @@ function saveAccountCollection(service, params) {
                     if (service.handleMongoError(err)) {
                         
                         var doc = document.toObject();
-                        
-                        var RightCollection = service.models.RightCollection;
-                        RightCollection.findById(document.rightCollection, function(err, rc) {
-                        
-                            
-                            doc.rightCollection = rc;
-                            console.log(doc);
-                            
-                            service.resolveSuccess(
-                                doc, 
-                                service.gt.gettext('The account collection has been modified')
-                            );
-                            
-                        });
-                        
-                        
+                        doc.rightCollection = params.rightCollection; // output same populated sub document
+
+                        service.resolveSuccess(
+                            doc, 
+                            service.gt.gettext('The account collection has been modified')
+                        );
                     }
                 });
             }
@@ -122,8 +112,11 @@ function saveAccountCollection(service, params) {
 
                 if (service.handleMongoError(err))
                 {
+                    var doc = document.toObject();
+                    doc.rightCollection = params.rightCollection; // output same populated sub document
+                    
                     service.resolveSuccess(
-                        document, 
+                        doc, 
                         service.gt.gettext('The account collection has been created')
                     );
                 }
