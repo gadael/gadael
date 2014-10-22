@@ -78,11 +78,11 @@ define(['angular',  'angularResource'], function (angular) {
     
     
     /**
-     * catch workflow messages from the rest service and 
+     * catch outcome messages from the rest service and 
      *  - forward messages to rootscope
      *  - highlight the missing fields
      */
-    .factory('catchOutcome', ['$rootScope', function($rootScope) {
+    .factory('catchOutcome', ['$rootScope', '$q', function($rootScope, $q) {
         
         
         var addMessages = function(outcome) {
@@ -93,6 +93,7 @@ define(['angular',  'angularResource'], function (angular) {
         
         /**
          * 
+         * @param promise
          * @return promise
          */
         return function(promise) {

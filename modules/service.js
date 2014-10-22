@@ -119,7 +119,12 @@ function apiService() {
         service.outcome.success = true;
         service.success(message);
         
-        var output = document.toObject();
+        var output;
+        if (document.toObject) {
+            output = document.toObject();
+        } else {
+            output = document;
+        }
         output.$outcome = service.outcome;
 
         service.deferred.resolve(output);

@@ -86,10 +86,24 @@ function saveAccountCollection(service, params) {
 
                 document.save(function (err) {
                     if (service.handleMongoError(err)) {
-                        service.resolveSuccess(
-                            document, 
-                            service.gt.gettext('The account collection has been modified')
-                        );
+                        
+                        var doc = document.toObject();
+                        
+                        var RightCollection = service.models.RightCollection;
+                        RightCollection.findById(document.rightCollection, function(err, rc) {
+                        
+                            
+                            doc.rightCollection = rc;
+                            console.log(doc);
+                            
+                            service.resolveSuccess(
+                                doc, 
+                                service.gt.gettext('The account collection has been modified')
+                            );
+                            
+                        });
+                        
+                        
                     }
                 });
             }

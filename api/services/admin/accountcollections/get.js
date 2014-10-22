@@ -15,6 +15,7 @@ exports = module.exports = function(services, app) {
         
         service.models.AccountCollection
         .findOne({ '_id' : params.id }, 'account rightCollection from to')
+        .populate('rightCollection')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

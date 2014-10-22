@@ -27,10 +27,11 @@ define([], function() {
             var p;
 
             if (document._id) {
-                p = $scope.accountCollections[i].$save();
+                p = document.$save();
             } else {
-                p = $scope.accountCollections[i].$create();
+                p = document.$create();
             }
+
             promises.push(catchOutcome(p));
         }
 
