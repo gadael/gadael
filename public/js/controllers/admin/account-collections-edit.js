@@ -33,6 +33,11 @@ define([], function() {
                         { account: $scope.user.roles.account._id }, function() {
                             if (0 === $scope.accountCollections.length) {
                                 $scope.addAccountCollection();
+                            } else {
+                                for(var i=0; i<$scope.accountCollections.length; i++) {
+                                    $scope.accountCollections[i].from = new Date($scope.accountCollections[i].from);
+                                    $scope.accountCollections[i].to = new Date($scope.accountCollections[i].to);
+                                }
                             }
                         }
                     );
@@ -81,28 +86,13 @@ define([], function() {
 		
 		
 		
-		$scope.fromIsDisabled = function(item) {
-			if (undefined === item) {
-				return false;
-			}
-			
-			return (undefined !== item._id && item.from && item.from < Date.now());
-		};
-		
-		$scope.toIsDisabled = function(item) {
-			if (undefined === item) {
-				return false;
-			}
-			
-			return (undefined !== item._id && item.to && item.to < Date.now());
-		};
 		
 		$scope.removeIsDisabled = function(item) {
 			if (undefined === item) {
 				return false;
 			}
 			
-			return $scope.fromIsDisabled(item);
+			return (undefined !== item._id && item.from && item.from < Date.now());
 		};
 		
 		

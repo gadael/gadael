@@ -1,6 +1,32 @@
 define([], function() {
     
     /**
+     * Save one row
+     * @param   {$resource}   resource
+     * @returns {Promise}
+     */
+    var saveRow = function($q, resource) {
+        
+        var deferred = $q.defer();
+        
+        if (resource._id) {
+
+            resource.$save(function(data) {
+                deferred.resolve(data);
+            });
+            
+        } else {
+            resource.$create(function(data) {
+                deferred.resolve(data);
+            });
+        }
+
+        return deferred.promise;
+    };
+    
+    
+    
+    /**
      * Save all account collections
      * 
      */
@@ -16,23 +42,14 @@ define([], function() {
 
 
         for(var i=0; i<$scope.accountCollections.length; i++) {
-
             var document = $scope.accountCollections[i];
-            if ($scope.user.roles && $scope.user.roles.account) {
+                if ($scope.user.roles && $scope.user.roles.account) {
                 document.account = $scope.user.roles.account;
             } else {
                 document.user = $scope.user._id;
             }
 
-            var p;
-
-            if (document._id) {
-                p = document.$save();
-            } else {
-                p = document.$create();
-            }
-
-            promises.push(catchOutcome(p));
+            promises.push(catchOutcome(saveRow($q, document)));
         }
 
         var promise = $q.all(promises);
