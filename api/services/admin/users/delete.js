@@ -13,9 +13,14 @@ exports = module.exports = function(services, app) {
      */
     service.call = function(id) {
         
-        
         service.models.User.findById(id, function (err, document) {
             if (service.handleMongoError(err)) {
+                
+                if (null === document) {
+                    service.notFound(service.gt.gettext('User not found'));
+                    return;
+                }
+                
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {
                         service.success(service.gt.gettext('The user has been deleted'));

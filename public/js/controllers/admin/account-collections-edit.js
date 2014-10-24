@@ -34,9 +34,17 @@ define([], function() {
                             if (0 === $scope.accountCollections.length) {
                                 $scope.addAccountCollection();
                             } else {
+                                
+                                // force values as date object
+                                
                                 for(var i=0; i<$scope.accountCollections.length; i++) {
-                                    $scope.accountCollections[i].from = new Date($scope.accountCollections[i].from);
-                                    $scope.accountCollections[i].to = new Date($scope.accountCollections[i].to);
+                                    if ($scope.accountCollections[i].from) {
+                                        $scope.accountCollections[i].from = new Date($scope.accountCollections[i].from);
+                                    }
+                                    
+                                    if ($scope.accountCollections[i].to) {
+                                        $scope.accountCollections[i].to = new Date($scope.accountCollections[i].to);
+                                    }
                                 }
                             }
                         }

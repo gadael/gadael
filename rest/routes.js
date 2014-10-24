@@ -1,5 +1,20 @@
 'use strict';
 
+
+function ControllerFactory(model) {
+
+    this.model = model;
+    var factory = this;
+
+    this.onRequest = function(req, res) {
+        var model = factory.model;
+        var actionController = new model();
+        actionController.onRequest(req, res);
+    }
+}
+
+
+
 /**
  * Object to load controllers in a file
  * @param {object} app
@@ -17,10 +32,16 @@ function fileControllers(app)
 
         for(var ctrlName in controllers) {
             if (controllers.hasOwnProperty(ctrlName)) {
-                controllers[ctrlName].addRoute(this.app);
+
+                var controller = new ControllerFactory(controllers[ctrlName]);
+                var inst = new controller.model();
+                
+                // controllers[ctrlName].addRoute(this.app);
+                app[inst.method](inst.path, controller.onRequest);
             }
         }
     };
+
 }
 
 
@@ -41,12 +62,12 @@ exports = module.exports = function(app, passport)
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountcollections');
-    controllers.add('./admin/departments');
-    controllers.add('./admin/collections');
-    controllers.add('./admin/calendars');
-    controllers.add('./admin/types');
-    controllers.add('./admin/rights');
-    controllers.add('./admin/rightrenewals');
+    //controllers.add('./admin/departments');
+    //controllers.add('./admin/collections');
+    //controllers.add('./admin/calendars');
+    //controllers.add('./admin/types');
+    //controllers.add('./admin/rights');
+    //controllers.add('./admin/rightrenewals');
 	
 	app.post('/rest/login', require('./login').authenticate);
 	app.post('/rest/login/forgot', require('./login').forgotPassword);

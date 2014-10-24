@@ -41,16 +41,16 @@ define([], function() {
         var promises = [];
 
 
-        for(var i=0; i<$scope.accountCollections.length; i++) {
-            var document = $scope.accountCollections[i];
-                if ($scope.user.roles && $scope.user.roles.account) {
+        $scope.accountCollections.forEach(function(document) {
+            
+            if ($scope.user.roles && $scope.user.roles.account) {
                 document.account = $scope.user.roles.account;
             } else {
                 document.user = $scope.user._id;
             }
 
             promises.push(catchOutcome(saveRow($q, document)));
-        }
+        });
 
         var promise = $q.all(promises);
 

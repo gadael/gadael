@@ -72,8 +72,12 @@ function saveAccountCollection(service, params) {
     var util = require('util');
     
 
-    if (params.id) {
-        AccountCollection.findById(params.id, function(err, document) {
+    if (params._id) {
+                       
+        
+        
+        
+        AccountCollection.findById(params._id, function(err, document) {
             if (service.handleMongoError(err)) {
                 if (null === document) {
                     service.notFound(util.format(service.gt.gettext('AccountCollection document not found for id %s'), params.id));
@@ -83,8 +87,13 @@ function saveAccountCollection(service, params) {
                 document.rightCollection 	= params.rightCollection._id;
                 document.from 				= params.from;
                 document.to 				= params.to;
+                
+                console.log(params._id+' get');
 
                 document.save(function (err) {
+                    
+                    console.log(params._id+' save');
+                    
                     if (service.handleMongoError(err)) {
                         
                         var doc = document.toObject();
@@ -153,6 +162,7 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.call = function(params) {
+
         validate(service, params);
         return service.deferred.promise;
     };
