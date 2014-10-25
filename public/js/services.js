@@ -82,7 +82,7 @@ define(['angular',  'angularResource'], function (angular) {
      *  - forward messages to rootscope
      *  - highlight the missing fields
      */
-    .factory('catchOutcome', ['$rootScope', '$q', function($rootScope, $q) {
+    .factory('catchOutcome', ['$rootScope', function($rootScope) {
         
         
         var addMessages = function(outcome) {
@@ -210,7 +210,7 @@ define(['angular',  'angularResource'], function (angular) {
                 serviceFn(items, itemResource);
                 $scope.$apply();
             });
-        }
+        };
 	})
     
  
@@ -227,7 +227,7 @@ define(['angular',  'angularResource'], function (angular) {
             });
             
             return deferred.promise;
-        }
+        };
 	}]);
 	
 	

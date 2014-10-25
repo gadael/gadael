@@ -2,10 +2,18 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'IngaResource', function($scope, $location, IngaResource, loadTypesOptions) {
+	return ['$scope', '$location', '$resource', function($scope, $location, $resource) {
 
-		$scope.right = IngaResource('rest/admin/rights').loadRouteId();
         
+        
+        var rightResource = $resource('rest/admin/rights/:id', {id:'@id'});
+
+        $scope.search = {
+          right: $location.search().right
+        };
+        
+		$scope.right = rightResource.get({id: $location.search().right});
+
 		$scope.back = function() {
 			$location.path('/admin/rights');
 		};

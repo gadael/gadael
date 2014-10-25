@@ -11,8 +11,8 @@
 				<begriffs.pagination 
 					per-page="25" 
 					collection="rightrenewals" 
-					url="'/rest/admin/rightrenewals?right='+{{right.id}}" 
-					url-params="search" 
+					url="'/rest/admin/rightrenewals'" 
+                    url-params="search"
 					template-url="partials/utils/paginate-anything.html">
 				</begriffs.pagination>
 			</div>
@@ -31,14 +31,19 @@
 				</div>
 			</div>
 		</div>
-
-		
+	
 	</div>
+    
 	
 	<div class="col-xs-12 col-sm-3">
 		
-		<h2>{{right.name}}</h2>
-		
-        {{right.description}}
+        <div class="panel panel-info">
+
+            <div class="panel-heading">{{right.name}}</div>
+            <div class="panel-body">
+                <p><strong translate>Type:</strong> {{right.type.name}}</p>
+                <p>{{right.description}}</p>
+            </div>
+        </div>
 	</div>
 </div>
