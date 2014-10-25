@@ -3,29 +3,58 @@
 var ctrlFactory = require('../controller');
 
 
-exports = module.exports = {
-    list: new ctrlFactory.list('/rest/admin/types'),
-    get: new ctrlFactory.get('/rest/admin/types/:id'),
-    create: new ctrlFactory.create('/rest/admin/types'),
-    update: new ctrlFactory.update('/rest/admin/types/:id'),
-    delete: new ctrlFactory.delete('/rest/admin/types/:id')
-};
 
-exports.list.controllerAction = function() {
-    this.jsonService(this.service('admin/types/list'));
-};
+function listController() {
+    ctrlFactory.list.call(this, '/rest/admin/types');
+    
+    this.controllerAction = function() {
+        this.jsonService(this.service('admin/types/list'));
+    };
+}
+listController.prototype = new ctrlFactory.list();
 
-exports.get.controllerAction = function() {
-    this.jsonService(this.service('admin/types/get'));
-};
+
+function getController() {
+    ctrlFactory.get.call(this, '/rest/admin/types/:id');
+    
+    this.controllerAction = function() {
+        this.jsonService(this.service('admin/types/get'));
+    };
+}
+getController.prototype = new ctrlFactory.get();
+
 
 function save() {
     this.jsonService(this.service('admin/types/save'));
 }
 
-exports.create.controllerAction = save;
-exports.update.controllerAction = save;
+function createController() {
+    ctrlFactory.create.call(this, '/rest/admin/types');
+    this.controllerAction = save;
+}
+createController.prototype = new ctrlFactory.create();
 
-exports.delete.controllerAction = function() {
-    this.jsonService(this.service('admin/types/delete'));
+function updateController() {
+    ctrlFactory.update.call(this, '/rest/admin/types/:id');
+    this.controllerAction = save;
+}
+updateController.prototype = new ctrlFactory.update();
+
+function deleteController() {
+    ctrlFactory.delete.call(this, '/rest/admin/types/:id');
+    
+    this.controllerAction = function() {
+        this.jsonService(this.service('admin/types/delete'));
+    };
+}
+deleteController.prototype = new ctrlFactory.delete();
+
+
+
+exports = module.exports = {
+    list: listController,
+    get: getController,
+    create: createController,
+    update: updateController,
+    delete: deleteController
 };

@@ -119,8 +119,8 @@ function listItemsController(path) {
         var p = paginate(ctrl.req, ctrl.res, total, itemsPerPage || 50);
 
         if (!p) {
-            ctrl.workflow.emit('exception', 'Pagination failed');
-            return query; // 416
+            // ctrl.workflow.emit('exception', 'Pagination failed, total='+total);
+            return query;
         }
         
         query.limit(p.limit);

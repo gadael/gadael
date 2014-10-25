@@ -3,29 +3,58 @@
 var ctrlFactory = require('../controller');
 
 
-exports = module.exports = {
-    list: new ctrlFactory.list('/rest/admin/rightrenewals'),
-    get: new ctrlFactory.get('/rest/admin/rightrenewals/:id'),
-    create: new ctrlFactory.create('/rest/admin/rightrenewals'),
-    update: new ctrlFactory.update('/rest/admin/rightrenewals/:id'),
-    delete: new ctrlFactory.delete('/rest/admin/rightrenewals/:id')
-};
 
-exports.list.controllerAction = function() {
-    this.jsonService(this.service('admin/rightrenewals/list'));
-};
+function listController() {
+    ctrlFactory.list.call(this, '/rest/admin/rightrenewals');
+    
+    this.controllerAction = function() {
+        this.jsonService(this.service('admin/rightrenewals/list'));
+    };
+}
+listController.prototype = new ctrlFactory.list();
 
-exports.get.controllerAction = function() {
-    this.jsonService(this.service('admin/rightrenewals/get'));
-};
+
+function getController() {
+    ctrlFactory.get.call(this, '/rest/admin/rightrenewals/:id');
+    
+    this.controllerAction = function() {
+        this.jsonService(this.service('admin/rightrenewals/get'));
+    };
+}
+getController.prototype = new ctrlFactory.get();
+
 
 function save() {
     this.jsonService(this.service('admin/rightrenewals/save'));
 }
 
-exports.create.controllerAction = save;
-exports.update.controllerAction = save;
+function createController() {
+    ctrlFactory.create.call(this, '/rest/admin/rightrenewals');
+    this.controllerAction = save;
+}
+createController.prototype = new ctrlFactory.create();
 
-exports.delete.controllerAction = function() {
-    this.jsonService(this.service('admin/rightrenewals/delete'));
+function updateController() {
+    ctrlFactory.update.call(this, '/rest/admin/rightrenewals/:id');
+    this.controllerAction = save;
+}
+updateController.prototype = new ctrlFactory.update();
+
+function deleteController() {
+    ctrlFactory.delete.call(this, '/rest/admin/rightrenewals/:id');
+    
+    this.controllerAction = function() {
+        this.jsonService(this.service('admin/rightrenewals/delete'));
+    };
+}
+deleteController.prototype = new ctrlFactory.delete();
+
+
+
+exports = module.exports = {
+    list: listController,
+    get: getController,
+    create: createController,
+    update: updateController,
+    delete: deleteController
 };

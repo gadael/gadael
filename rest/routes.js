@@ -1,16 +1,19 @@
 'use strict';
 
-
+/**
+ * Object to create controller on request
+ *
+ * @param {restController} model    A rest controller class to use on request
+ */
 function ControllerFactory(model) {
 
     this.model = model;
     var factory = this;
 
     this.onRequest = function(req, res) {
-        var model = factory.model;
-        var actionController = new model();
+        var actionController = new factory.model();
         actionController.onRequest(req, res);
-    }
+    };
 }
 
 
@@ -34,9 +37,10 @@ function fileControllers(app)
             if (controllers.hasOwnProperty(ctrlName)) {
 
                 var controller = new ControllerFactory(controllers[ctrlName]);
+                
+                // instance used only to register method and path into the app
                 var inst = new controller.model();
                 
-                // controllers[ctrlName].addRoute(this.app);
                 app[inst.method](inst.path, controller.onRequest);
             }
         }
@@ -62,12 +66,12 @@ exports = module.exports = function(app, passport)
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountcollections');
-    //controllers.add('./admin/departments');
-    //controllers.add('./admin/collections');
-    //controllers.add('./admin/calendars');
-    //controllers.add('./admin/types');
-    //controllers.add('./admin/rights');
-    //controllers.add('./admin/rightrenewals');
+    controllers.add('./admin/departments');
+    controllers.add('./admin/collections');
+    controllers.add('./admin/calendars');
+    controllers.add('./admin/types');
+    controllers.add('./admin/rights');
+    controllers.add('./admin/rightrenewals');
 	
 	app.post('/rest/login', require('./login').authenticate);
 	app.post('/rest/login/forgot', require('./login').forgotPassword);

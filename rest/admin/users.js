@@ -85,4 +85,4 @@ exports = module.exports = {
     create: createController,
     update: updateController,
     delete: deleteController
-}
+};
