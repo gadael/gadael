@@ -1,16 +1,30 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+        <form role="form">
+            <div class="form-group">
+                <label for="rightrenewal_start" translate>Start</label>
+                <input type="text" id="rightrenewal_start" class="form-control" ng-model="rightrenewal.start" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
+            </div>
 
-<form role="form">
-    <div class="form-group">
-        <label for="rightrenewal_start" translate>Start</label>
-        <input type="text" id="rightrenewal_start" class="form-control" ng-model="rightrenewal.start" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
+            <div class="form-group">
+                <label for="rightrenewal_finish" translate>Finish</label>
+                <input type="text" id="rightrenewal_finish" class="form-control" ng-model="rightrenewal.finish" data-autoclose="1" container="body" ng-required bs-datepicker />
+            </div>
+            
+            <button class="btn btn-primary" ng-click="saveRightrenewal()" translate>Save</button> 
+            <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+        </form>
     </div>
     
-    <div class="form-group">
-        <label for="rightrenewal_start" translate>Start</label>
-        <input type="text" id="rightrenewal_start" class="form-control" ng-model="rightrenewal.start" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
-    </div>
-  
+    <div class="col-xs-12 col-sm-3">
+		
+        <div class="panel panel-info">
 
-    <button class="btn btn-primary" ng-click="saveRightRenewal()" translate>Save</button> 
-    <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
-</form>
+            <div class="panel-heading">{{right.name}}</div>
+            <div class="panel-body">
+                <p><strong translate>Type:</strong> {{right.type.name}}</p>
+                <p>{{right.description}}</p>
+            </div>
+        </div>
+	</div>
+</div>

@@ -4,7 +4,7 @@
 		
 		<div class="row inga-list-header">
 			<div class="col-sm-3 text-center">
-				<a ng-href="#/admin/rightrenewal-edit" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add a renewal</span></a>
+				<a ng-href="#/admin/rightrenewal-edit?right={{right._id}}" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add a renewal</span></a>
 			</div>
 			
 			<div class="col-xs-12 col-sm-8 text-center">
@@ -21,13 +21,13 @@
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="rightrenewal in rightrenewals">
-				<div class="col-md-9">
+				<div class="col-md-7">
 					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/rightrenewals/{{rightrenewal._id}}" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
 					&nbsp;
-					{{rightrenewal.start}}
+					<span translate>Start:</span> {{rightrenewal.start|date}}
 				</div>
-				<div class="col-md-3">
-					{{rightrenewal.finish}}
+				<div class="col-md-5">
+					<span translate>Finish:</span> {{rightrenewal.finish|date}}
 				</div>
 			</div>
 		</div>

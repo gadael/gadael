@@ -82,7 +82,7 @@ define(['angular',  'angularResource'], function (angular) {
      *  - forward messages to rootscope
      *  - highlight the missing fields
      */
-    .factory('catchOutcome', ['$rootScope', function($rootScope) {
+    .factory('catchOutcome', ['$rootScope', '$q', function($rootScope, $q) {
         
         
         var addMessages = function(outcome) {
@@ -98,7 +98,9 @@ define(['angular',  'angularResource'], function (angular) {
          */
         return function(promise) {
             
-            return promise.then(
+            var deferred = $q.defer();
+            
+            promise.then(
                 function(data) {
                     if (data.$outcome) {
                         addMessages(data.$outcome);
@@ -106,7 +108,7 @@ define(['angular',  'angularResource'], function (angular) {
                     
                     // workflow return the saved document object
                     // value is fowarded to the next promise on success
-                    return data;
+                    deferred.resolve(data);
                     
                 },
                 function(badRequest) {
@@ -125,11 +127,21 @@ define(['angular',  'angularResource'], function (angular) {
                     
                     for(var fname in outcome.errfor) {
                         if ('required' === outcome.errfor[fname]) {
-                            angular.element(document.querySelector('[ng-model$='+fname+']')).parent().addClass('has-error');
+                            var fieldOnError = angular.element(document.querySelector('[ng-model$='+fname+']')).parent();
+                            fieldOnError.addClass('has-error');
+                            
+                            if (0 === fieldOnError.length) {
+                                alert('missing field: '+fname);
+                            }
                         }
                     }
+                    
+                    deferred.reject(data);
                 }
-            ); 
+            );
+            
+            
+            return deferred.promise;
         };
         
     }])
@@ -149,7 +161,9 @@ define(['angular',  'angularResource'], function (angular) {
                 var p = catchOutcome(this.$save());
                 
                 if (nextaction) {
-                    p = p.then(nextaction);
+                    p = p.then(nextaction, function() {
+                        // error on save, do not redirect
+                    });
                 }
 
                 return p;

@@ -204,12 +204,12 @@ define(['angular', 'app'], function(angular, app) {
         
         $routeProvider.when('/admin/rightrenewals/:id', {
 			templateUrl: 'partials/admin/rightrenewal-edit.html',
-			controller: 'AdminRightRenewalsEdit'
+			controller: 'AdminRightRenewalEdit'
 		});
         
-        $routeProvider.when('/admin/rightrenewals-edit', {
+        $routeProvider.when('/admin/rightrenewal-edit', {
 			templateUrl: 'partials/admin/rightrenewal-edit.html',
-			controller: 'AdminRightRenewalsEdit'
+			controller: 'AdminRightRenewalEdit'
 		});
 		
 		$routeProvider.otherwise({redirectTo: '/home'});
