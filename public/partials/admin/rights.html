@@ -19,13 +19,13 @@
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="right in rights">
-				<div class="col-xs-2">
+				<div class="col-sm-2 col-xs-1">
 					<a ng-href="#/admin/rights/{{right._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
 				</div>
-                <div class="col-xs-3">
+                <div class="col-sm-3 col-xs-1">
 					<a ng-href="#/admin/rightrenewals?right={{right._id}}" class="btn btn-success btn-xs hidden-print" role="button"><i class="fa fa-calendar"></i> <span class="hidden-xs" translate>List renewals</span></a> 
 				</div>
-                <div class="col-xs-4">
+                <div class="col-sm-4 col-xs-8">
                     {{right.name}}
                 </div>
 				 

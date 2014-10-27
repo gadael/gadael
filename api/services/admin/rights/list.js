@@ -20,10 +20,8 @@ var query = function(service, params) {
 
     var find = service.models.Right.find();
 
-    if (params && params.name)
-    {
-        find.where({ name: new RegExp('^'+params.name, 'i') });
-    }
+    params.name && find.where({ name: new RegExp('^'+params.name, 'i') });
+    params.type && find.where({ type: params.type });
     
     find.populate('type');
     

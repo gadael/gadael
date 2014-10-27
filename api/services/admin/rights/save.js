@@ -31,7 +31,7 @@ function saveRight(service, params) {
     var fieldsToSet = { 
         name: params.name,
         description: params.description,
-        type: params.type,
+        type: params.type._id,
         require_approval: params.require_approval,
         quantity: params.quantity,
         quantity_unit: params.quantity_unit  

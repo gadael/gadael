@@ -21,13 +21,17 @@
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="rightrenewal in rightrenewals">
-				<div class="col-md-7">
+				<div class="col-md-2 col-sm-2 col-xs-1">
 					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/rightrenewals/{{rightrenewal._id}}" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
-					&nbsp;
-					<span translate>Start:</span> {{rightrenewal.start|date}}
 				</div>
-				<div class="col-md-5">
-					<span translate>Finish:</span> {{rightrenewal.finish|date}}
+                <div class="col-md-6 col-sm-10 col-xs-11">
+					<span translate>Start:</span> {{rightrenewal.start|date}}<br />
+                    <span translate>Remaining quantity:</span> 0 days
+                    
+				</div>
+				<div class="col-md-4 hidden-xs hidden-sm">
+					<span translate>Finish:</span> {{rightrenewal.finish|date}}<br />
+                    <span translate>Beneficiaries:</span> 0 users
 				</div>
 			</div>
 		</div>
