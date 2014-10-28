@@ -48,9 +48,52 @@ exports = module.exports = function(params) {
             max: Number
         }
 	});
-
-	rightSchema.index({ 'name': 1 }, { unique: true });
+    
+    
+    rightSchema.index({ 'name': 1 }, { unique: true });
 	rightSchema.set('autoIndex', params.autoIndex);
 
+    
+    /**
+     * Find right renewals
+     * @returns {Query} A mongoose query on the right renewal schema
+     */
+    rightSchema.methods.getRenewalsQuery = function() {
+        return mongoose.modelSchemas.rightRenewal
+            .find()
+            .where('right').equals(this._id);
+    }
+    
+    /**
+     * Get current renewal by date interval or null if no renewal
+     * @param   {function} cb Callback
+     * @returns {Promise} mongoose query promise
+     */
+    rightSchema.methods.getCurrentRenewal = function(cb) {
+        return this.getRenewalsQuery()
+            .where('start').lte(Date.now())
+            .where('finish').gte(Date.now())
+            .exec(cb);
+    }
+    
+
+    /**
+     * Get last renewal
+     * @param   {function} cb Callback
+     * @returns {Promise} mongoose query promise
+     */
+    rightSchema.methods.getLastRenewal = function(cb) {
+        return this.getRenewalsQuery()
+            .limit(1)
+            .sort('-start')
+            .exec(cb);
+    }
+    
+	
 	params.db.model('Right', rightSchema);
 };
+
+
+
+
+
