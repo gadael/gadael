@@ -59,35 +59,71 @@ exports = module.exports = function(params) {
      * @returns {Query} A mongoose query on the right renewal schema
      */
     rightSchema.methods.getRenewalsQuery = function() {
-        return mongoose.modelSchemas.rightRenewal
+        return this.model('RightRenewal')
             .find()
             .where('right').equals(this._id);
-    }
+    };
     
     /**
      * Get current renewal by date interval or null if no renewal
-     * @param   {function} cb Callback
-     * @returns {Promise} mongoose query promise
+     * @returns {Promise} q
      */
-    rightSchema.methods.getCurrentRenewal = function(cb) {
-        return this.getRenewalsQuery()
+    rightSchema.methods.getCurrentRenewal = function() {
+        
+        var Q = require('q');
+        var deferred = Q.defer();
+        
+        this.getRenewalsQuery()
             .where('start').lte(Date.now())
             .where('finish').gte(Date.now())
-            .exec(cb);
-    }
+            .exec(function(err, arr) {
+            
+                if (err) {
+                    deferred.reject(err);
+                    return;
+                }
+            
+                if (!arr || 0 === arr.length) {
+                    deferred.resolve(null);
+                    return;   
+                }
+            
+                deferred.resolve(arr[0]);
+            });
+        
+        return deferred.promise;
+    };
     
 
     /**
      * Get last renewal
-     * @param   {function} cb Callback
-     * @returns {Promise} mongoose query promise
+     * @returns {Promise} q
      */
-    rightSchema.methods.getLastRenewal = function(cb) {
-        return this.getRenewalsQuery()
+    rightSchema.methods.getLastRenewal = function() {
+        
+        var Q = require('q');
+        var deferred = Q.defer();
+        
+        this.getRenewalsQuery()
             .limit(1)
             .sort('-start')
-            .exec(cb);
-    }
+            .exec(function(err, arr) {
+            
+                if (err) {
+                    deferred.reject(err);
+                    return;
+                }
+            
+                if (!arr || 0 === arr.length) {
+                    deferred.resolve(null);
+                    return;
+                }
+            
+                deferred.resolve(arr[0]);
+            });
+        
+        return deferred.promise;
+    };
     
 	
 	params.db.model('Right', rightSchema);

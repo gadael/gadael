@@ -20,8 +20,24 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err))
             {
                 if (document) {
-                    service.outcome.success = true;
-                    service.deferred.resolve(document);
+                    
+                    var right = document.toObject();
+                    
+                    document.getLastRenewal()
+                        .then(function(lastRenewal) {
+                            right.lastRenewal = lastRenewal;
+                            return document.getCurrentRenewal();
+                        })
+                        .then(function(currentRenewal) {
+                            right.currentRenewal = currentRenewal;
+                            service.outcome.success = true;
+                            service.deferred.resolve(right);
+                        })
+                        .catch(function(err) {
+                            service.notFound(err);
+                        });
+                    
+                    
                 } else {
                     service.notFound(service.gt.gettext('This vacation right does not exists'));
                 }
