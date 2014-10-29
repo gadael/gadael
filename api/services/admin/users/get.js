@@ -1,5 +1,30 @@
 'use strict';
 
+/**
+ * Add account informations 
+ *
+ * @param {document} userDoc mongoose user document
+ *                        
+ * @return {Promise} resolve to a user object
+ */
+function userAccount(userDoc)
+{
+    var user = userDoc.toObject();
+    var deferred = require('q').defer();
+    
+    if (!userDoc.roles.account) {
+        return deferred.resolve(user);
+    }
+
+    userDoc.roles.account.getCurrentCollection().then(function(collection) {
+        user.roles.account.currentCollection = collection.toObject();
+        return deferred.resolve(user);
+    })
+    .catch(deferred.reject);
+    
+    return deferred.promise;
+}
+
 
 exports = module.exports = function(services, app) {
     
@@ -23,8 +48,13 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err))
             {
                 if (user) {
-                    service.outcome.success = true;
-                    service.deferred.resolve(user);
+                    
+                    userAccount(user).then(function(userObj) {
+                        service.outcome.success = true;
+                        service.deferred.resolve(userObj);
+                    });
+                    
+                    
                 } else {
                     service.notFound(service.gt.gettext('This user does not exists'));
                 }
