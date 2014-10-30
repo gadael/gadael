@@ -9,6 +9,56 @@ exports = module.exports = function(params) {
     collectionSchema.set('autoIndex', params.autoIndex);
   
     collectionSchema.index({ name: 1 });
+    
+    
+    /**
+     * Get the list of rights in collection
+     * @return {Promise} resolve to an array
+     */
+    collectionSchema.methods.getRights = function() {
+        
+        return this.model('Beneficiary').find()
+            .where('ref').is('RightCollection')
+            .where('document').is(this._id)
+            .populate('right')
+            .exec();
+    };
+    
+    /**
+     * Get the list of users with collection
+     * @param {Date}    moment  Optional date for collection association to users
+     * @return {Promise} resolve to an array of users
+     */
+    collectionSchema.methods.getUsers = function(moment) {
+        
+        var deferred = require('q').defer();
+        
+        if (null === moment) {
+            moment = new Date();
+            moment.setHours(0,0,0,0);
+        }
+        
+        this.model('AccountCollection').find()
+            .where('from').lte(moment)
+            .where('to').gte(moment)
+            .populate('account.user.id.roles.account')
+            .exec(function(err, arr) {
+            
+                if (err) {
+                    deferred.reject(err); return;
+                }
+            
+                var users = [];
+                for(var i=0; i<arr.length; i++) {
+                    users.push(arr[i].user.id);
+                }
+
+                deferred.resolve(users);
+            });
+        
+        return deferred.promise;
+    };
+    
   
     params.db.model('RightCollection', collectionSchema);
 };

@@ -59,15 +59,18 @@ exports = module.exports = function(params) {
 
     /**
      * Get the ongoing right collection
-     * @return {Promise}
+     * @return {Promise} resolve to a rightCollection document or null
      */
     accountSchema.methods.getCurrentCollection = function() {
         var Q = require('q');
         var deferred = Q.defer();
         
+        var today = new Date();
+        today.setHours(0,0,0,0);
+        
         this.getAccountCollectionQuery()
-            .where('from').lte(Date.now())
-            .where('to').gte(Date.now())
+            .where('from').lte(today)
+            .where('to').gte(today)
             .populate('rightCollection')
             .exec(function(err, arr) {
             

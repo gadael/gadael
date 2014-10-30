@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Add account informations 
+ * Add account informations to the user object 
  *
  * @param {document} userDoc mongoose user document
  *                        

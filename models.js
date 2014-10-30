@@ -44,4 +44,5 @@ models.load = function() {
     require('./schema/Right_Renewal')(requirements);
 	require('./schema/Calendar')(requirements);
 	require('./schema/CalendarEvent')(requirements);
+    require('./schema/Beneficiary')(requirements);
 };
