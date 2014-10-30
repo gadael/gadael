@@ -71,6 +71,8 @@ exports = module.exports = function(params) {
             .populate('rightCollection')
             .exec(function(err, arr) {
             
+                
+            
                 if (err) {
                     deferred.reject(err);
                     return;

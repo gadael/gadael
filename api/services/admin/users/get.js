@@ -13,14 +13,21 @@ function userAccount(userDoc)
     var deferred = require('q').defer();
     
     if (!userDoc.roles.account) {
-        return deferred.resolve(user);
-    }
+        deferred.resolve(user);
+    } else {
 
-    userDoc.roles.account.getCurrentCollection().then(function(collection) {
-        user.roles.account.currentCollection = collection.toObject();
-        return deferred.resolve(user);
-    })
-    .catch(deferred.reject);
+        userDoc.roles.account.getCurrentCollection().then(function(collection) {
+            
+            if (null === collection) {
+                // Account but no collection
+                deferred.resolve(user);
+            }
+            
+            user.roles.account.currentCollection = collection.toObject();
+            deferred.resolve(user);
+        })
+        .catch(deferred.reject);
+    }
     
     return deferred.promise;
 }
