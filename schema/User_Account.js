@@ -56,21 +56,21 @@ exports = module.exports = function(params) {
             .find()
             .where('account').equals(this._id);
     };
-
+    
     /**
-     * Get the ongoing right collection
+     * Get the right collection for a specific date
      * @return {Promise} resolve to a rightCollection document or null
      */
-    accountSchema.methods.getCurrentCollection = function() {
+    accountSchema.methods.getCollection = function(moment) {
         var Q = require('q');
         var deferred = Q.defer();
         
-        var today = new Date();
-        today.setHours(0,0,0,0);
+
+        moment.setHours(0,0,0,0);
         
         this.getAccountCollectionQuery()
-            .where('from').lte(today)
-            .where('to').gte(today)
+            .where('from').lte(moment)
+            .where('to').gte(moment)
             .populate('rightCollection')
             .exec(function(err, arr) {
             
@@ -90,7 +90,71 @@ exports = module.exports = function(params) {
             });
         
         return deferred.promise;
+    }
+
+    /**
+     * Get the ongoing right collection
+     * @return {Promise} resolve to a rightCollection document or null
+     */
+    accountSchema.methods.getCurrentCollection = function() {
+        var today = new Date();
+        return this.getCollection(today);
     };
+    
+    
+    /**
+     * 
+     * Get the list of rights beneficiaries associated to an account
+     * @param {Date} moment  optional date parameter
+     * 
+     * @return {Promise} resolve to an array of beneficiary documents
+     */
+    accountSchema.methods.getRightBeneficiaries = function(moment) {
+        
+        var deferred = require('q').defer();
+        
+        if (null === moment) {
+            moment = new Date();
+        }
+        
+        this.getCollection(moment).then(function(rightCollection) {
+            this.model('Beneficiary')
+            .where('document').in([rightCollection._id, this.user._id])
+            .populate('right')
+            .exec(function(err, beneficiaries) {
+                if (err) {
+                    deferred.reject(err);
+                }
+                
+                deferred.resolve(beneficiaries);
+            })
+        });
+        
+        return deferred.promise;
+    }
+    
+    /**
+     * 
+     * @param {Date} moment  optional date parameter
+     * @return {Promise} resolve to an array of rights
+     */
+    accountSchema.methods.getRights = function(moment) {
+        
+        var deferred = require('q').defer();
+        
+        this.getRightBeneficiaries(moment).then(function(beneficiaries) {
+            
+            var rights = [];
+            
+            for(var i=0; i< beneficiaries.length; i++) {
+                rights.push(beneficiaries[i].right);
+            }
+            
+            deferred.resolve(rights);
+        }).catch(deferred.reject);
+        
+        return deferred.promise;
+    }
     
     params.db.model('Account', accountSchema);
 };
