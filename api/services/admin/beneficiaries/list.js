@@ -20,12 +20,12 @@ var query = function(service, params) {
 
     var find = service.models.Beneficiary.find();
     find.populate('right');
-
-    if (params && params.account)
-    {
-        find.where({ account: params.account });
+    
+    if (!params) {
+        return find;   
     }
 
+    find.where(params);
     return find;
 };
 

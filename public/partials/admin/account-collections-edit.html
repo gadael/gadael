@@ -18,13 +18,13 @@
 
     <div class="row" ng-repeat="accountCollection in accountCollections">
         <div class="col-md-6 form-group">
-            <label for="user_accountCollection" translate>Rights collection</label>
+            <label for="user_accountCollection{{$index}}" translate>Rights collection</label>
 
             <div class="input-group">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-warning" ng-click="removeAccountCollection($index)" ng-disabled="removeIsDisabled(accountCollection)"><span class="glyphicon glyphicon-remove"></span><span class="sr-only" translate>Remove</span></button>
                 </div>
-                <select class="form-control" id="user_accountCollection" ng-model="accountCollection.rightCollection._id" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections" ng-required>
+                <select class="form-control" id="user_accountCollection{{$index}}" ng-model="accountCollection.rightCollection._id" ng-options="accountCollection._id as accountCollection.name for accountCollection in collections" ng-required>
                     <option></option>
                 </select>
             </div>

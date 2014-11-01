@@ -1,10 +1,39 @@
 
 <form role="form">
-  <div class="form-group">
-    <label for="right_collection_name" translate>Collection name</label>
-    <input type="text" class="form-control" id="right_collection_name" ng-model="collection.name" />
-  </div>
+    <div class="form-group">
+        <label for="right_collection_name" translate>Collection name</label>
+        <input type="text" class="form-control" id="right_collection_name" ng-model="collection.name" />
+    </div>
+    
+    <div class="row">
+        
+        <h3 class="col-md-9" translate>Vacation rights in collection</h3>
+        
+        <div class="col-md-3 text-right">
+            <br />
+            <button class="btn btn-primary" ng-click="addRight()">
+                <i class="fa fa-plus-circle"></i> <span translate>Add vacation right</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="form-group" ng-repeat="collectionRight in collectionRights">
+        
+        <label for="right{{$index}}" translate>Vacation right</label>
+
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-warning" ng-click="removeRight($index)"><span class="glyphicon glyphicon-remove"></span><span class="sr-only" translate>Remove</span></button>
+            </div>
+            <select class="form-control" id="right{{$index}}" ng-model="collectionRight.rights._id" ng-options="right._id as right.name for right in rights" ng-required>
+                <option></option>
+            </select>
+        </div>
+    </div>
+    
+    <br />
   
-  <button class="btn btn-primary" ng-click="saveCollection()" translate>Save</button> 
-  <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+    <button class="btn btn-primary" ng-click="saveCollection()" translate>Save</button> 
+    <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
 </form>
