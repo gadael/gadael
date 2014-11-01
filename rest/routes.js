@@ -72,6 +72,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/types');
     controllers.add('./admin/rights');
     controllers.add('./admin/rightrenewals');
+    controllers.add('./admin/beneficiaries');
 	
 	app.post('/rest/login', require('./login').authenticate);
 	app.post('/rest/login/forgot', require('./login').forgotPassword);

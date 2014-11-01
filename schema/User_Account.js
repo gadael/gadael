@@ -90,7 +90,7 @@ exports = module.exports = function(params) {
             });
         
         return deferred.promise;
-    }
+    };
 
     /**
      * Get the ongoing right collection
@@ -127,11 +127,11 @@ exports = module.exports = function(params) {
                 }
                 
                 deferred.resolve(beneficiaries);
-            })
+            });
         });
         
         return deferred.promise;
-    }
+    };
     
     /**
      * 
@@ -154,7 +154,7 @@ exports = module.exports = function(params) {
         }).catch(deferred.reject);
         
         return deferred.promise;
-    }
+    };
     
     params.db.model('Account', accountSchema);
 };

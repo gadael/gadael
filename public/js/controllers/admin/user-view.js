@@ -4,14 +4,23 @@ define([], function() {
 	return ['$scope', 
 		'$location', 
 		'IngaResource', 
-		'$resource', function(
+		'$resource',
+        '$http', function(
 			$scope, 
 			$location, 
 			IngaResource, 
-			$resource
+			$resource,
+            $http
 		) {
 
 		$scope.user = IngaResource('rest/admin/users').loadRouteId();
+        
+                
+        var beneficiaries = $resource('rest/admin/beneficiaries/');
+        var accountCollection = $resource('rest/admin/accountcollections/');
+
+                
+                
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
@@ -22,9 +31,13 @@ define([], function() {
                 
                 // after user resource loaded, load account Collections
                 
+
+                
                 if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
+                    $scope.accountRights = beneficiaries.query({ account: $scope.user.roles.account._id });
                     $scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
                 } else {
+                    $scope.accountRights = [];
                     $scope.accountCollections = [];
                 }
 
@@ -39,14 +52,7 @@ define([], function() {
         
         
 	    
-	    var accountCollection = $resource('rest/admin/accountcollections/:accCollId',
-            { accCollId:'@_id' }, 
-            { 
-                'save': { method:'PUT' },    // overwrite default save method (POST)
-                'create': { method:'POST' }
-            }  
-        );
-
+	    
 		
 	}];
 });
