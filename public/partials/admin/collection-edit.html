@@ -26,7 +26,7 @@
             <div class="input-group-btn">
                 <button type="button" class="btn btn-warning" ng-click="removeRight($index)"><span class="glyphicon glyphicon-remove"></span><span class="sr-only" translate>Remove</span></button>
             </div>
-            <select class="form-control" id="right{{$index}}" ng-model="collectionRight.rights._id" ng-options="right._id as right.name for right in rights" ng-required>
+            <select class="form-control" id="right{{$index}}" ng-model="collectionRight.right._id" ng-options="right._id as right.name for right in rights" ng-required>
                 <option></option>
             </select>
         </div>

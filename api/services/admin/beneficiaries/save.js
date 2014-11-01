@@ -8,7 +8,7 @@
  * @param {Object} params
  */
 function validate(service, params) {
-
+    
     if (service.needRequiredFields(params, ['right', 'document', 'ref'])) {
         return;
     }
@@ -44,7 +44,7 @@ function saveBeneficiary(service, params) {
                 
                 document.right 	  = params.right._id;
                 document.ref 	  = params.ref;
-                document.document = params.document._id;
+                document.document = params.document;
 
                 document.save(function (err) {
 
@@ -64,7 +64,7 @@ function saveBeneficiary(service, params) {
 
         Beneficiary.create({
                 right: params.right._id,
-                document: params.document._id,
+                document: params.document,
                 ref: params.ref 
             }, function(err, document) {
 

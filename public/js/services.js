@@ -242,6 +242,25 @@ define(['angular',  'angularResource'], function (angular) {
             
             return deferred.promise;
         };
+	}])
+    
+    
+    .factory('saveBeneficiaries', ['$q', 'catchOutcome', function($q, catchOutcome) {
+
+        /**
+         * Save account collections in scope
+         * 
+         * @param {Scope} $scope
+         * @param {Integer} collectionId  The saved collection _id
+         */
+        return function($scope, collectionId) {
+            var deferred = $q.defer();
+            require(['services/saveBeneficiaries'], function(serviceFn) {
+                serviceFn($scope, collectionId, $q, catchOutcome).then(deferred.resolve);
+            });
+            
+            return deferred.promise;
+        };
 	}]);
 	
 	

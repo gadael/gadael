@@ -2,20 +2,23 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'IngaResource', '$resource', 'catchOutcome', 
-    function($scope, $location, IngaResource, $resource, catchOutcome) {
+	return ['$scope', '$location', 'IngaResource', '$resource', 'catchOutcome', 'saveBeneficiaries', 
+    function($scope, $location, IngaResource, $resource, catchOutcome, saveBeneficiaries) {
 
 		$scope.collection = IngaResource('rest/admin/collections').loadRouteId();
         
         var rights = $resource('rest/admin/rights');
-	    var beneficiaries = $resource('rest/admin/beneficiaries/');
+	    var beneficiaries = $resource('rest/admin/beneficiaries/:id', {id:'@id'}, { 
+            'save': { method:'PUT' },    // overwrite default save method (POST)
+            'create': { method:'POST' }
+        });
         
         $scope.rights = rights.query();
         
         if ($scope.collection.$promise) {
             $scope.collection.$promise.then(function(collection) {
                 $scope.collectionRights = beneficiaries.query(
-                    { document: collection._id , ref: 'Collection' }, function() {
+                    { document: collection._id , ref: 'RightCollection' }, function() {
                     if (0 === $scope.collectionRights.length) {
                         $scope.addRight();
                     }
@@ -23,9 +26,10 @@ define([], function() {
             });
         }
         
+        $scope.collectionRights = [];
         
         $scope.addRight = function() {
-            $scope.collectionRights.push({ right: null });
+            $scope.collectionRights.push(new beneficiaries);
         };
         
         /**
@@ -51,7 +55,9 @@ define([], function() {
 		};
 		
 		$scope.saveCollection = function() {
-			$scope.collection.ingaSave($scope.back);
+			$scope.collection.ingaSave(function(collection) {
+                saveBeneficiaries($scope, collection._id).then($scope.back);
+            });
 	    };
 	}];
 });
