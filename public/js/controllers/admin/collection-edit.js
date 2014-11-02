@@ -8,7 +8,7 @@ define([], function() {
 		$scope.collection = IngaResource('rest/admin/collections').loadRouteId();
         
         var rights = $resource('rest/admin/rights');
-	    var beneficiaries = $resource('rest/admin/beneficiaries/:id', {id:'@id'}, { 
+	    var beneficiaries = $resource('rest/admin/beneficiaries/:id', {id:'@_id'}, { 
             'save': { method:'PUT' },    // overwrite default save method (POST)
             'create': { method:'POST' }
         });

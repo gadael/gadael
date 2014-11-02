@@ -14,20 +14,45 @@
  * @param {listItemsService} service
  * @param {array} params      query parameters if called by controller
  *
- * @return {Query}
+ * @return {Promise} resolve to query
  */
-var query = function(service, params) {
+function getQuery(service, params) {
 
+    var deferred = require('q').defer();
     var find = service.models.Beneficiary.find();
     find.populate('right');
     
     if (!params) {
-        return find;   
+        deferred.resolve(find);
+        return deferred.promise; 
+    }
+    
+    if (null !== params.account) {
+        service.models.Account
+            .findOne({ _id: params.account})
+            .exec(function(err, account) {
+            
+            account.getCurrentCollection().then(function(rightCollection) {
+                
+                var docs = [account.user.id];
+                
+                if (rightCollection) {
+                    docs.push(rightCollection._id);
+                }
+                
+                find.where('document').in(docs);
+                deferred.resolve(find);
+            });
+        });
+        
+        return deferred.promise; 
     }
 
     find.where(params);
-    return find;
-};
+    deferred.resolve(find);
+    
+    return deferred.promise;
+}
 
 
 
@@ -54,12 +79,18 @@ exports = module.exports = function(services, app) {
         var cols = 'right document ref';
         var sortkey = 'right.name';
         
-        service.resolveQuery(
-            query(service, params),
-            cols,
-            sortkey,
-            paginate
-        );
+        getQuery(service, params).then(function(query) {
+            
+            console.log('query resolved');
+            
+            service.resolveQuery(
+                query,
+                cols,
+                sortkey,
+                paginate
+            );
+        });
+        
 
         return service.deferred.promise;
     };

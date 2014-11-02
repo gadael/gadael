@@ -225,7 +225,7 @@ function listItemsService(app) {
         
         var q = find.select(cols).sort(sortkey);
         q.exec(function(err, docs) {
-            if (typeof paginate === 'function') {
+            if (!err && typeof paginate === 'function') {
                 return paginate(docs.length, q).exec(mongOutcome);
             }
             

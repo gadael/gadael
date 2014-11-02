@@ -21,14 +21,12 @@
         <tr ng-repeat="accountRight in accountRights">
             <td>
                 <a ng-href="#/admin/users/{{user._id}}/rights">
-                    {{accountRights.right.name}}
-                </a><br />
-                {{accountRights.currentperiod.from|date}} - 
-                {{accountRights.currentperiod.to|date}}
+                    {{accountRight.right.name}}
+                </a>
             </td>
-            <td class="hidden-xs">{{accountRights.right.type.name}}</td>
-            <td>{{accountRights.currentperiod.remaining}}</td>
-            <td class="hidden-xs hidden-sm">{{accountRights.currentperiod.used}}</td>
+            <td class="hidden-xs">{{accountRight.right.type.name}}</td>
+            <td>{{accountRight.currentperiod.remaining}}</td>
+            <td class="hidden-xs hidden-sm">{{accountRight.currentperiod.used}}</td>
         </tr>
         </tbody>
         <thead>
