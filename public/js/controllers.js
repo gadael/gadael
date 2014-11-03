@@ -141,6 +141,10 @@ define(['angular', 'services'], function (angular) {
             invokeController('controllers/admin/right-edit', this, $scope, $injector);
 		}])
     
+        .controller('AdminRightView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/right-view', this, $scope, $injector);
+		}])
+    
         .controller('AdminRightRenewals', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/rightrenewals', this, $scope, $injector);
 		}])

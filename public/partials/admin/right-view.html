@@ -1,0 +1,93 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-3">
+        
+        
+        
+        <div role="navigation">
+            <div class="list-group">
+                <a class="list-group-item" ng-href="#/admin/rights"><i class="fa fa-folder-o"></i> <span translate>Rights list</span></a>
+                <a class="list-group-item" ng-href="#/admin/collections"><i class="fa fa-book"></i> <span translate>Rights collections</span></a>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="col-xs-12 col-sm-9">
+        
+        <div class="row panel panel-primary">
+            <div class="col-xs-10">
+                <h2>{{right.name}}</h2>
+                <p><span translate>Type:</span> {{right.type.name}}</p>
+            </div>
+
+            <div class="col-xs-2 text-right">
+                <br />
+                <a ng-href="#/admin/right-edit/{{right._id}}" class="btn btn-info hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+            </div>
+        </div>
+        
+        <div class="row">
+            <h3  class="col-xs-10" translate>Rules</h3>
+
+            <table class="table">
+                <tbody>
+                <tr ng-repeat="rule in rightRules">
+                    <td>
+                        <a ng-href="#/admin/rights/{{right._id}}/rules">
+                            {{rule.title}}
+                        </a>
+                    </td>
+                    
+                    <td>{{rule.type}}</td>
+                    <td class="hidden-xs hidden-sm">{{rule.min}}</td>
+                    <td class="hidden-xs hidden-sm">{{rule.max}}</td>
+                </tr>
+                </tbody>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th class="hidden-xs hidden-sm">Min</th>
+                    <th class="hidden-xs hidden-sm">Max</th>
+                </tr>
+                </thead>
+            </table>
+
+            <div class="alert alert-danger" role="alert" ng-if="!rightRules.length">
+                <span>This right has no configured rules</span>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <h3  class="col-xs-10" translate>Renewals</h3>
+
+            <table class="table">
+                <tbody>
+                <tr ng-repeat="renewal in rightRenewals">
+                    <td>
+                        <a ng-href="#/admin/rights/{{right._id}}/rightrenewals">
+                            {{renewal.start|date}}
+                        </a>
+                    </td>
+                    
+                    <td>{{renewal.finish|date}}</td>
+                </tr>
+                </tbody>
+                <thead>
+                <tr>
+                    <th>Start</th>
+                    <th>Finish</th>
+                </tr>
+                </thead>
+            </table>
+
+            <div class="alert alert-danger" role="alert" ng-if="!rightRenewals.length">
+                <span>This right has no configured renewals</span>
+            </div>
+        </div>
+        
+    </div>
+        
+    
+</div>
