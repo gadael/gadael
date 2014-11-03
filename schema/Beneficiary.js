@@ -42,7 +42,7 @@ exports = module.exports = function(params) {
         return deferred.promise;
     };
     
-  
+    beneficiarySchema.index({ right: 1, document: 1 }, { unique: true });
     params.db.model('Beneficiary', beneficiarySchema);
 };
 

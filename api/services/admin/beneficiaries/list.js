@@ -32,17 +32,26 @@ function getQuery(service, params) {
             .findOne({ _id: params.account})
             .exec(function(err, account) {
             
-            account.getCurrentCollection().then(function(rightCollection) {
+            if (service.handleMongoError(err)) {
+                
+                if (null === account) {
+                    deferred.resolve(find);
+                    return;
+                }
                 
                 var docs = [account.user.id];
                 
-                if (rightCollection) {
-                    docs.push(rightCollection._id);
-                }
+                account.getCurrentCollection().then(function(rightCollection) {
+
+                    if (rightCollection) {
+                        docs.push(rightCollection._id);
+                    }
+
+                    find.where('document').in(docs);
+                    deferred.resolve(find);
+                });
                 
-                find.where('document').in(docs);
-                deferred.resolve(find);
-            });
+            }
         });
         
         return deferred.promise; 
@@ -80,9 +89,7 @@ exports = module.exports = function(services, app) {
         var sortkey = 'right.name';
         
         getQuery(service, params).then(function(query) {
-            
-            console.log('query resolved');
-            
+
             service.resolveQuery(
                 query,
                 cols,

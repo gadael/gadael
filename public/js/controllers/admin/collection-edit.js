@@ -42,12 +42,10 @@ define([], function() {
                 $scope.collectionRights.splice(index, 1);
                 return;
             }
-            
-            var p = right.$delete().then(function() {
+
+            catchOutcome(right.$delete()).then(function() {
                 $scope.collectionRights.splice(index, 1);
             });
-            
-            catchOutcome(p);
 		};
 
 		$scope.back = function() {

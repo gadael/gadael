@@ -13,11 +13,15 @@ define([], function() {
 
             resource.$save(function(data) {
                 deferred.resolve(data);
+            },function(data) {
+                deferred.reject(data);
             });
             
         } else {
             resource.$create(function(data) {
                 deferred.resolve(data);
+            },function(data) {
+                deferred.reject(data);
             });
         }
 
