@@ -145,7 +145,8 @@ define(['angular',  'angularResource'], function (angular) {
         };
         
     }])
-
+    
+    
 
 	/**
 	 * Create a resource to an object or to a collection
@@ -153,40 +154,66 @@ define(['angular',  'angularResource'], function (angular) {
 	 */ 
 	.factory('IngaResource', ['$resource', '$routeParams', 'catchOutcome', function($resource, $routeParams, catchOutcome){
 		
+        
+        /**
+         * Additional method on resource to save and redirect messages
+         * to the rootscope message list
+         *
+         * @param   {function} nextaction optional function
+         * @returns {Promise} promise will resolve to the received data, same as the $save method
+         */
+        var ingaSave = function(nextaction) {
 
-		return function(collectionPath)
-		{
-			var ingaSave = function(nextaction) {
-                
-                var p = catchOutcome(this.$save());
-                
-                if (nextaction) {
-                    p = p.then(nextaction, function() {
-                        // error on save, do not redirect
-                    });
-                }
+            var p = catchOutcome(this.$save());
 
-                return p;
-			};
-			
-			
-			if ($routeParams.id)
-			{
-				var item = $resource(collectionPath+'/:id', $routeParams, {
-					'save': { method:'PUT' }  // overwrite default save method (POST)
-				});
-				
-				item.loadRouteId = function() {
-					return this.get(function(data) {
-						data.ingaSave = ingaSave;
-					});
-				};
-				
-				return item;
-			}
-			
-			var collection = $resource(collectionPath);
-			
+            if (nextaction) {
+                p = p.then(nextaction, function() {
+                    // error on save, do not redirect
+                });
+            }
+
+            return p;
+        };
+        
+        
+        /**
+         * Create the real loadable resource
+         * @param   {string} collectionPath path to rest service
+         * @returns {Resource} resource instance with a loadRouteId() method
+         */
+        var realLoadableResource = function(collectionPath) {
+            var item = $resource(collectionPath+'/:id', $routeParams, {
+                'save': { method:'PUT' }  // overwrite default save method (POST)
+            });
+
+
+            /**
+             * Get a resource instance
+             * @returns {Resource} a resource instance, will be populated with results
+             *                     after get is resolved
+             */
+            item.loadRouteId = function() {
+                return this.get(function(data) {
+                    data.ingaSave = ingaSave;
+                });
+            };
+
+            return item;
+        }
+        
+        
+        /**
+         * Create the fake loadable resource
+         * @param   {string} collectionPath path to rest service
+         * @returns {Resource} resource instance with a loadRouteId() method
+         */
+        var fakeLoadableResource = function(collectionPath) {
+            var collection = $resource(collectionPath);
+            
+			/**
+			 * Get a resource instance
+			 * @returns {Resource} an empty resource instance, no get triggered
+			 */
 			collection.loadRouteId = function() {
 				// scope will be loaded with an empty instance
 				
@@ -195,8 +222,26 @@ define(['angular',  'angularResource'], function (angular) {
 
 				return inst;
 			};
+            
+            return collection;
+        }
+        
+        
+
+        
+		/**
+		 * Get the resource
+		 * @param   {string} collectionPath [[Description]]
+		 * @returns {Resource} the resource
+		 */
+		return function(collectionPath)
+		{
+			if ($routeParams.id)
+			{
+				return realLoadableResource(collectionPath);
+			}
 			
-			return collection;
+			return fakeLoadableResource(collectionPath);
 		};
 
 	}])
