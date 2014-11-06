@@ -16,20 +16,25 @@ exports = module.exports = function(params) {
 	
 	var rightRuleSchema = new mongoose.Schema({
         
+        right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
+        
         // title displayed to the user as a condition
         // to apply this vacation right
-		title: String,
+		title: { type: String, required: true },
         
         // quantity to add to the right
         // when this rule is verified
         quantity: Number,
         
-        type: { type: String, enum: ruleTypes },
+        type: { type: String, enum: ruleTypes, required: true },
         
         interval: {
             min: mongoose.Schema.Types.Mixed,    // Date or Number
             max: mongoose.Schema.Types.Mixed     // Date or Number
-        }
+        },
+        
+        timeCreated: { type: Date, default: Date.now },
+        lastUpdate: { type: Date, default: Date.now }
 	});
   
 	rightRuleSchema.set('autoIndex', params.autoIndex);

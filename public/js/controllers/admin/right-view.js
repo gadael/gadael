@@ -4,18 +4,18 @@ define([], function() {
 	return ['$scope', 
 		'$location', 
 		'IngaResource', 
-		'$resource',
+		'ResourceFactory',
         '$http', function(
 			$scope, 
 			$location, 
 			IngaResource, 
-			$resource,
+			ResourceFactory,
             $http
 		) {
                 
                 
-        var rightRule = $resource('rest/admin/rightrules/');
-        var rightRenewal = $resource('rest/admin/rightrenewals/');
+        var rightRule = ResourceFactory('rest/admin/rightrules/:id');
+        var rightRenewal = ResourceFactory('rest/admin/rightrenewals/:id');
 
 		$scope.right = IngaResource('rest/admin/rights').loadRouteId();
                 

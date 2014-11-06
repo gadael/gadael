@@ -6,10 +6,10 @@ define([], function() {
         '$scope',
         '$location',
         'IngaResource',
-        '$resource', function($scope, $location, IngaResource, $resource) {
+        'ResourceFactory', function($scope, $location, IngaResource, ResourceFactory) {
 
             
-        var rightResource = $resource('rest/admin/rights/:id', {id:'@id'});
+        var rightResource = ResourceFactory('rest/admin/rights/:id');
             
         if ($location.search().right) {
             $scope.right = rightResource.get({id: $location.search().right});

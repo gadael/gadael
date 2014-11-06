@@ -147,13 +147,43 @@ define(['angular',  'angularResource'], function (angular) {
     }])
     
     
+    .factory('ResourceFactory', 
+        ['$resource', function($resource) {
+        
+        /**
+         * create a resource
+         * @param   {string} collectionPath path to rest service
+         * @param   {object} parameters Optional parameters default is { id:'@_id' }
+         */
+        var ResourceFactory = function(collectionPath, parameters) {
+            
+            if (undefined === parameters) {
+                parameters = { id:'@_id' };   
+            }
+            
+            return $resource(collectionPath, parameters, 
+                { 
+                    'save': { method:'PUT' },    // overwrite default save method (POST)
+                    'create': { method:'POST' }
+                }  
+            );
+        };
+            
+            
+        return ResourceFactory;
+        
+    }])
+    
+    
 
 	/**
 	 * Create a resource to an object or to a collection
 	 * the object resource is created only if the angular route contain a :id
 	 */ 
-	.factory('IngaResource', ['$resource', '$routeParams', 'catchOutcome', function($resource, $routeParams, catchOutcome){
-		
+	.factory('IngaResource', 
+        ['ResourceFactory', '$routeParams', 'catchOutcome', 
+        function(ResourceFactory, $routeParams, catchOutcome) {
+            
         
         /**
          * Additional method on resource to save and redirect messages
@@ -182,9 +212,7 @@ define(['angular',  'angularResource'], function (angular) {
          * @returns {Resource} resource instance with a loadRouteId() method
          */
         var realLoadableResource = function(collectionPath) {
-            var item = $resource(collectionPath+'/:id', $routeParams, {
-                'save': { method:'PUT' }  // overwrite default save method (POST)
-            });
+            var item = ResourceFactory(collectionPath+'/:id', $routeParams);
 
 
             /**
@@ -208,7 +236,7 @@ define(['angular',  'angularResource'], function (angular) {
          * @returns {Resource} resource instance with a loadRouteId() method
          */
         var fakeLoadableResource = function(collectionPath) {
-            var collection = $resource(collectionPath);
+            var collection = ResourceFactory(collectionPath);
             
 			/**
 			 * Get a resource instance

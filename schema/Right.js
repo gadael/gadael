@@ -34,10 +34,6 @@ exports = module.exports = function(params) {
             admin: { type: Boolean, default:true }
         },
         
-        // right is usable if one of the following rules
-        // is verified
-        rules: [mongoose.modelSchemas.rightRule],
-        
         // activeSpan.min minimal number of days between entry date and request start date
         // this is the time given to the approvers
         // activeSpan.max maximal number of days between entry date and request end date

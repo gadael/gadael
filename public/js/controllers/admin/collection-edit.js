@@ -2,16 +2,13 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'IngaResource', '$resource', 'catchOutcome', 'saveBeneficiaries', 
-    function($scope, $location, IngaResource, $resource, catchOutcome, saveBeneficiaries) {
+	return ['$scope', '$location', 'IngaResource', 'ResourceFactory', 'catchOutcome', 'saveBeneficiaries', 
+    function($scope, $location, IngaResource, ResourceFactory, catchOutcome, saveBeneficiaries) {
 
 		$scope.collection = IngaResource('rest/admin/collections').loadRouteId();
         
-        var rights = $resource('rest/admin/rights');
-	    var beneficiaries = $resource('rest/admin/beneficiaries/:id', {id:'@_id'}, { 
-            'save': { method:'PUT' },    // overwrite default save method (POST)
-            'create': { method:'POST' }
-        });
+        var rights = ResourceFactory('rest/admin/rights/:id');
+	    var beneficiaries = ResourceFactory('rest/admin/beneficiaries/:id');
         
         $scope.rights = rights.query();
         

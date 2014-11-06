@@ -2,11 +2,11 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', '$resource', function($scope, $location, $resource) {
+	return ['$scope', '$location', 'ResourceFactory', function($scope, $location, ResourceFactory) {
 
         
         
-        var rightResource = $resource('rest/admin/rights/:id', {id:'@id'});
+        var rightResource = ResourceFactory('rest/admin/rights/:id');
 
         $scope.search = {
           right: $location.search().right

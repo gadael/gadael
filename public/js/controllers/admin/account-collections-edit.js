@@ -5,7 +5,7 @@ define([], function() {
 		'$location', 
 		'IngaResource', 
 		'loadCollectionsOptions', 
-		'$resource',
+		'ResourceFactory',
         '$q',
         'catchOutcome',
         'saveAccountCollection',
@@ -14,7 +14,7 @@ define([], function() {
 			$location, 
 			IngaResource, 
 			loadCollectionsOptions, 
-			$resource,
+			ResourceFactory,
             $q,
             catchOutcome,
             saveAccountCollection,
@@ -75,13 +75,7 @@ define([], function() {
         /**
          * The account collection ressource
          */
-	    var accountCollection = $resource('rest/admin/accountcollections/:accCollId',
-            { accCollId:'@_id' }, 
-            { 
-                'save': { method:'PUT' },    // overwrite default save method (POST)
-                'create': { method:'POST' }
-            }  
-        );
+	    var accountCollection = ResourceFactory('rest/admin/accountcollections/:id');
 
         
         

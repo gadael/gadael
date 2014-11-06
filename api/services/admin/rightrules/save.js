@@ -9,29 +9,31 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['right', 'start', 'finish'])) {
+    if (service.needRequiredFields(params, ['title', 'type'])) {
         return;
     }
 
-    saveRenewal(service, params);
+    saveRule(service, params);
 }
     
     
 /**
- * Update/create the right renewal document
+ * Update/create the calendar document
  * 
  * @param {apiService} service
  * @param {Object} params
  */  
-function saveRenewal(service, params) {
+function saveRule(service, params) {
     
-    var RightRenewalModel = service.models.RightRenewal;
+    var RightRuleModel = service.models.RightRule;
     
     
     var fieldsToSet = { 
         right: params.right, 
-        start: params.start,
-        finish: params.finish,
+        title: params.title,
+        quantity: params.quantity,
+        type: params.type,
+        interval: params.interval,
         lastUpdate: new Date()  
     };
     
@@ -41,25 +43,25 @@ function saveRenewal(service, params) {
 
     if (params.id)
     {
-        RightRenewalModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
+        RightRuleModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right renewal period has been modified')
+                    service.gt.gettext('The right rule has been modified')
                 );
             }
         });
 
     } else {
 
-        RightRenewalModel.create(fieldsToSet, function(err, document) {
+        RightRuleModel.create(fieldsToSet, function(err, document) {
 
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right renewal period has been created')
+                    service.gt.gettext('The right rule period has been created')
                 );
             }
         });
@@ -76,7 +78,7 @@ function saveRenewal(service, params) {
 
 
 /**
- * Construct the right renewal save service
+ * Construct the right rule save service
  * @param   {object}          services list of base classes from apiService
  * @param   {express|object}  app      express or headless app
  * @returns {saveItemService}
@@ -86,7 +88,7 @@ exports = module.exports = function(services, app) {
     var service = new services.save(app);
     
     /**
-     * Call the right renewal save service
+     * Call the right rule save service
      * 
      * @param {Object} params
      *

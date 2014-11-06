@@ -4,23 +4,20 @@ define([], function() {
 	return ['$scope', 
 		'$location', 
 		'IngaResource', 
-		'$resource',
+		'ResourceFactory',
         '$http', function(
 			$scope, 
 			$location, 
 			IngaResource, 
-			$resource,
+			ResourceFactory,
             $http
 		) {
 
 		$scope.user = IngaResource('rest/admin/users').loadRouteId();
         
                 
-        var beneficiaries = $resource('rest/admin/beneficiaries/');
-        var accountCollection = $resource('rest/admin/accountcollections/');
-
-                
-                
+        var beneficiaries = ResourceFactory('rest/admin/beneficiaries/:id');
+        var accountCollection = ResourceFactory('rest/admin/accountcollections/:id');
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
