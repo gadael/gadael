@@ -1,5 +1,12 @@
-define(['angular',  'angularResource'], function (angular) {
+define([
+    'angular', 
+    'services/modules/loadableResource', 
+    'services/modules/catchOutcome', 
+    'angularResource'], 
+    function (angular, loadableResource, catchOutcome) {
+    
 	'use strict';
+    
 	
 	/* Services */
 	
@@ -84,66 +91,7 @@ define(['angular',  'angularResource'], function (angular) {
      */
     .factory('catchOutcome', ['$rootScope', '$q', function($rootScope, $q) {
         
-        
-        var addMessages = function(outcome) {
-            for(var i=0; i<outcome.alert.length; i++) {
-                $rootScope.pageAlerts.push(outcome.alert[i]);
-            }
-        };
-        
-        /**
-         * 
-         * @param promise
-         * @return promise
-         */
-        return function(promise) {
-            
-            var deferred = $q.defer();
-            
-            promise.then(
-                function(data) {
-                    if (data.$outcome) {
-                        addMessages(data.$outcome);
-                    }
-                    
-                    // workflow return the saved document object
-                    // value is fowarded to the next promise on success
-                    deferred.resolve(data);
-                    
-                },
-                function(badRequest) {
-                    
-                    var data = badRequest.data;
-                    var outcome = data.$outcome;
-                    
-                    if (!outcome) {
-                        return;
-                    }
-                    
-                    addMessages(outcome);
-
-                    // receive 400 bad request on missing parameters
-                    // mark required fields
-                    
-                    for(var fname in outcome.errfor) {
-                        if ('required' === outcome.errfor[fname]) {
-                            var fieldOnError = angular.element(document.querySelector('[ng-model$='+fname+']')).parent();
-                            fieldOnError.addClass('has-error');
-                            
-                            if (0 === fieldOnError.length) {
-                                alert('missing field: '+fname);
-                            }
-                        }
-                    }
-                    
-                    deferred.reject(data);
-                }
-            );
-            
-            
-            return deferred.promise;
-        };
-        
+        return catchOutcome(angular, $rootScope, $q);
     }])
     
     
@@ -184,78 +132,7 @@ define(['angular',  'angularResource'], function (angular) {
         ['ResourceFactory', '$routeParams', 'catchOutcome', 
         function(ResourceFactory, $routeParams, catchOutcome) {
             
-        
-        /**
-         * Additional method on resource to save and redirect messages
-         * to the rootscope message list
-         *
-         * @param   {function} nextaction optional function
-         * @returns {Promise} promise will resolve to the received data, same as the $save method
-         */
-        var ingaSave = function(nextaction) {
-
-            var p = catchOutcome(this.$save());
-
-            if (nextaction) {
-                p = p.then(nextaction, function() {
-                    // error on save, do not redirect
-                });
-            }
-
-            return p;
-        };
-        
-        
-        /**
-         * Create the real loadable resource
-         * @param   {string} collectionPath path to rest service
-         * @returns {Resource} resource instance with a loadRouteId() method
-         */
-        var realLoadableResource = function(collectionPath) {
-            var item = ResourceFactory(collectionPath+'/:id', $routeParams);
-
-
-            /**
-             * Get a resource instance
-             * @returns {Resource} a resource instance, will be populated with results
-             *                     after get is resolved
-             */
-            item.loadRouteId = function() {
-                return this.get(function(data) {
-                    data.ingaSave = ingaSave;
-                });
-            };
-
-            return item;
-        }
-        
-        
-        /**
-         * Create the fake loadable resource
-         * @param   {string} collectionPath path to rest service
-         * @returns {Resource} resource instance with a loadRouteId() method
-         */
-        var fakeLoadableResource = function(collectionPath) {
-            var collection = ResourceFactory(collectionPath);
-            
-			/**
-			 * Get a resource instance
-			 * @returns {Resource} an empty resource instance, no get triggered
-			 */
-			collection.loadRouteId = function() {
-				// scope will be loaded with an empty instance
-				
-				var inst = new collection();
-				inst.ingaSave = ingaSave;
-
-				return inst;
-			};
-            
-            return collection;
-        }
-        
-        
-
+        var buildResource = loadableResource(ResourceFactory, $routeParams, catchOutcome);
         
 		/**
 		 * Get the resource
@@ -264,12 +141,11 @@ define(['angular',  'angularResource'], function (angular) {
 		 */
 		return function(collectionPath)
 		{
-			if ($routeParams.id)
-			{
-				return realLoadableResource(collectionPath);
+			if ($routeParams.id) {
+				return buildResource.real(collectionPath);
 			}
 			
-			return fakeLoadableResource(collectionPath);
+			return buildResource.fake(collectionPath);
 		};
 
 	}])
