@@ -3,21 +3,19 @@ define([], function() {
     
 	return ['$scope', 
 		'$location', 
-		'IngaResource', 
-		'ResourceFactory',
+		'Rest', 
         '$http', function(
 			$scope, 
 			$location, 
-			IngaResource, 
-			ResourceFactory,
+			Rest, 
             $http
 		) {
 
-		$scope.user = IngaResource('rest/admin/users').loadRouteId();
+		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
         
                 
-        var beneficiaries = ResourceFactory('rest/admin/beneficiaries/:id');
-        var accountCollection = ResourceFactory('rest/admin/accountcollections/:id');
+        var beneficiaries = Rest.admin.beneficiaries.getResource();
+        var accountCollection = Rest.admin.accountcollections.getResource();
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {

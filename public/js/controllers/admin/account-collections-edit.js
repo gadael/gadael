@@ -3,25 +3,23 @@ define([], function() {
     
 	return ['$scope', 
 		'$location', 
-		'IngaResource', 
+		'Rest', 
 		'loadCollectionsOptions', 
-		'ResourceFactory',
         '$q',
         'catchOutcome',
         'saveAccountCollection',
         'addPeriodRow', function(
 			$scope, 
 			$location, 
-			IngaResource, 
+			Rest, 
 			loadCollectionsOptions, 
-			ResourceFactory,
             $q,
             catchOutcome,
             saveAccountCollection,
             addPeriodRow
 		) {
 
-		$scope.user = IngaResource('rest/admin/users').loadRouteId();
+		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
@@ -75,7 +73,7 @@ define([], function() {
         /**
          * The account collection ressource
          */
-	    var accountCollection = ResourceFactory('rest/admin/accountcollections/:id');
+	    var accountCollection = Rest.admin.accountcollections.getResource();
 
         
         

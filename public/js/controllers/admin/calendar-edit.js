@@ -2,10 +2,10 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$location', 'IngaResource', function($scope, $location, IngaResource) {
+	return ['$scope', '$location', 'Rest', function($scope, $location, Rest) {
 		
 		
-		$scope.calendar = IngaResource('rest/admin/calendars').loadRouteId();
+		$scope.calendar = Rest.admin.calendars.getFromUrl().loadRouteId();
 
 		if (!$scope.calendar.$promise)
 		{

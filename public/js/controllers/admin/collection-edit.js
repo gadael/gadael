@@ -2,13 +2,13 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'IngaResource', 'ResourceFactory', 'catchOutcome', 'saveBeneficiaries', 
-    function($scope, $location, IngaResource, ResourceFactory, catchOutcome, saveBeneficiaries) {
+	return ['$scope', '$location', 'Rest', 'catchOutcome', 'saveBeneficiaries', 
+    function($scope, $location, Rest, catchOutcome, saveBeneficiaries) {
 
-		$scope.collection = IngaResource('rest/admin/collections').loadRouteId();
+		$scope.collection = Rest.admin.collections.getFromUrl().loadRouteId();
         
-        var rights = ResourceFactory('rest/admin/rights/:id');
-	    var beneficiaries = ResourceFactory('rest/admin/beneficiaries/:id');
+        var rights = Rest.admin.rights.getResource();
+	    var beneficiaries = Rest.admin.beneficiaries.getResource();
         
         $scope.rights = rights.query();
         

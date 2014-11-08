@@ -5,17 +5,16 @@ define([], function() {
 	return [
         '$scope',
         '$location',
-        'IngaResource',
-        'ResourceFactory', function($scope, $location, IngaResource, ResourceFactory) {
+        'Rest', function($scope, $location, Rest) {
 
             
-        var rightResource = ResourceFactory('rest/admin/rights/:id');
+        var rightResource = Rest.admin.rights.getResource();
             
         if ($location.search().right) {
             $scope.right = rightResource.get({id: $location.search().right});
         }
             
-        $scope.rightrenewal = IngaResource('rest/admin/rightrenewals').loadRouteId()
+        $scope.rightrenewal = Rest.admin.rightrenewals.getFromUrl().loadRouteId();
         if ($scope.rightrenewal.$promise) {
             $scope.rightrenewal.$promise.then(
                 function(rightrenewal) {

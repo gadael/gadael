@@ -3,16 +3,16 @@ define([], function() {
     
 	return ['$scope', 
 		'$location', 
-		'IngaResource', 
+		'Rest', 
         'loadDepartmentsOptions',
         function(
 			$scope, 
 			$location, 
-			IngaResource,
+			Rest,
             loadDepartmentsOptions 
 		) {
 
-		$scope.user = IngaResource('rest/admin/users').loadRouteId();
+		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {

@@ -1,9 +1,9 @@
 define([], function() {
     'use strict';
 
-	return ['$scope', '$location', 'IngaResource', function($scope, $location, IngaResource) {
+	return ['$scope', '$location', 'Rest', function($scope, $location, Rest) {
 
-		$scope.type = IngaResource('rest/admin/types').loadRouteId();
+		$scope.type = Rest.admin.types.getFromUrl().loadRouteId();
 
 		$scope.back = function() {
 			$location.path('/admin/types');

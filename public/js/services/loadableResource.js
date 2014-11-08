@@ -1,4 +1,4 @@
-define(['services/modules/ingaSave'], 
+define(['services/ingaSave'], 
     function(ingaSave) {
 
     'use strict';

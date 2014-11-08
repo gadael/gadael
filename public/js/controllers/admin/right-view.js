@@ -3,22 +3,18 @@ define([], function() {
     
 	return ['$scope', 
 		'$location', 
-		'IngaResource', 
-		'ResourceFactory',
+		'Rest',
         '$http', function(
 			$scope, 
 			$location, 
-			IngaResource, 
-			ResourceFactory,
+			Rest, 
             $http
 		) {
                 
-                
-        var rightRule = ResourceFactory('rest/admin/rightrules/:id');
-        var rightRenewal = ResourceFactory('rest/admin/rightrenewals/:id');
-
-		$scope.right = IngaResource('rest/admin/rights').loadRouteId();
-                
+     
+        var rightRule = Rest.admin.rightrules.getResource();
+        var rightRenewal = Rest.admin.rightrenewals.getResource();
+		$scope.right = Rest.admin.rights.getFromUrl().loadRouteId();
         
         $scope.right.$promise.then(function() {
             $scope.rightRules = rightRule.query({ right: $scope.right._id });

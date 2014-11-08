@@ -1,9 +1,10 @@
 define([
     'angular', 
-    'services/modules/loadableResource', 
-    'services/modules/catchOutcome', 
+    'services/loadableResource', 
+    'services/catchOutcome', 
+    'services/rest',
     'angularResource'], 
-    function (angular, loadableResource, catchOutcome) {
+    function (angular, loadableResource, catchOutcome, rest) {
     
 	'use strict';
     
@@ -116,7 +117,7 @@ define([
                 }  
             );
         };
-            
+        
             
         return ResourceFactory;
         
@@ -151,7 +152,10 @@ define([
 	}])
 	
     
-    
+    .factory('Rest', ['ResourceFactory', 'IngaResource', 
+        function(ResourceFactory, IngaResource) {
+        return rest(ResourceFactory, IngaResource);
+    }])
     
         
     /**

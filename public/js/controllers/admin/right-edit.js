@@ -2,9 +2,9 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'IngaResource', 'loadTypesOptions', function($scope, $location, IngaResource, loadTypesOptions) {
+	return ['$scope', '$location', 'Rest', 'loadTypesOptions', function($scope, $location, Rest, loadTypesOptions) {
 
-		$scope.right = IngaResource('rest/admin/rights').loadRouteId();
+		$scope.right = Rest.admin.rights.getFromUrl().loadRouteId();
         
         loadTypesOptions($scope);
 

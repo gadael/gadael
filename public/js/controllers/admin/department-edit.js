@@ -2,10 +2,10 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'IngaResource',
-		'loadNonWorkingDaysOptions', function($scope, $location, IngaResource, loadNonWorkingDaysOptions) {
+	return ['$scope', '$location', 'Rest',
+		'loadNonWorkingDaysOptions', function($scope, $location, Rest, loadNonWorkingDaysOptions) {
 
-		$scope.department = IngaResource('rest/admin/departments').loadRouteId();
+		$scope.department = Rest.admin.departments.getFromUrl().loadRouteId();
         
         loadNonWorkingDaysOptions($scope);
         
