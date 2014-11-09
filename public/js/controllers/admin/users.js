@@ -8,15 +8,13 @@ define([
         
 	return [
 		'$scope', 
-		'loadCollectionsOptions', 
-		'loadDepartmentsOptions', 
-		function($scope, loadCollectionsOptions, loadDepartmentsOptions) {
+        'Rest',
+		function($scope, Rest) {
             
             $scope.search = {};
 
-			loadCollectionsOptions($scope);
-			loadDepartmentsOptions($scope);
-
+            $scope.collections = Rest.admin.collections.getResource().query();
+            $scope.departments = Rest.admin.departments.getResource().query();
 		}
 	];
 });

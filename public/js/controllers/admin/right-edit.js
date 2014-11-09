@@ -2,11 +2,10 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'Rest', 'loadTypesOptions', function($scope, $location, Rest, loadTypesOptions) {
+	return ['$scope', '$location', 'Rest', function($scope, $location, Rest) {
 
 		$scope.right = Rest.admin.rights.getFromUrl().loadRouteId();
-        
-        loadTypesOptions($scope);
+        $scope.types = Rest.admin.types.getResource().query();
 
 		$scope.back = function() {
 			$location.path('/admin/rights');

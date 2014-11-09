@@ -4,12 +4,10 @@ define([], function() {
 	return ['$scope', 
 		'$location', 
 		'Rest', 
-        'loadDepartmentsOptions',
         function(
 			$scope, 
 			$location, 
-			Rest,
-            loadDepartmentsOptions 
+			Rest
 		) {
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
@@ -25,8 +23,7 @@ define([], function() {
         }
                 
                 
-        loadDepartmentsOptions($scope);
-
+        $scope.departments = Rest.admin.departments.getResource().query();
 		
 		$scope.cancel = function() {
 			$location.path('/admin/users/'+$scope.user._id);

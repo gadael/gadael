@@ -2,11 +2,10 @@ define([], function() {
     'use strict';
     return [
 		'$scope', 
-		'loadTypesOptions',
-		function($scope, loadTypesOptions) {
+		'Rest',
+		function($scope, Rest) {
 
-			loadTypesOptions($scope);
-			
+			$scope.types = Rest.admin.types.getResource().query();
 
 		}
 	];

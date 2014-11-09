@@ -4,7 +4,6 @@ define([], function() {
 	return ['$scope', 
 		'$location', 
 		'Rest', 
-		'loadCollectionsOptions', 
         '$q',
         'catchOutcome',
         'saveAccountCollection',
@@ -12,7 +11,6 @@ define([], function() {
 			$scope, 
 			$location, 
 			Rest, 
-			loadCollectionsOptions, 
             $q,
             catchOutcome,
             saveAccountCollection,
@@ -54,8 +52,7 @@ define([], function() {
             });
         }
 		
-		loadCollectionsOptions($scope);
-
+        $scope.collections = Rest.admin.collections.getResource().query();
 		
 		$scope.cancel = function() {
 			$location.path('/admin/users/'+$scope.user._id);

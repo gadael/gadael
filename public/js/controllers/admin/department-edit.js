@@ -2,12 +2,10 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'Rest',
-		'loadNonWorkingDaysOptions', function($scope, $location, Rest, loadNonWorkingDaysOptions) {
+	return ['$scope', '$location', 'Rest', function($scope, $location, Rest) {
 
 		$scope.department = Rest.admin.departments.getFromUrl().loadRouteId();
-        
-        loadNonWorkingDaysOptions($scope);
+        $scope.nonworkingdays = Rest.admin.calendars.getResource().query({ type: 'nonworkingday' });
         
 		/**
 		 * Toggle selection of non-working day calendar
