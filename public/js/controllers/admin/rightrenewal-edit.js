@@ -36,7 +36,7 @@ define([], function() {
         }   
 
 		$scope.back = function() {
-			$location.url('/admin/rightrenewals?right='+$scope.right._id);
+			$location.url('/admin/rights/'+$scope.right._id);
 		};
 		
 		$scope.saveRightrenewal = function() {

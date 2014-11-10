@@ -60,22 +60,28 @@
         
         
         <div class="row">
+            
             <h3  class="col-xs-10" translate>Renewals</h3>
-
+            <div class="col-xs-2 text-right">
+                <a class="hidden-print btn btn-primary" role="button" ng-href="#/admin/rightrenewal-edit?right={{right._id}}">
+                    <i class="fa fa-plus"></i> Add
+                </a>
+            </div>
             <table class="table">
                 <tbody>
                 <tr ng-repeat="renewal in rightRenewals">
                     <td>
-                        <a ng-href="#/admin/rights/{{right._id}}/rightrenewals">
-                            {{renewal.start|date}}
+                        <a class="hidden-print" role="button" ng-href="#/admin/rightrenewals/{{renewal._id}}">
+                            <i class="fa fa-edit"></i> Edit
                         </a>
                     </td>
-                    
+                    <td>{{renewal.start|date}}</td>
                     <td>{{renewal.finish|date}}</td>
                 </tr>
                 </tbody>
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Start</th>
                     <th>Finish</th>
                 </tr>
