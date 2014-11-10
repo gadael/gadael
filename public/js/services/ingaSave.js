@@ -11,8 +11,13 @@ define(function() {
          * @returns {Promise}  promise will resolve to the received data, same as the $save method
          */
         function ingaSave(nextaction) {
-
-            var p = catchOutcome(this.$save());
+            
+            var p = null;
+            if (undefined === this._id || null === this._id) {
+                p = catchOutcome(this.$create());
+            } else {
+                p = catchOutcome(this.$save());
+            }
 
             if (nextaction) {
                 p = p.then(nextaction, function() {
