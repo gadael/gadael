@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+        <form role="form">
+            <div class="form-group">
+                <label for="rightrule_title" translate>Title</label>
+                <input type="text" id="rightrule_title" class="form-control" ng-model="rightrule.title" ng-required />
+            </div>
+            
+            <div class="form-group">
+                <label><input type="radio" ng-model="rightrule.type" value="entry_date" /> 
+                    <strong translate>Entry date</strong></label>
+                    <p translate>Right is visible when the entry date is in the interval</p>
+            </div>    
+               
+            <div class="form-group">
+                <label><input type="radio" ng-model="rightrule.type" value="request_date" /> 
+                    <strong translate>Request date</strong></label>
+                    <p translate>Right is visible when request date is in the interval</p>
+            </div> 
+            
+            <div class="form-group">
+                <label><input type="radio" ng-model="rightrule.type" value="seniority" /> 
+                    <strong translate>Seniority</strong></label>
+                    <p translate>Right si visible if the user account seniority date is 
+                    in the interval, min and max are in years before the entry date</p>
+            </div>
+            
+
+            <button class="btn btn-primary" ng-click="saveRightrule()" translate>Save</button> 
+            <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+        </form>
+    </div>
+    
+    <div class="col-xs-12 col-sm-3">
+		
+        <div class="panel panel-info">
+
+            <div class="panel-heading">{{right.name}}</div>
+            <div class="panel-body">
+                <p><strong translate>Type:</strong> {{right.type.name}}</p>
+                <p>{{right.description}}</p>
+            </div>
+        </div>
+	</div>
+</div>
