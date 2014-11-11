@@ -202,11 +202,6 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminRightView'
 		});
         
-        $routeProvider.when('/admin/rightrenewals', {
-			templateUrl: 'partials/admin/rightrenewals.html',
-			controller: 'AdminRightRenewals'
-		});
-        
         $routeProvider.when('/admin/rightrenewals/:id', {
 			templateUrl: 'partials/admin/rightrenewal-edit.html',
 			controller: 'AdminRightRenewalEdit'
@@ -215,6 +210,16 @@ define(['angular', 'app'], function(angular, app) {
         $routeProvider.when('/admin/rightrenewal-edit', {
 			templateUrl: 'partials/admin/rightrenewal-edit.html',
 			controller: 'AdminRightRenewalEdit'
+		});
+        
+        $routeProvider.when('/admin/rightrules/:id', {
+			templateUrl: 'partials/admin/rightrule-edit.html',
+			controller: 'AdminRightRuleEdit'
+		});
+        
+        $routeProvider.when('/admin/rightrule-edit', {
+			templateUrl: 'partials/admin/rightrule-edit.html',
+			controller: 'AdminRightRuleEdit'
 		});
 		
 		$routeProvider.otherwise({redirectTo: '/home'});

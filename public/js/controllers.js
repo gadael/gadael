@@ -144,13 +144,13 @@ define(['angular', 'services'], function (angular) {
         .controller('AdminRightView', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/right-view', this, $scope, $injector);
 		}])
-    
-        .controller('AdminRightRenewals', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/rightrenewals', this, $scope, $injector);
-		}])
         
         .controller('AdminRightRenewalEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/rightrenewal-edit', this, $scope, $injector);
+		}])
+    
+        .controller('AdminRightRuleEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/rightrule-edit', this, $scope, $injector);
 		}])
 		
 		.controller('Signup', ['$scope', '$injector', function($scope, $injector) {
