@@ -9,9 +9,20 @@ define([], function() {
 
             
         var rightResource = Rest.admin.rights.getResource();
+        var rightRenewal = Rest.admin.rightrenewals.getResource();
+            
+        function onRightLoaded(right) {
+
+            // load last renewal for right
+            rightRenewal.query({right: right._id}).$promise.then(function(renewals) {
+                $scope.renewal = renewals[0];
+            });
+        }
+            
             
         if ($location.search().right) {
             $scope.right = rightResource.get({id: $location.search().right});
+            $scope.right.$promise.then(onRightLoaded);
         }
             
         $scope.rightrule = Rest.admin.rightrules.getFromUrl().loadRouteId();
@@ -19,6 +30,7 @@ define([], function() {
             $scope.rightrule.$promise.then(
                 function(rightrule) {
                     $scope.right = rightResource.get({id: rightrule.right});
+                    $scope.right.$promise.then(onRightLoaded);
                 }
             );
         } else {
@@ -27,6 +39,7 @@ define([], function() {
             
         }
             
+        
         
             
 

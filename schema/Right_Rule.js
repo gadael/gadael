@@ -54,6 +54,7 @@ exports = module.exports = function(params) {
         
         if (undefined === rule.interval || (undefined === rule.interval.min && undefined === rule.interval.max)) {
             next(new Error('At least one value must be set in interval to save the rule'));
+            return;
         }
         
         var min = (undefined === rule.interval.min) ? null : rule.interval.min;
@@ -65,6 +66,7 @@ exports = module.exports = function(params) {
             case 'seniority':
             if ((min && !(min instanceof Number)) || (max && !(max instanceof Number))) {
                 next(new Error('Interval values must be numbers of years'));
+                return;
             }
             break;
             
@@ -72,13 +74,15 @@ exports = module.exports = function(params) {
             case 'request_date':
             if ((min && !(min instanceof Date)) || (max && !(max instanceof Date))) {
                 next(new Error('Interval values must be dates'));
+                return;
             }
             break;
         }
         
         
-        if (min && max) {
+        if (min > max) {
             next(new Error('Interval values must be set in a correct order'));
+            return;
         }
         
         next();

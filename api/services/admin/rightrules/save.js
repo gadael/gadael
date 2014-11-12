@@ -33,7 +33,10 @@ function saveRule(service, params) {
         title: params.title,
         quantity: params.quantity,
         type: params.type,
-        interval: params.interval,
+        interval: {
+            min: new Date(params.interval.min),
+            max: new Date(params.interval.max)
+        },
         lastUpdate: new Date()  
     };
     

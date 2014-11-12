@@ -14,7 +14,7 @@ exports = module.exports = function(services, app) {
     service.call = function(params) {
         
         service.models.RightRule
-        .findOne({ '_id' : params.id}, 'title quantity type interval')
+        .findOne({ '_id' : params.id}, 'right title quantity type interval')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

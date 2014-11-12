@@ -2,30 +2,54 @@
 	<div class="col-xs-12 col-sm-9">
         <form role="form">
             <div class="form-group">
-                <label for="rightrule_title" translate>Title</label>
+                <label for="rightrule_title" translate>Rule title, this will be visible from users</label>
                 <input type="text" id="rightrule_title" class="form-control" ng-model="rightrule.title" ng-required />
             </div>
             
-            <div class="form-group">
-                <label><input type="radio" ng-model="rightrule.type" value="entry_date" /> 
-                    <strong translate>Entry date</strong></label>
-                    <p translate>Right is visible when the entry date is in the interval</p>
-            </div>    
-               
-            <div class="form-group">
-                <label><input type="radio" ng-model="rightrule.type" value="request_date" /> 
-                    <strong translate>Request date</strong></label>
-                    <p translate>Right is visible when request date is in the interval</p>
-            </div> 
-            
-            <div class="form-group">
-                <label><input type="radio" ng-model="rightrule.type" value="seniority" /> 
-                    <strong translate>Seniority</strong></label>
-                    <p translate>Right si visible if the user account seniority date is 
-                    in the interval, min and max are in years before the entry date</p>
-            </div>
-            
+            <div class="row">
+                <div class="col-xs-5">
+                    <div class="form-group">
+                        <label><input type="radio" ng-model="rightrule.type" value="entry_date" /> 
+                            <strong translate>Entry date</strong></label>
+                            <p translate>Right is visible when the entry date is in the interval</p>
+                    </div>    
 
+                    <div class="form-group">
+                        <label><input type="radio" ng-model="rightrule.type" value="request_date" /> 
+                            <strong translate>Request date</strong></label>
+                            <p translate>Right is visible when request date is in the interval</p>
+                    </div> 
+
+                    <div class="form-group">
+                        <label><input type="radio" ng-model="rightrule.type" value="seniority" /> 
+                            <strong translate>Seniority</strong></label>
+                            <p translate>Right si visible if the user account seniority date is 
+                            in the interval, min and max are in years before the entry date</p>
+                    </div>
+                </div>
+                
+                <div class="col-xs-7" ng-switch on="rightrule.type">
+                    <div ng-switch-when="entry_date">
+                        <p>
+                            <strong translate>Last renewal</strong><br />
+                            <span translate>from</span> {{renewal.start|date}} 
+                            <span translate>to</span> {{renewal.finish|date}}
+                        </p>
+
+                        <p translate>The dates for the futures renewals will be computed with the same gap starting from the renewal start date</p>
+
+                        <div class="form-group">
+                            <label for="rightrenewal_start" translate>In last renewal, entry date must be greater than:</label>
+                            <input type="text" id="rightrenewal_start" class="form-control" ng-model="rightrule.interval.min" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rightrenewal_finish" translate>In last renewal, entry date must be lower than:</label>
+                            <input type="text" id="rightrenewal_start" class="form-control" ng-model="rightrule.interval.max" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button class="btn btn-primary" ng-click="saveRightrule()" translate>Save</button> 
             <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
         </form>

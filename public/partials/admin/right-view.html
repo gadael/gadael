@@ -41,18 +41,19 @@
                 <tbody>
                 <tr ng-repeat="rule in rightRules">
                     <td>
-                        <a ng-href="#/admin/rights/{{right._id}}/rules">
-                            {{rule.title}}
+                        <a class="hidden-print" role="button" ng-href="#/admin/rightrules/{{rule._id}}">
+                            <i class="fa fa-edit"></i> Edit
                         </a>
                     </td>
-                    
+                    <td>{{rule.title}}</td>
                     <td>{{rule.type}}</td>
-                    <td class="hidden-xs hidden-sm">{{rule.min}}</td>
-                    <td class="hidden-xs hidden-sm">{{rule.max}}</td>
+                    <td class="hidden-xs hidden-sm">{{rule.interval.min|date:'d MMM'}}</td>
+                    <td class="hidden-xs hidden-sm">{{rule.interval.max|date:'d MMM'}}</td>
                 </tr>
                 </tbody>
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Title</th>
                     <th>Type</th>
                     <th class="hidden-xs hidden-sm">Min</th>
