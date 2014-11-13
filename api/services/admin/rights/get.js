@@ -22,6 +22,7 @@ exports = module.exports = function(services, app) {
                 if (document) {
                     
                     var right = document.toObject();
+                    right.disp_unit = document.getDispUnit();
                     
                     document.getLastRenewal()
                         .then(function(lastRenewal) {

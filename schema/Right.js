@@ -121,6 +121,24 @@ exports = module.exports = function(params) {
         return deferred.promise;
     };
     
+    
+    rightSchema.methods.getDispUnit = function(quantity) {
+        
+        if (undefined === quantity || null === quantity) {
+            quantity = 10;
+        }
+        
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
+        
+        switch(this.quantity_unit) {
+            case 'D':
+                return gt.ngettext('Day', 'Days', quantity);
+            case 'H':
+                return gt.ngettext('Hour', 'Hours', quantity);
+        }
+    };
+    
 	
 	params.db.model('Right', rightSchema);
 };
