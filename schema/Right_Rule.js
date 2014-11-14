@@ -50,6 +50,8 @@ exports = module.exports = function(params) {
      */
     rightRuleSchema.pre('save', function (next) {
 		
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
 		var rule = this;
         
         if (undefined === rule.interval || (undefined === rule.interval.min && undefined === rule.interval.max)) {
@@ -64,26 +66,37 @@ exports = module.exports = function(params) {
 		
 		switch(rule.type) {
             case 'seniority':
-            if ((min && !(min instanceof Number)) || (max && !(max instanceof Number))) {
-                next(new Error('Interval values must be numbers of years'));
-                return;
-            }
+                console.log(typeof min);
+                console.log(typeof max);
+                if (isNaN(min) || isNaN(max)) {
+                    next(new Error(gt.gettext('Interval values must be numbers of years')));
+                    return;
+                }
+
+                if (min < max) {
+                    next(new Error(gt.gettext('Interval values must be set in a correct order')));
+                    return;
+                }
+                
             break;
             
             case 'entry_date':
             case 'request_date':
-            if ((min && !(min instanceof Date)) || (max && !(max instanceof Date))) {
-                next(new Error('Interval values must be dates'));
-                return;
-            }
+                if ((min && !(min instanceof Date)) || (max && !(max instanceof Date))) {
+                    next(new Error(gt.gettext('Interval values must be dates')));
+                    return;
+                }
+
+                if (min > max) {
+                    next(new Error(gt.gettext('Interval values must be set in a correct order')));
+                    return;
+                }
+                
             break;
         }
         
         
-        if (min > max) {
-            next(new Error('Interval values must be set in a correct order'));
-            return;
-        }
+        
         
         next();
         

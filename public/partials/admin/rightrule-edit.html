@@ -80,14 +80,16 @@
                     <p translate>If this rule is not verified, the right quantity will not be modified</p>
 
                     <div class="form-group">
-                        <label for="seniority_min" translate>Years before the entry start date:</label>
-                        <input type="text" id="seniority_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                        <label for="seniority_min" translate>Years before the entry start date to set the period start:</label>
+                        <input type="number" id="seniority_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
                     </div>
 
                     <div class="form-group">
-                        <label for="seniority_max" translate>Years after the entry start date:</label>
-                        <input type="text" id="seniority_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+                        <label for="seniority_max" translate>Number of years before the entry start date to set the period end:</label>
+                        <input type="number" id="seniority_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
                     </div>
+                    
+                    <p>For an entry with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, {{rightrule.quantity}} {{right.disp_unit|lowercase}} will be added to the available quantity.</p>
                 </div>
                 
             </div>

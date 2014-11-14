@@ -39,8 +39,23 @@ define([], function() {
             
         }
             
-        
-        
+        $scope.estimated = {
+            min:null,
+            max:null
+        };
+            
+        $scope.$watch('rightrule.interval.min', function(newValue) {
+            var today = new Date();
+            $scope.estimated.min = new Date();
+            $scope.estimated.min.setFullYear(today.getFullYear()-newValue);
+        });
+            
+        $scope.$watch('rightrule.interval.max', function(newValue) {
+            var today = new Date();
+            $scope.estimated.max = new Date();
+            $scope.estimated.max.setFullYear(today.getFullYear()-newValue);
+        });
+
             
 
 		$scope.back = function() {
