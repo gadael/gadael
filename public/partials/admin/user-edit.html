@@ -37,7 +37,7 @@
 		
 		<div class="col-md-6 form-group">
 			<label for="user_department" translate>Department</label>
-			<select class="form-control" id="user_department" ng-model="user.department" ng-options="department._id as department.name for department in departments">
+			<select class="form-control" id="user_department" ng-model="user.department._id" ng-options="department._id as department.name for department in departments">
 				<option></option>
 			</select>
 		</div>

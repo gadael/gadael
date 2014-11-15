@@ -2,14 +2,27 @@
     
     <p><span translate>Current rights collection:</span> {{user.roles.account.currentCollection.name}}</p>
     
-    <p><span translate>Seniority date:</span> {{account.seniority|date}}</p>
+    <p><span translate>Seniority date:</span> 
+        {{user.roles.account.seniority|date}} 
+        (<span translate translate-n="seniority_years" translate-plural="{{$count}} years seniority">One year seniority</span>)
+    </p>
     
-    <p><span translate>Notifications options:</span> 
-        <span ng-if="account.notify.approval"><span translate>Notify on approval</span></span>
-        <span ng-if="!account.notify.approval"><span translate>Do not notify on approval</span></span>
-        
-        <span ng-if="account.notify.allocations"><span translate>Notify on new rights allocations</span></span>
-        <span ng-if="!account.notify.allocations"><span translate>Do not notify on new rights allocations</span></span>
+    <p><i class="fa fa-envelope text-info"></i> <span translate>Notifications options:</span>
+        <ul>
+            <li ng-if="user.roles.account.notify.approval">
+                <span translate>Notify on approval</span>
+            </li>
+            <li ng-if="!user.roles.account.notify.approval">
+                <span translate>Do not notify on approval</span>
+            </li>
+
+            <li ng-if="user.roles.account.notify.allocations">
+                <span translate>Notify on new rights allocations</span>
+            </li>
+            <li ng-if="!user.roles.account.notify.allocations">
+                <span translate>Do not notify on new rights allocations</span>
+            </li>
+        </ul>
     </p>
 </div>
 

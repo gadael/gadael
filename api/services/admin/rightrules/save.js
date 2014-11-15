@@ -26,15 +26,14 @@ function validate(service, params) {
 function saveRule(service, params) {
     
     var RightRuleModel = service.models.RightRule;
-    var interval;
-    
+
     switch(params.type) {
         case 'entry_date':
         case 'request_date':
             params.interval = {
                 min: new Date(params.interval.min),
                 max: new Date(params.interval.max)
-            }
+            };
             break;
     }
     

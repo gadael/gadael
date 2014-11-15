@@ -31,7 +31,7 @@ function saveUser(service, params) {
                 user.firstname 	= params.firstname;
                 user.lastname 	= params.lastname;
                 user.email 		= params.email;
-                user.department = params.department;
+                user.department = params.department._id;
                 user.isActive   = params.isActive;
 
                 user.save(function(err) {
@@ -78,14 +78,7 @@ function saveUserRoles(service, params, userDocument) {
 
     var saveRoles = require('../../../../modules/roles');
 
-    var account = null;
-    if (params.isAccount) {
-        account = {
-            nonWorkingDays: params.roles.account.nonWorkingDays,
-            workschedule: params.roles.account.workschedule
-        };
-    }
-
+    var account = params.isAccount ? params.roles.account : null;
     var admin = params.isAdmin ? {} : null;
     var manager = params.isManager ? {} : null;
 
