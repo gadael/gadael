@@ -59,6 +59,44 @@ exports = module.exports = function(params) {
         return deferred.promise;
     };
     
+    
+    
+    /**
+     * initialize default collections
+     */  
+    collectionSchema.statics.createFrenchDefaults = function(done) {
+		
+		
+		var model = this;
+        var async = require('async');
+		
+		async.each([
+            { name: 'Régime général 100%' },
+            { name: 'Temps partiel 80%' },
+            { name: 'Temps partiel 50%' }
+        ], function( type, callback) {
+            
+          model.create(type, function(err) {
+              if (err) {
+                  callback(err);
+                  return;
+              }
+              
+              callback();
+          });
+        }, function(err){
+            // if any of the file processing produced an error, err would equal that error
+            if(err) {
+                console.log(err);
+                return;
+            }
+            
+            if (done) {
+                done();
+            }
+        });
+    };
+    
   
     params.db.model('RightCollection', collectionSchema);
 };

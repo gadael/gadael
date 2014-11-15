@@ -23,13 +23,13 @@ define([
                 
                 $httpBackend.when('GET', '/rest/common').respond({ user: { isAuthenticated: true } });
                 
-                $httpBackend.when('GET', '/rest/admin/collections').respond([
+                $httpBackend.when('GET', 'rest/admin/collections').respond([
                     {
                         "_id":"53b05d546db97e6b2da74b44",
                         "name":"32H 60%"
                     }
                 ]);
-                $httpBackend.when('GET', '/rest/admin/departments').respond([
+                $httpBackend.when('GET', 'rest/admin/departments').respond([
                     {
                         "_id":"53baf3e018b413fd35d27b33",
                         "name":"R&D"
@@ -93,6 +93,7 @@ define([
             
             expect(scope.users.length).toBe(0);
         });
+        
     });
 
 

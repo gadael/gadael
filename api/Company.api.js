@@ -136,11 +136,13 @@ api.createDb = function(app, dbName, company, callback) {
 		var companyDoc = new db.models.Company(company);
         var typeModel = db.models.Type;
         var calendarModel = db.models.Calendar;
+        var collectionModel = db.models.RightCollection;
         
         async.parallel([
             companyDoc.save.bind(companyDoc),
             typeModel.createFrenchDefaults.bind(typeModel),
-            calendarModel.createFrenchDefaults.bind(calendarModel)
+            calendarModel.createFrenchDefaults.bind(calendarModel),
+            collectionModel.createFrenchDefaults.bind(collectionModel)
         ],
         function(err) {
             if (err) {

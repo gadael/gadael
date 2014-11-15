@@ -31,7 +31,7 @@ function saveUser(service, params) {
                 user.firstname 	= params.firstname;
                 user.lastname 	= params.lastname;
                 user.email 		= params.email;
-                user.department = params.department._id;
+                user.department = params.department ? params.department._id : undefined;
                 user.isActive   = params.isActive;
 
                 user.save(function(err) {

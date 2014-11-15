@@ -1,6 +1,9 @@
 <div class="row">
     
     <p><span translate>Current rights collection:</span> {{user.roles.account.currentCollection.name}}</p>
+    <div class="alert alert-danger" role="alert" ng-if="!user.roles.account.currentCollection">
+        <span translate>This user has no ongoing right collection, check the vacations collections planning to fix it</span>
+    </div>
     
     <p><span translate>Seniority date:</span> 
         {{user.roles.account.seniority|date}} 
@@ -53,7 +56,7 @@
     </table>
     
     <div class="alert alert-danger" role="alert" ng-if="!accountRights.length">
-        <span>This user has no configured vacation rights for the current period</span>
+        <span translate>This user has no configured vacation rights for the current period</span>
     </div>
 </div>
 

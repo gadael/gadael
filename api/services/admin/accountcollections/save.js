@@ -9,7 +9,8 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['account', 'rightCollection', 'from'])) {
+    // account or user
+    if (service.needRequiredFields(params, ['rightCollection', 'from'])) {
         return;
     }
     
@@ -27,7 +28,7 @@ function validate(service, params) {
  */ 
 function getAccount(service, params, next) {
 
-    if (params.account._id) {
+    if (params.account && params.account._id) {
         next(params.account._id);
         return;
     }
@@ -36,6 +37,7 @@ function getAccount(service, params, next) {
         service.forbidden(service.gt.gettext('Cant create accountCollection, missing user or account'));
         return;
     }
+     
 
     // find account from user
     service.models.User.findById(params.user, function(err, user) {
@@ -46,12 +48,12 @@ function getAccount(service, params, next) {
                 return;
             }
 
-            if (!user.account) {
+            if (!user.roles.account) {
                 service.forbidden(service.gt.gettext('The user has no vacation account, collections are only linkable to accounts'));
                 return;
             }
 
-            next(user.account);
+            next(user.roles.account);
         }
     });
 }
@@ -73,10 +75,7 @@ function saveAccountCollection(service, params) {
     
 
     if (params._id) {
-                       
-        
-        
-        
+
         AccountCollection.findById(params._id, function(err, document) {
             if (service.handleMongoError(err)) {
                 if (null === document) {
@@ -87,13 +86,9 @@ function saveAccountCollection(service, params) {
                 document.rightCollection 	= params.rightCollection._id;
                 document.from 				= params.from;
                 document.to 				= params.to;
-                
-                console.log(params._id+' get');
 
                 document.save(function (err) {
-                    
-                    console.log(params._id+' save');
-                    
+
                     if (service.handleMongoError(err)) {
                         
                         var doc = document.toObject();
@@ -111,14 +106,15 @@ function saveAccountCollection(service, params) {
     } else {
 
         getAccount(service, params, function(accountId) {
-        
+            
             AccountCollection.create({
                     account: accountId,
                     rightCollection: params.rightCollection._id,
                     from: params.from,
                     to: params.to 
                 }, function(err, document) {
-
+                
+                
                 if (service.handleMongoError(err))
                 {
                     var doc = document.toObject();
