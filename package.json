@@ -70,6 +70,7 @@
     "grunt-pot": "~0.1.2",
     "grunt-jasmine-node": "~0.2.1",
     "jasmine-node": "~1.14.3",
-    "charlatan": "~0.1.9"
+    "charlatan": "~0.1.9",
+    "longjohn": "~0.2.4"
   }
 }

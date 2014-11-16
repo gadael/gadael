@@ -7,8 +7,7 @@
  * 
  */
 function mockServer(port, readyCallback) {
-    
-    
+
     var api = require('../../../api/Company.api.js');
     var headless = require('../../../api/Headless.api.js');
 
@@ -111,9 +110,9 @@ mockServer.prototype.request = function(method, headers, path, done) {
     };
     
     var http = require('http');
-    
+
     var req = http.request(urlOptions, function(res) {
-        
+
         // grab session cookie to set in browser
         if (res.headers['set-cookie']) {
             res.headers['set-cookie'].forEach(function(cookieStr) {
@@ -130,13 +129,13 @@ mockServer.prototype.request = function(method, headers, path, done) {
         });
         
         res.on('end', function() {
+
             if (body) {
                 
-                try
-                {
+                try {
                     done(res, JSON.parse(body));
-                }catch(e)
-                {
+                } catch(e) {
+                    console.log(e);
                     console.log(body);
                     done(res, {});
                 }
@@ -176,7 +175,7 @@ mockServer.prototype.send = function(method, path, data, done) {
     }
     
     var req = this.request(method, headers, path, done);
-
+    
     req.write(postStr);
     
     req.end();

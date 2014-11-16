@@ -158,7 +158,6 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.call = function(params) {
-
         validate(service, params);
         return service.deferred.promise;
     };

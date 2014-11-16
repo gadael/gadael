@@ -21,7 +21,7 @@ exports = module.exports = function(params) {
 	
 	
 	
-	acSchema.pre('save', function (next) {
+	acSchema.pre('save', function(next) {
 		
 		var accountCollection = this;
 		
@@ -47,7 +47,7 @@ exports = module.exports = function(params) {
 					next(new Error('To add a new collection period, all other collections must have a end date'));
 					return;
 				}
-                
+
                 if (!accountCollection._id.equals(acEntries[i]._id) && !testOverlap(acEntries[i], accountCollection)) {
                     next(new Error('The collection period must begin after the previous collection end date'));
                     return;
