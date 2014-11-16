@@ -64,11 +64,11 @@ exports = module.exports = function(params) {
     accountSchema.methods.getCollection = function(moment) {
         var Q = require('q');
         var deferred = Q.defer();
-        
+        var account = this;
 
         moment.setHours(0,0,0,0);
         
-        this.getAccountCollectionQuery()
+        account.getAccountCollectionQuery()
             .where('from').lte(moment)
             .where('to').gte(moment)
             .populate('rightCollection')
@@ -82,8 +82,27 @@ exports = module.exports = function(params) {
                 }
             
                 if (!arr || 0 === arr.length) {
-                    deferred.resolve(null);
-                    return;   
+                    
+                    account.getAccountCollectionQuery()
+                        .where('from').lte(moment)
+                        .where('to').equals(null)
+                        .populate('rightCollection')
+                        .exec(function(err, arr) {
+                        
+                        if (err) {
+                            deferred.reject(err);
+                            return;
+                        }
+                        
+                        if (!arr || 0 === arr.length) {
+                            deferred.resolve(null);
+                            return; 
+                        }
+                        
+                        deferred.resolve(arr[0].rightCollection);
+                    });
+                    
+                    return;
                 }
             
                 deferred.resolve(arr[0].rightCollection);
