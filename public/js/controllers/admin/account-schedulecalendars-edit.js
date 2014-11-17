@@ -25,7 +25,7 @@ define([], function() {
                 // after user resource loaded, load account Collections
                 
                 if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
-                    $scope.accountScheduleCalendars = accountschedulecalendar.query(
+                    $scope.accountScheduleCalendars = accountschedulecalendars.query(
                         { account: $scope.user.roles.account._id }, function() {
                             if (0 === $scope.accountScheduleCalendars.length) {
                                 $scope.addAccountScheduleCalendar();
@@ -66,11 +66,13 @@ define([], function() {
 		$scope.saveAccountScheduleCalendar = function() {
             saveAccountScheduleCalendar($scope).then($scope.cancel);
 	    };
-	    
+                
+                
+
         /**
          * The account schedule calendar ressource
          */
-	    var accountschedulecalendar = Rest.admin.accountschedulecalendar.getResource();
+	    var accountschedulecalendars = Rest.admin.accountschedulecalendars.getResource();
 
         
         
@@ -78,7 +80,7 @@ define([], function() {
          * Add a row to account collection list
          */
 		$scope.addAccountScheduleCalendar = function() {   
-            addPeriodRow($scope, $scope.accountScheduleCalendars, accountschedulecalendar);
+            addPeriodRow($scope, $scope.accountScheduleCalendars, accountschedulecalendars);
 		};
 		
 		

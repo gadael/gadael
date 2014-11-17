@@ -16,7 +16,7 @@ exports = module.exports = function(params) {
 	acSchema.index({account: 1, calendar: 1, from: 1}, {unique: true});
 	
 	
-	params.db.model('AccountSheduleCalendar', acSchema);
+	params.db.model('AccountScheduleCalendar', acSchema);
 	
 	
 	

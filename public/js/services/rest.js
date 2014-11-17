@@ -30,7 +30,7 @@ define(function() {
             
             admin: {
                 accountcollections      : init('admin/accountcollections/:id'),
-                accountschedulecalendar : init('admin/accountschedulecalendar/:id'),
+                accountschedulecalendars: init('admin/accountschedulecalendars/:id'),
                 beneficiaries           : init('admin/beneficiaries/:id'),
                 calendars               : init('admin/calendars/:id'),
                 collections             : init('admin/collections/:id'),
