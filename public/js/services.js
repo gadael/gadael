@@ -128,6 +128,23 @@ define([
 	}])
     
     
+    .factory('saveAccountScheduleCalendar', ['$q', 'catchOutcome', function($q, catchOutcome) {
+
+        /**
+         * Save account collections in scope
+         *
+         */
+        return function($scope) {
+            var deferred = $q.defer();
+            require(['services/saveAccountScheduleCalendar'], function(serviceFn) {
+                serviceFn($scope, $q, catchOutcome).then(deferred.resolve);
+            });
+            
+            return deferred.promise;
+        };
+	}])
+    
+    
     .factory('saveBeneficiaries', ['$q', 'catchOutcome', function($q, catchOutcome) {
 
         /**
