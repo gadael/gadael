@@ -24,7 +24,7 @@
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-warning" ng-click="removeAccountScheduleCalendar($index)" ng-disabled="removeIsDisabled(accountScheduleCalendar)"><span class="glyphicon glyphicon-remove"></span><span class="sr-only" translate>Remove</span></button>
                 </div>
-                <select class="form-control" id="user_accountScheduleCalendar{{$index}}" ng-model="accountScheduleCalendar.scheduleCalendar._id" ng-options="calendar._id as calendar.name for calendar in calendars" ng-required>
+                <select class="form-control" id="user_accountScheduleCalendar{{$index}}" ng-model="accountScheduleCalendar.calendar" ng-options="calendar._id as calendar.name for calendar in calendars" ng-required>
                     <option></option>
                 </select>
             </div>

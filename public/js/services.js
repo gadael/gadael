@@ -131,7 +131,7 @@ define([
     .factory('saveAccountScheduleCalendar', ['$q', 'catchOutcome', function($q, catchOutcome) {
 
         /**
-         * Save account collections in scope
+         * Save account schedule calendar in scope
          *
          */
         return function($scope) {

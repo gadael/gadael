@@ -44,11 +44,11 @@ define([], function() {
         $scope.accountScheduleCalendars.forEach(function(document) {
             
             if ($scope.user.roles && $scope.user.roles.account) {
-                document.account = $scope.user.roles.account;
+                document.account = $scope.user.roles.account._id;
             } else {
                 document.user = $scope.user._id;
             }
-
+            
             promises.push(catchOutcome(saveRow($q, document)));
         });
 

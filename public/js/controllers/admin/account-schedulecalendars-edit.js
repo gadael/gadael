@@ -63,7 +63,7 @@ define([], function() {
 		/**
          * Save button
          */
-		$scope.saveAccountScheduleCalendar = function() {
+		$scope.saveAccountScheduleCalendars = function() {
             saveAccountScheduleCalendar($scope).then($scope.cancel);
 	    };
                 
@@ -112,7 +112,8 @@ define([], function() {
             
             catchOutcome(p);
 		};
-		
+        
+
 	}];
 });
 
