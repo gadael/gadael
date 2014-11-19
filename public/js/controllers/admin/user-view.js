@@ -16,6 +16,7 @@ define([], function() {
                 
         var beneficiaries = Rest.admin.beneficiaries.getResource();
         var accountCollection = Rest.admin.accountcollections.getResource();
+        var accountScheduleCalendars = Rest.admin.accountschedulecalendars.getResource();
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
@@ -28,6 +29,8 @@ define([], function() {
                 if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
                     $scope.accountRights = beneficiaries.query({ account: $scope.user.roles.account._id });
                     $scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
+                    $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: $scope.user.roles.account._id });
+                    
                 } else {
                     $scope.accountRights = [];
                     $scope.accountCollections = [];

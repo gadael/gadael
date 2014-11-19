@@ -14,6 +14,7 @@
 var query = function(service, params) {
 
     var find = service.models.AccountScheduleCalendar.find();
+    find.populate('calendar');
 
     if (params && params.calendar) {
         find.where({ calendar: params.calendar });

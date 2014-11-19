@@ -80,7 +80,7 @@ function saveAccountScheduleCalendar(service, params) {
                     return;
                 }
                 
-                document.calendar 	= params.calendar;
+                document.calendar 	= params.calendar._id;
                 document.from 		= params.from;
                 document.to 		= params.to;
 
@@ -101,7 +101,7 @@ function saveAccountScheduleCalendar(service, params) {
         
             scheduleCalendar.create({
                     account: accountId,
-                    calendar: params.calendar,
+                    calendar: params.calendar._id,
                     from: params.from,
                     to: params.to 
                 }, function(err, document) {

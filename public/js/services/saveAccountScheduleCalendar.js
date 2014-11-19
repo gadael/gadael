@@ -11,14 +11,10 @@ define([], function() {
         
         if (resource._id) {
 
-            resource.$save(function(data) {
-                deferred.resolve(data);
-            });
+            resource.$save(deferred.resolve, deferred.reject);
             
         } else {
-            resource.$create(function(data) {
-                deferred.resolve(data);
-            });
+            resource.$create(deferred.resolve, deferred.reject);
         }
 
         return deferred.promise;
