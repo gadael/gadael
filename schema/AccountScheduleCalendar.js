@@ -38,7 +38,7 @@ exports = module.exports = function(params) {
 			
 			for(var i=0; i < acEntries.length; i++) {
 				
-				if (acEntries[i].to === null && i !== acEntries.length) {
+				if (acEntries[i].to === null && i !== (acEntries.length - 1)) {
 					next(new Error('All schedule calendars except the last must have a end date'));
 					return;
 				}
