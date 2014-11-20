@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('users admin rest service', function() {
+describe('user collections planning', function() {
     
     
     var server;

@@ -58,6 +58,18 @@ exports = module.exports = function(params) {
     };
     
     /**
+     * Find schedule calendars
+     * @returns {Query} A mongoose query on the account schedule calendar schema
+     */
+    accountSchema.methods.getAccountScheduleCalendarQuery = function() {
+        return this.model('AccountScheduleCalendar')
+            .find()
+            .where('account').equals(this._id);
+    };
+    
+    
+    
+    /**
      * Get the right collection for a specific date
      * @return {Promise} resolve to a rightCollection document or null
      */
@@ -73,9 +85,7 @@ exports = module.exports = function(params) {
             .where('to').gte(moment)
             .populate('rightCollection')
             .exec(function(err, arr) {
-            
-                
-            
+
                 if (err) {
                     deferred.reject(err);
                     return;
@@ -110,6 +120,61 @@ exports = module.exports = function(params) {
         
         return deferred.promise;
     };
+    
+    
+    /**
+     * Get the schedule calendar for a specific date
+     * @return {Promise} resolve to a calendar document or null
+     */
+    accountSchema.methods.getScheduleCalendar = function(moment) {
+        var Q = require('q');
+        var deferred = Q.defer();
+        var account = this;
+
+        moment.setHours(0,0,0,0);
+        
+        account.getAccountScheduleCalendarQuery()
+            .where('from').lte(moment)
+            .where('to').gte(moment)
+            .populate('calendar')
+            .exec(function(err, arr) {
+
+                if (err) {
+                    deferred.reject(err);
+                    return;
+                }
+            
+                if (!arr || 0 === arr.length) {
+                    
+                    account.getAccountScheduleCalendarQuery()
+                        .where('from').lte(moment)
+                        .where('to').equals(null)
+                        .populate('calendar')
+                        .exec(function(err, arr) {
+                        
+                        if (err) {
+                            deferred.reject(err);
+                            return;
+                        }
+                        
+                        if (!arr || 0 === arr.length) {
+                            deferred.resolve(null);
+                            return; 
+                        }
+                        
+                        deferred.resolve(arr[0].calendar);
+                    });
+                    
+                    return;
+                }
+            
+                deferred.resolve(arr[0].calendar);
+            });
+        
+        return deferred.promise;
+    };
+    
+    
 
     /**
      * Get the ongoing right collection
@@ -118,6 +183,15 @@ exports = module.exports = function(params) {
     accountSchema.methods.getCurrentCollection = function() {
         var today = new Date();
         return this.getCollection(today);
+    };
+    
+    /**
+     * Get the ongoing schedule calendar
+     * @return {Promise} resolve to a calendar document or null
+     */
+    accountSchema.methods.getCurrentScheduleCalendar = function() {
+        var today = new Date();
+        return this.getScheduleCalendar(today);
     };
     
     

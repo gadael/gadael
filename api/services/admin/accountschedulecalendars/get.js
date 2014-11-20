@@ -15,6 +15,7 @@ exports = module.exports = function(services, app) {
         
         service.models.AccountScheduleCalendar
         .findOne({ '_id' : params.id }, 'account calendar from to')
+        .populate('calendar')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

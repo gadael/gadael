@@ -10,20 +10,29 @@
 function userAccount(userDoc)
 {
     var user = userDoc.toObject();
-    var deferred = require('q').defer();
+    var Q = require('q');
+    var deferred = Q.defer();
     
     if (!userDoc.roles.account) {
         deferred.resolve(user);
     } else {
-
-        userDoc.roles.account.getCurrentCollection().then(function(collection) {
+        
+        Q.all([
+            userDoc.roles.account.getCurrentCollection(),
+            userDoc.roles.account.getCurrentScheduleCalendar()
+        ]).then(function(results) {
             
-            if (null === collection) {
-                // Account but no collection
-                deferred.resolve(user);
+            var collection = results[0];
+            var calendar = results[1];
+            
+            if (null !== collection) {
+                user.roles.account.currentCollection = collection.toObject();
             }
-            
-            user.roles.account.currentCollection = collection.toObject();
+
+            if (null !== calendar) {
+                user.roles.account.currentScheduleCalendar = calendar.toObject();
+            }
+        
             deferred.resolve(user);
         })
         .catch(deferred.reject);

@@ -9,7 +9,7 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['account', 'calendar', 'from'])) {
+    if (service.needRequiredFields(params, ['calendar', 'from'])) {
         return;
     }
     
@@ -46,12 +46,12 @@ function getAccount(service, params, next) {
                 return;
             }
 
-            if (!user.account) {
+            if (!user.roles.account) {
                 service.forbidden(service.gt.gettext('The user has no vacation account, schedule calendars are only linkable to accounts'));
                 return;
             }
 
-            next(user.account);
+            next(user.roles.account);
         }
     });
 }
