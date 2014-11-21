@@ -35,6 +35,38 @@ var query = function(service, params) {
 
 
 
+/**
+ * process the mongoose documents resultset to an array of objects with additional content
+ * like the current renewal
+ * @param {Array} docs mongoose documents
+ * 
+ */
+function getResultSet(docs, callback) {
+    var async = require('async');
+    
+    async.map(
+        docs, 
+        function(doc, done) {
+            var right = doc.toObject();
+            
+            doc.getLastRenewal()
+                .then(function(lastRenewal) {
+                    right.lastRenewal = lastRenewal;
+                    return doc.getCurrentRenewal();
+                })
+                .then(function(currentRenewal) {
+                    right.currentRenewal = currentRenewal;
+                    done(null, right);
+                })
+                .catch(function(err) {
+                    done(err);
+                });
+        }, 
+        callback
+    );
+}
+
+
 
 exports = module.exports = function(services, app) {
     
@@ -57,7 +89,10 @@ exports = module.exports = function(services, app) {
             query(service, params),
             cols,
             sortkey,
-            paginate
+            paginate,
+            function(err, docs) {
+                getResultSet(docs, service.mongOutcome);
+            }
         );
 
         return service.deferred.promise;

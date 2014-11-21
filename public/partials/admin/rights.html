@@ -24,7 +24,17 @@
 				</div>
 
                 <div class="col-sm-7 col-xs-9">
-                    {{right.name}}
+                    <strong>{{right.name}}</strong><br />
+                    
+                    <div ng-if="!right.currentRenewal">
+                        <i class="fa fa-exclamation-triangle text-warning"></i> <span translate>No active renewal</span>
+                    </div>
+                    
+                    <div ng-if="right.currentRenewal">
+                        <i class="fa fa-calendar text-info"></i>
+                        <span translate>From</span> {{right.currentRenewal.start|date}} 
+                        <span translate>to</span> {{right.currentRenewal.finish|date}}
+                    </div>
                 </div>
 				 
 				<div class="col-md-3 hidden-xs hidden-sm">{{right.type.name}}</div>

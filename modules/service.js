@@ -203,6 +203,25 @@ function listItemsService(app) {
     var service = this;
     
     
+    this.getQueryResult = function(find, cols, sortkey, paginate) {
+        
+    };
+    
+    
+    /**
+     * Default function used to resolve a result set 
+     *
+     * @param {Error} err  mongoose error
+     * @param {Array} docs an array of mongoose documents or an array of objects
+     */
+    this.mongOutcome = function(err, docs) {
+        if (service.handleMongoError(err))
+        {
+            service.outcome.success = true;
+            service.deferred.resolve(docs);
+        }
+    };
+    
     
     /**
      * Resolve a mongoose query, paginated or not
@@ -210,17 +229,13 @@ function listItemsService(app) {
      * @param string cols
      * @param string sortkey
      * @param function [paginate] (controller optional function to paginate result)
+     * @param function [mongOutcome] optional function to customise resultset before resolving
      */
-    this.resolveQuery = function(find, cols, sortkey, paginate) {
+    this.resolveQuery = function(find, cols, sortkey, paginate, mongOutcome) {
         
-
-        var mongOutcome = function(err, docs) {
-            if (service.handleMongoError(err))
-            {
-                service.outcome.success = true;
-                service.deferred.resolve(docs);
-            }
-        };
+        if (!mongOutcome) {
+            mongOutcome = this.mongOutcome;
+        }
         
         
         var q = find.select(cols).sort(sortkey);
