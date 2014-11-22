@@ -21,13 +21,13 @@ exports = module.exports = function(params) {
 	},
 	
     time_saving_deposit: {
-		from: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
-		to: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
-		quantity: { type: Number, required: true }
+		from: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
+		to: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
+		quantity: { type: Number }
 	},
 	
     workperiod_recover: {
-		event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true  },
+		event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' },
 		user_right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
 		timeCreated: { type: Date, default: Date.now }
 	},
