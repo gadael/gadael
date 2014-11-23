@@ -199,12 +199,19 @@ function saveItemController(method, path) {
      * Output the saved document with the $outcome property
      * 
      * @param {apiService} service
+     * @param {object} [moreparams] optional additional parameters to give to the service
      */
-    this.jsonService = function(service) {
+    this.jsonService = function(service, moreparams) {
         
         var params = ctrl.req.body;
+        
+        // for ID in parameters if given by route
         if (ctrl.req.params.id) {
             params.id = ctrl.req.params.id;
+        }
+        
+        if (moreparams) {
+            params = require('connect.utils').merge(params, moreparams);   
         }
         
         service.call(params).then(function(document) {

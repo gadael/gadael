@@ -24,19 +24,45 @@ function getController() {
 getController.prototype = new ctrlFactory.get();
 
 
-function save() {
-    this.jsonService(this.service('admin/requests/save'));
-}
 
 function createController() {
     ctrlFactory.create.call(this, '/rest/admin/requests');
-    this.controllerAction = save;
+    
+    var controller = this;
+    this.controllerAction = function() {
+        
+        // since service is query independant, we have to give
+        // the additional parameter
+        
+        controller.jsonService(
+            controller.service('admin/requests/save'),
+            {
+                createdBy: controller.req.user,
+                modifiedBy: controller.req.user
+            }
+        );
+    };
 }
 createController.prototype = new ctrlFactory.create();
 
+
+
 function updateController() {
     ctrlFactory.update.call(this, '/rest/admin/requests/:id');
-    this.controllerAction = save;
+    
+    var controller = this;
+    this.controllerAction = function() {
+        
+        // since service is query independant, we have to give
+        // the additional parameter
+        
+        controller.jsonService(
+            controller.service('admin/requests/save'),
+            {
+                modifiedBy: controller.req.user
+            }
+        );
+    };
 }
 updateController.prototype = new ctrlFactory.update();
 

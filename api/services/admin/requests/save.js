@@ -55,10 +55,7 @@ function saveRequest(service, params) {
 
     } else {
         
-        fieldsToSet.createdBy = {
-            id: 
-            name: service.
-        }
+        fieldsToSet.createdBy = params.createdBy;
 
         RequestModel.create(fieldsToSet, function(err, document) {
 
