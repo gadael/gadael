@@ -1,0 +1,13 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <label for="search" translate>Search for</label>
+        <input type="text" class="form-control" id="search" ng-model="popover.selectuser.search" ng-model-options="{ debounce: 500 }" />
+    </div>
+</div>
+
+<div class="row" style="overflow:auto; max-height:15em; margin-top:.5em">
+    <button type="button" class="btn-block text-left" ng-repeat="user in popover.selectuser.users" ng-click="popoverSelect(user)">
+        {{user.lastname}} {{user.firstname}}
+    </button>
+</div>
