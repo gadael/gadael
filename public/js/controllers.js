@@ -80,6 +80,14 @@ define(['angular', 'services'], function (angular) {
 		.controller('AdminRequests', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/requests', this, $scope, $injector);
 		}])
+    
+        .controller('AdminRequestEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/request-edit', this, $scope, $injector);
+		}])
+    
+        .controller('AdminRequestView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/request-view', this, $scope, $injector);
+		}])
 		
 		.controller('AdminUsers', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/users', this, $scope, $injector);

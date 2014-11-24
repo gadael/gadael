@@ -18,7 +18,7 @@ define([], function() {
         });
         
         $scope.popoverSelect = function(user) {
-            $location.path('/admin/users/'+user._id);
+            $location.path('/admin/request-edit?user='+user._id);
         };
 	}];
 });

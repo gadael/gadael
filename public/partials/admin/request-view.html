@@ -1,0 +1,51 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+		
+		<div ng-if="request.absence">
+            <h2>Absence request</h2>
+            
+            
+            <h3 translate>Distribution</h3>
+
+            <table>
+                <tbody>
+                    <tr ng-repeat="elem in request.absence.distribution">
+                        <td>{{elem.right.name}}</td>
+                        <td>{{elem.quantity}}</td>
+                    </tr>
+                </tbody>
+                
+                <thead>
+                    <tr>
+                        <th translate>Vacation right</th>
+                        <th translate>Quantity</th>
+                    </tr>
+                </thead>
+            </table>
+		</div>
+        
+        <div ng-if="request.time_saving_deposit">
+            <h2>Time saving deposit request</h2>
+        </div>
+        
+        <div ng-if="request.workperiod_recover">
+            <h2>Workperiod recover request</h2>
+            
+        </div>
+	</div>
+	
+	<div class="col-xs-12 col-sm-3">
+		
+		<div class="panel panel-info hidden-xs">
+            <div class="panel-heading">
+                <h3 class="panel-title" translate>Owner user account</h3>
+            </div>
+            <div class="panel-body">
+                <h4>{{user.lastname}} {{user.firstname}}</h4>
+                <p><span>Department:</span> {{user.department.name}}</p>
+                <p><span>Supervisor:</span> {{user.supervisor}}</p>
+            </div>
+        </div>
+		
+	</div>
+</div>
