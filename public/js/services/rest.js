@@ -39,7 +39,8 @@ define(function() {
                 rightrules              : init('admin/rightrules/:id'),
                 rights                  : init('admin/rights/:id'),
                 types                   : init('admin/types/:id'),
-                users                   : init('admin/users/:id')
+                users                   : init('admin/users/:id'),
+                requests                : init('admin/requests/:id')
             },
             
             users: {

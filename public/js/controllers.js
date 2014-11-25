@@ -76,18 +76,33 @@ define(['angular', 'services'], function (angular) {
 		.controller('Admin', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/index', this, $scope, $injector);
 		}])
+    
 		
 		.controller('AdminRequests', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/requests', this, $scope, $injector);
 		}])
     
-        .controller('AdminRequestEdit', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/request-edit', this, $scope, $injector);
+        .controller('AdminAbsenceEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/absence-edit', this, $scope, $injector);
+		}])
+        .controller('AdminAbsenceView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/absence-view', this, $scope, $injector);
 		}])
     
-        .controller('AdminRequestView', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/request-view', this, $scope, $injector);
+        .controller('AdminTimeSavingDepositEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/time-saving-deposit-edit', this, $scope, $injector);
 		}])
+        .controller('AdminTimeSavingDepositView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/time-saving-deposit-view', this, $scope, $injector);
+		}])
+    
+        .controller('AdminWorkperiodRecoverEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/workperiod-recover-edit', this, $scope, $injector);
+		}])
+        .controller('AdminWorkperiodRecoverView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/workperiod-recover-view', this, $scope, $injector);
+		}])
+    
 		
 		.controller('AdminUsers', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/users', this, $scope, $injector);

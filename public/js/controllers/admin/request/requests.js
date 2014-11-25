@@ -18,7 +18,8 @@ define([], function() {
         });
         
         $scope.popoverSelect = function(user) {
-            $location.path('/admin/request-edit?user='+user._id);
+            console.log(user);
+            $location.path('/admin/request-edit');
         };
 	}];
 });

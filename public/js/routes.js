@@ -83,26 +83,63 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/index.html',
 			controller: 'Admin'
 		});
+        
+        
 		
 		$routeProvider.when('/admin/requests', {
-			templateUrl: 'partials/admin/requests.html',
+			templateUrl: 'partials/admin/request/requests.html',
 			controller: 'AdminRequests'
 		});
         
-        $routeProvider.when('/admin/request-edit/:id', {
-			templateUrl: 'partials/admin/request-edit.html',
-			controller: 'AdminRequestEdit'
+        
+        $routeProvider.when('/admin/requests/absence-edit/:id', {
+			templateUrl: 'partials/admin/request/absence-edit.html',
+			controller: 'AdminAbsenceEdit'
 		});
-		
-		$routeProvider.when('/admin/request-edit', {
-			templateUrl: 'partials/admin/request-edit.html',
-			controller: 'AdminRequestEdit'
+
+		$routeProvider.when('/admin/requests/absence-edit', {
+			templateUrl: 'partials/admin/request/absence-edit.html',
+			controller: 'AdminAbsenceEdit'
 		});
         
-        $routeProvider.when('/admin/requests/:id', {
-			templateUrl: 'partials/admin/request-view.html',
-			controller: 'AdminRequestView'
+        $routeProvider.when('/admin/requests/absences/:id', {
+			templateUrl: 'partials/admin/request/absence-view.html',
+			controller: 'AdminAbsenceView'
 		});
+        
+        
+        
+        $routeProvider.when('/admin/requests/time-saving-deposit-edit/:id', {
+			templateUrl: 'partials/admin/request/time-saving-deposit-edit.html',
+			controller: 'AdminTimeSavingDepositEdit'
+		});
+		
+		$routeProvider.when('/admin/requests/time-saving-deposit-edit', {
+			templateUrl: 'partials/admin/request/time-saving-deposit-edit.html',
+			controller: 'AdminTimeSavingDepositEdit'
+		});
+        
+        $routeProvider.when('/admin/requests/time-saving-deposits/:id', {
+			templateUrl: 'partials/admin/request/time-saving-deposit-view.html',
+			controller: 'AdminTimeSavingDepositView'
+		});
+        
+        
+        $routeProvider.when('/admin/requests/workperiod-recover-edit/:id', {
+			templateUrl: 'partials/admin/request/workperiod-recover-edit.html',
+			controller: 'AdminWorkperiodRecoverEdit'
+		});
+		
+		$routeProvider.when('/admin/requests/workperiod-recover-edit', {
+			templateUrl: 'partials/admin/request/workperiod-recover-edit.html',
+			controller: 'AdminWorkperiodRecoverEdit'
+		});
+        
+        $routeProvider.when('/admin/requests/workperiod-recovers/:id', {
+			templateUrl: 'partials/admin/request/workperiod-recover-view.html',
+			controller: 'AdminWorkperiodRecoverView'
+		});
+        
 		
 		$routeProvider.when('/admin/users', {
 			templateUrl: 'partials/admin/users.html',
