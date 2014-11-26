@@ -79,28 +79,28 @@ define(['angular', 'services'], function (angular) {
     
 		
 		.controller('AdminRequests', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/requests', this, $scope, $injector);
+            invokeController('controllers/admin/request/requests', this, $scope, $injector);
 		}])
     
         .controller('AdminAbsenceEdit', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/absence-edit', this, $scope, $injector);
+            invokeController('controllers/admin/request/absence-edit', this, $scope, $injector);
 		}])
         .controller('AdminAbsenceView', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/absence-view', this, $scope, $injector);
+            invokeController('controllers/admin/request/absence-view', this, $scope, $injector);
 		}])
     
         .controller('AdminTimeSavingDepositEdit', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/time-saving-deposit-edit', this, $scope, $injector);
+            invokeController('controllers/admin/request/time-saving-deposit-edit', this, $scope, $injector);
 		}])
         .controller('AdminTimeSavingDepositView', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/time-saving-deposit-view', this, $scope, $injector);
+            invokeController('controllers/admin/request/time-saving-deposit-view', this, $scope, $injector);
 		}])
     
         .controller('AdminWorkperiodRecoverEdit', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/workperiod-recover-edit', this, $scope, $injector);
+            invokeController('controllers/admin/request/workperiod-recover-edit', this, $scope, $injector);
 		}])
         .controller('AdminWorkperiodRecoverView', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/workperiod-recover-view', this, $scope, $injector);
+            invokeController('controllers/admin/request/workperiod-recover-view', this, $scope, $injector);
 		}])
     
 		

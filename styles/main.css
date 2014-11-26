@@ -74,3 +74,24 @@
 .timepicker.dropdown-menu tbody button {
   padding: 6px;
 }
+
+
+.popover-button-list {
+    overflow:auto;
+    max-height:15em;
+    margin-top:.5em
+}
+
+.popover-button-list button {
+    color:#333;
+    background: #fff;
+    border: medium none;
+    margin: 0 !important;
+    padding: 0.1em 0.1em 0.1em 1em;
+}
+
+.popover-button-list button:hover {
+    background-image: linear-gradient(to bottom, #428bca 0px, #2d6ca2 100%);
+    background-repeat: repeat-x;
+    color:#fff;
+}

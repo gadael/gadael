@@ -14,7 +14,11 @@ define([], function() {
         
         
         $scope.$watch('popover.selectuser.search', function(newValue, oldValue) {
-            $scope.popover.selectuser.users = users.query({ name: newValue });
+            if (newValue && newValue.length > 0) {
+                $scope.popover.selectuser.users = users.query({ name: newValue });
+            } else {
+                $scope.popover.selectuser.users = [];
+            }
         });
         
         $scope.popoverSelect = function(user) {
