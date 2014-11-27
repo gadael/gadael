@@ -24,7 +24,7 @@ define([], function() {
          */
         $scope.$watch('popover.selectuser.search', function(newValue, oldValue) {
             if (newValue && newValue.length > 0) {
-                $scope.popover.selectuser.users = users.query({ name: newValue });
+                $scope.popover.selectuser.users = users.query({ name: newValue, isAccount:true });
             } else {
                 $scope.popover.selectuser.users = [];
             }

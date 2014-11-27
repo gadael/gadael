@@ -18,24 +18,35 @@
 var query = function(service, params, next) {
 
     var find = service.models.User.find();
+    
+    if (!params) {
+        return next(find);
+    }
 
-    if (params && params.name)
-    {
+    if (params.name) {
         find.or([
             { firstname: new RegExp('^'+params.name, 'i') },
             { lastname: new RegExp('^'+params.name, 'i') }
         ]);
-
+    }
+    
+    if (params.isAccount) {
+        find.where('roles.account').exists();
+    }
+    
+    if (params.isAdmin) {
+        find.where('roles.admin').exists();
+    }
+    
+    if (params.isManager) {
+        find.where('roles.manager').exists();
     }
 
-    if (params && params.department)
-    {
+    if (params.department) {
         find.where('department').equals(params.department);
-
     }
 
-    if (params && params.collection)
-    {
+    if (params.collection) {
         var collFind = service.models.AccountCollection.find();
         collFind.where('rightCollection').equals(params.collection);
         collFind.select('account');
