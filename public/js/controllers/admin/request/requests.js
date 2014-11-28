@@ -43,11 +43,12 @@ define([], function() {
             var modalscope = $scope.$new();
             modalscope.user = user;
             
-            $modal({
+            var myOtherModal = $modal({
                 scope: modalscope,
                 template: 'partials/admin/request/spoof-user-modal.html',
                 show: true
             });
+            
         };
 	}];
 });

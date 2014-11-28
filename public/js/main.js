@@ -1,11 +1,11 @@
 require.config({
 	paths: {
-		angular: 				'../bower_components/angular/angular.min',
+		angular: 				'../bower_components/angular/angular',
 		angularRoute: 			'../bower_components/angular-route/angular-route',
 		angularMocks: 			'../bower_components/angular-mocks/angular-mocks',
 		angularResource: 		'../bower_components/angular-resource/angular-resource.min',
-    	angularstrap:			'../bower_components/angular-strap/dist/angular-strap.min',
-    	angularstraptpl:		'../bower_components/angular-strap/dist/angular-strap.tpl.min',
+    	angularstrap:			'../bower_components/angular-strap/dist/angular-strap',
+    	angularstraptpl:		'../bower_components/angular-strap/dist/angular-strap.tpl',
     	angular_frfr:			'../bower_components/angular-i18n/angular-locale_fr-fr',	
     	angularGettext: 		'../bower_components/angular-gettext/dist/angular-gettext',
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',

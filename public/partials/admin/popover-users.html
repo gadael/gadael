@@ -1,13 +1,12 @@
-
 <div class="row">
     <div class="col-md-12">
-        <label for="search" translate>Search for</label>
+        <i class="fa fa-search"></i> <label for="search" translate>Search:</label>
         <input type="text" class="form-control" id="search" ng-model="popover.selectuser.search" ng-model-options="{ debounce: 500 }" placeholder="Lastname or firstname" />
     </div>
 </div>
 
 <div class="row popover-button-list">
-    <button type="button" class="btn-block text-left" ng-repeat="user in popover.selectuser.users" ng-click="popoverSelect(user)">
+    <button type="button" class="btn-block text-left" ng-repeat="user in popover.selectuser.users" ng-click="popoverSelect(user); $hide()">
         {{user.lastname}} {{user.firstname}}
     </button>
 </div>

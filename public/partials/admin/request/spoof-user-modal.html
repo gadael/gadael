@@ -1,16 +1,36 @@
-<div class="row">
-    <h3>{{user.lastname}} {{user.firstname}}</h3>
-    <p><span translate>Department:</span> {{user.department.name}}</p>
-</div>
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="modal-title">Create a request on behalf of a user</h4>
+            </div>
+            <div class="modal-body">
+                
+                <div class="col-md-12">
+                    <h3>{{user.lastname}} {{user.firstname}}</h3>
+                    <p><span translate>Department:</span> {{user.department.name}}</p>
+                    <p><span translate>Collection:</span> {{user.currentcollection.name}}</p>
+                </div>
 
-<div class="row">
-    <div class="col-md-4">
-        Absence
-    </div>
-    <div class="col-md-4">
-        Time saving account deposit
-    </div>
-    <div class="col-md-4">
-        Create a recover request
+
+                
+                <div class="col-md-12">
+                    <h4 translate>Proceed to the request creation with one of the following:</h3>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary btn-sm btn-block" translate>Absence request</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary btn-sm btn-block" translate>Time saving account deposit</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary btn-sm btn-block" translate>Working time recover request</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
