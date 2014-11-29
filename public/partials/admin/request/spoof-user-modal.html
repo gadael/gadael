@@ -21,13 +21,25 @@
                 
                 <div class="row">
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary btn-sm btn-block" translate>Absence request</button>
+                        <button 
+                            type="button" 
+                            class="btn btn-primary btn-sm btn-block" 
+                            ng-click="$hide(); goto('absence')" 
+                            translate>Absence request</button>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary btn-sm btn-block" translate>Time saving account deposit</button>
+                        <button 
+                            type="button" 
+                            class="btn btn-primary btn-sm btn-block" 
+                            ng-click="$hide(); goto('time-saving-deposit')" 
+                            translate>Time saving account deposit</button>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary btn-sm btn-block" translate>Working time recover request</button>
+                        <button 
+                            type="button" 
+                            class="btn btn-primary btn-sm btn-block" 
+                            ng-click="$hide(); goto('workperiod-recover')" 
+                            translate>Working time recover request</button>
                     </div>
                 </div>
             </div>

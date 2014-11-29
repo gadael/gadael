@@ -40,10 +40,11 @@ define([], function() {
          */
         $scope.popoverSelect = function(user) {
             
-            console.log(user);
-            
             var modalscope = $scope.$new();
             modalscope.user = user;
+            modalscope.goto = function(requestType) {
+                $location.url('/admin/requests/'+requestType+'-edit?user='+user._id);
+            };
             
             var myOtherModal = $modal({
                 scope: modalscope,
