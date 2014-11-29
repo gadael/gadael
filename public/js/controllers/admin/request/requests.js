@@ -40,6 +40,8 @@ define([], function() {
          */
         $scope.popoverSelect = function(user) {
             
+            console.log(user);
+            
             var modalscope = $scope.$new();
             modalscope.user = user;
             
@@ -50,5 +52,7 @@ define([], function() {
             });
             
         };
+            
+        $scope.departments = Rest.admin.departments.getResource().query();
 	}];
 });

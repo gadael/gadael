@@ -6,7 +6,7 @@
             <div class="col-sm-3 text-center">
 				<button type="button" class="btn btn-primary" 
                         data-placement="bottom" 
-                        data-title="A user is required to continue" 
+                        title="{{'A user account is required to continue'|translate}}" 
                         data-content="content" 
                         data-content-template="partials/admin/popover-users.html" 
                         data-auto-close="1" 
@@ -45,6 +45,24 @@
 		<div class="form-group">
 			<label for="search_username" translate>By user name:</label><br />
 			<input type="text" class="form-control" id="search_username" ng-model="search.user.name" ng-model-options="{ debounce: 500 }" />
+		</div>
+        
+        
+        <div class="form-group">
+			<label for="search_type" translate>By type:</label><br />
+			<select class="form-control" id="search_type" ng-model="search.type">
+                <option></option>
+                <option value="absence" translate>Absence</option>
+                <option value="time_saving_deposit" translate>Time saving deposit</option>
+                <option value="workperiod_recover" translate>Workperiod recover</option>
+            </select>
+		</div>
+        
+        <div class="form-group">
+			<label for="search_type" translate>By department:</label><br />
+			<select class="form-control" id="search_department" ng-model="search.user.department" ng-options="department._id as department.name for department in departments">
+                <option></option>
+            </select>
 		</div>
 		
 	</div>

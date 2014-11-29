@@ -17,7 +17,11 @@
  */
 var query = function(service, params, next) {
 
-    var find = service.models.User.find();
+    var find = service.models.User.find()
+        .populate('department')
+        .populate('roles.account')
+        .populate('roles.admin')
+        .populate('roles.manager');
     
     if (!params) {
         return next(find);
@@ -88,10 +92,26 @@ exports = module.exports = function(services, app) {
         
         query(service, params, function(find) {
             
-            var cols = 'lastname firstname email roles isActive';
+            var cols = 'lastname firstname email roles isActive department';
             var sortkey = 'lastname';
             
-            service.resolveQuery(find, cols, sortkey, paginate);
+            service.resolveQuery(find, cols, sortkey, paginate, function(err, docs) {
+                if (service.handleMongoError(err)) {
+                    
+                    var promises = [];
+                    
+                    for(var i=0; i<docs.length; i++) {
+                        promises.push(require('../../../../modules/useraccount')(docs[i]));
+                    }
+                    
+                    var Q = require('q');
+                    
+                    Q.all(promises).then(function(objects) {
+                        service.outcome.success = true;
+                        service.deferred.resolve(objects);
+                    });
+                }
+            });
         });
         
         
