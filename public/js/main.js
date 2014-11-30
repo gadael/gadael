@@ -13,7 +13,8 @@ require.config({
 		passwordStrength: 		'../bower_components/angular-password-strength/build/angular-password-strength.min',
 		angularAnimate:			'../bower_components/angular-animate/angular-animate.min',
 		angularSanitize:		'../bower_components/angular-sanitize/angular-sanitize.min',
-        
+        moment:                 '../bower_components/moment/min/moment-with-locales.min',
+        momentDurationFormat:   '../bower_components/moment-duration-format/lib/moment-duration-format'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},

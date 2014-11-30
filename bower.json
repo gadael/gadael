@@ -16,6 +16,8 @@
     "angular-motion":"~0.3.2",
     "angular-password-strength": "~0.0.4",
     "angular-i18n": "^1.3.0",
-    "rrule": "~2.1.0"
+    "rrule": "~2.1.0",
+    "moment": "~2.8.4",
+    "moment-duration-format": "https://github.com/ricwa230/moment-duration-format.git#e7b0b15a9c3709103017438b1c2b2929d95f8f6e"
   }
 }

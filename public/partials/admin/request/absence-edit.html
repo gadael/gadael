@@ -1,5 +1,6 @@
-<h3>{{request.user.name}}</h3>
 
+<h3 ng-if="newRequest" class="col-sm-12"><span translate>New request for {{request.user.name}}</span></h3>
+<h3 ng-if="editRequest" class="col-sm-12"><span translate>Edit a request from {{request.user.name}}</span></h3>
 
 <div ng-if="periodSelection">
 
@@ -7,35 +8,43 @@
 
     <form class="form-inline" role="form">
 
-        <div class="form-group col-sm-12 top17">
-            <div class="input-group">
-                <label class="sr-only" for="absenceBeginDate">Begin date</label>
-                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                <input id="adbsenceBeginDate" class="form-control" ng-model="beginDate" bs-datepicker type="date" placeholder="{{'Begin date'|translate}}" />
+        <div class="col-sm-7">
+            <div class="form-group top17">
+                <div class="input-group">
+                    <label class="sr-only" for="absenceBeginDate">Begin date</label>
+                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    <input id="adbsenceBeginDate" class="form-control" ng-model="selection.begin" bs-datepicker type="date" placeholder="{{'Begin date'|translate}}" />
+                </div>
+
+                <div class="input-group">
+                    <label class="sr-only" for="absenceBeginHour">Begin hour</label>
+                    <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
+                    <input id="absenceBeginHour" class="form-control" ng-model="selection.begin" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
+                </div>
             </div>
 
-            <div class="input-group">
-                <label class="sr-only" for="absenceBeginHour">Begin hour</label>
-                <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
-                <input id="absenceBeginHour" class="form-control" ng-model="beginHour" type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
+
+            <div class="form-group top17">
+                <div class="input-group">
+                    <label class="sr-only" for="absenceEndDate">End date</label>
+                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    <input id="adbsenceEndDate" class="form-control" ng-model="selection.end" bs-datepicker type="date" placeholder="{{'End date'|translate}}" />
+                </div>
+
+                <div class="input-group">
+                    <label class="sr-only" for="absenceEndHour">End hour</label>
+                    <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
+                    <input id="absenceEndHour" class="form-control" ng-model="selection.end" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
+                </div>
             </div>
         </div>
-
         
-        <div class="form-group col-sm-12 top17">
-            <div class="input-group">
-                <label class="sr-only" for="absenceEndDate">End date</label>
-                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                <input id="adbsenceEndDate" class="form-control" ng-model="endDate" bs-datepicker type="date" placeholder="{{'End date'|translate}}" />
-            </div>
-
-            <div class="input-group">
-                <label class="sr-only" for="absenceEndHour">End hour</label>
-                <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
-                <input id="absenceEndHour" class="form-control" ng-model="endHour" type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
-            </div>
+        <div class="col-sm-5">
+            <h4 translate>Selected duration:</h4>
+            <p>{{duration}}</p>
+            
+            <p>Consumption on the selected period: {{days}}</p>
         </div>
-        
         
         <div class="col-sm-12 top30">
             <button class="btn btn-primary" ng-click="next()" translate>Continue</button>
