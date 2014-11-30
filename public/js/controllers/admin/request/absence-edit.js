@@ -18,17 +18,32 @@ define(['momentDurationFormat'], function(moment) {
         
         
         /**
+         * Set a duration visible to the final user
+         *
+         * @param {Int} duration Number of miliseconds
+         */
+        function setDuration(duration)
+        {
+            var interval = moment.duration(duration, "milliseconds");
+            
+            $scope.duration = interval.format("d [days], h [hours], m [minutes]");
+            $scope.days = interval.format("d [days]", 2);
+        }
+        
+        
+        /**
          * Get notified if interval is modified
          * @param {Date} begin 
          * @param {Date} end   
          */
         function onUpdateInterval(begin, end)
         {
-            var d = (end && begin) ? (end.getTime() - begin.getTime()) : 0;
-            var interval = moment.duration(d, "milliseconds");
+            if (!begin || !end) {
+                return setDuration(0);
+            }
             
-            $scope.duration = interval.format("d [days], h [hours], m [minutes]");
-            $scope.days = interval.format("d [days]", 2);
+            //TODO: get the duration on working hours only
+            return setDuration(end.getTime() - begin.getTime());
         }
         
         
