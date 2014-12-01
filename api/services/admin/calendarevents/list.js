@@ -21,6 +21,14 @@ function getEventsQuery(service, params)
 {
     var find = service.models.CalendarEvent.find();
     
+    if (params.calendar) {
+        find.where('calendar').equals(params.calendar._id);   
+    }
+    
+    if (params.user) {
+        find.where('user.id').equals(params.user._id);   
+    }
+    
     find.or([
         { rrule: { $exists: true } },
         { $and: 

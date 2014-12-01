@@ -27,9 +27,9 @@ exports = module.exports = function(params) {
 		calendar: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
 		user: {
 			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-			name: { type: String, default: '' },
-			absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }
+			name: { type: String, default: '' }
 		},
+        absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' },
 		timeCreated: { type: Date, default: Date.now }
 	});
 
