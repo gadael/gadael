@@ -52,12 +52,14 @@ exports = module.exports = function(params) {
 	
 	
 	/**
-	 * Expand event to a list of events according to the rrule
-	 * @param	Date		span_start		Search span start
-	 * @param	Date		span_end		Search span end
-	 * @param	function	callback 		for each event
+	 * Expand event to a list of events according to the rrule (synchronous)
+     *
+	 * @param	{Date}		span_start		Search span start
+	 * @param	{Date}		span_end		Search span end
+	 *                                 
+	 * @return {Array} an array of objects
 	 */ 
-	eventSchema.methods.expand = function(span_start, span_end, callback) {
+	eventSchema.methods.expand = function(span_start, span_end) {
 		
 		var document = this;
 		var rrule = require('rrule').RRule;
@@ -65,8 +67,7 @@ exports = module.exports = function(params) {
 		
 		if (document.rrule === undefined || document.rrule === null)
 		{
-			callback(document);
-			return;
+			return [document.toObject()];
 		}
 		
 		var duration = document.duration();
@@ -76,6 +77,7 @@ exports = module.exports = function(params) {
 		var rule = new rrule(options);
 		
 		var list = rule.between(span_start, span_end, true);
+        var result = [];
 		
 		for(var i=0; i<list.length; i++)
 		{
@@ -84,8 +86,10 @@ exports = module.exports = function(params) {
 			event.dtend = list[i];
 			event.dtend.setSeconds(list[i].getSeconds() + duration);
 			
-			callback(event);
+			result.push(event);
 		}
+        
+        return result;
 	};
   
 	params.db.model('CalendarEvent', eventSchema);
