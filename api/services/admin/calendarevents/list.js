@@ -44,9 +44,47 @@ function getEventsQuery(service, params)
 }
 
 
+/**
+ * Verify the parameters validity
+ * @param   {listItemsService} service
+ * @param   {Object}           params  Query parameters
+ * @returns {Boolean}      
+ */
+function checkParams(service, params) {
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
+    if (!params.dtstart || !params.dtend) {
+        service.forbidden(gt.gettext('dtstart, dtend are mandatory parameters'));
+        return false;
+    }
+
+    var dtstart = new Date(params.dtstart);
+    var dtend = new Date(params.dtend);
+    
+    var diff = Math.abs(dtend - dtstart);
+    
+    if (diff <= 0) {
+        service.forbidden(gt.gettext('dtend must be greater than dtstart'));
+        return false;
+    }
+    
+    if (((diff/3600000)/24/365) > 2) {
+        service.forbidden(gt.gettext('Dates interval must be less than 2 years'));
+        return false;
+    }
+    
+    return true;
+}
 
 
 
+/**
+ * Create the service
+ * @param   {Object} services
+ * @param   {Object} app
+ * @returns {listItemsService}
+ */
 exports = module.exports = function(services, app) {
     
     var service = new services.list(app);
@@ -61,7 +99,11 @@ exports = module.exports = function(services, app) {
      */
     service.call = function(params) {
         
-        getEventsQuery(service. params).exec(function(err, docs) {
+        if (!checkParams(service, params)) {
+            return service.deferred.promise;   
+        }
+        
+        getEventsQuery(service, params).exec(function(err, docs) {
         
             var events = [];
             

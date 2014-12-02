@@ -1,8 +1,15 @@
 <div class="row">
     
     <p><span translate>Current rights collection:</span> {{user.roles.account.currentCollection.name}}</p>
+    
     <div class="alert alert-danger" role="alert" ng-if="!user.roles.account.currentCollection">
         <span translate>This user has no ongoing right collection, check the vacations collections planning to fix it</span>
+    </div>
+    
+    <p><span translate>Current workschedule calendar:</span> {{user.roles.account.currentScheduleCalendar.name}}</p>
+    
+    <div class="alert alert-danger" role="alert" ng-if="!user.roles.account.currentScheduleCalendar">
+        <span translate>This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it</span>
     </div>
     
     <p><span translate>Seniority date:</span> 
