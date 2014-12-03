@@ -33,6 +33,7 @@ define(function() {
                 accountschedulecalendars: init('admin/accountschedulecalendars/:id'),
                 beneficiaries           : init('admin/beneficiaries/:id'),
                 calendars               : init('admin/calendars/:id'),
+                calendarevents          : init('admin/calendarevents/:id'),
                 collections             : init('admin/collections/:id'),
                 departments             : init('admin/departments/:id'),
                 rightrenewals           : init('admin/rightrenewals/:id'),

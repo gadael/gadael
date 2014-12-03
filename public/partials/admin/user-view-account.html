@@ -12,6 +12,14 @@
         <span translate>This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it</span>
     </div>
     
+    
+    <ul>
+        <li ng-repeat="event in testEvents">
+            {{event.dtstart|date}} - {{event.dtend|date}}
+        </li>
+    </ul>
+    
+    
     <p><span translate>Seniority date:</span> 
         {{user.roles.account.seniority|date}} 
         (<span translate translate-n="seniority_years" translate-plural="{{$count}} years seniority">One year seniority</span>)

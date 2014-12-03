@@ -17,6 +17,7 @@ define([], function() {
         var beneficiaries = Rest.admin.beneficiaries.getResource();
         var accountCollection = Rest.admin.accountcollections.getResource();
         var accountScheduleCalendars = Rest.admin.accountschedulecalendars.getResource();
+        var calendarEvents = Rest.admin.calendarevents.getResource();
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
@@ -27,10 +28,24 @@ define([], function() {
                 
                 // after user resource loaded, load account Collections
                 if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
-                    $scope.accountRights = beneficiaries.query({ account: $scope.user.roles.account._id });
-                    $scope.accountCollections = accountCollection.query({ account: $scope.user.roles.account._id });
-                    $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: $scope.user.roles.account._id });
                     
+                    var account = $scope.user.roles.account;
+                    
+                    $scope.accountRights = beneficiaries.query({ account: account._id });
+                    $scope.accountCollections = accountCollection.query({ account: account._id });
+                    $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: account._id });
+                    
+                    
+                    // TEST
+                    var start = new Date();
+                    var end = new Date();
+                    end.setDate(30 + end.getDate());
+                    $scope.testEvents = calendarEvents.query({ 
+                        calendar: account.currentScheduleCalendar._id, 
+                        dtstart: start, 
+                        dtend: end 
+                    });
+                   
                 } else {
                     $scope.accountRights = [];
                     $scope.accountCollections = [];
@@ -43,6 +58,7 @@ define([], function() {
                     var today = new Date();
                     $scope.seniority_years = today.getFullYear() - seniority.getFullYear();
                 }
+
 
             });
         }

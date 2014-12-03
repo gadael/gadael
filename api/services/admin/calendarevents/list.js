@@ -21,12 +21,14 @@ function getEventsQuery(service, params)
 {
     var find = service.models.CalendarEvent.find();
     
+    console.log(params);
+    
     if (params.calendar) {
-        find.where('calendar').equals(params.calendar._id);   
+        find.where('calendar').equals(params.calendar);   
     }
     
     if (params.user) {
-        find.where('user.id').equals(params.user._id);   
+        find.where('user.id').equals(params.user);   
     }
     
     find.or([
@@ -59,10 +61,9 @@ function checkParams(service, params) {
         return false;
     }
 
-    var dtstart = new Date(params.dtstart);
-    var dtend = new Date(params.dtend);
     
-    var diff = Math.abs(dtend - dtstart);
+    
+    var diff = Math.abs(params.dtend - params.dtstart);
     
     if (diff <= 0) {
         service.forbidden(gt.gettext('dtend must be greater than dtstart'));
@@ -99,12 +100,15 @@ exports = module.exports = function(services, app) {
      */
     service.call = function(params) {
         
+        params.dtstart = new Date(params.dtstart);
+        params.dtend = new Date(params.dtend);
+        
         if (!checkParams(service, params)) {
             return service.deferred.promise;   
         }
         
         getEventsQuery(service, params).exec(function(err, docs) {
-        
+
             var events = [];
             
             for(var i =0; i<docs.length; i++) {

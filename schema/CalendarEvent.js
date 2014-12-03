@@ -60,6 +60,10 @@ exports = module.exports = function(params) {
 	 * @return {Array} an array of objects
 	 */ 
 	eventSchema.methods.expand = function(span_start, span_end) {
+        
+        if (!(span_start instanceof Date) || !(span_end instanceof Date)) {
+            throw new Error('parameters must be dates');
+        }
 		
 		var document = this;
 		var rrule = require('rrule').RRule;
