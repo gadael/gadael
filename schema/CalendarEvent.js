@@ -39,12 +39,12 @@ exports = module.exports = function(params) {
 	
 	
 	/**
-	 * Get duration in seconds
+	 * Get duration in miliseconds
 	 * @return int
 	 */ 
 	eventSchema.methods.duration = function() {
-		var start = Math.round(this.dtstart.getTime() / 1000);
-		var end = Math.round(this.dtend.getTime() / 1000);
+		var start = this.dtstart.getTime();
+		var end = this.dtend.getTime();
 		
 		return (end - start);
 	};
@@ -67,7 +67,7 @@ exports = module.exports = function(params) {
 		
 		var document = this;
 		var rrule = require('rrule').RRule;
-		var extend = require('util')._extend;
+		//var extend = require('util')._extend;
 		
 		if (document.rrule === undefined || document.rrule === null)
 		{
@@ -85,10 +85,9 @@ exports = module.exports = function(params) {
 		
 		for(var i=0; i<list.length; i++)
 		{
-			var event = extend({}, document);
+			var event = document.toObject();
 			event.dtstart = list[i];
-			event.dtend = list[i];
-			event.dtend.setSeconds(list[i].getSeconds() + duration);
+			event.dtend = new Date(list[i].getTime() + duration);
 			
 			result.push(event);
 		}

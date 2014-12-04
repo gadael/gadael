@@ -16,6 +16,8 @@ define(['momentDurationFormat'], function(moment) {
             end: undefined
         }
         
+        var account;
+        
         
         /**
          * Set a duration visible to the final user
@@ -42,8 +44,31 @@ define(['momentDurationFormat'], function(moment) {
                 return setDuration(0);
             }
             
-            //TODO: get the duration on working hours only
-            return setDuration(end.getTime() - begin.getTime());
+            
+            var calendarEvents = Rest.admin.calendarevents.getResource();
+            calendarEvents.query({ 
+                calendar: account.currentScheduleCalendar._id, 
+                dtstart: begin, 
+                dtend: end 
+            }).$promise.then(function(periods) {
+                var duration = 0;
+                var p;
+                
+                for(var i=0; i<periods.length; i++) {
+                    
+                    p = {
+                        dtstart: new Date(periods[i].dtstart),
+                        dtend: new Date(periods[i].dtend)
+                    };
+
+                    duration += p.dtend.getTime() - p.dtstart.getTime();
+                }
+                
+                return setDuration(duration);
+            });
+
+            
+            
         }
         
         
@@ -81,6 +106,8 @@ define(['momentDurationFormat'], function(moment) {
             var users = Rest.admin.users.getResource();
 
             users.get({id: userId}).$promise.then(function(user) {
+                
+                account = user.roles.account;
                 
                 $scope.request.user = {
                     id: user._id,

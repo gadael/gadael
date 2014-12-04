@@ -20,9 +20,7 @@
 function getEventsQuery(service, params)
 {
     var find = service.models.CalendarEvent.find();
-    
-    console.log(params);
-    
+
     if (params.calendar) {
         find.where('calendar').equals(params.calendar);   
     }
