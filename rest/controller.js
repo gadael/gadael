@@ -323,7 +323,9 @@ function deleteItemController(path) {
      */
     this.jsonService = function(service) {
         
-        service.call(ctrl.req.params.id).then(function(document) {
+        var params = ctrl.getServiceParameters(ctrl.req.params);
+        
+        service.call(params).then(function(document) {
             ctrl.res.status(service.httpstatus).json(document);
             
         }).catch(function(err) {
