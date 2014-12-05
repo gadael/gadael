@@ -21,9 +21,9 @@ var query = function(service, params) {
     var find = service.models.Request.find();
     find.where({ deleted: false });
 
-    if (params.name)
+    if (params.user)
     {
-         find.where({ name: new RegExp('^'+params.name, 'i') });
+         find.where({ user.id: params.user });
     }
 
     return find;

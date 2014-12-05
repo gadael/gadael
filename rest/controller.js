@@ -14,6 +14,11 @@ function restController(method, path) {
     this.path = path;
     this.controllerAction = null;
     
+    /**
+     * Parameters given to service (cannot be overloaded with query params)
+     */
+    this.forcedParameters = {};
+    
     var ctrl = this;
     
     
@@ -38,17 +43,55 @@ function restController(method, path) {
             return;
         }
         
+        if (0 === ctrl.path.indexOf('/rest/account/') && (!req.isAuthenticated() || !req.user.canPlayRoleOf('account'))) {
+            ctrl.accessDenied(gt.gettext('Access denied for users without vacation account'));
+            return;
+        }
+        
+        if (0 === ctrl.path.indexOf('/rest/user/') && !req.isAuthenticated()) {
+            ctrl.accessDenied(gt.gettext('Access denied for annonymous users'));
+            return;
+        }
+        
         /**
          * Declare a new method to get the service object
-         * @param string path relative path from the services folder
-         * @return {function}
+         * @param {string} path          relative path from the services folder
+         * @param {object} forceParams   Parameters given to service (cannot be overloaded with query params)
+         * @return {apiService}
          */
-        ctrl.service = function(path) {
-            return require('../modules/service').load(ctrl.req.app, path);
+        ctrl.service = function(path, forceParams) {
+            var srv = require('../modules/service').load(ctrl.req.app, path);
+            
+            ctrl.forcedParameters = forceParams;
+            
+            return srv;
         };
         
         ctrl.controllerAction();
     };
+    
+    
+    /**
+     * Return on object with parameters to give to the service
+     * this method merge the client parameters and the forced server parameters
+     *
+     * @param {object} queryParams client input
+     *                             
+     * @return {object}
+     */
+    this.getServiceParameters = function(queryParams) {
+        var params = {};
+        
+        for(var name in queryParams) {
+            params[name] = queryParams[name];
+        }
+        
+        for(var name in this.forcedParameters) {
+            params[name] = this.forcedParameters[name];
+        }
+        
+        return params;
+    }
     
     
     /**
@@ -139,7 +182,10 @@ function listItemsController(path) {
      * @param {apiService} service
      */
     this.jsonService = function(service) {
-        service.call(ctrl.req.query, ctrl.paginate).then(function(docs) {
+        
+        var params = ctrl.getServiceParameters(ctrl.req.query);
+
+        service.call(params, ctrl.paginate).then(function(docs) {
             ctrl.res.status(service.httpstatus).json(docs);
             
         }).catch(function(err) {
@@ -169,7 +215,10 @@ function getItemController(path) {
      * @param {apiService} service
      */
     this.jsonService = function(service) {
-        service.call(ctrl.req.params).then(function(document) {
+        
+        var params = ctrl.getServiceParameters(ctrl.req.params);
+        
+        service.call(params).then(function(document) {
             ctrl.res.status(service.httpstatus).json(document);
             
         }).catch(function(err) {
@@ -203,7 +252,8 @@ function saveItemController(method, path) {
      */
     this.jsonService = function(service, moreparams) {
         
-        var params = ctrl.req.body;
+        var params = ctrl.getServiceParameters(ctrl.req.body);
+        
         
         // for ID in parameters if given by route
         if (ctrl.req.params.id) {
@@ -272,6 +322,7 @@ function deleteItemController(path) {
      * @param {apiService} service
      */
     this.jsonService = function(service) {
+        
         service.call(ctrl.req.params.id).then(function(document) {
             ctrl.res.status(service.httpstatus).json(document);
             
