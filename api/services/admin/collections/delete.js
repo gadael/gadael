@@ -8,13 +8,13 @@ exports = module.exports = function(services, app) {
     /**
      * Call the collection delete service
      * 
-     * @param {int} id      Document mongoose ID
+     * @param {object} params
      * @return {Promise}
      */
-    service.call = function(id) {
+    service.call = function(params) {
         
         
-        service.models.RightCollection.findById(id, function (err, document) {
+        service.models.RightCollection.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {

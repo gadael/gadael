@@ -80,18 +80,16 @@ function restController(method, path) {
      * @return {object}
      */
     this.getServiceParameters = function(queryParams) {
-        var params = {};
-        
-        for(var name in queryParams) {
-            params[name] = queryParams[name];
-        }
+        var params = queryParams;
         
         for(var name in this.forcedParameters) {
-            params[name] = this.forcedParameters[name];
+            if (queryParams.hasOwnProperty(name)) {
+                params[name] = this.forcedParameters[name];
+            }
         }
         
         return params;
-    }
+    };
     
     
     /**

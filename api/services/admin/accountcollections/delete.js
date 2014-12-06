@@ -40,13 +40,13 @@ exports = module.exports = function(services, app) {
     /**
      * Call the account collections delete service
      * 
-     * @param {int} id      Document mongoose ID
+     * @param {object} params
      * @return {Promise}
      */
-    service.call = function(id) {
+    service.call = function(params) {
         
         
-        service.models.AccountCollection.findById(id, function (err, document) {
+        service.models.AccountCollection.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
                 
                 if (!validate(document)) {

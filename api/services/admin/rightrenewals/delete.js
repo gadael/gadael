@@ -8,13 +8,13 @@ exports = module.exports = function(services, app) {
     /**
      * Call the rightrenewal delete service
      * 
-     * @param {int} id      Document mongoose ID
+     * @param {object} params
      * @return {Promise}
      */
-    service.call = function(id) {
+    service.call = function(params) {
         
         
-        service.models.RightRenewal.findById(id, function (err, document) {
+        service.models.RightRenewal.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {

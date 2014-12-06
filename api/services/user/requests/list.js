@@ -23,7 +23,7 @@ var query = function(service, params) {
 
     if (params.user)
     {
-         find.where({ user.id: params.user });
+         find.where({ 'user.id': params.user });
     }
 
     return find;

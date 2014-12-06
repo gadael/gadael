@@ -40,13 +40,13 @@ exports = module.exports = function(services, app) {
     /**
      * Call the account schedule calendar delete service
      * 
-     * @param {int} id      Document mongoose ID
+     * @param {object} params
      * @return {Promise}
      */
-    service.call = function(id) {
+    service.call = function(params) {
         
         
-        service.models.AccountScheduleCalendar.findById(id, function (err, document) {
+        service.models.AccountScheduleCalendar.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
                 
                 if (!validate(document)) {
