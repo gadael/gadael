@@ -40,10 +40,20 @@ function saveRequest(service, params) {
         fieldsToSet.workperiod_recover = params.workperiod_recover;
     }
     
+    
+    var filter = {
+        _id: params.id,
+        deleted: false
+    };
+
+    if (params.user) {
+        filter['user.id'] = params.user;
+    }
+    
 
     if (params.id)
     {
-        RequestModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
+        RequestModel.findOneAndUpdate(filter, fieldsToSet, function(err, document) {
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(

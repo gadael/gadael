@@ -13,8 +13,19 @@ exports = module.exports = function(services, app) {
      */
     service.call = function(params) {
         
+        var filter = {
+            _id: params.id,
+            deleted: false
+        };
+        
+        if (params.user) {
+            filter['user.id'] = params.user;
+        }
+        
+        
+        
         service.models.Request
-        .findOne({ '_id' : params.id, deleted: false })
+        .findOne(filter)
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

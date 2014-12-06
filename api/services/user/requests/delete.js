@@ -8,13 +8,22 @@ exports = module.exports = function(services, app) {
     /**
      * Call the requests delete service
      * 
-     * @param {int} id      Document mongoose ID
+     * @param {object} params
      * @return {Promise}
      */
-    service.call = function(id) {
+    service.call = function(params) {
+        
+        var filter = {
+            _id: params.id,
+            deleted: false
+        };
+        
+        if (params.user) {
+            filter['user.id'] = params.user;
+        }
         
         
-        service.models.Request.findById(id, function (err, document) {
+        service.models.Request.find(filter, function (err, document) {
             if (service.handleMongoError(err)) {
                 
                 document.deleted = true;
