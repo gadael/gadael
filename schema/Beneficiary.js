@@ -6,7 +6,10 @@ exports = module.exports = function(params) {
     
     var beneficiarySchema = new params.mongoose.Schema({
         right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
+        
+        // right can be linked to a collection or to a user
         document: { type: mongoose.Schema.Types.ObjectId, required: true },
+        
         ref: { type: String, enum: ['User', 'RightCollection'], required: true },
         timeCreated: { type: Date, default: Date.now }
     });

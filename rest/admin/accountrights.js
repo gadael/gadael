@@ -7,7 +7,7 @@ function listController() {
     ctrlFactory.list.call(this, '/rest/admin/calendarevents');
     
     this.controllerAction = function() {
-        this.jsonService(this.service('user/calendarevents/list'));
+        this.jsonService(this.service('account/accountrights/list'));
     };
 }
 listController.prototype = new ctrlFactory.list();

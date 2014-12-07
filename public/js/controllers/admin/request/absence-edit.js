@@ -10,6 +10,8 @@ define(['momentDurationFormat'], function(moment) {
         $scope.newRequest = false;
         $scope.editRequest = false;
         
+        // list of beneficiaries objects, populated once period set
+        $scope.accountRights = [];
         
         $scope.selection = {
             begin: undefined,
@@ -41,6 +43,10 @@ define(['momentDurationFormat'], function(moment) {
         function onUpdateInterval(begin, end)
         {
             if (!begin || !end) {
+                return setDuration(0);
+            }
+            
+            if (begin >= end) {
                 return setDuration(0);
             }
             
@@ -136,6 +142,13 @@ define(['momentDurationFormat'], function(moment) {
             
             // show the right assignement
             $scope.assignments = true;
+            
+            var accountRights = Rest.admin.accountrights.getResource();
+            $scope.accountRights = accountRights.query({ 
+                user: $scope.request.user.id,
+                dtstart: $scope.request.dtstart,
+                dtend: $scope.request.dtend
+            });
         };
 
 	}];

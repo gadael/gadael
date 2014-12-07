@@ -29,6 +29,7 @@ define(function() {
         return {
             
             admin: {
+                accountrights           : init('admin/accountrights/:id'),
                 accountcollections      : init('admin/accountcollections/:id'),
                 accountschedulecalendars: init('admin/accountschedulecalendars/:id'),
                 beneficiaries           : init('admin/beneficiaries/:id'),
