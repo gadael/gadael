@@ -4,7 +4,7 @@ var ctrlFactory = require('../controller');
 
 
 function listController() {
-    ctrlFactory.list.call(this, '/rest/account/calendarevents');
+    ctrlFactory.list.call(this, '/rest/account/accountrights');
     
     this.controllerAction = function() {
         this.jsonService(this.service('account/accountrights/list', { user: this.req.user._id }));

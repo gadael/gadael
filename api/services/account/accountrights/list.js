@@ -32,17 +32,22 @@ exports = module.exports = function(services, app) {
         params.dtstart = new Date(params.dtstart);
         params.dtend = new Date(params.dtend);
         
+        
         var checkParams = require('../../../../modules/requestdateparams');
         
         if (!checkParams(service, params)) {
             return service.deferred.promise;   
         }
         
+
         // get user account document for the user param
         
         service.models.User.find({ _id: params.user }).populate('roles.account').exec(function(err, users) {
             
             if (service.handleMongoError(err)) {
+                
+                
+                
                 if (0 === users.length) {
                     return service.notFound('User not found for '+params.user);
                 }
@@ -56,7 +61,12 @@ exports = module.exports = function(services, app) {
                 account.getRights().then(function(beneficiaries) {
                     service.outcome.success = true;
                     service.deferred.resolve(beneficiaries);
+                }).catch(function(err) {
+                    service.notFound(err);
                 });
+                
+            } else {
+                service.notFound('User not found for '+params.user);
             }
         });
         

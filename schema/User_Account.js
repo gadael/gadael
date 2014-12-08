@@ -71,6 +71,8 @@ exports = module.exports = function(params) {
     
     /**
      * Get the right collection for a specific date
+     * @param {Date} moment
+     *
      * @return {Promise} resolve to a rightCollection document or null
      */
     accountSchema.methods.getCollection = function(moment) {
@@ -85,6 +87,8 @@ exports = module.exports = function(params) {
             .where('to').gte(moment)
             .populate('rightCollection')
             .exec(function(err, arr) {
+            
+                
 
                 if (err) {
                     deferred.reject(err);
@@ -99,18 +103,20 @@ exports = module.exports = function(params) {
                         .populate('rightCollection')
                         .exec(function(err, arr) {
                         
-                        if (err) {
-                            deferred.reject(err);
-                            return;
-                        }
+                            
+
+                            if (err) {
+                                deferred.reject(err);
+                                return;
+                            }
+
+                            if (!arr || 0 === arr.length) {
+                                deferred.resolve(null);
+                                return; 
+                            }
                         
-                        if (!arr || 0 === arr.length) {
-                            deferred.resolve(null);
-                            return; 
-                        }
-                        
-                        deferred.resolve(arr[0].rightCollection);
-                    });
+                            deferred.resolve(arr[0].rightCollection);
+                        });
                     
                     return;
                 }
@@ -206,22 +212,25 @@ exports = module.exports = function(params) {
         
         var deferred = require('q').defer();
         
-        if (null === moment) {
+        if (!moment) {
             moment = new Date();
         }
         
+        var account = this;
+        
+        
         this.getCollection(moment).then(function(rightCollection) {
-            this.model('Beneficiary')
-            .where('document').in([rightCollection._id, this.user._id])
+
+            if (!account.user.id) {
+                return deferred.reject('The user.id property is missing on user.roles.account');
+            }
+            
+            account.model('Beneficiary')
+            .where('document').in([rightCollection._id, account.user.id])
             .populate('right')
-            .exec(function(err, beneficiaries) {
-                if (err) {
-                    deferred.reject(err);
-                }
-                
-                deferred.resolve(beneficiaries);
-            });
-        });
+            .exec(deferred.makeNodeResolver());
+            
+        }).catch(deferred.reject);
         
         return deferred.promise;
     };

@@ -55,7 +55,7 @@
 <div ng-if="assignments">
 
     <div ng-repeat="accountRight in accountRights">
-    
+        <label><input type="text" ng-model="distribution[accountRight._id]" /> {{accountRight.name}}</label>
     </div>
     
     
