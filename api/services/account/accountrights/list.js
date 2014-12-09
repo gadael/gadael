@@ -9,15 +9,53 @@
 
 
 
+
 /**
  * Create the service
  * @param   {Object} services
  * @param   {Object} app
  * @returns {listItemsService}
  */
-exports = module.exports = function(services, app) {
+exports = module.exports = function(services, app)
+{
     
     var service = new services.list(app);
+    
+    
+    
+    
+    /**
+     * 
+     *
+     * @param {Array} beneficiaries array of mongoose documents
+     */
+    function resolveBeneficiaries(beneficiaries)
+    {
+        var right;
+        var output = [];
+        
+        for(var i=0; i<beneficiaries.length; i++) {
+            right = beneficiaries[i].toObject();
+            right.disp_unit = beneficiaries[i].getDispUnit();
+            
+            output.push(right);
+        }
+        
+        service.outcome.success = true;
+        service.deferred.resolve(output);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * Call the calendar events list service
@@ -58,12 +96,7 @@ exports = module.exports = function(services, app) {
                     return service.notFound('Account not found for user');
                 }
 
-                account.getRights().then(function(beneficiaries) {
-                    service.outcome.success = true;
-                    service.deferred.resolve(beneficiaries);
-                }).catch(function(err) {
-                    service.notFound(err);
-                });
+                account.getRights().then(resolveBeneficiaries).catch(service.notFound);
                 
             } else {
                 service.notFound('User not found for '+params.user);
