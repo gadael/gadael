@@ -37,6 +37,7 @@ exports = module.exports = function(services, app)
         for(var i=0; i<beneficiaries.length; i++) {
             right = beneficiaries[i].toObject();
             right.disp_unit = beneficiaries[i].getDispUnit();
+            right.available_quantity = 0.00;
             
             output.push(right);
         }

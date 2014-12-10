@@ -41,13 +41,13 @@
         
         <div class="col-sm-5">
             <h4 translate>Selected duration:</h4>
-            <p>{{duration}}</p>
+            <p>{{selection.duration}}</p>
             
-            <p>Consumption on the selected period: {{days}}</p>
+            <p translate>Consumption on the selected period: {{selection.days}} or {{selection.hours}}</p>
         </div>
         
         <div class="col-sm-12 top30">
-            <button class="btn btn-primary" ng-click="next()" translate>Continue</button>
+            <button class="btn btn-primary" ng-disabled="!selection.isValid" ng-click="next()" translate>Continue</button>
         </div>
     </form>
 </div>
@@ -56,22 +56,50 @@
     
     <div class="row">
         <p>From to {{selection.begin|date}}, to the {{selection.end|date}}</p>
-        <p class="text-primary" translate>Your period selection of {{days}} days (or {{hours}} hours) must be distribued into the following vacation rights</p>
+        <p class="text-primary" translate>Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights</p>
     </div>
 
     <form class="form-horizontal" role="form">
-    
-        <div class="form-group" ng-repeat="accountRight in accountRights">
-            
-            <label for="{{accountRight.id}}" class="col-sm-3 control-label">{{accountRight.name}}</label>
-            
-            <div class="col-sm-2 input-group">
-                <input id="{{accountRight.id}}" type="text" class="form-control" ng-model="distribution[accountRight._id]" />
-                <span class="input-group-addon">{{accountRight.disp_unit}}</span>
-            </div>
-            
-        </div>
+        
+        <table class="table">
+        
 
+            <tbody>
+                <tr class="form-group" ng-repeat="accountRight in accountRights">
+
+                    <td class="input-group">
+                        <input id="ar{{accountRight._id}}" type="text" class="form-control" ng-model="distribution.right[accountRight._id]" />
+                        <span class="input-group-addon">{{accountRight.disp_unit}}</span>
+                    </td>
+                    
+                    <td>
+                        <label for="ar{{accountRight._id}}" class="control-label">{{accountRight.name}}</label>
+                    </td>
+
+                    <td class="hidden-xs">
+                        {{accountRight.available_quantity}}
+                    </td>
+                </tr>
+            </tbody>
+
+            <thead>
+                <tr>
+                    <th class="col-sm-2">Distribution</th>
+                    <th>My rights</th>
+                    <th class="hidden-xs">Available quantity</th>
+                </tr>
+            </thead>
+            
+            <tfoot>
+                <tr>
+                    
+                    <td>{{distribution.total}}</td>
+                    <td></td>
+                    <td class="hidden-xs">{{available.total}}</td>
+                </tr>
+            </tfoot>
+            
+        </table>
 
         <button class="btn btn-primary" ng-click="saveCalendar()" translate>Save</button> 
         <button class="btn btn-link" ng-click="back()" translate>Cancel</button>

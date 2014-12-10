@@ -15,7 +15,11 @@ define(['momentDurationFormat'], function(moment) {
         
         $scope.selection = {
             begin: undefined,
-            end: undefined
+            end: undefined,
+            isValid: false,
+            duration: undefined,
+            days: undefined,
+            hours: undefined
         }
         
         var account;
@@ -30,8 +34,11 @@ define(['momentDurationFormat'], function(moment) {
         {
             var interval = moment.duration(duration, "milliseconds");
             
-            $scope.duration = interval.format("d [days], h [hours], m [minutes]");
-            $scope.days = interval.format("d [days]", 2);
+            $scope.selection.duration = interval.format("d [days], h [hours], m [minutes]");
+            $scope.selection.days = interval.format("d [days]", 2);
+            $scope.selection.hours = interval.format("h [hours]", 2);
+            
+            $scope.selection.isValid = duration > 0;
         }
         
         
