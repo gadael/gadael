@@ -47,6 +47,37 @@ exports = module.exports = function(params) {
         
 	});
     
+    
+    
+    /**
+     * Get a user initial quantity 
+     * default right quantity + adjustments on renewal
+     * @returns {Number}
+     */
+    rightRenewalSchema.methods.getUserQuantity = function(user) {
+        
+    };
+    
+    
+    /**
+     * Get a user consumed quantity 
+     * sum of quantities in requests from this renewal
+     * @returns {Number}
+     */
+    rightRenewalSchema.methods.getUserConsumedQuantity = function(user) {
+        
+    };
+        
+    
+    /**
+     * Get a user available quantity 
+     * the user quantity - the consumed quantity
+     * @returns {Number}
+     */
+    rightRenewalSchema.methods.getUserAvailableQuantity = function(user) {
+        return this.getUserQuantity(user) - this.getUserConsumedQuantity(user);
+    };
+    
 };
 
 

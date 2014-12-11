@@ -11,13 +11,18 @@ exports = module.exports = function(params) {
         quantity: { type: Number },
         event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true },
         right: {
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-            name: { type: String, default: '' },
-            quantity_unit: { type: String, enum:['D', 'H'] },
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
+            name: { type: String, required: true },
+            quantity_unit: { type: String, enum:['D', 'H'], required: true },
             type: { 
-                id: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
-                name: { type: String },
+                id: { type: mongoose.Schema.Types.ObjectId, ref: 'Type', required: true },
+                name: { type: String, required: true },
                 color: { type: String }
+            },
+            renewal: { 
+                id: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' , required: true },
+                start: { type: Date, required: true },
+                finish: { type: Date, required: true }
             }
 		}
 	});

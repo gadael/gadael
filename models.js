@@ -45,4 +45,5 @@ models.load = function() {
 	require('./schema/Calendar')(requirements);
 	require('./schema/CalendarEvent')(requirements);
     require('./schema/Beneficiary')(requirements);
+    require('./schema/Adjustment')(requirements);
 };

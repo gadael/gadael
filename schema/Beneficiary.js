@@ -48,4 +48,3 @@ exports = module.exports = function(params) {
     beneficiarySchema.index({ right: 1, document: 1 }, { unique: true });
     params.db.model('Beneficiary', beneficiarySchema);
 };
-

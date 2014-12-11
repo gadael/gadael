@@ -138,6 +138,8 @@ exports = module.exports = function(params) {
                 return gt.ngettext('Hour', 'Hours', quantity);
         }
     };
+
+    
     
 	
 	params.db.model('Right', rightSchema);
