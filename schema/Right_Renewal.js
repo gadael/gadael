@@ -55,10 +55,10 @@ exports = module.exports = function(params) {
      * 
      * @param {Document} user
      * 
-     * @returns {Promise}
+     * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserAdjustmentQuantity = function(user) {
-        var deferred = require('Q').defer();
+        var deferred = require('q').defer();
         var model = params.db.models.Adjustment;
         model.find({ rightRenewal: this._id, user: user._id }, 'quantity', function (err, docs) {
             
@@ -108,20 +108,42 @@ exports = module.exports = function(params) {
      * 
      * @param {Document} user
      * 
-     * @returns {Number}
+     * @returns {Number} resolve to a number
      */
     rightRenewalSchema.methods.getUserConsumedQuantity = function(user) {
+        var deferred = require('q').defer();
+        var model = params.db.models.AbsenceElem;
+        model.find({ 'right.renewal.id': this._id, 'user.id': user._id }, 'quantity', function (err, docs) {
+            if (err) {
+                deferred.reject(err);
+            }
+            
+            var consumed = 0;
+            for(var i=0; i<docs.length; i++) {
+                consumed += docs[i].quantity;
+            }
+            
+            deferred.resolve(consumed);
+        });
         
+        return deferred.promise;
     };
         
     
     /**
      * Get a user available quantity 
      * the user quantity - the consumed quantity
-     * @returns {Number}
+     * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserAvailableQuantity = function(user) {
-        return this.getUserQuantity(user) - this.getUserConsumedQuantity(user);
+        
+        var Q = require('q');
+        var deferred = Q.defer();
+        Q.all([this.getUserQuantity(user), this.getUserConsumedQuantity(user)]).then(function(arr) {
+            deferred.resolve(arr[0] - arr[1]);
+        }).catch(deferred.reject);
+        
+        return deferred.promise;
     };
     
 };

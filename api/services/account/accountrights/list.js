@@ -31,20 +31,34 @@ exports = module.exports = function(services, app)
      */
     function resolveBeneficiaries(user, beneficiaries)
     {
-        var right, currentRenewal, user;
+        var Q = require('q');
+        var right, currentRenewal;
         var output = [];
+        var available_quantity_promises = [];
         
         for(var i=0; i<beneficiaries.length; i++) {
             right = beneficiaries[i].toObject();
             right.disp_unit = beneficiaries[i].getDispUnit();
             currentRenewal = beneficiaries[i].getCurrentRenewal();
-            right.available_quantity = currentRenewal.getUserAvailableQuantity(user);
+            available_quantity_promises.push(currentRenewal.getUserAvailableQuantity(user));
             
             output.push(right);
         }
         
-        service.outcome.success = true;
-        service.deferred.resolve(output);
+        Q.all(available_quantity_promises).then(function(available_quantity_arr) {
+            
+            if (available_quantity_arr.length !== output.length) {
+                return service.notFound('Internal error, number of computed quantites does not match with the rights count');
+            }
+            
+            for(var i=0; i<available_quantity_arr.length; i++) {
+                output[i].available_quantity = available_quantity_arr[i];
+            }
+            
+            service.outcome.success = true;
+            service.deferred.resolve(output);
+            
+        }).catch(service.notFound);
     }
     
     

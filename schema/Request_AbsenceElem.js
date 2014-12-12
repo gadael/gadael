@@ -10,6 +10,12 @@ exports = module.exports = function(params) {
         absence: { type: mongoose.Schema.Types.ObjectId, ref: 'Absence', required: true },
         quantity: { type: Number },
         event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true },
+        
+        user: {
+          id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+          name: { type: String, required: true }
+        },
+        
         right: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
             name: { type: String, required: true },
