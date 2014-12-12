@@ -26,18 +26,19 @@ exports = module.exports = function(services, app)
     
     /**
      * 
-     *
+     * @param {Document} user
      * @param {Array} beneficiaries array of mongoose documents
      */
-    function resolveBeneficiaries(beneficiaries)
+    function resolveBeneficiaries(user, beneficiaries)
     {
-        var right;
+        var right, currentRenewal, user;
         var output = [];
         
         for(var i=0; i<beneficiaries.length; i++) {
             right = beneficiaries[i].toObject();
             right.disp_unit = beneficiaries[i].getDispUnit();
-            right.available_quantity = 0.00;
+            currentRenewal = beneficiaries[i].getCurrentRenewal();
+            right.available_quantity = currentRenewal.getUserAvailableQuantity(user);
             
             output.push(right);
         }
@@ -97,7 +98,9 @@ exports = module.exports = function(services, app)
                     return service.notFound('Account not found for user');
                 }
 
-                account.getRights().then(resolveBeneficiaries).catch(service.notFound);
+                account.getRights().then(function(beneficiaries) {
+                    resolveBeneficiaries(users[0], beneficiaries);
+                }).catch(service.notFound);
                 
             } else {
                 service.notFound('User not found for '+params.user);
