@@ -15,9 +15,7 @@ exports = module.exports = function(params) {
   
 	rightRenewalSchema.set('autoIndex', params.autoIndex);
   
-	params.db.model('RightRenewal', rightRenewalSchema);
-    
-    
+	
     
     /**
      * Ensure that the renewal interval do not overlap another renewal period
@@ -60,7 +58,9 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getUserAdjustmentQuantity = function(user) {
         var deferred = require('q').defer();
         var model = params.db.models.Adjustment;
-        model.find({ rightRenewal: this._id, user: user._id }, 'quantity', function (err, docs) {
+        var renewal = this;
+
+        model.find({ rightRenewal: renewal._id, user: user._id }, 'quantity', function (err, docs) {
             
             if (err) {
                 deferred.reject(err);
@@ -80,6 +80,41 @@ exports = module.exports = function(params) {
     
     
     /**
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.getRightPromise = function() {
+        var Q = require('q');
+        var deferred = Q.defer();
+        var renewal = this;
+        
+        if (renewal.right && renewal.right._id) {
+            // allready populated
+            Q.fcall(function () {
+                return renewal.right;
+            });
+        } else if (!renewal.right) {
+            
+            // No right, should not happen
+            Q.fcall(function () {
+                return null;
+            });
+        } else {
+            
+            renewal.populate('right', function(err, renewal) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+                
+                deferred.resolve(renewal.right);
+            });   
+        }
+        
+        return deferred.promise;
+    }
+    
+    
+    
+    /**
      * Get a user initial quantity 
      * default right quantity + adjustments on renewal
      * 
@@ -89,10 +124,11 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getUserQuantity = function(user) {
         
+        var renewal = this;
         var Q = require('q');
         var deferred = Q.defer();
-        var populate = Q.denodeify(this.populate);
-        Q.all([populate('right'), this.getUserAdjustmentQuantity()])
+        
+        Q.all([renewal.getRightPromise(), renewal.getUserAdjustmentQuantity(user)])
             .then(function(arr) {
                 deferred.resolve(arr[0].quantity + arr[1]);
             })
@@ -145,6 +181,11 @@ exports = module.exports = function(params) {
         
         return deferred.promise;
     };
+    
+    
+    params.db.model('RightRenewal', rightRenewalSchema);
+    
+    
     
 };
 

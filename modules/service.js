@@ -92,8 +92,10 @@ function apiService() {
          service.httpstatus = 404;
          service.outcome.success = false;
         
-         if (typeof message === "object" && message.toString) {
-            message = message.toString();  
+         if (typeof message === "object" && message.message) {
+             console.log(message.message);
+             console.log(message.stack);
+             message = message.message;  
          }
         
          service.outcome.alert.push({ type:'danger' , message: message});

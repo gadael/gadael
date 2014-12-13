@@ -48,7 +48,7 @@ exports = module.exports = function(services, app)
                         return 0;
                     });
                 }
-                
+
                 return currentRenewal.getUserAvailableQuantity(user);
             });
             
@@ -59,7 +59,7 @@ exports = module.exports = function(services, app)
         
         
         Q.all(available_quantity_promises).then(function(available_quantity_arr) {
-            
+
             if (available_quantity_arr.length !== output.length) {
                 return service.notFound('Internal error, number of computed quantites does not match with the rights count');
             }
