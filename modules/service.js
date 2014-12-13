@@ -91,7 +91,12 @@ function apiService() {
     this.notFound = function(message) {
          service.httpstatus = 404;
          service.outcome.success = false;
-         service.outcome.alert.push({ type:'danger' ,message: message});
+        
+         if (typeof message === "object" && message.toString) {
+            message = message.toString();  
+         }
+        
+         service.outcome.alert.push({ type:'danger' , message: message});
          
          service.deferred.reject(new Error(message));
     };

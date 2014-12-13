@@ -32,18 +32,31 @@ exports = module.exports = function(services, app)
     function resolveBeneficiaries(user, beneficiaries)
     {
         var Q = require('q');
-        var right, currentRenewal;
+        var right, currentRenewal, available_quantity_promise;
         var output = [];
         var available_quantity_promises = [];
         
         for(var i=0; i<beneficiaries.length; i++) {
             right = beneficiaries[i].toObject();
             right.disp_unit = beneficiaries[i].getDispUnit();
-            currentRenewal = beneficiaries[i].getCurrentRenewal();
-            available_quantity_promises.push(currentRenewal.getUserAvailableQuantity(user));
+            available_quantity_promise = beneficiaries[i].getCurrentRenewal()
+            .then(function(currentRenewal) {
+                
+                if (null === currentRenewal) {
+                    return Q.fcall(function () {
+                        // default available quantity if no renewal
+                        return 0;
+                    });
+                }
+                
+                return currentRenewal.getUserAvailableQuantity(user);
+            });
+            
+            available_quantity_promises.push(available_quantity_promise);
             
             output.push(right);
         }
+        
         
         Q.all(available_quantity_promises).then(function(available_quantity_arr) {
             
@@ -99,9 +112,7 @@ exports = module.exports = function(services, app)
         service.models.User.find({ _id: params.user }).populate('roles.account').exec(function(err, users) {
             
             if (service.handleMongoError(err)) {
-                
-                
-                
+
                 if (0 === users.length) {
                     return service.notFound('User not found for '+params.user);
                 }
