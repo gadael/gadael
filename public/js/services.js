@@ -3,8 +3,9 @@ define([
     'services/loadableResource', 
     'services/catchOutcome', 
     'services/rest',
+    'services/absence-edit',
     'angularResource'], 
-    function (angular, loadableResource, catchOutcome, rest) {
+    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit) {
     
 	'use strict';
     
@@ -81,11 +82,24 @@ define([
 
 	}])
 	
-    
+    /**
+     * Load the collection of REST services
+     */
     .factory('Rest', ['ResourceFactory', 'IngaResource', 
         function(ResourceFactory, IngaResource) {
-        return rest(ResourceFactory, IngaResource);
-    }])
+            return rest(ResourceFactory, IngaResource);
+        }
+    ])
+    
+    
+    /**
+     * 
+     */
+    .factory('AbsenceEdit',  
+        function() {
+            return AbsenceEdit;
+        }
+    )
     
         
     /**
