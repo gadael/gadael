@@ -51,15 +51,15 @@ exports.getInfos = function(req, res) {
             menu.account = [
                 {
                     'text': '<i class="fa fa-calendar"></i>&nbsp;'+gt.gettext('Calendar'),
-                    'href': '#/user/calendar'
+                    'href': '#/account/calendar'
                 },
                 {
                     'text': '<i class="fa fa-folder text-primary"></i>&nbsp;'+gt.gettext('My requests'),
-                    'href': '#/user/requests'
+                    'href': '#/account/requests'
                 },
                 {
                     'text': '<i class="fa fa-bullhorn"></i>&nbsp;'+gt.gettext('Request a vacation period'),
-                    'href': '#/user/vacation-request'
+                    'href': '#/account/absence-edit'
                 }
             ];
         }

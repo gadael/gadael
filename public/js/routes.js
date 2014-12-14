@@ -73,6 +73,63 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'UserSettings'
 		});
 		
+        
+        // vacation account pages
+        
+        $routeProvider.when('/account/requests', {
+			templateUrl: 'partials/account/request/requests.html',
+			controller: 'AccountRequests'
+		});
+        
+        
+        $routeProvider.when('/account/requests/absence-edit/:id', {
+			templateUrl: 'partials/account/request/absence-edit.html',
+			controller: 'AccountAbsenceEdit'
+		});
+
+		$routeProvider.when('/account/requests/absence-edit', {
+			templateUrl: 'partials/account/request/absence-edit.html',
+			controller: 'AccountAbsenceEdit'
+		});
+        
+        $routeProvider.when('/account/requests/absences/:id', {
+			templateUrl: 'partials/account/request/absence-view.html',
+			controller: 'AccountAbsenceView'
+		});
+        
+        
+        
+        $routeProvider.when('/account/requests/time-saving-deposit-edit/:id', {
+			templateUrl: 'partials/account/request/time-saving-deposit-edit.html',
+			controller: 'AccountTimeSavingDepositEdit'
+		});
+		
+		$routeProvider.when('/account/requests/time-saving-deposit-edit', {
+			templateUrl: 'partials/account/request/time-saving-deposit-edit.html',
+			controller: 'AccountTimeSavingDepositEdit'
+		});
+        
+        $routeProvider.when('/account/requests/time-saving-deposits/:id', {
+			templateUrl: 'partials/account/request/time-saving-deposit-view.html',
+			controller: 'AccountTimeSavingDepositView'
+		});
+        
+        
+        $routeProvider.when('/account/requests/workperiod-recover-edit/:id', {
+			templateUrl: 'partials/account/request/workperiod-recover-edit.html',
+			controller: 'AccountWorkperiodRecoverEdit'
+		});
+		
+		$routeProvider.when('/account/requests/workperiod-recover-edit', {
+			templateUrl: 'partials/account/request/workperiod-recover-edit.html',
+			controller: 'AccountWorkperiodRecoverEdit'
+		});
+        
+        $routeProvider.when('/account/requests/workperiod-recovers/:id', {
+			templateUrl: 'partials/account/request/workperiod-recover-view.html',
+			controller: 'AccountWorkperiodRecoverView'
+		});
+        
 		
 		// departments pages
 		

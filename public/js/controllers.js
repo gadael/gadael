@@ -72,6 +72,38 @@ define(['angular', 'services'], function (angular) {
 		.controller('LoginTumblr', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/login/tumblr', this, $scope, $injector);
 		}])
+    
+    
+    
+    
+        .controller('AccountRequests', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/request/requests', this, $scope, $injector);
+		}])
+    
+        .controller('AccountAbsenceEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/request/absence-edit', this, $scope, $injector);
+		}])
+        .controller('AccountAbsenceView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/request/absence-view', this, $scope, $injector);
+		}])
+    
+        .controller('AccountTimeSavingDepositEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/request/time-saving-deposit-edit', this, $scope, $injector);
+		}])
+        .controller('AccountTimeSavingDepositView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/request/time-saving-deposit-view', this, $scope, $injector);
+		}])
+    
+        .controller('AccountWorkperiodRecoverEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/request/workperiod-recover-edit', this, $scope, $injector);
+		}])
+        .controller('AccountWorkperiodRecoverView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/request/workperiod-recover-view', this, $scope, $injector);
+		}])
+
+    
+    
+    
 		
 		.controller('Admin', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/index', this, $scope, $injector);

@@ -1,0 +1,51 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+		
+		<div class="row inga-list-header">
+            
+            <div class="col-sm-3 text-center">
+				<button type="button" class="btn btn-primary" ng-click="typeSelection()">
+                    <i class="fa fa-plus"></i> <span translate>Add a request...</span>
+                </button>
+			</div>
+			
+			<div class="col-xs-12 col-sm-8 text-center">
+				<begriffs.pagination 
+					per-page="25" 
+					collection="types" 
+					url="'/rest/account/requests'" 
+					url-params="search" 
+					template-url="partials/utils/paginate-anything.html">
+				</begriffs.pagination>
+			</div>
+		</div>
+		
+		<div class="inga-list-rows">
+			<div class="row" ng-repeat="request in requests">
+				<div class="col-md-12">
+					<a ng-href="#/admin/requests/{{request._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+					 &nbsp; {{request.user.name}}
+				</div> 
+			</div>
+		</div>
+
+		
+	</div>
+	
+	<div role="search" class="col-xs-12 col-sm-3">
+		
+		<h2><i class="fa fa-search"></i> <span translate>Search in requests</span></h2>
+		
+        
+        <div class="form-group">
+			<label for="search_type" translate>By type:</label><br />
+			<select class="form-control" id="search_type" ng-model="search.type">
+                <option></option>
+                <option value="absence" translate>Absence</option>
+                <option value="time_saving_deposit" translate>Time saving deposit</option>
+                <option value="workperiod_recover" translate>Workperiod recover</option>
+            </select>
+		</div>
+
+	</div>
+</div>
