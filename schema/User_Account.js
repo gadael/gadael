@@ -228,6 +228,7 @@ exports = module.exports = function(params) {
             account.model('Beneficiary')
             .where('document').in([rightCollection._id, account.user.id])
             .populate('right')
+            .populate('right.type')
             .exec(deferred.makeNodeResolver());
             
         }).catch(deferred.reject);

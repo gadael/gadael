@@ -27,30 +27,38 @@ exports = module.exports = function(services, app)
     /**
      * 
      * @param {Document} user
-     * @param {Array} beneficiaries array of mongoose documents
+     * @param {Array} rights array of mongoose documents
      */
-    function resolveBeneficiaries(user, beneficiaries)
+    function resolveAccountRights(user, rights)
     {
         var Q = require('q');
-        var right, currentRenewal, available_quantity_promise;
+        var right, available_quantity_promise;
         var output = [];
         var available_quantity_promises = [];
         
-        for(var i=0; i<beneficiaries.length; i++) {
-            right = beneficiaries[i].toObject();
-            right.disp_unit = beneficiaries[i].getDispUnit();
-            available_quantity_promise = beneficiaries[i].getCurrentRenewal()
-            .then(function(currentRenewal) {
-                
-                if (null === currentRenewal) {
-                    return Q.fcall(function () {
-                        // default available quantity if no renewal
-                        return 0;
-                    });
-                }
+        
+        /**
+         * Get the promise for the available quantity
+         * @param   {Document} renewal
+         * @returns {[[Type]]} [[Description]]
+         */
+        function getRenewalAvailableQuantity(renewal) {
 
-                return currentRenewal.getUserAvailableQuantity(user);
-            });
+            if (null === renewal) {
+                return Q.fcall(function () {
+                    // default available quantity if no renewal
+                    return 0;
+                });
+            }
+
+            return renewal.getUserAvailableQuantity(user);
+        }
+        
+        // create an array of promises
+        for(var i=0; i<rights.length; i++) {
+            right = rights[i].toObject();
+            right.disp_unit = rights[i].getDispUnit();
+            available_quantity_promise = rights[i].getCurrentRenewal().then(getRenewalAvailableQuantity);
             
             available_quantity_promises.push(available_quantity_promise);
             
@@ -66,6 +74,7 @@ exports = module.exports = function(services, app)
             
             for(var i=0; i<available_quantity_arr.length; i++) {
                 output[i].available_quantity = available_quantity_arr[i];
+                output[i].available_quantity_dispUnit = rights[i].getDispUnit(available_quantity_arr[i]);
             }
             
             service.outcome.success = true;
@@ -123,8 +132,8 @@ exports = module.exports = function(services, app)
                     return service.notFound('Account not found for user');
                 }
 
-                account.getRights().then(function(beneficiaries) {
-                    resolveBeneficiaries(users[0], beneficiaries);
+                account.getRights().then(function(rights) {
+                    resolveAccountRights(users[0], rights);
                 }).catch(service.notFound);
                 
             } else {

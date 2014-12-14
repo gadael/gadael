@@ -18,7 +18,7 @@
             <div class="col-xs-10">
                 <h2>{{right.name}}</h2>
                 <p><span translate>Type:</span> {{right.type.name}}</p>
-                <p><span translate>Default quantity on start renewal:</span> {{right.quantity}} {{right.quantity_unit}}</p>
+                <p><span translate>Default quantity on start renewal:</span> {{right.quantity | number}} {{right.disp_unit}}</p>
             </div>
 
             <div class="col-xs-2 text-right">

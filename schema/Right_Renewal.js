@@ -80,6 +80,9 @@ exports = module.exports = function(params) {
     
     
     /**
+     * Get the right linked to the renewal
+     * return a promise and resolve to a Right document
+     *
      * @return {Promise}
      */
     rightRenewalSchema.methods.getRightPromise = function() {
@@ -94,7 +97,7 @@ exports = module.exports = function(params) {
             });
         } else if (!renewal.right) {
             
-            // No right, should not happen
+            // No right, should not happen, a renewal must be linked to a right
             Q.fcall(function () {
                 return null;
             });
@@ -110,7 +113,7 @@ exports = module.exports = function(params) {
         }
         
         return deferred.promise;
-    }
+    };
     
     
     
