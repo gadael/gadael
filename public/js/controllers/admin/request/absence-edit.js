@@ -8,31 +8,12 @@ define(['momentDurationFormat'], function(moment) {
         
         AbsenceEdit.initScope($scope);
         
-
-        
-        function onceUserLoaded(user)
-        {
-            if (!user.roles.account) {
-                throw new Error('the user must have a vacation account'); 
-            }
-            
-            var account = user.roles.account;
-            
-            var calendarEvents = Rest.admin.calendarevents.getResource();
-            var onUpdateInterval = AbsenceEdit.getOnUpdateInterval($scope, account, calendarEvents);
-            
-            $scope.$watch(function() { return $scope.selection.begin; }, function(begin) {
-                onUpdateInterval(begin, $scope.selection.end);
-            });
-
-            $scope.$watch(function() { return $scope.selection.end; }, function(end) {
-                onUpdateInterval($scope.selection.begin, end);
-            });
-        }
+        // resources 
+        var calendarEvents = Rest.admin.calendarevents.getResource();
+        var accountRights = Rest.admin.accountrights.getResource();
+        var users = Rest.admin.users.getResource();
         
 
-        
-        
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
         
         
@@ -41,7 +22,7 @@ define(['momentDurationFormat'], function(moment) {
                 // edit this request
                 
                 $scope.editRequest = true;
-                onceUserLoaded(request.user.id);
+                AbsenceEdit.onceUserLoaded($scope, request.user.id, calendarEvents);
             });
         } else {
             
@@ -52,12 +33,10 @@ define(['momentDurationFormat'], function(moment) {
             if (!userId) {
                 throw new Error('the user parameter is mandatory to create a new request');   
             }
-            
-            var users = Rest.admin.users.getResource();
 
             users.get({id: userId}).$promise.then(function(user) {
                 
-                onceUserLoaded(user);
+                AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
                 
                 $scope.request.user = {
                     id: user._id,
@@ -79,21 +58,7 @@ define(['momentDurationFormat'], function(moment) {
         /**
          * Go from the period selection to the right assignments step
          */
-        $scope.next = function() {
-            
-            // hide the period selection
-            $scope.periodSelection = false;
-            
-            // show the right assignement
-            $scope.assignments = true;
-            
-            var accountRights = Rest.admin.accountrights.getResource();
-            $scope.accountRights = accountRights.query({ 
-                user: $scope.request.user.id,
-                dtstart: $scope.request.dtstart,
-                dtend: $scope.request.dtend
-            });
-        };
+        $scope.next = AbsenceEdit.getNextButtonJob($scope, accountRights);
 
 	}];
 });
