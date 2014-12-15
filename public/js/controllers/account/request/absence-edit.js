@@ -22,27 +22,13 @@ define(['momentDurationFormat'], function(moment) {
                 // edit this request
                 
                 $scope.editRequest = true;
-                AbsenceEdit.onceUserLoaded($scope, request.user.id, calendarEvents);
+                
             });
         } else {
             
             // create a new request
             $scope.newRequest = true;
-            var userId = $location.search().user;
             
-            if (!userId) {
-                throw new Error('the user parameter is mandatory to create a new request');   
-            }
-
-            users.get({id: userId}).$promise.then(function(user) {
-                
-                AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
-                
-                $scope.request.user = {
-                    id: user._id,
-                    name: user.lastname+' '+user.firstname
-                };
-            });
             
         }
         
@@ -52,7 +38,7 @@ define(['momentDurationFormat'], function(moment) {
          * Go back to requests list, admin view
          */
         $scope.back = function() {
-            $location.path('/admin/requests');
+            $location.path('/account/requests');
         };
         
         /**

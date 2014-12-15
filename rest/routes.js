@@ -63,6 +63,8 @@ exports = module.exports = function(app, passport)
 	app.get('/rest/account', require('./Account').getAccount);
 	app.get('/rest/common', require('./Common').getInfos);
 	app.get('/rest/admin', require('./admin/index').getInfos);
+    
+    controllers.add('./account/requests');
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountrights');

@@ -5,7 +5,7 @@ var ctrlFactory = require('../controller');
 
 
 function listController() {
-    ctrlFactory.list.call(this, '/rest/admin/requests');
+    ctrlFactory.list.call(this, '/rest/account/requests');
     
     this.controllerAction = function() {
         this.jsonService(this.service('user/requests/list', { user: this.req.user._id }));
@@ -15,7 +15,7 @@ listController.prototype = new ctrlFactory.list();
 
 
 function getController() {
-    ctrlFactory.get.call(this, '/rest/admin/requests/:id');
+    ctrlFactory.get.call(this, '/rest/account/requests/:id');
     
     this.controllerAction = function() {
         this.jsonService(this.service('user/requests/get', { user: this.req.user._id }));
@@ -26,7 +26,7 @@ getController.prototype = new ctrlFactory.get();
 
 
 function createController() {
-    ctrlFactory.create.call(this, '/rest/admin/requests');
+    ctrlFactory.create.call(this, '/rest/account/requests');
     
     var controller = this;
     this.controllerAction = function() {
@@ -48,7 +48,7 @@ createController.prototype = new ctrlFactory.create();
 
 
 function updateController() {
-    ctrlFactory.update.call(this, '/rest/admin/requests/:id');
+    ctrlFactory.update.call(this, '/rest/account/requests/:id');
     
     var controller = this;
     this.controllerAction = function() {
@@ -67,7 +67,7 @@ function updateController() {
 updateController.prototype = new ctrlFactory.update();
 
 function deleteController() {
-    ctrlFactory.delete.call(this, '/rest/admin/requests/:id');
+    ctrlFactory.delete.call(this, '/rest/account/requests/:id');
     
     this.controllerAction = function() {
         this.jsonService(this.service('user/requests/delete', { user: this.req.user._id }));

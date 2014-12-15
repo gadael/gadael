@@ -11,7 +11,17 @@ define([], function() {
 
  
         $scope.typeSelection = function() {
-            //TODO: open modal for request type selection
+            var modalscope = $scope.$new();
+            modalscope.goto = function(requestType) {
+                $location.url('/account/requests/'+requestType+'-edit');
+            };
+            
+            var myOtherModal = $modal({
+                scope: modalscope,
+                template: 'partials/account/request/request-create-modal.html',
+                show: true
+            });
+            
         };
 	}];
 });
