@@ -51,6 +51,13 @@ define(['momentDurationFormat'], function(moment) {
         },
         
         
+        /**
+         * Process scope once the user document is available
+         * @param   {Object}   $scope         
+         * @param   {Object}   user           user document as object
+         * @param   {Resource} calendarEvents
+         * 
+         */
         onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents)
         {
             /**

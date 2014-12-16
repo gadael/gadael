@@ -9,13 +9,13 @@ define(['momentDurationFormat'], function(moment) {
         AbsenceEdit.initScope($scope);
         
         // resources 
-        var calendarEvents = Rest.admin.calendarevents.getResource();
-        var accountRights = Rest.admin.accountrights.getResource();
-        var users = Rest.admin.users.getResource();
+        var calendarEvents = Rest.account.calendarevents.getResource();
+        var accountRights = Rest.account.accountrights.getResource();
+        var user = Rest.user.user.getResource();
         
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
-        
+
         
         if ($scope.request.$promise) {
             $scope.request.$promise.then(function(request) {
@@ -29,6 +29,9 @@ define(['momentDurationFormat'], function(moment) {
             // create a new request
             $scope.newRequest = true;
             
+            user.get().$promise.then(function(user) {
+                AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
+            });
             
         }
         

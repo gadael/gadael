@@ -14,8 +14,10 @@ exports = module.exports = function(services, app) {
      */
     service.call = function(params) {
         
+        console.log(params);
+        
         service.models.User
-        .findOne({ '_id' : params.id}, 'lastname firstname email isActive department roles')
+        .findOne({ '_id' : params.id }, 'lastname firstname email isActive department roles')
         .populate('department')
         .populate('roles.account')
         .populate('roles.admin')

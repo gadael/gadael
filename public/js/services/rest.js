@@ -45,8 +45,13 @@ define(function() {
                 requests                : init('admin/requests/:id')
             },
             
-            users: {
-                
+            account: {
+                accountrights           : init('account/accountrights/:id'),
+                calendarevents          : init('account/calendarevents/:id')
+            },
+            
+            user: {
+                user                    : init('user')
             }
         };
     }
