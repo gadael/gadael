@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.AccountScheduleCalendar
+        service.app.db.models.AccountScheduleCalendar
         .findOne({ '_id' : params.id }, 'account calendar from to')
         .populate('calendar')
         .exec(function(err, document) {

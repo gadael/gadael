@@ -25,7 +25,7 @@ function validate(service, params) {
  */  
 function saveCalendar(service, params) {
     
-    var CalendarModel = service.models.Calendar;
+    var CalendarModel = service.app.db.models.Calendar;
     
     
     var fieldsToSet = { 
@@ -96,7 +96,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         validate(service, params);
         return service.deferred.promise;
     };

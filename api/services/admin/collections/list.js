@@ -16,7 +16,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.RightCollection.find();
+    var find = service.app.db.models.RightCollection.find();
 
     if (params && params.name)
     {
@@ -41,7 +41,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Query}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'name';
         var sortkey = 'name';

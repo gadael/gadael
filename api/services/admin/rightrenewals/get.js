@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.RightRenewal
+        service.app.db.models.RightRenewal
         .findOne({ '_id' : params.id}, 'right start finish')
         .exec(function(err, document) {
             if (service.handleMongoError(err))

@@ -19,7 +19,7 @@
 function getQuery(service, params) {
 
     var deferred = require('q').defer();
-    var find = service.models.Beneficiary.find();
+    var find = service.app.db.models.Beneficiary.find();
     find.populate('right');
     
     if (!params) {
@@ -28,7 +28,7 @@ function getQuery(service, params) {
     }
     
     if (null !== params.account) {
-        service.models.Account
+        service.app.db.models.Account
             .findOne({ _id: params.account})
             .exec(function(err, account) {
             
@@ -83,7 +83,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'right document ref';
         var sortkey = 'right.name';

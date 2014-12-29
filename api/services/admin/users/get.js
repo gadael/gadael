@@ -12,11 +12,11 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
         console.log(params);
         
-        service.models.User
+        service.app.db.models.User
         .findOne({ '_id' : params.id }, 'lastname firstname email isActive department roles')
         .populate('department')
         .populate('roles.account')

@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.Type
+        service.app.db.models.Type
         .findOne({ '_id' : params.id}, 'name group')
         .exec(function(err, document) {
             if (service.handleMongoError(err))

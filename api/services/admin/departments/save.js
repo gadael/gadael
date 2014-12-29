@@ -25,7 +25,7 @@ function validate(service, params) {
  */  
 function saveDepartment(service, params) {
     
-    var DepartmentModel = service.models.Department;
+    var DepartmentModel = service.app.db.models.Department;
     
     var fieldsToSet = { 
         name: params.name,
@@ -85,7 +85,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         validate(service, params);
         return service.deferred.promise;
     };

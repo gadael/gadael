@@ -18,7 +18,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.RightRenewal.find();
+    var find = service.app.db.models.RightRenewal.find();
 
     if (params && params.right)
     {
@@ -43,7 +43,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'right start finish';
         var sortkey = 'start';

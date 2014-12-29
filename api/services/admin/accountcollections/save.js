@@ -40,7 +40,7 @@ function getAccount(service, params, next) {
      
 
     // find account from user
-    service.models.User.findById(params.user, function(err, user) {
+    service.app.db.models.User.findById(params.user, function(err, user) {
         if (service.handleMongoError(err)) {
 
             if (!user) {
@@ -70,7 +70,7 @@ function getAccount(service, params, next) {
  */  
 function saveAccountCollection(service, params) {
     
-    var AccountCollection = service.models.AccountCollection;
+    var AccountCollection = service.app.db.models.AccountCollection;
     var util = require('util');
     
 
@@ -157,7 +157,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         validate(service, params);
         return service.deferred.promise;
     };

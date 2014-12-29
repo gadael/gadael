@@ -25,7 +25,7 @@ function validate(service, params) {
  */  
 function saveRequest(service, params) {
     
-    var RequestModel = service.models.Request;
+    var RequestModel = service.app.db.models.Request;
     
     
     var fieldsToSet = { 
@@ -106,7 +106,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         validate(service, params);
         return service.deferred.promise;
     };

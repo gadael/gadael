@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.AccountCollection
+        service.app.db.models.AccountCollection
         .findOne({ '_id' : params.id }, 'account rightCollection from to')
         .populate('rightCollection')
         .exec(function(err, document) {

@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.RightRule
+        service.app.db.models.RightRule
         .findOne({ '_id' : params.id}, 'right title quantity type interval')
         .exec(function(err, document) {
             if (service.handleMongoError(err))

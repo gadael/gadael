@@ -18,7 +18,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.Right.find();
+    var find = service.app.db.models.Right.find();
 
     if (params.name) {
         find.where({ name: new RegExp('^'+params.name, 'i') });
@@ -80,7 +80,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'name description type quantity quantity_unit';
         var sortkey = 'sortkey';

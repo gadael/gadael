@@ -25,7 +25,7 @@ function validate(service, params) {
  */  
 function saveRenewal(service, params) {
     
-    var RightRenewalModel = service.models.RightRenewal;
+    var RightRenewalModel = service.app.db.models.RightRenewal;
     
     
     var fieldsToSet = { 
@@ -92,7 +92,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         validate(service, params);
         return service.deferred.promise;
     };

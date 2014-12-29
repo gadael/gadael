@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.User.findById(params.id, function (err, document) {
+        service.app.db.models.User.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
                 
                 if (null === document) {

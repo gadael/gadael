@@ -13,7 +13,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.AccountScheduleCalendar.find();
+    var find = service.app.db.models.AccountScheduleCalendar.find();
     find.populate('calendar');
 
     if (params && params.calendar) {
@@ -43,7 +43,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'account calendar from to';
         var sortkey = 'from';

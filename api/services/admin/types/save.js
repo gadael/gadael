@@ -25,7 +25,7 @@ function validate(service, params) {
  */  
 function saveRightType(service, params) {
     
-    var TypeModel = service.models.Type;
+    var TypeModel = service.app.db.models.Type;
     
     
     var fieldsToSet = { 
@@ -87,7 +87,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         validate(service, params);
         return service.deferred.promise;
     };

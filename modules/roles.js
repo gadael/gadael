@@ -39,9 +39,9 @@ var removeOrUpdate = function(userDocument, checkedRole, model, updateCallback, 
         
         
     }, function (err) {
-        if (workflow.handleMongoError(err)) {
+        //if (workflow.handleMongoError(err)) {
             noRoleCallback();
-        }
+        //}
     });
 
 };

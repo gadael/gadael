@@ -18,7 +18,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.RightRule.find();
+    var find = service.app.db.models.RightRule.find();
 
     if (params && params.right)
     {
@@ -43,7 +43,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'title quantity type interval';
         var sortkey = 'title';

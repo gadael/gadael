@@ -1,6 +1,6 @@
 'use strict';
 
-var ctrlFactory = require('../controller');
+var ctrlFactory = require('restitute').controller;
 
 
 function listController() {

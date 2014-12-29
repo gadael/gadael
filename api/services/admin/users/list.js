@@ -17,7 +17,7 @@
  */
 var query = function(service, params, next) {
 
-    var find = service.models.User.find()
+    var find = service.app.db.models.User.find()
         .populate('department')
         .populate('roles.account')
         .populate('roles.admin')
@@ -51,7 +51,7 @@ var query = function(service, params, next) {
     }
 
     if (params.collection) {
-        var collFind = service.models.AccountCollection.find();
+        var collFind = service.app.db.models.AccountCollection.find();
         collFind.where('rightCollection').equals(params.collection);
         collFind.select('account');
 
@@ -88,7 +88,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
         
         query(service, params, function(find) {
             

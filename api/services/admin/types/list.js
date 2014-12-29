@@ -18,7 +18,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.Type.find();
+    var find = service.app.db.models.Type.find();
 
     if (params.name)
     {
@@ -43,7 +43,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'name group';
         var sortkey = 'name';

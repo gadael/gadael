@@ -18,7 +18,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.Calendar.find();
+    var find = service.app.db.models.Calendar.find();
 
     if (params && params.name)
     {
@@ -48,7 +48,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'name';
         var sortkey = 'name';

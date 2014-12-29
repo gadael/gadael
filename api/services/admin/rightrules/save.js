@@ -25,7 +25,7 @@ function validate(service, params) {
  */  
 function saveRule(service, params) {
     
-    var RightRuleModel = service.models.RightRule;
+    var RightRuleModel = service.app.db.models.RightRule;
 
     switch(params.type) {
         case 'entry_date':
@@ -104,7 +104,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         validate(service, params);
         return service.deferred.promise;
     };

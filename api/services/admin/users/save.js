@@ -21,7 +21,7 @@ function validate(service, params) {
  */  
 function saveUser(service, params) {
     
-    var User = service.models.User;
+    var User = service.app.db.models.User;
 
     if (params.id)
     {
@@ -86,7 +86,7 @@ function saveUserRoles(service, params, userDocument) {
                         
 
     saveRoles(
-        service.models, 
+        service.app.db.models, 
         userDocument, 
         account, 
         admin, 
@@ -127,7 +127,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Query}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
         validate(service, params);
         return service.deferred.promise;

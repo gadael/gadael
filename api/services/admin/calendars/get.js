@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.Calendar
+        service.app.db.models.Calendar
         .findOne({ '_id' : params.id}, 'name url type')
         .exec(function(err, document) {
             if (service.handleMongoError(err))

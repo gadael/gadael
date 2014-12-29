@@ -18,7 +18,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.AccountCollection.find();
+    var find = service.app.db.models.AccountCollection.find();
     find.populate('rightCollection');
 
     if (params && params.account)
@@ -49,7 +49,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'account rightCollection from to';
         var sortkey = 'from';

@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.Department
+        service.app.db.models.Department
         .findOne({ '_id' : params.id}, 'name nonWorkingDays')
         .exec(function(err, document) {
             if (service.handleMongoError(err))

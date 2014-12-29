@@ -11,10 +11,10 @@ exports = module.exports = function(services, app) {
      * @param {object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
         
-        service.models.Right.findById(params.id, function (err, document) {
+        service.app.db.models.Right.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {

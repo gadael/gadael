@@ -25,7 +25,7 @@ function validate(service, params) {
  */  
 function saveCollection(service, params) {
     
-    var RightCollection = service.models.RightCollection;
+    var RightCollection = service.app.db.models.RightCollection;
 
     if (params.id)
     {
@@ -77,7 +77,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Query}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         validate(service, params);
         return service.deferred.promise;
     };

@@ -11,9 +11,9 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
-        service.models.Beneficiary
+        service.app.db.models.Beneficiary
         .findOne({ '_id' : params.id }, 'right ref document')
         .populate('right')
         .exec(function(err, document) {

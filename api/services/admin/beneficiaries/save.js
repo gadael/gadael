@@ -28,7 +28,7 @@ function validate(service, params) {
  */  
 function saveBeneficiary(service, params) {
     
-    var Beneficiary = service.models.Beneficiary;
+    var Beneficiary = service.app.db.models.Beneficiary;
     var util = require('util');
     
 
@@ -106,7 +106,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
 
         validate(service, params);
         return service.deferred.promise;

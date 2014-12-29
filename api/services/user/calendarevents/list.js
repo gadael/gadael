@@ -19,7 +19,7 @@
  */
 function getEventsQuery(service, params)
 {
-    var find = service.models.CalendarEvent.find();
+    var find = service.app.db.models.CalendarEvent.find();
 
     if (params.calendar) {
         find.where('calendar').equals(params.calendar);   
@@ -65,7 +65,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
         params.dtstart = new Date(params.dtstart);
         params.dtend = new Date(params.dtend);

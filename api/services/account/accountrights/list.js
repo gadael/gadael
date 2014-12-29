@@ -103,7 +103,7 @@ exports = module.exports = function(services, app)
      *
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
         params.dtstart = new Date(params.dtstart);
         params.dtend = new Date(params.dtend);
@@ -118,7 +118,7 @@ exports = module.exports = function(services, app)
 
         // get user account document for the user param
         
-        service.models.User.find({ _id: params.user }).populate('roles.account').exec(function(err, users) {
+        service.app.db.models.User.find({ _id: params.user }).populate('roles.account').exec(function(err, users) {
             
             if (service.handleMongoError(err)) {
 

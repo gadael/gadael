@@ -11,7 +11,7 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @return {Promise}
      */
-    service.call = function(params) {
+    service.getResultPromise = function(params) {
         
         var filter = {
             _id: params.id,
@@ -24,7 +24,7 @@ exports = module.exports = function(services, app) {
         
         
         
-        service.models.Request
+        service.app.db.models.Request
         .findOne(filter)
         .exec(function(err, document) {
             if (service.handleMongoError(err))

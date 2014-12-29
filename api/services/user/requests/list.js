@@ -18,7 +18,7 @@
  */
 var query = function(service, params) {
 
-    var find = service.models.Request.find();
+    var find = service.app.db.models.Request.find();
     find.where({ deleted: false });
 
     if (params.user)
@@ -44,7 +44,7 @@ exports = module.exports = function(services, app) {
      *
      * @return {Promise}
      */
-    service.call = function(params, paginate) {
+    service.getResultPromise = function(params, paginate) {
           
         var cols = 'user createdBy absence time_saving_deposit workperiod_recover approvalSteps';
         var sortkey = 'name';
