@@ -24,6 +24,10 @@ function validate(service, params) {
  * @param {Object} params
  */  
 function saveCalendar(service, params) {
+
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
     
     var CalendarModel = service.app.db.models.Calendar;
     
@@ -48,7 +52,7 @@ function saveCalendar(service, params) {
 
                 service.resolveSuccess(
                     calendar, 
-                    service.gt.gettext('The calendar has been modified')
+                    gt.gettext('The calendar has been modified')
                 );
             }
         });
@@ -63,7 +67,7 @@ function saveCalendar(service, params) {
                 
                 service.resolveSuccess(
                     calendar, 
-                    service.gt.gettext('The calendar has been created')
+                    gt.gettext('The calendar has been created')
                 );
             }
         });

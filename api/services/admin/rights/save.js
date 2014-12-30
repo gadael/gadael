@@ -24,6 +24,9 @@ function validate(service, params) {
  * @param {Object} params
  */  
 function saveRight(service, params) {
+
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
     
     var RightModel = service.app.db.models.Right;
     
@@ -45,7 +48,7 @@ function saveRight(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The vacation right has been modified')
+                    gt.gettext('The vacation right has been modified')
                 );
             }
         });
@@ -58,7 +61,7 @@ function saveRight(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The vacation right has been created')
+                    gt.gettext('The vacation right has been created')
                 );
             }
         });

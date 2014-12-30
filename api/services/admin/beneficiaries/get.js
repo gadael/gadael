@@ -13,6 +13,10 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
+
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
+
         service.app.db.models.Beneficiary
         .findOne({ '_id' : params.id }, 'right ref document')
         .populate('right')
@@ -23,7 +27,7 @@ exports = module.exports = function(services, app) {
                     service.outcome.success = true;
                     service.deferred.resolve(document);
                 } else {
-                    service.notFound(service.gt.gettext('This right does not exists for account or collection'));
+                    service.notFound(gt.gettext('This right does not exists for account or collection'));
                 }
             }
         });

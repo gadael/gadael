@@ -24,6 +24,10 @@ function validate(service, params) {
  * @param {Object} params
  */  
 function saveRequest(service, params) {
+
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
     
     var RequestModel = service.app.db.models.Request;
     
@@ -58,7 +62,7 @@ function saveRequest(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The request has been modified')
+                    gt.gettext('The request has been modified')
                 );
             }
         });
@@ -73,7 +77,7 @@ function saveRequest(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The request has been created')
+                    gt.gettext('The request has been created')
                 );
             }
         });

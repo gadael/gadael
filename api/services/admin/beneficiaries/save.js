@@ -28,6 +28,10 @@ function validate(service, params) {
  */  
 function saveBeneficiary(service, params) {
     
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
+
     var Beneficiary = service.app.db.models.Beneficiary;
     var util = require('util');
     
@@ -38,7 +42,7 @@ function saveBeneficiary(service, params) {
         Beneficiary.findById(params._id, function(err, document) {
             if (service.handleMongoError(err)) {
                 if (null === document) {
-                    service.notFound(util.format(service.gt.gettext('beneficiary document not found for id %s'), params.id));
+                    service.notFound(util.format(gt.gettext('beneficiary document not found for id %s'), params.id));
                     return;
                 }
                 
@@ -52,7 +56,7 @@ function saveBeneficiary(service, params) {
 
                         service.resolveSuccess(
                             document, 
-                            service.gt.gettext('The right association has been modified')
+                            gt.gettext('The right association has been modified')
                         );
                     }
                 });
@@ -72,7 +76,7 @@ function saveBeneficiary(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right association has been created')
+                    gt.gettext('The right association has been created')
                 );
             }
         });

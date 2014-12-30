@@ -3,6 +3,9 @@
 
 exports = module.exports = function(services, app) {
     
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
     var service = new services.delete(app);
     
     /**
@@ -18,7 +21,7 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err)) {
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {
-                        service.success(service.gt.gettext('The calendar has been deleted'));
+                        service.success(gt.gettext('The calendar has been deleted'));
                         
                         var calendar = document.toObject();
                         calendar.$outcome = service.outcome;

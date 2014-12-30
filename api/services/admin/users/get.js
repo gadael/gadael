@@ -3,6 +3,10 @@
 
 
 exports = module.exports = function(services, app) {
+
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
     
     var service = new services.get(app);
     
@@ -34,7 +38,7 @@ exports = module.exports = function(services, app) {
                     
                     
                 } else {
-                    service.notFound(service.gt.gettext('This user does not exists'));
+                    service.notFound(gt.gettext('This user does not exists'));
                 }
             }
         });

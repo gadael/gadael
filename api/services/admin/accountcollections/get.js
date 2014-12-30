@@ -5,6 +5,10 @@ exports = module.exports = function(services, app) {
     
     var service = new services.get(app);
     
+
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
     /**
      * Call the AccountCollection get service
      * 
@@ -23,7 +27,7 @@ exports = module.exports = function(services, app) {
                     service.outcome.success = true;
                     service.deferred.resolve(document);
                 } else {
-                    service.notFound(service.gt.gettext('This collection does not exists for account'));
+                    service.notFound(gt.gettext('This collection does not exists for account'));
                 }
             }
         });

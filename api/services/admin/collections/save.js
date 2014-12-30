@@ -24,6 +24,10 @@ function validate(service, params) {
  * @param {Object} params
  */  
 function saveCollection(service, params) {
+
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
     
     var RightCollection = service.app.db.models.RightCollection;
 
@@ -39,7 +43,7 @@ function saveCollection(service, params) {
                         
                         service.resolveSuccess(
                             document, 
-                            service.gt.gettext('The collection has been modified')
+                            gt.gettext('The collection has been modified')
                         );
                     }
                 });
@@ -56,7 +60,7 @@ function saveCollection(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The collection has been created')
+                    gt.gettext('The collection has been created')
                 );
             }
         });

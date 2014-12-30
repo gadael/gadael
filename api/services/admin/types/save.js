@@ -33,6 +33,8 @@ function saveRightType(service, params) {
         group: params.group
     };
     
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
 
     if (params.id)
     {
@@ -41,7 +43,7 @@ function saveRightType(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right type has been modified')
+                    gt.gettext('The right type has been modified')
                 );
             }
         });
@@ -54,7 +56,7 @@ function saveRightType(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right type has been created')
+                    gt.gettext('The right type has been created')
                 );
             }
         });

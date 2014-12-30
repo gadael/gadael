@@ -1,6 +1,7 @@
 'use strict';
 
-
+var Gettext = require('node-gettext');
+var gt = new Gettext();
 
 /**
  * Validate params fields
@@ -34,7 +35,7 @@ function getAccount(service, params, next) {
     }
 
     if (!params.user) {
-        service.forbidden(service.gt.gettext('Cant create accountCollection, missing user or account'));
+        service.forbidden(gt.gettext('Cant create accountCollection, missing user or account'));
         return;
     }
      
@@ -44,12 +45,12 @@ function getAccount(service, params, next) {
         if (service.handleMongoError(err)) {
 
             if (!user) {
-                service.notFound(service.gt.gettext('User not found'));
+                service.notFound(gt.gettext('User not found'));
                 return;
             }
 
             if (!user.roles.account) {
-                service.forbidden(service.gt.gettext('The user has no vacation account, collections are only linkable to accounts'));
+                service.forbidden(gt.gettext('The user has no vacation account, collections are only linkable to accounts'));
                 return;
             }
 
@@ -79,7 +80,7 @@ function saveAccountCollection(service, params) {
         AccountCollection.findById(params._id, function(err, document) {
             if (service.handleMongoError(err)) {
                 if (null === document) {
-                    service.notFound(util.format(service.gt.gettext('AccountCollection document not found for id %s'), params.id));
+                    service.notFound(util.format(gt.gettext('AccountCollection document not found for id %s'), params.id));
                     return;
                 }
                 
@@ -96,7 +97,7 @@ function saveAccountCollection(service, params) {
 
                         service.resolveSuccess(
                             doc, 
-                            service.gt.gettext('The account collection has been modified')
+                            gt.gettext('The account collection has been modified')
                         );
                     }
                 });
@@ -122,7 +123,7 @@ function saveAccountCollection(service, params) {
                     
                     service.resolveSuccess(
                         doc, 
-                        service.gt.gettext('The account collection has been created')
+                        gt.gettext('The account collection has been created')
                     );
                 }
             });

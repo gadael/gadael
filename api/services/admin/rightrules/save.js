@@ -25,6 +25,10 @@ function validate(service, params) {
  */  
 function saveRule(service, params) {
     
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
+
     var RightRuleModel = service.app.db.models.RightRule;
 
     switch(params.type) {
@@ -58,7 +62,7 @@ function saveRule(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right rule has been modified')
+                    gt.gettext('The right rule has been modified')
                 );
             }
         });
@@ -71,7 +75,7 @@ function saveRule(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right rule period has been created')
+                    gt.gettext('The right rule period has been created')
                 );
             }
         });

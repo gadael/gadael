@@ -13,6 +13,9 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
+
         var filter = {
             _id: params.id,
             deleted: false
@@ -29,7 +32,7 @@ exports = module.exports = function(services, app) {
                 document.deleted = true;
                 document.save(function(err) {
                     if (service.handleMongoError(err)) {
-                        service.success(service.gt.gettext('The request has been deleted'));
+                        service.success(gt.gettext('The request has been deleted'));
                         
                         var request = document.toObject();
                         request.$outcome = service.outcome;

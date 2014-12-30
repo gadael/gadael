@@ -11,7 +11,8 @@ exports = module.exports = function(services, app) {
     
     var service = new services.delete(app);
     
-    
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
     
     
     /**
@@ -22,12 +23,12 @@ exports = module.exports = function(services, app) {
     function validate(document) {
 
         if (!document) {
-            service.notFound(service.gt.gettext('this collection does not exists or is not linked to account'));
+            service.notFound(gt.gettext('this collection does not exists or is not linked to account'));
             return false;
         }
 
         if (document.from < new Date()) {
-            service.forbidden(service.gt.gettext('Delete a collection allready started is not allowed'));
+            service.forbidden(gt.gettext('Delete a collection allready started is not allowed'));
             return false;
         }
 
@@ -55,7 +56,7 @@ exports = module.exports = function(services, app) {
                 
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {
-                        service.success(service.gt.gettext('The collection has been removed from account'));
+                        service.success(gt.gettext('The collection has been removed from account'));
                         
                         var accountCollection = document.toObject();
                         accountCollection.$outcome = service.outcome;

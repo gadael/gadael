@@ -13,6 +13,10 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
+
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
+
         service.app.db.models.AccountScheduleCalendar
         .findOne({ '_id' : params.id }, 'account calendar from to')
         .populate('calendar')
@@ -23,7 +27,7 @@ exports = module.exports = function(services, app) {
                     service.outcome.success = true;
                     service.deferred.resolve(document);
                 } else {
-                    service.notFound(service.gt.gettext('This schedule calendar does not exists for account'));
+                    service.notFound(gt.gettext('This schedule calendar does not exists for account'));
                 }
             }
         });

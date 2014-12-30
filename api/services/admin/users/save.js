@@ -1,6 +1,8 @@
 'use strict';
 
 
+var Gettext = require('node-gettext');
+var gt = new Gettext();
 
 /**
  * Validate params fields
@@ -20,6 +22,7 @@ function validate(service, params) {
  * Update/create the user document
  */  
 function saveUser(service, params) {
+
     
     var User = service.app.db.models.User;
 
@@ -37,7 +40,7 @@ function saveUser(service, params) {
                 user.save(function(err) {
                     if (service.handleMongoError(err)) {
 
-                        service.success(service.gt.gettext('The user has been modified'));
+                        service.success(gt.gettext('The user has been modified'));
                         
                         saveUserRoles(service, params, user);
                     }
@@ -58,7 +61,7 @@ function saveUser(service, params) {
 
             if (service.handleMongoError(err))
             {
-                service.success(service.gt.gettext('The user has been created'));
+                service.success(gt.gettext('The user has been created'));
 
                 saveUserRoles(service, params, userDocument);
             }
@@ -73,7 +76,7 @@ function saveUser(service, params) {
 function saveUserRoles(service, params, userDocument) {
 
     if (!userDocument) {
-        return service.notFound(service.gt.gettext('No user document to save roles on'));
+        return service.notFound(gt.gettext('No user document to save roles on'));
     }
 
     var saveRoles = require('../../../../modules/roles');

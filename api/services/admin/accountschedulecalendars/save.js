@@ -1,6 +1,8 @@
 'use strict';
 
 
+var Gettext = require('node-gettext');
+var gt = new Gettext();
 
 /**
  * Validate params fields
@@ -33,7 +35,7 @@ function getAccount(service, params, next) {
     }
 
     if (!params.user) {
-        service.forbidden(service.gt.gettext('Cant create AccountScheduleCalendar, missing user or account'));
+        service.forbidden(gt.gettext('Cant create AccountScheduleCalendar, missing user or account'));
         return;
     }
 
@@ -42,12 +44,12 @@ function getAccount(service, params, next) {
         if (service.handleMongoError(err)) {
 
             if (!user) {
-                service.notFound(service.gt.gettext('User not found'));
+                service.notFound(gt.gettext('User not found'));
                 return;
             }
 
             if (!user.roles.account) {
-                service.forbidden(service.gt.gettext('The user has no vacation account, schedule calendars are only linkable to accounts'));
+                service.forbidden(gt.gettext('The user has no vacation account, schedule calendars are only linkable to accounts'));
                 return;
             }
 
@@ -76,7 +78,7 @@ function saveAccountScheduleCalendar(service, params) {
         scheduleCalendar.findById(params.id, function(err, document) {
             if (service.handleMongoError(err)) {
                 if (null === document) {
-                    service.notFound(util.format(service.gt.gettext('AccountScheduleCalendar document not found for id %s'), params.id));
+                    service.notFound(util.format(gt.gettext('AccountScheduleCalendar document not found for id %s'), params.id));
                     return;
                 }
                 
@@ -88,7 +90,7 @@ function saveAccountScheduleCalendar(service, params) {
                     if (service.handleMongoError(err)) {
                         service.resolveSuccess(
                             document, 
-                            service.gt.gettext('The account schedule calendar period has been modified')
+                            gt.gettext('The account schedule calendar period has been modified')
                         );
                     }
                 });
@@ -110,7 +112,7 @@ function saveAccountScheduleCalendar(service, params) {
                 {
                     service.resolveSuccess(
                         document, 
-                        service.gt.gettext('The account schedule calendar period has been created')
+                        gt.gettext('The account schedule calendar period has been created')
                     );
                 }
             });

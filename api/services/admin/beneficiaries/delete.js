@@ -11,8 +11,9 @@ exports = module.exports = function(services, app) {
     
     var service = new services.delete(app);
     
-    
-    
+
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
     
     /**
      * Validate before delete
@@ -22,7 +23,7 @@ exports = module.exports = function(services, app) {
     function validate(document) {
 
         if (!document) {
-            service.notFound(service.gt.gettext('this right does not exists or is not linked to account or collection'));
+            service.notFound(gt.gettext('this right does not exists or is not linked to account or collection'));
             return false;
         }
 
@@ -39,6 +40,7 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
+
         
         
         service.app.db.models.Beneficiary.findById(params.id, function (err, document) {
@@ -52,9 +54,9 @@ exports = module.exports = function(services, app) {
                     if (service.handleMongoError(err)) {
                         
                         if ('User' === document.ref) {
-                            service.success(service.gt.gettext('The right has been removed from user account'));
+                            service.success(gt.gettext('The right has been removed from user account'));
                         } else {
-                            service.success(service.gt.gettext('The right has been removed from the collection'));
+                            service.success(gt.gettext('The right has been removed from the collection'));
                         }
                         
                         var beneficiary = document.toObject();

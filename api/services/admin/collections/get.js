@@ -3,6 +3,9 @@
 
 exports = module.exports = function(services, app) {
     
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
     var service = new services.get(app);
     
     /**
@@ -22,7 +25,7 @@ exports = module.exports = function(services, app) {
                     service.outcome.success = true;
                     service.deferred.resolve(document);
                 } else {
-                    service.notFound(service.gt.gettext('This collection does not exists'));
+                    service.notFound(gt.gettext('This collection does not exists'));
                 }
             }
         });

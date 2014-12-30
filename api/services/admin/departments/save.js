@@ -25,6 +25,10 @@ function validate(service, params) {
  */  
 function saveDepartment(service, params) {
     
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
+
     var DepartmentModel = service.app.db.models.Department;
     
     var fieldsToSet = { 
@@ -39,7 +43,7 @@ function saveDepartment(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The department has been modified')
+                    gt.gettext('The department has been modified')
                 );
             }
         });
@@ -52,7 +56,7 @@ function saveDepartment(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The department has been created')
+                    gt.gettext('The department has been created')
                 );
             }
         });

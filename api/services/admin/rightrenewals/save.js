@@ -25,6 +25,9 @@ function validate(service, params) {
  */  
 function saveRenewal(service, params) {
     
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
+
     var RightRenewalModel = service.app.db.models.RightRenewal;
     
     
@@ -46,7 +49,7 @@ function saveRenewal(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right renewal period has been modified')
+                    gt.gettext('The right renewal period has been modified')
                 );
             }
         });
@@ -59,7 +62,7 @@ function saveRenewal(service, params) {
             {
                 service.resolveSuccess(
                     document, 
-                    service.gt.gettext('The right renewal period has been created')
+                    gt.gettext('The right renewal period has been created')
                 );
             }
         });
