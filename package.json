@@ -3,17 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js",
-    "postinstall": "bower install",
-    "prestart": "npm install",
-    "pretest": "npm install",
-    "test": "karma start test/karma.conf.js",
-    "test-single-run": "karma start test/karma.conf.js  --single-run",
-    "preupdate-webdriver": "npm install",
-    "update-webdriver": "webdriver-manager update",
-    "preprotractor": "npm run update-webdriver",
-    "protractor": "protractor test/protractor-conf.js",
-    "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + cat('app/bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'app/index-async.html');\""
+    "test": "grunt test"
   },
   "dependencies": {
     "async": "^0.8.0",

@@ -17,9 +17,7 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
-        console.log(params);
-        
+
         service.app.db.models.User
         .findOne({ '_id' : params.id }, 'lastname firstname email isActive department roles')
         .populate('department')
