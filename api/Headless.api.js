@@ -44,3 +44,17 @@ app.disconnect = function(callback) {
         }
 	});
 };
+
+
+/**
+ * Load a service
+ *
+ * @param {String} path
+ *
+ * @return {apiService}
+ */
+app.getService = function(path) {
+    var apiservice = require('restitute').service;
+    var getService = require('../api/services/'+path);
+    return getService(apiservice, app);
+}

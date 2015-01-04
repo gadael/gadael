@@ -1,6 +1,7 @@
 'use strict';
 
 var app = require('../../../../../api/Headless.api.js');
+var restitute = require('restitute');
 
 describe('collections admin API service', function UsersTestSuite() {
     
@@ -11,8 +12,8 @@ describe('collections admin API service', function UsersTestSuite() {
 	});
     
     it("load all users without parameters", function(done) {
-        var list = app.service('admin/collections/list');
-        list.call().then(function(val) {
+        var list = app.getService('admin/collections/list');
+        list.getResultPromise().then(function(val) {
             expect(list.httpstatus).toEqual(200);
             done();
         });
@@ -20,8 +21,8 @@ describe('collections admin API service', function UsersTestSuite() {
     
     
     it("Fail on create a collection with a missing mandatory name", function(done) {
-        var save = app.service('admin/collections/save');
-        save.call({}).fail(function(err) {
+        var save = app.getService('admin/collections/save');
+        save.getResultPromise({}).fail(function(err) {
             expect(save.httpstatus).toEqual(400);
             done();
         });

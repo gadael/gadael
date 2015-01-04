@@ -11,8 +11,8 @@ describe('users admin API service', function UsersTestSuite() {
 	});
     
     it("load all users without parameters", function(done) {
-        var list = app.service('admin/users/list');
-        list.call().then(function(val) {
+        var list = app.getService('admin/users/list');
+        list.getResultPromise().then(function(val) {
             expect(list.httpstatus).toEqual(200);
             done();
         });
@@ -20,8 +20,8 @@ describe('users admin API service', function UsersTestSuite() {
     
     
     it("Fail on create a user with a missing mandatory field", function(done) {
-        var save = app.service('admin/users/save');
-        save.call({}).fail(function(err) {
+        var save = app.getService('admin/users/save');
+        save.getResultPromise({}).fail(function(err) {
             expect(save.httpstatus).toEqual(400);
             done();
         });
