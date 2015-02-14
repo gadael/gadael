@@ -57,4 +57,4 @@ app.getService = function(path) {
     var apiservice = require('restitute').service;
     var getService = require('../api/services/'+path);
     return getService(apiservice, app);
-}
+};
