@@ -3,7 +3,13 @@
 var companyApi = require('./api/Company.api');
 
 //dependencies
-var config = require('./config')();
+try {
+    var config = require('./config')();
+} catch(e) {
+    throw new Error(e+' Please copy config.example.js to config.js');
+}
+
+
 var models = require('./models');
 
 var app = companyApi.getExpress(config, models);
