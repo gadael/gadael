@@ -2,8 +2,8 @@ define([], function() {
     'use strict';
 	return ['$scope', function($scope) {
 		
-		$scope.welcomeMessage = 'hey this is myctrl2.js!';
-
-		$scope.$apply();
+		$scope.submit = function() {
+            alert('TODO: registration, or remove registration button');
+        };
 	}];
 });

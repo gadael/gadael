@@ -4,7 +4,7 @@
 			<h1>Sign Up</h1>
 		</div>
 		<div id="signup">
-			<form>
+			<form  ng-submit="submit()" ng-controller="Signup" >
 				<div class="alerts"></div>
 				<div class="form-group ">
 					<label>Pick a Username:</label><input type="text"
@@ -22,7 +22,7 @@
 						class="help-block"></span>
 				</div>
 				<div class="form-group">
-					<button class="btn btn-primary btn-signup" type="button">Create
+					<button class="btn btn-primary btn-signup" type="submit">Create
 						My Account</button>
 				</div>
 			</form>

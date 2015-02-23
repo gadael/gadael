@@ -34,7 +34,8 @@
     "rrule":"~2.1.0",
     "node-paginate-anything":"~0.0.5",
     "restitute":"latest",
-    "q":"~1.0.1"
+    "q":"~1.0.1",
+    "bcrypt": "~0.8.1"
   },
   "devDependencies": {
     "karma": "~0.12.23",

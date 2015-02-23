@@ -14,7 +14,10 @@ require.config({
 		angularAnimate:			'../bower_components/angular-animate/angular-animate.min',
 		angularSanitize:		'../bower_components/angular-sanitize/angular-sanitize.min',
         moment:                 '../bower_components/moment/min/moment-with-locales.min',
-        momentDurationFormat:   '../bower_components/moment-duration-format/lib/moment-duration-format'
+        momentDurationFormat:   '../bower_components/moment-duration-format/lib/moment-duration-format',
+        q:                      '../bower_components/q/q',
+        d3:                     '../bower_components/d3/d3.min',
+        teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -34,7 +37,8 @@ require.config({
 		'passwordStrength': ['angular'],
 		'angular_frfr': ['angular'],
 		'angularAnimate': ['angular'],
-		'angularSanitize': ['angular']
+		'angularSanitize': ['angular'],
+        'teleperiod': ['q', 'd3']
 	},
 	priority: ["angular"]
 });

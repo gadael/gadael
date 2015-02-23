@@ -12,6 +12,6 @@ define(['angularstraptpl',
 				title: 'hey this is home.js!'
 		};
         
-		$scope.$apply();
+		// $scope.$apply();
 	}];
 });
