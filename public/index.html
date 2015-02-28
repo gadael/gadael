@@ -33,7 +33,6 @@
           
           
 			<ul class="nav navbar-nav navbar-right" ng-switch on="user.intAuthenticated">
-				<li ng-switch-when="0"><a href="#/signup"><i class="fa fa-user"></i> <span translate>Sign up</span></a></li>
 				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-sign-in"></i> <span translate>Sign In</span></a></li>
 				<li class="dropdown" ng-switch-when="1">
 					<a href="" class="dropdown-toggle" bs-dropdown="menu.user"><i class="fa fa-user"></i> {{user.firstname}} {{user.lastname}} <b class="caret"></b></a>

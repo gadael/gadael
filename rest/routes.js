@@ -88,13 +88,9 @@ exports = module.exports = function(app, passport)
 	app.post('/rest/login/reset', require('./login').resetPassword);
 	app.get('/rest/logout', require('./logout').init);
 	
-	//social login
-    /*
-	app.get('/login/twitter/', passport.authenticate('twitter', { callbackURL: '#/login/twitter/callback/' }));
-	app.get('/login/github/', passport.authenticate('github', { callbackURL: '#/login/github/callback/' }));
-	app.get('/login/facebook/', passport.authenticate('facebook', { callbackURL: '#/login/facebook/callback/' }));
-	app.get('/login/google/', passport.authenticate('google', { callbackURL: '#/login/google/callback/', scope: ['profile email'] }));
-	app.get('/login/tumblr/', passport.authenticate('tumblr', { callbackURL: '#/login/tumblr/callback/', scope: ['profile email'] }));
+	/*
+	app.get('/login/google', passport.authenticate('google', { callbackURL: '#/login/google/callback/', scope: ['profile email'] }));
+	app.get('/login/tumblr', passport.authenticate('ldap', { callbackURL: '#/login/ldap/callback/', scope: ['profile email'] }));
     */
     
 	// tests

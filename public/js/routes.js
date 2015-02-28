@@ -37,30 +37,15 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/login/reset.html',
 			controller: 'LoginReset'
 		});
-		
-		$routeProvider.when('/login/twitter/callback/', {
-			templateUrl: 'partials/login/twitter.html',
-			controller: 'LoginTwitter'
-		});
-		
-		$routeProvider.when('/login/github/callback/', {
-			templateUrl: 'partials/login/github.html',
-			controller: 'LoginGithub'
-		});
-		
-		$routeProvider.when('/login/facebook/callback/', {
-			templateUrl: 'partials/login/facebook.html',
-			controller: 'LoginFacebook'
-		});
-		
+
 		$routeProvider.when('/login/google/callback/', {
 			templateUrl: 'partials/login/google.html',
 			controller: 'LoginGoogle'
 		});
 		
-		$routeProvider.when('/login/tumblr/callback/', {
-			templateUrl: 'partials/login/tumblr.html',
-			controller: 'LoginTumblr'
+		$routeProvider.when('/login/ldap/callback/', {
+			templateUrl: 'partials/login/ldap.html',
+			controller: 'LoginLdap'
 		});
 		
 		
