@@ -10,7 +10,7 @@ define([], function() {
 			Rest
 		) {
 
-		$scope.user = Rest.admin.users.getResource();
+		$scope.user = Rest.anonymous.firstadmin.getResource();
 
 
 		/**

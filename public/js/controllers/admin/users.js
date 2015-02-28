@@ -1,8 +1,4 @@
-define([
-    'angularstraptpl',
-	'angular_frfr',
-	'angularAnimate',
-	'angularSanitize'], function() {
+define([], function() {
         
     'use strict';
         

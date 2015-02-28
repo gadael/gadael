@@ -8,9 +8,9 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'MyCtrl1'
 		});
 		
-		$routeProvider.when('/view2', {
-			templateUrl: 'partials/partial2.html',
-			controller: 'MyCtrl2'
+		$routeProvider.when('/login/createfirstadmin', {
+			templateUrl: 'partials/login/createfirstadmin.html',
+			controller: 'CreateFirstAdmin'
 		});
 		
 		$routeProvider.when('/home', {

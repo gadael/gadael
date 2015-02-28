@@ -52,25 +52,13 @@ define(['angular', 'services'], function (angular) {
 		.controller('LoginReset', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/login/reset', this, $scope, $injector);
 		}])
-		
-		.controller('LoginTwitter', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/login/twitter', this, $scope, $injector);
-		}])
-		
-		.controller('LoginGithub', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/login/github', this, $scope, $injector);
-		}])
-		
-		.controller('LoginFacebook', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/login/facebook', this, $scope, $injector);
-		}])
-		
+
 		.controller('LoginGoogle', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/login/google', this, $scope, $injector);
 		}])
 		
-		.controller('LoginTumblr', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/login/tumblr', this, $scope, $injector);
+		.controller('CreateFirstAdmin', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/login/createfirstadmin', this, $scope, $injector);
 		}])
     
     
