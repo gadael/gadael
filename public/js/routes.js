@@ -24,7 +24,7 @@ define(['angular', 'app'], function(angular, app) {
 		});
 		
 		$routeProvider.when('/login', {
-			templateUrl: 'partials/login.html',
+			templateUrl: 'partials/login/login.html',
 			controller: 'Login'
 		});
 		

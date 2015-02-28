@@ -31,7 +31,7 @@ define(['angular', 'services'], function(angular) {
 	})
 
 	/**
-	 * This scope in page will be replaced by the partial/login.html if a http 401 is encountred 
+	 * This scope in page will be replaced by the partial/login/login.html if a http 401 is encountred
 	 * 
 	 */
 	.directive('ingaAuth', ['$compile', function($compile) {
@@ -49,7 +49,7 @@ define(['angular', 'services'], function(angular) {
 
 				if (login.length === 0)
 				{
-					login = angular.element('<div><div class="inga-auth-form container" ng-include="\'partials/login.html\'"></div></div>');
+					login = angular.element('<div><div class="inga-auth-form container" ng-include="\'partials/login/login.html\'"></div></div>');
 					$compile(login.contents())(scope);
 					login = angular.element(login[0]);
 					login.css('display', 'none');
