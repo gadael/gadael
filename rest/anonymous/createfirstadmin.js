@@ -7,7 +7,7 @@ function getController() {
     ctrlFactory.get.call(this, '/rest/anonymous/createfirstadmin');
 
     this.controllerAction = function() {
-        console.log('TEST');
+        this.accessDenied('test');
     };
 }
 getController.prototype = new ctrlFactory.get();

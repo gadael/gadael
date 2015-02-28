@@ -82,6 +82,8 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/rightrules');
     controllers.add('./admin/beneficiaries');
     controllers.add('./admin/requests');
+
+    controllers.add('./anonymous/createfirstadmin');
 	
 	app.post('/rest/login', require('./login').authenticate);
 	app.post('/rest/login/forgot', require('./login').forgotPassword);
