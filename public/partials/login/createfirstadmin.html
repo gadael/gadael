@@ -26,21 +26,21 @@
 		</div>
 
 
-		<div ng-class="{true:'', false:'has-error'}[user.newpassword==user.newpassword2]">
+		<div ng-class="{true:'', false:'has-error'}[user.password==user.password2]">
 
 			<div class="form-group col-md-4">
-				<label for="user_newpassword" translate>New password</label>
-				<input type="password" class="form-control" id="user_newpassword" ng-model="user.newpassword" />
+				<label for="user_password" translate>New password</label>
+				<input type="password" class="form-control" id="user_password" ng-model="user.password" />
 			</div>
 
 			<div class="form-group col-md-4">
-				<label for="user_newpassword2" translate>Confirm new password</label>
-				<input type="password" class="form-control" id="user_newpassword2" ng-model="user.newpassword2" />
+				<label for="user_password2" translate>Confirm new password</label>
+				<input type="password" class="form-control" id="user_password2" ng-model="user.password2" />
 			</div>
 			<div class="col-md-3 top30">
 				<small translate>Password Strength:</small><br />
 				<div style="border:#ccc 1px solid;padding:0;">
-					<div pw-width="{{ user.newpassword }}" style="background:green;height:5px;"></div>
+					<div pw-width="{{ user.password }}" style="background:green;height:5px;"></div>
 				</div>
 			</div>
 		</div>

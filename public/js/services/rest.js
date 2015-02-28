@@ -4,12 +4,22 @@ define(function() {
 
     return function LoadRestListService(ResourceFactory, IngaResource) {
         
-        
+        /**
+         * the returned object will be the one used in controller
+         * to create the resource from url or create a new one
+         * @return {object}
+         */
         function init(path) {
             
             path = 'rest/'+path;
             
             return {
+
+                /**
+                 * Create resource using the path in URL
+                 * using the IngaResource service
+                 * @return {$resource}
+                 */
                 getFromUrl: function() {
                     
                     var ingaPath = path;
@@ -20,6 +30,10 @@ define(function() {
                     return IngaResource(ingaPath);
                 },
                 
+                /**
+                 * Create resource from the resource factory service
+                 * @return {$resource}
+                 */
                 getResource: function() {
                     return ResourceFactory(path);
                 }
@@ -52,6 +66,10 @@ define(function() {
             
             user: {
                 user                    : init('user')
+            },
+
+            anonymous: {
+                firstadmin              : init('anonymous/users/:id')
             }
         };
     }
