@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt jasmine_node"
   },
   "dependencies": {
     "async": "^0.8.0",
