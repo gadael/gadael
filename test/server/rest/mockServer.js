@@ -258,10 +258,23 @@ mockServer.prototype.close = function(doneExit) {
 
 
 /**
+ * @return {Promise}
+ */
+mockServer.prototype.deleteAdminAccountIfExists = function() {
+
+    var Q = require('q');
+
+    var userModel = this.app.db.models.User;
+
+    return Q(userModel.remove({ email: 'admin@example.com' }).exec());
+}
+
+
+/**
  * Create admin account in database and login with it
  * Set the admin property on the mockServer object
  * 
- * @return promise
+ * @return {Promise}
  */
 mockServer.prototype.createAdminSession = function() {
     
@@ -307,7 +320,8 @@ mockServer.prototype.createAdminSession = function() {
                             return;
                         }
                         
-                        Object.defineProperty(server, 'admin', { value: user });
+                        Object.defineProperty(server, 'admin', { value: user, writable: true });
+
                     
                         deferred.resolve(user);
                     });
