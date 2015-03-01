@@ -57,7 +57,7 @@ function createController() {
         });
 
 
-    }
+    };
 }
 createController.prototype = new ctrlFactory.create();
 
