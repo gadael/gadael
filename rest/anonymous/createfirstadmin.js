@@ -50,7 +50,10 @@ function createController() {
 
         promise.then(function(users) {
             if (0 === users.length) {
-                return controller.jsonService(controller.service('admin/users/save'));
+                return controller.jsonService(controller.service('admin/users/save', {
+                    isActive: true,
+                    isAdmin: true
+                }));
             }
 
             controller.accessDenied(gt.gettext('The first admin allready exists'));

@@ -10,14 +10,14 @@ define([], function() {
 			Rest
 		) {
 
-		$scope.user = Rest.anonymous.firstadmin.getResource();
+		$scope.user = Rest.anonymous.createfirstadmin.getFromUrl().loadRouteId();
 
 
 		/**
          * Save button
          */
 		$scope.saveUser = function() {
-			$scope.user.ingaSave();
+            $scope.user.ingaSave();
 	    };
 
 

@@ -30,6 +30,7 @@ define(function() {
                     return IngaResource(ingaPath);
                 },
                 
+
                 /**
                  * Create resource from the resource factory service
                  * @return {$resource}
@@ -69,7 +70,7 @@ define(function() {
             },
 
             anonymous: {
-                firstadmin              : init('anonymous/users/:id')
+                createfirstadmin        : init('anonymous/createfirstadmin')
             }
         };
     }
