@@ -1,6 +1,9 @@
 'use strict';
 
 var ctrlFactory = require('restitute').controller;
+var Gettext = require('node-gettext');
+var gt = new Gettext();
+
 
 
 /**
@@ -29,9 +32,7 @@ function getController() {
 getController.prototype = new ctrlFactory.get();
 
 
-function save() {
-    this.jsonService(this.service('admin/users/save'));
-}
+
 
 /**
  * A POST on anonymous/createfirstadmin create the first admin
@@ -39,7 +40,24 @@ function save() {
  */
 function createController() {
     ctrlFactory.create.call(this, '/rest/anonymous/createfirstadmin');
-    this.controllerAction = save;
+    var controller = this;
+
+    this.controllerAction = function() {
+
+        // Do not save first admin twice
+        var service = controller.service('admin/users/list');
+        var promise = service.getResultPromise({}); // no parameters, no pagination
+
+        promise.then(function(users) {
+            if (0 === users.length) {
+                return controller.jsonService(controller.service('admin/users/save'));
+            }
+
+            controller.accessDenied(gt.gettext('The first admin allready exists'));
+        });
+
+
+    }
 }
 createController.prototype = new ctrlFactory.create();
 
