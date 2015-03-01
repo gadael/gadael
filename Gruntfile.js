@@ -42,7 +42,12 @@ module.exports = function(grunt) {
               '*/fonts/*.woff'
               ],
           dest: 'public/fonts'
-        }
+        },
+        config: {
+            nonull: true,
+            src: 'config.example.js',
+            dest: 'config.js',
+        },
       },
     
     cssmin: {
@@ -155,8 +160,7 @@ module.exports = function(grunt) {
 		},
 		all: ['test/server/']
 	}
-    
-    
+
     
 //    less: {
 //      options: {
@@ -222,4 +226,5 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('test', ['karma', 'jasmine_node']);
+  grunt.registerTask('travis', ['copy:config', 'jasmine_node']);
 };
