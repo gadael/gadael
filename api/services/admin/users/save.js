@@ -14,17 +14,49 @@ function validate(service, params) {
         return;
     }
 
+    processPassword(service, params);
+}
+
+
+
+/**
+ * Set the password property of params object to the password hash
+ * @param {apiService} service
+ * @param {object} params
+ */
+function processPassword(service, params) {
+
+    var User = service.app.db.models.User;
+
+    if (params.newpassword !== undefined) {
+        User.encryptPassword(params.newpassword, function(err, hash) {
+
+            if (err) {
+                return service.forbidden(err);
+            }
+
+            params.password = hash;
+            saveUser(service, params);
+        });
+
+        return;
+    }
+
+
     saveUser(service, params);
 }
+
     
+
+
     
 /**
  * Update/create the user document
  */  
 function saveUser(service, params) {
 
-    
     var User = service.app.db.models.User;
+
 
     if (params.id)
     {
@@ -36,6 +68,10 @@ function saveUser(service, params) {
                 user.email 		= params.email;
                 user.department = params.department ? params.department._id : undefined;
                 user.isActive   = params.isActive;
+
+                if (params.password) {
+                    user.password   = params.password;
+                }
 
                 user.save(function(err) {
                     if (service.handleMongoError(err)) {
@@ -50,12 +86,14 @@ function saveUser(service, params) {
 
     } else {
 
+
+
         User.create({
             firstname: params.firstname,
             lastname: params.lastname,
             email: params.email,
             department: params.department,
-            password: params.newpassword,
+            password: params.password,
             isActive: params.isActive 
         }, function(err, userDocument) {
 
