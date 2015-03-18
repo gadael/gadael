@@ -35,6 +35,13 @@ define(['momentDurationFormat'], function(moment) {
             
         }
         
+        $scope.loadWorkingTimes = function(interval) {
+            //TODO
+        }
+
+        $scope.loadEvents = function(interval) {
+            //TODO
+        }
         
         
         /**

@@ -20,6 +20,6 @@
     "rrule": "~2.1.0",
     "moment": "~2.8.4",
     "moment-duration-format": "https://github.com/ricwa230/moment-duration-format.git#e7b0b15a9c3709103017438b1c2b2929d95f8f6e",
-    "teleperiod": "~0.0.1"
+    "angular-teleperiod": "~0.0.1"
   }
 }

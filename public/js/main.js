@@ -17,7 +17,8 @@ require.config({
         momentDurationFormat:   '../bower_components/moment-duration-format/lib/moment-duration-format',
         q:                      '../bower_components/q/q',
         d3:                     '../bower_components/d3/d3.min',
-        teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min'
+        teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',
+        angularTeleperiod:       '../bower_components/angular-teleperiod/src/angular-teleperiod'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -38,7 +39,8 @@ require.config({
 		'angular_frfr': ['angular'],
 		'angularAnimate': ['angular'],
 		'angularSanitize': ['angular'],
-        'teleperiod': ['q', 'd3']
+        'teleperiod': ['q', 'd3'],
+        'angularTeleperiod': ['teleperiod']
 	},
 	priority: ["angular"]
 });
@@ -57,7 +59,8 @@ require( [
 	'angularstraptpl',
 	'angular_frfr',
 	'angularAnimate',
-	'angularSanitize'
+	'angularSanitize',
+    'angularTeleperiod'
 	], 
 	function(angular, app) {
 	

@@ -1,6 +1,8 @@
 <div ng-if="periodSelection">
 
-    <!-- TODO planning -->
+    <div tp-teleperiod>
+        <tp-period-picker workingtimes="loadWorkingTimes" events="loadEvents" dtstart="selection.begin" dtend="selection.end"></tp-period-picker>
+    </div>
 
     <form class="form-inline" role="form">
 

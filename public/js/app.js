@@ -30,7 +30,8 @@ define([
 		'vr.directives.passwordStrength.width',
 		'ngAnimate', 
 		'ngSanitize',
-		'mgcrea.ngStrap'
+		'mgcrea.ngStrap',
+        'tpTeleperiod'
 	]);
     
     
