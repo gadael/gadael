@@ -39,8 +39,9 @@ require.config({
 		'angular_frfr': ['angular'],
 		'angularAnimate': ['angular'],
 		'angularSanitize': ['angular'],
+        'q': { 'exports': 'Q' },
         'teleperiod': ['q', 'd3'],
-        'angularTeleperiod': ['teleperiod']
+        'angularTeleperiod': ['q', 'angular', 'teleperiod']
 	},
 	priority: ["angular"]
 });

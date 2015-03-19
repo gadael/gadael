@@ -1,10 +1,11 @@
-define(['momentDurationFormat'], function(moment) {
+define(['momentDurationFormat', 'q'], function(moment, Q) {
     
     'use strict';
 
+
 	return ['$scope', '$location', 'Rest', 'AbsenceEdit', function($scope, $location, Rest, AbsenceEdit) {
 
-        
+
         
         AbsenceEdit.initScope($scope);
         
@@ -36,7 +37,29 @@ define(['momentDurationFormat'], function(moment) {
         }
         
         $scope.loadWorkingTimes = function(interval) {
-            //TODO
+
+            var deferred = Q.defer();
+
+            calendarEvents.query({
+                calendar: account.currentScheduleCalendar._id,
+                dtstart: interval.dtstart,
+                dtend: interval.dtend
+            }).$promise.then(function(periods) {
+
+                var list = [];
+
+                for(var i=0; i<periods.length; i++) {
+                    list.push({
+                        dtstart: new Date(periods[i].dtstart),
+                        dtend: new Date(periods[i].dtend)
+                    });
+                }
+
+                deferred.resolve(list);
+            });
+
+            return deferred.promise;
+
         }
 
         $scope.loadEvents = function(interval) {

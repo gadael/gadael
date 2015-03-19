@@ -177,7 +177,7 @@ exports = module.exports = function(params) {
                 type: 'nonworkingday'
             },
             {
-                name: '	Rythme de travail des temps complets 35H',
+                name: 'Rythme de travail des temps complets 35H',
                 url: 'http://www.calconnect.org/tests/iCalendar-RRULE-Interop/Mozilla_Lightning_0.9/02.ics',
                 type: 'workschedule'
             }
