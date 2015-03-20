@@ -18,7 +18,7 @@ require.config({
         q:                      '../bower_components/q/q',
         d3:                     '../bower_components/d3/d3.min',
         teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',
-        angularTeleperiod:       '../bower_components/angular-teleperiod/src/angular-teleperiod'
+        angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -56,6 +56,7 @@ window.name = "NG_DEFER_BOOTSTRAP!";
 require( [
     'angular',
 	'app',
+    'q',
 	'routes',
 	'angularstraptpl',
 	'angular_frfr',
@@ -63,9 +64,13 @@ require( [
 	'angularSanitize',
     'angularTeleperiod'
 	], 
-	function(angular, app) {
-	
+	function(angular, app, Q) {
+
 		'use strict';
+
+        // hack for Q because shim export for q does not work
+        window.Q = Q;
+
 		angular.element().ready(function() {
 			angular.resumeBootstrap([app.name]);
 		});	
