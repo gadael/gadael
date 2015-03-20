@@ -40,22 +40,32 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             var deferred = Q.defer();
 
-            calendarEvents.query({
-                calendar: account.currentScheduleCalendar._id,
-                dtstart: interval.dtstart,
-                dtend: interval.dtend
-            }).$promise.then(function(periods) {
+            user.get().$promise.then(function(user) {
 
-                var list = [];
+                var account = user.roles.account;
 
-                for(var i=0; i<periods.length; i++) {
-                    list.push({
-                        dtstart: new Date(periods[i].dtstart),
-                        dtend: new Date(periods[i].dtend)
-                    });
+                if (!account.currentScheduleCalendar) {
+                    deferred.reject('No vallid schedule calendar');
+                    return;
                 }
 
-                deferred.resolve(list);
+                calendarEvents.query({
+                    calendar: account.currentScheduleCalendar._id,
+                    dtstart: interval.dtstart,
+                    dtend: interval.dtend
+                }).$promise.then(function(periods) {
+
+                    var list = [];
+
+                    for(var i=0; i<periods.length; i++) {
+                        list.push({
+                            dtstart: new Date(periods[i].dtstart),
+                            dtend: new Date(periods[i].dtend)
+                        });
+                    }
+
+                    deferred.resolve(list);
+                });
             });
 
             return deferred.promise;
