@@ -66,7 +66,9 @@ exports = module.exports = function(app, passport)
     
     controllers.add('./user/user');
     
+    controllers.add('./account/calendarevents');
     controllers.add('./account/requests');
+
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountrights');

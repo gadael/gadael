@@ -15,7 +15,10 @@ function getController() {
             return ctrl.accessDenied(gt.gettext('You must be logged in'));
         }
 
-        ctrl.res.status(200).json(ctrl.req.user);
+        require('../../modules/useraccount')(ctrl.req.user).then(function(userObj) {
+            ctrl.res.status(200).json(userObj);
+        });
+
     };
 }
 getController.prototype = new ctrlFactory.get();

@@ -133,6 +133,7 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to a calendar document or null
      */
     accountSchema.methods.getScheduleCalendar = function(moment) {
+
         var Q = require('q');
         var deferred = Q.defer();
         var account = this;

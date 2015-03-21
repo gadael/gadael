@@ -29,6 +29,8 @@ exports = module.exports = function(services, app) {
             {
                 if (user) {
                     
+                    console.log('get user');
+
                     require('../../../../modules/useraccount')(user).then(function(userObj) {
                         service.outcome.success = true;
                         service.deferred.resolve(userObj);

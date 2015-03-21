@@ -42,12 +42,15 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             user.get().$promise.then(function(user) {
 
+
                 var account = user.roles.account;
 
                 if (!account.currentScheduleCalendar) {
-                    deferred.reject('No vallid schedule calendar');
+                    deferred.reject('No valid schedule calendar');
                     return;
                 }
+
+
 
                 calendarEvents.query({
                     calendar: account.currentScheduleCalendar._id,
