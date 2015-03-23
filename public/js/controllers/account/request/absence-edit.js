@@ -50,12 +50,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     return;
                 }
 
-
-
                 calendarEvents.query({
                     calendar: account.currentScheduleCalendar._id,
-                    dtstart: interval.dtstart,
-                    dtend: interval.dtend
+                    dtstart: interval.from,
+                    dtend: interval.to
                 }).$promise.then(function(periods) {
 
                     var list = [];
@@ -73,11 +71,11 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             return deferred.promise;
 
-        }
+        };
 
         $scope.loadEvents = function(interval) {
             //TODO
-        }
+        };
         
         
         /**

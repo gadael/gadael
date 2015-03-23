@@ -1,4 +1,4 @@
-'use strict';
+
 
 
 /**
@@ -19,15 +19,18 @@
  */
 function getEventsQuery(service, params)
 {
+    'use strict';
+
     var find = service.app.db.models.CalendarEvent.find();
 
     if (params.calendar) {
         find.where('calendar').equals(params.calendar);   
     }
-    
+    /*
     if (params.user) {
         find.where('user.id').equals(params.user);   
     }
+    */
     
     find.or([
         { rrule: { $exists: true } },
@@ -55,6 +58,8 @@ function getEventsQuery(service, params)
  */
 exports = module.exports = function(services, app) {
     
+    'use strict';
+
     var service = new services.list(app);
     
     /**

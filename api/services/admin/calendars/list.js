@@ -50,7 +50,7 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
           
-        var cols = 'name';
+        var cols = 'name type lastUpdate';
         var sortkey = 'name';
         
         service.resolveQuery(

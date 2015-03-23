@@ -39,7 +39,7 @@ exports = module.exports = function(params) {
   
 	/**
 	 * Download events from url
-     * prmise resolve the number of copied events
+     * promise resolve the number of copied events
      *
      * @return promise
 	 */ 
@@ -73,7 +73,8 @@ exports = module.exports = function(params) {
 					if (data.hasOwnProperty(k)) {
 						
 						entry = data[k];
-						
+
+
 						if (entry.type === 'VEVENT') {
 							var event = new EventModel();
 							event.uid = entry.uid;
@@ -87,6 +88,8 @@ exports = module.exports = function(params) {
 								event.rrule = entry.rrule.toString();
 							}
 							event.calendar = calendar._id;
+
+                            console.log(event);
 							
 							eventPromises.push(event.save());
 						}
@@ -102,6 +105,9 @@ exports = module.exports = function(params) {
                         }
                     }
                     
+
+
+
                     deferred.resolve(results.length);
                 });
 			});
