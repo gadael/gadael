@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * Source URL for non-working day ICS file or workshedules ICS file
@@ -9,6 +9,8 @@
  * @see http://www.calconnect.org/tests/iCalendar-RRULE-Interop/iCalendar-RRULE-Interop-Matrix.html
  */  
 exports = module.exports = function(params) {
+
+    'use strict';
 	
 	var mongoose = params.mongoose;
 	
@@ -45,6 +47,8 @@ exports = module.exports = function(params) {
 	 */ 
 	calendarSchema.methods.downloadEvents = function() {
         
+        console.log('downloadEvents');
+
         var Q = require('q');
 		var ical = require('ical');
 		var calendar = this;
@@ -52,10 +56,14 @@ exports = module.exports = function(params) {
         var deferred = Q.defer();
 		
 		ical.fromURL(this.url, {}, function(err, data) {
+
+
 			
 			if (err) {
-                return deferred.reject(new Error(err));
+                return deferred.reject(err.message);
 			}
+
+            console.log(calendar);
 			
 			var EventModel = params.db.models.CalendarEvent;
 			
@@ -63,9 +71,9 @@ exports = module.exports = function(params) {
 				
 				if (err)
 				{
-					return deferred.reject(new Error(err));
+					return deferred.reject(err);
 				}
-			
+
 				var entry = null;
                 var eventPromises = [];
 				
@@ -101,7 +109,7 @@ exports = module.exports = function(params) {
                     
                     for(var i=0; i<results.length; i++) {
                         if (results[i].state !== "fulfilled") {
-                            return deferred.reject(new Error(results[i].reason));
+                            return deferred.reject(results[i].reason);
                         }
                     }
                     
@@ -184,7 +192,7 @@ exports = module.exports = function(params) {
             },
             {
                 name: 'Rythme de travail des temps complets 35H',
-                url: 'http://www.calconnect.org/tests/iCalendar-RRULE-Interop/Mozilla_Lightning_0.9/02.ics',
+                url: '/calendars/01.ics',
                 type: 'workschedule'
             }
         ], function( type, callback) {

@@ -40,20 +40,26 @@ function saveCalendar(service, params) {
     };
     
     
-    
+    function downloadEvents(calendar, message)
+    {
+        calendar.downloadEvents().then(function() {
+            service.resolveSuccess(
+                calendar,
+                message
+            );
+        }).fail(function(err) {
+
+            service.forbidden(err);
+        });
+
+    }
     
 
     if (params.id)
     {
         CalendarModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, calendar) {
-            if (service.handleMongoError(err))
-            {
-                calendar.downloadEvents();
-
-                service.resolveSuccess(
-                    calendar, 
-                    gt.gettext('The calendar has been modified')
-                );
+            if (service.handleMongoError(err)) {
+                downloadEvents(calendar, gt.gettext('The calendar has been modified'));
             }
         });
 
@@ -61,14 +67,8 @@ function saveCalendar(service, params) {
 
         CalendarModel.create(fieldsToSet, function(err, calendar) {
 
-            if (service.handleMongoError(err))
-            {
-                calendar.downloadEvents();
-                
-                service.resolveSuccess(
-                    calendar, 
-                    gt.gettext('The calendar has been created')
-                );
+            if (service.handleMongoError(err)) {
+                downloadEvents(calendar, gt.gettext('The calendar has been created'));
             }
         });
     }

@@ -13,6 +13,11 @@ define(function() {
     function createCatchOutcome(angular, $rootScope, $q) {
     
         var addMessages = function(outcome) {
+
+            if (undefined == $rootScope.pageAlerts) {
+                $rootScope.pageAlerts = [];
+            }
+
             for(var i=0; i<outcome.alert.length; i++) {
                 $rootScope.pageAlerts.push(outcome.alert[i]);
             }
