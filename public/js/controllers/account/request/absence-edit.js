@@ -10,6 +10,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         AbsenceEdit.initScope($scope);
         
         // resources 
+        var calendars = Rest.account.calendars.getResource();
         var calendarEvents = Rest.account.calendarevents.getResource();
         var accountRights = Rest.account.accountrights.getResource();
         var user = Rest.user.user.getResource();
@@ -74,7 +75,31 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         };
 
         $scope.loadEvents = function(interval) {
-            //TODO
+            var deferred = Q.defer();
+
+            calendars.query({
+                type: 'nonworkingday'
+            }).$promise.then(function(calendars) {
+                calendarEvents.query({
+                    calendar: calendars,
+                    dtstart: interval.from,
+                    dtend: interval.to
+                }).$promise.then(function(periods) {
+
+                    var list = [];
+
+                    for(var i=0; i<periods.length; i++) {
+                        list.push({
+                            dtstart: new Date(periods[i].dtstart),
+                            dtend: new Date(periods[i].dtend)
+                        });
+                    }
+
+                    deferred.resolve(list);
+                });
+            });
+
+            return deferred.promise;
         };
         
         

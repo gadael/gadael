@@ -62,6 +62,7 @@ define(function() {
             
             account: {
                 accountrights           : init('account/accountrights/:id'),
+                calendars               : init('account/calendars/:id'),
                 calendarevents          : init('account/calendarevents/:id')
             },
             
