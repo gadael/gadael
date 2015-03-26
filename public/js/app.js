@@ -2,6 +2,7 @@
 
 define([
 	'angular',
+    'jsondates',
 	'filters',
 	'services',
 	'directives',
@@ -13,7 +14,7 @@ define([
 	'passwordStrength'
 	], 
 	
-	function (angular) {
+	function (angular, jsondates) {
 	'use strict';
 
 	// Declare app level module which depends on filters, and services
@@ -43,6 +44,7 @@ define([
         });
     });
 
+    inga.config(["$httpProvider", jsondates]);
 	
 
 	inga.run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {

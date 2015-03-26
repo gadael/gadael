@@ -55,19 +55,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     calendar: account.currentScheduleCalendar._id,
                     dtstart: interval.from,
                     dtend: interval.to
-                }).$promise.then(function(periods) {
-
-                    var list = [];
-
-                    for(var i=0; i<periods.length; i++) {
-                        list.push({
-                            dtstart: new Date(periods[i].dtstart),
-                            dtend: new Date(periods[i].dtend)
-                        });
-                    }
-
-                    deferred.resolve(list);
-                });
+                }).$promise.then(deferred.resolve);
             });
 
             return deferred.promise;
@@ -84,19 +72,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     calendar: calendars,
                     dtstart: interval.from,
                     dtend: interval.to
-                }).$promise.then(function(periods) {
-
-                    var list = [];
-
-                    for(var i=0; i<periods.length; i++) {
-                        list.push({
-                            dtstart: new Date(periods[i].dtstart),
-                            dtend: new Date(periods[i].dtend)
-                        });
-                    }
-
-                    deferred.resolve(list);
-                });
+                }).$promise.then(deferred.resolve);
             });
 
             return deferred.promise;
