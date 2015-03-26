@@ -83,5 +83,5 @@
 	"describe"   : false,	  	// jasmine
     "it"         : false,		// jasmine
     "expect"     : false		// jasmine
-  }       
+  }
 }

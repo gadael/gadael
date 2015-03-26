@@ -68,7 +68,7 @@ module.exports = function(grunt) {
     jshint: {
       client: {
         options: {
-          jshintrc: '.jshintrc-client',
+          jshintrc: 'public/.jshintrc',
           ignores: []
         },
         src: [
@@ -85,7 +85,7 @@ module.exports = function(grunt) {
       },
       server: {
         options: {
-          jshintrc: '.jshintrc-server'
+          jshintrc: '.jshintrc'
         },
         src: [
           'schema/**/*.js',

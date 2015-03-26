@@ -4,7 +4,7 @@
  *
  * @return callback for app.config()
  */
-define(['angular'], function (angular) {
+define([], function () {
 	'use strict';
 
 
@@ -12,16 +12,20 @@ define(['angular'], function (angular) {
 
     function convertDateStringsToDates(input) {
         // Ignore things that aren't objects.
-        if (typeof input !== "object") return input;
+        if (typeof input !== "object") {
+            return input;
+        }
 
         for (var key in input) {
-            if (!input.hasOwnProperty(key)) continue;
+            if (!input.hasOwnProperty(key)) {
+                continue;
+            }
 
             var value = input[key];
             var match;
             // Check for string properties which look like dates.
             if (typeof value === "string" && (match = value.match(regexIso8601))) {
-                var milliseconds = Date.parse(match[0])
+                var milliseconds = Date.parse(match[0]);
                 if (!isNaN(milliseconds)) {
                     input[key] = new Date(milliseconds);
                 }
@@ -32,10 +36,10 @@ define(['angular'], function (angular) {
         }
     }
 
-	return function ($httpProvider) {
+	return function($httpProvider) {
          $httpProvider.defaults.transformResponse.push(function(responseData) {
             convertDateStringsToDates(responseData);
             return responseData;
         });
-    }
+    };
 });
