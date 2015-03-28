@@ -12,17 +12,16 @@ define(['angular'], function(angular) {
 			})
 			
 			.success(function(data) {
+
 				
 				$rootScope.pageAlerts = data.alert;
 				
-				if (data.success)
+				if (data.$outcome.success)
 				{
-					
-					
 					// change the sign in button to the user parameters menu
 					// update the main menu
 					$rootScope.reloadSession();
-					
+
 					if ('block' === angular.element(document.querySelector('[inga-auth]')).css('display'))
 					{
 						// redirect
