@@ -67,5 +67,24 @@ define(['angular', 'services'], function(angular) {
 				login.css('display', 'none');
 			});
 		};
-	}]);
+	}])
+
+    /**
+     * For login/password fields, refresh data binding by timeout if necessary
+     * because the auto-fill does not update the scope
+     */
+    .directive('autoFillSync', function($timeout) {
+       return {
+          require: 'ngModel',
+          link: function(scope, elem, attrs, ngModel) {
+              var origVal = elem.val();
+              $timeout(function () {
+                  var newVal = elem.val();
+                  if(ngModel.$pristine && origVal !== newVal) {
+                      ngModel.$setViewValue(newVal);
+                  }
+              }, 500);
+          }
+       };
+    });
 });
