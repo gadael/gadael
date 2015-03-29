@@ -119,12 +119,18 @@ api.listDatabases = function(app, callback) {
  * @param	function	callback()	done function
  */  
 api.createDb = function(app, dbName, company, callback) {
-	
-	var db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
-	db.on('error', console.error.bind(console, 'CompanyApi.createDb mongoose connection error: '));
-	
-	
-	
+
+    // createConnection
+	var db = app.mongoose.createConnection();
+
+
+    db.open(app.config.mongodb.prefix+dbName);
+
+	db.on('error', function(err) {
+        console.error('CompanyApi.createDb mongoose connection error: '+err.message);
+        callback();
+    });
+
 	db.once('open', function() {
 
 		inga_loadMockModels(app, db);
@@ -146,7 +152,7 @@ api.createDb = function(app, dbName, company, callback) {
         ],
         function(err) {
             if (err) {
-				console.error(err);
+				console.error('api.createDb '+err);
 			} else {
 				callback();
 			}

@@ -46,16 +46,15 @@ exports = module.exports = function(params) {
      * @return promise
 	 */ 
 	calendarSchema.methods.downloadEvents = function() {
-        
-        console.log('downloadEvents');
 
         var Q = require('q');
 		var ical = require('ical');
 		var calendar = this;
         
         var deferred = Q.defer();
-		
-		ical.fromURL(this.url, {}, function(err, data) {
+
+
+        function processEventsData(err, data) {
 
 
 			
@@ -63,8 +62,6 @@ exports = module.exports = function(params) {
                 return deferred.reject(err.message);
 			}
 
-            console.log(calendar);
-			
 			var EventModel = params.db.models.CalendarEvent;
 			
 			EventModel.remove({ calendar: calendar._id }, function(err) {
@@ -97,8 +94,6 @@ exports = module.exports = function(params) {
 							}
 							event.calendar = calendar._id;
 
-                            console.log(event);
-							
 							eventPromises.push(event.save());
 						}
 					}
@@ -112,14 +107,20 @@ exports = module.exports = function(params) {
                             return deferred.reject(results[i].reason);
                         }
                     }
-                    
-
-
 
                     deferred.resolve(results.length);
                 });
 			});
-		});
+		}
+
+		if (0 === this.url.indexOf('http://')) {
+            ical.fromURL(this.url, {}, processEventsData);
+        } else {
+            // relative address, use the local file instead because the http server is not allways present
+            // ex: on database creation
+            var data = ical.parseFile('public/'+this.url);
+            processEventsData(null, data);
+        }
         
         return deferred.promise;
 	};
@@ -179,11 +180,10 @@ exports = module.exports = function(params) {
      * initialize default calendars
      */  
     calendarSchema.statics.createFrenchDefaults = function(done) {
-		
-		
+
 		var model = this;
         var async = require('async');
-		
+
 		async.each([
             {
                 name: 'Jours fériés en France',
@@ -192,7 +192,7 @@ exports = module.exports = function(params) {
             },
             {
                 name: 'Rythme de travail des temps complets 35H',
-                url: '/calendars/01.ics',
+                url: 'calendars/01.ics',
                 type: 'workschedule'
             }
         ], function( type, callback) {
@@ -202,8 +202,7 @@ exports = module.exports = function(params) {
                   callback(err);
                   return;
               }
-              
-              //calendar.downloadEvents();
+
               calendar.downloadEvents().then(function() { 
                   callback();
               }, callback);

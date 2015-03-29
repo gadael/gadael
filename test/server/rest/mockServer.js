@@ -31,7 +31,7 @@ function mockServer(port, readyCallback) {
             port: port 
         };
         
-        api.createDb(headless, mockServerDbName, company, function() {
+        api.createDb(headless, mockServerDbName, company, 'http://localhost:'+port+'/', function() {
 
             var config = require('../../../config')();
             var models = require('../../../models');
@@ -85,9 +85,7 @@ function mockServer(port, readyCallback) {
             createRestService();
         });
     });
-    
-
-};
+}
 
 
 mockServer.prototype.request = function(method, headers, path, done) {
@@ -97,7 +95,7 @@ mockServer.prototype.request = function(method, headers, path, done) {
     this.lastUse = Date.now();
 
     if (server.sessionCookie) {
-        headers['Cookie'] = server.sessionCookie;
+        headers.Cookie = server.sessionCookie;
     }
     
     var urlOptions = {
@@ -164,15 +162,13 @@ mockServer.prototype.get = function(path, data, done) {
  * put request on server
  */
 mockServer.prototype.send = function(method, path, data, done) {
-    
-    var querystring = require('querystring');
-    
+
     var postStr = JSON.stringify(data);
     
     var headers = {
         'Content-Type': 'application/json',
         'Content-Length': postStr.length
-    }
+    };
     
     var req = this.request(method, headers, path, done);
     
@@ -197,7 +193,7 @@ mockServer.prototype.put = function(path, data, done) {
 mockServer.prototype.post = function(path, data, done) {
     
     this.send('POST', path, data, done);
-}
+};
 
 
 /**
@@ -267,7 +263,7 @@ mockServer.prototype.deleteAdminAccountIfExists = function() {
     var userModel = this.app.db.models.User;
 
     return Q(userModel.remove({ email: 'admin@example.com' }).exec());
-}
+};
 
 
 /**
@@ -284,8 +280,6 @@ mockServer.prototype.createAdminSession = function() {
     var userModel = this.app.db.models.User;
     var server = this;
     var password = 'secret';
-
-    var server = this;
 
     // get admin document
     var getAdmin = function() {
@@ -330,7 +324,7 @@ mockServer.prototype.createAdminSession = function() {
         });
         
         return deferred.promise;
-    }
+    };
     
     
     // login as admin
@@ -341,7 +335,7 @@ mockServer.prototype.createAdminSession = function() {
             'password': password
         }, function(res, body) {
             
-            if (res.statusCode != 200 || !body.$outcome.success) {
+            if (res.statusCode !== 200 || !body.$outcome.success) {
                 deferred.reject(new Error('Error while login with admin account'));
                 return;
             }
@@ -376,4 +370,4 @@ exports = module.exports = {
 
         return server;
     }
-}
+};
