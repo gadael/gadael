@@ -31,7 +31,7 @@ function mockServer(port, readyCallback) {
             port: port 
         };
         
-        api.createDb(headless, mockServerDbName, company, 'http://localhost:'+port+'/', function() {
+        api.createDb(headless, mockServerDbName, company, function() {
 
             var config = require('../../../config')();
             var models = require('../../../models');
@@ -365,6 +365,7 @@ exports = module.exports = {
             server = new mockServer(3002, ready);
             
         } else {
+
             ready(server);
         }
 

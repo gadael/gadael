@@ -82,6 +82,7 @@
   "globals"        : {		  	// additional predefined global variables
 	"describe"   : false,	  	// jasmine
     "it"         : false,		// jasmine
-    "expect"     : false		// jasmine
+    "expect"     : false,		// jasmine
+    "beforeEach" : false        // jasmine
   }
 }
