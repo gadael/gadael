@@ -20,7 +20,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
         
         if ($scope.request.$promise) {
-            $scope.request.$promise.then(function(request) {
+            $scope.request.$promise.then(function() {
                 // edit this request
                 
                 $scope.editRequest = true;
