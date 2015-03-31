@@ -23,6 +23,7 @@ models.load = function() {
 	require('./schema/StatusLog')(requirements);
 	require('./schema/RequestLog')(requirements);
 	require('./schema/Request_AbsenceElem')(requirements);
+    require('./schema/ApprovalStep')(requirements);
 	
 
 	//then regular docs
