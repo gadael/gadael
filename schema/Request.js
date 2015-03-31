@@ -34,7 +34,7 @@ exports = module.exports = function(params) {
     
     deleted: { type: Boolean, default: false },
     
-    approvalSteps: [mongoose.modelSchemas.approvalStep],			// on request creation, approval steps are copied and contain references to users 
+    approvalSteps: [mongoose.modelSchemas.ApprovalStep],			// on request creation, approval steps are copied and contain references to users
 																	// informations about approval are stored in requestLog sub-documents instead
 																	
     requestLog: [mongoose.modelSchemas.RequestLog],					// linear representation of all actions
