@@ -54,7 +54,7 @@ describe('calendars admin rest service', function() {
         server.post('/rest/admin/calendars', {
             name: 'Calendar test',
             type: 'workschedule',
-            url: 'http://localhost/test.ics'
+            url: 'http://www.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
@@ -76,7 +76,7 @@ describe('calendars admin rest service', function() {
             expect(body.name).toEqual('Calendar test');
             expect(body._id).toEqual(calendar);
             expect(body.type).toEqual('workschedule');
-            expect(body.url).toEqual('http://localhost/test.ics');
+            expect(body.url).toEqual('http://www.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics');
             done();
         });
     });
