@@ -17,6 +17,10 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
+        if (params.id === undefined) {
+            return service.forbidden('Missing id parameter');
+        }
+
         service.app.db.models.Calendar
         .findOne({ '_id' : params.id}, 'name url type')
         .exec(function(err, document) {
