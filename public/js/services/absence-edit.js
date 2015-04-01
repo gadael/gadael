@@ -28,7 +28,7 @@ define(['momentDurationFormat'], function(moment) {
                 duration: undefined,
                 days: undefined,
                 hours: undefined
-            }
+            };
         },
         
         
@@ -42,11 +42,13 @@ define(['momentDurationFormat'], function(moment) {
                 // show the right assignement
                 $scope.assignments = true;
 
-                $scope.accountRights = accountRights.query({ 
-                    user: $scope.request.user.id,
-                    dtstart: $scope.request.dtstart,
-                    dtend: $scope.request.dtend
-                });
+                if ($scope.request) {
+                    $scope.accountRights = accountRights.query({
+                        user: $scope.request.user.id,
+                        dtstart: $scope.selection.begin,
+                        dtend: $scope.selection.end
+                    });
+                }
             };
         },
         
@@ -123,7 +125,7 @@ define(['momentDurationFormat'], function(moment) {
 
                         return setDuration(duration);
                     });  
-                }
+                };
             }
             
             
@@ -141,5 +143,5 @@ define(['momentDurationFormat'], function(moment) {
                 onUpdateInterval($scope.selection.begin, end);
             });
         }
-    }
+    };
 });

@@ -85,20 +85,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         $scope.back = function() {
             $location.path('/account/requests');
         };
-        
 
-        $scope.isSelectionValid = function() {
-
-            if ($scope.selected === undefined) {
-                return false;
-            }
-
-            if (!$scope.selected.begin instanceof Date || !$scope.selected.end instanceof Date) {
-                return false;
-            }
-
-            return ($scope.selected.begin.getTime() < $scope.selected.end.getTime());
-        };
 
         /**
          * Go from the period selection to the right assignments step

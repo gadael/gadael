@@ -1,7 +1,7 @@
 <div ng-if="periodSelection">
 
     <div tp-teleperiod>
-        <tp-period-picker workingtimes="loadWorkingTimes" events="loadEvents" dtstart="selected.begin" dtend="selected.end"></tp-period-picker>
+        <tp-period-picker workingtimes="loadWorkingTimes" events="loadEvents" dtstart="selection.begin" dtend="selection.end"></tp-period-picker>
     </div>
 
     <form class="form-inline" role="form">
@@ -11,13 +11,13 @@
                 <div class="input-group">
                     <label class="sr-only" for="absenceBeginDate">Begin date</label>
                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    <input id="adbsenceBeginDate" class="form-control" ng-model="selected.begin" bs-datepicker type="date" placeholder="{{'Begin date'|translate}}" data-autoclose="1" />
+                    <input id="adbsenceBeginDate" class="form-control" ng-model="selection.begin" bs-datepicker type="date" placeholder="{{'Begin date'|translate}}" data-autoclose="1" />
                 </div>
 
                 <div class="input-group">
                     <label class="sr-only" for="absenceBeginHour">Begin hour</label>
                     <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
-                    <input id="absenceBeginHour" class="form-control" ng-model="selected.begin" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
+                    <input id="absenceBeginHour" class="form-control" ng-model="selection.begin" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
                 </div>
             </div>
 
@@ -26,13 +26,13 @@
                 <div class="input-group">
                     <label class="sr-only" for="absenceEndDate">End date</label>
                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    <input id="adbsenceEndDate" class="form-control" ng-model="selected.end" bs-datepicker type="date" placeholder="{{'End date'|translate}}" data-autoclose="1" />
+                    <input id="adbsenceEndDate" class="form-control" ng-model="selection.end" bs-datepicker type="date" placeholder="{{'End date'|translate}}" data-autoclose="1" />
                 </div>
 
                 <div class="input-group">
                     <label class="sr-only" for="absenceEndHour">End hour</label>
                     <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
-                    <input id="absenceEndHour" class="form-control" ng-model="selected.end" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
+                    <input id="absenceEndHour" class="form-control" ng-model="selection.end" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
         </div>
         
         <div class="col-sm-12 top30">
-            <button class="btn btn-primary" ng-disabled="!isSelectionValid()" ng-click="next()" translate>Continue</button>
+            <button class="btn btn-primary" ng-disabled="!selection.end || !selection.begin" ng-click="next()" translate>Continue</button>
         </div>
     </form>
 </div>
