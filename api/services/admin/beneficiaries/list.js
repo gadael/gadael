@@ -101,26 +101,21 @@ exports = module.exports = function(services, app) {
                 function(err, docs) {
                     if (service.handleMongoError(err))
                     {
-
-                        // populate type in right
+                        // populate type in right, wait for resolution of all promises before
+                        // resolving the service
 
                         for(var i=0; i<docs.length; i++) {
-
-                            console.log(docs[i].right.populate);
-                            Q.nfcall(docs[i].right.populate, 'type').then(console.log).catch(console.log);
-                            //populatedTypePromises.push();
+                            var deferred = Q.defer();
+                            docs[i].right.populate('type', deferred.makeNodeResolver());
+                            populatedTypePromises.push(deferred.promise);
                         }
 
-
-
-                        Q.all(populatedTypePromises).then(function(docs) {
-
-
+                        Q.all(populatedTypePromises).then(function() {
                             service.outcome.success = true;
                             service.deferred.resolve(docs);
                         }).catch(function(err) {
 
-                            //console.log(err);
+                            console.log(err);
                         });
                     }
                 }
