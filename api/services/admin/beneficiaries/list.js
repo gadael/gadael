@@ -90,11 +90,40 @@ exports = module.exports = function(services, app) {
         
         getQuery(service, params).then(function(query) {
 
+            var Q = require('q');
+            var populatedTypePromises = [];
+
             service.resolveQuery(
                 query,
                 cols,
                 sortkey,
-                paginate
+                paginate,
+                function(err, docs) {
+                    if (service.handleMongoError(err))
+                    {
+
+                        // populate type in right
+
+                        for(var i=0; i<docs.length; i++) {
+
+                            console.log(docs[i].right.populate);
+                            Q.nfcall(docs[i].right.populate, 'type').then(console.log).catch(console.log);
+                            //populatedTypePromises.push();
+                        }
+
+
+
+                        Q.all(populatedTypePromises).then(function(docs) {
+
+
+                            service.outcome.success = true;
+                            service.deferred.resolve(docs);
+                        }).catch(function(err) {
+
+                            //console.log(err);
+                        });
+                    }
+                }
             );
         });
         

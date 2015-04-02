@@ -34,17 +34,7 @@ define([], function() {
                     $scope.accountRights = beneficiaries.query({ account: account._id });
                     $scope.accountCollections = accountCollection.query({ account: account._id });
                     $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: account._id });
-                    
-                    
-                    // TEST
-                    var start = new Date();
-                    var end = new Date();
-                    end.setDate(30 + end.getDate());
-                    $scope.testEvents = calendarEvents.query({ 
-                        calendar: account.currentScheduleCalendar._id, 
-                        dtstart: start, 
-                        dtend: end 
-                    });
+
                    
                 } else {
                     $scope.accountRights = [];
