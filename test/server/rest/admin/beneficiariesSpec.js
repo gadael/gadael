@@ -49,10 +49,12 @@ describe('beneficiaries rest service', function() {
         });
     });
 
-    /*
+
     it('create right 1', function(done) {
         server.post('/rest/admin/rights', {
-            name: 'Beneficiaires test 1'
+            name: 'Beneficiaires test 1',
+            quantity: 0,
+            quantity_unit: 'D'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
@@ -64,7 +66,7 @@ describe('beneficiaries rest service', function() {
             done();
         });
     });
-    */
+
 
     // TODO: create the account 1
     // TODO: create the collection 1

@@ -9,7 +9,7 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['name'])) {
+    if (service.needRequiredFields(params, ['name', 'quantity', 'quantity_unit'])) {
         return;
     }
 
@@ -30,11 +30,16 @@ function saveRight(service, params) {
     
     var RightModel = service.app.db.models.Right;
     
+    var type;
+    if (undefined !== params.type) {
+        type = params.type._id;
+    }
+
     
     var fieldsToSet = { 
         name: params.name,
         description: params.description,
-        type: params.type._id,
+        type: type,
         require_approval: params.require_approval,
         quantity: params.quantity,
         quantity_unit: params.quantity_unit  
