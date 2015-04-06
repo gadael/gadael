@@ -9,7 +9,13 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['name', 'quantity', 'quantity_unit'])) {
+    if (service.needRequiredFields(params, ['name', 'quantity_unit'])) {
+        return;
+    }
+
+    // quantity is not required as not empty but must be defined to Number value, can be 0
+    if (undefined === params.quantity) {
+        service.deferred.reject(new Error('quantity must be defined'));
         return;
     }
 

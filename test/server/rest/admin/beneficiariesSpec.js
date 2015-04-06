@@ -60,7 +60,6 @@ describe('beneficiaries rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
-
             right1 = body._id;
 
             done();
