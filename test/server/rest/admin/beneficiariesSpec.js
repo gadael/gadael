@@ -115,7 +115,42 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    // TODO: test beneficiary creation for collection and for account
+    it('Link account to collection', function(done) {
+        server.post('/rest/admin/accountcollections', {
+            account: account1,
+            rightCollection: collection1,
+            from: new Date()
+        }, function(res, body) {
+
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            done();
+        });
+    });
+
+
+    it('Link right to collection with a beneficiary', function(done) {
+        server.post('/rest/admin/beneficiaries', {
+            document: collection1._id,
+            right: right1,
+            ref: 'RightCollection'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            done();
+        });
+    });
+
+
+    it('list accessible rights from the account', function(done) {
+
+        // TODO: convert account to mogoose document
+        done();
+    });
 
 
 
