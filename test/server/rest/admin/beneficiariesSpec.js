@@ -60,17 +60,76 @@ describe('beneficiaries rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
-            right1 = body._id;
+
+            right1 = body;
+            delete right1.$outcome;
 
             done();
         });
     });
 
 
-    // TODO: create the account 1
-    // TODO: create the collection 1
+
+    it('create account 1', function(done) {
+        server.post('/rest/admin/users', {
+            firstname: 'beneficiaries',
+            lastname: 'Test',
+            email: 'beneficiary_account1@example.com',
+            department: null,
+            setpassword: true,
+            newpassword: 'secret',
+            newpassword2: 'secret',
+            isActive: true,
+            isAccount: true,
+            roles: {
+                account: {
+                }
+            }
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            account1 = body;
+            delete account1.$outcome;
+
+            done();
+        });
+    });
+
+
+    it('Create collection 1', function(done) {
+        server.post('/rest/admin/collections', {
+            name: 'Beneficiaires test 1'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            collection1 = body;
+            delete collection1.$outcome;
+
+            done();
+        });
+    });
+
+
     // TODO: test beneficiary creation for collection and for account
-    // TODO: test delete beneficiary
+
+
+
+    it('delete the new user', function(done) {
+
+        server.delete('/rest/admin/users/'+account1._id, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            expect(body._id).toEqual(account1._id);
+
+            done();
+        });
+    });
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
