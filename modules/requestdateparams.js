@@ -36,4 +36,4 @@ exports = module.exports = function checkParams(service, params) {
     }
     
     return true;
-}
+};

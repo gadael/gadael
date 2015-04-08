@@ -146,12 +146,70 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    it('list accessible rights from the account', function(done) {
+    it('list accessible rights from the admin', function(done) {
 
-        // TODO: convert account to mogoose document
-        done();
+        server.get('/rest/admin/beneficiaries', {
+            account: account1._id
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            expect(body[0].right._id).toEqual(right1._id);
+            done();
+        });
     });
 
+
+    it('logout admin', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('login with account1', function(done) {
+        server.post('/rest/login', {
+            'username': 'beneficiary_account1@example.com',
+            'password': 'secret'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+
+    it('list accessible rights from the account', function(done) {
+
+        server.get('/rest/account/accountrights', {
+            dtstart: new Date(),
+            dtend: new Date()
+        }, function(res, body) {
+
+            console.log(body.$outcome);
+
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            done();
+        });
+    });
+
+
+
+    it('logout account1', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+
+    it('Reconnect with admin', function(done) {
+        server.createAdminSession().then(function() {
+            done();
+        });
+    });
 
 
     it('delete the new user', function(done) {
