@@ -108,13 +108,13 @@ exports = module.exports = function(services, app)
         params.dtstart = new Date(params.dtstart);
         params.dtend = new Date(params.dtend);
         
-        
+
         var checkParams = require('../../../../modules/requestdateparams');
         
         if (!checkParams(service, params)) {
             return service.deferred.promise;   
         }
-        
+
 
         // get user account document for the user param
         
@@ -133,6 +133,7 @@ exports = module.exports = function(services, app)
                 }
 
                 account.getRights().then(function(rights) {
+
                     resolveAccountRights(users[0], rights);
                 }).catch(service.notFound);
                 

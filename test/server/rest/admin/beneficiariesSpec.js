@@ -146,7 +146,7 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    it('list accessible rights from the admin', function(done) {
+    it('list beneficiaries from the admin', function(done) {
 
         server.get('/rest/admin/beneficiaries', {
             account: account1._id
@@ -154,6 +154,18 @@ describe('beneficiaries rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             expect(body[0].right._id).toEqual(right1._id);
+            done();
+        });
+    });
+
+
+    it('list accessible rights from the admin', function(done) {
+
+        server.get('/rest/admin/accountrights', {
+            user: account1._id
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
             done();
         });
     });
@@ -181,13 +193,7 @@ describe('beneficiaries rest service', function() {
 
     it('list accessible rights from the account', function(done) {
 
-        server.get('/rest/account/accountrights', {
-            dtstart: new Date(),
-            dtend: new Date()
-        }, function(res, body) {
-
-            console.log(body.$outcome);
-
+        server.get('/rest/account/accountrights', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             done();

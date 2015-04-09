@@ -226,8 +226,14 @@ exports = module.exports = function(params) {
                 return deferred.reject('The user.id property is missing on user.roles.account');
             }
             
+            var userDocuments = [account.user.id];
+
+            if (rightCollection) {
+                userDocuments.push(rightCollection._id);
+            }
+
             account.model('Beneficiary')
-            .where('document').in([rightCollection._id, account.user.id])
+            .where('document').in(userDocuments)
             .populate('right')
             .populate('right.type')
             .exec(deferred.makeNodeResolver());
