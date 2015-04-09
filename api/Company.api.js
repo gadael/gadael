@@ -334,8 +334,10 @@ api.getExpress = function(config, models) {
     
     var bodyParser = require('body-parser');
 
-    // logging HTTP requests
-    app.use(require('morgan')('dev'));
+    if (config.loghttp) {
+        // logging HTTP requests
+        app.use(require('morgan')('dev'));
+    }
     
     app.use(require('compression')());
     app.use(require('serve-static')(config.staticPath));
