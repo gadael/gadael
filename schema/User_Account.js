@@ -52,6 +52,7 @@ exports = module.exports = function(params) {
      * @returns {Query} A mongoose query on the account collection schema
      */
     accountSchema.methods.getAccountCollectionQuery = function() {
+
         return this.model('AccountCollection')
             .find()
             .where('account').equals(this._id);
@@ -102,8 +103,6 @@ exports = module.exports = function(params) {
                         .where('to').equals(null)
                         .populate('rightCollection')
                         .exec(function(err, arr) {
-                        
-                            
 
                             if (err) {
                                 deferred.reject(err);
@@ -217,6 +216,8 @@ exports = module.exports = function(params) {
             moment = new Date();
         }
         
+
+
         var account = this;
         
         
@@ -249,11 +250,10 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to an array of rights
      */
     accountSchema.methods.getRights = function(moment) {
-        
+
         var deferred = require('q').defer();
         
         this.getRightBeneficiaries(moment).then(function(beneficiaries) {
-            
             var rights = [];
             
             for(var i=0; i< beneficiaries.length; i++) {

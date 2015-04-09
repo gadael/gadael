@@ -6,7 +6,7 @@ describe('beneficiaries rest service', function() {
 
     var server;
 
-    var right1, collection1, account1;
+    var right1, collection1, user1;
 
 
     var today = new Date();
@@ -79,7 +79,7 @@ describe('beneficiaries rest service', function() {
         server.post('/rest/admin/users', {
             firstname: 'beneficiaries',
             lastname: 'Test',
-            email: 'beneficiary_account1@example.com',
+            email: 'beneficiary_user1@example.com',
             department: null,
             setpassword: true,
             newpassword: 'secret',
@@ -95,8 +95,8 @@ describe('beneficiaries rest service', function() {
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
 
-            account1 = body;
-            delete account1.$outcome;
+            user1 = body;
+            delete user1.$outcome;
 
             done();
         });
@@ -122,26 +122,29 @@ describe('beneficiaries rest service', function() {
 
     it('Link account to collection', function(done) {
         server.post('/rest/admin/accountcollections', {
-            account: account1,
+            user: user1._id,
             rightCollection: collection1,
-            from: today.toISOString()
+            from: today.toISOString(),
         }, function(res, body) {
 
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
+
             done();
         });
     });
 
     it('get associated collections', function(done) {
         server.get('/rest/admin/accountcollections', {
-            account: account1._id
+            account: user1.roles.account
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            expect(body[0].rightCollection._id).toEqual(collection1._id);
+            if (body[0]) {
+                expect(body[0].rightCollection._id).toEqual(collection1._id);
+            }
             done();
         });
     });
@@ -165,7 +168,7 @@ describe('beneficiaries rest service', function() {
     it('list beneficiaries from the admin', function(done) {
 
         server.get('/rest/admin/beneficiaries', {
-            account: account1._id
+            account: user1._id
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
@@ -178,7 +181,7 @@ describe('beneficiaries rest service', function() {
     it('list accessible rights from the admin, for an absence request creation', function(done) {
 
         server.get('/rest/admin/accountrights', {
-            user: account1._id,
+            user: user1._id,
             dtstart:today.toISOString(),
             dtend:tomorrow.toISOString()
         }, function(res, body) {
@@ -197,9 +200,9 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    it('login with account1', function(done) {
+    it('login with user1', function(done) {
         server.post('/rest/login', {
-            'username': 'beneficiary_account1@example.com',
+            'username': 'beneficiary_user1@example.com',
             'password': 'secret'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -223,7 +226,7 @@ describe('beneficiaries rest service', function() {
 
 
 
-    it('logout account1', function(done) {
+    it('logout user1', function(done) {
         server.get('/rest/logout', {}, function(res) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -241,11 +244,11 @@ describe('beneficiaries rest service', function() {
 
     it('delete the new user', function(done) {
 
-        server.delete('/rest/admin/users/'+account1._id, function(res, body) {
+        server.delete('/rest/admin/users/'+user1._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
-            expect(body._id).toEqual(account1._id);
+            expect(body._id).toEqual(user1._id);
 
             done();
         });
