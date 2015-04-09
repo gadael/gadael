@@ -9,6 +9,11 @@ describe('beneficiaries rest service', function() {
     var right1, collection1, account1;
 
 
+    var today = new Date();
+    var tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate()+1);
+
+
     beforeEach(function(done) {
 
         var helpers = require('../mockServer');
@@ -119,13 +124,24 @@ describe('beneficiaries rest service', function() {
         server.post('/rest/admin/accountcollections', {
             account: account1,
             rightCollection: collection1,
-            from: new Date()
+            from: today.toISOString()
         }, function(res, body) {
 
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
+            done();
+        });
+    });
+
+    it('get associated collections', function(done) {
+        server.get('/rest/admin/accountcollections', {
+            account: account1._id
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            expect(body[0].rightCollection._id).toEqual(collection1._id);
             done();
         });
     });
@@ -159,10 +175,12 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    it('list accessible rights from the admin', function(done) {
+    it('list accessible rights from the admin, for an absence request creation', function(done) {
 
         server.get('/rest/admin/accountrights', {
-            user: account1._id
+            user: account1._id,
+            dtstart:today.toISOString(),
+            dtend:tomorrow.toISOString()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
@@ -191,9 +209,12 @@ describe('beneficiaries rest service', function() {
 
 
 
-    it('list accessible rights from the account', function(done) {
+    it('list accessible rights from the account, for an absence request creation', function(done) {
 
-        server.get('/rest/account/accountrights', {}, function(res, body) {
+        server.get('/rest/account/accountrights', {
+            dtstart:today.toISOString(),
+            dtend:tomorrow.toISOString()
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             done();
