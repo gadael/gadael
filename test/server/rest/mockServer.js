@@ -88,7 +88,7 @@ function mockServer(port, readyCallback) {
 }
 
 
-mockServer.prototype.request = function(method, headers, path, done) {
+mockServer.prototype.request = function(method, headers, query, path, done) {
     
     var server = this;
 
@@ -98,6 +98,11 @@ mockServer.prototype.request = function(method, headers, path, done) {
         headers.Cookie = server.sessionCookie;
     }
     
+    if (Object.getOwnPropertyNames(query).length !== 0) {
+        var qs = require('querystring');
+        path += '?'+qs.stringify(query);
+    }
+
     var urlOptions = {
         hostname: 'localhost',
         port: this.app.config.port,
@@ -153,7 +158,7 @@ mockServer.prototype.request = function(method, headers, path, done) {
  */
 mockServer.prototype.get = function(path, data, done) {
     
-    var req = this.request('GET', data, path, done);
+    var req = this.request('GET', {}, data, path, done);
     req.end();
 };
 
@@ -170,7 +175,7 @@ mockServer.prototype.send = function(method, path, data, done) {
         'Content-Length': postStr.length
     };
     
-    var req = this.request(method, headers, path, done);
+    var req = this.request(method, headers, {}, path, done);
     
     req.write(postStr);
     
@@ -201,7 +206,7 @@ mockServer.prototype.post = function(path, data, done) {
  */
 mockServer.prototype.delete = function(path, done) {
     
-    var req = this.request('DELETE', {}, path, done);
+    var req = this.request('DELETE', {}, {}, path, done);
     req.end();
 };
 
