@@ -81,7 +81,6 @@ exports = module.exports = function(params) {
         var deferred = Q.defer();
         var account = this;
 
-        moment.setHours(0,0,0,0);
         
         account.getAccountCollectionQuery()
             .where('from').lte(moment)
