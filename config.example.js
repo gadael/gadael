@@ -11,7 +11,7 @@ exports = module.exports = function createConfiguration() {
 
     var config = {};
 
-    config.loghttp = true;
+    config.loghttp = false;
 
     config.port = process.argv[2] || 3000;
     config.mongodb = {
