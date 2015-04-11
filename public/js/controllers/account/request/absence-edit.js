@@ -37,13 +37,14 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             
         }
         
+        /**
+         * Period picker callback
+         */
         $scope.loadWorkingTimes = function(interval) {
 
             var deferred = Q.defer();
 
             user.get().$promise.then(function(user) {
-
-
                 var account = user.roles.account;
 
                 if (!account.currentScheduleCalendar) {
@@ -62,6 +63,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
         };
 
+        /**
+         * Period picker callback
+         */
         $scope.loadEvents = function(interval) {
             var deferred = Q.defer();
 
