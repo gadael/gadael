@@ -33,7 +33,7 @@ define(['momentDurationFormat'], function(moment) {
         
         
         
-        getNextButtonJob: function getNextButtonJob($scope, accountRights) {
+        getNextButtonJob: function getNextButtonJob($scope, accountCollection, accountRights) {
             return function() {
 
                 // hide the period selection
@@ -43,11 +43,31 @@ define(['momentDurationFormat'], function(moment) {
                 $scope.assignments = true;
 
                 if ($scope.request) {
+
+                    /**
+                     * Load collection
+                     * The collection available on the selected period
+                     */
+
+                    $scope.collection = accountCollection.query({
+                        user: $scope.request.user.id,
+                        dtstart: $scope.selection.begin,
+                        dtend: $scope.selection.end
+                    });
+
+
+                    /**
+                     * Load accountRights
+                     * the list of rights accessible on the selected period
+                     */
+
                     $scope.accountRights = accountRights.query({
                         user: $scope.request.user.id,
                         dtstart: $scope.selection.begin,
                         dtend: $scope.selection.end
                     });
+
+
                 }
             };
         },

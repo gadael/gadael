@@ -61,6 +61,7 @@ define(function() {
             },
             
             account: {
+                collection              : init('account/collection'),
                 accountrights           : init('account/accountrights/:id'),
                 calendars               : init('account/calendars/:id'),
                 calendarevents          : init('account/calendarevents/:id')
@@ -74,5 +75,5 @@ define(function() {
                 createfirstadmin        : init('anonymous/createfirstadmin')
             }
         };
-    }
+    };
 });

@@ -12,6 +12,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         // resources 
         var calendars = Rest.account.calendars.getResource();
         var calendarEvents = Rest.account.calendarevents.getResource();
+        var accountCollection = Rest.account.collection.getResource();
         var accountRights = Rest.account.accountrights.getResource();
         var user = Rest.user.user.getResource();
         
@@ -94,7 +95,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         /**
          * Go from the period selection to the right assignments step
          */
-        $scope.next = AbsenceEdit.getNextButtonJob($scope, accountRights);
+        $scope.next = AbsenceEdit.getNextButtonJob($scope, accountCollection, accountRights);
 
 	}];
 });
