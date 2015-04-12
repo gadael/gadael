@@ -18,11 +18,20 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
-        // TODO get user account from the user param
-        // return the collection object from dtstart, dtend
-        // return error if collection do not cover the whole period
-        // return error if more than one collection on the period
+        // get user account from the user param
 
+        if (!params.user) {
+            //TODO
+            return;
+        }
+
+        if (!params.dtstart) {
+            return;
+        }
+
+        if (!params.dtend) {
+            return;
+        }
 
         service.app.db.models.User
         .populate('roles.account')
@@ -31,6 +40,11 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err))
             {
                 if (user) {
+
+                    // TODO return the collection object from dtstart, dtend
+                    // return error if collection do not cover the whole period
+                    // return error if more than one collection on the period
+
                     service.deferred.resolve(user.getCollection(params.dtstart));
                 } else {
                     service.notFound(gt.gettext('Failed to load the user document'));
