@@ -7,6 +7,8 @@ exports = module.exports = function(params) {
 		rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' , required: true },
 		from: { type: Date, required: true },		// Do not modify if in the past
 		to: { type: Date },							// Do not modify if in the past
+        createEntriesFrom: { type: Date },          // if not set, entries creation allways allowed
+        createEntriesTo: { type: Date },            // if not set, entries creation allways allowed
 		timeCreated: { type: Date, default: Date.now }
 	});
   
@@ -30,6 +32,14 @@ exports = module.exports = function(params) {
 			return;
 		}
         
+        var createEntries = (null !== accountCollection.createEntriesFrom && null !== accountCollection.createEntriesTo);
+
+        if (createEntries && accountCollection.createEntriesTo >= accountCollection.createEntriesFrom) {
+			next(new Error('Collection create entries end date must be greater than the create entries start date'));
+			return;
+		}
+
+
         var testOverlap = require('../modules/testoverlap');
 		
 		// verify that the new period start date is greater than all other dates

@@ -21,15 +21,17 @@ exports = module.exports = function(services, app) {
         // get user account from the user param
 
         if (!params.user) {
-            //TODO
+            //TODO error message
             return;
         }
 
         if (!params.dtstart) {
+            //TODO error message
             return;
         }
 
         if (!params.dtend) {
+            //TODO error message
             return;
         }
 
