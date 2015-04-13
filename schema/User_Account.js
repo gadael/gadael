@@ -69,6 +69,35 @@ exports = module.exports = function(params) {
     };
     
     
+    /**
+     * Get a Q promise from a query on accountCollection
+     * @param {Query} query     Mongoose query object
+     * @return {Promise} resolve to a rightCollection document or null
+     */
+    accountSchema.methods.collectionPromise = function(query) {
+
+        query.populate('rightCollection');
+
+        var Q = require('q');
+        var deferred = Q.defer();
+
+        query.exec(function(err, arr) {
+            if (err) {
+                deferred.reject(err);
+                return;
+            }
+
+            if (!arr || 0 === arr.length) {
+                deferred.resolve(null);
+                return;
+            }
+
+            deferred.resolve(arr[0].rightCollection);
+        });
+
+        return deferred.promise;
+    };
+
     
     /**
      * Get the right collection for a specific date
@@ -77,52 +106,22 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to a rightCollection document or null
      */
     accountSchema.methods.getCollection = function(moment) {
-        var Q = require('q');
-        var deferred = Q.defer();
+
         var account = this;
 
-        
-        account.getAccountCollectionQuery()
+        return account.collectionPromise(
+            account.getAccountCollectionQuery()
             .where('from').lte(moment)
             .where('to').gte(moment)
-            .populate('rightCollection')
-            .exec(function(err, arr) {
-            
-                
-
-                if (err) {
-                    deferred.reject(err);
-                    return;
-                }
-            
-                if (!arr || 0 === arr.length) {
-                    
+        ).then(function(collection) {
+            if (null === collection) {
+                return account.collectionPromise(
                     account.getAccountCollectionQuery()
-                        .where('from').lte(moment)
-                        .where('to').equals(null)
-                        .populate('rightCollection')
-                        .exec(function(err, arr) {
-
-                            if (err) {
-                                deferred.reject(err);
-                                return;
-                            }
-
-                            if (!arr || 0 === arr.length) {
-                                deferred.resolve(null);
-                                return; 
-                            }
-                        
-                            deferred.resolve(arr[0].rightCollection);
-                        });
-                    
-                    return;
-                }
-            
-                deferred.resolve(arr[0].rightCollection);
-            });
-        
-        return deferred.promise;
+                    .where('from').lte(moment)
+                    .where('to').equals(null)
+                );
+            }
+        });
     };
     
     

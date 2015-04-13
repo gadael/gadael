@@ -11,7 +11,8 @@ exports = module.exports = function(services, app) {
     var service = new services.get(app);
 
     /**
-     * Call the request get service
+     * return the collection if dtstart and dtend are in the accountCollection from-to interval
+     * And if the current date is in the createEntriesFrom-createEntriesTo interval
      *
      * @param {Object} params
      * @return {Promise}
@@ -43,9 +44,14 @@ exports = module.exports = function(services, app) {
             {
                 if (user) {
 
-                    // TODO return the collection object from dtstart, dtend
-                    // return error if collection do not cover the whole period
-                    // return error if more than one collection on the period
+                    /**
+                     * @todo error management
+                     *
+                     * return error if collection do not cover the whole period
+                     * return error if more than one collection on the period
+                     */
+
+                    var today = new Date();
 
                     service.deferred.resolve(user.getCollection(params.dtstart));
                 } else {
