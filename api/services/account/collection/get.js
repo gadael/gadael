@@ -53,7 +53,7 @@ exports = module.exports = function(services, app) {
 
                     var today = new Date();
 
-                    service.deferred.resolve(user.getCollection(params.dtstart));
+                    service.deferred.resolve(user.getValidCollectionForPeriod(params.dtstart, params.dtend, today));
                 } else {
                     service.notFound(gt.gettext('Failed to load the user document'));
                 }

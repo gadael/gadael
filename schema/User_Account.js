@@ -92,11 +92,48 @@ exports = module.exports = function(params) {
                 return;
             }
 
+            if (arr.length !== 1) {
+                deferred.reject(new Error('More than one collection'));
+                return;
+            }
+
             deferred.resolve(arr[0].rightCollection);
         });
 
         return deferred.promise;
     };
+
+
+
+    /**
+     * Get a valid collection for a vacation request
+     * resolve to null if no accountCollection
+     * resolve to null if the accountCollection do not cover the whole request period
+     * rejected if more than one account collection
+     * resolve to the collection if one accountCollection
+     *
+     * @param {Date} dtstart    period start
+     * @param {Date} dtend      period end
+     * @param {Date} moment     request date creation or modification
+     *
+     * @return {Promise}
+     */
+    accountSchema.methods.getValidCollectionForPeriod = function(dtstart, dtend, moment) {
+
+        var account = this;
+
+        return account.collectionPromise(
+            account.getAccountCollectionQuery()
+            .where('from').lte(dtstart)
+            .or(
+                { to: { $gte: dtend } },
+                { to: null }
+            )
+            .where('createEntriesFrom').lte(moment)
+            .where('createEntriesTo').gte(moment)
+        );
+    };
+
 
     
     /**
