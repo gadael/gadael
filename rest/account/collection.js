@@ -16,8 +16,18 @@ function getController() {
     ctrlFactory.get.call(this, '/rest/account/collection');
     var ctrl = this;
 
-    this.controllerAction = function() {
-        ctrl.jsonService(this.service('account/collection/get', { user: this.req.user._id }));
+    ctrl.controllerAction = function() {
+
+        // if not allowed to spoof the user request creation, force the user parameter
+
+        var spoofed_user = ctrl.req.query.user;
+        var forced_params = null;
+
+        if (!ctrl.req.user.canSpoofUser(spoofed_user)) {
+            forced_params = { user: ctrl.req.user._id };
+        }
+
+        ctrl.jsonService(ctrl.service('account/collection/get', forced_params));
     };
 }
 getController.prototype = new ctrlFactory.get();

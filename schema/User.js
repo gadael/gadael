@@ -82,6 +82,27 @@ exports = module.exports = function(params) {
     };
     
     
+    /**
+     * Test if the user can act on behalf of another user
+     * @this User
+     *
+     * @param {User}
+     * @return {Boolean}
+     */
+    userSchema.methods.canSpoofUser = function(user) {
+        if (this.roles.admin) {
+            return true;
+        }
+
+        // TODO: fix department test (can be populated)
+        // TODO: allow for sub-departments?
+        if (this.roles.manager && this.roles.manager.department === user.department) {
+            return true;
+        }
+
+        return false;
+    };
+
   
     /**
      * Test role
