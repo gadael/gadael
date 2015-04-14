@@ -22,17 +22,17 @@ exports = module.exports = function(services, app) {
         // get user account from the user param
 
         if (!params.user) {
-            //TODO error message
+            service.error(gt.gettext('user parameter is mandatory'));
             return;
         }
 
         if (!params.dtstart) {
-            //TODO error message
+            service.error(gt.gettext('dtstart parameter is mandatory'));
             return;
         }
 
         if (!params.dtend) {
-            //TODO error message
+            service.error(gt.gettext('dtend parameter is mandatory'));
             return;
         }
 
@@ -52,8 +52,9 @@ exports = module.exports = function(services, app) {
                      */
 
                     var today = new Date();
+                    var account = user.roles.account;
 
-                    service.deferred.resolve(user.getValidCollectionForPeriod(params.dtstart, params.dtend, today));
+                    service.deferred.resolve(account.getValidCollectionForPeriod(params.dtstart, params.dtend, today));
                 } else {
                     service.notFound(gt.gettext('Failed to load the user document'));
                 }
