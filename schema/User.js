@@ -103,6 +103,38 @@ exports = module.exports = function(params) {
         return false;
     };
 
+
+
+    /**
+     * Get an array of departments ancestors
+     * @return {Promise}
+     */
+    userSchema.methods.getDepartmentsAncestors = function() {
+
+        var Q = require('q');
+        var deferred = Q.defer();
+
+        this.populate('department', function() {
+            var ancestors = [];
+            var department = this.department;
+
+            if (!department) {
+                return deferred.resolve(ancestors);
+            }
+
+
+            (function loop(err, dep) {
+                if (!dep) {
+                    return deferred.resolve(ancestors);
+                }
+
+                dep.populate('parent', loop);
+            })(null, department);
+        });
+
+        return deferred.promise;
+    };
+
   
     /**
      * Test role
