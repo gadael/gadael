@@ -113,23 +113,28 @@ exports = module.exports = function(params) {
 
         var Q = require('q');
         var deferred = Q.defer();
+        var user = this;
+        var ancestors = [];
 
-        this.populate('department', function() {
-            var ancestors = [];
-            var department = this.department;
-
-            if (!department) {
+        function loop(err, dep) {
+            if (!dep || err) {
                 return deferred.resolve(ancestors);
             }
 
+            dep.populate('parent', loop);
+        }
 
-            (function loop(err, dep) {
-                if (!dep) {
-                    return deferred.resolve(ancestors);
-                }
+        this.populate('department', function() {
 
-                dep.populate('parent', loop);
-            })(null, department);
+            var department = user.department;
+
+            //TODO fix this infinite loop
+
+            //if (!department) {
+                return deferred.resolve(ancestors);
+            //}
+
+            //loop(null, department);
         });
 
         return deferred.promise;
@@ -222,7 +227,9 @@ exports = module.exports = function(params) {
   
   
     /**
-     *
+     * Encrypt password
+     * @param {String} password     clear text password
+     * @param {function} done       callback function, receive error and hash as parameter
      */ 
     userSchema.statics.encryptPassword = function(password, done) {
         var bcrypt = require('bcrypt');
@@ -231,35 +238,37 @@ exports = module.exports = function(params) {
                 return done(err);
             }
 
-            bcrypt.hash(password, salt, function(err, hash) {
-                done(err, hash);
-            });
+            bcrypt.hash(password, salt, done);
         });
     };
   
   
     /**
-     *
+     * Validate password
+     * @param {String} password     clear text password
+     * @param {String} hash         The encrypted password as in database
+     * @param {function} done       callback function
      */  
     userSchema.statics.validatePassword = function(password, hash, done) {
         var bcrypt = require('bcrypt');
-        bcrypt.compare(password, hash, function(err, res) {
-            done(err, res);
-        });
+        bcrypt.compare(password, hash, done);
     };
   
   
   
     /**
      * test method to create random user
+     *
+     * @param {String} password     clear text password
+     * @param {function} done       callback function
      */  
     userSchema.statics.createRandom = function(password, done) {
 		
 		var Charlatan = require('../node_modules/charlatan/lib/charlatan.js');
 		var model = this;
-		
+
 		this.encryptPassword(password, function(err, hash) {
-			
+
 			if (err)
 			{
 				return done(err);
@@ -279,7 +288,8 @@ exports = module.exports = function(params) {
   
   
     /**
-     * delete documents associated to the user
+     * delete documents associated to the user asynchronously
+     *
      */
     userSchema.pre('remove', function(next) {
         
