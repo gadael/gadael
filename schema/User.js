@@ -106,36 +106,46 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Get an array of departments ancestors
+     * Get an array of departments ancestors, including the user department on the last position of the array
+     * if the user have no department, promise resolve to an empty array
      * @return {Promise}
      */
     userSchema.methods.getDepartmentsAncestors = function() {
 
         var Q = require('q');
-        var deferred = Q.defer();
-        var user = this;
-        var ancestors = [];
 
-        function loop(err, dep) {
-            if (!dep || err) {
-                return deferred.resolve(ancestors);
-            }
-
-            dep.populate('parent', loop);
+        if (!this.department) {
+            return Q.fcall(function () {
+                return [];
+            });
         }
 
-        this.populate('department', function() {
+        var deferred = Q.defer();
+
+        this.populate('department', function(err, user) {
+
+            if (err) {
+                return deferred.reject(err);
+            }
 
             var department = user.department;
 
-            //TODO fix this infinite loop
+            if (!department) {
+                return deferred.resolve([]);
+            }
 
-            //if (!department) {
-                return deferred.resolve(ancestors);
-            //}
+            department.getAncestors(function(err, ancestors) {
 
-            //loop(null, department);
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                ancestors.push(department);
+                deferred.resolve(ancestors);
+            });
+
         });
+
 
         return deferred.promise;
     };
