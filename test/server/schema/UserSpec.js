@@ -7,6 +7,7 @@ describe('User model', function() {
 
     var userModel;
     var userDocument;
+    var department1, department2;
 
 
     it("should connect to the database", function(done) {
@@ -38,6 +39,7 @@ describe('User model', function() {
             userDocument.department = department._id;
             userDocument.save(function(err) {
                 expect(err).toEqual(null);
+                department1 = department;
                 done();
             });
         }
@@ -45,7 +47,10 @@ describe('User model', function() {
         app.db.models.Department.findOne().where('name', 'R & D').exec(function(err, department) {
             expect(err).toEqual(null);
             if (department) {
-                return saveToUser(department);
+                department.save(function(err) {
+                    saveToUser(department);
+                });
+                return;
             }
 
             department = new app.db.models.Department();
@@ -53,6 +58,8 @@ describe('User model', function() {
             department.save(function(err) {
                 expect(err).toEqual(null);
                 saveToUser(department);
+
+
             });
         });
     });
@@ -66,9 +73,50 @@ describe('User model', function() {
     });
 
 
+    it('create a parent department', function(done) {
+
+        function saveToDepartment1(department) {
+            department1.parent = department;
+            department1.save(function(err) {
+                expect(err).toEqual(null);
+                department2 = department;
+                done();
+            });
+        }
+
+
+        app.db.models.Department.findOne().where('name', 'France').exec(function(err, department) {
+            expect(err).toEqual(null);
+            if (department) {
+                return saveToDepartment1(department);
+            }
+
+            department = new app.db.models.Department();
+            department.name = 'France';
+            department.save(function(err) {
+                expect(err).toEqual(null);
+                saveToDepartment1(department);
+            });
+        });
+    });
+
+
+    it('check departments ancestors with two department', function(done) {
+        userDocument.getDepartmentsAncestors().then(function(arr) {
+            expect(arr.length).toEqual(2);
+            done();
+        });
+    });
+
+
     it("should disconnect from the database", function(done) {
-		app.disconnect(function() {
-			done();
-		});
+
+        department1.remove(function() {
+            department2.remove(function() {
+                app.disconnect(function() {
+                    done();
+                });
+            });
+        });
 	});
 });
