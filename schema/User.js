@@ -86,6 +86,8 @@ exports = module.exports = function(params) {
      * Test if the user can act on behalf of another user
      * @this User
      *
+     * @todo test
+     *
      * @param {User}
      * @return {Boolean}
      */
@@ -94,9 +96,7 @@ exports = module.exports = function(params) {
             return true;
         }
 
-        // TODO: fix department test (can be populated)
-        // TODO: allow for sub-departments?
-        if (this.roles.manager && this.roles.manager.department === user.department) {
+        if (this.roles.manager && this.roles.manager.isManagerOf(user)) {
             return true;
         }
 
