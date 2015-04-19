@@ -35,6 +35,14 @@ exports = module.exports = function(params) {
 	   return emailRegex.test(value);
 	}, 'The e-mail field cannot be empty.');
   
+    /**
+     * Get user name
+     * @return {String}
+     */
+    userSchema.methods.getName = function() {
+        return this.lastname+' '+this.firstname;
+    };
+
     
     /**
      * Get the department and ancestors 

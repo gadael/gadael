@@ -23,7 +23,6 @@ exports = module.exports = function(params) {
      * Promise resolve to a boolean
      * @this Manager
      *
-     * @todo test
      *
      * @param {User} user   Mongoose user document
      * @return {Promise}
@@ -31,9 +30,11 @@ exports = module.exports = function(params) {
     managerSchema.methods.isManagerOf = function(user) {
 
         var Q = require('q');
+        var manager = this;
 
 
-        if (!this.department) {
+
+        if (!manager.department) {
             return Q.fcall(function () {
                 return false;
             });
@@ -43,9 +44,9 @@ exports = module.exports = function(params) {
         var i, j;
 
         user.getDepartmentsAncestors().then(function(arr) {
-            for(i=0; i<this.department.length; i++) {
+            for(i=0; i<manager.department.length; i++) {
                 for(j=0; j<arr.length; j++) {
-                    if (this.department[i]._id === arr[j]._id) {
+                    if (manager.department[i].toString() === arr[j]._id.toString()) {
                         deferred.resolve(true);
                     }
                 }

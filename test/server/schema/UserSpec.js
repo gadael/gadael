@@ -5,14 +5,15 @@ var app = require('../../../api/Headless.api.js');
 
 describe('User model', function() {
 
-    var userModel;
-    var userDocument;
+    var userModel, managerModel;
+    var userDocument, manager;
     var department1, department2;
 
 
     it("should connect to the database", function(done) {
 		app.connect(function() {
             userModel = app.db.models.User;
+            managerModel = app.db.models.Manager;
 			done();
 		});
 	});
@@ -104,6 +105,44 @@ describe('User model', function() {
     it('check departments ancestors with two department', function(done) {
         userDocument.getDepartmentsAncestors().then(function(arr) {
             expect(arr.length).toEqual(2);
+            done();
+        });
+    });
+
+
+    it('Create a manager', function(done) {
+        userModel.createRandom('secret', function(err, user) {
+            manager = new managerModel();
+            manager.user = {
+                    id: user._id,
+                    name: user.getName()
+                };
+            manager.department = [department2._id];
+
+            manager.save(function(err, managerDocument) {
+                user.roles = {
+                    manager: managerDocument._id
+                };
+
+                user.save(function(err, userManager) {
+                    expect(err).toEqual(null);
+                    expect(userManager.roles.manager).toEqual(managerDocument._id);
+                    done();
+                });
+            });
+
+
+        });
+    });
+
+
+    it('verify manager of a user', function(done) {
+        manager.isManagerOf(userDocument).then(function(status) {
+            expect(status).toBeTruthy();
+            done();
+        }).catch(function(err) {
+            console.log(err);
+            expect('catch').toEqual(false);
             done();
         });
     });
