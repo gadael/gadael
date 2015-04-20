@@ -6,7 +6,7 @@ var app = require('../../../api/Headless.api.js');
 describe('User model', function() {
 
     var userModel, managerModel;
-    var userDocument, manager;
+    var userDocument, userManagerDocument, manager;
     var department1, department2;
 
 
@@ -127,6 +127,7 @@ describe('User model', function() {
                 user.save(function(err, userManager) {
                     expect(err).toEqual(null);
                     expect(userManager.roles.manager).toEqual(managerDocument._id);
+                    userManagerDocument = userManager;
                     done();
                 });
             });
@@ -137,8 +138,59 @@ describe('User model', function() {
 
 
     it('verify manager of a user', function(done) {
-        manager.isManagerOf(userDocument).then(function(status) {
+        userManagerDocument.populate('roles.manager', function(err, populatedManager) {
+            populatedManager.isManagerOf(userDocument).then(function(status) {
+                expect(status).toBeTruthy();
+                done();
+            }).catch(function(err) {
+                expect(err.toString()).toEqual(null);
+                done();
+            });
+        });
+
+    });
+
+
+
+    it('verify manager can spoof user to edit requests with the default settings', function(done) {
+        userManagerDocument.canSpoofUser(userDocument).then(function(status) {
             expect(status).toBeTruthy();
+            done();
+        }).catch(function(err) {
+            expect(err.toString()).toEqual(null);
+            done();
+        });
+    });
+
+    /*
+    it('change setting in the company document', function(done) {
+
+        app.db.models.Company.findOne({}, function(err, company) {
+
+            expect(company).toBeDefined();
+            if (!company) {
+                expect(false).toEqual(true);
+                done();
+                return;
+            }
+
+            if (null === company.manager_options) {
+                company.manager_options = {};
+            }
+
+            company.manager_options.edit_request = false;
+            company.save(function(err) {
+                expect(err).toEqual(null);
+                done();
+            });
+        });
+
+    });
+
+
+    it('verify manager cannot spoof user to edit request with the modified setting', function(done) {
+        userManagerDocument.canSpoofUser(userDocument).then(function(status) {
+            expect(status).toBeFalsy();
             done();
         }).catch(function(err) {
             console.log(err);
@@ -146,7 +198,7 @@ describe('User model', function() {
             done();
         });
     });
-
+    */
 
     it("should disconnect from the database", function(done) {
 

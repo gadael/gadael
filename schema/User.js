@@ -90,16 +90,70 @@ exports = module.exports = function(params) {
     };
     
     
+
+        /**
+     * Test if the user is manager of another user
+     * Promise resolve to a boolean
+     * @this {User}
+     *
+     *
+     * @param {User} user   Mongoose user document
+     * @return {Promise}
+     */
+    userSchema.methods.isManagerOf = function(user) {
+
+        var Q = require('q');
+        var manager = this.roles.manager;
+
+        if (!manager) {
+            return Q.fcall(function () {
+                return false;
+            });
+        }
+
+        if (manager.constructor.name !== 'model') {
+            return Q.fcall(function () {
+                throw new Error("Missing a populated manager document");
+            });
+        }
+
+        if (!manager.department) {
+            return Q.fcall(function () {
+                return false;
+            });
+        }
+
+        var deferred = Q.defer();
+        var i, j;
+
+        user.getDepartmentsAncestors().then(function(arr) {
+            for(i=0; i<manager.department.length; i++) {
+                for(j=0; j<arr.length; j++) {
+                    if (manager.department[i].toString() === arr[j]._id.toString()) {
+                        deferred.resolve(true);
+                    }
+                }
+            }
+
+            deferred.resolve(false);
+        }).catch(deferred.reject);
+
+
+        return deferred.promise;
+    };
+
+
     /**
      * Test if the user can act on behalf of another user
-     * for the request creations
+     * for the request creations.
+     * The promise resolve to a boolean
      *
      * @this User
      *
      * @todo test
      *
-     * @param {User}
-     * @return {Boolean}
+     * @param {User}    user document with a populated manager role document
+     * @return {Promise}
      */
     userSchema.methods.canSpoofUser = function(user) {
 
@@ -116,20 +170,40 @@ exports = module.exports = function(params) {
 
         if (!this.roles.manager) {
             deferred.resolve(false);
+            return deferred.promise;
         }
 
-        if (!this.roles.manager.isManagerOf(user)) {
-            deferred.resolve(false);
-        }
+        this.populate('roles.manager', function(err, populatedUserDoc) {
 
-        params.db.models.Company.findOne({}, function(err, company) {
+            populatedUserDoc.isManagerOf(user).then(function(status) {
+                if (!status) {
+                    return deferred.resolve(false);
+                }
 
-            // TODO if not set get the default value
-            deferred.resolve(company.manager_options.edit_request);
+                params.db.models.Company.findOne({}, function(err, company) {
+
+                    console.log(company);
+
+                    if (!company || err) {
+                        return deferred.resolve(false);
+                    }
+
+                    if (null === company.manager_options) {
+                        console.log(params.db.models.Company.schema);
+                        return deferred.resolve(true);
+                    }
+
+                    // TODO if not set get the default value
+                    //deferred.resolve(company.manager_options.edit_request);
+
+                    deferred.resolve(true);
+                });
+
+            }).catch(deferred.reject);
         });
 
 
-        deferred.resolve(true);
+
 
         return deferred.promise;
     };

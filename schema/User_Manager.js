@@ -18,46 +18,7 @@ exports = module.exports = function(params) {
 	});
 
 
-    /**
-     * Test if the user is manager of another user
-     * Promise resolve to a boolean
-     * @this Manager
-     *
-     *
-     * @param {User} user   Mongoose user document
-     * @return {Promise}
-     */
-    managerSchema.methods.isManagerOf = function(user) {
 
-        var Q = require('q');
-        var manager = this;
-
-
-
-        if (!manager.department) {
-            return Q.fcall(function () {
-                return false;
-            });
-        }
-
-        var deferred = Q.defer();
-        var i, j;
-
-        user.getDepartmentsAncestors().then(function(arr) {
-            for(i=0; i<manager.department.length; i++) {
-                for(j=0; j<arr.length; j++) {
-                    if (manager.department[i].toString() === arr[j]._id.toString()) {
-                        deferred.resolve(true);
-                    }
-                }
-            }
-
-            deferred.resolve(false);
-        }).catch(deferred.reject);
-
-
-        return deferred.promise;
-    };
 
 
 
