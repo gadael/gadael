@@ -92,6 +92,8 @@ exports = module.exports = function(params) {
     
     /**
      * Test if the user can act on behalf of another user
+     * for the request creations
+     *
      * @this User
      *
      * @todo test
@@ -100,15 +102,36 @@ exports = module.exports = function(params) {
      * @return {Boolean}
      */
     userSchema.methods.canSpoofUser = function(user) {
+
+        var Q = require('q');
+        function spoofAllowed() { return true; }
+
         if (this.roles.admin) {
-            return true;
+            return Q.fcall(spoofAllowed);
         }
 
-        if (this.roles.manager && this.roles.manager.isManagerOf(user)) {
-            return true;
+
+        var deferred = Q.defer();
+
+
+        if (!this.roles.manager) {
+            deferred.resolve(false);
         }
 
-        return false;
+        if (!this.roles.manager.isManagerOf(user)) {
+            deferred.resolve(false);
+        }
+
+        params.db.models.Company.findOne({}, function(err, company) {
+
+            // TODO if not set get the default value
+            deferred.resolve(company.manager_options.edit_request);
+        });
+
+
+        deferred.resolve(true);
+
+        return deferred.promise;
     };
 
 
