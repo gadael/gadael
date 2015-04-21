@@ -189,10 +189,10 @@ exports = module.exports = function(params) {
                     }
 
                     if (null === company.manager_options) {
-                        // TODO if not set get the default value on the schema
-                        return deferred.resolve(true);
+                        // if not set get the default value on the schema
+                        var fields = params.db.models.Company.schema.paths;
+                        return deferred.resolve(fields['manager_options.edit_request'].options.default);
                     }
-
 
                     deferred.resolve(company.manager_options.edit_request);
                 });
