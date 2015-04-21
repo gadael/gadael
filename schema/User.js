@@ -189,14 +189,12 @@ exports = module.exports = function(params) {
                     }
 
                     if (null === company.manager_options) {
-                        console.log(params.db.models.Company.schema);
+                        // TODO if not set get the default value on the schema
                         return deferred.resolve(true);
                     }
 
-                    // TODO if not set get the default value
-                    //deferred.resolve(company.manager_options.edit_request);
 
-                    deferred.resolve(true);
+                    deferred.resolve(company.manager_options.edit_request);
                 });
 
             }).catch(deferred.reject);

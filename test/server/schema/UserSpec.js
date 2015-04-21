@@ -172,6 +172,7 @@ describe('User model', function() {
 
         app.db.models.Company.findOne({}, function(err, company) {
 
+            expect(err).toEqual(null);
             expect(company).toBeDefined();
             if (!company) {
                 expect(false).toEqual(true);
@@ -198,8 +199,7 @@ describe('User model', function() {
             expect(status).toBeFalsy();
             done();
         }).catch(function(err) {
-            console.log(err);
-            expect('catch').toEqual(false);
+            expect(err).toEqual(null);
             done();
         });
     });
