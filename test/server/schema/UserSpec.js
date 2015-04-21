@@ -1,22 +1,26 @@
 'use strict';
 
-var app = require('../../../api/Headless.api.js');
-
+var helpers = require('./mockDatabase');
+var app;
 
 describe('User model', function() {
+
 
     var userModel, managerModel;
     var userDocument, userManagerDocument, manager;
     var department1, department2;
 
 
-    it("should connect to the database", function(done) {
-		app.connect(function() {
+    beforeEach(function(done) {
+        helpers.mockDatabase('userSpec', function(mockapp) {
+            app = mockapp;
+
             userModel = app.db.models.User;
             managerModel = app.db.models.Manager;
-			done();
-		});
-	});
+
+            done();
+        });
+    });
 
 
     it('create a random test user', function(done) {
@@ -25,6 +29,7 @@ describe('User model', function() {
             done();
         });
     });
+
 
     it('check departments ancestors without departments', function(done) {
         userDocument.getDepartmentsAncestors().then(function(arr) {
@@ -162,7 +167,7 @@ describe('User model', function() {
         });
     });
 
-    /*
+
     it('change setting in the company document', function(done) {
 
         app.db.models.Company.findOne({}, function(err, company) {
@@ -198,16 +203,18 @@ describe('User model', function() {
             done();
         });
     });
-    */
+
 
     it("should disconnect from the database", function(done) {
 
         department1.remove(function() {
             department2.remove(function() {
                 app.disconnect(function() {
-                    done();
+                    // and delete the test db
+                    helpers.dropDb('userSpec', done);
                 });
             });
         });
 	});
+
 });

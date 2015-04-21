@@ -172,9 +172,7 @@ api.createDb = function(app, dbName, company, callback) {
  * @param	function	callback
  */  
 api.dropDb = function(app, dbName, callback) {
-	
-	
-	
+
 	var db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
 	db.on('error', console.error.bind(console, 'CompanyApi.deleteDb mongoose connection error: '));
 	

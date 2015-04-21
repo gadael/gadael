@@ -158,17 +158,15 @@ exports = module.exports = function(params) {
     userSchema.methods.canSpoofUser = function(user) {
 
         var Q = require('q');
-        function spoofAllowed() { return true; }
-
-        if (this.roles.admin) {
-            return Q.fcall(spoofAllowed);
-        }
-
-
         var deferred = Q.defer();
 
+        if (this.roles.admin) {
+            deferred.resolve(true);
+            return deferred.promise;
+        }
 
         if (!this.roles.manager) {
+            // User is not manager
             deferred.resolve(false);
             return deferred.promise;
         }
@@ -180,12 +178,14 @@ exports = module.exports = function(params) {
                     return deferred.resolve(false);
                 }
 
-                params.db.models.Company.findOne({}, function(err, company) {
+                params.db.models.Company.findOne().select('manager_options').exec(function(err, company) {
 
-                    console.log(company);
+                    if (err) {
+                        return deferred.reject(err);
+                    }
 
-                    if (!company || err) {
-                        return deferred.resolve(false);
+                    if (null === company) {
+                        return deferred.reject('No company found!');
                     }
 
                     if (null === company.manager_options) {
