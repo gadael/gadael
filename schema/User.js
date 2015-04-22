@@ -398,6 +398,43 @@ exports = module.exports = function(params) {
 			
 		});
     };
+
+
+
+
+    /**
+     * Get the associated accountCollection
+     *
+     * @param {Date} moment         optional parameter
+     * @return {Promise}
+     */
+    userSchema.methods.getAccountCollection = function(moment) {
+
+		if (undefined === moment) {
+            moment = new Date();
+        }
+
+        var Q = require('q');
+        var deferred = Q.defer();
+
+        params.db.models.AccountCollection.findOne()
+        .where('account', this.roles.account)
+        .where('from').lte(moment)
+        .or([{ to: null }, { to: { $gte: moment } }])
+        .exec(function (err, accountCollection) {
+
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            deferred.resolve(accountCollection);
+        });
+
+        return deferred.promise;
+    };
+
+
+
   
   
     /**

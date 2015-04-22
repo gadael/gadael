@@ -9,6 +9,7 @@ describe('User model', function() {
     var userModel, managerModel;
     var userDocument, userManagerDocument, manager;
     var department1, department2;
+    var collection;
 
 
     beforeEach(function(done) {
@@ -28,6 +29,20 @@ describe('User model', function() {
             userDocument = user;
             done();
         });
+    });
+
+
+    it('add the account role', function(done) {
+        var account = new app.db.models.Account();
+        account.save(function(err, account) {
+            userDocument.roles.account = account._id;
+            userDocument.save(function(err, saved) {
+                expect(err).toEqual(null);
+                done();
+            });
+        });
+
+
     });
 
 
@@ -203,6 +218,42 @@ describe('User model', function() {
             done();
         });
     });
+
+
+    it('create a test collection', function(done) {
+        collection = new app.db.models.RightCollection();
+        collection.name = 'test for UserSpec';
+        collection.save(function(err) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
+
+    it('link userDocument to a collection', function(done) {
+
+        var accountCollection = new app.db.models.AccountCollection();
+        accountCollection.account = userDocument.roles.account;
+        accountCollection.rightCollection = collection._id;
+
+        accountCollection.from = new Date();
+
+        accountCollection.save(function(err, doc) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
+    it('test the getAccountCollection method', function(done) {
+        userDocument.getAccountCollection().then(function(accountCollection) {
+            expect(accountCollection.rightCollection).toEqual(collection._id);
+            done();
+        }).catch(function(err) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
 
 
     it("should disconnect from the database", function(done) {
