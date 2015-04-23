@@ -235,7 +235,6 @@ describe('User model', function() {
         var accountCollection = new app.db.models.AccountCollection();
         accountCollection.account = userDocument.roles.account;
         accountCollection.rightCollection = collection._id;
-
         accountCollection.from = new Date();
 
         accountCollection.save(function(err, doc) {
@@ -247,6 +246,20 @@ describe('User model', function() {
     it('test the getAccountCollection method', function(done) {
         userDocument.getAccountCollection().then(function(accountCollection) {
             expect(accountCollection.rightCollection).toEqual(collection._id);
+            done();
+        }).catch(function(err) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
+
+    it('test the getAccountCollection method on unplanned moment', function(done) {
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        userDocument.getAccountCollection(yesterday).then(function(accountCollection) {
+            expect(accountCollection).toEqual(null);
             done();
         }).catch(function(err) {
             expect(err).toEqual(null);
