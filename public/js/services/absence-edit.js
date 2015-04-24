@@ -42,7 +42,7 @@ define(['momentDurationFormat'], function(moment) {
                 // show the right assignement
                 $scope.assignments = true;
 
-                if ($scope.request) {
+                if ($scope.user) {
 
                     /**
                      * Load collection
@@ -50,7 +50,7 @@ define(['momentDurationFormat'], function(moment) {
                      */
 
                     $scope.collection = accountCollection.query({
-                        user: $scope.request.user.id,
+                        user: $scope.user.id,
                         dtstart: $scope.selection.begin,
                         dtend: $scope.selection.end
                     });
@@ -62,7 +62,7 @@ define(['momentDurationFormat'], function(moment) {
                      */
 
                     $scope.accountRights = accountRights.query({
-                        user: $scope.request.user.id,
+                        user: $scope.user.id,
                         dtstart: $scope.selection.begin,
                         dtend: $scope.selection.end
                     });

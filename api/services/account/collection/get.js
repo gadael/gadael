@@ -54,7 +54,9 @@ exports = module.exports = function(services, app) {
                     var today = new Date();
                     var account = user.roles.account;
 
-                    service.deferred.resolve(account.getValidCollectionForPeriod(params.dtstart, params.dtend, today));
+                    service.deferred.resolve(user.getAccountCollections(params.dtstart, params.dtend));
+
+                    //service.deferred.resolve(account.getValidCollectionForPeriod(params.dtstart, params.dtend, today));
                 } else {
                     service.notFound(gt.gettext('Failed to load the user document'));
                 }
