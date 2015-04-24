@@ -2,7 +2,28 @@ define(['angular'], function(angular) {
     
     'use strict';
     
-	return ['$scope', '$http', 'authService', '$rootScope', '$location', function($scope, $http, authService, $rootScope, $location) {
+	return ['$scope', '$http', 'authService', '$rootScope', '$location',
+    function($scope, $http, authService, $rootScope, $location) {
+
+
+
+        /**
+         * Add messages to the rootScope
+         * @todo remove duplication with service/catchOutcome.js
+         * @param {Object} outcome
+         */
+        function addMessages(outcome) {
+
+            if (undefined === $rootScope.pageAlerts) {
+                $rootScope.pageAlerts = [];
+            }
+
+            for(var i=0; i<outcome.alert.length; i++) {
+                $rootScope.pageAlerts.push(outcome.alert[i]);
+            }
+        }
+
+
 		
 		$scope.submit = function() {
 
@@ -13,7 +34,6 @@ define(['angular'], function(angular) {
 			
 			.success(function(data) {
 
-				
 				$rootScope.pageAlerts = data.alert;
 				
 				if (data.$outcome.success)
@@ -22,10 +42,12 @@ define(['angular'], function(angular) {
 					// update the main menu
 					$rootScope.reloadSession();
 
+                    addMessages(data.$outcome);
+
 					if ('block' === angular.element(document.querySelector('[inga-auth]')).css('display'))
 					{
 						// redirect
-						$location.path("/");
+						$location.path("/home");
 					} else {
 						
 						// re-send failed HTTP request on 401 status if authentication form displayed 
@@ -36,10 +58,6 @@ define(['angular'], function(angular) {
 						angular.element(document.querySelector('[inga-auth]')).css('display', 'block');
 						angular.element(document.querySelector('.inga-auth-form')).css('display', 'none');
 					}
-					
-					
-					
-					
 				}
 			})
 			
