@@ -44,10 +44,12 @@ define(['angular'], function(angular) {
 
                     addMessages(data.$outcome);
 
-					if ('block' === angular.element(document.querySelector('[inga-auth]')).css('display'))
+                    var displayAuthForm = angular.element(document.querySelector('[inga-auth]')).css('display');
+
+					if ('block' === displayAuthForm || '' === displayAuthForm)
 					{
 						// redirect
-						$location.path("/home");
+						$location.path("/");
 					} else {
 						
 						// re-send failed HTTP request on 401 status if authentication form displayed 
