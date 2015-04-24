@@ -9,8 +9,8 @@ describe('User model', function() {
     var userModel, managerModel;
     var userDocument, userManagerDocument, manager;
     var department1, department2;
-    var collection;
-
+    var collection1, collection2;
+    var changeCollectionDate;
 
     beforeEach(function(done) {
         helpers.mockDatabase('userSpec', function(mockapp) {
@@ -221,9 +221,9 @@ describe('User model', function() {
 
 
     it('create a test collection', function(done) {
-        collection = new app.db.models.RightCollection();
-        collection.name = 'test for UserSpec';
-        collection.save(function(err) {
+        collection1 = new app.db.models.RightCollection();
+        collection1.name = 'test for UserSpec';
+        collection1.save(function(err) {
             expect(err).toEqual(null);
             done();
         });
@@ -232,10 +232,12 @@ describe('User model', function() {
 
     it('link userDocument to a collection', function(done) {
 
+        changeCollectionDate = new Date();
+
         var accountCollection = new app.db.models.AccountCollection();
         accountCollection.account = userDocument.roles.account;
-        accountCollection.rightCollection = collection._id;
-        accountCollection.from = new Date();
+        accountCollection.rightCollection = collection1._id;
+        accountCollection.from = changeCollectionDate;
 
         accountCollection.save(function(err, doc) {
             expect(err).toEqual(null);
@@ -245,7 +247,7 @@ describe('User model', function() {
 
     it('test the getAccountCollection method', function(done) {
         userDocument.getAccountCollection().then(function(accountCollection) {
-            expect(accountCollection.rightCollection).toEqual(collection._id);
+            expect(accountCollection.rightCollection.id).toEqual(collection1.id);
             done();
         }).catch(function(err) {
             expect(err).toEqual(null);
@@ -260,6 +262,54 @@ describe('User model', function() {
 
         userDocument.getAccountCollection(yesterday).then(function(accountCollection) {
             expect(accountCollection).toEqual(null);
+            done();
+        }).catch(function(err) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
+
+
+    it('create a second collection', function(done) {
+        collection2 = new app.db.models.RightCollection();
+        collection2.name = 'past test collection';
+        collection2.save(function(err) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
+
+    it('link userDocument to the second collection', function(done) {
+
+        var oldday = new Date();
+        oldday.setDate(oldday.getDate() - 30);
+
+        var accountCollection = new app.db.models.AccountCollection();
+        accountCollection.account = userDocument.roles.account;
+        accountCollection.rightCollection = collection2._id;
+        accountCollection.from = oldday;
+        accountCollection.to = changeCollectionDate;
+
+        accountCollection.save(function(err, doc) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
+
+    it('test the getAccountCollections method on 2 planned collections', function(done) {
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        userDocument.getAccountCollections(yesterday, tomorrow).then(function(arr) {
+            expect(arr.length).toEqual(2);
+            expect(arr[0].rightCollection.id).toEqual(collection2.id);
+            expect(arr[1].rightCollection.id).toEqual(collection1.id);
             done();
         }).catch(function(err) {
             expect(err).toEqual(null);

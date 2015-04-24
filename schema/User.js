@@ -421,6 +421,7 @@ exports = module.exports = function(params) {
         .where('account', this.roles.account)
         .where('from').lte(moment)
         .or([{ to: null }, { to: { $gte: moment } }])
+        .populate('rightCollection')
         .exec(function (err, accountCollection) {
 
             if (err) {
@@ -428,6 +429,44 @@ exports = module.exports = function(params) {
             }
 
             deferred.resolve(accountCollection);
+        });
+
+        return deferred.promise;
+    };
+
+
+
+
+
+
+
+
+    /**
+     * Get the associated accountCollections on a period
+     * sorted chronologically
+     *
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise}
+     */
+    userSchema.methods.getAccountCollections = function(dtstart, dtend) {
+
+        var Q = require('q');
+        var deferred = Q.defer();
+
+        params.db.models.AccountCollection.find()
+        .where('account', this.roles.account)
+        .where('from').lt(dtend)
+        .or([{ to: null }, { to: { $gt: dtstart } }])
+        .populate('rightCollection')
+        .sort('from')
+        .exec(function (err, arr) {
+
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            deferred.resolve(arr);
         });
 
         return deferred.promise;
