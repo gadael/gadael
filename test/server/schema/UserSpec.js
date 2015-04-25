@@ -10,6 +10,7 @@ describe('User model', function() {
     var userDocument, userManagerDocument, manager;
     var department1, department2;
     var collection1, collection2;
+    var accountCollection1, accountCollection2;
     var changeCollectionDate;
 
     beforeEach(function(done) {
@@ -234,12 +235,12 @@ describe('User model', function() {
 
         changeCollectionDate = new Date();
 
-        var accountCollection = new app.db.models.AccountCollection();
-        accountCollection.account = userDocument.roles.account;
-        accountCollection.rightCollection = collection1._id;
-        accountCollection.from = changeCollectionDate;
+        accountCollection1 = new app.db.models.AccountCollection();
+        accountCollection1.account = userDocument.roles.account;
+        accountCollection1.rightCollection = collection1._id;
+        accountCollection1.from = changeCollectionDate;
 
-        accountCollection.save(function(err, doc) {
+        accountCollection1.save(function(err, doc) {
             expect(err).toEqual(null);
             done();
         });
@@ -286,32 +287,69 @@ describe('User model', function() {
         var oldday = new Date();
         oldday.setDate(oldday.getDate() - 30);
 
-        var accountCollection = new app.db.models.AccountCollection();
-        accountCollection.account = userDocument.roles.account;
-        accountCollection.rightCollection = collection2._id;
-        accountCollection.from = oldday;
-        accountCollection.to = changeCollectionDate;
+        accountCollection2 = new app.db.models.AccountCollection();
+        accountCollection2.account = userDocument.roles.account;
+        accountCollection2.rightCollection = collection2._id;
+        accountCollection2.from = oldday;
+        accountCollection2.to = changeCollectionDate;
 
-        accountCollection.save(function(err, doc) {
+        accountCollection2.save(function(err, doc) {
             expect(err).toEqual(null);
             done();
         });
     });
 
 
-    it('test the getAccountCollections method on 2 planned collections', function(done) {
+    it('test the getEntryAccountCollections method on 2 planned collections', function(done) {
         var yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
 
         var tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
 
-        userDocument.getAccountCollections(yesterday, tomorrow).then(function(arr) {
+        var now = new Date();
+
+        userDocument.getEntryAccountCollections(yesterday, tomorrow, now).then(function(arr) {
             expect(arr.length).toEqual(2);
             expect(arr[0].rightCollection.id).toEqual(collection2.id);
             expect(arr[1].rightCollection.id).toEqual(collection1.id);
             done();
-        }).catch(function(err) {
+        }, function(err) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
+
+    it('Set availablity on the second collection', function(done) {
+
+        var from = new Date();  from.setDate(from.getDate() + 10);
+        var to = new Date();    to.setDate(to.getDate() + 15);
+
+        accountCollection2.createEntriesFrom = from;
+        accountCollection2.createEntriesTo = to;
+
+        accountCollection2.save(function(err) {
+            expect(err).toEqual(null);
+            done();
+        });
+    });
+
+
+    it('test the getEntryAccountCollections method on 2 planned collections, with one unavailable', function(done) {
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        var now = new Date();
+
+        userDocument.getEntryAccountCollections(yesterday, tomorrow, now).then(function(arr) {
+            expect(arr.length).toEqual(1);
+            expect(arr[0].rightCollection.id).toEqual(collection1.id);
+            done();
+        }, function(err) {
             expect(err).toEqual(null);
             done();
         });

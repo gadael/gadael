@@ -34,7 +34,7 @@ exports = module.exports = function(params) {
         
         var createEntries = (null !== accountCollection.createEntriesFrom && null !== accountCollection.createEntriesTo);
 
-        if (createEntries && accountCollection.createEntriesTo >= accountCollection.createEntriesFrom) {
+        if (createEntries && accountCollection.createEntriesTo <= accountCollection.createEntriesFrom) {
 			next(new Error('Collection create entries end date must be greater than the create entries start date'));
 			return;
 		}

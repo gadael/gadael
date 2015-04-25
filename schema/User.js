@@ -445,31 +445,43 @@ exports = module.exports = function(params) {
      * Get the associated accountCollections on a period
      * sorted chronologically
      *
-     * @param {Date} dtstart
-     * @param {Date} dtend
-     * @return {Promise}
+     * @param {Date} dtstart    entry start
+     * @param {Date} dtend      entry end
+     * @param {Date} moment     entry creation date
+     * @return {Promise}        Mongoose promise
      */
-    userSchema.methods.getAccountCollections = function(dtstart, dtend) {
+    userSchema.methods.getEntryAccountCollections = function(dtstart, dtend, moment) {
 
-        var Q = require('q');
-        var deferred = Q.defer();
+        var query = params.db.models.AccountCollection.find()
+            .where('account', this.roles.account)
+            .where('from').lt(dtend)
+            .or([
+                { to: null },
+                { to: { $gt: dtstart } }
+            ]);
 
-        params.db.models.AccountCollection.find()
-        .where('account', this.roles.account)
-        .where('from').lt(dtend)
-        .or([{ to: null }, { to: { $gt: dtstart } }])
-        .populate('rightCollection')
-        .sort('from')
-        .exec(function (err, arr) {
+        if (undefined !== moment) {
 
-            if (err) {
-                return deferred.reject(err);
-            }
+            query.where(
+                { $and: [
+                    { $or: [
+                        { createEntriesFrom: null },
+                        { createEntriesFrom: { $lte: moment } }
+                    ]},
+                    { $or: [
+                        { createEntriesTo: null },
+                        { createEntriesTo: { $gte: moment } }
+                    ]}
+                ]}
+            );
 
-            deferred.resolve(arr);
-        });
+        }
 
-        return deferred.promise;
+        query
+            .populate('rightCollection')
+            .sort('from');
+
+        return query.exec();
     };
 
 

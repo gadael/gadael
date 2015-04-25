@@ -112,6 +112,8 @@ exports = module.exports = function(params) {
      * rejected if more than one account collection
      * resolve to the collection if one accountCollection
      *
+     * @deprecated Use user.getEntryAccountCollections() instead
+     *
      * @param {Date} dtstart    period start
      * @param {Date} dtend      period end
      * @param {Date} moment     request date creation or modification

@@ -54,7 +54,7 @@ exports = module.exports = function(services, app) {
                     var today = new Date();
                     var account = user.roles.account;
 
-                    service.deferred.resolve(user.getAccountCollections(params.dtstart, params.dtend));
+                    service.deferred.resolve(user.getEntryAccountCollections(params.dtstart, params.dtend, today));
 
                     //service.deferred.resolve(account.getValidCollectionForPeriod(params.dtstart, params.dtend, today));
                 } else {
