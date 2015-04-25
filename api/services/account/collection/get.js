@@ -52,11 +52,24 @@ exports = module.exports = function(services, app) {
                      */
 
                     var today = new Date();
-                    var account = user.roles.account;
 
-                    service.deferred.resolve(user.getEntryAccountCollections(params.dtstart, params.dtend, today));
+                    user.getEntryAccountCollections(params.dtstart, params.dtend, today).then(function(arr) {
+                        if (arr.length > 1) {
+                            return service.error(gt.gettext('This period is invalid because it covers more than one collection attribution'));
+                        }
 
-                    //service.deferred.resolve(account.getValidCollectionForPeriod(params.dtstart, params.dtend, today));
+                        if (arr.length === 0) {
+                            return service.error(gt.gettext('There is no collection defined for this period'));
+                        }
+
+                        service.deferred.resolve(arr[0].rightCollection);
+
+                    }, function(err) {
+                        service.deferred.reject(err);
+                    });
+
+
+
                 } else {
                     service.notFound(gt.gettext('Failed to load the user document'));
                 }
