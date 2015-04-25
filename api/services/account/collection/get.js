@@ -23,56 +23,48 @@ exports = module.exports = function(services, app) {
 
         if (!params.user) {
             service.error(gt.gettext('user parameter is mandatory'));
-            return;
+            return service.deferred.promise;
         }
 
         if (!params.dtstart) {
             service.error(gt.gettext('dtstart parameter is mandatory'));
-            return;
+            return service.deferred.promise;
         }
 
         if (!params.dtend) {
             service.error(gt.gettext('dtend parameter is mandatory'));
-            return;
+            return service.deferred.promise;
         }
 
-        service.app.db.models.User
+        service.app.db.models.User.findOne()
+        .where('_id', params.user)
         .populate('roles.account')
-        .where('_id').is(params.user)
         .exec(function(err, user) {
             if (service.handleMongoError(err))
             {
-                if (user) {
-
-                    /**
-                     * @todo error management
-                     *
-                     * return error if collection do not cover the whole period
-                     * return error if more than one collection on the period
-                     */
-
-                    var today = new Date();
-
-                    user.getEntryAccountCollections(params.dtstart, params.dtend, today).then(function(arr) {
-                        if (arr.length > 1) {
-                            return service.error(gt.gettext('This period is invalid because it covers more than one collection attribution'));
-                        }
-
-                        if (arr.length === 0) {
-                            return service.error(gt.gettext('There is no collection defined for this period'));
-                        }
-
-                        service.deferred.resolve(arr[0].rightCollection);
-
-                    }, function(err) {
-                        service.deferred.reject(err);
-                    });
-
-
-
-                } else {
+                if (!user) {
                     service.notFound(gt.gettext('Failed to load the user document'));
+                    return service.deferred.promise;
                 }
+
+
+                var today = new Date();
+
+                user.getEntryAccountCollections(params.dtstart, params.dtend, today).then(function(arr) {
+                    if (arr.length > 1) {
+                        return service.error(gt.gettext('This period is invalid because it covers more than one collection attribution'));
+                    }
+
+                    if (arr.length === 0) {
+                        return service.error(gt.gettext('There is no collection defined for this period'));
+                    }
+
+                    service.deferred.resolve(arr[0].rightCollection);
+
+                }, function(err) {
+                    service.deferred.reject(err);
+                });
+
             }
         });
 

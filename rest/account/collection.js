@@ -23,7 +23,7 @@ function getController() {
         var spoofed_user = ctrl.req.query.user;
         var forced_params = null;
 
-        if (!ctrl.req.user.canSpoofUser(spoofed_user)) {
+        if (!spoofed_user || !ctrl.req.user.canSpoofUser(spoofed_user)) {
             forced_params = { user: ctrl.req.user._id };
         }
 
