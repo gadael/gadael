@@ -67,7 +67,6 @@ exports = module.exports = function(params) {
 		
 		var document = this;
 		var rrule = require('rrule').RRule;
-		//var extend = require('util')._extend;
 		
 		if (document.rrule === undefined || document.rrule === null)
 		{

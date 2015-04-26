@@ -107,8 +107,14 @@ exports = module.exports = function(services, app) {
                 searchPeriod.dtstart = params.dtstart;
                 searchPeriod.dtend = params.dtend;
 
+                // it seam that the expand method is based on the event start date
+                // we get one more day to get the event overlapping with start search date
+                var expandStart = new Date(params.dtstart);
+                expandStart.setDate(expandStart.getDate() -1);
+
                 for(var i =0; i<docs.length; i++) {
-                    expanded = docs[i].expand(params.dtstart, params.dtend);
+                    expanded = docs[i].expand(expandStart, params.dtend);
+
                     for(var e =0; e<expanded.length; e++) {
 
                         // copy properties of expanded event to the jurassic period
