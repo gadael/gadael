@@ -49,7 +49,7 @@ define(['momentDurationFormat'], function(moment) {
                      * The collection available on the selected period
                      */
 
-                    $scope.collection = accountCollection.query({
+                    $scope.collection = accountCollection.get({
                         user: $scope.user.id,
                         dtstart: $scope.selection.begin,
                         dtend: $scope.selection.end
