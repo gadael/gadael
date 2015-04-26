@@ -36,6 +36,7 @@ function saveCalendar(service, params) {
         name: params.name, 
         url: params.url,
         type: params.type,
+        halfDayHour: params.midDayHour,
         lastUpdate: new Date()  
     };
     

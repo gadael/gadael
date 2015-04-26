@@ -6,7 +6,7 @@
 	</div>
   
 	<div class="form-group">
-		<label for="calendar_name" translate>Url of the calendar ICS file</label>
+		<label for="calendar_url" translate>Url of the calendar ICS file</label>
 		<input type="text" class="form-control" id="calendar_url" ng-model="calendar.url" />
 	</div>
 	
@@ -25,8 +25,18 @@
 			&nbsp; &nbsp; <small translate>Absences or vacations requests can not be reserved over these periods</small>
 		</p>
 	</div>
-  
-  
+
+    <div class="row">
+        <div class="form-group col-xs-4">
+            <label for="calendar_halfDayHour" translate>Half day hour</label>
+            <input type="text" class="form-control" id="calendar_halfDayHour" bs-timepicker data-timeType="'string'" ng-model="calendar.halfDayHour" />
+        </div>
+
+        <div class="col-xs-8">
+            <p translate>The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained.</p>
+        </div>
+    </div>
+
 	<button class="btn btn-primary" ng-click="saveCalendar()" translate>Save</button> 
 	<button class="btn btn-link" ng-click="back()" translate>Cancel</button>
 </form>

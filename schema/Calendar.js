@@ -13,6 +13,9 @@ exports = module.exports = function(params) {
     'use strict';
 	
 	var mongoose = params.mongoose;
+
+    var defaultHalfDay = new Date();
+    defaultHalfDay.setHours(12,0,0);
 	
 	var calendarSchema = new params.mongoose.Schema({
 		name: { type: String, required: true },
@@ -23,6 +26,8 @@ exports = module.exports = function(params) {
 		
 		// used for the default ics embeded in the app
 		locked: { type: Boolean, default: false },
+
+        halfDayHour: { type: Date, default: defaultHalfDay },
 		
 		userCreated: {
 			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

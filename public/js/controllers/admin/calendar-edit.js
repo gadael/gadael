@@ -20,6 +20,8 @@ define([], function() {
 		};
 		
 		$scope.saveCalendar = function() {
+            console.log($scope.calendar);
+            return;
 			$scope.calendar.ingaSave($scope.back);
 	    };
 	    

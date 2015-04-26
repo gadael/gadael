@@ -22,7 +22,7 @@ exports = module.exports = function(services, app) {
         }
 
         service.app.db.models.Calendar
-        .findOne({ '_id' : params.id}, 'name url type')
+        .findOne({ '_id' : params.id}, 'name url type halfDayHour')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {
