@@ -83,12 +83,23 @@ exports = module.exports = function(services, app) {
         
         getEventsQuery(service, params).exec(function(err, docs) {
 
+            var period, jurassic = require('jurassic');
             var events = [];
             
             for(var i =0; i<docs.length; i++) {
                 events = events.concat(docs[i].expand(params.dtstart, params.dtend));
             }
             
+            for(var j =0; j<events.length; j++) {
+                // events are allready converted to objects by the expand method
+                // we add the duration in days in a new property
+
+                period = new jurassic.Period();
+                period.dtstart = events[j].dtstart;
+                period.dtend = events[j].dtend;
+                events[j].businessDays = period.getBusinessDays();
+            }
+
             service.mongOutcome(err, events);
         
         });

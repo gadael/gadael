@@ -101,7 +101,7 @@ define(['momentDurationFormat'], function(moment) {
                 {
                     var interval = moment.duration(duration, "milliseconds");
 
-                    $scope.selection.duration = interval.format("d [days], h [hours], m [minutes]");
+                    $scope.selection.duration = duration;
                     $scope.selection.days = interval.format("d [days]", 2);
                     $scope.selection.hours = interval.format("h [hours]", 2);
 
