@@ -72,9 +72,14 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             calendars.query({
                 type: 'nonworkingday'
-            }).$promise.then(function(calendars) {
+            }).$promise.then(function(nwdCalendars) {
+
+                var nwdCalId = nwdCalendars.map(function(cal) {
+                    return cal._id;
+                });
+
                 calendarEvents.query({
-                    calendar: calendars,
+                    calendar: nwdCalId,
                     dtstart: interval.from,
                     dtend: interval.to
                 }).$promise.then(deferred.resolve);
