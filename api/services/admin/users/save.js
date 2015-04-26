@@ -119,7 +119,12 @@ function saveUserRoles(service, params, userDocument) {
 
     var saveRoles = require('../../../../modules/roles');
 
-    var account = params.isAccount ? params.roles.account : null;
+    var account = null;
+
+    if (params.isAccount && params.roles !== undefined && params.roles.account !== undefined) {
+        account = params.roles.account;
+    }
+
     var admin = params.isAdmin ? {} : null;
     var manager = params.isManager ? {} : null;
 
