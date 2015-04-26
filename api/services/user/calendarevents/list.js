@@ -97,6 +97,9 @@ exports = module.exports = function(services, app) {
                 period = new jurassic.Period();
                 period.dtstart = events[j].dtstart;
                 period.dtend = events[j].dtend;
+
+                //TODO set the halfday hour on the getBusinessDays method
+
                 events[j].businessDays = period.getBusinessDays();
             }
 

@@ -95,15 +95,17 @@ define(['momentDurationFormat'], function(moment) {
                 /**
                  * Set a duration visible to the final user
                  *
-                 * @param {Int} duration Number of miliseconds
+                 * @param {Int} duration        Number of miliseconds
+                 * @param {Number} businessDays Number of days
                  */
-                function setDuration(duration)
+                function setDuration(duration, businessDays)
                 {
-                    var interval = moment.duration(duration, "milliseconds");
+                    var momentMs = moment.duration(duration, "milliseconds");
+                    var momentDays = moment.duration(businessDays, "days");
 
                     $scope.selection.duration = duration;
-                    $scope.selection.days = interval.format("d [days]", 2);
-                    $scope.selection.hours = interval.format("h [hours]", 2);
+                    $scope.selection.days = momentDays.format("d [days]", 1);
+                    $scope.selection.hours = momentMs.format("h [hours]", 2);
 
                     $scope.selection.isValid = duration > 0;
                 }
@@ -118,11 +120,11 @@ define(['momentDurationFormat'], function(moment) {
                 return function onUpdateInterval(begin, end)
                 {
                     if (!begin || !end) {
-                        return setDuration(0);
+                        return setDuration(0, 0);
                     }
 
                     if (begin >= end) {
-                        return setDuration(0);
+                        return setDuration(0, 0);
                     }
 
                     calendarEvents.query({ 
@@ -131,6 +133,7 @@ define(['momentDurationFormat'], function(moment) {
                         dtend: end 
                     }).$promise.then(function(periods) {
                         var duration = 0;
+                        var businessDays = 0;
                         var p;
 
                         for(var i=0; i<periods.length; i++) {
@@ -141,9 +144,11 @@ define(['momentDurationFormat'], function(moment) {
                             };
 
                             duration += p.dtend.getTime() - p.dtstart.getTime();
+
+                            businessDays += periods[i].businessDays;
                         }
 
-                        return setDuration(duration);
+                        return setDuration(duration, businessDays);
                     });  
                 };
             }
