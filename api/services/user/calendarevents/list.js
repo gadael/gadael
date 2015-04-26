@@ -86,6 +86,25 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
+        var jurassic = require('jurassic');
+
+        /**
+         * Create period from event
+         * @param {Object}  obj     expanded event
+         * @return {Period}
+         */
+        function createPeriod(obj)
+        {
+            var period = new jurassic.Period();
+            for(var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    period[prop] = obj[prop];
+                }
+            }
+            return period;
+        }
+
+
         params.dtstart = new Date(params.dtstart);
         params.dtend = new Date(params.dtend);
         
@@ -99,7 +118,6 @@ exports = module.exports = function(services, app) {
 
             getEventsQuery(service, params).exec(function(err, docs) {
 
-                var period, jurassic = require('jurassic');
                 var searchPeriod = new jurassic.Period();
                 var events = new jurassic.Era();
                 var expanded;
@@ -115,20 +133,12 @@ exports = module.exports = function(services, app) {
                 for(var i =0; i<docs.length; i++) {
                     expanded = docs[i].expand(expandStart, params.dtend);
 
+                    // expand event if RRULE
                     for(var e =0; e<expanded.length; e++) {
 
                         // copy properties of expanded event to the jurassic period
-
-                        period = new jurassic.Period();
-                        for(var prop in expanded[e]) {
-                            if (expanded[e].hasOwnProperty(prop)) {
-                                period[prop] = expanded[e][prop];
-                            }
-                        }
-
-                        events.addPeriod(period);
+                        events.addPeriod(createPeriod(expanded[e]));
                     }
-
                 }
 
                 var era = events.intersectPeriod(searchPeriod);
