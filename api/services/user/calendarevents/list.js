@@ -47,6 +47,17 @@ function getEventsQuery(service, params)
 }
 
 
+/**
+ * @return {Promise} resolve to schedule calendar object
+ */
+function getScheduleCalendar(service, calendar)
+{
+    'use strict';
+
+    var find = service.app.db.models.CalendarEvent.findOne(calendar);
+    return find.exec();
+}
+
 
 
 
@@ -64,9 +75,12 @@ exports = module.exports = function(services, app) {
     
     /**
      * Call the calendar events list service
+     * the result events will be intersected with the serach interval
      * 
      * @param {Object} params
-     * 
+     *                      params.dtstart  search interval start
+     *                      params.dtend    serach interval end
+     *                      params.calendar carlendar ID to serach in
      *
      * @return {Promise}
      */
@@ -81,31 +95,51 @@ exports = module.exports = function(services, app) {
             return service.deferred.promise;   
         }
         
-        getEventsQuery(service, params).exec(function(err, docs) {
+        getScheduleCalendar(service, params.calendar).then(function(scheduleCalendar) {
 
-            var period, jurassic = require('jurassic');
-            var events = [];
-            
-            for(var i =0; i<docs.length; i++) {
-                events = events.concat(docs[i].expand(params.dtstart, params.dtend));
-            }
-            
-            for(var j =0; j<events.length; j++) {
-                // events are allready converted to objects by the expand method
-                // we add the duration in days in a new property
+            getEventsQuery(service, params).exec(function(err, docs) {
 
-                period = new jurassic.Period();
-                period.dtstart = events[j].dtstart;
-                period.dtend = events[j].dtend;
+                var period, jurassic = require('jurassic');
+                var searchPeriod = new jurassic.Period();
+                var events = new jurassic.Era();
+                var expanded;
 
-                //TODO set the halfday hour on the getBusinessDays method
+                searchPeriod.dtstart = params.dtstart;
+                searchPeriod.dtend = params.dtend;
 
-                events[j].businessDays = period.getBusinessDays();
-            }
+                for(var i =0; i<docs.length; i++) {
+                    expanded = docs[i].expand(params.dtstart, params.dtend);
+                    for(var e =0; e<expanded.length; e++) {
 
-            service.mongOutcome(err, events);
-        
-        });
+                        // copy properties of expanded event to the jurassic period
+
+                        period = new jurassic.Period();
+                        for(var prop in expanded[e]) {
+                            if (expanded[e].hasOwnProperty(prop)) {
+                                period[prop] = expanded[e][prop];
+                            }
+                        }
+
+                        events.addPeriod(period);
+                    }
+
+                }
+
+                var era = events.intersectPeriod(searchPeriod);
+
+                for(var j =0; j<era.periods.length; j++) {
+
+                    // we add the duration in days in a new property for json output
+                    era.periods[j].businessDays = era.periods[j].getBusinessDays(scheduleCalendar.halfDayHour);
+                }
+
+                service.mongOutcome(err, era.periods);
+
+            });
+
+        }, service.error);
+
+
         
         return service.deferred.promise;
     };
