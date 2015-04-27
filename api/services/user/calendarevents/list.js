@@ -24,7 +24,11 @@ function getEventsQuery(service, params)
     var find = service.app.db.models.CalendarEvent.find();
 
     if (params.calendar) {
-        find.where('calendar').equals(params.calendar);   
+        if (params.calendar instanceof Array) {
+            find.where('calendar').in(params.calendar);
+        } else {
+            find.where('calendar').equals(params.calendar);
+        }
     }
     /*
     if (params.user) {
@@ -57,6 +61,20 @@ function getScheduleCalendar(service, calendar)
     var find = service.app.db.models.CalendarEvent.findOne(calendar);
     return find.exec();
 }
+
+
+
+function getNonWorkingDaysCalendar(service)
+{
+    'use strict';
+
+    var find = service.app.db.models.CalendarEvent.find();
+    find.where('type', 'nonworkingday');
+    return find.exec();
+}
+
+
+
 
 
 
@@ -105,6 +123,36 @@ exports = module.exports = function(services, app) {
         }
 
 
+
+
+
+
+
+        function getExpandedEra(docs)
+        {
+
+            var events = new jurassic.Era();
+            var expanded;
+
+
+            // it seam that the expand method is based on the event start date
+            // we get one more day to get the event overlapping with start search date
+            var expandStart = new Date(params.dtstart);
+            expandStart.setDate(expandStart.getDate() -1);
+
+            for(var i =0; i<docs.length; i++) {
+                expanded = docs[i].expand(expandStart, params.dtend);
+
+                // expand event if RRULE
+                for(var e =0; e<expanded.length; e++) {
+
+                    // copy properties of expanded event to the jurassic period
+                    events.addPeriod(createPeriod(expanded[e]));
+                }
+            }
+        }
+
+
         params.dtstart = new Date(params.dtstart);
         params.dtend = new Date(params.dtend);
         
@@ -119,28 +167,10 @@ exports = module.exports = function(services, app) {
             getEventsQuery(service, params).exec(function(err, docs) {
 
                 var searchPeriod = new jurassic.Period();
-                var events = new jurassic.Era();
-                var expanded;
-
                 searchPeriod.dtstart = params.dtstart;
                 searchPeriod.dtend = params.dtend;
 
-                // it seam that the expand method is based on the event start date
-                // we get one more day to get the event overlapping with start search date
-                var expandStart = new Date(params.dtstart);
-                expandStart.setDate(expandStart.getDate() -1);
-
-                for(var i =0; i<docs.length; i++) {
-                    expanded = docs[i].expand(expandStart, params.dtend);
-
-                    // expand event if RRULE
-                    for(var e =0; e<expanded.length; e++) {
-
-                        // copy properties of expanded event to the jurassic period
-                        events.addPeriod(createPeriod(expanded[e]));
-                    }
-                }
-
+                var events = getExpandedEra(docs);
                 var era = events.intersectPeriod(searchPeriod);
 
                 for(var j =0; j<era.periods.length; j++) {
@@ -149,7 +179,28 @@ exports = module.exports = function(services, app) {
                     era.periods[j].businessDays = era.periods[j].getBusinessDays(scheduleCalendar.halfDayHour);
                 }
 
-                service.mongOutcome(err, era.periods);
+                if (undefined === params.extrudeNonWorkingDays || false === params.extrudeNonWorkingDays) {
+                    return service.mongOutcome(err, era.periods);
+                }
+
+                getNonWorkingDaysCalendar(service).then(function(nwdCalendars) {
+                    var nwdCalId = nwdCalendars.map(function(cal) {
+                        return cal._id;
+                    });
+
+                    getEventsQuery(service, {
+                        dtstart: params.dtstart,
+                        dtend: params.dtend,
+                        calendar: nwdCalId
+                    }).exec(function(err, docs) {
+                        var nonWorkingDays = getExpandedEra(docs);
+                        var NWera = nonWorkingDays.intersectPeriod(searchPeriod);
+
+                        era.substractEra(NWera);
+
+                        service.mongOutcome(err, era.periods);
+                    });
+                }, service.error);
 
             });
 
