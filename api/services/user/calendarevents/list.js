@@ -156,7 +156,6 @@ exports = module.exports = function(services, app) {
                     events.addPeriod(createPeriod(expanded[e]));
                 }
             }
-
             return events;
         }
 
