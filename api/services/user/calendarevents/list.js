@@ -68,7 +68,7 @@ function getNonWorkingDaysCalendar(service)
 {
     'use strict';
 
-    var find = service.app.db.models.CalendarEvent.find();
+    var find = service.app.db.models.Calendar.find();
     find.where('type', 'nonworkingday');
     return find.exec();
 }
@@ -127,7 +127,12 @@ exports = module.exports = function(services, app) {
 
 
 
-
+        /**
+         * Get Era from a list onf events documents
+         * events will be expanded according to RRULE if any
+         * @param {Array} docs
+         * @return {Era}
+         */
         function getExpandedEra(docs)
         {
 
@@ -150,6 +155,8 @@ exports = module.exports = function(services, app) {
                     events.addPeriod(createPeriod(expanded[e]));
                 }
             }
+
+            return events;
         }
 
 
@@ -183,6 +190,8 @@ exports = module.exports = function(services, app) {
                     return service.mongOutcome(err, era.periods);
                 }
 
+
+
                 getNonWorkingDaysCalendar(service).then(function(nwdCalendars) {
                     var nwdCalId = nwdCalendars.map(function(cal) {
                         return cal._id;
@@ -195,10 +204,8 @@ exports = module.exports = function(services, app) {
                     }).exec(function(err, docs) {
                         var nonWorkingDays = getExpandedEra(docs);
                         var NWera = nonWorkingDays.intersectPeriod(searchPeriod);
-
-                        era.substractEra(NWera);
-
-                        service.mongOutcome(err, era.periods);
+                        var substracted = era.substractEra(NWera);
+                        service.mongOutcome(err, substracted.periods);
                     });
                 }, service.error);
 
