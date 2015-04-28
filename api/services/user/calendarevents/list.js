@@ -96,9 +96,10 @@ exports = module.exports = function(services, app) {
      * the result events will be intersected with the serach interval
      * 
      * @param {Object} params
-     *                      params.dtstart  search interval start
-     *                      params.dtend    serach interval end
-     *                      params.calendar carlendar ID to serach in
+     *                      params.dtstart                  search interval start
+     *                      params.dtend                    serach interval end
+     *                      params.calendar                 carlendar ID to serach in
+     *                      params.substractNonWorkingDays  substract non working days periods
      *
      * @return {Promise}
      */
@@ -186,7 +187,7 @@ exports = module.exports = function(services, app) {
                     era.periods[j].businessDays = era.periods[j].getBusinessDays(scheduleCalendar.halfDayHour);
                 }
 
-                if (undefined === params.extrudeNonWorkingDays || false === params.extrudeNonWorkingDays) {
+                if (undefined === params.substractNonWorkingDays || false === params.substractNonWorkingDays) {
                     return service.mongOutcome(err, era.periods);
                 }
 

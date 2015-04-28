@@ -57,7 +57,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     calendar: account.currentScheduleCalendar._id,
                     dtstart: interval.from,
                     dtend: interval.to,
-                    extrudeNonWorkingDays: true
+                    substractNonWorkingDays: true
                 }).$promise.then(deferred.resolve);
             });
 
