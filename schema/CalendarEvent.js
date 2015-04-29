@@ -18,7 +18,7 @@ exports = module.exports = function(params) {
 	var eventSchema = new mongoose.Schema({
 		uid: { type: String, required: true },
 		dtstart: { type: Date, required: true },
-		dtend: { type: Date, required: true },
+		dtend: { type: Date }, // , required: true
 		summary: String,
 		description: String,
 		rrule: String,

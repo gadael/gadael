@@ -18,11 +18,19 @@
 			</label><br />
 			&nbsp; &nbsp; <small>Absences or vacations requests must be included in this calendar</small>
 		</p>
+
 		<p>
 			<label><input type="radio" ng-model="calendar.type" value="nonworkingday" />
 				<span translate>Non working days</span>
 			</label><br />
 			&nbsp; &nbsp; <small translate>Absences or vacations requests can not be reserved over these periods</small>
+		</p>
+
+        <p>
+			<label><input type="radio" ng-model="calendar.type" value="holidays" />
+				<span translate>School holidays</span>
+			</label><br />
+			&nbsp; &nbsp; <small translate>School holidays will be displayed on the bottom of the reservation calendar</small>
 		</p>
 	</div>
 

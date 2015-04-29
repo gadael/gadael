@@ -40,7 +40,7 @@ exports = module.exports = function(params) {
 	
 	
 	calendarSchema.path('type').validate(function (value) {
-		return /workschedule|nonworkingday/.test(value);
+		return /workschedule|nonworkingday|holidays/.test(value);
 	}, 'Invalid type');
   
   

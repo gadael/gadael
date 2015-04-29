@@ -12,6 +12,7 @@ define([], function() {
 			
 			// no promise, new instance
 			$scope.calendar.type = 'workschedule';
+            $scope.calendar.halfDayHour = new Date(null, null, null, 12, 0);
 			$scope.$apply();
 		}
 		
@@ -20,8 +21,6 @@ define([], function() {
 		};
 		
 		$scope.saveCalendar = function() {
-            console.log($scope.calendar);
-            return;
 			$scope.calendar.ingaSave($scope.back);
 	    };
 	    
