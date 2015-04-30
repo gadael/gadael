@@ -39,7 +39,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         }
         
         /**
-         * Period picker callback
+         * Period picker callback for working times
          */
         $scope.loadWorkingTimes = function(interval) {
 
@@ -66,7 +66,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         };
 
         /**
-         * Period picker callback
+         * Period picker callback for non working days
          */
         $scope.loadEvents = function(interval) {
             var deferred = Q.defer();
@@ -90,6 +90,30 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         };
         
         
+        $scope.loadScholarHolidays = function(interval) {
+
+            var deferred = Q.defer();
+
+            calendars.query({
+                type: 'holiday'
+            }).$promise.then(function(hCalendars) {
+
+                var hCalId = hCalendars.map(function(cal) {
+                    return cal._id;
+                });
+
+                calendarEvents.query({
+                    calendar: hCalId,
+                    dtstart: interval.from,
+                    dtend: interval.to
+                }).$promise.then(deferred.resolve);
+            });
+
+            return deferred.promise;
+        };
+
+
+
         /**
          * Go back to requests list, admin view
          */
