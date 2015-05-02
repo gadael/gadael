@@ -356,6 +356,101 @@ mockServer.prototype.createAdminSession = function() {
 
 
 
+
+
+
+
+
+/**
+ * Create account in database and login with it
+ * Set the account property on the mockServer object
+ *
+ * @return {Promise}
+ */
+mockServer.prototype.createAccountSession = function() {
+
+    var Q = require('q');
+
+    var deferred = Q.defer();
+    var userModel = this.app.db.models.User;
+    var server = this;
+    var password = 'secret';
+
+    // get account document
+    var getAccount = function() {
+        var deferred = Q.defer();
+
+        userModel.find({ email: 'mockaccount@example.com' }).exec(function (err, users) {
+            if (err) {
+                deferred.reject(new Error(err));
+                return;
+            }
+
+            if (1 === users.length) {
+                deferred.resolve(users[0]);
+            } else {
+
+                var account = new userModel();
+
+                userModel.encryptPassword(password, function(err, hash) {
+
+                    if (err) {
+                        deferred.reject(new Error(err));
+                        return;
+                    }
+
+                    account.password = hash;
+                    account.email = 'mockaccount@example.com';
+                    account.lastname = 'mockaccount';
+                    account.saveAccount(function(err, user) {
+
+                        if (err) {
+                            deferred.reject(new Error(err));
+                            return;
+                        }
+
+                        Object.defineProperty(server, 'account', { value: user, writable: true });
+
+
+                        deferred.resolve(user);
+                    });
+                });
+            }
+        });
+
+        return deferred.promise;
+    };
+
+
+    // login as admin
+    getAccount().then(function(account) {
+
+        server.post('/rest/login', {
+            'username': account.email,
+            'password': password
+        }, function(res, body) {
+
+            if (res.statusCode !== 200 || !body.$outcome.success) {
+                deferred.reject(new Error('Error while login with admin account'));
+                return;
+            }
+
+
+
+            deferred.resolve(account);
+        });
+    });
+
+    return deferred.promise;
+};
+
+
+
+
+
+
+
+
 var server;
 
 exports = module.exports = {

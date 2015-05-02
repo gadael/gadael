@@ -337,6 +337,42 @@ exports = module.exports = function(params) {
     };
     
     
+
+    /**
+     * Save user and create account role if necessary
+     */
+    userSchema.methods.saveAccount = function(callback) {
+
+        this.save(function(err, user) {
+
+            if (err || user.roles.account) {
+                callback(err, user);
+                return;
+            }
+
+            var accountModel = params.db.models.Account;
+
+            var account = new accountModel();
+            account.user = {
+                id: user._id,
+                name: user.lastname+' '+user.firstname
+            };
+
+            account.save(function(err, role) {
+
+                if (err) {
+                    callback(err, user);
+                    return;
+                }
+
+                user.roles.account = role._id;
+                user.save(callback);
+            });
+
+        });
+    };
+
+
   
   
     /**
