@@ -19,6 +19,11 @@ exports = module.exports = function(services, app) {
         
         service.app.db.models.Calendar.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
+
+                if (document.locked) {
+                    return service.forbidden(gt.gettext('The calendar is locked'));
+                }
+
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {
                         service.success(gt.gettext('The calendar has been deleted'));

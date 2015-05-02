@@ -58,9 +58,24 @@ function saveCalendar(service, params) {
 
     if (params.id)
     {
-        CalendarModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, calendar) {
+        CalendarModel.findOne(params.id, function(err, calendar) {
+
             if (service.handleMongoError(err)) {
-                downloadEvents(calendar, gt.gettext('The calendar has been modified'));
+                if (calendar.locked) {
+                    return service.forbidden(gt.gettext('The calendar is locked'));
+                }
+
+                calendar.name = params.name;
+                calendar.url = params.url;
+                calendar.type = params.type;
+                calendar.halfDayHour = params.halfDayHour;
+                calendar.lastUpdate = new Date();
+
+                calendar.save(function(err, calendar) {
+                    if (service.handleMongoError(err)) {
+                        downloadEvents(calendar, gt.gettext('The calendar has been modified'));
+                    }
+                });
             }
         });
 

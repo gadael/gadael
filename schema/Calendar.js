@@ -198,7 +198,8 @@ exports = module.exports = function(params) {
             {
                 name: 'Rythme de travail des temps complets 35H',
                 url: 'calendars/01.ics',
-                type: 'workschedule'
+                type: 'workschedule',
+                locked: true
             }
         ], function( type, callback) {
             
