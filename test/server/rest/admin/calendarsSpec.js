@@ -49,6 +49,24 @@ describe('calendars admin rest service', function() {
         });
     });
     
+    it('verify that the default workschedule calendars are locked', function(done) {
+        server.get('/rest/admin/calendars', { type: 'workschedule' }, function(res, body) {
+
+            function testASave(res, body) {
+                expect(body.$outcome).toBeDefined();
+                expect(body.$outcome.success).toBeFalsy();
+                expect(res.statusCode).toEqual(403);
+                done();
+            }
+
+            for(var i=0; i< body.length; i++) {
+                expect(body[i].type).toEqual('workschedule');
+                server.put('/rest/admin/calendars/'+body[i]._id, body[i], testASave);
+                break; // Test only the first, we need promises to test more
+            }
+        });
+    });
+
     
     it('create new calendar', function(done) {
         server.post('/rest/admin/calendars', {
