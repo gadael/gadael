@@ -52,9 +52,9 @@ describe('calendars admin rest service', function() {
     it('verify that the default workschedule calendars are locked', function(done) {
         server.get('/rest/admin/calendars', { type: 'workschedule' }, function(res, body) {
 
-            function testASave(res, body) {
-                expect(body.$outcome).toBeDefined();
-                expect(body.$outcome.success).toBeFalsy();
+            function testASave(res, putbody) {
+                expect(putbody.$outcome).toBeDefined();
+                expect(putbody.$outcome.success).toBeFalsy();
                 expect(res.statusCode).toEqual(403);
                 done();
             }

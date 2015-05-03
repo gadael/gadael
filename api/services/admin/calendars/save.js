@@ -58,7 +58,7 @@ function saveCalendar(service, params) {
 
     if (params.id)
     {
-        CalendarModel.findOne(params.id, function(err, calendar) {
+        CalendarModel.findOne({ _id: params.id }, function(err, calendar) {
 
             if (service.handleMongoError(err)) {
                 if (calendar.locked) {
