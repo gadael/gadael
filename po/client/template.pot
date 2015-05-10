@@ -2,17 +2,58 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: public/partials/admin/rightrule-edit.html
+msgid ""
+"A quantity is added if the user account seniority date is \n"
+"                        in a period interval relative to the entry date, min and max are in years before the entry start date"
+msgstr ""
+
+#: public/partials/admin/request/requests.html
+msgid "A user account is required to continue"
+msgstr ""
+
+#: public/partials/account/request/requests.html
+#: public/partials/admin/request/requests.html
+msgid "Absence"
+msgstr ""
+
+#: public/partials/utils/common/request/request-create-select-type.html
+msgid "Absence request"
+msgstr ""
+
+#: public/partials/admin/users.html
+msgid "Absences account"
+msgstr ""
 
 #: public/partials/admin/calendar-edit.html
 msgid "Absences or vacations requests can not be reserved over these periods"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
+#: public/partials/admin/user-view.html
 msgid "Absences user account"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Account"
 msgstr ""
 
 #: public/partials/user/settings.html
 msgid "Account parameters"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Activate the right according to the entry date"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Activate the right according to the request moment"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Active for:"
 msgstr ""
 
 #: public/partials/admin/collections.html
@@ -31,20 +72,51 @@ msgstr ""
 msgid "Add User"
 msgstr ""
 
+#: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/calendars.html
 msgid "Add a calendar"
 msgstr ""
 
+#: public/partials/admin/request/requests.html
+msgid "Add a request"
+msgstr ""
+
+#: public/partials/account/request/requests.html
+msgid "Add a request..."
+msgstr ""
+
+#: public/partials/admin/rights.html
+msgid "Add absences right"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Add quantity to the right according to the seniority"
+msgstr ""
+
+#: public/partials/admin/account-collections-edit.html
+msgid "Add right collection"
+msgstr ""
+
+#: public/partials/admin/collection-edit.html
+msgid "Add vacation right"
+msgstr ""
+
 #: public/index.html
+#: public/partials/admin/right-edit.html
 msgid "Admin"
 msgstr ""
 
-#: public/index.html
-msgid "Admin summary"
+#: public/partials/admin/users.html
+msgid "Administrator"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
+#: public/partials/admin/user-view.html
 msgid "Application administrator"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Automatic distribution of this right when creating a request"
 msgstr ""
 
 #: public/partials/login/forgot.html
@@ -52,10 +124,15 @@ msgstr ""
 msgid "Back to Login"
 msgstr ""
 
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Begin date"
+msgstr ""
+
 #: public/partials/admin/users.html
 msgid "By collection:"
 msgstr ""
 
+#: public/partials/admin/request/requests.html
 #: public/partials/admin/users.html
 msgid "By department:"
 msgstr ""
@@ -63,17 +140,21 @@ msgstr ""
 #: public/partials/admin/calendars.html
 #: public/partials/admin/collections.html
 #: public/partials/admin/departments.html
+#: public/partials/admin/rights.html
 #: public/partials/admin/types.html
 #: public/partials/admin/users.html
 msgid "By name:"
 msgstr ""
 
+#: public/partials/account/request/requests.html
 #: public/partials/admin/calendars.html
+#: public/partials/admin/request/requests.html
+#: public/partials/admin/rights.html
 msgid "By type:"
 msgstr ""
 
-#: public/index.html
-msgid "Calendar"
+#: public/partials/admin/request/requests.html
+msgid "By user name:"
 msgstr ""
 
 #: public/partials/admin/calendar-edit.html
@@ -84,16 +165,18 @@ msgstr ""
 msgid "Calendar type:"
 msgstr ""
 
-#: public/index.html
-msgid "Calendars list"
-msgstr ""
-
+#: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
+#: public/partials/admin/right-edit.html
+#: public/partials/admin/rightrenewal-edit.html
+#: public/partials/admin/rightrule-edit.html
 #: public/partials/admin/type-edit.html
 #: public/partials/admin/user-edit.html
 #: public/partials/user/settings.html
+#: public/partials/utils/common/request/absence-edit.html
 msgid "Cancel"
 msgstr ""
 
@@ -101,8 +184,12 @@ msgstr ""
 msgid "Collection name"
 msgstr ""
 
-#: public/index.html
-msgid "Collections list"
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Collection on the selected period: {{collection.name}}"
+msgstr ""
+
+#: public/partials/admin/request/spoof-user-modal.html
+msgid "Collection:"
 msgstr ""
 
 #: public/partials/login/reset.html
@@ -114,11 +201,45 @@ msgstr ""
 msgid "Confirm new password"
 msgstr ""
 
+#: public/partials/login/createfirstadmin.html
+msgid "Confirm password"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Consumption on the selected period: {{selection.days}} or {{selection.hours}}"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Continue"
+msgstr ""
+
+#: public/partials/account/request/absence-edit.html
+msgid "Create a new vacation request"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Current rights collection:"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Current workschedule calendar:"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Default quantity"
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "Default quantity on start renewal:"
+msgstr ""
+
 #: public/partials/admin/user-edit.html
 msgid "Department"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
+#: public/partials/admin/user-view.html
+#: public/partials/admin/users.html
 msgid "Department manager"
 msgstr ""
 
@@ -126,33 +247,72 @@ msgstr ""
 msgid "Department name"
 msgstr ""
 
-#: public/index.html
-msgid "Departments list"
+#: public/partials/admin/request/spoof-user-modal.html
+#: public/partials/admin/user-view.html
+msgid "Department:"
 msgstr ""
 
+#: public/partials/admin/right-edit.html
+msgid "Description"
+msgstr ""
+
+#: public/partials/admin/request/absence-view.html
+msgid "Distribution"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Do not notify on approval"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Do not notify on new rights allocations"
+msgstr ""
+
+#: public/partials/account/request/requests.html
 #: public/partials/admin/calendars.html
 #: public/partials/admin/collections.html
 #: public/partials/admin/departments.html
+#: public/partials/admin/request/requests.html
+#: public/partials/admin/right-view.html
 #: public/partials/admin/types.html
-#: public/partials/admin/users.html
+#: public/partials/admin/user-view-account.html
+#: public/partials/admin/user-view.html
 msgid "Edit"
 msgstr ""
 
+#: public/partials/admin/request/absence-edit.html
+msgid "Edit a request from {{request.user.name}}"
+msgstr ""
+
+#: public/partials/account/request/absence-edit.html
+msgid "Edit a vacation request"
+msgstr ""
+
 #: public/partials/admin/user-edit.html
+#: public/partials/login/createfirstadmin.html
 #: public/partials/user/settings.html
 msgid "Email"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "End date"
 msgstr ""
 
 #: public/partials/login/forgot.html
 msgid "Enter Your Email:"
 msgstr ""
 
+#: public/partials/admin/rightrenewal-edit.html
+msgid "Finish"
+msgstr ""
+
 #: public/partials/admin/user-edit.html
+#: public/partials/login/createfirstadmin.html
 #: public/partials/user/settings.html
 msgid "Firstname"
 msgstr ""
 
-#: public/partials/login.html
+#: public/partials/login/login.html
 msgid "Forget your password?"
 msgstr ""
 
@@ -160,21 +320,72 @@ msgstr ""
 msgid "Forgot Your Password?"
 msgstr ""
 
+#: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-schedulecalendars-edit.html
+#: public/partials/admin/rights.html
+msgid "From"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "From to {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "Half day hour"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Hour"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "If this rule is not verified, the right quantity will not be modified"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "If this rule is not verified, the right will not be available in the second step of a request, once the entry dates are set. The dates for the futures renewals will be computed with the same gap starting from the renewal start date"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "If this rule is not verified, the right will not be visible by the user in the rights list and when allocating"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "In last renewal, entry begin date must be greater than:"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "In last renewal, entry end date must be lower than:"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Last renewal:"
+msgstr ""
+
 #: public/partials/admin/user-edit.html
+#: public/partials/login/createfirstadmin.html
 #: public/partials/user/settings.html
 msgid "Lastname"
 msgstr ""
 
-#: public/index.html
-msgid "Logout"
+#: public/partials/admin/right-edit.html
+msgid "Manager"
 msgstr ""
 
-#: public/index.html
-msgid "My requests"
+#: public/partials/admin/right-edit.html
+msgid "Maximal number of days between entry date and request end date"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Minimal number of days between entry date and request start date"
 msgstr ""
 
 #: public/index.html
 msgid "My vacations"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Name"
 msgstr ""
 
 #: public/partials/login/reset.html
@@ -186,12 +397,28 @@ msgstr ""
 msgid "New password"
 msgstr ""
 
-#: public/partials/admin/user-edit.html
-msgid "Non Working days calendar"
+#: public/partials/admin/request/absence-edit.html
+msgid "New request for {{request.user.name}}"
+msgstr ""
+
+#: public/partials/admin/rights.html
+msgid "No active renewal"
+msgstr ""
+
+#: public/partials/admin/department-edit.html
+msgid "Non Working days calendars used by the user accounts in this service"
 msgstr ""
 
 #: public/partials/admin/calendar-edit.html
 msgid "Non working days"
+msgstr ""
+
+#: public/partials/admin/calendars.html
+msgid "Nonworking days"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Notifications options:"
 msgstr ""
 
 #: public/partials/user/settings.html
@@ -206,58 +433,155 @@ msgstr ""
 msgid "Notify me when new vacation rights are opened or closed for my account"
 msgstr ""
 
-#: public/partials/login.html
-msgid "Or sign in using..."
+#: public/partials/admin/user-edit-account.html
+#: public/partials/admin/user-view-account.html
+msgid "Notify on approval"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Notify on new rights allocations"
+msgstr ""
+
+#: public/partials/admin/user-edit-account.html
+msgid "Notify on vacation rights allocation"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Number of years before the entry start date to set the period end:"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "One year seniority"
+msgid_plural "{{$count}} years seniority"
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/partials/admin/request/absence-view.html
+msgid "Owner user account"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
+#: public/partials/login/createfirstadmin.html
 #: public/partials/user/settings.html
 msgid "Password Strength:"
 msgstr ""
 
-#: public/partials/login.html
+#: public/partials/login/login.html
 msgid "Password:"
 msgstr ""
 
-#: public/index.html
-msgid "Request a vacation period"
+#: public/partials/login/createfirstadmin.html
+msgid "Please create the first admin account to continue."
 msgstr ""
 
-#: public/index.html
-msgid "Requests"
+#: public/partials/utils/common/request/request-create-select-type.html
+msgid "Proceed to the request creation with one of the following:"
+msgstr ""
+
+#: public/partials/admin/request/absence-view.html
+msgid "Quantity"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Quantity in right is usable when the entry dates are in a period interval"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Quantity to add if the seniority date is in the period interval:"
+msgstr ""
+
+#: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-schedulecalendars-edit.html
+#: public/partials/admin/collection-edit.html
+msgid "Remove"
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "Renewals"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Require approval"
 msgstr ""
 
 #: public/partials/login/reset.html
 msgid "Reset Your Password?"
 msgstr ""
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Right is visible when request moment is in a period interval"
+msgstr ""
+
 #: public/partials/admin/type-edit.html
 msgid "Right type name"
 msgstr ""
 
-#: public/index.html
-msgid "Right types"
-msgstr ""
-
-#: public/partials/admin/user-edit.html
+#: public/partials/admin/account-collections-edit.html
 msgid "Rights collection"
 msgstr ""
 
-#: public/index.html
-msgid "Rights configuration"
+#: public/partials/admin/right-view.html
+msgid "Rights collections"
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "Rights list"
+msgstr ""
+
+#: public/partials/admin/user-view.html
+msgid "Roles"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
 msgid "Roles:"
 msgstr ""
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Rule title, this will be visible from users"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Rule type: activate the right according to the entry date"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Rule type: activate the right according to the request moment"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Rule type: add quantity to the right according to the seniority"
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "Rules"
+msgstr ""
+
+#: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
+#: public/partials/admin/right-edit.html
+#: public/partials/admin/rightrenewal-edit.html
+#: public/partials/admin/rightrule-edit.html
 #: public/partials/admin/type-edit.html
 #: public/partials/admin/user-edit.html
+#: public/partials/login/createfirstadmin.html
 #: public/partials/user/settings.html
+#: public/partials/utils/common/request/absence-edit.html
 msgid "Save"
+msgstr ""
+
+#: public/partials/admin/account-schedulecalendars-edit.html
+msgid "Schedule calendar"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "School holidays"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "School holidays will be displayed on the bottom of the reservation calendar"
 msgstr ""
 
 #: public/partials/admin/calendars.html
@@ -272,16 +596,41 @@ msgstr ""
 msgid "Search in departments"
 msgstr ""
 
+#: public/partials/account/request/requests.html
+#: public/partials/admin/request/requests.html
+msgid "Search in requests"
+msgstr ""
+
 #: public/partials/admin/types.html
 msgid "Search in right types"
+msgstr ""
+
+#: public/partials/admin/rights.html
+msgid "Search in rights"
 msgstr ""
 
 #: public/partials/admin/users.html
 msgid "Search in users"
 msgstr ""
 
+#: public/partials/admin/popover-users.html
+msgid "Search:"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Selected duration:"
+msgstr ""
+
 #: public/partials/login/forgot.html
 msgid "Send Reset"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Seniority date:"
+msgstr ""
+
+#: public/partials/admin/user-edit-account.html
+msgid "Seniority start date"
 msgstr ""
 
 #: public/partials/login/reset.html
@@ -293,24 +642,30 @@ msgstr ""
 msgid "Set a new password"
 msgstr ""
 
-#: public/index.html
-msgid "Settings"
+#: public/partials/login/createfirstadmin.html
+msgid "Set password"
 msgstr ""
 
 #: public/index.html
-#: public/partials/login.html
+#: public/partials/login/login.html
 msgid "Sign In"
 msgstr ""
 
-#: public/index.html
-msgid "Sign up"
+#: public/partials/admin/rightrenewal-edit.html
+msgid "Start"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained."
 msgstr ""
 
 #: public/partials/admin/user-edit.html
+#: public/partials/admin/user-view.html
 msgid "The user can have vacations rights, absences requests, time saving account ..."
 msgstr ""
 
 #: public/partials/admin/user-edit.html
+#: public/partials/admin/user-view.html
 msgid "The user can manager other users and departments, the application parameters ..."
 msgstr ""
 
@@ -319,6 +674,7 @@ msgid "The user is allowed to log in"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
+#: public/partials/admin/user-view.html
 msgid "The user may be involved in the validation of requests by the members of his deparment"
 msgstr ""
 
@@ -326,30 +682,119 @@ msgstr ""
 msgid "This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique."
 msgstr ""
 
+#: public/partials/admin/user-view-account.html
+msgid "This user has no configured vacation rights for the current period"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "This user has no ongoing right collection, check the vacations collections planning to fix it"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it"
+msgstr ""
+
+#: public/partials/utils/common/request/request-create-select-type.html
+msgid "Time saving account deposit"
+msgstr ""
+
+#: public/partials/account/request/requests.html
+#: public/partials/admin/request/requests.html
+msgid "Time saving deposit"
+msgstr ""
+
+#: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-schedulecalendars-edit.html
+msgid "To"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Type"
+msgstr ""
+
+#: public/partials/admin/right-view.html
+#: public/partials/admin/rightrenewal-edit.html
+#: public/partials/admin/rightrule-edit.html
+msgid "Type:"
+msgstr ""
+
 #: public/partials/admin/calendar-edit.html
 msgid "Url of the calendar ICS file"
 msgstr ""
 
-#: public/partials/login.html
+#: public/partials/admin/right-edit.html
+msgid "Use default active span"
+msgstr ""
+
+#: public/partials/admin/user-view.html
+msgid "User requests"
+msgstr ""
+
+#: public/partials/login/login.html
 msgid "Username or Email:"
 msgstr ""
 
-#: public/index.html
-msgid "Users"
-msgstr ""
-
-#: public/index.html
+#: public/partials/admin/user-view.html
 msgid "Users list"
 msgstr ""
 
-#: public/index.html
-msgid "Vacation rights"
+#: public/partials/admin/collection-edit.html
+#: public/partials/admin/request/absence-view.html
+msgid "Vacation right"
+msgstr ""
+
+#: public/partials/admin/collection-edit.html
+msgid "Vacation rights in collection"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Vacations collections planning"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Vacations rights"
+msgstr ""
+
+#: public/partials/admin/rights.html
+#: public/partials/admin/users.html
+msgid "View"
+msgstr ""
+
+#: public/partials/login/createfirstadmin.html
+msgid "Welcome"
 msgstr ""
 
 #: public/partials/admin/calendar-edit.html
+#: public/partials/admin/calendars.html
 msgid "Work schedule"
 msgstr ""
 
-#: public/partials/admin/user-edit.html
-msgid "Workschedule calendar"
+#: public/partials/utils/common/request/request-create-select-type.html
+msgid "Working time recover request"
+msgstr ""
+
+#: public/partials/account/request/requests.html
+#: public/partials/admin/request/requests.html
+msgid "Workperiod recover"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "Workschedule calendars planning"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Years before the entry start date to set the period start:"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Your period selection of {{selection.days}} (or {{selection.hours}}) (duration: {{selection.duration}}) must be distribued into the following vacation rights"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "from"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+#: public/partials/admin/rights.html
+msgid "to"
 msgstr ""

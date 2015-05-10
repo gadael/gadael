@@ -192,7 +192,7 @@ var asyncManagerTask = function(models, userDocument, roleProperties) {
  * 
  * @param   function callback       Async task callback
  */
-exports = module.exports = function(models, userDocument, account, admin, manager, callback) {
+exports = module.exports = function(models, userDocument, account, admin, manager, callback){
     
     require('async').parallel([
         asyncAccountTask(models, userDocument, account),

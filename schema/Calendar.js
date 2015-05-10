@@ -25,7 +25,7 @@ exports = module.exports = function(params) {
 		timeCreated: { type: Date, default: Date.now },
 		
 		// used for the default ics embeded in the app
-		locked: { type: Boolean, default: false },
+		locked: { type: Boolean, default: false },
 
         halfDayHour: { type: Date, default: defaultHalfDay },
 		
@@ -191,12 +191,12 @@ exports = module.exports = function(params) {
 
 		async.each([
             {
-                name: 'Jours fériés en France',
+                name: 'French non working days',
                 url: 'http://www.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics',
                 type: 'nonworkingday'
             },
             {
-                name: 'Rythme de travail des temps complets 35H',
+                name: '35H full time work schedule',
                 url: 'calendars/01.ics',
                 type: 'workschedule',
                 locked: true

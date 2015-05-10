@@ -44,7 +44,7 @@ exports = module.exports = function(params) {
             .populate('account.user.id.roles.account')
             .exec(function(err, arr) {
             
-                if (err) {
+                if (err) {
                     deferred.reject(err); return;
                 }
             
@@ -69,11 +69,12 @@ exports = module.exports = function(params) {
 		
 		var model = this;
         var async = require('async');
+        var gt = require('gettext');
 		
 		async.each([
-            { name: 'Régime général 100%' },
-            { name: 'Temps partiel 80%' },
-            { name: 'Temps partiel 50%' }
+            { name: gt.gettext('General regime 100%') },
+            { name: gt.gettext('Part-time 80%') },
+            { name: gt.gettext('Part-time 50%') }
         ], function( type, callback) {
             
           model.create(type, function(err) {

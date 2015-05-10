@@ -5,7 +5,7 @@
  * @param {express|object} app
  * 
  */
-exports = module.exports = function(app) {
+exports = module.exports = function(app) {
     
     
     //setup utilities
@@ -26,7 +26,7 @@ exports = module.exports = function(app) {
         var apiservice = require('restitute').service;
         var getService = require('../api/services/'+path);
         return getService(apiservice, app);
-    }
+    };
     
     
     app.checkPathOnRequest = function(ctrl) {
@@ -51,5 +51,5 @@ exports = module.exports = function(app) {
         }
         
         return true;
-    }
+    };
 };
