@@ -69,7 +69,8 @@ exports = module.exports = function(params) {
 		
 		var model = this;
         var async = require('async');
-        var gt = require('gettext');
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
 		
 		async.each([
             { name: gt.gettext('General regime 100%') },

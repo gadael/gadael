@@ -46,7 +46,7 @@ exports = module.exports = function(app) {
         }
         
         if (0 === ctrl.path.indexOf('/rest/user/') && !req.isAuthenticated()) {
-            ctrl.accessDenied(gt.gettext('Access denied for annonymous users'));
+            ctrl.accessDenied(gt.gettext('Access denied for anonymous users'));
             return false;
         }
         

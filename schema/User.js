@@ -225,7 +225,7 @@ exports = module.exports = function(params) {
 
         var deferred = Q.defer();
 
-        this.populate('department', function(err, user) {
+        this.populate('department', function(err, user) {
 
             if (err) {
                 return deferred.reject(err);

@@ -7,22 +7,125 @@ msgid ""
 msgstr ""
 "Project-Id-Version: inga-server 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 14:41+0200\n"
-"PO-Revision-Date: 2014-05-28 14:46+0100\n"
-"Last-Translator: de Rosanbo Paul <paul.derosanbo@cantico.fr>\n"
+"POT-Creation-Date: 2015-05-11 08:41+0200\n"
+"PO-Revision-Date: 2015-05-11 08:52+0100\n"
+"Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.6\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: rest/login.js:156
+#: modules/apputil.js:39 modules/passport.js:113
+msgid "Access denied for non administrators"
+msgstr ""
+
+#: modules/apputil.js:44
+msgid "Access denied for users without vacation account"
+msgstr ""
+
+#: modules/apputil.js:49
+msgid "Access denied for annonymous users"
+msgstr ""
+
+#: modules/passport.js:91
+msgid "Access denied for anonymous users"
+msgstr "Accès refusé pour les utilisateurs anonymes"
+
+#: modules/passport.js:129
+msgid "Access denied"
+msgstr "Accès refusé"
+
+#: modules/requestdateparams.js:22
+msgid "dtstart, dtend are mandatory parameters"
+msgstr ""
+
+#: modules/requestdateparams.js:29
+msgid "dtend must be greater than dtstart"
+msgstr ""
+
+#: modules/requestdateparams.js:34
+msgid "Dates interval must be less than 2 years"
+msgstr ""
+
+#: rest/Common.js:39
+msgid "Logout"
+msgstr "Déconnection"
+
+#: rest/Common.js:43
+msgid "Settings"
+msgstr "Paramètres"
+
+#: rest/Common.js:53
+msgid "Calendar"
+msgstr ""
+
+#: rest/Common.js:57
+msgid "My requests"
+msgstr ""
+
+#: rest/Common.js:61
+msgid "Request a vacation period"
+msgstr ""
+
+#: rest/Common.js:72
+msgid "Admin summary"
+msgstr ""
+
+#: rest/Common.js:76
+msgid "Requests"
+msgstr ""
+
+#: rest/Common.js:83
+msgid "Users list"
+msgstr "Liste des utilisateurs"
+
+#: rest/Common.js:87
+msgid "Departments list"
+msgstr ""
+
+#: rest/Common.js:91
+msgid "Collections list"
+msgstr ""
+
+#: rest/Common.js:95
+msgid "Calendars list"
+msgstr ""
+
+#: rest/Common.js:102
+msgid "Right types"
+msgstr "Types de droit"
+
+#: rest/Common.js:106
+msgid "Rights configuration"
+msgstr ""
+
+#: rest/anonymous/createfirstadmin.js:59
+msgid "The first admin allready exists"
+msgstr ""
+
+#: rest/login.js:54
+msgid ""
+"You've reached the maximum number of login attempts. Please try again later."
+msgstr ""
+
+#: rest/login.js:85
+msgid ""
+"Username and password combination not found or your account is inactive."
+msgstr ""
+
+#: rest/login.js:98
+msgid "You are now loged in"
+msgstr "Vous êtes maintenant connecté"
+
+#: rest/login.js:165
 #, javascript-format
 msgid "No user found with email %s"
 msgstr "Pas d'utilisateur trouvé avec l'email %s"
 
-#: rest/login.js:181
+#: rest/login.js:192
 #, javascript-format
 msgid ""
 "Forgot your password?\n"
@@ -30,24 +133,201 @@ msgid ""
 "\n"
 "We received a request to reset the password for your account (%s).\n"
 "\n"
-"To reset your password, click on the link below (or copy and paste the URL "
+"To reset your password, click on this [link][1] (or copy and paste the URL "
 "into your browser):\n"
 "\n"
-"[%s]\n"
+"[1]: %s\n"
 "\n"
 "Thanks,\n"
 "%s"
 msgstr ""
-"Mot de passe oublié?\n"
-"---------------------\n"
-"\n"
-"Nous avons reçu une demande de réinitialisation du mot de passe pour votre "
-"compte (%s).\n"
-"\n"
-"Pour réinitialiser votre mot de passe, cliquez le lien ci-dessous (ou copié-"
-"coller le lien dans votre navigateur):\n"
-"\n"
-"[%s]\n"
-"\n"
-"Merci,\n"
-"%s"
+
+#: rest/login.js:213
+#, javascript-format
+msgid "Reset your %s password"
+msgstr ""
+
+#: rest/login.js:223
+#, javascript-format
+msgid "An email has been sent to %s"
+msgstr ""
+
+#: rest/login.js:271
+msgid "The password confirmation does not match the new password field"
+msgstr ""
+
+#: rest/login.js:297
+msgid "Invalid request. user not found"
+msgstr ""
+
+#: rest/login.js:310
+msgid "Invalid request."
+msgstr ""
+
+#: rest/login.js:334
+msgid "The password has been modified"
+msgstr "Le mot de passe à été modifié"
+
+#: rest/user/settings.js:36
+msgid "Your settings has been modified"
+msgstr "Vos paramètres ont été enregistrés"
+
+#: rest/user/user.js:15
+msgid "You must be logged in"
+msgstr "Vous devez être connecté"
+
+#: schema/Right.js:136
+msgid "Day"
+msgid_plural "Days"
+msgstr[0] "Jour"
+msgstr[1] "Jours"
+
+#: schema/Right.js:138
+msgid "Hour"
+msgid_plural "Hours"
+msgstr[0] "Heure"
+msgstr[1] "Heures"
+
+#: schema/RightCollection.js:76
+msgid "General regime 100%"
+msgstr "Régime générale 100%"
+
+#: schema/RightCollection.js:77
+msgid "Part-time 80%"
+msgstr ""
+
+#: schema/RightCollection.js:78
+msgid "Part-time 50%"
+msgstr ""
+
+#: schema/Right_Rule.js:72
+msgid "Interval values must be numbers of years"
+msgstr ""
+
+#: schema/Right_Rule.js:77 schema/Right_Rule.js:91
+msgid "Interval values must be set in a correct order"
+msgstr ""
+
+#: schema/Right_Rule.js:86
+msgid "Interval values must be dates"
+msgstr ""
+
+#: schema/Type.js:26
+msgid "Paid annual leave"
+msgstr "Congé payé annuel"
+
+#: schema/Type.js:27
+msgid "Seniority leave"
+msgstr ""
+
+#: schema/Type.js:28
+msgid "RTT"
+msgstr "RTT"
+
+#: schema/Type.js:29
+msgid "Recovery"
+msgstr "Récupération"
+
+#: schema/Type.js:30
+msgid "Time savings account"
+msgstr "Compte Épargne Temps"
+
+#: schema/Type.js:31
+msgid "sickness absence"
+msgstr "Arrêt maladie"
+
+#: schema/Type.js:32
+msgid "Work accident"
+msgstr "Accident du travail"
+
+#: schema/Type.js:33
+msgid "Parental leave"
+msgstr "Congé parental"
+
+#: schema/Type.js:34
+msgid "Maternity"
+msgstr "Maternité"
+
+#: schema/Type.js:35
+msgid "Paternity"
+msgstr "Paternité"
+
+#: schema/Type.js:36
+msgid "Sick child"
+msgstr "Enfant malade"
+
+#: schema/Type.js:37
+msgid "Wedding"
+msgstr "Marriage"
+
+#: schema/Type.js:38
+msgid "Birth"
+msgstr "Naissance"
+
+#: schema/Type.js:39
+msgid "Decease"
+msgstr "Décès"
+
+#: schema/Type.js:40
+msgid "Training"
+msgstr "Formation"
+
+#: schema/Type.js:41
+msgid "Relocation"
+msgstr "Déménagement"
+
+#: schema/Type.js:42
+msgid "Unpaid leave"
+msgstr "Congés sans solde"
+
+#: schema/Type.js:43
+msgid "Strike"
+msgstr "Grève"
+
+#: schema/Type.js:44
+msgid "Leave for results"
+msgstr ""
+
+#: schema/Type.js:45
+msgid "Union representation"
+msgstr "Représentation syndicale"
+
+#: schema/Type.js:46
+msgid "Absence as an elected official"
+msgstr ""
+
+#: schema/Type.js:47
+msgid "Reservist leave"
+msgstr "Absence réserviste"
+
+#: schema/Type.js:48
+msgid "Fractionating leave"
+msgstr "Congés de fractionnement"
+
+#~ msgid ""
+#~ "Forgot your password?\n"
+#~ "---------------------\n"
+#~ "\n"
+#~ "We received a request to reset the password for your account (%s).\n"
+#~ "\n"
+#~ "To reset your password, click on the link below (or copy and paste the "
+#~ "URL into your browser):\n"
+#~ "\n"
+#~ "[%s]\n"
+#~ "\n"
+#~ "Thanks,\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Mot de passe oublié?\n"
+#~ "---------------------\n"
+#~ "\n"
+#~ "Nous avons reçu une demande de réinitialisation du mot de passe pour "
+#~ "votre compte (%s).\n"
+#~ "\n"
+#~ "Pour réinitialiser votre mot de passe, cliquez le lien ci-dessous (ou "
+#~ "copié-coller le lien dans votre navigateur):\n"
+#~ "\n"
+#~ "[%s]\n"
+#~ "\n"
+#~ "Merci,\n"
+#~ "%s"

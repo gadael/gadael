@@ -19,32 +19,33 @@ exports = module.exports = function(params) {
 		
 		var model = this;
         var async = require('async');
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
 		
 		async.each([
-            { name: 'Congé payé annuel' },
-            { name: 'Congé ancienneté' },
-            { name: 'RTT' },
-            { name: 'Récupération' },
-            { name: 'Compte épargne temps' },
-            { name: 'Absence maladie' },
-            { name: 'Accident du travail' },
-            { name: 'Maternité' },
-            { name: 'Paternité' },
-            { name: 'Enfant malade' },
-            { name: 'Mariage' },
-            { name: 'Naissance' },
-            { name: 'Décès' },
-            { name: 'Formation' },
-            { name: 'Déménagement' },
-            { name: 'Congé sans solde' },
-            { name: 'Grève' },
-            { name: 'Congés payés anticipés' },
-            { name: 'Congés pour résultat' },
-            { name: 'Congé parental' },
-            { name: 'Représentation syndicale' },
-            { name: 'Absence en tant qu\'élu' },
-            { name: 'Absence réserviste' },
-            { name: 'Congés de fractionnement', group: true }
+            { name: gt.gettext('Paid annual leave') },
+            { name: gt.gettext('Seniority leave') },
+            { name: gt.gettext('RTT') },
+            { name: gt.gettext('Recovery') },
+            { name: gt.gettext('Time savings account') },
+            { name: gt.gettext('sickness absence') },
+            { name: gt.gettext('Work accident') },
+            { name: gt.gettext('Parental leave') },
+            { name: gt.gettext('Maternity') },
+            { name: gt.gettext('Paternity') },
+            { name: gt.gettext('Sick child') },
+            { name: gt.gettext('Wedding') },
+            { name: gt.gettext('Birth') },
+            { name: gt.gettext('Decease') },
+            { name: gt.gettext('Training') },
+            { name: gt.gettext('Relocation') },
+            { name: gt.gettext('Unpaid leave') },
+            { name: gt.gettext('Strike') },
+            { name: gt.gettext('Leave for results') },
+            { name: gt.gettext('Union representation') },
+            { name: gt.gettext('Absence as an elected official') },
+            { name: gt.gettext('Reservist leave') },
+            { name: gt.gettext('Fractionating leave'), group: true }
         ], function( type, callback) {
             
           model.create(type, function(err) {
