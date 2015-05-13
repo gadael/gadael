@@ -174,8 +174,6 @@ define(['momentDurationFormat'], function(moment) {
                         right: {},
                         total: 0
                     };
-
-                    console.log($scope.accountRights);
                 } else {
 
                     distribution.total = 0;
