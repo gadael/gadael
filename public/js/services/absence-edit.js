@@ -167,6 +167,26 @@ define(['momentDurationFormat'], function(moment) {
             $scope.$watch(function() { return $scope.selection.end; }, function(end) {
                 onUpdateInterval($scope.selection.begin, end);
             });
+
+            $scope.$watch('distribution', function(distribution) {
+                if (distribution === undefined) {
+                    $scope.distribution = {
+                        right: {},
+                        total: 0
+                    };
+
+                    console.log($scope.accountRights);
+                } else {
+
+                    distribution.total = 0;
+                    for(var rightId in distribution.right) {
+                        if (distribution.right.hasOwnProperty(rightId) && distribution.right[rightId]) {
+                            distribution.total += parseFloat(distribution.right[rightId]);
+                        }
+                    }
+                }
+            }, true);
+
         }
     };
 });

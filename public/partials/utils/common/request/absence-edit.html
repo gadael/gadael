@@ -56,7 +56,7 @@
     <div class="row">
         <p translate>From to {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}</p>
         <p translate>Collection on the selected period: {{collection.name}}</p>
-        <p class="text-primary" translate>Your period selection of {{selection.days}} (or {{selection.hours}}) (duration: {{selection.duration}}) must be distribued into the following vacation rights</p>
+        <p class="text-primary" translate>Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights</p>
     </div>
 
     <form class="form-horizontal" role="form">
@@ -73,7 +73,7 @@
                     </td>
                     
                     <td>
-                        <label for="ar{{accountRight._id}}" class="control-label">{{accountRight.name}}</label>
+                        <label for="ar{{accountRight._id}}" class="control-label">{{accountRight.name}}</label> {{accountRight._id}}
                     </td>
 
                     <td class="hidden-xs">
