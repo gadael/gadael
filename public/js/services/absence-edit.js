@@ -2,6 +2,39 @@ define(['momentDurationFormat'], function(moment) {
 
     'use strict';
 
+    /**
+     * store quantity_unit for each loaded right
+     */
+    var quantity_unit = {};
+
+
+
+
+    /**
+     * Get duration as string
+     * @param {Number} days
+     * @param {Number} hours
+     * @return {String}
+     */
+    function getDuration(days, hours)
+    {
+        var disp = [];
+
+        if (days !== 0) {
+            var momentDays = moment.duration(days, "days");
+            disp.push(momentDays.format("d [days]", 1));
+        }
+
+        if (hours !== 0) {
+            var momentHours = moment.duration(hours, "hours");
+            disp.push(momentHours.format("h [hours]", 2));
+        }
+
+        return disp.join(', ');
+    }
+
+
+
     // Service to edit an absence, 
     // shared by account/request/absence-edit and admin/request/absence-edit
     
@@ -67,7 +100,25 @@ define(['momentDurationFormat'], function(moment) {
                         dtend: $scope.selection.end
                     });
 
+                    $scope.accountRights.$promise.then(function(ar) {
+                        // loaded
 
+                        var days=0, hours=0;
+
+                        for (var i=0; i<ar.length; i++) {
+
+                            quantity_unit[ar[i]._id] = ar[i].quantity_unit;
+
+                            switch (ar[i].quantity_unit) {
+                                case 'D': days  += ar[i].available_quantity; break;
+                                case 'H': hours += ar[i].available_quantity; break;
+                            }
+                        }
+
+                        $scope.available = {
+                            total: getDuration(days, hours)
+                        };
+                    });
                 }
             };
         },
@@ -109,6 +160,7 @@ define(['momentDurationFormat'], function(moment) {
 
                     $scope.selection.isValid = duration > 0;
                 }
+
 
 
 
@@ -176,12 +228,21 @@ define(['momentDurationFormat'], function(moment) {
                     };
                 } else {
 
-                    distribution.total = 0;
+                    var value, days = 0, hours = 0;
                     for(var rightId in distribution.right) {
                         if (distribution.right.hasOwnProperty(rightId) && distribution.right[rightId]) {
-                            distribution.total += parseFloat(distribution.right[rightId]);
+
+                            value = parseFloat(distribution.right[rightId]);
+
+                            switch(quantity_unit[rightId]) {
+                                case 'D': days  += value; break;
+                                case 'H': hours += value; break;
+                            }
+
                         }
                     }
+
+                    distribution.total = getDuration(days, hours);
                 }
             }, true);
 
