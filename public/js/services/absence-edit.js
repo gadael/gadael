@@ -7,7 +7,7 @@ define(['momentDurationFormat'], function(moment) {
      */
     var quantity_unit = {};
 
-
+    var available = {};
 
 
     /**
@@ -107,6 +107,7 @@ define(['momentDurationFormat'], function(moment) {
 
                         for (var i=0; i<ar.length; i++) {
 
+                            available[ar[i]._id] = ar[i].available_quantity;
                             quantity_unit[ar[i]._id] = ar[i].quantity_unit;
 
                             switch (ar[i].quantity_unit) {
@@ -210,6 +211,35 @@ define(['momentDurationFormat'], function(moment) {
                 throw new Error('the user must have a vacation account'); 
             }
 
+            /**
+             * Get a classname for the input field
+             * @param {Number} value
+             * @param {Number} available
+             * @return string
+             */
+            function getValueClass(value, available) {
+
+                if (undefined === value || null === value) {
+                    return '';
+                }
+
+                if (0 === value) {
+                    return 'has-warning';
+                }
+
+                if (value < 0) {
+                    return 'has-error';
+                }
+
+                if (available < value) {
+                    return 'has-error';
+                }
+
+                return 'has-success';
+            }
+
+
+
             var onUpdateInterval = getOnUpdateInterval($scope, user.roles.account, calendarEvents);
             
             $scope.$watch(function() { return $scope.selection.begin; }, function(begin) {
@@ -223,6 +253,7 @@ define(['momentDurationFormat'], function(moment) {
             $scope.$watch('distribution', function(distribution) {
                 if (distribution === undefined) {
                     $scope.distribution = {
+                        class: {},
                         right: {},
                         total: 0
                     };
@@ -230,14 +261,23 @@ define(['momentDurationFormat'], function(moment) {
 
                     var value, days = 0, hours = 0;
                     for(var rightId in distribution.right) {
-                        if (distribution.right.hasOwnProperty(rightId) && distribution.right[rightId]) {
+                        if (distribution.right.hasOwnProperty(rightId)) {
 
-                            value = parseFloat(distribution.right[rightId]);
+                            var inputValue = distribution.right[rightId];
+
+                            $scope.distribution.class[rightId] = getValueClass(inputValue, available[rightId]);
+
+                            if (!inputValue) {
+                                continue;
+                            }
+
+                            value = parseFloat(inputValue);
 
                             switch(quantity_unit[rightId]) {
                                 case 'D': days  += value; break;
                                 case 'H': hours += value; break;
                             }
+
 
                         }
                     }

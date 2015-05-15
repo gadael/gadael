@@ -61,13 +61,13 @@
 
     <form class="form-horizontal" role="form">
         
-        <table class="table">
+        <table class="table absence-edit-distribution">
         
 
             <tbody>
                 <tr class="form-group" ng-repeat="accountRight in accountRights">
 
-                    <td class="input-group">
+                    <td ng-class="distribution.class[accountRight._id]" class="input-group">
                         <input id="ar{{accountRight._id}}" type="number" class="form-control" ng-model="distribution.right[accountRight._id]" />
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
                     </td>
