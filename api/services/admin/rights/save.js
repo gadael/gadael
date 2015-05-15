@@ -44,13 +44,17 @@ function saveRight(service, params) {
     
     var fieldsToSet = { 
         name: params.name,
-        description: params.description,
         type: type,
         require_approval: params.require_approval,
         quantity: params.quantity,
-        quantity_unit: params.quantity_unit  
+        quantity_unit: params.quantity_unit,
+        activeFor: params.activeFor
     };
     
+    if(undefined !== params.description) {
+        fieldsToSet.description = params.description;
+    }
+
 
     if (params.id)
     {
@@ -97,7 +101,7 @@ function saveRight(service, params) {
 exports = module.exports = function(services, app) {
     
     var service = new services.save(app);
-    
+
     /**
      * Call the calendar save service
      * 
