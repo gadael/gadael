@@ -68,7 +68,7 @@
                 <tr class="form-group" ng-repeat="accountRight in accountRights">
 
                     <td ng-class="distribution.class[accountRight._id]" class="input-group">
-                        <input id="ar{{accountRight._id}}" type="number" class="form-control" ng-model="distribution.right[accountRight._id]" />
+                        <input id="ar{{accountRight._id}}" type="number" class="form-control" ng-model="distribution.right[accountRight._id]" step="any" min="0" />
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
                     </td>
                     
