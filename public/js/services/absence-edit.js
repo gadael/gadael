@@ -62,6 +62,8 @@ define(['momentDurationFormat'], function(moment) {
                 days: undefined,
                 hours: undefined
             };
+
+
         },
         
         
@@ -74,6 +76,14 @@ define(['momentDurationFormat'], function(moment) {
 
                 // show the right assignement
                 $scope.assignments = true;
+
+                // TODO: init distribution if this is a request modification
+                $scope.distribution = {
+                    class: {},
+                    right: {},
+                    total: 0,
+                    completed: false
+                };
 
                 if ($scope.user) {
 
@@ -306,7 +316,8 @@ define(['momentDurationFormat'], function(moment) {
                     $scope.distribution = {
                         class: {},
                         right: {},
-                        total: 0
+                        total: 0,
+                        completed: false
                     };
                 } else {
 
@@ -330,7 +341,7 @@ define(['momentDurationFormat'], function(moment) {
 
 
                     var completed = isCompleted(days, hours);
-
+                    $scope.distribution.completed = completed;
 
                     // second pass, apply styles on cells
                     browseInputValue(function(rightId) {
@@ -342,6 +353,12 @@ define(['momentDurationFormat'], function(moment) {
                     distribution.total = getDuration(days, hours);
                 }
             }, true);
+
+
+
+            $scope.saveAbsence = function() {
+                console.log('save absence');
+            };
 
         }
     };
