@@ -135,6 +135,19 @@ define(['momentDurationFormat'], function(moment) {
         onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents)
         {
             /**
+             * Duration in milliseconds updated on every period changes
+             * @var {int}
+             */
+            var duration = 0;
+
+            /**
+             * Duration in days updated on every period changes
+             * @var {Number}
+             */
+            var businessDays = 0;
+
+
+            /**
              * get the onUpdateInterval function
              * @param   {Object}   $scope         
              * @param   {Object}   account        object from the Account schema (vacation account)
@@ -147,7 +160,7 @@ define(['momentDurationFormat'], function(moment) {
                 /**
                  * Set a duration visible to the final user
                  *
-                 * @param {Int} duration        Number of miliseconds
+                 * @param {Int} duration        Number of milliseconds
                  * @param {Number} businessDays Number of days
                  */
                 function setDuration(duration, businessDays)
@@ -185,8 +198,7 @@ define(['momentDurationFormat'], function(moment) {
                         dtstart: begin, 
                         dtend: end 
                     }).$promise.then(function(periods) {
-                        var duration = 0;
-                        var businessDays = 0;
+
                         var p;
 
                         for(var i=0; i<periods.length; i++) {
@@ -215,9 +227,10 @@ define(['momentDurationFormat'], function(moment) {
              * Get a classname for the input field
              * @param {Number} value
              * @param {Number} available
+             * @param {Boolean} completed
              * @return string
              */
-            function getValueClass(value, available) {
+            function getValueClass(value, available, completed) {
 
                 if (undefined === value || null === value) {
                     return '';
@@ -235,8 +248,15 @@ define(['momentDurationFormat'], function(moment) {
                     return 'has-error';
                 }
 
+                if (!completed) {
+                    return 'has-warning';
+                }
+
                 return 'has-success';
             }
+
+
+
 
 
 
@@ -251,6 +271,37 @@ define(['momentDurationFormat'], function(moment) {
             });
 
             $scope.$watch('distribution', function(distribution) {
+
+
+                /**
+                 * Browse the rights appliquable for distribution
+                 * @param {function} action     function to call on each rights
+                 *
+                 */
+                function browseInputValue(action) {
+                    for(var rightId in distribution.right) {
+                        if (distribution.right.hasOwnProperty(rightId)) {
+                            action(rightId);
+                        }
+                    }
+                }
+
+
+                /**
+                 * Test if distribution is completed
+                 * @param {Number} days     Sum of days distributed on rights
+                 * @param {Number} hours    Sum of hours distributed on rights
+                 *
+                 * @return {Boolean}
+                 */
+                function isCompleted(days, hours) {
+                    var daysCompleted = (businessDays === days) && !hours;
+                    var hoursCompleted = (duration === (hours*360000)) && !days;
+                    return (daysCompleted || hoursCompleted);
+                }
+
+
+
                 if (distribution === undefined) {
                     $scope.distribution = {
                         class: {},
@@ -259,29 +310,33 @@ define(['momentDurationFormat'], function(moment) {
                     };
                 } else {
 
+
                     var value, days = 0, hours = 0;
-                    for(var rightId in distribution.right) {
-                        if (distribution.right.hasOwnProperty(rightId)) {
 
-                            var inputValue = distribution.right[rightId];
-
-                            $scope.distribution.class[rightId] = getValueClass(inputValue, available[rightId]);
-
-                            if (!inputValue) {
-                                continue;
-                            }
-
-                            value = parseFloat(inputValue);
-
-                            switch(quantity_unit[rightId]) {
-                                case 'D': days  += value; break;
-                                case 'H': hours += value; break;
-                            }
-
-
+                    // first pass, compute total
+                    browseInputValue(function(rightId) {
+                        var inputValue = distribution.right[rightId];
+                        if (!inputValue) {
+                            return;
                         }
-                    }
 
+                        value = parseFloat(inputValue);
+
+                        switch(quantity_unit[rightId]) {
+                            case 'D': days  += value; break;
+                            case 'H': hours += value; break;
+                        }
+                    });
+
+
+
+                    // second pass, apply styles on cells
+                    browseInputValue(function(rightId) {
+                        var inputValue = distribution.right[rightId];
+                        $scope.distribution.class[rightId] = getValueClass(inputValue, available[rightId], isCompleted(days, hours));
+                    });
+
+                    // Assigned duration to display to the user
                     distribution.total = getDuration(days, hours);
                 }
             }, true);
