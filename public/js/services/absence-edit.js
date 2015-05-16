@@ -329,11 +329,13 @@ define(['momentDurationFormat'], function(moment) {
                     });
 
 
+                    var completed = isCompleted(days, hours);
+
 
                     // second pass, apply styles on cells
                     browseInputValue(function(rightId) {
                         var inputValue = distribution.right[rightId];
-                        $scope.distribution.class[rightId] = getValueClass(inputValue, available[rightId], isCompleted(days, hours));
+                        $scope.distribution.class[rightId] = getValueClass(inputValue, available[rightId], completed);
                     });
 
                     // Assigned duration to display to the user
