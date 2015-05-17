@@ -68,6 +68,13 @@ define(['momentDurationFormat'], function(moment) {
         
         
         
+        /**
+         * The next button, from the period selection to the right distribution interface
+         *
+         * @param {object} $scope
+         * @param {Resource} accountCollection
+         * @param {Resource} accountRights
+         */
         getNextButtonJob: function getNextButtonJob($scope, accountCollection, accountRights) {
             return function() {
 
@@ -354,11 +361,6 @@ define(['momentDurationFormat'], function(moment) {
                 }
             }, true);
 
-
-
-            $scope.saveAbsence = function() {
-                console.log('save absence');
-            };
 
         }
     };

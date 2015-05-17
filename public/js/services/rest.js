@@ -64,7 +64,8 @@ define(function() {
                 collection              : init('account/collection'),
                 accountrights           : init('account/accountrights/:id'),
                 calendars               : init('account/calendars/:id'),
-                calendarevents          : init('account/calendarevents/:id')
+                calendarevents          : init('account/calendarevents/:id'),
+                requests                : init('account/requests/:id')
             },
             
             user: {

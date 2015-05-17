@@ -1,4 +1,4 @@
-define(['momentDurationFormat', 'q'], function(moment, Q) {
+define(['q'], function(Q) {
     
     'use strict';
 
@@ -15,9 +15,8 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         var accountCollection = Rest.account.collection.getResource();
         var accountRights = Rest.account.accountrights.getResource();
         var user = Rest.user.user.getResource();
-        
 
-        $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
+        $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
         
         if ($scope.request.$promise) {
@@ -126,6 +125,11 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          * Go from the period selection to the right assignments step
          */
         $scope.next = AbsenceEdit.getNextButtonJob($scope, accountCollection, accountRights);
+
+
+        $scope.saveAbsence = function() {
+            console.log('save request');
+        };
 
 	}];
 });
