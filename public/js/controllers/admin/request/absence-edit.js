@@ -47,6 +47,14 @@ define([], function() {
         }
         
         
+        /**
+         * Period picker callbacks
+         */
+        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(user, calendarEvents);
+        $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
+        $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
+
+
         
         /**
          * Go back to requests list, admin view

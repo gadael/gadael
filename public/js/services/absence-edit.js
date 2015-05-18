@@ -1,4 +1,4 @@
-define(['momentDurationFormat'], function(moment) {
+define(['momentDurationFormat', 'q'], function(moment, Q) {
 
     'use strict';
 
@@ -360,8 +360,99 @@ define(['momentDurationFormat'], function(moment) {
                     distribution.total = getDuration(days, hours);
                 }
             }, true);
+        },
 
 
+
+        /**
+         * Get Period picker callback for working times
+         * @param {Resource} user
+         * @param {Resource} calendarEvents
+         * @return function
+         */
+        getLoadWorkingTimes: function(user, calendarEvents) {
+
+            return function(interval) {
+
+                var deferred = Q.defer();
+
+                user.get().$promise.then(function(user) {
+                    var account = user.roles.account;
+
+                    if (!account.currentScheduleCalendar) {
+                        deferred.reject('No valid schedule calendar');
+                        return;
+                    }
+
+                    calendarEvents.query({
+                        calendar: account.currentScheduleCalendar._id,
+                        dtstart: interval.from,
+                        dtend: interval.to,
+                        substractNonWorkingDays: true
+                    }).$promise.then(deferred.resolve);
+                });
+
+                return deferred.promise;
+            };
+        },
+
+
+        /**
+         * Get period picker callback for non working days
+         * @param {Resource} calendars
+         * @param {Resource} calendarEvents
+         * @return function
+         */
+        getLoadEvents: function(calendars, calendarEvents) {
+            return function(interval) {
+                var deferred = Q.defer();
+
+                calendars.query({
+                    type: 'nonworkingday'
+                }).$promise.then(function(nwdCalendars) {
+
+                    var nwdCalId = nwdCalendars.map(function(cal) {
+                        return cal._id;
+                    });
+
+                    calendarEvents.query({
+                        calendar: nwdCalId,
+                        dtstart: interval.from,
+                        dtend: interval.to
+                    }).$promise.then(deferred.resolve);
+                });
+
+                return deferred.promise;
+            };
+        },
+
+
+        /**
+         * Get period picker callback for scholar holidays
+         */
+        getLoadScholarHolidays: function(calendars, calendarEvents) {
+            return function(interval) {
+
+                var deferred = Q.defer();
+
+                calendars.query({
+                    type: 'holiday'
+                }).$promise.then(function(hCalendars) {
+
+                    var hCalId = hCalendars.map(function(cal) {
+                        return cal._id;
+                    });
+
+                    calendarEvents.query({
+                        calendar: hCalId,
+                        dtstart: interval.from,
+                        dtend: interval.to
+                    }).$promise.then(deferred.resolve);
+                });
+
+                return deferred.promise;
+            };
         }
+
     };
 });
