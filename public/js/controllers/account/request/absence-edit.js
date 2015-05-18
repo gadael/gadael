@@ -18,29 +18,26 @@ define([], function() {
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
+        var userPromise =  users.get().$promise;
         
         if ($scope.request.$promise) {
             $scope.request.$promise.then(function() {
                 // edit this request
                 
                 $scope.editRequest = true;
-                
             });
         } else {
             
             // create a new request
             $scope.newRequest = true;
-            
-            users.get().$promise.then(function(user) {
-                AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
-            });
-            
         }
         
-        /**
-         * Period picker callbacks
-         */
-        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(users, calendarEvents);
+
+        userPromise.then(function(user) {
+            AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
+        });
+
+        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
         $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 

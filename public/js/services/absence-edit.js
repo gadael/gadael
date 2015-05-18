@@ -353,17 +353,17 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
         /**
          * Get Period picker callback for working times
-         * @param {Resource} user
+         * @param {Promise} userPromise
          * @param {Resource} calendarEvents
          * @return function
          */
-        getLoadWorkingTimes: function(user, calendarEvents) {
+        getLoadWorkingTimes: function(userPromise, calendarEvents) {
 
             return function(interval) {
 
                 var deferred = Q.defer();
 
-                user.get().$promise.then(function(user) {
+                userPromise.then(function(user) {
                     var account = user.roles.account;
 
                     if (!account.currentScheduleCalendar) {

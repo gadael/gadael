@@ -18,6 +18,7 @@ define([], function() {
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
         
+        var userPromise = users.get({ _id: userId }).$promise;
         
         if ($scope.request.$promise) {
             $scope.request.$promise.then(function(request) {
@@ -36,7 +37,10 @@ define([], function() {
                 throw new Error('the user parameter is mandatory to create a new request');   
             }
 
-            users.get({id: userId}).$promise.then(function(user) {
+            console.log(userId);
+
+
+            userPromise.then(function(user) {
                 
                 AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
                 
@@ -52,7 +56,7 @@ define([], function() {
         /**
          * Period picker callbacks
          */
-        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(users, calendarEvents);
+        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
         $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
@@ -93,10 +97,6 @@ define([], function() {
             console.log('save request');
         };
 
-
-        $scope.saveAbsence = function() {
-            console.log('save request');
-        };
 	}];
 });
 
