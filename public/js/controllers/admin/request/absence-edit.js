@@ -13,7 +13,7 @@ define([], function() {
         var calendarEvents = Rest.admin.calendarevents.getResource();
         var accountRights = Rest.admin.accountrights.getResource();
         var users = Rest.admin.users.getResource();
-        var accountCollection = Rest.admin.collections.getResource();
+        //var accountCollection = Rest.admin.collections.getResource();
         // TODO fix accountCollection, not the same as account/request
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
@@ -65,10 +65,34 @@ define([], function() {
             $location.path('/admin/requests');
         };
         
+
         /**
          * Go from the period selection to the right assignments step
          */
-        $scope.next = AbsenceEdit.getNextButtonJob($scope, accountCollection, accountRights);
+        $scope.next = function() {
+
+            /**
+             * Load collection
+             * The collection available on the selected period
+
+            $scope.collection = accountCollection.get({
+                user: $scope.user.id,
+                dtstart: $scope.selection.begin,
+                dtend: $scope.selection.end
+            });
+            */
+            var serviceAction = AbsenceEdit.getNextButtonJob($scope, accountRights);
+
+            serviceAction();
+        };
+
+
+
+
+        $scope.saveAbsence = function() {
+            console.log('save request');
+        };
+
 
         $scope.saveAbsence = function() {
             console.log('save request');

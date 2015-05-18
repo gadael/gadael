@@ -72,10 +72,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          * The next button, from the period selection to the right distribution interface
          *
          * @param {object} $scope
-         * @param {Resource} accountCollection
          * @param {Resource} accountRights
          */
-        getNextButtonJob: function getNextButtonJob($scope, accountCollection, accountRights) {
+        getNextButtonJob: function getNextButtonJob($scope, accountRights) {
             return function() {
 
                 // hide the period selection
@@ -93,18 +92,6 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 };
 
                 if ($scope.user) {
-
-                    /**
-                     * Load collection
-                     * The collection available on the selected period
-                     */
-
-                    $scope.collection = accountCollection.get({
-                        user: $scope.user.id,
-                        dtstart: $scope.selection.begin,
-                        dtend: $scope.selection.end
-                    });
-
 
                     /**
                      * Load accountRights

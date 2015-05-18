@@ -57,7 +57,24 @@ define([], function() {
         /**
          * Go from the period selection to the right assignments step
          */
-        $scope.next = AbsenceEdit.getNextButtonJob($scope, accountCollection, accountRights);
+        $scope.next = function() {
+
+            /**
+             * Load collection
+             * The collection available on the selected period
+             */
+            $scope.collection = accountCollection.get({
+                user: $scope.user.id,
+                dtstart: $scope.selection.begin,
+                dtend: $scope.selection.end
+            });
+
+            var serviceAction = AbsenceEdit.getNextButtonJob($scope, accountRights);
+
+            serviceAction();
+        };
+
+
 
 
         $scope.saveAbsence = function() {
