@@ -1,4 +1,4 @@
-define(['q'], function(Q) {
+define([], function() {
     
     'use strict';
 
@@ -14,7 +14,7 @@ define(['q'], function(Q) {
         var calendarEvents = Rest.account.calendarevents.getResource();
         var accountCollection = Rest.account.collection.getResource();
         var accountRights = Rest.account.accountrights.getResource();
-        var user = Rest.user.user.getResource();
+        var users = Rest.user.user.getResource();
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
@@ -31,7 +31,7 @@ define(['q'], function(Q) {
             // create a new request
             $scope.newRequest = true;
             
-            user.get().$promise.then(function(user) {
+            users.get().$promise.then(function(user) {
                 AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
             });
             
@@ -40,7 +40,7 @@ define(['q'], function(Q) {
         /**
          * Period picker callbacks
          */
-        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(user, calendarEvents);
+        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(users, calendarEvents);
         $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 

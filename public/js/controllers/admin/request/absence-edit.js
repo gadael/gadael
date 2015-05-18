@@ -9,10 +9,12 @@ define([], function() {
         AbsenceEdit.initScope($scope);
         
         // resources 
+        var calendars = Rest.admin.calendars.getResource();
         var calendarEvents = Rest.admin.calendarevents.getResource();
         var accountRights = Rest.admin.accountrights.getResource();
         var users = Rest.admin.users.getResource();
-        var accountCollection = Rest.account.collection.getResource();
+        var accountCollection = Rest.admin.collections.getResource();
+        // TODO fix accountCollection, not the same as account/request
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
         
@@ -50,7 +52,7 @@ define([], function() {
         /**
          * Period picker callbacks
          */
-        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(user, calendarEvents);
+        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(users, calendarEvents);
         $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
