@@ -1,4 +1,4 @@
-define([], function() {
+define(['q'], function(Q) {
     
     'use strict';
 
@@ -18,45 +18,59 @@ define([], function() {
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
         
-        var userPromise = users.get({ _id: userId }).$promise;
+        var userId, userPromise;
         
-        if ($scope.request.$promise) {
-            $scope.request.$promise.then(function(request) {
-                // edit this request
-                
-                $scope.editRequest = true;
-                AbsenceEdit.onceUserLoaded($scope, request.user.id, calendarEvents);
-            });
-        } else {
+
+        function loadRequestAndUserPromise()
+        {
+            var deferred = Q.defer();
             
+            if ($scope.request.$promise) {
+                $scope.request.$promise.then(function(request) {
+                    // edit this request
+
+                    $scope.editRequest = true;
+                    AbsenceEdit.onceUserLoaded($scope, request.user.id, calendarEvents);
+
+                    userId = request.user.id;
+                    userPromise = users.get({ id: userId }).$promise;
+
+                    deferred.resolve(userPromise);
+                });
+
+                return deferred.promise;
+            }
+
             // create a new request
             $scope.newRequest = true;
-            var userId = $location.search().user;
-            
+            userId = $location.search().user;
+
             if (!userId) {
                 throw new Error('the user parameter is mandatory to create a new request');   
             }
 
-            console.log(userId);
-
-
+            userPromise = users.get({ id: userId }).$promise;
             userPromise.then(function(user) {
-                
+
                 AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
-                
+
                 $scope.request.user = {
                     id: user._id,
                     name: user.lastname+' '+user.firstname
                 };
             });
             
+            deferred.resolve(userPromise);
+
+            return deferred.promise;
+
         }
-        
+
         
         /**
          * Period picker callbacks
          */
-        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
+        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(loadRequestAndUserPromise(), calendarEvents);
         $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
