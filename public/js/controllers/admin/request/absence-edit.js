@@ -13,7 +13,7 @@ define(['q'], function(Q) {
         var calendarEvents = Rest.admin.calendarevents.getResource();
         var accountRights = Rest.admin.accountrights.getResource();
         var users = Rest.admin.users.getResource();
-        //var accountCollection = Rest.admin.collections.getResource();
+        var collections = Rest.admin.collections.getResource();
         // TODO fix accountCollection, not the same as account/request
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
@@ -94,13 +94,28 @@ define(['q'], function(Q) {
             /**
              * Load collection
              * The collection available on the selected period
+             */
 
-            $scope.collection = accountCollection.get({
-                user: $scope.user.id,
+            collections.get({
+                user: $scope.user._id,
                 dtstart: $scope.selection.begin,
                 dtend: $scope.selection.end
+            }).$promise.then(function(collectionList) {
+                if (0 === collectionList.length) {
+                    throw new Error('No active collection for this user');
+                }
+
+                console.log(collectionList);
+
+                if (1 !== collectionList.length) {
+                    throw new Error('More than one collection found for the user');
+                }
+
+                $scope.collection = collectionList[0];
             });
-            */
+
+
+
             var serviceAction = AbsenceEdit.getNextButtonJob($scope, accountRights);
 
             serviceAction();
