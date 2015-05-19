@@ -52,6 +52,8 @@ define(['q'], function(Q) {
             userPromise = users.get({ id: userId }).$promise;
             userPromise.then(function(user) {
 
+                $scope.user = user;
+
                 AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
 
                 $scope.request.user = {

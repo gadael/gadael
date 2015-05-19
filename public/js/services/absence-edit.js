@@ -99,7 +99,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                      */
 
                     $scope.accountRights = accountRights.query({
-                        user: $scope.user.id,
+                        user: $scope.user._id,
                         dtstart: $scope.selection.begin,
                         dtend: $scope.selection.end
                     });
@@ -123,6 +123,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                         $scope.available = {
                             total: getDuration(days, hours)
                         };
+                    }, function(err) {
+                        // TODO: redirect message to catchOutcome
+                        alert(err.data.$outcome.alert[0].message);
                     });
                 }
             };
