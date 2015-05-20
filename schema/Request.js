@@ -9,6 +9,8 @@ exports = module.exports = function(params) {
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
       name: { type: String, required: true }
     },
+
+    timeCreated: { type: Date, default: Date.now },
     
     createdBy: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -16,7 +18,6 @@ exports = module.exports = function(params) {
     },
     
     absence: {
-		timeCreated: { type: Date, default: Date.now },
 		distribution: [mongoose.modelSchemas.AbsenceElem]
 	},
 	

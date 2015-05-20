@@ -442,6 +442,19 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
                 return deferred.promise;
             };
+        },
+
+
+        /**
+         * Create one element for the distribution array to send to server
+         *
+         */
+        createElement: function(scopeParams) {
+
+            return {
+                quantity: 0,
+                right: 0
+            };
         }
 
     };

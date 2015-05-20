@@ -105,8 +105,6 @@ define(['q'], function(Q) {
                     throw new Error('No active collection for this user');
                 }
 
-                console.log(collectionList);
-
                 if (1 !== collectionList.length) {
                     throw new Error('More than one collection found for the user');
                 }
