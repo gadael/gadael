@@ -7,7 +7,6 @@
 exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var absenceElemSchema = new mongoose.Schema({
-        absence: { type: mongoose.Schema.Types.ObjectId, ref: 'Absence', required: true },
         quantity: { type: Number },
         event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true },
         
