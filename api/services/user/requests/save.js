@@ -20,14 +20,13 @@ function validate(service, params)
 
 /**
  * This function will create or update an event
- * dtstart and dtend will be guessed from the quantity, user working times schedule and non working time periods
  *
  * @param {apiService} service
  * @param {String} user     The user ID
  * @param {Object} elem     an object to create or update a Request_AbsenceElem document
  *                          the object can contain an "event" property with the event id to update the existing document
  *
- * @return {Promise}        Promise the event ID to save in absence element
+ * @return {Promise}        Promise the element with the event id to save in distribution
  */
 function saveEvent(service, user, elem)
 {
@@ -42,7 +41,9 @@ function saveEvent(service, user, elem)
         if (err) {
             return deferred.reject(err);
         }
-        deferred.resolve(event._id);
+
+        elem.event = event._id;
+        deferred.resolve(elem);
     }
 
 
@@ -51,6 +52,12 @@ function saveEvent(service, user, elem)
      */
     function setProperties(event)
     {
+        event.dtstart = elem.event.dtstart;
+        event.dtstart = elem.event.dtend;
+        event.user = {
+            id: user,
+            name: ''
+        };
         event.save(fwdPromise);
     }
 
@@ -59,7 +66,6 @@ function saveEvent(service, user, elem)
     if (elem.event) {
         EventModel.findById(elem.event, function(err, event) {
             setProperties(event);
-
         });
 
         return deferred.promise;
@@ -79,23 +85,66 @@ function saveEvent(service, user, elem)
 /**
  * @param {apiService} service
  * @param {Object} params
- * @return {Object}
+ * @return {Promise} promised distribution array
  */
 function saveAbsence(service, params) {
 
+    var Q = require('q');
+
     if (params.distribution === undefined || params.distribution.length === 0) {
-        throw new Error('right distribution is mandatory to save an absence request');
+        Q.fcall(function () {
+            throw new Error('right distribution is mandatory to save an absence request');
+        });
     }
 
-    var elem, event;
+    var elem, savedEventPromises = [];
+
+
+
     for(var i=0; i<params.distribution.length; i++) {
         elem = params.distribution[i];
-        event = elem.event;
+        savedEventPromises.push(saveEvent(service, params.user, elem));
     }
 
-    return {
-        distribution: []
+    return Q.all(savedEventPromises);
+
+}
+
+/**
+ * @param {apiService} service
+ * @param {Object} params
+ * @return {Promise} promised fieldsToSet object
+ */
+function prepareRequestFields(service, params)
+{
+    var Q = require('q');
+    var deferred = Q.deferr();
+    var fieldsToSet = {
+        user: params.user
     };
+
+
+    if (undefined !== params.absence) {
+        var promisedDistribution = saveAbsence(service, params.absence);
+        promisedDistribution.then(function(distribution) {
+            fieldsToSet.absence = {
+                distribution: distribution
+            };
+            deferred.resolve(fieldsToSet);
+        }, service.error);
+    }
+
+    if (undefined !== params.time_saving_deposit) {
+        fieldsToSet.time_saving_deposit = params.time_saving_deposit;
+        deferred.resolve(fieldsToSet);
+    }
+
+    if (undefined !== params.workperiod_recover) {
+        fieldsToSet.workperiod_recover = params.workperiod_recover;
+        deferred.resolve(fieldsToSet);
+    }
+
+    return deferred.promise;
 }
 
     
@@ -114,59 +163,80 @@ function saveRequest(service, params) {
     
     var RequestModel = service.app.db.models.Request;
     
-    
-    var fieldsToSet = { 
-        user: params.user
-    };
-    
-    try {
-        if (undefined !== params.absence) {
-            fieldsToSet.absence = saveAbsence(service, params.absence);
-        } else if (undefined !== params.time_saving_deposit) {
-            fieldsToSet.time_saving_deposit = params.time_saving_deposit;
-        } else if (undefined !== params.workperiod_recover) {
-            fieldsToSet.workperiod_recover = params.workperiod_recover;
-        }
-    } catch(e) {
-        return service.error(e.message);
-    }
-
-    var filter = {
-        _id: params.id,
-        deleted: false
-    };
-
-    filter['user.id'] = params.user;
-
-    
-
-    if (params.id)
+    /**
+     * Update link to absences elements in the linked events
+     *
+     */
+    function saveEmbedEvents(requestDoc)
     {
-        RequestModel.findOneAndUpdate(filter, fieldsToSet, function(err, document) {
-            if (service.handleMongoError(err))
-            {
-                service.resolveSuccess(
-                    document, 
-                    gt.gettext('The request has been modified')
-                );
+        var elem, event;
+
+        if (requestDoc.absence === undefined) {
+            return;
+        }
+
+        for( var i=0; i<requestDoc.absence.distribution.length; i++) {
+            elem = requestDoc.absence.distribution[i];
+            event = elem.populate('event');
+
+            if (event.absenceElem !== elem._id) {
+                event.absenceElem = elem._id;
+                event.save();
             }
-        });
-
-    } else {
-        
-        fieldsToSet.createdBy = params.createdBy;
-
-        RequestModel.create(fieldsToSet, function(err, document) {
-
-            if (service.handleMongoError(err))
-            {
-                service.resolveSuccess(
-                    document, 
-                    gt.gettext('The request has been created')
-                );
-            }
-        });
+        }
     }
+
+    
+    function endWithSuccess(document, message)
+    {
+        saveEmbedEvents(document);
+        service.resolveSuccess(
+            document,
+            message
+        );
+    }
+
+
+    prepareRequestFields().then(function(fieldsToSet) {
+
+        var filter = {
+            _id: params.id,
+            deleted: false
+        };
+
+        filter['user.id'] = params.user;
+
+
+
+        if (params.id)
+        {
+            RequestModel.findOneAndUpdate(filter, fieldsToSet, function(err, document) {
+                if (service.handleMongoError(err))
+                {
+                    endWithSuccess(
+                        document,
+                        gt.gettext('The request has been modified')
+                    );
+                }
+            });
+
+        } else {
+
+            fieldsToSet.createdBy = params.createdBy;
+
+            RequestModel.create(fieldsToSet, function(err, document) {
+
+                if (service.handleMongoError(err))
+                {
+                    endWithSuccess(
+                        document,
+                        gt.gettext('The request has been created')
+                    );
+                }
+            });
+        }
+
+    });
 }
     
     
