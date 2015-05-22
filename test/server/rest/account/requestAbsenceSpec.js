@@ -11,7 +11,7 @@ describe('request absence account rest service', function() {
 
         var helpers = require('../mockServer');
 
-        helpers.mockServer(function(_mockServer) {
+        helpers.mockServer('MockServerDb2', function(_mockServer) {
             server = _mockServer;
             done();
         });
@@ -31,13 +31,13 @@ describe('request absence account rest service', function() {
         });
     });
 
-    /*
+
     it('Create account session', function(done) {
         server.createAccountSession().then(function() {
             done();
         });
     });
-*/
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {

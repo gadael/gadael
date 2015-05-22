@@ -4,14 +4,16 @@
 
 /**
  * The mock server object
- * 
+ * @param {String} dbname
+ * @param {Integer} port
+ * @param {Function} readyCallback
  */
-function mockServer(port, readyCallback) {
+function mockServer(dbname, port, readyCallback) {
 
     var api = require('../../../api/Company.api.js');
     var headless = require('../../../api/Headless.api.js');
 
-    var mockServerDbName = 'MockServerDb'+port;
+    var mockServerDbName = dbname+port;
     
     
     this.dbname = mockServerDbName;
@@ -20,6 +22,7 @@ function mockServer(port, readyCallback) {
     
     var serverInst = this;
     
+    this.requireCloseOn = null;
     this.lastUse = Date.now();
     
 
@@ -220,12 +223,12 @@ mockServer.prototype.delete = function(path, done) {
 mockServer.prototype.closeOnFinish = function(doneExit) {
     
     var server = this;
-    var requireCloseOn = Date.now();
+    server.requireCloseOn = Date.now();
     var closeTimout = 1000; // close server after this timeout in ms if no use in that period
     
     setTimeout(function() {
         
-        if (server.lastUse > requireCloseOn) {
+        if (server.lastUse > server.requireCloseOn) {
             return;
         }
     
@@ -471,13 +474,14 @@ exports = module.exports = {
 
         if (!server[dbname]) {
 
-            var port = 3002 + Object.keys(server).length;
-            server[dbname] = new mockServer(port, ready);
+            var port = (3002 + Object.keys(server).length);
+            server[dbname] = new mockServer(dbname, port, ready);
             
         } else {
+
             ready(server[dbname]);
         }
 
-        return server;
+        return server[dbname];
     }
 };
