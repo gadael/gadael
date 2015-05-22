@@ -451,22 +451,31 @@ mockServer.prototype.createAccountSession = function() {
 
 
 
-var server;
+var server = {};
 
 exports = module.exports = {
     
     /**
      * Function loaded in a beforeEach to ensure the server is started for every test
      * This start only one instance
+     *
+     * @param {String} [dbname]     optionnal database name
+     * @param {function} ready      callback
      */
-    mockServer: function(ready) {
+    mockServer: function(dbname, ready) {
         
-        if (!server) {
-            server = new mockServer(3002, ready);
+        if (ready === undefined && typeof(dbname) === 'function') {
+            ready = dbname;
+            dbname = 'MockServerDb'; // default DB name
+        }
+
+        if (!server[dbname]) {
+
+            var port = 3002 + Object.keys(server).length;
+            server[dbname] = new mockServer(port, ready);
             
         } else {
-
-            ready(server);
+            ready(server[dbname]);
         }
 
         return server;
