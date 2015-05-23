@@ -31,13 +31,13 @@ describe('request absence account rest service', function() {
         });
     });
 
-
+    /*
     it('Create account session', function(done) {
         server.createAccountSession().then(function() {
             done();
         });
     });
-
+    */
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
@@ -47,8 +47,8 @@ describe('request absence account rest service', function() {
     });
 
 
-    it('close the mock server if no more uses', function() {
-        server.closeOnFinish();
+    it('close the mock server if no more uses', function(done) {
+        server.closeOnFinish(done);
     });
 
 

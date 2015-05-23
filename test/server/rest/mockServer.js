@@ -26,7 +26,7 @@ function mockServer(dbname, port, readyCallback) {
     this.lastUse = Date.now();
     
 
-    var createRestService = function() {
+    function createRestService() {
         
         
         var company = { 
@@ -74,7 +74,7 @@ function mockServer(dbname, port, readyCallback) {
             });
         
         });
-    };
+    }
     
 
     headless.connect(function() {
@@ -222,17 +222,20 @@ mockServer.prototype.delete = function(path, done) {
  */
 mockServer.prototype.closeOnFinish = function(doneExit) {
     
+
     var server = this;
+
+
+
     server.requireCloseOn = Date.now();
     var closeTimout = 1000; // close server after this timeout in ms if no use in that period
     
     setTimeout(function() {
-        
         if (server.lastUse > server.requireCloseOn) {
             return;
         }
     
-        server.close();
+        server.close(doneExit);
     
     }, closeTimout);
 };
@@ -248,6 +251,7 @@ mockServer.prototype.close = function(doneExit) {
     var api = require('../../../api/Company.api.js');
     var headless = require('../../../api/Headless.api.js');
     
+
     app.db.close(function() {
         api.dropDb(headless, mockServerDbName, function() {
             headless.disconnect(function() {

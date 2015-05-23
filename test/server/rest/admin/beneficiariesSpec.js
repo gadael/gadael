@@ -263,8 +263,8 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    it('close the mock server if no more uses', function() {
-        server.closeOnFinish();
+    it('close the mock server if no more uses', function(done) {
+        server.closeOnFinish(done);
     });
 
 
