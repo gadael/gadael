@@ -20,6 +20,7 @@ function mockServer(dbname, port, readyCallback) {
     
     this.sessionCookie = null;
     
+    this.isValid = false;
     var serverInst = this;
     
     this.requireCloseOn = null;
@@ -50,6 +51,7 @@ function mockServer(dbname, port, readyCallback) {
             });
             
             var server = api.startServer(app, function() {
+                serverInst.isValid = true;
                 readyCallback(serverInst);
             });
             
@@ -229,14 +231,12 @@ mockServer.prototype.closeOnFinish = function(doneExit) {
     var closeTimout = 1000; // close server after this timeout in ms if no use in that period
     
     setTimeout(function() {
-        if (server.lastUse > server.requireCloseOn) {
+        if (server.lastUse > server.requireCloseOn || !server.isValid) {
             return;
         }
     
-        server.close(function() {
-            //delete serverInst[server.dbname];
-
-        });
+        server.isValid = false;
+        server.close();
     
     }, closeTimout);
 
@@ -460,7 +460,7 @@ mockServer.prototype.createAccountSession = function() {
 
 
 
-var serverInst = {};
+var serverList = {};
 
 
 exports = module.exports = {
@@ -479,16 +479,19 @@ exports = module.exports = {
             dbname = 'MockServerDb'; // default DB name
         }
 
-        if (!serverInst[dbname]) {
+        if (!serverList[dbname]) {
 
-            var port = (3002 + Object.keys(serverInst).length);
-            serverInst[dbname] = new mockServer(dbname, port, ready);
+            var port = (3002 + Object.keys(serverList).length);
+            new mockServer(dbname, port, function(server) {
+                serverList[dbname] = server;
+                ready(server);
+            });
             
         } else {
 
-            ready(serverInst[dbname]);
+            ready(serverList[dbname]);
         }
 
-        return serverInst[dbname];
+        return serverList[dbname];
     }
 };
