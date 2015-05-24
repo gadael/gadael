@@ -11,7 +11,7 @@ describe('calendarevents accout rest service', function() {
 
         var helpers = require('../mockServer');
 
-        helpers.mockServer('MockServerDb', function(_mockServer) {
+        helpers.mockServer( function(_mockServer) {
             server = _mockServer;
             done();
         });

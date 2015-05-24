@@ -11,7 +11,7 @@ describe('request absence account rest service', function() {
 
         var helpers = require('../mockServer');
 
-        helpers.mockServer('MockServerDb2', function(_mockServer) {
+        helpers.mockServer( function(_mockServer) {
             server = _mockServer;
             done();
         });

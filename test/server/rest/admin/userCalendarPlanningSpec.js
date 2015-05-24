@@ -52,10 +52,10 @@ describe('user calendar planning', function() {
         server.get('/rest/admin/calendars', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeGreaterThan(0);
-            expect(body[0].name).toBeDefined();
-            
-            calendar = body[0];
-            
+            if (body[0]) {
+                expect(body[0].name).toBeDefined();
+                calendar = body[0];
+            }
             done();
         });
     });
@@ -81,15 +81,14 @@ describe('user calendar planning', function() {
                 }
             }
         }, function(res, body) {
-            runs(function () {
-                expect(res.statusCode).toEqual(200);
-                
-                expect(body.$outcome).toBeDefined();
-                expect(body.$outcome.success).toBeTruthy();
-                
-                createdUser = body;
-                delete createdUser.$outcome;
-            });
+            expect(res.statusCode).toEqual(200);
+
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            createdUser = body;
+            delete createdUser.$outcome;
+
 
             done();
         });
@@ -99,16 +98,20 @@ describe('user calendar planning', function() {
     it('verify default user account', function(done) {
         
         expect(createdUser._id).toBeDefined();
+
+        if (undefined === createdUser._id) {
+            return done();
+        }
         
         server.get('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
-            runs(function () {
-                expect(res.statusCode).toEqual(200);
-                expect(body._id).toEqual(createdUser._id.toString());
-                expect(body.email).toEqual(createdUser.email);
 
-                expect(body.roles.account).toBeDefined();
-                expect(body.roles.account.currentScheduleCalendar).toEqual(null);
-            });
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toEqual(createdUser._id.toString());
+            expect(body.email).toEqual(createdUser.email);
+
+            expect(body.roles.account).toBeDefined();
+            expect(body.roles.account.currentScheduleCalendar).toEqual(null);
+
             done();
         });
     });
@@ -142,12 +145,14 @@ describe('user calendar planning', function() {
         expect(createdUser._id).toBeDefined();
         
         server.get('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
-            runs(function () {
-                expect(res.statusCode).toEqual(200);
 
+            expect(res.statusCode).toEqual(200);
+
+            if (body.roles) {
                 expect(body.roles.account).toBeDefined();
                 expect(body.roles.account.currentScheduleCalendar).toEqual(null);
-            });
+            }
+
             done();
         });
     });
@@ -180,12 +185,15 @@ describe('user calendar planning', function() {
         expect(createdUser._id).toBeDefined();
         
         server.get('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
-            runs(function () {
-                expect(res.statusCode).toEqual(200);
+
+            expect(res.statusCode).toEqual(200);
+
+            if (body.roles) {
                 expect(body.roles.account).toBeDefined();
                 expect(body.roles.account.currentScheduleCalendar).toBeDefined();
                 expect(body.roles.account.currentScheduleCalendar._id).toEqual(calendar._id);
-            });
+            }
+
             done();
         });
     });
@@ -217,12 +225,12 @@ describe('user calendar planning', function() {
         expect(createdUser._id).toBeDefined();
         
         server.get('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
-            runs(function () {
-                expect(res.statusCode).toEqual(200);
 
-                expect(body.roles.account).toBeDefined();
-                expect(body.roles.account.currentScheduleCalendar).toEqual(null);
-            });
+            expect(res.statusCode).toEqual(200);
+
+            expect(body.roles.account).toBeDefined();
+            expect(body.roles.account.currentScheduleCalendar).toEqual(null);
+
             done();
         });
     });

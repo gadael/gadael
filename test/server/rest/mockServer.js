@@ -80,7 +80,7 @@ function mockServer(dbname, port, readyCallback) {
     headless.connect(function() {
         api.isDbNameValid(headless, mockServerDbName, function(status) {
             if (!status) {
-                console.log('mock REST server: database allready exists');
+                console.log('mock REST server: database '+dbname+' allready exists');
                 api.dropDb(headless, mockServerDbName, createRestService);
                 return;
             }
@@ -225,8 +225,6 @@ mockServer.prototype.closeOnFinish = function(doneExit) {
 
     var server = this;
 
-
-
     server.requireCloseOn = Date.now();
     var closeTimout = 1000; // close server after this timeout in ms if no use in that period
     
@@ -235,9 +233,14 @@ mockServer.prototype.closeOnFinish = function(doneExit) {
             return;
         }
     
-        server.close(doneExit);
+        server.close(function() {
+            //delete serverInst[server.dbname];
+
+        });
     
     }, closeTimout);
+
+    doneExit();
 };
 
 
@@ -457,8 +460,8 @@ mockServer.prototype.createAccountSession = function() {
 
 
 
+var serverInst = {};
 
-var server = {};
 
 exports = module.exports = {
     
@@ -476,16 +479,16 @@ exports = module.exports = {
             dbname = 'MockServerDb'; // default DB name
         }
 
-        if (!server[dbname]) {
+        if (!serverInst[dbname]) {
 
-            var port = (3002 + Object.keys(server).length);
-            server[dbname] = new mockServer(dbname, port, ready);
+            var port = (3002 + Object.keys(serverInst).length);
+            serverInst[dbname] = new mockServer(dbname, port, ready);
             
         } else {
 
-            ready(server[dbname]);
+            ready(serverInst[dbname]);
         }
 
-        return server[dbname];
+        return serverInst[dbname];
     }
 };
