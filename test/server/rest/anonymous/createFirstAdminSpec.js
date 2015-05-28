@@ -11,7 +11,7 @@ describe('Create first admin functionality', function() {
 
         var helpers = require('../mockServer');
 
-        helpers.mockServer(function(_mockServer) {
+        helpers.mockServer('createFirstAdminSpec', function(_mockServer) {
             server = _mockServer;
             done();
         });

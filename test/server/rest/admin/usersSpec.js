@@ -11,7 +11,7 @@ describe('users admin rest service', function() {
         
         var helpers = require('../mockServer');
         
-        helpers.mockServer(function(_mockServer) {
+        helpers.mockServer('usersSpec', function(_mockServer) {
             server = _mockServer;
             done();
         });

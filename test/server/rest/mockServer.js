@@ -228,18 +228,36 @@ mockServer.prototype.closeOnFinish = function(doneExit) {
     var server = this;
 
     server.requireCloseOn = Date.now();
-    var closeTimout = 1000; // close server after this timeout in ms if no use in that period
+    var closeTimout = 4000; // close server after this timeout in ms if no use in that period
+
+
     
-    setTimeout(function() {
-        if (server.lastUse > server.requireCloseOn || !server.isValid) {
+    function closeLoop() {
+
+
+        if (server.lastUse > server.requireCloseOn) {
+
+            if (server.isValid) {
+                console.log('closeLoop '+server.dbname);
+                server.timeoutID = setTimeout(closeLoop, closeTimout);
+                server.requireCloseOn = Date.now();
+            }
             return;
         }
     
+        console.log('close '+server.dbname);
         server.isValid = false;
         server.close();
-    
-    }, closeTimout);
 
+    }
+    
+
+    if (undefined !== server.timeoutID) {
+        clearTimeout(server.timeoutID);
+        console.log('clearTimeout '+server.dbname);
+    }
+
+    server.timeoutID = setTimeout(closeLoop, closeTimout);
     doneExit();
 };
 
