@@ -57,7 +57,8 @@ describe('users admin rest service', function() {
     
     
     it('Create admin session', function(done) {
-        server.createAdminSession().then(function() {
+        server.createAdminSession().then(function(theCreatedAdmin) {
+            expect(theCreatedAdmin.isActive).toBeTruthy();
             done();
         });
     });

@@ -35,14 +35,14 @@ function mockServer(dbname, port, readyCallback) {
             port: port 
         };
         
-        api.createDb(headless, mockServerDbName, company, function() {
+        api.createDb(headless, serverInst.dbname, company, function() {
 
             var config = require('../../../config')();
             var models = require('../../../models');
             
             config.port = company.port;
             config.companyName = company.name;
-            config.mongodb.dbname = mockServerDbName;
+            config.mongodb.dbname = serverInst.dbname;
 
             var app = api.getExpress(config, models);
             
@@ -50,28 +50,28 @@ function mockServer(dbname, port, readyCallback) {
                 value: app
             });
             
-            var server = api.startServer(app, function() {
+            serverInst.server = api.startServer(app, function() {
                 serverInst.isValid = true;
                 readyCallback(serverInst);
             });
             
             
-            var sockets = [];
+            serverInst.sockets = [];
 
-            server.on('connection', function (socket) {
-              sockets.push(socket);
+            serverInst.server.on('connection', function (socket) {
+              serverInst.sockets.push(socket);
               socket.setTimeout(4000);
               socket.once('close', function () {
                 //console.log('socket closed');
-                sockets.splice(sockets.indexOf(socket), 1);
+                serverInst.sockets.splice(serverInst.sockets.indexOf(socket), 1);
               });
             });
 
-            server.on('close', function() {
+            serverInst.server.on('close', function() {
                 //console.log('close event');
-                for (var i = 0; i < sockets.length; i++) {
+                for (var i = 0; i < serverInst.sockets.length; i++) {
                     //console.log('socket #' + i + ' destroyed');
-                    sockets[i].destroy();
+                    serverInst.sockets[i].destroy();
                 }
             });
         
@@ -80,10 +80,10 @@ function mockServer(dbname, port, readyCallback) {
     
 
     headless.connect(function() {
-        api.isDbNameValid(headless, mockServerDbName, function(status) {
+        api.isDbNameValid(headless, serverInst.dbname, function(status) {
             if (!status) {
-                console.log('mock REST server: database '+dbname+' allready exists');
-                api.dropDb(headless, mockServerDbName, createRestService);
+                console.log('mock REST server: database '+serverInst.dbname+' allready exists');
+                api.dropDb(headless, serverInst.dbname, createRestService);
                 return;
             }
             
@@ -124,7 +124,9 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
         // grab session cookie to set in browser
         if (res.headers['set-cookie']) {
             res.headers['set-cookie'].forEach(function(cookieStr) {
+                //console.log('Raw set-cookie '+cookieStr);
                 server.sessionCookie = cookieStr.split(';')[0];
+                //console.log('Set new session cookie '+server.sessionCookie);
             });
         }
         
@@ -254,7 +256,7 @@ mockServer.prototype.closeOnFinish = function(doneExit) {
 
     if (undefined !== server.timeoutID) {
         clearTimeout(server.timeoutID);
-        console.log('clearTimeout '+server.dbname);
+        // console.log('clearTimeout '+server.dbname);
     }
 
     server.timeoutID = setTimeout(closeLoop, closeTimout);
@@ -368,6 +370,7 @@ mockServer.prototype.createAdminSession = function() {
             'password': password
         }, function(res, body) {
             
+
             if (res.statusCode !== 200 || !body.$outcome.success) {
                 deferred.reject(new Error('Error while login with admin account'));
                 return;
