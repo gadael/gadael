@@ -66,7 +66,6 @@ describe('users admin rest service', function() {
     
     
     it('request users list as admin', function(done) {
-        
         server.get('/rest/admin/users', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
