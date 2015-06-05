@@ -1,18 +1,23 @@
 'use strict';
 
 exports = module.exports = function(app, passport) {
+
+  passport.db = app.db;
   var LocalStrategy = require('passport-local').Strategy,
       GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
+
+      var db = passport.db;
+
       var conditions = { 
 		  isActive: true,
 		  email: username
 	  };
 
-      app.db.models.User.findOne(conditions, function(err, user) {
+      db.models.User.findOne(conditions, function(err, user) {
         if (err) {
           return done(err);
         }
@@ -21,7 +26,7 @@ exports = module.exports = function(app, passport) {
           return done(null, false, { message: 'Unknown user' });
         }
 
-        app.db.models.User.validatePassword(password, user.password, function(err, isValid) {
+        db.models.User.validatePassword(password, user.password, function(err, isValid) {
           if (err) {
             return done(err);
           }
@@ -59,13 +64,16 @@ exports = module.exports = function(app, passport) {
   });
 
   passport.deserializeUser(function(id, done) {
-    app.db.models.User.findOne({ _id: id }).populate('roles.admin').populate('roles.account').exec(function(err, user) {
+
+    var db = passport.db;
+    db.models.User.findOne({ _id: id }).populate('roles.admin').populate('roles.account').exec(function(err, user) {
       if (user && user.roles && user.roles.admin) {
         user.roles.admin.populate("groups", function(err, admin) {
           done(err, user);
         });
       }
       else {
+
           if (null === user) {
             console.trace(id+' -> NULL');
           }
