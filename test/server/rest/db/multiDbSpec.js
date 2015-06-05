@@ -13,7 +13,10 @@ describe('connexions on mutiples databases, test process isolation', function() 
                 server.get('/rest/user', {}, function(res, body) {
                     expect(res.statusCode).toEqual(200);
                     expect(body._id).toEqual(theCreatedAdmin.id);
-                    done();
+                    server.get('/rest/logout', {}, function(res) {
+                        expect(res.statusCode).toEqual(200);
+                        done();
+                    });
                 });
             });
         });
@@ -25,7 +28,10 @@ describe('connexions on mutiples databases, test process isolation', function() 
                 server.get('/rest/user', {}, function(res, body) {
                     expect(res.statusCode).toEqual(200);
                     expect(body._id).toEqual(theCreatedAdmin.id);
-                    done();
+                    server.get('/rest/logout', {}, function(res) {
+                        expect(res.statusCode).toEqual(200);
+                        done();
+                    });
                 });
             });
         });

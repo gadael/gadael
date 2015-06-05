@@ -26,7 +26,7 @@ exports.getInfos = function(req, res) {
 	if (req.isAuthenticated())
 	{
 		user = {
-			isAuthenticated: req.isAuthenticated(),
+			isAuthenticated: true,
             isAccount: req.user.canPlayRoleOf('account'),
             isAdmin: req.user.canPlayRoleOf('admin'),
 			lastname: req.user.lastname,

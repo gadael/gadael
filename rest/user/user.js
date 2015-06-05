@@ -11,7 +11,7 @@ function getController() {
 
         var gt = ctrl.req.app.utility.gettext;
 
-        if (!ctrl.req.user) {
+        if (!ctrl.req.isAuthenticated()) {
             return ctrl.accessDenied(gt.gettext('You must be logged in'));
         }
 

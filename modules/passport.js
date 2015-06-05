@@ -66,6 +66,9 @@ exports = module.exports = function(app, passport) {
         });
       }
       else {
+          if (null === user) {
+            console.trace(id+' -> NULL');
+          }
         done(err, user);
       }
     });
