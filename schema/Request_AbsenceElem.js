@@ -7,7 +7,8 @@
 exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var absenceElemSchema = new mongoose.Schema({
-        quantity: { type: Number },
+        quantity: { type: Number },                 // quantity equal du duration of period in the planning
+        consumedQuantity: { type: Number },         // quantity removed from vacation right according to attendance percentage from RightCollection
         event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true },
         
         user: {

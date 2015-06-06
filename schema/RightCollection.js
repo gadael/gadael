@@ -3,7 +3,8 @@
 exports = module.exports = function(params) {
     var collectionSchema = new params.mongoose.Schema({
         name: { type: String, required: true, unique: true  },
-        timeCreated: { type: Date, default: Date.now }
+        timeCreated: { type: Date, default: Date.now },
+        attendance: { type: Number, min: 0, max: 100, default: 100 }
     });
   
     collectionSchema.set('autoIndex', params.autoIndex);
