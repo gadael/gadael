@@ -36,7 +36,11 @@ function saveCollection(service, params) {
         RightCollection.findById(params.id, function (err, document) {
             if (service.handleMongoError(err))
             {
-                document.name 	= params.name;
+                document.name = params.name;
+
+                if (params.attendance !== undefined) {
+                    document.attendance = params.attendance;
+                }
                 
                 document.save(function (err) {
                     if (service.handleMongoError(err)) {
@@ -52,10 +56,15 @@ function saveCollection(service, params) {
 
     } else {
 
-        RightCollection.create({
+        var newObj = {
             name: params.name
-        }, function(err, document) {
+        };
 
+        if (params.attendance !== undefined) {
+            newObj.attendance = params.attendance;
+        }
+
+        RightCollection.create(newObj, function(err, document) {
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
