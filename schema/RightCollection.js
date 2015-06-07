@@ -61,6 +61,29 @@ exports = module.exports = function(params) {
     };
     
     
+    /**
+     * Get the consumed quantity to store in absence request
+     * according to the attendance percentage
+     * @param {Number} periodQuantity
+     * @return {Number}
+     */
+    collectionSchema.methods.getConsumedQuantity = function(periodQuantity)
+    {
+
+        if (100 === this.attendance || undefined === this.attendance) {
+            return periodQuantity;
+        }
+
+        // 50% -> x2
+        // 75% -> x1.333
+        // 25% -> x4
+        // 100% -> x1
+
+        var m = 100*(1/this.attendance);
+
+        return (m*periodQuantity);
+    }
+
     
     /**
      * initialize default collections
