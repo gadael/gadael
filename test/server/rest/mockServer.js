@@ -236,7 +236,6 @@ mockServer.prototype.closeOnFinish = function(doneExit) {
     
     function closeLoop() {
 
-
         if (server.lastUse > server.requireCloseOn) {
 
             if (server.isValid) {
@@ -256,7 +255,6 @@ mockServer.prototype.closeOnFinish = function(doneExit) {
 
     if (undefined !== server.timeoutID) {
         clearTimeout(server.timeoutID);
-        // console.log('clearTimeout '+server.dbname);
     }
 
     server.timeoutID = setTimeout(closeLoop, closeTimout);
@@ -433,6 +431,7 @@ mockServer.prototype.createAccountSession = function() {
                     account.password = hash;
                     account.email = 'mockaccount@example.com';
                     account.lastname = 'mockaccount';
+                    account.firstname = 'test';
                     account.saveAccount(function(err, user) {
 
                         if (err) {

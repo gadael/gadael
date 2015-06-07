@@ -28,8 +28,8 @@ exports = module.exports = function(params) {
 		locked: { type: Boolean, default: false },
 
         halfDayHour: { type: Date, default: defaultHalfDay },
-		
-		userCreated: {
+
+		userCreated: { // admin who create the entry
 			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 			name: { type: String, default: '' }
 		}

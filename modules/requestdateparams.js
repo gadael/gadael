@@ -23,6 +23,10 @@ exports = module.exports = function checkParams(service, params) {
         return false;
     }
     
+    params.dtstart = new Date(params.dtstart);
+    params.dtend = new Date(params.dtend);
+
+
     var diff = Math.abs(params.dtend - params.dtstart);
     
     if (diff <= 0) {

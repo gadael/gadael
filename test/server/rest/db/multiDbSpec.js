@@ -15,7 +15,7 @@ describe('connexions on mutiples databases, test process isolation', function() 
                     expect(body._id).toEqual(theCreatedAdmin.id);
                     server.get('/rest/logout', {}, function(res) {
                         expect(res.statusCode).toEqual(200);
-                        done();
+                        server.close(done);
                     });
                 });
             });
@@ -30,7 +30,7 @@ describe('connexions on mutiples databases, test process isolation', function() 
                     expect(body._id).toEqual(theCreatedAdmin.id);
                     server.get('/rest/logout', {}, function(res) {
                         expect(res.statusCode).toEqual(200);
-                        done();
+                        server.close(done);
                     });
                 });
             });

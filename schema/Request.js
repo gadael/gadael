@@ -5,7 +5,7 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	
   var requestSchema = new mongoose.Schema({
-    user: {
+    user: { // owner
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
       name: { type: String, required: true }
     },

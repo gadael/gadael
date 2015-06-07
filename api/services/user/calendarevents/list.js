@@ -159,9 +159,6 @@ exports = module.exports = function(services, app) {
             return events;
         }
 
-
-        params.dtstart = new Date(params.dtstart);
-        params.dtend = new Date(params.dtend);
         
         var checkParams = require('../../../../modules/requestdateparams');
         

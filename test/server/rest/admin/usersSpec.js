@@ -192,8 +192,8 @@ describe('users admin rest service', function() {
     
     
     
-    it('close the mock server if no more uses', function(done) {
-        server.closeOnFinish(done);
+    it('close the mock server', function(done) {
+        server.close(done);
     });
     
 });

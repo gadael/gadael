@@ -25,7 +25,7 @@ exports = module.exports = function(params) {
 		transp: String,
 		
 		calendar: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
-		user: {
+		user: { // for events linked requests there is no link to calendar but a link to user, owner of event
 			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 			name: { type: String, default: '' }
 		},
@@ -87,7 +87,6 @@ exports = module.exports = function(params) {
 			var event = document.toObject();
 			event.dtstart = list[i];
 			event.dtend = new Date(list[i].getTime() + duration);
-			
 			result.push(event);
 		}
         

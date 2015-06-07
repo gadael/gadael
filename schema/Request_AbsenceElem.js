@@ -11,12 +11,12 @@ exports = module.exports = function(params) {
         consumedQuantity: { type: Number },         // quantity removed from vacation right according to attendance percentage from RightCollection
         event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent', required: true },
         
-        user: {
+        user: {                                     // absence owner
           id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
           name: { type: String, required: true }
         },
         
-        right: {
+        right: {                                    // right parameters used on absence creation
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
             name: { type: String, required: true },
             quantity_unit: { type: String, enum:['D', 'H'], required: true },

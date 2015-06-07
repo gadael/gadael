@@ -31,13 +31,26 @@ describe('request absence account rest service', function() {
         });
     });
 
-    /*
+
     it('Create account session', function(done) {
         server.createAccountSession().then(function() {
             done();
         });
     });
-    */
+
+
+
+    it('request list of current requests as account', function(done) {
+        server.get('/rest/account/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(0);
+            done();
+        });
+    });
+
+
+    // TODO request absence
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
