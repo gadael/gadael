@@ -16,7 +16,7 @@ exports = module.exports = function(params) {
      * Get the list of rights in collection
      * @return {Promise} resolve to an array
      */
-    collectionSchema.methods.getRights = function() {
+    collectionSchema.methods.getRights = function getRights() {
         
         return this.model('Beneficiary').find()
             .where('ref').is('RightCollection')
@@ -30,7 +30,7 @@ exports = module.exports = function(params) {
      * @param {Date}    moment  Optional date for collection association to users
      * @return {Promise} resolve to an array of users
      */
-    collectionSchema.methods.getUsers = function(moment) {
+    collectionSchema.methods.getUsers = function getUsers(moment) {
         
         var deferred = require('q').defer();
         
@@ -67,7 +67,7 @@ exports = module.exports = function(params) {
      * @param {Number} periodQuantity
      * @return {Number}
      */
-    collectionSchema.methods.getConsumedQuantity = function(periodQuantity)
+    collectionSchema.methods.getConsumedQuantity = function getConsumedQuantity(periodQuantity)
     {
 
         if (100 === this.attendance || undefined === this.attendance) {
@@ -82,7 +82,7 @@ exports = module.exports = function(params) {
         var m = 100*(1/this.attendance);
 
         return (m*periodQuantity);
-    }
+    };
 
     
     /**
