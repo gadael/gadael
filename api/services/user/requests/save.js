@@ -31,8 +31,8 @@ function validate(service, params)
 function saveEvent(service, user, elem)
 {
     var Q = require('q');
-    var deferred = Q.deferr();
-    var EventModel = service.app.db.models.Event;
+    var deferred = Q.defer();
+    var EventModel = service.app.db.models.CalendarEvent;
 
 
 
@@ -65,7 +65,11 @@ function saveEvent(service, user, elem)
 
     if (elem.event) {
         EventModel.findById(elem.event, function(err, event) {
-            setProperties(event);
+            if (event) {
+                setProperties(event);
+            } else {
+                setProperties(new EventModel());
+            }
         });
 
         return deferred.promise;
@@ -118,7 +122,7 @@ function saveAbsence(service, params) {
 function prepareRequestFields(service, params)
 {
     var Q = require('q');
-    var deferred = Q.deferr();
+    var deferred = Q.defer();
     var fieldsToSet = {
         user: params.user
     };
@@ -197,7 +201,7 @@ function saveRequest(service, params) {
     }
 
 
-    prepareRequestFields().then(function(fieldsToSet) {
+    prepareRequestFields(service, params).then(function(fieldsToSet) {
 
         var filter = {
             _id: params.id,

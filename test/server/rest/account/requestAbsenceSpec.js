@@ -4,7 +4,7 @@
 describe('request absence account rest service', function() {
 
 
-    var server;
+    var server, right1, right2;
 
 
     beforeEach(function(done) {
@@ -32,6 +32,45 @@ describe('request absence account rest service', function() {
     });
 
 
+    it('Create admin session needed for prerequisits', function(done) {
+        server.createAdminSession().then(function() {
+            done();
+        });
+    });
+
+    it('create Right 1', function(done) {
+        server.post('/rest/admin/rights', {
+            name: 'Right 1',
+            quantity: 25,
+            quantity_unit: 'D'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            right1 = body;
+            done();
+        });
+    });
+
+    it('create Right 2', function(done) {
+        server.post('/rest/admin/rights', {
+            name: 'Right 2',
+            quantity: 25,
+            quantity_unit: 'D'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            right2 = body;
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
     it('Create account session', function(done) {
         server.createAccountSession().then(function() {
             done();
@@ -49,7 +88,32 @@ describe('request absence account rest service', function() {
     });
 
 
-    // TODO request absence
+
+    it('Create absence', function(done) {
+
+        var distribution = [
+            {
+                right: right1._id,
+                quantity: 1,
+                event: {
+                    dtstart: new Date(2015,1,1, 8).toJSON(),
+                    dtend: new Date(2015,1,1, 18).toJSON()
+                }
+            },
+            {
+                right: right2._id,
+                quantity: 1,
+                event: {
+                    dtstart: new Date(2015,1,1, 8).toJSON(),
+                    dtend: new Date(2015,1,1, 18).toJSON()
+                }
+            }
+        ];
+
+        server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+        });
+    });
 
 
     it('logout', function(done) {
