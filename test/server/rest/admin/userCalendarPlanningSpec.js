@@ -11,7 +11,7 @@ describe('user calendar planning', function() {
         
         var helpers = require('../mockServer');
         
-        helpers.mockServer(function(_mockServer) {
+        helpers.mockServer('adminUserCalendarPlanning', function(_mockServer) {
             server = _mockServer;
             done();
         });
@@ -258,8 +258,8 @@ describe('user calendar planning', function() {
     
     
     
-    it('close the mock server if no more uses', function(done) {
-        server.closeOnFinish(done);
+    it('close the mock server', function(done) {
+        server.close(done);
     });
     
 });

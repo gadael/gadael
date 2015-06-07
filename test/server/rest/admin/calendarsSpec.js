@@ -13,7 +13,7 @@ describe('calendars admin rest service', function() {
         
         var helpers = require('../mockServer');
         
-        helpers.mockServer(function(_mockServer) {
+        helpers.mockServer('adminCalendars', function(_mockServer) {
             server = _mockServer;
             done();
         });
@@ -119,8 +119,8 @@ describe('calendars admin rest service', function() {
     });
     
    
-    it('close the mock server if no more uses', function(done) {
-        server.closeOnFinish(done);
+    it('close the mock server', function(done) {
+        server.close(done);
     });
 
     

@@ -11,7 +11,7 @@ describe('calendarevents accout rest service', function() {
 
         var helpers = require('../mockServer');
 
-        helpers.mockServer( function(_mockServer) {
+        helpers.mockServer('accountCalendarEvents', function(_mockServer) {
             server = _mockServer;
             done();
         });
@@ -79,8 +79,8 @@ describe('calendarevents accout rest service', function() {
     });
 
 
-    it('close the mock server if no more uses', function(done) {
-        server.closeOnFinish(done);
+    it('close the mock server', function(done) {
+        server.close(done);
     });
 
 
