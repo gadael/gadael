@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "test": "grunt travis"
+    "test": "npm rebuild && grunt travis"
   },
   "dependencies": {
     "async": "^0.8.0",
