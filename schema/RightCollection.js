@@ -97,9 +97,9 @@ exports = module.exports = function(params) {
         var gt = new Gettext();
 		
 		async.each([
-            { name: gt.gettext('General regime 100%') },
-            { name: gt.gettext('Part-time 80%') },
-            { name: gt.gettext('Part-time 50%') }
+            { name: gt.gettext('General regime 100%'), attendance: 100 },
+            { name: gt.gettext('Part-time 80%'), attendance: 80 },
+            { name: gt.gettext('Part-time 50%'), attendance: 50 }
         ], function( type, callback) {
             
           model.create(type, function(err) {
