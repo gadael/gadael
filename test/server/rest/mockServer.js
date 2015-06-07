@@ -219,48 +219,6 @@ mockServer.prototype.delete = function(path, done) {
 
 
 
-/**
- * close all connexions to database and stop http server
- * Do not stop the server if needed by another test
- * stop the server ony if no use after lastuse + timeout
- */
-mockServer.prototype.closeOnFinish = function(doneExit) {
-    
-
-    var server = this;
-
-    server.requireCloseOn = Date.now();
-    var closeTimout = 4000; // close server after this timeout in ms if no use in that period
-
-
-    
-    function closeLoop() {
-
-        if (server.lastUse > server.requireCloseOn) {
-
-            if (server.isValid) {
-                console.log('closeLoop '+server.dbname);
-                server.timeoutID = setTimeout(closeLoop, closeTimout);
-                server.requireCloseOn = Date.now();
-            }
-            return;
-        }
-    
-        console.log('close '+server.dbname);
-        server.isValid = false;
-        server.close();
-
-    }
-    
-
-    if (undefined !== server.timeoutID) {
-        clearTimeout(server.timeoutID);
-    }
-
-    server.timeoutID = setTimeout(closeLoop, closeTimout);
-    doneExit();
-};
-
 
 /**
  * close all connexions to database and stop http server
