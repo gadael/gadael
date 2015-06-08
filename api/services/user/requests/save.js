@@ -52,6 +52,14 @@ function saveEvent(service, user, elem, event)
      */
     function setProperties(eventDocument)
     {
+        if (event.uid === undefined) {
+            'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+                event.uid = v.toString(16);
+            });
+        }
+
+        eventDocument.uid = event.uid;
         eventDocument.dtstart = event.dtstart;
         eventDocument.dtstart = event.dtend;
         eventDocument.user = {
@@ -103,12 +111,19 @@ function saveElement(service, user, elem)
 
     function setProperties(element)
     {
+
+
         element.quantity = elem.quantity;
         // consumed quantity will be updated via model hook
         element.right = elem.right;
         element.user = {
             id: user,
-            name: ''
+            name: '?'
+        };
+
+        element.createdBy = {
+            id: user, //TODO
+            name: '?'
         };
 
         saveEvent(service, user, element, elem.event).then(function() {
