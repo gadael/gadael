@@ -22,13 +22,13 @@ function validate(service, params)
  * This function will create or update an event
  *
  * @param {apiService} service
- * @param {String} user     The user ID
- * @param {Object} elem     an object to create or update a Request_AbsenceElem document
- *                          the object can contain an "event" property with the event id to update the existing document
+ * @param {String} user         The user ID
+ * @param {AbsenceElem} elem
+ * @param {object}     event
  *
- * @return {Promise}        Promise the element with the event id to save in distribution
+ * @return {Promise}        Promise the AbsenceElem document, modified with the event ID
  */
-function saveEvent(service, user, elem)
+function saveEvent(service, user, elem, event)
 {
     var Q = require('q');
     var deferred = Q.defer();
@@ -50,23 +50,23 @@ function saveEvent(service, user, elem)
     /**
      * Set event properties and save
      */
-    function setProperties(event)
+    function setProperties(eventDocument)
     {
-        event.dtstart = elem.event.dtstart;
-        event.dtstart = elem.event.dtend;
-        event.user = {
+        eventDocument.dtstart = event.dtstart;
+        eventDocument.dtstart = event.dtend;
+        eventDocument.user = {
             id: user,
             name: ''
         };
-        event.save(fwdPromise);
+        eventDocument.save(fwdPromise);
     }
 
 
 
     if (elem.event) {
-        EventModel.findById(elem.event, function(err, event) {
-            if (event) {
-                setProperties(event);
+        EventModel.findById(elem.event, function(err, existingEvent) {
+            if (existingEvent) {
+                setProperties(existingEvent);
             } else {
                 setProperties(new EventModel());
             }
@@ -78,11 +78,61 @@ function saveEvent(service, user, elem)
 
     // create new document
 
-    var event = new EventModel();
-    setProperties(event);
+    var newEventDocument = new EventModel();
+    setProperties(newEventDocument);
 
     return deferred.promise;
 }
+
+
+/**
+ * This function will create or update an absence element
+ *
+ * @param {apiService}                  service
+ * @param {String} user                 The user ID
+ * @param {object} elem                 document
+ *
+ *
+ * @return {Promise}        Promise the AbsenceElem document
+ */
+function saveElement(service, user, elem)
+{
+    var Q = require('q');
+    var deferred = Q.defer();
+    var ElementModel = service.app.db.models.AbsenceElem;
+
+    function setProperties(element)
+    {
+        element.quantity = elem.quantity;
+        // consumed quantity will be updated via model hook
+        element.right = elem.right;
+        element.user = {
+            id: user,
+            name: ''
+        };
+
+        saveEvent(service, user, element, elem.event).then(function() {
+            deferred.resolve(element.save);
+        });
+    }
+
+
+    if (elem._id) {
+        // updated existing element
+        ElementModel.findById(elem._id, function(err, existingElement) {
+            if (elem) {
+                setProperties(existingElement);
+            } else {
+                setProperties(new ElementModel());
+            }
+        });
+        return;
+    }
+
+    // create new element
+    setProperties(new ElementModel());
+}
+
 
 
 
@@ -107,7 +157,7 @@ function saveAbsence(service, params) {
 
     for(var i=0; i<params.distribution.length; i++) {
         elem = params.distribution[i];
-        savedEventPromises.push(saveEvent(service, params.user, elem));
+        savedEventPromises.push(saveElement(service, params.user, elem));
     }
 
     return Q.all(savedEventPromises);
