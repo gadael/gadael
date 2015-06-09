@@ -52,11 +52,6 @@ function saveEvent(service, user, elem, event)
      */
     function setProperties(eventDocument)
     {
-        if (event.uid === undefined) {
-            event.uid = Math.random(); //TODO: better UID
-        }
-
-        eventDocument.uid = event.uid;
         eventDocument.dtstart = event.dtstart;
         eventDocument.dtstart = event.dtend;
         eventDocument.user = {

@@ -4,7 +4,7 @@
 describe('request absence account rest service', function() {
 
 
-    var server, right1, right2;
+    var server, right1, right2, request1;
 
 
     beforeEach(function(done) {
@@ -112,6 +112,18 @@ describe('request absence account rest service', function() {
 
         server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.absence.distribution.length).toEqual(2);
+            request1 = body;
+            done();
+        });
+    });
+
+
+    it('request list of current requests as account', function(done) {
+        server.get('/rest/account/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
             done();
         });
     });

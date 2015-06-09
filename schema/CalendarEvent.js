@@ -16,7 +16,7 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	
 	var eventSchema = new mongoose.Schema({
-		uid: { type: String, required: true },
+		uid: { type: String },
 		dtstart: { type: Date, required: true },
 		dtend: { type: Date }, // , required: true
 		summary: String,
@@ -42,11 +42,24 @@ exports = module.exports = function(params) {
 	 * Get duration in miliseconds
 	 * @return int
 	 */ 
-	eventSchema.methods.duration = function() {
+	eventSchema.methods.getDuration = function() {
 		var start = this.dtstart.getTime();
 		var end = this.dtend.getTime();
 		
 		return (end - start);
+	};
+
+
+    /**
+	 * Get event UID
+	 * @return string
+	 */
+	eventSchema.methods.getUid = function() {
+		if (this.uid !== undefined) {
+            return this.uid;
+        }
+
+        return this._id;
 	};
 	
 	
@@ -73,7 +86,7 @@ exports = module.exports = function(params) {
 			return [document.toObject()];
 		}
 		
-		var duration = document.duration();
+		var duration = document.getDuration();
 		
 		var options = rrule.parseString(document.rrule);
 		options.dtstart = document.dtstart;
