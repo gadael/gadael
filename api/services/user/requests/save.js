@@ -53,10 +53,7 @@ function saveEvent(service, user, elem, event)
     function setProperties(eventDocument)
     {
         if (event.uid === undefined) {
-            'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
-                event.uid = v.toString(16);
-            });
+            event.uid = Math.random(); //TODO: better UID
         }
 
         eventDocument.uid = event.uid;
@@ -64,8 +61,9 @@ function saveEvent(service, user, elem, event)
         eventDocument.dtstart = event.dtend;
         eventDocument.user = {
             id: user,
-            name: ''
+            name: '?'
         };
+
         eventDocument.save(fwdPromise);
     }
 
@@ -111,8 +109,6 @@ function saveElement(service, user, elem)
 
     function setProperties(element)
     {
-
-
         element.quantity = elem.quantity;
         // consumed quantity will be updated via model hook
         element.right = elem.right;
@@ -121,13 +117,11 @@ function saveElement(service, user, elem)
             name: '?'
         };
 
-        element.createdBy = {
-            id: user, //TODO
-            name: '?'
-        };
+        saveEvent(service, user, element, elem.event).then(function(savedEvent) {
+            element.save().then(function(savedDoc) {
+                deferred.resolve(savedDoc);
+            }, deferred.reject);
 
-        saveEvent(service, user, element, elem.event).then(function() {
-            deferred.resolve(element.save);
         });
     }
 
@@ -141,11 +135,12 @@ function saveElement(service, user, elem)
                 setProperties(new ElementModel());
             }
         });
-        return;
+        return deferred.promise;
     }
 
     // create new element
     setProperties(new ElementModel());
+    return deferred.promise;
 }
 
 
@@ -153,10 +148,11 @@ function saveElement(service, user, elem)
 
 /**
  * @param {apiService} service
+ * @param {String} user             absence owner object ID
  * @param {Object} params
  * @return {Promise} promised distribution array
  */
-function saveAbsence(service, params) {
+function saveAbsence(service, user, params) {
 
     var Q = require('q');
 
@@ -172,7 +168,7 @@ function saveAbsence(service, params) {
 
     for(var i=0; i<params.distribution.length; i++) {
         elem = params.distribution[i];
-        savedEventPromises.push(saveElement(service, params.user, elem));
+        savedEventPromises.push(saveElement(service, user, elem));
     }
 
     return Q.all(savedEventPromises);
@@ -189,12 +185,15 @@ function prepareRequestFields(service, params)
     var Q = require('q');
     var deferred = Q.defer();
     var fieldsToSet = {
-        user: params.user
+        user: {
+            id: params.user,
+            name: '?'
+        }
     };
 
 
     if (undefined !== params.absence) {
-        var promisedDistribution = saveAbsence(service, params.absence);
+        var promisedDistribution = saveAbsence(service, params.user, params.absence);
         promisedDistribution.then(function(distribution) {
             fieldsToSet.absence = {
                 distribution: distribution
@@ -234,7 +233,7 @@ function saveRequest(service, params) {
     
     /**
      * Update link to absences elements in the linked events
-     *
+     * @param {Request} requestDoc
      */
     function saveEmbedEvents(requestDoc)
     {
@@ -244,7 +243,10 @@ function saveRequest(service, params) {
             return;
         }
 
+        requestDoc.absence.populate('distribution');
+
         for( var i=0; i<requestDoc.absence.distribution.length; i++) {
+
             elem = requestDoc.absence.distribution[i];
             event = elem.populate('event');
 
@@ -255,10 +257,16 @@ function saveRequest(service, params) {
         }
     }
 
-    
+    /**
+     * The request document has been saved
+     * @param {Request} document
+     */
     function endWithSuccess(document, message)
     {
         saveEmbedEvents(document);
+
+        // Do not wait for event update?
+
         service.resolveSuccess(
             document,
             message
@@ -275,8 +283,6 @@ function saveRequest(service, params) {
 
         filter['user.id'] = params.user;
 
-
-
         if (params.id)
         {
             RequestModel.findOneAndUpdate(filter, fieldsToSet, function(err, document) {
@@ -291,7 +297,10 @@ function saveRequest(service, params) {
 
         } else {
 
-            fieldsToSet.createdBy = params.createdBy;
+            fieldsToSet.createdBy = {
+                id: params.user, //TODO this is the request owner, replace by the createdBy user
+                name: '?'
+            };
 
             RequestModel.create(fieldsToSet, function(err, document) {
 
