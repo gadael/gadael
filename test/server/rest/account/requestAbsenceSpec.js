@@ -112,6 +112,7 @@ describe('request absence account rest service', function() {
 
         server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            done();
         });
     });
 
