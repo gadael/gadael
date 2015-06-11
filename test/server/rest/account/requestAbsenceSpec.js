@@ -137,6 +137,49 @@ describe('request absence account rest service', function() {
     });
 
 
+    it('update request distribution', function(done) {
+
+        var distribution = [
+            {
+                right: right1._id,
+                quantity: 5,
+                event: {
+                    dtstart: new Date(2015,1,1, 8).toJSON(),
+                    dtend: new Date(2015,1,5, 18).toJSON()
+                }
+            }
+        ];
+
+        server.put('/rest/account/requests/'+request1._id, { absence: { distribution: distribution } }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.absence.distribution.length).toEqual(1);
+            done();
+        });
+    });
+
+
+    it('forbid creation of out of bounds request', function(done) {
+
+        var distribution = [
+            {
+                right: right1._id,
+                quantity: 22, // there should be only 20 days left
+                event: {
+                    dtstart: new Date(2015,1,1, 8).toJSON(),
+                    dtend: new Date(2015,1,22, 18).toJSON()
+                }
+            }
+        ];
+
+        server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
+            expect(res.statusCode).toEqual(500);
+            expect(body.$outcome).toBeDefined();
+            done();
+        });
+    });
+
+
     it('delete a request', function(done) {
         server.delete('/rest/account/requests/'+request1._id, function(res, body) {
             expect(res.statusCode).toEqual(200);

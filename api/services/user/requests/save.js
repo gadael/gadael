@@ -278,11 +278,15 @@ function saveRequest(service, params) {
 
         filter['user.id'] = params.user;
 
+
+
         if (params.id)
         {
+
             RequestModel.findOneAndUpdate(filter, fieldsToSet, function(err, document) {
                 if (service.handleMongoError(err))
                 {
+
                     endWithSuccess(
                         document,
                         gt.gettext('The request has been modified')
