@@ -26,7 +26,7 @@ exports = module.exports = function(services, app) {
         }
         
         
-        service.app.db.models.Request.find(filter, function (err, document) {
+        service.app.db.models.Request.findOne(filter, function(err, document) {
             if (service.handleMongoError(err)) {
                 
                 document.deleted = true;

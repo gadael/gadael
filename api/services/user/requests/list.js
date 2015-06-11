@@ -18,8 +18,12 @@
  */
 var query = function(service, params) {
 
+    if (params.deleted === undefined) {
+        params.deleted = false;
+    }
+
     var find = service.app.db.models.Request.find();
-    find.where({ deleted: false });
+    find.where({ deleted: params.deleted });
 
     if (params.user)
     {

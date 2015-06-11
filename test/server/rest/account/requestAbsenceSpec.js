@@ -8,7 +8,6 @@ describe('request absence account rest service', function() {
 
 
     beforeEach(function(done) {
-
         var helpers = require('../mockServer');
 
         helpers.mockServer('accountRequestAbsence', function(_mockServer) {
@@ -122,6 +121,41 @@ describe('request absence account rest service', function() {
 
     it('request list of current requests as account', function(done) {
         server.get('/rest/account/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            done();
+        });
+    });
+
+    it('get one request', function(done) {
+        server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.absence.distribution).toBeDefined();
+            expect(body._id).toEqual(request1._id);
+            done();
+        });
+    });
+
+
+    it('delete a request', function(done) {
+        server.delete('/rest/account/requests/'+request1._id, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('request list of current requests as account', function(done) {
+        server.get('/rest/account/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(0);
+            done();
+        });
+    });
+
+
+    it('request list of current deleted requests as account', function(done) {
+        server.get('/rest/account/requests', { deleted:1 }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             done();
