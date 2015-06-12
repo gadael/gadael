@@ -60,18 +60,21 @@ exports = module.exports = function(params) {
             .where('right').equals(this._id);
     };
     
+
     /**
-     * Get current renewal by date interval or null if no renewal
+     * Get renewal by date interval or null if no renewal
+     * @param {Date} dtstart
+     * @param {Date} dtend
      * @returns {Promise} q
      */
-    rightSchema.methods.getCurrentRenewal = function() {
+    rightSchema.methods.getPeriodRenewal = function(dtstart, dtend) {
         
         var Q = require('q');
         var deferred = Q.defer();
         
         this.getRenewalsQuery()
-            .where('start').lte(Date.now())
-            .where('finish').gte(Date.now())
+            .where('start').lte(dtstart)
+            .where('finish').gte(dtend)
             .exec(function(err, arr) {
             
                 if (err) {
@@ -90,6 +93,16 @@ exports = module.exports = function(params) {
         return deferred.promise;
     };
     
+
+
+    /**
+     * Get current renewal or null if no renewal
+     * @returns {Promise} q
+     */
+    rightSchema.methods.getCurrentRenewal = function() {
+        return this.getPeriodRenewal(new Date(), new Date());
+    };
+
 
     /**
      * Get last renewal

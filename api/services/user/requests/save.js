@@ -101,34 +101,65 @@ function saveElement(service, user, elem)
     var Q = require('q');
     var deferred = Q.defer();
     var ElementModel = service.app.db.models.AbsenceElem;
+    var RightModel = service.app.db.models.Right;
 
     function setProperties(element)
     {
         element.quantity = elem.quantity;
         // consumed quantity will be updated via model hook
-        element.right = elem.right;
-        element.user = {
-            id: user,
-            name: '?'
-        };
 
-        element.getAccountRight().then(function(accountRight) {
+        RightModel.findOne({ _id: elem.right })
+        .populate('type')
+        .exec(function(err, rightDocument) {
 
-            accountRight.getAvailableQuantity().then(function(available) {
-                if (available < element.quantity) {
-                    return deferred.reject('Quantity not available');
+            // get renewal to save in element
+            rightDocument.getPeriodRenewal(elem.event.dtstart, elem.event.dtend).then(function(renewal) {
+
+                if (null === renewal) {
+                    return deferred.reject('No available renewal for the element');
                 }
 
-                saveEvent(service, user, element, elem.event).then(function(savedEvent) {
-                    element.save().then(function(savedDoc) {
-                        deferred.resolve(savedDoc);
-                    }, deferred.reject);
+                element.right = {
+                    id: elem.right,
+                    name: rightDocument.name,
+                    quantity_unit: rightDocument.quantity_unit,
+                    type: {
+                        id: rightDocument.type._id,
+                        name: rightDocument.type.name,
+                        color: rightDocument.type.color
+                    },
+                    renewal: {
+                        id: renewal._id,
+                        start: renewal.start,
+                        finish: renewal.finish
+                    }
+                };
 
-                });
+                element.user = {
+                    id: user,
+                    name: '?'
+                };
+
+                console.log('right ID '+element.right);
+
+                element.getAccountRight().then(function(accountRight) {
+
+                    accountRight.getAvailableQuantity().then(function(available) {
+                        if (available < element.quantity) {
+                            return deferred.reject('Quantity not available');
+                        }
+
+                        saveEvent(service, user, element, elem.event).then(function(savedEvent) {
+                            element.save().then(function(savedDoc) {
+                                deferred.resolve(savedDoc);
+                            }, deferred.reject);
+
+                        });
+                    });
+                }).catch(deferred.reject);
+
             });
-        }).catch(deferred.reject);
-
-
+        });
     }
 
 
@@ -294,10 +325,10 @@ function saveRequest(service, params) {
         if (params.id)
         {
 
+
             RequestModel.findOneAndUpdate(filter, fieldsToSet, function(err, document) {
                 if (service.handleMongoError(err))
                 {
-
                     endWithSuccess(
                         document,
                         gt.gettext('The request has been modified')
