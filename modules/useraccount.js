@@ -40,4 +40,4 @@ exports = module.exports = function userAccount(userDoc)
     }
     
     return deferred.promise;
-}
+};

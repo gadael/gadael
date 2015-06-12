@@ -303,5 +303,17 @@ exports = module.exports = function(params) {
         return deferred.promise;
     };
     
+
+    /**
+     * Get the accountRight object
+     * @return {accountRight}
+     */
+    accountSchema.methods.getAccountRight = function(beneficiary) {
+        var accountRight = require('../modules/accountright');
+
+        return new accountRight(this, beneficiary);
+    };
+
+
     params.db.model('Account', accountSchema);
 };

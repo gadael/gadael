@@ -48,6 +48,22 @@ var removeOrUpdate = function(userDocument, checkedRole, model, updateCallback, 
 
 
 
+
+function updateRole(role, roleProperties)
+{
+
+    for(var pname in roleProperties) {
+        if (roleProperties.hasOwnProperty(pname)) {
+            role[pname] = roleProperties[pname];
+        }
+    }
+
+    return role;
+}
+
+
+
+
 /**
  * Get async task for account role
  * 
@@ -65,11 +81,7 @@ var asyncAccountTask = function(models, userDocument, roleProperties) {
 
         removeOrUpdate(userDocument, checkedRole, models.Account, function(role) {
             
-            for(var pname in roleProperties) {
-                role[pname] = roleProperties[pname];
-            }
-
-            role.save(
+            updateRole(role, roleProperties).save(
                 function(err) {
                     if (err) {
                         asyncTaskEnd(err);
@@ -110,11 +122,7 @@ var asyncAdminTask = function(models, userDocument, roleProperties) {
     
         removeOrUpdate(userDocument, checkedRole, models.Admin, function(role) {
             
-            for(var pname in roleProperties) {
-                role[pname] = roleProperties[pname];
-            }
-
-            role.save(
+            updateRole(role, roleProperties).save(
                 function(err) {
                     if (err) {
                         asyncTaskEnd(err);
@@ -154,12 +162,8 @@ var asyncManagerTask = function(models, userDocument, roleProperties) {
     return function(asyncTaskEnd) {
     
         removeOrUpdate(userDocument, checkedRole, models.Manager, function(role) {
-            
-            for(var pname in roleProperties) {
-                role[pname] = roleProperties[pname];
-            }
 
-            role.save(
+            updateRole(role, roleProperties).save(
                 function(err) {
                     if (err) {
                         asyncTaskEnd(err);

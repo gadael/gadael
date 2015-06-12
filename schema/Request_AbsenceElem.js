@@ -51,4 +51,5 @@ exports = module.exports = function(params) {
 			.sort('event.dtstart')
 			.exec(callback);
 	};
+
 };
