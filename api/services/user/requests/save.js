@@ -112,12 +112,23 @@ function saveElement(service, user, elem)
             name: '?'
         };
 
-        saveEvent(service, user, element, elem.event).then(function(savedEvent) {
-            element.save().then(function(savedDoc) {
-                deferred.resolve(savedDoc);
-            }, deferred.reject);
+        element.getAccountRight().then(function(accountRight) {
 
-        });
+            accountRight.getAvailableQuantity().then(function(available) {
+                if (available < element.quantity) {
+                    return deferred.reject('Quantity not available');
+                }
+
+                saveEvent(service, user, element, elem.event).then(function(savedEvent) {
+                    element.save().then(function(savedDoc) {
+                        deferred.resolve(savedDoc);
+                    }, deferred.reject);
+
+                });
+            });
+        }).catch(deferred.reject);
+
+
     }
 
 

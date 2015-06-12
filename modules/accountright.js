@@ -1,32 +1,48 @@
 /**
  * @param {Account} account mongoose document
- * @param {Beneficiary} beneficiary the vacation right attribution with right populated
+ * @param {RightRenewal} renewal the vacation right attribution with right populated
  *
  */
-function accountRight(account, beneficiary)
+function accountRight(account, renewal)
 {
     'use strict';
 
+
     this.account = account;
-    this.beneficiary = beneficiary;
-    this.right = beneficiary.right;
+    this.right = renewal.right;
+    this.renewal = renewal;
 
     var self = this;
 
     var Q = require('q');
 
     /**
-     * Sum of quantities from waiting requests
+     * Sum of consumed quantities from waiting requests
      * @return {Promise}    Number
      */
     this.prototype.getWaitingQuantity = function()
     {
         var deferred = Q.defer();
+        var AbsenceElemModel = self.renewal.model('AbsenceElem');
+
+        AbsenceElemModel
+            .find({ 'right.renewal': self.renewal._id, 'user.id': self.account.user.id })
+            .exec(function(err, elements) {
+
+            var consumed = 0;
+
+            for(var i=0; i<elements.length; i++) {
+                consumed += elements[i].consumedQuantity;
+            }
+
+            deferred.resolve(consumed);
+        });
+
         return deferred.promise;
     };
 
      /**
-     * Sum of quantities from confirmed requests
+     * Sum of consumed quantities from confirmed requests
      * @return {Promise}    Number
      */
     this.prototype.getConfirmedQuantity = function()

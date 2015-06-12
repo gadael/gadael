@@ -32,11 +32,7 @@ exports = module.exports = function(params) {
             }
 		}
 	});
-  
-	absenceElemSchema.set('autoIndex', params.autoIndex);
-  
-	params.db.model('AbsenceElem', absenceElemSchema);
-  
+
 
 	/**
 	 * Find next absence element in same request or null if this element is the last
@@ -51,5 +47,42 @@ exports = module.exports = function(params) {
 			.sort('event.dtstart')
 			.exec(callback);
 	};
+
+
+    /**
+     * @return {Promise}
+     */
+    absenceElemSchema.methods.getAccountRight = function()
+    {
+        var Q = require('q');
+        var deferred = Q.defer();
+        var renewal = this.right.renewal;
+        var userModel = this.model('User');
+
+        if (!renewal) {
+            throw new Error('Missing renewal on absence element');
+        }
+
+        userModel
+            .findOne({ _id: this.user.id })
+            .populate('roles.account')
+            .exec(function(err, user) {
+
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            deferred.resolve(user.roles.account.getAccountRight(renewal));
+        });
+
+        return deferred.promise;
+    };
+
+
+
+	absenceElemSchema.set('autoIndex', params.autoIndex);
+
+	params.db.model('AbsenceElem', absenceElemSchema);
+
 
 };

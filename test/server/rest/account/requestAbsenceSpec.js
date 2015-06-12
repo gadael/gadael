@@ -132,6 +132,7 @@ describe('request absence account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.absence.distribution).toBeDefined();
             expect(body._id).toEqual(request1._id);
+            expect(body.absence.distribution[0].consumedQuantity).toEqual(1);
             done();
         });
     });

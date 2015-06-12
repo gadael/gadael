@@ -304,14 +304,16 @@ exports = module.exports = function(params) {
     };
     
 
+
     /**
      * Get the accountRight object
+     * @param {RightRenewal} renewal
      * @return {accountRight}
      */
-    accountSchema.methods.getAccountRight = function(beneficiary) {
+    accountSchema.methods.getAccountRight = function(renewal) {
         var accountRight = require('../modules/accountright');
 
-        return new accountRight(this, beneficiary);
+        return new accountRight(this, renewal);
     };
 
 
