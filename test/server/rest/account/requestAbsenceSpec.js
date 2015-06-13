@@ -4,7 +4,7 @@
 describe('request absence account rest service', function() {
 
 
-    var server, right1, right2, request1;
+    var server, right1, right2, collection, request1;
 
 
     beforeEach(function(done) {
@@ -31,11 +31,27 @@ describe('request absence account rest service', function() {
     });
 
 
+    // admin actions
+
+
     it('Create admin session needed for prerequisits', function(done) {
         server.createAdminSession().then(function() {
             done();
         });
     });
+
+
+    it('Create a collection', function(done) {
+        server.post('/rest/admin/collections', {
+            name: 'Test collection',
+            attendance: 100
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            collection = body;
+            done();
+        });
+    });
+
 
     it('create Right 1', function(done) {
         server.post('/rest/admin/rights', {
@@ -45,15 +61,56 @@ describe('request absence account rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             right1 = body;
+            expect(right1._id).toBeDefined();
             done();
         });
     });
+
+    it('link the right1 to collection', function(done) {
+        server.post('/rest/admin/beneficiaries', {
+            ref: 'RightCollection',
+            document: collection._id,
+            right: right1
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            collection = body;
+            done();
+        });
+    });
+
 
     it('create Right 2', function(done) {
         server.post('/rest/admin/rights', {
             name: 'Right 2',
             quantity: 25,
             quantity_unit: 'D'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            right2 = body;
+            expect(right2._id).toBeDefined();
+            done();
+        });
+    });
+
+
+    it('link the right2 to collection', function(done) {
+        server.post('/rest/admin/beneficiaries', {
+            ref: 'RightCollection',
+            document: collection._id,
+            right: right2
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            collection = body;
+            done();
+        });
+    });
+
+
+    it('link user to collection', function(done) {
+        server.post('/rest/admin/accountcollections', {
+            account: server.account.account,
+            rightCollection: collection._id,
+            from: new Date(2014,1,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             right2 = body;
@@ -68,6 +125,9 @@ describe('request absence account rest service', function() {
             done();
         });
     });
+
+
+    // account session part
 
 
     it('Create account session', function(done) {

@@ -13,7 +13,7 @@ exports = module.exports = function(params) {
           id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
           name: { type: String, default: '' }
         },
-        isVerified: { type: String, default: '' },				// email verification on change
+        isVerified: { type: Boolean, default: false },			// email verification on change
         verificationToken: { type: String, default: '' },		// email verification on change
 
         status: {

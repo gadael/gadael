@@ -377,7 +377,7 @@ mockServer.prototype.createAccountSession = function() {
                 deferred.resolve(users[0]);
             } else {
 
-                var account = new userModel();
+                var userAccount = new userModel();
 
                 userModel.encryptPassword(password, function(err, hash) {
 
@@ -386,22 +386,14 @@ mockServer.prototype.createAccountSession = function() {
                         return;
                     }
 
-                    account.password = hash;
-                    account.email = 'mockaccount@example.com';
-                    account.lastname = 'mockaccount';
-                    account.firstname = 'test';
-                    account.saveAccount(function(err, user) {
-
-                        if (err) {
-                            deferred.reject(new Error(err));
-                            return;
-                        }
-
+                    userAccount.password = hash;
+                    userAccount.email = 'mockaccount@example.com';
+                    userAccount.lastname = 'mockaccount';
+                    userAccount.firstname = 'test';
+                    userAccount.saveAccount({}).then(function(user) {
                         Object.defineProperty(server, 'account', { value: user, writable: true });
-
-
                         deferred.resolve(user);
-                    });
+                    }).catch(deferred.reject);
                 });
             }
         });

@@ -340,13 +340,22 @@ exports = module.exports = function(params) {
 
     /**
      * Save user and create account role if necessary
+     * @return {Promise}
      */
-    userSchema.methods.saveAccount = function(callback) {
+    userSchema.methods.saveAccount = function(accountProperties) {
+
+        var Q = require('q');
+        var deferred = Q.defer();
 
         this.save(function(err, user) {
 
-            if (err || user.roles.account) {
-                callback(err, user);
+            if (err) {
+                deferred.reject(err);
+                return;
+            }
+
+            if (user.roles.account) {
+                deferred.reject('Account allready exists');
                 return;
             }
 
@@ -358,18 +367,26 @@ exports = module.exports = function(params) {
                 name: user.lastname+' '+user.firstname
             };
 
+            for(var prop in accountProperties) {
+                if (accountProperties.isOwnProperty(prop)) {
+                    account[prop] = accountProperties[prop];
+                }
+            }
+
             account.save(function(err, role) {
 
                 if (err) {
-                    callback(err, user);
+                    deferred.reject(err);
                     return;
                 }
 
                 user.roles.account = role._id;
-                user.save(callback);
+                deferred.resolve(user.save());
             });
 
         });
+
+        return deferred.promise;
     };
 
 
