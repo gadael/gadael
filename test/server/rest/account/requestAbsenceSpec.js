@@ -4,7 +4,7 @@
 describe('request absence account rest service', function() {
 
 
-    var server, right1, right2, collection, request1;
+    var server, userAdmin, userAccount, right1, right2, collection, request1;
 
 
     beforeEach(function(done) {
@@ -35,7 +35,9 @@ describe('request absence account rest service', function() {
 
 
     it('Create admin session needed for prerequisits', function(done) {
-        server.createAdminSession().then(function() {
+        server.createAdminSession().then(function(user) {
+            userAdmin = user;
+            expect(userAdmin.roles.admin).toBeDefined();
             done();
         });
     });
@@ -106,10 +108,21 @@ describe('request absence account rest service', function() {
     });
 
 
+    it('create the user account', function(done) {
+        server.createUserAccount()
+        .then(function(account) {
+            userAccount = account;
+            done();
+
+        });
+
+    });
+
+
     it('link user to collection', function(done) {
         server.post('/rest/admin/accountcollections', {
-            account: server.account.account,
-            rightCollection: collection._id,
+            user: userAccount.user._id,
+            rightCollection: collection,
             from: new Date(2014,1,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -130,10 +143,12 @@ describe('request absence account rest service', function() {
     // account session part
 
 
-    it('Create account session', function(done) {
-        server.createAccountSession().then(function() {
+    it('Authenticate user account session', function(done) {
+        expect(userAccount.user.roles.account).toBeDefined();
+        server.authenticateAccount(userAccount).then(function() {
             done();
         });
+
     });
 
 
@@ -147,7 +162,15 @@ describe('request absence account rest service', function() {
     });
 
 
+    it('request list of accessibles rights', function(done) {
+        server.get('/rest/account/accountrights', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(2);
+            done();
+        });
+    });
 
+/*
     it('Create absence', function(done) {
 
         var distribution = [
@@ -219,7 +242,7 @@ describe('request absence account rest service', function() {
         });
     });
 
-    /*
+
     it('forbid creation of out of bounds request', function(done) {
 
         var distribution = [
@@ -239,7 +262,7 @@ describe('request absence account rest service', function() {
             done();
         });
     });
-    */
+
 
     it('delete a request', function(done) {
         server.delete('/rest/account/requests/'+request1._id, function(res, body) {
@@ -266,7 +289,7 @@ describe('request absence account rest service', function() {
         });
     });
 
-
+*/
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
             expect(res.statusCode).toEqual(200);

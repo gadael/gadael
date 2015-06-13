@@ -342,19 +342,13 @@ mockServer.prototype.createAdminSession = function() {
 };
 
 
-
-
-
-
-
-
 /**
- * Create account in database and login with it
- * Set the account property on the mockServer object
- *
+ * Create account in database
+ * promise resolve to two properties "user" (the user document) and "password" (string)
  * @return {Promise}
  */
-mockServer.prototype.createAccountSession = function() {
+mockServer.prototype.createUserAccount = function() {
+
 
     var Q = require('q');
 
@@ -364,61 +358,95 @@ mockServer.prototype.createAccountSession = function() {
     var password = 'secret';
 
     // get account document
-    var getAccount = function() {
-        var deferred = Q.defer();
 
-        userModel.find({ email: 'mockaccount@example.com' }).exec(function (err, users) {
-            if (err) {
-                deferred.reject(new Error(err));
-                return;
-            }
+    userModel.find({ email: 'mockaccount@example.com' }).exec(function (err, users) {
+        if (err) {
+            deferred.reject(new Error(err));
+            return;
+        }
 
-            if (1 === users.length) {
-                deferred.resolve(users[0]);
-            } else {
+        if (1 === users.length) {
+            deferred.resolve(users[0]);
+        } else {
 
-                var userAccount = new userModel();
+            var userAccount = new userModel();
 
-                userModel.encryptPassword(password, function(err, hash) {
+            userModel.encryptPassword(password, function(err, hash) {
 
-                    if (err) {
-                        deferred.reject(new Error(err));
-                        return;
-                    }
+                if (err) {
+                    deferred.reject(new Error(err));
+                    return;
+                }
 
-                    userAccount.password = hash;
-                    userAccount.email = 'mockaccount@example.com';
-                    userAccount.lastname = 'mockaccount';
-                    userAccount.firstname = 'test';
-                    userAccount.saveAccount({}).then(function(user) {
-                        Object.defineProperty(server, 'account', { value: user, writable: true });
-                        deferred.resolve(user);
-                    }).catch(deferred.reject);
-                });
-            }
-        });
+                userAccount.password = hash;
+                userAccount.email = 'mockaccount@example.com';
+                userAccount.lastname = 'mockaccount';
+                userAccount.firstname = 'test';
+                userAccount.saveAccount({}).then(function(user) {
 
-        return deferred.promise;
-    };
+                    Object.defineProperty(server, 'account', { value: user, writable: true });
 
+                    deferred.resolve({ user: user, password: password });
+                }).catch(deferred.reject);
+            });
+        }
+    });
 
-    // login as admin
-    getAccount().then(function(account) {
-
-        server.post('/rest/login', {
-            'username': account.email,
-            'password': password
-        }, function(res, body) {
-
-            if (res.statusCode !== 200 || !body.$outcome.success) {
-                deferred.reject(new Error('Error while login with admin account'));
-                return;
-            }
+    return deferred.promise;
+};
 
 
 
-            deferred.resolve(account);
-        });
+/**
+ * authenticate a user document and password
+ * @param {Object} account
+ * @return {Promise} resolve to the user document
+ */
+mockServer.prototype.authenticateAccount = function(account) {
+
+
+
+    var Q = require('q');
+    var deferred = Q.defer();
+    var server = this;
+
+
+
+
+    server.post('/rest/login', {
+        'username': account.user.email,
+        'password': account.password
+    }, function(res, body) {
+
+        if (res.statusCode !== 200 || !body.$outcome.success) {
+            deferred.reject(new Error('Error while login with account'));
+            return;
+        }
+
+        deferred.resolve(account.user);
+    });
+
+    return deferred.promise;
+};
+
+
+/**
+ * Create account in database and login with it
+ * Set the account property on the mockServer object
+ *
+ * @return {Promise} resolve to the user document
+ */
+mockServer.prototype.createAccountSession = function() {
+
+    var Q = require('q');
+    var deferred = Q.defer();
+    var server = this;
+
+
+    // login as user account
+    server.createUserAccount()
+    .then(function(account) {
+        server.authenticateAccount(account).then(deferred.resolve);
     });
 
     return deferred.promise;
