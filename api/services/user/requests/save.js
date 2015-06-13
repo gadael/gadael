@@ -112,11 +112,19 @@ function saveElement(service, user, elem)
         .populate('type')
         .exec(function(err, rightDocument) {
 
+            if (err) {
+                return deferred.reject(err);
+            }
+
             // get renewal to save in element
             rightDocument.getPeriodRenewal(elem.event.dtstart, elem.event.dtend).then(function(renewal) {
 
                 if (null === renewal) {
                     return deferred.reject('No available renewal for the element');
+                }
+
+                if (undefined === rightDocument.type) {
+                    return deferred.reject('Missing right type');
                 }
 
                 element.right = {
@@ -139,6 +147,9 @@ function saveElement(service, user, elem)
                     id: user,
                     name: '?'
                 };
+
+
+
 
                 console.log('right ID '+element.right);
 
@@ -193,6 +204,7 @@ function saveAbsence(service, user, params) {
 
     var Q = require('q');
 
+
     if (params.distribution === undefined || params.distribution.length === 0) {
         Q.fcall(function () {
             throw new Error('right distribution is mandatory to save an absence request');
@@ -231,7 +243,9 @@ function prepareRequestFields(service, params)
 
     if (undefined !== params.absence) {
         var promisedDistribution = saveAbsence(service, params.user, params.absence);
+
         promisedDistribution.then(function(distribution) {
+
             fieldsToSet.absence = {
                 distribution: distribution
             };

@@ -213,7 +213,7 @@ describe('request absence account rest service', function() {
         });
     });
 
-/*
+
     it('Create absence', function(done) {
 
         var distribution = [
@@ -244,7 +244,7 @@ describe('request absence account rest service', function() {
             done();
         });
     });
-
+/*
 
     it('request list of current requests as account', function(done) {
         server.get('/rest/account/requests', {}, function(res, body) {
