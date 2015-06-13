@@ -107,7 +107,7 @@ function saveAccountCollection(service, params) {
     } else {
 
         getAccount(service, params, function(accountId) {
-            
+
             AccountCollection.create({
                     account: accountId,
                     rightCollection: params.rightCollection._id,

@@ -29,7 +29,7 @@ exports = module.exports = function(services, app)
      * @param {Document} user
      * @param {Array} rights array of mongoose documents
      */
-    function resolveAccountRights(user, rights)
+    function resolveAccountRights(user, rights, dtstart, dtend)
     {
         var Q = require('q');
         var right, available_quantity_promise;
@@ -58,7 +58,7 @@ exports = module.exports = function(services, app)
         for(var i=0; i<rights.length; i++) {
             right = rights[i].toObject();
             right.disp_unit = rights[i].getDispUnit();
-            available_quantity_promise = rights[i].getCurrentRenewal().then(getRenewalAvailableQuantity);
+            available_quantity_promise = rights[i].getPeriodRenewal(dtstart, dtend).then(getRenewalAvailableQuantity);
             
             available_quantity_promises.push(available_quantity_promise);
             
@@ -105,8 +105,13 @@ exports = module.exports = function(services, app)
      */
     service.getResultPromise = function(params) {
         
-        params.dtstart = new Date(params.dtstart);
-        params.dtend = new Date(params.dtend);
+        if (params.dtstart) {
+            params.dtstart = new Date(params.dtstart);
+        }
+
+        if (params.dtend) {
+            params.dtend = new Date(params.dtend);
+        }
         
 
         var checkParams = require('../../../../modules/requestdateparams');
@@ -134,7 +139,7 @@ exports = module.exports = function(services, app)
 
                 account.getRights().then(function(rights) {
 
-                    resolveAccountRights(users[0], rights);
+                    resolveAccountRights(users[0], rights, params.dtstart, params.dtend);
                 }).catch(service.notFound);
                 
             } else {

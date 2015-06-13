@@ -50,6 +50,7 @@ describe('request absence account rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             collection = body;
+            delete collection.$outcome;
             done();
         });
     });
@@ -75,7 +76,18 @@ describe('request absence account rest service', function() {
             right: right1
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            collection = body;
+            done();
+        });
+    });
+
+
+    it('create renewal 1', function(done) {
+        server.post('/rest/admin/rightrenewals', {
+            right: right1._id,
+            start: new Date(2015,1,1).toJSON(),
+            finish: new Date(2016,1,1).toJSON()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
             done();
         });
     });
@@ -102,7 +114,20 @@ describe('request absence account rest service', function() {
             right: right2
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            collection = body;
+            done();
+        });
+    });
+
+
+
+
+    it('create renewal 2', function(done) {
+        server.post('/rest/admin/rightrenewals', {
+            right: right2._id,
+            start: new Date(2015,1,1).toJSON(),
+            finish: new Date(2016,1,1).toJSON()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
             done();
         });
     });
@@ -126,7 +151,6 @@ describe('request absence account rest service', function() {
             from: new Date(2014,1,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            right2 = body;
             done();
         });
     });
@@ -161,11 +185,30 @@ describe('request absence account rest service', function() {
         });
     });
 
+    var where = {
+        dtstart: new Date(2015,1,1, 8).toJSON(),
+        dtend: new Date(2015,1,1, 18).toJSON()
+    };
+
+    it('request account current collection', function(done) {
+        server.get('/rest/account/collection', where, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.name).toBeDefined();
+            done();
+        });
+    });
+
+
 
     it('request list of accessibles rights', function(done) {
-        server.get('/rest/account/accountrights', {}, function(res, body) {
+        server.get('/rest/account/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(2);
+
+            // check quantities of renewal, with 0 consumed, the quantities should be defaults
+            expect(body[0].available_quantity).toEqual(right1.quantity);
+            expect(body[1].available_quantity).toEqual(right2.quantity);
+
             done();
         });
     });
@@ -196,6 +239,7 @@ describe('request absence account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(2);
+            console.log(body.$outcome);
             request1 = body;
             done();
         });
@@ -213,7 +257,7 @@ describe('request absence account rest service', function() {
     it('get one request', function(done) {
         server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.absence.distribution).toBeDefined();
+         //   expect(body.absence.distribution).toBeDefined();
             expect(body._id).toEqual(request1._id);
             //expect(body.absence.distribution[0].consumedQuantity).toEqual(1);
             done();
@@ -237,7 +281,7 @@ describe('request absence account rest service', function() {
         server.put('/rest/account/requests/'+request1._id, { absence: { distribution: distribution } }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.absence.distribution.length).toEqual(1);
+          //  expect(body.absence.distribution.length).toEqual(1);
             done();
         });
     });
@@ -290,6 +334,7 @@ describe('request absence account rest service', function() {
     });
 
 */
+
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
             expect(res.statusCode).toEqual(200);
@@ -304,4 +349,3 @@ describe('request absence account rest service', function() {
 
 
 });
-
