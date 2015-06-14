@@ -123,19 +123,11 @@ function saveElement(service, user, elem)
                     return deferred.reject('No available renewal for the element');
                 }
 
-                if (undefined === rightDocument.type) {
-                    return deferred.reject('Missing right type');
-                }
 
                 element.right = {
                     id: elem.right,
                     name: rightDocument.name,
                     quantity_unit: rightDocument.quantity_unit,
-                    type: {
-                        id: rightDocument.type._id,
-                        name: rightDocument.type.name,
-                        color: rightDocument.type.color
-                    },
                     renewal: {
                         id: renewal._id,
                         start: renewal.start,
@@ -143,19 +135,27 @@ function saveElement(service, user, elem)
                     }
                 };
 
+                if (undefined !== rightDocument.type) {
+                    element.right.type = {
+                        id: rightDocument.type._id,
+                        name: rightDocument.type.name,
+                        color: rightDocument.type.color
+                    };
+                }
+
+
                 element.user = {
                     id: user,
                     name: '?'
                 };
 
 
-
-
-                console.log('right ID '+element.right);
-
                 element.getAccountRight().then(function(accountRight) {
 
+
                     accountRight.getAvailableQuantity().then(function(available) {
+
+
                         if (available < element.quantity) {
                             return deferred.reject('Quantity not available');
                         }
