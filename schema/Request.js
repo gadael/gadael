@@ -18,6 +18,7 @@ exports = module.exports = function(params) {
     },
     
     absence: {
+        rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' },
 		distribution: [mongoose.modelSchemas.AbsenceElem]
 	},
 	
@@ -41,6 +42,40 @@ exports = module.exports = function(params) {
     requestLog: [mongoose.modelSchemas.RequestLog],					// linear representation of all actions
 																	// create, edit, delete, and effectives approval steps
   });
+
+
+  requestSchema.pre('save', function(next) {
+
+      var Q = require('q');
+      var elem, request = this, promises = [];
+
+      if (request.absence.rightCollection === undefined) {
+          for (var i=0; i<request.absence.distribution.length; i++) {
+              elem = request.absence.distribution[i];
+              elem.consumedQuantity = elem.quantity;
+              promises.push(elem.save());
+          }
+
+          Q.all(promises).then(next);
+          return;
+      }
+
+
+      var collectionModel = this.model('RightCollection');
+
+      collectionModel.findOne({ _id: request.absence.rightCollection }).exec(function (err, rightCollection) {
+
+          for (var i=0; i<request.absence.distribution.length; i++) {
+              elem = request.absence.distribution[i];
+              elem.consumedQuantity = rightCollection.getConsumedQuantity(elem.quantity);
+              promises.push(elem.save());
+          }
+
+          Q.all(promises).then(next);
+      });
+  });
+
+
 
   requestSchema.index({ 'user.id': 1 });
   requestSchema.set('autoIndex', params.autoIndex);

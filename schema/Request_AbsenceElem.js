@@ -34,6 +34,8 @@ exports = module.exports = function(params) {
 	});
 
 
+
+
 	/**
 	 * Find next absence element in same request or null if this element is the last
 	 * @return {Promise} Mongoose promise

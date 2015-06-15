@@ -194,6 +194,8 @@ function saveElement(service, user, elem)
 
 
 /**
+ * Save list of events
+ *
  * @param {apiService} service
  * @param {String} user             absence owner object ID
  * @param {Object} params
@@ -220,8 +222,28 @@ function saveAbsence(service, user, params) {
     }
 
     return Q.all(savedEventPromises);
-
 }
+
+
+/**
+ * Get the appliquable right collection of the user on the distribution period
+ *
+ * @param {Array} distribution posted parameter
+ * @return {Promise} promise the rightCollection or null if the user has no right collection on the period
+ *
+ */
+function getCollectionFromDistribution(distribution, account) {
+    var dtstart, dtend;
+
+    dtstart = distribution[0].event.dtstart;
+    dtend = distribution[distribution.length -1].event.dtend;
+
+    return account.getValidCollectionForPeriod(dtstart, dtend, new Date());
+}
+
+
+
+
 
 /**
  * @param {apiService} service
@@ -232,35 +254,51 @@ function prepareRequestFields(service, params)
 {
     var Q = require('q');
     var deferred = Q.defer();
-    var fieldsToSet = {
-        user: {
-            id: params.user,
-            name: '?'
+    var AccountModel = service.app.db.models.Account;
+
+
+    AccountModel.findOne({
+        'user.id': params.user
+    }, function(err, account) {
+
+        var fieldsToSet = {
+            user: {
+                id: params.user,
+                name: account.user.name
+            }
+        };
+
+
+        if (undefined !== params.absence) {
+            var promisedDistribution = saveAbsence(service, params.user, params.absence);
+
+            promisedDistribution.then(function(distribution) {
+                getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
+
+                    fieldsToSet.absence = {
+                        distribution: distribution
+                    };
+
+                    if (null !== collection) {
+                        fieldsToSet.absence.rightCollection = collection._id;
+                    }
+
+                    deferred.resolve(fieldsToSet);
+                });
+            }, service.error);
         }
-    };
 
-
-    if (undefined !== params.absence) {
-        var promisedDistribution = saveAbsence(service, params.user, params.absence);
-
-        promisedDistribution.then(function(distribution) {
-
-            fieldsToSet.absence = {
-                distribution: distribution
-            };
+        if (undefined !== params.time_saving_deposit) {
+            fieldsToSet.time_saving_deposit = params.time_saving_deposit;
             deferred.resolve(fieldsToSet);
-        }, service.error);
-    }
+        }
 
-    if (undefined !== params.time_saving_deposit) {
-        fieldsToSet.time_saving_deposit = params.time_saving_deposit;
-        deferred.resolve(fieldsToSet);
-    }
+        if (undefined !== params.workperiod_recover) {
+            fieldsToSet.workperiod_recover = params.workperiod_recover;
+            deferred.resolve(fieldsToSet);
+        }
 
-    if (undefined !== params.workperiod_recover) {
-        fieldsToSet.workperiod_recover = params.workperiod_recover;
-        deferred.resolve(fieldsToSet);
-    }
+    });
 
     return deferred.promise;
 }
