@@ -155,7 +155,6 @@ function saveElement(service, user, elem)
 
                     accountRight.getAvailableQuantity().then(function(available) {
 
-
                         if (available < element.quantity) {
                             return deferred.reject('Quantity not available');
                         }

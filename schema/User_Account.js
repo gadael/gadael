@@ -38,7 +38,9 @@ exports = module.exports = function(params) {
         notify: {
             approvals: { type: Boolean, default: false },
             allocations: { type: Boolean, default: false }
-        }
+        },
+
+        renewalQuantity: mongoose.Schema.Types.Mixed            // specific quantity for renewals
     });
 
     accountSchema.index({ user: 1 });
@@ -314,6 +316,25 @@ exports = module.exports = function(params) {
         var accountRight = require('../modules/accountright');
 
         return new accountRight(this, renewal);
+    };
+
+
+    /**
+     * Get the given quantity for a renewal
+     * @param {RightRenewal} renewal
+     * @return {Number}
+     */
+    accountSchema.methods.getQuantity = function(renewal) {
+
+        if (this.renewalQuantity !== undefined && this.renewalQuantity[renewal._id] !== undefined) {
+            return this.renewalQuantity[renewal._id];
+        }
+
+        if (renewal.right.quantity === undefined) {
+            throw new Error('Missing right quantity');
+        }
+
+        return renewal.right.quantity;
     };
 
 

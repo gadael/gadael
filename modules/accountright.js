@@ -9,6 +9,11 @@ function accountRight(account, renewal)
 {
     'use strict';
 
+    if (renewal.right === undefined || renewal.right._id === undefined) {
+        console.log(renewal);
+        throw new Error('The renewal need a vacation right');
+    }
+
 
     this.account = account;
     this.right = renewal.right;
@@ -72,6 +77,10 @@ accountRight.prototype.getConsumedQuantity = function()
         .find({ 'right.renewal': this.renewal._id, 'user.id': this.account.user.id })
         .exec(function(err, elements) {
 
+        if (err) {
+            return deferred.reject(err);
+        }
+
         var consumed = 0;
 
         for(var i=0; i<elements.length; i++) {
@@ -93,11 +102,17 @@ accountRight.prototype.getAvailableQuantity = function()
     'use strict';
 
     var deferred = Q.defer();
+    var self = this;
+
+
 
     // Is there a specific quantity for this beneficiary and this renewal?
     // else get the right quantity
 
-    // TODO
+    this.getConsumedQuantity().then(function(consumed) {
+        var initialQuantity = self.account.getQuantity(self.renewal);
+        deferred.resolve(initialQuantity - consumed);
+    }, deferred.reject);
 
     return deferred.promise;
 };

@@ -239,12 +239,10 @@ describe('request absence account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(2);
-            console.log(body.$outcome);
             request1 = body;
             done();
         });
     });
-/*
 
     it('request list of current requests as account', function(done) {
         server.get('/rest/account/requests', {}, function(res, body) {
@@ -287,6 +285,7 @@ describe('request absence account rest service', function() {
     });
 
 
+    /*
     it('forbid creation of out of bounds request', function(done) {
 
         var distribution = [
@@ -332,8 +331,8 @@ describe('request absence account rest service', function() {
             done();
         });
     });
-
 */
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {

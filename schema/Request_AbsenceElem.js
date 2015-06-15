@@ -36,7 +36,7 @@ exports = module.exports = function(params) {
 
 	/**
 	 * Find next absence element in same request or null if this element is the last
-	 * 
+	 * @return {Promise} Mongoose promise
 	 */ 
 	absenceElemSchema.methods.next = function (callback) {
 		return this.model('AbsenceElem')
@@ -50,6 +50,7 @@ exports = module.exports = function(params) {
 
 
     /**
+     * Get the accountRight object for the element
      * @return {Promise}
      */
     absenceElemSchema.methods.getAccountRight = function()
@@ -58,6 +59,7 @@ exports = module.exports = function(params) {
         var deferred = Q.defer();
         var renewal = this.right.renewal;
         var userModel = this.model('User');
+        var renewalModel = this.model('RightRenewal');
 
         if (!renewal) {
             throw new Error('Missing renewal on absence element');
@@ -72,7 +74,16 @@ exports = module.exports = function(params) {
                 return deferred.reject(err);
             }
 
-            deferred.resolve(user.roles.account.getAccountRight(renewal));
+            renewalModel.findOne({ _id: renewal.id })
+            .populate('right')
+            .exec(function(err, renewal) {
+
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(user.roles.account.getAccountRight(renewal));
+            });
         });
 
         return deferred.promise;
