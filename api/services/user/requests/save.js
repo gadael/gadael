@@ -390,8 +390,8 @@ function saveRequest(service, params) {
         } else {
 
             fieldsToSet.createdBy = {
-                id: params.user, //TODO this is the request owner, replace by the createdBy user
-                name: '?'
+                id: params.createdBy._id,
+                name: params.createdBy.getName()
             };
 
             RequestModel.create(fieldsToSet, function(err, document) {

@@ -35,11 +35,10 @@ function createController() {
         // the additional parameter
         
         controller.jsonService(
-            controller.service('user/requests/save', { user: this.req.user._id }),
-            {
-                createdBy: controller.req.user,
-                modifiedBy: controller.req.user
-            }
+            controller.service('user/requests/save', {
+                user: controller.req.user._id,
+                createdBy: controller.req.user
+            })
         );
     };
 }
@@ -57,10 +56,9 @@ function updateController() {
         // the additional parameter
         
         controller.jsonService(
-            controller.service('user/requests/save', { user: this.req.user._id }),
-            {
-                modifiedBy: controller.req.user
-            }
+            controller.service('user/requests/save', {
+                user: this.req.user._id
+            })
         );
     };
 }

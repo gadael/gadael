@@ -286,7 +286,7 @@ describe('request absence account rest service', function() {
     });
 
 
-    /*
+/*
     it('forbid creation of out of bounds request', function(done) {
 
         var distribution = [
@@ -301,7 +301,7 @@ describe('request absence account rest service', function() {
         ];
 
         server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
-            expect(res.statusCode).toEqual(500);
+            expect(res.statusCode).toEqual(403);
             expect(body.$outcome).toBeDefined();
             done();
         });
