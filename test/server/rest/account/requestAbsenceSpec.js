@@ -280,6 +280,7 @@ describe('request absence account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(1);
+            expect(body.absence.rightCollection).toBeDefined();
             done();
         });
     });

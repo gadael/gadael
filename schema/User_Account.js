@@ -129,12 +129,18 @@ exports = module.exports = function(params) {
         return account.collectionPromise(
             account.getAccountCollectionQuery()
             .where('from').lte(dtstart)
-            .or(
+            .or([
                 { to: { $gte: dtend } },
                 { to: null }
-            )
-            .where('createEntriesFrom').lte(moment)
-            .where('createEntriesTo').gte(moment)
+            ])
+            .or([
+                { createEntriesFrom: { $lte: moment } },
+                { createEntriesFrom: null }
+            ])
+            .or([
+                { createEntriesTo: { $gte: moment } },
+                { createEntriesTo: null }
+            ])
         );
     };
 
