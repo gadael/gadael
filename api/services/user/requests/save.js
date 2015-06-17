@@ -193,6 +193,60 @@ function saveElement(service, user, elem)
 
 
 
+
+/**
+ * Check element validity of one element
+ * @return {Promise}
+ */
+function checkElement(service, user, elem)
+{
+    var Q = require('q');
+    var deferred = Q.defer();
+    var RightModel = service.app.db.models.Right;
+    var AccountModel = service.app.db.models.Account;
+
+    RightModel.findOne({ _id: elem.right })
+        .exec(function(err, rightDocument) {
+
+        // get renewal to save in element
+        rightDocument.getPeriodRenewal(elem.event.dtstart, elem.event.dtend).then(function(renewal) {
+
+            if (null === renewal) {
+                return deferred.reject('No available renewal for the element');
+            }
+
+
+
+            AccountModel.findOne({ 'user.id': user  })
+            .exec(function(err, accountDocument) {
+                renewal.right = rightDocument;
+                var accountRight = accountDocument.getAccountRight(renewal);
+
+                accountRight.getAvailableQuantity().then(function(available) {
+                    console.log(available+' '+elem.quantity);
+                    if (available < elem.quantity) {
+                        return deferred.reject('The quantity requests for right %s is not available');
+                    }
+
+                    deferred.resolve(true);
+                });
+
+
+            });
+
+
+        });
+
+    });
+
+    return deferred.promise;
+}
+
+
+
+
+
+
 /**
  * Save list of events
  *
@@ -212,16 +266,28 @@ function saveAbsence(service, user, params) {
         });
     }
 
-    var elem, savedEventPromises = [];
+    var i, elem,
+        chekedElementsPromises = [],
+        savedEventPromises = [];
 
+    // check available quantity
 
-
-    for(var i=0; i<params.distribution.length; i++) {
+    for(i=0; i<params.distribution.length; i++) {
         elem = params.distribution[i];
-        savedEventPromises.push(saveElement(service, user, elem));
+        chekedElementsPromises.push(checkElement(service, user, elem));
     }
 
-    return Q.all(savedEventPromises);
+    return Q.all(chekedElementsPromises).then(function() {
+
+        // save the actual elements and events
+
+        for(i=0; i<params.distribution.length; i++) {
+            elem = params.distribution[i];
+            savedEventPromises.push(saveElement(service, user, elem));
+        }
+
+        return Q.all(savedEventPromises);
+    });
 }
 
 

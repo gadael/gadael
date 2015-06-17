@@ -120,8 +120,9 @@ exports = module.exports = function(params) {
     /**
      * Get a user initial quantity 
      * default right quantity + adjustments on renewal
+     * @todo duplicated with accountRight object
      * 
-     * @param {Document} user
+     * @param {User} user
      * 
      * @returns {Promise} resolve to a number
      */
@@ -144,8 +145,9 @@ exports = module.exports = function(params) {
     /**
      * Get a user consumed quantity 
      * sum of quantities in requests from this renewal
+     * @todo duplicated with accountRight object
      * 
-     * @param {Document} user
+     * @param {User} user
      * 
      * @returns {Number} resolve to a number
      */
@@ -172,6 +174,10 @@ exports = module.exports = function(params) {
     /**
      * Get a user available quantity 
      * the user quantity - the consumed quantity
+     *
+     * @todo duplicated with accountRight object
+     *
+     * @param {User} user
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserAvailableQuantity = function(user) {

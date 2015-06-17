@@ -75,6 +75,7 @@ exports = module.exports = function(params) {
         this.getRenewalsQuery()
             .where('start').lte(dtstart)
             .where('finish').gte(dtend)
+        //    .populate('right')
             .exec(function(err, arr) {
             
                 if (err) {
