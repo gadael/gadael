@@ -286,7 +286,7 @@ describe('request absence account rest service', function() {
     });
 
 
-
+/*
     it('forbid creation of out of bounds request', function(done) {
 
         var distribution = [
@@ -306,7 +306,7 @@ describe('request absence account rest service', function() {
             done();
         });
     });
-/*
+
 
     it('delete a request', function(done) {
         server.delete('/rest/account/requests/'+request1._id, function(res, body) {

@@ -406,21 +406,7 @@ function saveRequest(service, params) {
         }
     }
 
-    /**
-     * The request document has been saved
-     * @param {Request} document
-     */
-    function endWithSuccess(document, message)
-    {
-        saveEmbedEvents(document);
 
-        // Do not wait for event update?
-
-        service.resolveSuccess(
-            document,
-            message
-        );
-    }
 
 
     prepareRequestFields(service, params).then(function(fieldsToSet) {
@@ -433,36 +419,36 @@ function saveRequest(service, params) {
         filter['user.id'] = params.user;
 
 
+        function end(document, message)
+        {
+            document.save(function(err, document) {
+                if (service.handleMongoError(err)) {
+                    saveEmbedEvents(document);
+
+                    // Do not wait for event update?
+                    service.resolveSuccess(
+                        document,
+                        message
+                    );
+                }
+            });
+        }
+
+
 
         if (params.id)
         {
 
-            RequestModel.find(filter, function(err, document) {
+
+            RequestModel.findOne(filter, function(err, document) {
                 if (service.handleMongoError(err)) {
+
                     document.set(fieldsToSet);
-
-                    document.save(function(err, document) {
-                        if (service.handleMongoError(err)) {
-                            endWithSuccess(
-                                document,
-                                gt.gettext('The request has been modified')
-                            );
-                        }
-                    });
+                    end(document, gt.gettext('The request has been modified'));
                 }
             });
 
 
-
-            RequestModel.findOneAndUpdate(filter, fieldsToSet, function(err, document) {
-                if (service.handleMongoError(err))
-                {
-                    endWithSuccess(
-                        document,
-                        gt.gettext('The request has been modified')
-                    );
-                }
-            });
 
         } else {
 
@@ -471,16 +457,10 @@ function saveRequest(service, params) {
                 name: params.createdBy.getName()
             };
 
-            RequestModel.create(fieldsToSet, function(err, document) {
 
-                if (service.handleMongoError(err))
-                {
-                    endWithSuccess(
-                        document,
-                        gt.gettext('The request has been created')
-                    );
-                }
-            });
+            var document = new RequestModel();
+            document.set(fieldsToSet);
+            end(document, gt.gettext('The request has been created'));
         }
 
     });

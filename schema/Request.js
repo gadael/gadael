@@ -44,16 +44,15 @@ exports = module.exports = function(params) {
   });
 
 
-  requestSchema.pre('save', function(next) {
+  requestSchema.pre('validate', function(next) {
 
-      var elem, request = this, promises = [];
+      var elem, request = this;
 
 
       if (request.absence.rightCollection === undefined) {
           for (var i=0; i<request.absence.distribution.length; i++) {
               elem = request.absence.distribution[i];
               elem.consumedQuantity = elem.quantity;
-              promises.push(elem.save());
           }
 
           next();
