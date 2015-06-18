@@ -150,23 +150,18 @@ function saveElement(service, user, elem)
                 };
 
 
-                element.getAccountRight().then(function(accountRight) {
 
+                saveEvent(service, user, element, elem.event).then(function(savedEvent) {
 
-                    accountRight.getAvailableQuantity().then(function(available) {
+                    deferred.resolve(element);
 
-                        if (available < element.quantity) {
-                            return deferred.reject('Quantity not available');
-                        }
+                    /*
+                    element.save().then(function(savedDoc) {
+                        deferred.resolve(savedDoc);
+                    }, deferred.reject);
+                    */
+                });
 
-                        saveEvent(service, user, element, elem.event).then(function(savedEvent) {
-                            element.save().then(function(savedDoc) {
-                                deferred.resolve(savedDoc);
-                            }, deferred.reject);
-
-                        });
-                    });
-                }).catch(deferred.reject);
 
             });
         });
@@ -223,7 +218,7 @@ function checkElement(service, user, elem)
                 var accountRight = accountDocument.getAccountRight(renewal);
 
                 accountRight.getAvailableQuantity().then(function(available) {
-                    console.log(available+' '+elem.quantity);
+
                     if (available < elem.quantity) {
                         return deferred.reject('The quantity requests for right %s is not available');
                     }
@@ -279,7 +274,7 @@ function saveAbsence(service, user, params) {
 
     return Q.all(chekedElementsPromises).then(function() {
 
-        // save the actual elements and events
+        // save the events and create the elements documents
 
         for(i=0; i<params.distribution.length; i++) {
             elem = params.distribution[i];
@@ -441,6 +436,22 @@ function saveRequest(service, params) {
 
         if (params.id)
         {
+
+            RequestModel.find(filter, function(err, document) {
+                if (service.handleMongoError(err)) {
+                    document.set(fieldsToSet);
+
+                    document.save(function(err, document) {
+                        if (service.handleMongoError(err)) {
+                            endWithSuccess(
+                                document,
+                                gt.gettext('The request has been modified')
+                            );
+                        }
+                    });
+                }
+            });
+
 
 
             RequestModel.findOneAndUpdate(filter, fieldsToSet, function(err, document) {

@@ -301,7 +301,7 @@ describe('request absence account rest service', function() {
         ];
 
         server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
-            expect(res.statusCode).toEqual(403);
+            expect(res.statusCode).toEqual(500);
             expect(body.$outcome).toBeDefined();
             done();
         });

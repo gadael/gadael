@@ -93,7 +93,8 @@ api.isDbNameValid = function(app, dbName, callback) {
  */  
 api.listDatabases = function(app, callback) {
 	
-	var Admin = app.mongoose.mongo.Admin(app.db.db);
+	//var Admin = app.mongoose.mongo.Admin(app.db.db);
+    var Admin = app.db.db.admin();
 
 	Admin.listDatabases(function(err, result) {
 		

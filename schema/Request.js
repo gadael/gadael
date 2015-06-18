@@ -46,8 +46,8 @@ exports = module.exports = function(params) {
 
   requestSchema.pre('save', function(next) {
 
-      var Q = require('q');
       var elem, request = this, promises = [];
+
 
       if (request.absence.rightCollection === undefined) {
           for (var i=0; i<request.absence.distribution.length; i++) {
@@ -56,7 +56,7 @@ exports = module.exports = function(params) {
               promises.push(elem.save());
           }
 
-          Q.all(promises).then(next);
+          next();
           return;
       }
 
@@ -68,10 +68,9 @@ exports = module.exports = function(params) {
           for (var i=0; i<request.absence.distribution.length; i++) {
               elem = request.absence.distribution[i];
               elem.consumedQuantity = rightCollection.getConsumedQuantity(elem.quantity);
-              promises.push(elem.save());
           }
 
-          Q.all(promises).then(next);
+          next();
       });
   });
 
