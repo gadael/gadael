@@ -302,7 +302,7 @@ api.getExpress = function(config, models) {
     
     var express = require('express'),
     session = require('express-session'),
-    mongoStore = require('connect-mongo')(session),
+    mongoStore = require('connect-mongodb-session')(session),
     passport = require('passport');
     
     

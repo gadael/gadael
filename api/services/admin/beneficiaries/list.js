@@ -19,10 +19,11 @@
 function getQuery(service, params) {
 
     var deferred = require('q').defer();
-    var find = service.app.db.models.Beneficiary.find();
+    var find = service.app.db.models.Beneficiary.find({});
     find.populate('right');
     
-    if (!params) {
+
+    if (!params || Object.getOwnPropertyNames(params).length === 0) {
         deferred.resolve(find);
         return deferred.promise; 
     }
@@ -92,6 +93,8 @@ exports = module.exports = function(services, app) {
 
             var Q = require('q');
             var populatedTypePromises = [];
+
+
 
             service.resolveQuery(
                 query,

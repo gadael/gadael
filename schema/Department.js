@@ -2,7 +2,7 @@
 
 exports = module.exports = function(params) {
 
-    var tree = require('mongoose-tree2');
+    var tree = require('mongoose-path-tree');
 
 	var mongoose = params.mongoose;
 	var departmentSchema = new mongoose.Schema({

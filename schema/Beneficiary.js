@@ -13,11 +13,7 @@ exports = module.exports = function(params) {
         ref: { type: String, enum: ['User', 'RightCollection'], required: true },
         timeCreated: { type: Date, default: Date.now }
     });
-  
-    beneficiarySchema.set('autoIndex', params.autoIndex);
-  
-    beneficiarySchema.index({ name: 1 });
-    
+
     /**
      * Get the list users of the beneficiary document
      * @return {Promise} resolve to an array of users
@@ -47,6 +43,8 @@ exports = module.exports = function(params) {
     
 
 
+    beneficiarySchema.set('autoIndex', params.autoIndex);
+    beneficiarySchema.index({ name: 1 });
     beneficiarySchema.index({ right: 1, document: 1 }, { unique: true });
     params.db.model('Beneficiary', beneficiarySchema);
 };
