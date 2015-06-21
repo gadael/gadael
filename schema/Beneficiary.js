@@ -10,8 +10,8 @@ exports = module.exports = function(params) {
         // right can be linked to a collection or to a user
         document: { type: mongoose.Schema.Types.ObjectId, required: true },
         
-        ref: { type: String, enum: ['User', 'RightCollection'], required: true },
-        timeCreated: { type: Date, default: Date.now }
+    //    ref: { type: String, enum: ['User', 'RightCollection'], required: true },
+    //    timeCreated: { type: Date, default: Date.now }
     });
 
     /**

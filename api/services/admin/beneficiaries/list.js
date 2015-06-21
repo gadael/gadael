@@ -8,61 +8,7 @@
 
 
 
-/**
- * Create the query with filters
- * 
- * @param {listItemsService} service
- * @param {array} params      query parameters if called by controller
- *
- * @return {Promise} resolve to query
- */
-function getQuery(service, params) {
 
-    var deferred = require('q').defer();
-    var find = service.app.db.models.Beneficiary.find({});
-    find.populate('right');
-    
-
-    if (!params || Object.getOwnPropertyNames(params).length === 0) {
-        deferred.resolve(find);
-        return deferred.promise; 
-    }
-    
-    if (null !== params.account) {
-        service.app.db.models.Account
-            .findOne({ _id: params.account})
-            .exec(function(err, account) {
-            
-            if (service.handleMongoError(err)) {
-                
-                if (null === account) {
-                    deferred.resolve(find);
-                    return;
-                }
-                
-                var docs = [account.user.id];
-                
-                account.getCurrentCollection().then(function(rightCollection) {
-
-                    if (rightCollection) {
-                        docs.push(rightCollection._id);
-                    }
-
-                    find.where('document').in(docs);
-                    deferred.resolve(find);
-                });
-                
-            }
-        });
-        
-        return deferred.promise; 
-    }
-
-    find.where(params);
-    deferred.resolve(find);
-    
-    return deferred.promise;
-}
 
 
 
@@ -75,6 +21,71 @@ function getQuery(service, params) {
 exports = module.exports = function(services, app) {
     
     var service = new services.list(app);
+    var Q = require('q');
+
+
+
+
+    /**
+     * Create the query with filters
+     *
+     * @param {array} params      query parameters if called by controller
+     *
+     * @return {Promise} resolve to query
+     */
+    function getQuery(params, next) {
+
+
+
+        var find = service.app.db.models.Beneficiary.find({});
+        find.populate('right');
+
+        if (!params || Object.getOwnPropertyNames(params).length === 0) {
+            return next( find);
+        }
+
+        if (null !== params.account) {
+            service.app.db.models.Account
+                .findOne({ _id: params.account})
+                .exec(function(err, account) {
+
+                if (service.handleMongoError(err)) {
+
+                    if (null === account) {
+                        return next(find);
+                    }
+
+                    var docs = [account.user.id];
+
+                    account.getCurrentCollection().then(function(rightCollection) {
+
+                        if (rightCollection) {
+                            docs.push(rightCollection._id);
+                        }
+
+
+                        find.where('document').in(docs);
+                        next(find);
+                    });
+
+                }
+            });
+        }
+
+
+        find.where(params);
+        next(find);
+    }
+
+
+
+
+
+
+
+
+
+
     
     /**
      * Call the beneficiaries list service
@@ -85,16 +96,14 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-          
+
         var cols = 'right document ref';
         var sortkey = 'right.name';
         
-        getQuery(service, params).then(function(query) {
+        getQuery(params, function(query) {
 
-            var Q = require('q');
+            //var query = getQuery(service, params);
             var populatedTypePromises = [];
-
-
 
             service.resolveQuery(
                 query,

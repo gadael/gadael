@@ -45,7 +45,7 @@ describe('beneficiaries rest service', function() {
         });
     });
 
-    /*
+
     it('request beneficiaries list as admin', function(done) {
         server.get('/rest/admin/beneficiaries', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -53,7 +53,7 @@ describe('beneficiaries rest service', function() {
             done();
         });
     });
-    */
+
 
     it('create right 1', function(done) {
         server.post('/rest/admin/rights', {
