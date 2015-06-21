@@ -149,7 +149,7 @@ describe('beneficiaries rest service', function() {
         });
     });
 
-    /*
+
     it('Link right to collection with a beneficiary', function(done) {
         server.post('/rest/admin/beneficiaries', {
             document: collection1._id,
@@ -168,15 +168,17 @@ describe('beneficiaries rest service', function() {
     it('list beneficiaries from the admin', function(done) {
 
         server.get('/rest/admin/beneficiaries', {
-            account: user1._id
+            account: user1.roles.account
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            expect(body[0].right._id).toEqual(right1._id);
+            if (body.length > 0) {
+                expect(body[0].right._id).toEqual(right1._id);
+            }
             done();
         });
     });
-    */
+
 
     it('list accessible rights from the admin, for an absence request creation', function(done) {
 
