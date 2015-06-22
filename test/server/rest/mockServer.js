@@ -141,7 +141,7 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
         res.on('end', function() {
 
             if (body) {
-                
+
                 try {
                     done(res, JSON.parse(body));
                 } catch(e) {

@@ -150,6 +150,7 @@ describe('beneficiaries rest service', function() {
     });
 
 
+
     it('Link right to collection with a beneficiary', function(done) {
         server.post('/rest/admin/beneficiaries', {
             document: collection1._id,

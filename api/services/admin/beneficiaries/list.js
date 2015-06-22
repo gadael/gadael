@@ -45,13 +45,16 @@ exports = module.exports = function(services, app) {
         }
 
         if (null !== params.account) {
+
             service.app.db.models.Account
                 .findOne({ _id: params.account})
                 .exec(function(err, account) {
 
+
                 if (service.handleMongoError(err)) {
 
                     if (null === account) {
+                        find.where('document').in([]);
                         return next(find);
                     }
 
@@ -63,13 +66,15 @@ exports = module.exports = function(services, app) {
                             docs.push(rightCollection._id);
                         }
 
-
                         find.where('document').in(docs);
                         next(find);
                     });
 
                 }
             });
+
+
+            return;
         }
 
 
@@ -123,6 +128,7 @@ exports = module.exports = function(services, app) {
                         }
 
                         Q.all(populatedTypePromises).then(function() {
+
                             service.outcome.success = true;
                             service.deferred.resolve(docs);
                         }).catch(function(err) {
