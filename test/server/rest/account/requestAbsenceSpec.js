@@ -4,7 +4,18 @@
 describe('request absence account rest service', function() {
 
 
-    var server, userAdmin, userAccount, right1, right2, collection, request1;
+    var server,
+        userAdmin,      // create the account, the manager
+        userAccount,    // create the request
+        userManager,    // should be assigned to approval
+
+        right1,         // distribution in request
+        right2,
+
+        department,     // department associated to userManager
+        collection,     // user account collection, contain right1 & 2
+
+        request1;
 
 
     beforeEach(function(done) {
@@ -133,8 +144,19 @@ describe('request absence account rest service', function() {
     });
 
 
+    it('create a department', function(done) {
+        server.post('/rest/admin/departments', {
+            name: 'Test entity'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            department = body;
+            done();
+        });
+    });
+
+
     it('create the user account', function(done) {
-        server.createUserAccount()
+        server.createUserAccount(department)
         .then(function(account) {
             userAccount = account;
             done();
@@ -154,6 +176,18 @@ describe('request absence account rest service', function() {
             done();
         });
     });
+
+
+    it('create the manager user', function(done) {
+        server.createUserManager(department, department)
+        .then(function(manager) {
+            userManager = manager.user;
+            expect(userManager.roles.manager.department.length).toEqual(1);
+            done();
+        });
+
+    });
+
 
 
     it('logout', function(done) {

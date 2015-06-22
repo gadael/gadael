@@ -347,7 +347,7 @@ mockServer.prototype.createAdminSession = function() {
  * promise resolve to two properties "user" (the user document) and "password" (string)
  * @return {Promise}
  */
-mockServer.prototype.createUserAccount = function() {
+mockServer.prototype.createUserAccount = function(department) {
 
 
     var Q = require('q');
@@ -382,6 +382,11 @@ mockServer.prototype.createUserAccount = function() {
                 userAccount.email = 'mockaccount@example.com';
                 userAccount.lastname = 'mockaccount';
                 userAccount.firstname = 'test';
+
+                if (department !== undefined) {
+                    userAccount.department = department._id;
+                }
+
                 userAccount.saveAccount({}).then(function(user) {
 
                     Object.defineProperty(server, 'account', { value: user, writable: true });
@@ -394,6 +399,97 @@ mockServer.prototype.createUserAccount = function() {
 
     return deferred.promise;
 };
+
+
+
+
+
+
+
+/**
+ * Create a manager in database
+ * promise resolve to two properties "user" (the user document) and "password" (string)
+ * @return {Promise}
+ */
+mockServer.prototype.createUserManager = function(memberDepartment, managerDepartment) {
+
+
+    var Q = require('q');
+
+    var deferred = Q.defer();
+    var userModel = this.app.db.models.User;
+    var managerModel = this.app.db.models.Manager;
+    var server = this;
+    var password = 'secret';
+
+    // get account document
+
+    userModel.find({ email: 'mockmanager@example.com' }).exec(function (err, users) {
+        if (err) {
+            deferred.reject(new Error(err));
+            return;
+        }
+
+        if (1 === users.length) {
+            deferred.resolve(users[0]);
+        } else {
+
+            var userManager = new userModel();
+            userModel.encryptPassword(password, function(err, hash) {
+
+                if (err) {
+                    deferred.reject(new Error(err));
+                    return;
+                }
+
+                userManager.password = hash;
+                userManager.email = 'mockmanager@example.com';
+                userManager.lastname = 'mockmanager';
+                userManager.firstname = 'test';
+
+                if (memberDepartment !== undefined) {
+                    userManager.department = memberDepartment._id;
+                }
+
+                userManager.save(function(err, user) {
+
+                    if (err) {
+                        return deferred.reject(err);
+                    }
+
+
+                    var manager = new managerModel();
+                    manager.user = {
+                        id: user._id,
+                        name: user.lastname+' '+user.firstname
+                    };
+
+                    if (managerDepartment !== undefined) {
+                        manager.department = [managerDepartment._id];
+                    }
+
+                    userManager.roles = {
+                        manager: manager
+                    };
+
+                    userManager.save(function(err, user) {
+                        Object.defineProperty(server, 'manager', { value: user, writable: true });
+                        deferred.resolve({ user: user, password: password });
+                    });
+                });
+            });
+        }
+    });
+
+    return deferred.promise;
+};
+
+
+
+
+
+
+
 
 
 
