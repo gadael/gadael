@@ -286,7 +286,7 @@ describe('request absence account rest service', function() {
     });
 
 
-/*
+
     it('forbid creation of out of bounds request', function(done) {
 
         var distribution = [
@@ -332,7 +332,7 @@ describe('request absence account rest service', function() {
             done();
         });
     });
-*/
+
 
 
     it('logout', function(done) {
