@@ -17,7 +17,8 @@ exports = module.exports = function(app, passport) {
 		  email: username
 	  };
 
-      db.models.User.findOne(conditions, function(err, user) {
+      db.models.User.findOne(conditions)
+        .exec(function(err, user) {
         if (err) {
           return done(err);
         }
@@ -66,7 +67,10 @@ exports = module.exports = function(app, passport) {
   passport.deserializeUser(function(id, done) {
 
     var db = passport.db;
-    db.models.User.findOne({ _id: id }).populate('roles.admin').populate('roles.account').exec(function(err, user) {
+    db.models.User.findOne({ _id: id })
+        .populate('department')
+        .populate('roles.admin')
+        .populate('roles.account').exec(function(err, user) {
       if (user && user.roles && user.roles.admin) {
         user.roles.admin.populate("groups", function(err, admin) {
           done(err, user);
@@ -83,8 +87,7 @@ exports = module.exports = function(app, passport) {
   });
   
   
-  var http = require('http')
-	, req = http.IncomingMessage.prototype;
+  var http = require('http'), req = http.IncomingMessage.prototype;
   
 	/**
 	 * Test if logged in
@@ -100,7 +103,7 @@ exports = module.exports = function(app, passport) {
         
         workflow.httpstatus = 401;
         workflow.emit('exception', gt.gettext('Access denied for anonymous users'));
-	}
+	};
 
 
 
@@ -138,7 +141,7 @@ exports = module.exports = function(app, passport) {
             
             workflow.httpstatus = 401;
             workflow.emit('exception', gt.gettext('Access denied'));
-        }
+        };
         
         if (req.user.canPlayRoleOf('account')) {
             if (req.app.config.requireAccountVerification) {
@@ -150,7 +153,7 @@ exports = module.exports = function(app, passport) {
         }
         
         return denyAccess();
-	}
+	};
 
   
 };

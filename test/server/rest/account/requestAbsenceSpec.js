@@ -210,6 +210,14 @@ describe('request absence account rest service', function() {
     });
 
 
+    it('make sure to be in the department', function(done) {
+        server.get('/rest/user', where, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.department._id).toEqual(department._id);
+            done();
+        });
+    });
+
 
     it('request list of current requests as account', function(done) {
         server.get('/rest/account/requests', {}, function(res, body) {
