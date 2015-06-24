@@ -8,6 +8,7 @@ describe('request absence account rest service', function() {
         userAdmin,      // create the account, the manager
         userAccount,    // create the request
         userManager,    // should be assigned to approval
+        userStranger,   // another user
 
         right1,         // distribution in request
         right2,
@@ -161,6 +162,16 @@ describe('request absence account rest service', function() {
             userAccount = account;
             done();
 
+        });
+
+    });
+
+
+    it('create the stranger account', function(done) {
+        server.createUserStranger(department)
+        .then(function(account) {
+            userStranger = account;
+            done();
         });
 
     });
@@ -347,6 +358,65 @@ describe('request absence account rest service', function() {
             expect(body.$outcome).toBeDefined();
             done();
         });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    // stranger part
+
+
+    it('Authenticate user stranger session', function(done) {
+        expect(userStranger.user.roles.account).toBeDefined();
+        server.authenticateAccount(userStranger).then(function() {
+            done();
+        });
+
+    });
+
+
+    it('request list of current requests as account', function(done) {
+        server.get('/rest/account/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(0);
+            done();
+        });
+    });
+
+
+    // TODO try to request document
+
+
+    it('try to delete a request', function(done) {
+        server.delete('/rest/account/requests/'+request1._id, function(res, body) {
+            expect(res.statusCode).toEqual(403);
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    // get a new author session
+
+    it('Authenticate user account session', function(done) {
+        expect(userAccount.user.roles.account).toBeDefined();
+        server.authenticateAccount(userAccount).then(function() {
+            done();
+        });
+
     });
 
 

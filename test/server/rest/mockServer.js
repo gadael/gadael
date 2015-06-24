@@ -342,13 +342,9 @@ mockServer.prototype.createAdminSession = function() {
 };
 
 
-/**
- * Create account in database
- * promise resolve to two properties "user" (the user document) and "password" (string)
- * @return {Promise}
- */
-mockServer.prototype.createUserAccount = function(department) {
 
+
+mockServer.prototype.createUserAccountRole = function(department, nickname, serverProperty) {
 
     var Q = require('q');
 
@@ -359,7 +355,7 @@ mockServer.prototype.createUserAccount = function(department) {
 
     // get account document
 
-    userModel.find({ email: 'mockaccount@example.com' }).exec(function (err, users) {
+    userModel.find({ email: nickname+'@example.com' }).exec(function (err, users) {
         if (err) {
             deferred.reject(new Error(err));
             return;
@@ -379,8 +375,8 @@ mockServer.prototype.createUserAccount = function(department) {
                 }
 
                 userAccount.password = hash;
-                userAccount.email = 'mockaccount@example.com';
-                userAccount.lastname = 'mockaccount';
+                userAccount.email = nickname+'@example.com';
+                userAccount.lastname = nickname;
                 userAccount.firstname = 'test';
 
                 if (department !== undefined) {
@@ -389,7 +385,7 @@ mockServer.prototype.createUserAccount = function(department) {
 
                 userAccount.saveAccount({}).then(function(user) {
 
-                    Object.defineProperty(server, 'account', { value: user, writable: true });
+                    Object.defineProperty(server, serverProperty, { value: user, writable: true });
 
                     deferred.resolve({ user: user, password: password });
                 }).catch(deferred.reject);
@@ -398,6 +394,33 @@ mockServer.prototype.createUserAccount = function(department) {
     });
 
     return deferred.promise;
+
+};
+
+
+
+/**
+ * Create account in database
+ * promise resolve to two properties "user" (the user document) and "password" (string)
+ * @return {Promise}
+ */
+mockServer.prototype.createUserAccount = function(department) {
+
+    return this.createUserAccountRole(department, 'mockaccount', 'account');
+
+};
+
+
+
+/**
+ * Create stranger account in database, used to test non accessible items
+ * promise resolve to two properties "user" (the user document) and "password" (string)
+ * @return {Promise}
+ */
+mockServer.prototype.createUserStranger = function(department) {
+
+    return this.createUserAccountRole(department, 'mockstranger', 'stranger');
+
 };
 
 

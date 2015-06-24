@@ -29,6 +29,11 @@ exports = module.exports = function(services, app) {
         service.app.db.models.Request.findOne(filter, function(err, document) {
             if (service.handleMongoError(err)) {
                 
+
+                if (null === document) {
+                    return service.forbidden(gt.gettext('The request is not accessible'));
+                }
+
                 document.deleted = true;
                 document.save(function(err) {
                     if (service.handleMongoError(err)) {
