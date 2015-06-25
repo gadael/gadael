@@ -315,49 +315,97 @@ function prepareRequestFields(service, params)
 {
     var Q = require('q');
     var deferred = Q.defer();
-    var AccountModel = service.app.db.models.Account;
+    var UserModel = service.app.db.models.User;
+    var ApprovalStepModel = service.app.db.models.ApprovalStep;
 
 
-    AccountModel.findOne({
-        'user.id': params.user
-    }, function(err, account) {
+    /**
+     * @param {Array} departments
+     * @return {Promise} resolve to the list of steps
+     */
+    function getApprovalSteps(departments)
+    {
+        var Q = require('q');
+        var promises = [];
 
-        var fieldsToSet = {
-            user: {
-                id: params.user,
-                name: account.user.name
+
+        function getStepPromise(department)
+        {
+            var deferred = Q.defer();
+
+            department.getManagers(function(managers) {
+                var step = new ApprovalStepModel();
+                step.approvers = [];
+                for(var j=0; j< managers.length; j++) {
+                    step.approvers.push(managers[j]._id);
+                }
+
+                deferred.resolve(step);
+
+            });
+
+            return deferred.promise;
+        }
+
+        for(var i=0; i< departments.length; i++) {
+            promises.push(getStepPromise(departments[i]));
+        }
+
+        return Q.all(promises);
+    }
+
+
+    UserModel.findOne({
+        '_id': params.user
+    }).populate('roles.account')
+    .exec(function(err, user) {
+
+        user.getDepartmentsAncestors()
+            .then(getApprovalSteps)
+            .then(function(approvalSteps) {
+
+            var account = user.roles.account;
+
+
+            var fieldsToSet = {
+                user: {
+                    id: params.user,
+                    name: account.user.name
+                },
+                approvalSteps: approvalSteps
+            };
+
+            if (undefined !== params.absence) {
+                var promisedDistribution = saveAbsence(service, params.user, params.absence);
+
+                promisedDistribution.then(function(distribution) {
+                    getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
+
+                        fieldsToSet.absence = {
+                            distribution: distribution
+                        };
+
+                        if (null !== collection) {
+                            fieldsToSet.absence.rightCollection = collection._id;
+                        }
+
+                        deferred.resolve(fieldsToSet);
+                    });
+                }, service.error);
             }
-        };
+
+            if (undefined !== params.time_saving_deposit) {
+                fieldsToSet.time_saving_deposit = params.time_saving_deposit;
+                deferred.resolve(fieldsToSet);
+            }
+
+            if (undefined !== params.workperiod_recover) {
+                fieldsToSet.workperiod_recover = params.workperiod_recover;
+                deferred.resolve(fieldsToSet);
+            }
 
 
-        if (undefined !== params.absence) {
-            var promisedDistribution = saveAbsence(service, params.user, params.absence);
-
-            promisedDistribution.then(function(distribution) {
-                getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
-
-                    fieldsToSet.absence = {
-                        distribution: distribution
-                    };
-
-                    if (null !== collection) {
-                        fieldsToSet.absence.rightCollection = collection._id;
-                    }
-
-                    deferred.resolve(fieldsToSet);
-                });
-            }, service.error);
-        }
-
-        if (undefined !== params.time_saving_deposit) {
-            fieldsToSet.time_saving_deposit = params.time_saving_deposit;
-            deferred.resolve(fieldsToSet);
-        }
-
-        if (undefined !== params.workperiod_recover) {
-            fieldsToSet.workperiod_recover = params.workperiod_recover;
-            deferred.resolve(fieldsToSet);
-        }
+        });
 
     });
 

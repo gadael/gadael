@@ -47,7 +47,7 @@ exports = module.exports = function(params) {
     /**
      * Get the department and ancestors 
      * @return {Promise}
-     */
+
     userSchema.methods.getDepartments = function() {
         
         var Q = require('q');
@@ -88,10 +88,57 @@ exports = module.exports = function(params) {
         
         return deferred.promise;
     };
+    */
+
+
+    /**
+     * Get an array of departments ancestors, including the user department on the last position of the array
+     * if the user have no department, promise resolve to an empty array
+     * @return {Promise}
+     */
+    userSchema.methods.getDepartmentsAncestors = function() {
+
+        var Q = require('q');
+
+        if (!this.department) {
+            return Q.fcall(function () {
+                return [];
+            });
+        }
+
+        var deferred = Q.defer();
+
+        this.populate('department', function(err, user) {
+
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            var department = user.department;
+
+            if (!department) {
+                return deferred.resolve([]);
+            }
+
+            department.getAncestors(function(err, ancestors) {
+
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                ancestors.push(department);
+                deferred.resolve(ancestors);
+            });
+
+        });
+
+
+        return deferred.promise;
+    };
     
     
 
-        /**
+    /**
      * Test if the user is manager of another user
      * Promise resolve to a boolean
      * @this {User}
@@ -208,50 +255,7 @@ exports = module.exports = function(params) {
 
 
 
-    /**
-     * Get an array of departments ancestors, including the user department on the last position of the array
-     * if the user have no department, promise resolve to an empty array
-     * @return {Promise}
-     */
-    userSchema.methods.getDepartmentsAncestors = function() {
 
-        var Q = require('q');
-
-        if (!this.department) {
-            return Q.fcall(function () {
-                return [];
-            });
-        }
-
-        var deferred = Q.defer();
-
-        this.populate('department', function(err, user) {
-
-            if (err) {
-                return deferred.reject(err);
-            }
-
-            var department = user.department;
-
-            if (!department) {
-                return deferred.resolve([]);
-            }
-
-            department.getAncestors(function(err, ancestors) {
-
-                if (err) {
-                    return deferred.reject(err);
-                }
-
-                ancestors.push(department);
-                deferred.resolve(ancestors);
-            });
-
-        });
-
-
-        return deferred.promise;
-    };
 
   
     /**
