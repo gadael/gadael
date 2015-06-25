@@ -192,8 +192,8 @@ describe('request absence account rest service', function() {
     it('create the manager user', function(done) {
         server.createUserManager(department, department)
         .then(function(manager) {
-            userManager = manager.user;
-            expect(userManager.roles.manager.department.length).toEqual(1);
+            userManager = manager;
+            expect(userManager.user.roles.manager.department.length).toEqual(1);
             done();
         });
 
@@ -292,6 +292,7 @@ describe('request absence account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(2);
+            expect(body.approvalSteps.length).toEqual(1);
             request1 = body;
             done();
         });
@@ -419,11 +420,20 @@ describe('request absence account rest service', function() {
 
 
     it('Authenticate user manager session', function(done) {
-        expect(userManager.roles.manager).toBeDefined();
-        server.authenticateAccount(userAccount).then(function() {
+        expect(userManager.user.roles.manager).toBeDefined();
+        server.authenticateAccount(userManager).then(function() {
             done();
         });
 
+    });
+
+
+    it('list waiting requests', function(done) {
+        server.get('/rest/manager/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            done();
+        });
     });
 
 

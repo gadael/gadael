@@ -22,8 +22,7 @@ var query = function(service, params) {
     var find = service.app.db.models.Request.find();
     find.where();
 
-    if (params.user)
-    {
+    if (params.user) {
          find.where({ 'approvalSteps.approvers': params.user });
     }
 

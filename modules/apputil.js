@@ -45,6 +45,11 @@ exports = module.exports = function(app) {
             return false;
         }
         
+        if (0 === ctrl.path.indexOf('/rest/manager/') && (!req.isAuthenticated() || !req.user.canPlayRoleOf('manager'))) {
+            ctrl.accessDenied(gt.gettext('Access denied for non managers'));
+            return false;
+        }
+
         if (0 === ctrl.path.indexOf('/rest/user/') && !req.isAuthenticated()) {
             ctrl.accessDenied(gt.gettext('Access denied for anonymous users'));
             return false;
