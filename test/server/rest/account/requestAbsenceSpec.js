@@ -390,7 +390,13 @@ describe('request absence account rest service', function() {
     });
 
 
-    // TODO try to request document
+    it('try to get unaccessible request', function(done) {
+        server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
+            expect(res.statusCode).toEqual(404);
+            expect(body.$outcome.status).toBeFalsy();
+            done();
+        });
+    });
 
 
     it('try to delete a request', function(done) {
@@ -399,6 +405,27 @@ describe('request absence account rest service', function() {
             done();
         });
     });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    // login as manager (approver)
+
+
+    it('Authenticate user manager session', function(done) {
+        expect(userManager.roles.manager).toBeDefined();
+        server.authenticateAccount(userAccount).then(function() {
+            done();
+        });
+
+    });
+
 
 
     it('logout', function(done) {

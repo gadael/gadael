@@ -72,6 +72,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./account/requests');
     controllers.add('./account/collection');
 
+    controllers.add('./manager/requests');
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountrights');
