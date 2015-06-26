@@ -19,7 +19,7 @@ exports = module.exports = function(params) {
 
     absence: {
         rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' },
-        distribution: [mongoose.modelSchemas.AbsenceElem]
+        distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }]
     },
 
     time_saving_deposit: {
@@ -36,10 +36,10 @@ exports = module.exports = function(params) {
 
     deleted: { type: Boolean, default: false },
 
-    approvalSteps: [mongoose.modelSchemas.ApprovalStep],			// on request creation, approval steps are copied and contain references to users
+    approvalSteps: [params.embeddedSchemas.ApprovalStep],			// on request creation, approval steps are copied and contain references to users
                                                                     // informations about approval are stored in requestLog sub-documents instead
 
-    requestLog: [mongoose.modelSchemas.RequestLog],					// linear representation of all actions
+    requestLog: [params.embeddedSchemas.RequestLog]					// linear representation of all actions
                                                                     // create, edit, delete, and effectives approval steps
     });
 
@@ -74,23 +74,153 @@ exports = module.exports = function(params) {
     });
 
 
+    /**
+     * Get last request log inserted for the approval workflow
+     * @return {RequestLog}
+     */
+    requestSchema.methods.getlastApprovalRequestLog = function() {
+        for(var i=this.requestLog.length; i>=0; i--) {
+            if (this.requestLog[i].approvalStep !== undefined) {
+                return this.requestLog[i];
+            }
+        }
 
+        return null;
+    };
+
+
+    /**
+     * Get the last approval step with a saved item in request log
+     * @return {ApprovalStep}
+     */
+    requestSchema.methods.getLastApprovalStep = function() {
+
+        if (this.approvalSteps === undefined) {
+            return null;
+        }
+
+        if (0 === this.approvalSteps.length) {
+            return null;
+        }
+
+        var log = this.getlastApprovalRequestLog();
+
+        if (null === log) {
+            // nothing done about approval
+            return null;
+        }
+
+        return this.approvalSteps.id(log.approvalStep);
+    };
+
+
+
+
+    /**
+     * Get next approval step
+     * @return {ApprovalStep|false}
+     */
+    requestSchema.methods.getNextApprovalStep = function() {
+
+        if (0 === this.approvalSteps.length) {
+            return null;
+        }
+
+        var last = this.getLastApprovalStep();
+
+        if (null === last) {
+            return this.approvalSteps[0];
+        }
+
+        for(var i=0; i<this.approvalSteps.length; i++) {
+            if (this.approvalSteps[i]._id !== last._id) {
+                continue;
+            }
+        }
+
+        if (this.approvalSteps[i+1] === undefined) {
+            return false;
+        }
+
+        return this.approvalSteps[i+1];
+    };
+
+
+
+    /**
+     * If last approval step is confirmed, notify the appliquant
+     * otherwise notify the next manager using approvalsteps
+     * @param {ApprovalStep} nextStep
+     */
+    requestSchema.methods.forwardApproval = function(nextStep) {
+
+
+
+        // TODO send message to managers of the nextStep
+    };
+
+
+
+    /**
+     * @param {ApprovalStep} approvalStep
+     * @param {User} user
+     * @param {String} comment
+     */
+    requestSchema.methods.accept = function(approvalStep, user, comment) {
+
+        var nextStep = this.getNextApprovalStep();
+
+        if (null === nextStep) {
+            throw new Error('Nothing to accept');
+        }
+
+        this.addLog('wf_accept', comment, approvalStep);
+
+        if (false === nextStep) {
+            this.addLog('wf_end');
+            // TODO notify appliquant
+            return;
+        }
+
+        // add log entry
+        this.addLog('wf_accept', comment, approvalStep);
+        this.forwardApproval(nextStep);
+    };
+
+    /**
+     * @param {ApprovalStep} approvalStep
+     * @param {User} user
+     * @param {String} comment
+     */
+    requestSchema.methods.reject = function(approvalStep, user, comment) {
+         // add log entry
+         this.addLog('wf_reject', comment, approvalStep);
+    };
 
 
     /**
     * Add a log document to request
     * @param {String} action
     * @param {String} comment
+    * @param {ApprovalStep} approvalStep
     *
-    * @return {Promise} the mongoose promise
     */
-    requestSchema.methods.addLog = function(action, comment) {
-      var requestLogModel = this.model('RequestLog');
-      var log = new requestLogModel();
+    requestSchema.methods.addLog = function(action, comment, approvalStep) {
+        var requestLogModel = this.model('RequestLog');
+        var log = new requestLogModel();
 
-      log.action = action;
-      log.comment = comment;
-      return log.save();
+        log.action = action;
+        log.comment = comment;
+
+        if (approvalStep !== undefined) {
+            log.approvalStep = approvalStep._id;
+        }
+
+        if (this.requestLog === undefined) {
+            this.requestLog = [];
+        }
+
+        this.requestLog.push(log);
     };
 
 

@@ -21,11 +21,18 @@ exports = module.exports = function(params) {
 		  id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 		  name: { type: String, default: '' }							// Name to display in request history
 		},
-		timeCreated: { type: Date, default: Date.now }
+		timeCreated: { type: Date, default: Date.now },
+
+        approvalStep: { type: mongoose.Schema.Types.ObjectId, ref: 'ApprovalStep' }
 	});
+
+
+
   
 	requestLogSchema.set('autoIndex', params.autoIndex);
   
-	params.db.model('RequestLog', requestLogSchema);
+	//params.db.model('RequestLog', requestLogSchema);
+
+    params.embeddedSchemas.RequestLog = requestLogSchema;
 };
 

@@ -9,9 +9,12 @@
  */
 function validate(service, params)
 {
-
-    if (service.needRequiredFields(params, ['id', 'user', 'approvalStep'])) {
+    if (service.needRequiredFields(params, ['id', 'user', 'approvalStep', 'action'])) {
         return;
+    }
+
+    if (!params.action.indexOf(['wf_accept', 'wf_reject'])) {
+        return service.error('invalid value for action, a manager can only accept or reject a request');
     }
 
     saveRequest(service, params);
@@ -36,22 +39,34 @@ function saveRequest(service, params) {
     var RequestModel = service.app.db.models.Request;
 
     var filter = {
-        'id': params.id,
-        'approvalStep.approvers': params.user
+        'id': params.id
     };
 
-    RequestModel.findOne(filter, function(err, document) {
+    RequestModel.findOne(filter).exec(function(err, document) {
         if (service.handleMongoError(err)) {
 
-            //document.set(fieldsToSet);
 
-            // TODO add log entry
-            // TODO notify next approver or appliquant
+            var approvalStep = document.approvalSteps.id(params.approvalStep);
 
-            service.resolveSuccess(
-                document,
-                gt.gettext('The request has been modified')
-            );
+
+
+
+            if ('wf_accept' === params.action) {
+                document.accept(approvalStep, params.user, params.comment);
+            }
+
+            if ('wf_reject' === params.action) {
+                document.reject(approvalStep, params.user, params.comment);
+            }
+
+            document.save(function(err, request) {
+                service.resolveSuccess(
+                    document,
+                    gt.gettext('The request has been modified')
+                );
+            });
+
+
         }
     });
 

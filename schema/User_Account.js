@@ -25,7 +25,7 @@ exports = module.exports = function(params) {
             time: { type: Date, default: Date.now }
           }
         },
-        statusLog: [mongoose.modelSchemas.StatusLog],
+        statusLog: [params.embeddedSchemas.StatusLog],
 
         // start date for seniority vacation rights
         seniority: Date,

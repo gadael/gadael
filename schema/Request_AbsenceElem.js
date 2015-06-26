@@ -96,6 +96,4 @@ exports = module.exports = function(params) {
 	absenceElemSchema.set('autoIndex', params.autoIndex);
 
 	params.db.model('AbsenceElem', absenceElemSchema);
-
-
 };

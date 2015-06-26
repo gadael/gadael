@@ -153,7 +153,7 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getUserConsumedQuantity = function(user) {
         var deferred = require('q').defer();
-        var model = params.db.models.AbsenceElem;
+        var model = this.model('AbsenceElem');
         model.find({ 'right.renewal.id': this._id, 'user.id': user._id }, 'quantity', function (err, docs) {
             if (err) {
                 deferred.reject(err);

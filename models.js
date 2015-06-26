@@ -8,7 +8,8 @@ exports = module.exports = models;
 models.requirements = {
 	mongoose: null,		// the mongoose object
 	db: null,			// database connexion to link with shemas
-	autoIndex: false	// boolean used to autoindex schemas
+	autoIndex: false,	// boolean used to autoindex schemas
+    embeddedSchemas: [] // collect embedable schemas in this array
 };
 	
 
@@ -22,11 +23,12 @@ models.load = function() {
 	require('./schema/Status')(requirements);
 	require('./schema/StatusLog')(requirements);
 	require('./schema/RequestLog')(requirements);
-	require('./schema/Request_AbsenceElem')(requirements);
     require('./schema/ApprovalStep')(requirements);
 	
 
 	//then regular docs
+
+
     require('./schema/AccountCollection')(requirements);
     require('./schema/AccountScheduleCalendar')(requirements);
 	require('./schema/Company')(requirements);
@@ -36,6 +38,7 @@ models.load = function() {
 	require('./schema/User_Manager')(requirements);
 	require('./schema/Department')(requirements);
 	require('./schema/LoginAttempt')(requirements);
+    require('./schema/Request_AbsenceElem')(requirements);
 	require('./schema/Request')(requirements);
   
 	require('./schema/RightCollection')(requirements);

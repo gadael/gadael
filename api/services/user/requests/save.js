@@ -154,12 +154,6 @@ function saveElement(service, user, elem)
                 saveEvent(service, user, element, elem.event).then(function(savedEvent) {
 
                     deferred.resolve(element);
-
-                    /*
-                    element.save().then(function(savedDoc) {
-                        deferred.resolve(savedDoc);
-                    }, deferred.reject);
-                    */
                 });
 
 
@@ -316,8 +310,6 @@ function prepareRequestFields(service, params)
     var Q = require('q');
     var deferred = Q.defer();
     var UserModel = service.app.db.models.User;
-    var ApprovalStepModel = service.app.db.models.ApprovalStep;
-
 
     function getStepPromise(department)
     {
@@ -327,7 +319,7 @@ function prepareRequestFields(service, params)
                 deferred.reject(err);
             }
 
-            var step = new ApprovalStepModel();
+            var step = {};
             step.operator = 'AND';
             step.approvers = [];
             for(var j=0; j< managers.length; j++) {
@@ -435,6 +427,7 @@ function saveRequest(service, params) {
 
     
     var RequestModel = service.app.db.models.Request;
+    var AbsenceElemModel = service.app.db.models.AbsenceElem;
     
     /**
      * Update link to absences elements in the linked events
@@ -448,18 +441,29 @@ function saveRequest(service, params) {
             return;
         }
 
-        requestDoc.absence.populate('distribution');
+        AbsenceElemModel.find().where('id').in(requestDoc.absence.distribution)
+            .populate('event')
+            .exec(function(err, elements) {
 
-        for( var i=0; i<requestDoc.absence.distribution.length; i++) {
-
-            elem = requestDoc.absence.distribution[i];
-            event = elem.populate('event');
-
-            if (event.absenceElem !== elem._id) {
-                event.absenceElem = elem._id;
-                event.save();
+            if (err) {
+                return console.log(err);
             }
-        }
+
+
+            for( var i=0; i<elements.length; i++) {
+
+                elem = elements[i];
+                event = elem.event;
+
+                if (event.absenceElem !== elem._id) {
+                    event.absenceElem = elem._id;
+                    event.save();
+                }
+            }
+
+        });
+
+
     }
 
 

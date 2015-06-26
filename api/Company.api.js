@@ -19,7 +19,8 @@ function inga_loadMockModels(app, db)
 	models.requirements = {
 		mongoose: app.mongoose,
 		db: db,	
-		autoIndex: true
+		autoIndex: true,
+        embeddedSchemas: []
 	};
 	
 	models.load();
@@ -320,7 +321,8 @@ api.getExpress = function(config, models) {
     models.requirements = {
         mongoose: app.mongoose,
         db: app.db,	
-        autoIndex: (app.get('env') === 'development')
+        autoIndex: (app.get('env') === 'development'),
+        embeddedSchemas: []
     };
     
     models.load();

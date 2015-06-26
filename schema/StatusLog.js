@@ -16,5 +16,7 @@ exports = module.exports = function(params) {
 	
 	statusLogSchema.set('autoIndex', params.autoIndex);
   
-	params.db.model('StatusLog', statusLogSchema);
+	//params.db.model('StatusLog', statusLogSchema);
+
+    params.embeddedSchemas.StatusLog = statusLogSchema;
 };

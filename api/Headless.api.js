@@ -29,7 +29,8 @@ app.connect = function(callback) {
 		models.requirements = {
 			mongoose: mongoose,
 			db: app.db,	
-			autoIndex: true
+			autoIndex: true,
+            embeddedSchemas: {}
 		};
 		models.load();
 
