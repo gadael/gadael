@@ -31,6 +31,7 @@ exports = module.exports = function(services, app) {
         
         service.app.db.models.Request
         .findOne(filter)
+        .populate('absence.distribution')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

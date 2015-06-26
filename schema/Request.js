@@ -44,18 +44,17 @@ exports = module.exports = function(params) {
     });
 
 
-    requestSchema.pre('validate', function(next) {
+    /**
+     * @deprecated
 
-      var elem, request = this;
+    requestSchema.methods.setElemConsumedQuantity = function(elem, next) {
+
+      var request = this;
 
 
       if (request.absence.rightCollection === undefined) {
-          for (var i=0; i<request.absence.distribution.length; i++) {
-              elem = request.absence.distribution[i];
-              elem.consumedQuantity = elem.quantity;
-          }
-
-          next();
+          elem.consumedQuantity = elem.quantity;
+          next(elem);
           return;
       }
 
@@ -63,16 +62,11 @@ exports = module.exports = function(params) {
       var collectionModel = this.model('RightCollection');
 
       collectionModel.findOne({ _id: request.absence.rightCollection }).exec(function (err, rightCollection) {
-
-          for (var i=0; i<request.absence.distribution.length; i++) {
-              elem = request.absence.distribution[i];
-              elem.consumedQuantity = rightCollection.getConsumedQuantity(elem.quantity);
-          }
-
-          next();
+          elem.consumedQuantity = rightCollection.getConsumedQuantity(elem.quantity);
+          next(elem);
       });
-    });
-
+    };
+    */
 
     /**
      * Get last request log inserted for the approval workflow

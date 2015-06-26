@@ -71,15 +71,14 @@ accountRight.prototype.getConsumedQuantity = function()
    'use strict';
 
     var deferred = Q.defer();
-    var RequestModel = this.renewal.model('Request');
-    var distribution;
+    var AbsenceElemModel = this.renewal.model('AbsenceElem');
 
-    RequestModel
+    AbsenceElemModel
         .find({
-            'absence.distribution.right.renewal.id': this.renewal._id,
+            'right.renewal.id': this.renewal._id,
             'user.id': this.account.user.id
         }) // , 'absence.distribution.consumedQuantity'
-        .exec(function(err, requests) {
+        .exec(function(err, elements) {
 
         if (err) {
             return deferred.reject(err);
@@ -87,18 +86,14 @@ accountRight.prototype.getConsumedQuantity = function()
 
         var consumed = 0;
 
-        for(var i=0; i<requests.length; i++) {
+        for(var i=0; i<elements.length; i++) {
 
-            distribution = requests[i].absence.distribution;
-
-            for (var j=0; j<distribution.length; j++) {
-
-                if (distribution[j].consumedQuantity === undefined) {
+                if (elements[i].consumedQuantity === undefined) {
                     throw new Error('The consumed quantity field is missing on element');
                 }
 
-                consumed += distribution[j].consumedQuantity;
-            }
+                consumed += elements[i].consumedQuantity;
+
         }
 
         deferred.resolve(consumed);

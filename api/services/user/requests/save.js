@@ -106,7 +106,7 @@ function saveElement(service, user, elem)
     function setProperties(element)
     {
         element.quantity = elem.quantity;
-        // consumed quantity will be updated via model hook
+        element.consumedQuantity = elem.consumedQuantity;
 
         RightModel.findOne({ _id: elem.right })
         .populate('type')
@@ -153,7 +153,13 @@ function saveElement(service, user, elem)
 
                 saveEvent(service, user, element, elem.event).then(function(savedEvent) {
 
-                    deferred.resolve(element);
+
+                    element.save(function(err, element) {
+                        if (err) {
+                            return deferred.reject(err);
+                        }
+                        deferred.resolve(element);
+                    });
                 });
 
 
@@ -242,9 +248,10 @@ function checkElement(service, user, elem)
  * @param {apiService} service
  * @param {String} user             absence owner object ID
  * @param {Object} params
+ * @param {RightCollection} collection
  * @return {Promise} promised distribution array
  */
-function saveAbsence(service, user, params) {
+function saveAbsence(service, user, params, collection) {
 
     var Q = require('q');
 
@@ -257,7 +264,7 @@ function saveAbsence(service, user, params) {
 
     var i, elem,
         chekedElementsPromises = [],
-        savedEventPromises = [];
+        savedElementsPromises = [];
 
     // check available quantity
 
@@ -272,10 +279,11 @@ function saveAbsence(service, user, params) {
 
         for(i=0; i<params.distribution.length; i++) {
             elem = params.distribution[i];
-            savedEventPromises.push(saveElement(service, user, elem));
+            elem.consumedQuantity = collection.getConsumedQuantity(elem.quantity);
+            savedElementsPromises.push(saveElement(service, user, elem));
         }
 
-        return Q.all(savedEventPromises);
+        return Q.all(savedElementsPromises);
     });
 }
 
@@ -376,22 +384,27 @@ function prepareRequestFields(service, params)
             };
 
             if (undefined !== params.absence) {
-                var promisedDistribution = saveAbsence(service, params.user, params.absence);
 
-                promisedDistribution.then(function(distribution) {
-                    getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
+                getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
 
-                        fieldsToSet.absence = {
-                            distribution: distribution
-                        };
+                    var promisedDistribution = saveAbsence(service, params.user, params.absence, collection);
 
-                        if (null !== collection) {
-                            fieldsToSet.absence.rightCollection = collection._id;
-                        }
+                    promisedDistribution.then(function(distribution) {
 
-                        deferred.resolve(fieldsToSet);
-                    });
-                }, service.error);
+
+                            fieldsToSet.absence = {
+                                distribution: distribution
+                            };
+
+                            if (null !== collection) {
+                                fieldsToSet.absence.rightCollection = collection._id;
+                            }
+
+                            deferred.resolve(fieldsToSet);
+
+                    }, service.error);
+
+                });
             }
 
             if (undefined !== params.time_saving_deposit) {
