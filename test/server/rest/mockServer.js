@@ -491,14 +491,37 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
                         manager.department = [managerDepartment._id];
                     }
 
-                    userManager.roles = {
-                        manager: manager
-                    };
+                    manager.save(function(err, manager) {
 
-                    userManager.save(function(err, user) {
-                        Object.defineProperty(server, 'manager', { value: user, writable: true });
-                        deferred.resolve({ user: user, password: password });
+                        if (err) {
+                            return deferred.reject(err);
+                        }
+
+                        userManager.roles = {
+                            manager: manager._id
+                        };
+
+                        userManager.save(function(err, user) {
+
+                            if (err) {
+                                return deferred.reject(err);
+                            }
+
+                            user.populate('roles.manager', function(err, user) {
+
+                                if (err) {
+                                    return deferred.reject(err);
+                                }
+
+                                Object.defineProperty(server, 'manager', { value: user, writable: true });
+                                deferred.resolve({ user: user, password: password });
+                            });
+
+                        });
+
                     });
+
+
                 });
             });
         }

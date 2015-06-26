@@ -75,49 +75,6 @@ exports = module.exports = function(params) {
 
 
 
-    requestSchema.pre('save', function(next) {
-        // TODO: create approval steps
-
-        next();
-    });
-
-
-    /**
-    * Create approval steps if not exists on request
-    * @param {Function} next
-    */
-    requestSchema.methods.createApprovalSteps = function(next) {
-        if (this.approvalSteps.length > 0) {
-            return next();
-        }
-
-        var stepModel = this.model('ApprovalStep');
-        var userModel = this.model('User');
-
-
-        function createStep(approvers) {
-            var step = new stepModel();
-            step.operator = 'AND';
-            step.approvers = approvers;
-            step.save();
-        }
-
-        // get departments hierarchy for the owner of the request
-
-        userModel.findOne({ _id: this.user.id }, function(err, user) {
-            if (err) {
-                return next(err);
-            }
-
-            user.getDepartments().then(function(arr) {
-                for(var i=0; i<arr.length; i++) {
-                    arr[i].getManagers(createStep);
-                }
-            });
-        });
-
-        //
-    };
 
 
     /**

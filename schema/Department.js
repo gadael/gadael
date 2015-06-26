@@ -15,13 +15,6 @@ exports = module.exports = function(params) {
         // we have parent and path mananged by the tree plugin
 	});
 
-	departmentSchema.index({ 'name': 1 }, { unique: true });
-	departmentSchema.index({ 'parent': 1 });
-	departmentSchema.set('autoIndex', params.autoIndex);
-
-    departmentSchema.plugin(tree);
-
-	params.db.model('Department', departmentSchema);
 
   
 	/**
@@ -30,7 +23,17 @@ exports = module.exports = function(params) {
 	 */ 
 	departmentSchema.methods.getManagers = function(callback) {
 		return this.model('Manager')
-			.find({ 'department._id': this._id })
+			.find({ department: this._id })
 			.exec(callback);
 	};
+
+
+    departmentSchema.index({ 'name': 1 }, { unique: true });
+	departmentSchema.index({ 'parent': 1 });
+	departmentSchema.set('autoIndex', params.autoIndex);
+
+    departmentSchema.plugin(tree);
+
+	params.db.model('Department', departmentSchema);
+
 };

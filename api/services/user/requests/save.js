@@ -319,35 +319,43 @@ function prepareRequestFields(service, params)
     var ApprovalStepModel = service.app.db.models.ApprovalStep;
 
 
+    function getStepPromise(department)
+    {
+        var deferred = Q.defer();
+        department.getManagers(function(err, managers) {
+            if (err) {
+                deferred.reject(err);
+            }
+
+            var step = new ApprovalStepModel();
+            step.operator = 'AND';
+            step.approvers = [];
+            for(var j=0; j< managers.length; j++) {
+                step.approvers.push(managers[j].user.id);
+            }
+
+            deferred.resolve(step);
+
+        });
+
+        return deferred.promise;
+    }
+
+
+
     /**
      * @param {Array} departments
      * @return {Promise} resolve to the list of steps
      */
     function getApprovalSteps(departments)
     {
+
+
         var Q = require('q');
         var promises = [];
 
-
-        function getStepPromise(department)
-        {
-            var deferred = Q.defer();
-
-            department.getManagers(function(managers) {
-                var step = new ApprovalStepModel();
-                step.approvers = [];
-                for(var j=0; j< managers.length; j++) {
-                    step.approvers.push(managers[j]._id);
-                }
-
-                deferred.resolve(step);
-
-            });
-
-            return deferred.promise;
-        }
-
         for(var i=0; i< departments.length; i++) {
+
             promises.push(getStepPromise(departments[i]));
         }
 

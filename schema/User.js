@@ -114,6 +114,7 @@ exports = module.exports = function(params) {
                 return deferred.reject(err);
             }
 
+
             var department = user.department;
 
             if (!department) {
@@ -121,6 +122,8 @@ exports = module.exports = function(params) {
             }
 
             department.getAncestors(function(err, ancestors) {
+
+
 
                 if (err) {
                     return deferred.reject(err);
