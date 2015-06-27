@@ -73,7 +73,7 @@ exports = module.exports = function(params) {
      * @return {RequestLog}
      */
     requestSchema.methods.getlastApprovalRequestLog = function() {
-        for(var i=this.requestLog.length; i>=0; i--) {
+        for(var i=this.requestLog.length-1; i>=0; i--) {
             if (this.requestLog[i].approvalStep !== undefined) {
                 return this.requestLog[i];
             }
@@ -200,8 +200,8 @@ exports = module.exports = function(params) {
     *
     */
     requestSchema.methods.addLog = function(action, comment, approvalStep) {
-        var requestLogModel = this.model('RequestLog');
-        var log = new requestLogModel();
+
+        var log = {};
 
         log.action = action;
         log.comment = comment;

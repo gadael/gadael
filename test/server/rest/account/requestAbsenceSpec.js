@@ -440,6 +440,29 @@ describe('request absence account rest service', function() {
     });
 
 
+    var approvalStep1;
+
+    it('get request 1', function(done) {
+        server.get('/rest/manager/requests/'+request1._id, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.approvalSteps.length).toEqual(1);
+            approvalStep1 = body.approvalSteps[0];
+            done();
+        });
+    });
+
+
+    it('accept request 1 approval step', function(done) {
+        server.put('/rest/manager/requests/'+request1._id, {
+            approvalStep: approvalStep1._id,
+            action: 'wf_accept'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {

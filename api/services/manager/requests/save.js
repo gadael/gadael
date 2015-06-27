@@ -39,11 +39,15 @@ function saveRequest(service, params) {
     var RequestModel = service.app.db.models.Request;
 
     var filter = {
-        'id': params.id
+        '_id': params.id
     };
 
     RequestModel.findOne(filter).exec(function(err, document) {
         if (service.handleMongoError(err)) {
+
+            if (!document) {
+                return service.notFound('Request not found');
+            }
 
 
             var approvalStep = document.approvalSteps.id(params.approvalStep);
