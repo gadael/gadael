@@ -44,29 +44,7 @@ exports = module.exports = function(params) {
     });
 
 
-    /**
-     * @deprecated
 
-    requestSchema.methods.setElemConsumedQuantity = function(elem, next) {
-
-      var request = this;
-
-
-      if (request.absence.rightCollection === undefined) {
-          elem.consumedQuantity = elem.quantity;
-          next(elem);
-          return;
-      }
-
-
-      var collectionModel = this.model('RightCollection');
-
-      collectionModel.findOne({ _id: request.absence.rightCollection }).exec(function (err, rightCollection) {
-          elem.consumedQuantity = rightCollection.getConsumedQuantity(elem.quantity);
-          next(elem);
-      });
-    };
-    */
 
     /**
      * Get last request log inserted for the approval workflow
@@ -115,6 +93,8 @@ exports = module.exports = function(params) {
      * @return {ApprovalStep|false}
      */
     requestSchema.methods.getNextApprovalStep = function() {
+
+
 
         if (0 === this.approvalSteps.length) {
             return null;
@@ -168,16 +148,15 @@ exports = module.exports = function(params) {
             throw new Error('Nothing to accept');
         }
 
-        this.addLog('wf_accept', comment, approvalStep);
+        this.addLog('wf_accept', user, comment, approvalStep);
 
-        if (false === nextStep) {
-            this.addLog('wf_end');
+        if (false === nextStep || approvalStep._id === nextStep._id) {
+            this.addLog('wf_end', user);
             // TODO notify appliquant
             return;
         }
 
         // add log entry
-        this.addLog('wf_accept', comment, approvalStep);
         this.forwardApproval(nextStep);
     };
 
@@ -188,7 +167,7 @@ exports = module.exports = function(params) {
      */
     requestSchema.methods.reject = function(approvalStep, user, comment) {
          // add log entry
-         this.addLog('wf_reject', comment, approvalStep);
+         this.addLog('wf_reject', user, comment, approvalStep);
     };
 
 
@@ -199,12 +178,16 @@ exports = module.exports = function(params) {
     * @param {ApprovalStep} approvalStep
     *
     */
-    requestSchema.methods.addLog = function(action, comment, approvalStep) {
+    requestSchema.methods.addLog = function(action, user, comment, approvalStep) {
 
         var log = {};
 
         log.action = action;
         log.comment = comment;
+        log.userCreated = {
+            id: user._id,
+            name: user.getName()
+        };
 
         if (approvalStep !== undefined) {
             log.approvalStep = approvalStep._id;

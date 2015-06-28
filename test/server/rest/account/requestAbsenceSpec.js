@@ -458,6 +458,8 @@ describe('request absence account rest service', function() {
             action: 'wf_accept'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            var lastLog = body.requestLog[body.requestLog.length -1];
+            expect(lastLog.action).toEqual('wf_end');
             done();
         });
     });

@@ -37,6 +37,7 @@ function saveRequest(service, params) {
     var gt = new Gettext();
 
     var RequestModel = service.app.db.models.Request;
+    var UserModel = service.app.db.models.User;
 
     var filter = {
         '_id': params.id
@@ -53,24 +54,24 @@ function saveRequest(service, params) {
             var approvalStep = document.approvalSteps.id(params.approvalStep);
 
 
+            UserModel.findOne({ _id: params.user }).exec(function(err, user) {
 
+                if ('wf_accept' === params.action) {
+                    document.accept(approvalStep, user, params.comment);
+                }
 
-            if ('wf_accept' === params.action) {
-                document.accept(approvalStep, params.user, params.comment);
-            }
+                if ('wf_reject' === params.action) {
+                    document.reject(approvalStep, user, params.comment);
+                }
 
-            if ('wf_reject' === params.action) {
-                document.reject(approvalStep, params.user, params.comment);
-            }
+                document.save(function(err, request) {
+                    service.resolveSuccess(
+                        document,
+                        gt.gettext('The request has been modified')
+                    );
+                });
 
-            document.save(function(err, request) {
-                service.resolveSuccess(
-                    document,
-                    gt.gettext('The request has been modified')
-                );
             });
-
-
         }
     });
 
