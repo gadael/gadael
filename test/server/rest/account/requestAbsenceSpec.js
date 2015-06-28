@@ -513,6 +513,16 @@ describe('request absence account rest service', function() {
     });
 
 
+    it('get request 1', function(done) {
+        server.get('/rest/account/requests/'+request1._id, { deleted:1 }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            var lastLog = body.requestLog[body.requestLog.length -1];
+            expect(lastLog.action).toEqual('delete');
+            done();
+        });
+    });
+
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {

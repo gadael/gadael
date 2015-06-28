@@ -57,7 +57,7 @@ function updateController() {
         
         controller.jsonService(
             controller.service('user/requests/save', {
-                user: this.req.user._id,
+                user: controller.req.user._id,
                 modifiedBy: controller.req.user
             })
         );
@@ -68,8 +68,13 @@ updateController.prototype = new ctrlFactory.update();
 function deleteController() {
     ctrlFactory.delete.call(this, '/rest/account/requests/:id');
     
+    var controller = this;
+
     this.controllerAction = function() {
-        this.jsonService(this.service('user/requests/delete', { user: this.req.user._id }));
+        this.jsonService(this.service('user/requests/delete', {
+            user: controller.req.user._id, // filtered by this user for security
+            deletedBy: controller.req.user
+        }));
     };
 }
 deleteController.prototype = new ctrlFactory.delete();

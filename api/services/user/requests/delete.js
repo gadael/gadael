@@ -35,6 +35,8 @@ exports = module.exports = function(services, app) {
                 }
 
                 document.deleted = true;
+                document.addLog('delete', params.deletedBy);
+
                 document.save(function(err) {
                     if (service.handleMongoError(err)) {
                         service.success(gt.gettext('The request has been deleted'));

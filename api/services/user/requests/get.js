@@ -18,9 +18,14 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
+
+        if (params.deleted === undefined) {
+            params.deleted = false;
+        }
+
         var filter = {
             _id: params.id,
-            deleted: false
+            deleted: params.deleted
         };
         
         if (params.user) {
