@@ -296,6 +296,7 @@ describe('request absence account rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(2);
             expect(body.approvalSteps.length).toEqual(1);
+            expect(body.requestLog.length).toEqual(1);
             request1 = body;
             done();
         });
@@ -338,6 +339,7 @@ describe('request absence account rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(1);
             expect(body.absence.rightCollection).toBeDefined();
+            expect(body.requestLog.length).toEqual(2);
             done();
         });
     });

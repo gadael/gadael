@@ -313,11 +313,11 @@ function getCollectionFromDistribution(distribution, account) {
  * @param {Object} params
  * @return {Promise} promised fieldsToSet object
  */
-function prepareRequestFields(service, params)
+function prepareRequestFields(service, params, user)
 {
     var Q = require('q');
     var deferred = Q.defer();
-    var UserModel = service.app.db.models.User;
+
 
     function getStepPromise(department)
     {
@@ -355,7 +355,6 @@ function prepareRequestFields(service, params)
         var promises = [];
 
         for(var i=0; i< departments.length; i++) {
-
             promises.push(getStepPromise(departments[i]));
         }
 
@@ -363,64 +362,57 @@ function prepareRequestFields(service, params)
     }
 
 
-    UserModel.findOne({
-        '_id': params.user
-    }).populate('roles.account')
-    .exec(function(err, user) {
 
-        user.getDepartmentsAncestors()
-            .then(getApprovalSteps)
-            .then(function(approvalSteps) {
+    user.getDepartmentsAncestors()
+        .then(getApprovalSteps)
+        .then(function(approvalSteps) {
 
-            var account = user.roles.account;
+        var account = user.roles.account;
 
 
-            var fieldsToSet = {
-                user: {
-                    id: params.user,
-                    name: account.user.name
-                },
-                approvalSteps: approvalSteps
-            };
+        var fieldsToSet = {
+            user: {
+                id: params.user,
+                name: account.user.name
+            },
+            approvalSteps: approvalSteps
+        };
 
-            if (undefined !== params.absence) {
+        if (undefined !== params.absence) {
 
-                getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
+            getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
 
-                    var promisedDistribution = saveAbsence(service, params.user, params.absence, collection);
+                var promisedDistribution = saveAbsence(service, params.user, params.absence, collection);
 
-                    promisedDistribution.then(function(distribution) {
+                promisedDistribution.then(function(distribution) {
 
+                        fieldsToSet.absence = {
+                            distribution: distribution
+                        };
 
-                            fieldsToSet.absence = {
-                                distribution: distribution
-                            };
+                        if (null !== collection) {
+                            fieldsToSet.absence.rightCollection = collection._id;
+                        }
 
-                            if (null !== collection) {
-                                fieldsToSet.absence.rightCollection = collection._id;
-                            }
+                        deferred.resolve(fieldsToSet);
 
-                            deferred.resolve(fieldsToSet);
+                }, service.error);
 
-                    }, service.error);
+            });
+        }
 
-                });
-            }
+        if (undefined !== params.time_saving_deposit) {
+            fieldsToSet.time_saving_deposit = params.time_saving_deposit;
+            deferred.resolve(fieldsToSet);
+        }
 
-            if (undefined !== params.time_saving_deposit) {
-                fieldsToSet.time_saving_deposit = params.time_saving_deposit;
-                deferred.resolve(fieldsToSet);
-            }
-
-            if (undefined !== params.workperiod_recover) {
-                fieldsToSet.workperiod_recover = params.workperiod_recover;
-                deferred.resolve(fieldsToSet);
-            }
-
-
-        });
-
+        if (undefined !== params.workperiod_recover) {
+            fieldsToSet.workperiod_recover = params.workperiod_recover;
+            deferred.resolve(fieldsToSet);
+        }
     });
+
+
 
     return deferred.promise;
 }
@@ -481,60 +473,75 @@ function saveRequest(service, params) {
 
 
 
+    var UserModel = service.app.db.models.User;
 
-    prepareRequestFields(service, params).then(function(fieldsToSet) {
+    UserModel.findOne({
+        '_id': params.user
+    }).populate('roles.account')
+    .exec(function(err, user) {
 
-        var filter = {
-            _id: params.id,
-            deleted: false
-        };
-
-        filter['user.id'] = params.user;
-
-
-        function end(document, message)
-        {
-            document.save(function(err, document) {
-                if (service.handleMongoError(err)) {
-                    saveEmbedEvents(document);
-
-                    // Do not wait for event update?
-                    service.resolveSuccess(
-                        document,
-                        message
-                    );
-                }
-            });
+        if (!user) {
+            return service.error('User not found');
         }
 
 
+        prepareRequestFields(service, params, user).then(function(fieldsToSet) {
 
-        if (params.id)
-        {
-
-
-            RequestModel.findOne(filter, function(err, document) {
-                if (service.handleMongoError(err)) {
-
-                    document.set(fieldsToSet);
-                    end(document, gt.gettext('The request has been modified'));
-                }
-            });
-
-
-
-        } else {
-
-            fieldsToSet.createdBy = {
-                id: params.createdBy._id,
-                name: params.createdBy.getName()
+            var filter = {
+                _id: params.id,
+                deleted: false
             };
 
+            filter['user.id'] = params.user;
 
-            var document = new RequestModel();
-            document.set(fieldsToSet);
-            end(document, gt.gettext('The request has been created'));
-        }
+
+            function end(document, message)
+            {
+                document.save(function(err, document) {
+                    if (service.handleMongoError(err)) {
+                        saveEmbedEvents(document);
+
+                        // Do not wait for event update?
+                        service.resolveSuccess(
+                            document,
+                            message
+                        );
+                    }
+                });
+            }
+
+
+
+            if (params.id)
+            {
+
+
+                RequestModel.findOne(filter, function(err, document) {
+                    if (service.handleMongoError(err)) {
+
+                        document.set(fieldsToSet);
+                        document.addLog('modify', params.modifiedBy);
+                        end(document, gt.gettext('The request has been modified'));
+                    }
+                });
+
+
+
+            } else {
+
+                fieldsToSet.createdBy = {
+                    id: params.createdBy._id,
+                    name: params.createdBy.getName()
+                };
+
+
+                var document = new RequestModel();
+                document.set(fieldsToSet);
+                document.addLog('create', params.createdBy);
+                end(document, gt.gettext('The request has been created'));
+            }
+
+        });
 
     });
 }

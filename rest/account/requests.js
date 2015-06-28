@@ -57,7 +57,8 @@ function updateController() {
         
         controller.jsonService(
             controller.service('user/requests/save', {
-                user: this.req.user._id
+                user: this.req.user._id,
+                modifiedBy: controller.req.user
             })
         );
     };
