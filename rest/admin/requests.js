@@ -33,13 +33,12 @@ function createController() {
         
         // since service is query independant, we have to give
         // the additional parameter
-        
+
         controller.jsonService(
-            controller.service('user/requests/save'),
-            {
+            controller.service('user/requests/save', {
                 createdBy: controller.req.user,
                 modifiedBy: controller.req.user
-            }
+            })
         );
     };
 }
@@ -57,10 +56,9 @@ function updateController() {
         // the additional parameter
         
         controller.jsonService(
-            controller.service('user/requests/save'),
-            {
+            controller.service('user/requests/save', {
                 modifiedBy: controller.req.user
-            }
+            })
         );
     };
 }
@@ -69,8 +67,11 @@ updateController.prototype = new ctrlFactory.update();
 function deleteController() {
     ctrlFactory.delete.call(this, '/rest/admin/requests/:id');
     
+    var controller = this;
     this.controllerAction = function() {
-        this.jsonService(this.service('user/requests/delete'));
+        this.jsonService(this.service('user/requests/delete', {
+            deletedBy: controller.req.user
+        }));
     };
 }
 deleteController.prototype = new ctrlFactory.delete();

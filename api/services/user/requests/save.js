@@ -195,6 +195,7 @@ function saveElement(service, user, elem)
  */
 function checkElement(service, user, elem)
 {
+    var util = require('util');
     var Q = require('q');
     var deferred = Q.defer();
     var RightModel = service.app.db.models.Right;
@@ -220,7 +221,7 @@ function checkElement(service, user, elem)
                 accountRight.getAvailableQuantity().then(function(available) {
 
                     if (available < elem.quantity) {
-                        return deferred.reject('The quantity requests for right %s is not available');
+                        return deferred.reject(util.format('The quantity requests for right "%s" is not available', rightDocument.name));
                     }
 
                     deferred.resolve(true);
@@ -484,7 +485,6 @@ function saveRequest(service, params) {
             return service.error('User not found');
         }
 
-
         prepareRequestFields(service, params, user).then(function(fieldsToSet) {
 
             var filter = {
@@ -514,7 +514,9 @@ function saveRequest(service, params) {
 
             if (params.id)
             {
-
+                if (params.modifiedBy === undefined) {
+                    return service.error('The modifiedBy parameter is missing');
+                }
 
                 RequestModel.findOne(filter, function(err, document) {
                     if (service.handleMongoError(err)) {
@@ -529,15 +531,19 @@ function saveRequest(service, params) {
 
             } else {
 
+                if (params.createdBy === undefined) {
+                    return service.error('The createdBy parameter is missing');
+                }
+
                 fieldsToSet.createdBy = {
                     id: params.createdBy._id,
                     name: params.createdBy.getName()
                 };
 
-
                 var document = new RequestModel();
                 document.set(fieldsToSet);
                 document.addLog('create', params.createdBy);
+
                 end(document, gt.gettext('The request has been created'));
             }
 

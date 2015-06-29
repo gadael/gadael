@@ -30,6 +30,7 @@ var query = function(service, params) {
          find.where({ 'user.id': params.user });
     }
 
+
     return find;
 };
 
@@ -49,7 +50,7 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-          
+
         var cols = 'user timeCreated createdBy absence time_saving_deposit workperiod_recover approvalSteps';
         var sortkey = 'timeCreated';
         

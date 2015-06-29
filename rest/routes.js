@@ -80,6 +80,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/accountschedulecalendars');
     controllers.add('./admin/departments');
     controllers.add('./admin/collections');
+    controllers.add('./admin/collection');
     controllers.add('./admin/calendars');
     controllers.add('./admin/calendarevents');
     controllers.add('./admin/types');

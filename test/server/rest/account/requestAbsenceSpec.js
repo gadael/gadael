@@ -240,12 +240,15 @@ describe('request absence account rest service', function() {
         });
     });
 
-    var where = {
-        dtstart: new Date(2015,1,1, 8).toJSON(),
-        dtend: new Date(2015,1,1, 18).toJSON()
-    };
+    var where;
 
     it('request account current collection', function(done) {
+
+        where = {
+            dtstart: new Date(2015,1,1, 8).toJSON(),
+            dtend: new Date(2015,1,1, 18).toJSON()
+        };
+
         server.get('/rest/account/collection', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.name).toBeDefined();

@@ -22,7 +22,7 @@ describe('request absence account rest service', function() {
     beforeEach(function(done) {
         var helpers = require('../mockServer');
 
-        helpers.mockServer('accountRequestAbsence', function(_mockServer) {
+        helpers.mockServer('adminRequestAbsence', function(_mockServer) {
             server = _mockServer;
             done();
         });
@@ -160,6 +160,7 @@ describe('request absence account rest service', function() {
         server.createUserAccount(department)
         .then(function(account) {
             userAccount = account;
+            expect(userAccount).toBeDefined();
             done();
 
         });
@@ -209,13 +210,17 @@ describe('request absence account rest service', function() {
         });
     });
 
-    var where = {
-        user: userAccount.user._id,
-        dtstart: new Date(2015,1,1, 8).toJSON(),
-        dtend: new Date(2015,1,1, 18).toJSON()
-    };
+
+    var where;
 
     it('request account current collection', function(done) {
+
+        where = {
+            user: userAccount.user._id.toString(),
+            dtstart: new Date(2015,1,1, 8).toJSON(),
+            dtend: new Date(2015,1,1, 18).toJSON()
+        };
+
         server.get('/rest/admin/collection', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.name).toBeDefined();
@@ -262,7 +267,7 @@ describe('request absence account rest service', function() {
         ];
 
         server.post('/rest/admin/requests', {
-            user: userAccount.user._id,
+            user: userAccount.user._id.toString(),
             absence: { distribution: distribution }
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -275,6 +280,7 @@ describe('request absence account rest service', function() {
         });
     });
 
+
     it('request list of current requests', function(done) {
         server.get('/rest/admin/requests', {
             user: userAccount.user._id
@@ -284,6 +290,7 @@ describe('request absence account rest service', function() {
             done();
         });
     });
+
 
     it('get one request', function(done) {
         server.get('/rest/admin/requests/'+request1._id, {}, function(res, body) {
@@ -309,7 +316,10 @@ describe('request absence account rest service', function() {
             }
         ];
 
-        server.put('/rest/admin/requests/'+request1._id, { absence: { distribution: distribution } }, function(res, body) {
+        server.put('/rest/admin/requests/'+request1._id, {
+            user: userAccount.user._id,
+            absence: { distribution: distribution }
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(1);
@@ -334,7 +344,10 @@ describe('request absence account rest service', function() {
             }
         ];
 
-        server.post('/rest/admin/requests', { absence: { distribution: distribution } }, function(res, body) {
+        server.post('/rest/admin/requests', {
+            user: userAccount.user._id,
+            absence: { distribution: distribution }
+        }, function(res, body) {
             expect(res.statusCode).toEqual(500);
             expect(body.$outcome).toBeDefined();
             done();
@@ -342,12 +355,6 @@ describe('request absence account rest service', function() {
     });
 
 
-    it('logout', function(done) {
-        server.get('/rest/logout', {}, function(res) {
-            expect(res.statusCode).toEqual(200);
-            done();
-        });
-    });
 
 
 
