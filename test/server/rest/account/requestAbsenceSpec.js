@@ -222,7 +222,7 @@ describe('request absence account rest service', function() {
 
 
     it('make sure to be in the department', function(done) {
-        server.get('/rest/user', where, function(res, body) {
+        server.get('/rest/user', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             if (body.department) {
                 expect(body.department._id).toEqual(department._id);
