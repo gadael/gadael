@@ -5,20 +5,20 @@ var ctrlFactory = require('restitute').controller;
 
 
 function listController() {
-    ctrlFactory.list.call(this, '/rest/manager/requests');
+    ctrlFactory.list.call(this, '/rest/manager/waitingrequests');
 
     this.controllerAction = function() {
-        this.jsonService(this.service('manager/requests/list', { user: this.req.user._id }));
+        this.jsonService(this.service('manager/waitingrequests/list', { user: this.req.user._id }));
     };
 }
 listController.prototype = new ctrlFactory.list();
 
 
 function getController() {
-    ctrlFactory.get.call(this, '/rest/manager/requests/:id');
+    ctrlFactory.get.call(this, '/rest/manager/waitingrequests/:id');
 
     this.controllerAction = function() {
-        this.jsonService(this.service('manager/requests/get', { user: this.req.user._id }));
+        this.jsonService(this.service('manager/waitingrequests/get', { user: this.req.user._id }));
     };
 }
 getController.prototype = new ctrlFactory.get();
@@ -26,7 +26,7 @@ getController.prototype = new ctrlFactory.get();
 
 
 function updateController() {
-    ctrlFactory.update.call(this, '/rest/manager/requests/:id');
+    ctrlFactory.update.call(this, '/rest/manager/waitingrequests/:id');
 
     var controller = this;
     this.controllerAction = function() {
@@ -35,7 +35,7 @@ function updateController() {
         // the additional parameter
 
         controller.jsonService(
-            controller.service('manager/requests/save', {
+            controller.service('manager/waitingrequests/save', {
                 user: this.req.user._id
             })
         );

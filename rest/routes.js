@@ -72,7 +72,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./account/requests');
     controllers.add('./account/collection');
 
-    controllers.add('./manager/requests');
+    controllers.add('./manager/waitingrequests');
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountrights');
@@ -88,6 +88,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/rightrules');
     controllers.add('./admin/beneficiaries');
     controllers.add('./admin/requests');
+    controllers.add('./admin/waitingrequests');
 
     controllers.add('./anonymous/createfirstadmin');
 	

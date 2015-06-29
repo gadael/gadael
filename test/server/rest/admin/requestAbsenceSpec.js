@@ -36,7 +36,7 @@ describe('request absence account rest service', function() {
 
 
     it('request list of current requests as anonymous', function(done) {
-        server.get('/rest/account/requests', {}, function(res) {
+        server.get('/rest/admin/requests', {}, function(res) {
             expect(res.statusCode).toEqual(401);
             done();
         });
@@ -201,39 +201,8 @@ describe('request absence account rest service', function() {
 
 
 
-    it('logout', function(done) {
-        server.get('/rest/logout', {}, function(res) {
-            expect(res.statusCode).toEqual(200);
-            done();
-        });
-    });
-
-
-    // account session part
-
-
-    it('Authenticate user account session', function(done) {
-        expect(userAccount.user.roles.account).toBeDefined();
-        server.authenticateAccount(userAccount).then(function() {
-            done();
-        });
-
-    });
-
-
-    it('make sure to be in the department', function(done) {
-        server.get('/rest/user', where, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            if (body.department) {
-                expect(body.department._id).toEqual(department._id);
-            }
-            done();
-        });
-    });
-
-
-    it('request list of current requests as account', function(done) {
-        server.get('/rest/account/requests', {}, function(res, body) {
+    it('request list of current requests as admin', function(done) {
+        server.get('/rest/admin/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(0);
             done();
@@ -241,12 +210,13 @@ describe('request absence account rest service', function() {
     });
 
     var where = {
+        user: userAccount.user._id,
         dtstart: new Date(2015,1,1, 8).toJSON(),
         dtend: new Date(2015,1,1, 18).toJSON()
     };
 
     it('request account current collection', function(done) {
-        server.get('/rest/account/collection', where, function(res, body) {
+        server.get('/rest/admin/collection', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.name).toBeDefined();
             done();
@@ -256,7 +226,7 @@ describe('request absence account rest service', function() {
 
 
     it('request list of accessibles rights', function(done) {
-        server.get('/rest/account/accountrights', where, function(res, body) {
+        server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(2);
 
@@ -291,7 +261,10 @@ describe('request absence account rest service', function() {
             }
         ];
 
-        server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
+        server.post('/rest/admin/requests', {
+            user: userAccount.user._id,
+            absence: { distribution: distribution }
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(2);
@@ -302,8 +275,10 @@ describe('request absence account rest service', function() {
         });
     });
 
-    it('request list of current requests as account', function(done) {
-        server.get('/rest/account/requests', {}, function(res, body) {
+    it('request list of current requests', function(done) {
+        server.get('/rest/admin/requests', {
+            user: userAccount.user._id
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             done();
@@ -311,7 +286,7 @@ describe('request absence account rest service', function() {
     });
 
     it('get one request', function(done) {
-        server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
+        server.get('/rest/admin/requests/'+request1._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.absence.distribution).toBeDefined();
             expect(body._id).toEqual(request1._id);
@@ -334,7 +309,7 @@ describe('request absence account rest service', function() {
             }
         ];
 
-        server.put('/rest/account/requests/'+request1._id, { absence: { distribution: distribution } }, function(res, body) {
+        server.put('/rest/admin/requests/'+request1._id, { absence: { distribution: distribution } }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.absence.distribution.length).toEqual(1);
@@ -359,7 +334,7 @@ describe('request absence account rest service', function() {
             }
         ];
 
-        server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
+        server.post('/rest/admin/requests', { absence: { distribution: distribution } }, function(res, body) {
             expect(res.statusCode).toEqual(500);
             expect(body.$outcome).toBeDefined();
             done();
@@ -375,66 +350,9 @@ describe('request absence account rest service', function() {
     });
 
 
-    // stranger part
-
-
-    it('Authenticate user stranger session', function(done) {
-        expect(userStranger.user.roles.account).toBeDefined();
-        server.authenticateAccount(userStranger).then(function() {
-            done();
-        });
-
-    });
-
-
-    it('request list of current requests as account', function(done) {
-        server.get('/rest/account/requests', {}, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(0);
-            done();
-        });
-    });
-
-
-    it('try to get unaccessible request', function(done) {
-        server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
-            expect(res.statusCode).toEqual(404);
-            expect(body.$outcome.status).toBeFalsy();
-            done();
-        });
-    });
-
-
-    it('try to delete a request', function(done) {
-        server.delete('/rest/account/requests/'+request1._id, function(res, body) {
-            expect(res.statusCode).toEqual(403);
-            done();
-        });
-    });
-
-
-    it('logout', function(done) {
-        server.get('/rest/logout', {}, function(res) {
-            expect(res.statusCode).toEqual(200);
-            done();
-        });
-    });
-
-
-    // login as manager (approver)
-
-
-    it('Authenticate user manager session', function(done) {
-        expect(userManager.user.roles.manager).toBeDefined();
-        server.authenticateAccount(userManager).then(function() {
-            done();
-        });
-
-    });
-
 
     it('list waiting requests', function(done) {
-        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+        server.get('/rest/admin/waitingrequests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             done();
@@ -445,7 +363,7 @@ describe('request absence account rest service', function() {
     var approvalStep1;
 
     it('get request 1', function(done) {
-        server.get('/rest/manager/waitingrequests/'+request1._id, {}, function(res, body) {
+        server.get('/rest/admin/waitingrequests/'+request1._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.approvalSteps.length).toEqual(1);
             approvalStep1 = body.approvalSteps[0];
@@ -455,7 +373,8 @@ describe('request absence account rest service', function() {
 
 
     it('accept request 1 approval step', function(done) {
-        server.put('/rest/manager/waitingrequests/'+request1._id, {
+        server.put('/rest/admin/waitingrequests/'+request1._id, {
+            user: userManager.user._id,
             approvalStep: approvalStep1._id,
             action: 'wf_accept'
         }, function(res, body) {
@@ -468,35 +387,18 @@ describe('request absence account rest service', function() {
 
 
 
-    it('logout', function(done) {
-        server.get('/rest/logout', {}, function(res) {
-            expect(res.statusCode).toEqual(200);
-            done();
-        });
-    });
-
-
-    // get a new author session
-
-    it('Authenticate user account session', function(done) {
-        expect(userAccount.user.roles.account).toBeDefined();
-        server.authenticateAccount(userAccount).then(function() {
-            done();
-        });
-
-    });
 
 
     it('delete a request', function(done) {
-        server.delete('/rest/account/requests/'+request1._id, function(res, body) {
+        server.delete('/rest/admin/requests/'+request1._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
         });
     });
 
 
-    it('request list of current requests as account', function(done) {
-        server.get('/rest/account/requests', {}, function(res, body) {
+    it('request list of current requests', function(done) {
+        server.get('/rest/admin/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(0);
             done();
@@ -504,8 +406,8 @@ describe('request absence account rest service', function() {
     });
 
 
-    it('request list of current deleted requests as account', function(done) {
-        server.get('/rest/account/requests', { deleted:1 }, function(res, body) {
+    it('request list of current deleted requests', function(done) {
+        server.get('/rest/admin/requests', { deleted:1 }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             done();
@@ -514,7 +416,7 @@ describe('request absence account rest service', function() {
 
 
     it('get request 1', function(done) {
-        server.get('/rest/account/requests/'+request1._id, { deleted:1 }, function(res, body) {
+        server.get('/rest/admin/requests/'+request1._id, { deleted:1 }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             var lastLog = body.requestLog[body.requestLog.length -1];
             expect(lastLog.action).toEqual('delete');
