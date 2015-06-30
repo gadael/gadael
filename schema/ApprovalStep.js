@@ -13,7 +13,6 @@ exports = module.exports = function(params) {
 	});
   
 	approvalStepSchema.set('autoIndex', params.autoIndex);
-	//params.db.model('ApprovalStep', approvalStepSchema);
 
     params.embeddedSchemas.ApprovalStep = approvalStepSchema;
 };

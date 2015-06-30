@@ -36,9 +36,37 @@ api.populate = function(app, count, callback) {
 
 
 /**
- * Create an admin account
+ * Create an admin user
  * 
  */ 
-api.createAdmin = function(app, email, password, callback) {
-	
+api.createAdmin = function(app, email, password) {
+	var Q = require('q');
+    var deferred = Q.defer();
+
+    var userModel = app.db.models.User;
+    var admin = new userModel();
+
+    userModel.encryptPassword(password, function(err, hash) {
+
+        if (err) {
+            deferred.reject(new Error(err));
+            return;
+        }
+
+        admin.password = hash;
+        admin.email = email;
+        admin.lastname = 'admin';
+        admin.saveAdmin(function(err, user) {
+
+            if (err) {
+                deferred.reject(new Error(err));
+                return;
+            }
+
+            deferred.resolve(user);
+        });
+    });
+
+
+    return deferred.promise;
 };
