@@ -374,11 +374,14 @@ exports = module.exports = function(params) {
                 name: user.lastname+' '+user.firstname
             };
 
+            /*
             for(var prop in accountProperties) {
                 if (accountProperties.isOwnProperty(prop)) {
                     account[prop] = accountProperties[prop];
                 }
             }
+            */
+            account.set(accountProperties);
 
             account.save(function(err, role) {
 
@@ -398,6 +401,63 @@ exports = module.exports = function(params) {
 
 
 
+
+
+
+    /**
+     * Save user and create account role if necessary
+     * @return {Promise}
+     */
+    userSchema.methods.saveManager = function(managerProperties) {
+
+        var Q = require('q');
+        var deferred = Q.defer();
+
+        this.save(function(err, user) {
+
+            if (err) {
+                deferred.reject(err);
+                return;
+            }
+
+            if (user.roles.manager) {
+                deferred.reject('Manager allready exists');
+                return;
+            }
+
+            var managerModel = params.db.models.Manager;
+
+            var manager = new managerModel();
+            manager.user = {
+                id: user._id,
+                name: user.lastname+' '+user.firstname
+            };
+
+            /*
+            for(var prop in managerProperties) {
+                if (managerProperties.isOwnProperty(prop)) {
+                    manager[prop] = managerProperties[prop];
+                }
+            }
+            */
+
+            manager.set(managerProperties);
+
+            manager.save(function(err, role) {
+
+                if (err) {
+                    deferred.reject(err);
+                    return;
+                }
+
+                user.roles.manager = role._id;
+                deferred.resolve(user.save());
+            });
+
+        });
+
+        return deferred.promise;
+    };
 
 
 

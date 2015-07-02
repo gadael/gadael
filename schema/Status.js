@@ -10,7 +10,6 @@ exports = module.exports = function(params) {
     statusSchema.index({ pivot: 1 });
     statusSchema.index({ name: 1 });
     statusSchema.set('autoIndex', params.autoIndex);
-    // params.db.model('Status', statusSchema);
 
     params.embeddedSchemas.Status = statusSchema;
 };

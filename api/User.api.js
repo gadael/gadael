@@ -35,16 +35,12 @@ api.populate = function(app, count, callback) {
 
 
 
-/**
- * Create an admin user
- * 
- */ 
-api.createAdmin = function(app, email, password) {
-	var Q = require('q');
+api.createRandomUser = function(app, email, password) {
+    var Q = require('q');
     var deferred = Q.defer();
 
     var userModel = app.db.models.User;
-    var admin = new userModel();
+    var user = new userModel();
 
     userModel.encryptPassword(password, function(err, hash) {
 
@@ -53,20 +49,68 @@ api.createAdmin = function(app, email, password) {
             return;
         }
 
-        admin.password = hash;
-        admin.email = email;
-        admin.lastname = 'admin';
-        admin.saveAdmin(function(err, user) {
+        user.password = hash;
+        user.email = email;
+        user.lastname = 'admin';
 
-            if (err) {
-                deferred.reject(new Error(err));
-                return;
-            }
+        deferred.resolve(user);
 
-            deferred.resolve(user);
-        });
     });
 
+
+    return deferred.promise;
+};
+
+
+
+/**
+ * Create an admin user
+ *
+ */
+api.createRandomAdmin = function(app, email, password) {
+	var Q = require('q');
+    var deferred = Q.defer();
+
+    api.createRandomUser(app, email, password).then(function(user) {
+        user.saveAdmin(deferred.makeNodeResolver());
+    });
+
+    return deferred.promise;
+};
+
+
+
+/**
+ * Create an account user
+ *
+ */
+api.createRandomAccount = function(app, email, password) {
+	var Q = require('q');
+    var deferred = Q.defer();
+
+    api.createRandomUser(app, email, password).then(function(user) {
+        user.saveAccount(deferred.makeNodeResolver());
+    });
+
+    return deferred.promise;
+};
+
+
+
+
+
+
+/**
+ * Create a manager user
+ *
+ */
+api.createRandomManager = function(app, email, password) {
+	var Q = require('q');
+    var deferred = Q.defer();
+
+    api.createRandomUser(app, email, password).then(function(user) {
+        user.saveManager(deferred.makeNodeResolver());
+    });
 
     return deferred.promise;
 };
