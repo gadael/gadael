@@ -511,7 +511,7 @@ exports = module.exports = function(params) {
      */  
     userSchema.statics.createRandom = function(password, done) {
 		
-		var Charlatan = require('../node_modules/charlatan/lib/charlatan.js');
+		var Charlatan = require('charlatan');
 		var model = this;
 
 		this.encryptPassword(password, function(err, hash) {

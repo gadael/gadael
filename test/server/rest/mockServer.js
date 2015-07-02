@@ -298,12 +298,8 @@ mockServer.prototype.createAdminSession = function() {
                     admin.password = hash;
                     admin.email = 'admin@example.com';
                     admin.lastname = 'admin';
-                    admin.saveAdmin(function(err, user) {
-                        
-                        if (err) {
-                            deferred.reject(new Error(err));
-                            return;
-                        }
+                    admin.saveAdmin().then(function(user) {
+
                         
                         Object.defineProperty(server, 'admin', { value: user, writable: true });
 

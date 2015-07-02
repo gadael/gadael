@@ -3,6 +3,8 @@
 var api = {};
 exports = module.exports = api;
 
+var Q = require('q');
+
 
 /**
  * Generate "count" random users in the app
@@ -34,15 +36,26 @@ api.populate = function(app, count, callback) {
 };
 
 
-
+/**
+ * Create random user
+ *
+ * @param {Express} app
+ * @param {string} [email]
+ * @param {string} [password]
+ *
+ * @return {Promise}
+ */
 api.createRandomUser = function(app, email, password) {
-    var Q = require('q');
+
     var deferred = Q.defer();
 
+    var Charlatan = require('charlatan');
     var userModel = app.db.models.User;
     var user = new userModel();
 
-    userModel.encryptPassword(password, function(err, hash) {
+    var clearPassword = password || Charlatan.Internet.password();
+
+    userModel.encryptPassword(clearPassword, function(err, hash) {
 
         if (err) {
             deferred.reject(new Error(err));
@@ -50,10 +63,14 @@ api.createRandomUser = function(app, email, password) {
         }
 
         user.password = hash;
-        user.email = email;
-        user.lastname = 'admin';
+        user.email = email || Charlatan.Internet.safeEmail();
+        user.lastname = Charlatan.Name.lastName();
+		user.firstname = Charlatan.Name.firstName();
 
-        deferred.resolve(user);
+        deferred.resolve({
+            user: user,
+            password: clearPassword
+        });
 
     });
 
@@ -65,14 +82,16 @@ api.createRandomUser = function(app, email, password) {
 
 /**
  * Create an admin user
- *
+ * @param {Express} app
+ * @param {string} [email]
+ * @param {string} [password]
  */
 api.createRandomAdmin = function(app, email, password) {
-	var Q = require('q');
+
     var deferred = Q.defer();
 
     api.createRandomUser(app, email, password).then(function(user) {
-        user.saveAdmin(deferred.makeNodeResolver());
+        deferred.resolve(user.saveAdmin());
     });
 
     return deferred.promise;
@@ -82,14 +101,16 @@ api.createRandomAdmin = function(app, email, password) {
 
 /**
  * Create an account user
- *
+ * @param {Express} app
+ * @param {string} [email]
+ * @param {string} [password]
  */
 api.createRandomAccount = function(app, email, password) {
-	var Q = require('q');
+
     var deferred = Q.defer();
 
     api.createRandomUser(app, email, password).then(function(user) {
-        user.saveAccount(deferred.makeNodeResolver());
+        deferred.resolve(user.saveAccount());
     });
 
     return deferred.promise;
@@ -102,14 +123,16 @@ api.createRandomAccount = function(app, email, password) {
 
 /**
  * Create a manager user
- *
+ * @param {Express} app
+ * @param {string} [email]
+ * @param {string} [password]
  */
 api.createRandomManager = function(app, email, password) {
-	var Q = require('q');
+
     var deferred = Q.defer();
 
     api.createRandomUser(app, email, password).then(function(user) {
-        user.saveManager(deferred.makeNodeResolver());
+        deferred.resolve(user.saveManager());
     });
 
     return deferred.promise;
