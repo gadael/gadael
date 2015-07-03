@@ -91,7 +91,7 @@ api.createRandomAdmin = function(app, email, password) {
     var deferred = Q.defer();
 
     api.createRandomUser(app, email, password).then(function(user) {
-        deferred.resolve(user.saveAdmin());
+        deferred.resolve(user.user.saveAdmin());
     });
 
     return deferred.promise;
@@ -110,7 +110,7 @@ api.createRandomAccount = function(app, email, password) {
     var deferred = Q.defer();
 
     api.createRandomUser(app, email, password).then(function(user) {
-        deferred.resolve(user.saveAccount());
+        deferred.resolve(user.user.saveAccount());
     });
 
     return deferred.promise;
@@ -132,7 +132,7 @@ api.createRandomManager = function(app, email, password) {
     var deferred = Q.defer();
 
     api.createRandomUser(app, email, password).then(function(user) {
-        deferred.resolve(user.saveManager());
+        deferred.resolve(user.user.saveManager());
     });
 
     return deferred.promise;

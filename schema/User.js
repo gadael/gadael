@@ -309,38 +309,63 @@ exports = module.exports = function(params) {
     };
     
     
+
+
     /**
-     * Save user and create admin role if necessary
+     * Save user and create account role if necessary
+     * @return {Promise}
      */
-    userSchema.methods.saveAdmin = function(callback) {
-        
+    userSchema.methods.saveAdmin = function(adminProperties) {
+
+        var Q = require('q');
+        var deferred = Q.defer();
+
         this.save(function(err, user) {
 
-            if (err || user.roles.admin) {
-                callback(err, user);
+            if (err) {
+                deferred.reject(err);
                 return;
             }
-            
+
+            if (user.roles.admin) {
+                deferred.reject('Admin allready exists');
+                return;
+            }
+
             var adminModel = params.db.models.Admin;
-            
+
             var admin = new adminModel();
             admin.user = {
                 id: user._id,
                 name: user.lastname+' '+user.firstname
             };
+
+            /*
+            for(var prop in accountProperties) {
+                if (accountProperties.isOwnProperty(prop)) {
+                    account[prop] = accountProperties[prop];
+                }
+            }
+            */
             
+            if (undefined !== adminProperties) {
+                admin.set(adminProperties);
+            }
+
             admin.save(function(err, role) {
-                
+
                 if (err) {
-                    callback(err, user);
+                    deferred.reject(err);
                     return;
                 }
-                
+
                 user.roles.admin = role._id;
-                user.save(callback);
+                deferred.resolve(user.save());
             });
-        
+
         });
+
+        return deferred.promise;
     };
     
     
@@ -381,7 +406,10 @@ exports = module.exports = function(params) {
                 }
             }
             */
-            account.set(accountProperties);
+
+            if (undefined !== accountProperties) {
+                account.set(accountProperties);
+            }
 
             account.save(function(err, role) {
 
@@ -441,7 +469,9 @@ exports = module.exports = function(params) {
             }
             */
 
-            manager.set(managerProperties);
+            if (undefined !== managerProperties) {
+                manager.set(managerProperties);
+            }
 
             manager.save(function(err, role) {
 
