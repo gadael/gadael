@@ -31,8 +31,16 @@ describe('Approval on absence request', function() {
 
 
     it('verify the mock objects', function(done) {
-        expect(server).toBeDefined();
+        expect(server.app).toBeDefined();
         expect(approval).toBeDefined();
+        done();
+    });
+
+
+    it('create departments', function(done) {
+        approval.createDepartments(server.app).then(function(departments) {
+            expect(departments).toBeDefined();
+        });
         done();
     });
 
