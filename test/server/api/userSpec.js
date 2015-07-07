@@ -58,9 +58,9 @@ describe("User API", function CompanyTestSuite() {
 	});
 
     it("create random manager", function(done) {
-		api.user.createRandomManager(app).then(function(user) {
-            expect(user.email).toBeDefined();
-            expect(user.roles.manager).toBeDefined();
+		api.user.createRandomManager(app).then(function(randomManager) {
+            expect(randomManager.user.email).toBeDefined();
+            expect(randomManager.user.roles.manager).toBeDefined();
 			done();
 		});
 	});
