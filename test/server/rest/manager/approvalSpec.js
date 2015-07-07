@@ -40,8 +40,14 @@ describe('Approval on absence request', function() {
     it('create departments', function(done) {
         approval.createDepartments(server.app).then(function(departments) {
             expect(departments).toBeDefined();
+            departments[7].getAncestors(function(err, ancestors) {
+                expect(err).toEqual(null);
+                expect(ancestors.length).toEqual(3);
+                done();
+            });
+
         });
-        done();
+
     });
 
 

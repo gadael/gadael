@@ -2,6 +2,7 @@
 
 exports = module.exports = function(params) {
 
+    // mongoose-path-tree add a parent field
     var tree = require('mongoose-path-tree');
 
 	var mongoose = params.mongoose;

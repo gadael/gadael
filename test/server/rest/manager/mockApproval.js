@@ -40,6 +40,7 @@ mockApproval.prototype.createCollection = function(name) {
 
 /**
  * Create a departments tree to mock approval
+ * @todo: make non-linear
  *
  *   d0
  *   /\
@@ -53,25 +54,60 @@ mockApproval.prototype.createDepartments = function(app) {
 
     var deferred = this.Q.defer();
 
+    // prepare parents by index
+
+    var position = [
+        null,   // d0
+        0,      // d1
+        0,      // d2
+        1,      // d3
+        2,      // d4
+        2,      // d5
+        4,      // d6
+        4       // d7
+    ];
+
     // create 7 departments
 
-    var departments = [], parent = null, count = 7, api = this.api.department;
+    var departments = [], parent = null, count = 0, api = this.api;
 
     function nextCreation(department) {
 
-        departments.push(department);
-        parent = department._id;
-        count--;
+        api.user.createRandomManager(app).then(function(randomManager) {
 
-        if (count > 0) {
-            return api.create(app, parent).then(nextCreation);
-        }
 
-        deferred.resolve(departments);
+
+            if (randomManager.user.roles.manager === undefined) {
+                return deferred.reject('Not a manager');
+            }
+
+
+            randomManager.user.populate('roles.manager', function() {
+
+                randomManager.user.roles.manager.department.push(department._id);
+                randomManager.user.roles.manager.save(function() {
+
+                    departments.push(department);
+                    count++;
+
+                    parent = departments[position[count]];
+
+
+                    if (count <= 7) {
+                        return api.department.create(app, parent).then(nextCreation);
+                    }
+
+                    deferred.resolve(departments);
+
+                });
+            });
+
+
+        }, deferred.reject);
     }
 
 
-    api.create(app, parent).then(nextCreation);
+    api.department.create(app, parent).then(nextCreation);
 
     return deferred.promise;
 

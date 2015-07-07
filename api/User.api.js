@@ -131,8 +131,11 @@ api.createRandomManager = function(app, email, password) {
 
     var deferred = Q.defer();
 
-    api.createRandomUser(app, email, password).then(function(user) {
-        deferred.resolve(user.user.saveManager());
+    api.createRandomUser(app, email, password).then(function(randomUser) {
+        randomUser.user.saveManager().then(function() {
+             deferred.resolve(randomUser);
+        });
+
     });
 
     return deferred.promise;
