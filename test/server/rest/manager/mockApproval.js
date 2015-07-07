@@ -19,6 +19,10 @@ function mockApproval(server, readyCallback) {
     this.server = server;
 }
 
+
+/**
+ * Create a right
+ */
 mockApproval.prototype.createRight = function(name, quantity, quantity_unit) {
 
     var RightModel = this.server.app.db.mongoose.model('Right');
@@ -29,13 +33,41 @@ mockApproval.prototype.createRight = function(name, quantity, quantity_unit) {
     return right.save();
 };
 
+
+/**
+ * Create a right collection
+ * with 4 rights
+ *
+ * @return {Promise}
+ */
 mockApproval.prototype.createCollection = function(name) {
 
+    var deferred = this.Q.defer();
+    var self = this;
     var RightCollectionModel = this.server.app.db.mongoose.model('RightCollection');
     var collection = new RightCollectionModel();
     collection.name = name;
-    return collection.save();
+    collection.save(function(err, collection) {
+        var promises = [];
+        promises.push(self.createRight('right 1', 25, 'D'));
+        promises.push(self.createRight('right 2', 5.25, 'D'));
+        promises.push(self.createRight('right 3', 2, 'D'));
+        promises.push(self.createRight('right 4', 100, 'H'));
+
+        Q.All(promises).then(function(rights) {
+
+            //TODO add beneficiaries
+            deferred.resolve(collection);
+        });
+    });
+
+    return deferred.promise;
 };
+
+
+
+
+
 
 
 /**
