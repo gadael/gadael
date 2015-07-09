@@ -25,13 +25,15 @@ function mockApproval(server, readyCallback) {
  */
 mockApproval.prototype.createRight = function(name, quantity, quantity_unit) {
 
-    var RightModel = this.server.app.db.mongoose.model('Right');
+    var RightModel = this.server.app.db.models.Right;
     var right = new RightModel();
     right.name = name;
     right.quantity = quantity;
     right.quantity_unit = quantity_unit;
     return right.save();
 };
+
+
 
 
 /**
@@ -42,21 +44,47 @@ mockApproval.prototype.createRight = function(name, quantity, quantity_unit) {
  */
 mockApproval.prototype.createCollection = function(name) {
 
-    var deferred = this.Q.defer();
     var self = this;
-    var RightCollectionModel = this.server.app.db.mongoose.model('RightCollection');
+    var BeneficiaryModel = this.server.app.db.models.Beneficiary;
+    var RightCollectionModel = this.server.app.db.models.RightCollection;
+
+
+    /**
+     * create link from right to collection
+     * @return {Promise}
+     */
+    function beneficiary(rightPromise, collection)
+    {
+
+        var deferredBeneficiary = self.Q.defer();
+        rightPromise.then(function(right) {
+
+            var beneficiary = new BeneficiaryModel();
+            beneficiary.right = right._id;
+            beneficiary.document = collection._id;
+            beneficiary.ref = 'RightCollection';
+            beneficiary.save(function(err, beneficiary) {
+                deferredBeneficiary.resolve(beneficiary);
+            });
+
+
+        });
+
+        return deferredBeneficiary.promise;
+    }
+
+    var deferred = self.Q.defer();
     var collection = new RightCollectionModel();
     collection.name = name;
     collection.save(function(err, collection) {
+
         var promises = [];
-        promises.push(self.createRight('right 1', 25, 'D'));
-        promises.push(self.createRight('right 2', 5.25, 'D'));
-        promises.push(self.createRight('right 3', 2, 'D'));
-        promises.push(self.createRight('right 4', 100, 'H'));
+        promises.push(beneficiary(self.createRight('right 1', 25, 'D'), collection));
+        promises.push(beneficiary(self.createRight('right 2', 5.25, 'D'), collection));
+        promises.push(beneficiary(self.createRight('right 3', 2, 'D'), collection));
+        promises.push(beneficiary(self.createRight('right 4', 100, 'H'), collection));
 
-        Q.All(promises).then(function(rights) {
-
-            //TODO add beneficiaries
+        self.Q.all(promises).done(function(beneficiaries) {
             deferred.resolve(collection);
         });
     });

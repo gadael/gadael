@@ -52,6 +52,18 @@ describe('Approval on absence request', function() {
 
 
 
+    it('create collection', function(done) {
+
+        approval.createCollection('Test collection').then(function(collection) {
+            collection.getRights().then(function(arr) {
+                expect(arr.length).toEqual(4);
+                done();
+            });
+        });
+    });
+
+
+
     it('close the mock server', function(done) {
         server.close(done);
     });

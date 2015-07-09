@@ -18,11 +18,13 @@ exports = module.exports = function(params) {
      */
     collectionSchema.methods.getRights = function getRights() {
         
-        return this.model('Beneficiary').find()
-            .where('ref').is('RightCollection')
-            .where('document').is(this._id)
-            .populate('right')
-            .exec();
+        var find = this.model('Beneficiary').find()
+            .where('ref').equals('RightCollection')
+            .where('document').equals(this._id)
+            .populate('right');
+
+
+        return find.exec();
     };
     
     /**
