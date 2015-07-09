@@ -45,15 +45,12 @@ describe('Approval on absence request', function() {
                 expect(ancestors.length).toEqual(3);
                 done();
             });
-
         });
-
     });
 
 
 
     it('create collection', function(done) {
-
         approval.createCollection('Test collection').then(function(collection) {
             collection.getRights().then(function(arr) {
                 expect(arr.length).toEqual(4);

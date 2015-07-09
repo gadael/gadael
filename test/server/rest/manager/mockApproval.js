@@ -102,17 +102,57 @@ mockApproval.prototype.createCollection = function(name) {
  * Create a departments tree to mock approval
  * @todo: make non-linear
  *
- *   d0
+ *   d0         d0: 1 manager, 1 member
  *   /\
- * d1  d2
+ * d1  d2       d1: 2 managers             d2: 2 members
  *  |  | \
- * d3 d4  d5
+ * d3 d4  d5    d3: 1 manager, 3 members    d4: 2 manager, 1 member     d5: 1 member
  *   /  \
- *  d6  d7
+ *  d6  d7      d6: 2 managers, 1 member    d7: 1 member
  */
 mockApproval.prototype.createDepartments = function(app) {
 
+    var departments = [], parent = null, count = 0, api = this.api, Q = this.Q;
     var deferred = this.Q.defer();
+
+
+    /**
+     * Get a promise for n users
+     * @param {Int} n
+     * @param {String} method on user document
+     * @param {populateField} Field to populate after user creation
+     * @return {Promise}
+     */
+    function getUsers(n, method, populateField)
+    {
+        var usersDeferred = Q.defer();
+        var users = [];
+
+
+        function next(loop) {
+
+            if (loop <= 0) {
+
+                return usersDeferred.resolve(users);
+            }
+
+
+            api.user[method](app).then(function populate(randomUser) {
+                randomUser.user.populate(populateField, function(err, populatedUser) {
+
+                    users.push(populatedUser);
+                    loop--;
+                    next(loop);
+                });
+            });
+        }
+
+        next(n);
+        return usersDeferred.promise;
+    }
+
+
+
 
     // prepare parents by index
 
@@ -127,40 +167,80 @@ mockApproval.prototype.createDepartments = function(app) {
         4       // d7
     ];
 
+    // prepare number of managers by index
+
+    var managerCount = [
+        1,      // d0
+        2,      // d1
+        0,      // d2
+        1,      // d3
+        2,      // d4
+        0,      // d5
+        2,      // d6
+        0       // d7
+    ];
+
+    // prepare number of accounts by index
+
+    var accountCount = [
+        1,      // d0
+        0,      // d1
+        2,      // d2
+        3,      // d3
+        1,      // d4
+        1,      // d5
+        1,      // d6
+        1       // d7
+    ];
+
+
     // create 7 departments
 
-    var departments = [], parent = null, count = 0, api = this.api;
 
     function nextCreation(department) {
+        var rolesPromises = [];
+        rolesPromises.push(getUsers(managerCount[count], 'createRandomManager', 'roles.manager'));
+        rolesPromises.push(getUsers(accountCount[count], 'createRandomAccount', 'roles.account'));
 
-        api.user.createRandomManager(app).then(function(randomManager) {
 
+        Q.all(rolesPromises).spread(function(managers, accounts) {
 
+            var i;
+            var savedDocumentsPromises = []; // Manager & User
 
-            if (randomManager.user.roles.manager === undefined) {
-                return deferred.reject('Not a manager');
+            for(i=0; i<managers.length; i++) {
+                managers[i].user.roles.manager.department.push(department._id);
+                savedDocumentsPromises.push(managers[i].user.roles.manager.save());
+            }
+
+            for(i=0; i<accounts.length; i++) {
+                accounts[i].user.department = department._id;
+                savedDocumentsPromises.push( accounts[i].user.save());
             }
 
 
-            randomManager.user.populate('roles.manager', function() {
+            function end() {
+                departments.push(department);
+                count++;
 
-                randomManager.user.roles.manager.department.push(department._id);
-                randomManager.user.roles.manager.save(function() {
-
-                    departments.push(department);
-                    count++;
-
-                    parent = departments[position[count]];
+                parent = departments[position[count]];
 
 
-                    if (count <= 7) {
-                        return api.department.create(app, parent).then(nextCreation);
-                    }
+                if (count <= 7) {
+                    return api.department.create(app, parent).then(nextCreation);
+                }
 
-                    deferred.resolve(departments);
+                // resolve the main promise once the 7 departments are created
+                deferred.resolve(departments);
 
-                });
-            });
+            }
+
+
+            if (0 === savedDocumentsPromises.length) {
+                return end();
+            }
+
+            Q.all(savedDocumentsPromises).then(end);
 
 
         }, deferred.reject);
