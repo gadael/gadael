@@ -73,7 +73,9 @@ describe('Approval on absence request', function() {
 
         function userSetCollection(user, callback) {
             if (user.roles.account !== undefined) {
-                return user.roles.account.setCollection(collection1).then(callback);
+                return user.roles.account.setCollection(collection1).then(function(accountCollection) {
+                    callback();
+                }, callback);
             }
 
             callback();
@@ -82,31 +84,6 @@ describe('Approval on absence request', function() {
         async.concat(departments1, iterator, function(err, users) {
             async.each(users, userSetCollection, done);
         });
-        /*
-        function nextDepartment(i) {
-
-            function setColl(err, arr) {
-                i--;
-
-                if (i<=0) {
-                    return done();
-                }
-
-                nextDepartment(i);
-
-                for(var j=0; j<arr.length; j++) {
-                    if (arr[j].roles.account !== undefined) {
-                        arr[j].roles.account.setCollection(collection1);
-                    }
-                }
-            }
-
-
-            departments1[i].getUsers(setColl);
-        }
-
-        nextDepartment(departments1.length -1);
-        */
 
     });
 

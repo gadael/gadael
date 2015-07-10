@@ -182,9 +182,7 @@ exports = module.exports = function(params) {
      *
      * @return {Promise} resolve to a AccountCollection document
      */
-    accountSchema.methods.setCollection = function(rightCollection, from, to) {
-
-        var account = this;
+    accountSchema.methods.setCollection = function setCollection(rightCollection, from, to) {
 
         var model = this.model('AccountCollection');
 
@@ -192,6 +190,11 @@ exports = module.exports = function(params) {
 
         if (rightCollection._id !== undefined) {
             rightCollectionId = rightCollection._id;
+        }
+
+        if (from === undefined) {
+            from = new Date();
+            from.setHours(0,0,0,0);
         }
 
         var accountCollection = new model();
