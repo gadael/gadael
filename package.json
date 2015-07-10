@@ -61,6 +61,7 @@
     "grunt-angular-gettext": "~0.2.13",
     "grunt-pot": "~0.1.2",
     "grunt-jasmine-node-new": "~0.3.2",
+    "grunt-shell":"~1.1.2",
     "jasmine-node": "~1.14.3",
     "charlatan": "~1.0.0",
     "longjohn": "~0.2.4"

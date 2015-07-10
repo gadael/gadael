@@ -209,13 +209,13 @@ mockApproval.prototype.createDepartments = function(app) {
             var savedDocumentsPromises = []; // Manager & User
 
             for(i=0; i<managers.length; i++) {
-                managers[i].user.roles.manager.department.push(department._id);
-                savedDocumentsPromises.push(managers[i].user.roles.manager.save());
+                managers[i].roles.manager.department.push(department._id);
+                savedDocumentsPromises.push(managers[i].roles.manager.save());
             }
 
             for(i=0; i<accounts.length; i++) {
-                accounts[i].user.department = department._id;
-                savedDocumentsPromises.push( accounts[i].user.save());
+                accounts[i].department = department._id;
+                savedDocumentsPromises.push( accounts[i].save());
             }
 
 

@@ -41,18 +41,18 @@ describe("User API", function CompanyTestSuite() {
 
 
     it("create random admin", function(done) {
-		api.user.createRandomAdmin(app).then(function(user) {
-            expect(user.email).toBeDefined();
-            expect(user.roles.admin).toBeDefined();
+		api.user.createRandomAdmin(app).then(function(randomAdmin) {
+            expect(randomAdmin.user.email).toBeDefined();
+            expect(randomAdmin.user.roles.admin).toBeDefined();
 			done();
 		});
 	});
 
 
     it("create random account", function(done) {
-		api.user.createRandomAccount(app).then(function(user) {
-            expect(user.email).toBeDefined();
-            expect(user.roles.account).toBeDefined();
+		api.user.createRandomAccount(app).then(function(randomAccount) {
+            expect(randomAccount.user.email).toBeDefined();
+            expect(randomAccount.user.roles.account).toBeDefined();
 			done();
 		});
 	});

@@ -162,7 +162,13 @@ module.exports = function(grunt) {
 		  }
 		},
 		all: ['test/server/']
-	}
+	},
+
+    shell: {
+        jasmine_theseus: {
+            command: 'node-theseus node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server/'
+        }
+    }
 
     
 //    less: {
@@ -223,11 +229,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-pot');
   grunt.loadNpmTasks('grunt-jasmine-node-new');
   grunt.loadNpmTasks('grunt-karma');
-
+  grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('default', [ 'jshint:server', 'nodemon']);
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
   grunt.registerTask('lint', ['jshint']);
-  grunt.registerTask('test', ['karma', 'jasmine_node']);
+  grunt.registerTask('testold', ['karma', 'jasmine_node']);
+  grunt.registerTask('test', ['shell:jasmine_theseus']);
   grunt.registerTask('travis', ['copy:config', 'jasmine_node']);
 };
