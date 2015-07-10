@@ -172,6 +172,42 @@ exports = module.exports = function(params) {
     };
     
     
+
+
+
+
+    /**
+     * Set the collection for the account
+     * @param {Date} moment
+     *
+     * @return {Promise} resolve to a AccountCollection document
+     */
+    accountSchema.methods.setCollection = function(rightCollection, from, to) {
+
+        var account = this;
+
+        var model = this.model('AccountCollection');
+
+        var rightCollectionId = rightCollection;
+
+        if (rightCollection._id !== undefined) {
+            rightCollectionId = rightCollection._id;
+        }
+
+        var accountCollection = new model();
+        accountCollection.account = this._id;
+        accountCollection.rightCollection = rightCollectionId;
+        accountCollection.from = from;
+        accountCollection.to = to;
+        return accountCollection.save();
+    };
+
+
+
+
+
+
+
     /**
      * Get the schedule calendar for a specific date
      * @return {Promise} resolve to a calendar document or null

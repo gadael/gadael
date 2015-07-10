@@ -17,12 +17,26 @@ exports = module.exports = function(params) {
 	});
 
 
+    /**
+	 * Find all users in department
+	 *
+	 */
+	departmentSchema.methods.getUsers = function getUsers(callback) {
+		this.model('User')
+			.find({ department: this._id })
+            .populate('roles.admin')
+            .populate('roles.manager')
+            .populate('roles.account')
+			.exec(callback);
+	};
+
+
   
 	/**
 	 * Find all managers of department
 	 * 
 	 */ 
-	departmentSchema.methods.getManagers = function(callback) {
+	departmentSchema.methods.getManagers = function getManagers(callback) {
 		return this.model('Manager')
 			.find({ department: this._id })
 			.exec(callback);
