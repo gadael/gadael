@@ -204,6 +204,10 @@ function checkElement(service, user, elem)
     RightModel.findOne({ _id: elem.right })
         .exec(function(err, rightDocument) {
 
+        if (!rightDocument) {
+            return deferred.reject('failed to get right document from id '+elem.right);
+        }
+
         // get renewal to save in element
         rightDocument.getPeriodRenewal(elem.event.dtstart, elem.event.dtend).then(function(renewal) {
 
@@ -298,6 +302,25 @@ function saveAbsence(service, user, params, collection) {
  */
 function getCollectionFromDistribution(distribution, account) {
     var dtstart, dtend;
+    var Q = require('q');
+
+    if (undefined === distribution[0]) {
+        return Q.fcall(function () {
+            throw new Error('Invalid request, no distribution');
+        });
+    }
+
+    if (undefined === distribution[0].event) {
+        return Q.fcall(function () {
+            throw new Error('Invalid request, event to available in first right of distribution');
+        });
+    }
+
+    if (undefined === distribution[distribution.length -1].event) {
+        return Q.fcall(function () {
+            throw new Error('Invalid request, event to available in last right of distribution');
+        });
+    }
 
     dtstart = distribution[0].event.dtstart;
     dtend = distribution[distribution.length -1].event.dtend;

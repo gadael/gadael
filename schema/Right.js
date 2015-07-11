@@ -50,6 +50,24 @@ exports = module.exports = function(params) {
 	rightSchema.set('autoIndex', params.autoIndex);
 
     
+
+    /**
+     * Create renewal
+     * @return {Promise}
+     */
+    rightSchema.methods.createRenewal = function createRenewal(start, finish) {
+        var model = this.model('RightRenewal');
+
+        var rightRenewal = new model();
+
+        rightRenewal.right = this._id;
+        rightRenewal.start = start;
+        rightRenewal.finish = finish;
+
+        return rightRenewal.save();
+    };
+
+
     /**
      * Find right renewals
      * @returns {Query} A mongoose query on the right renewal schema

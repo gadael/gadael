@@ -13,7 +13,8 @@ function mockApproval(server, readyCallback) {
 
     this.api = {
         user: require(apiPath+'User.api.js'),
-        department: require(apiPath+'Department.api.js')
+        department: require(apiPath+'Department.api.js'),
+        request: require(apiPath+'Request.api.js')
     };
     this.Q = require('q');
     this.server = server;
@@ -21,16 +22,34 @@ function mockApproval(server, readyCallback) {
 
 
 /**
- * Create a right
+ * Create a right with a renewal starting one year before today and stopping one year after today
  */
 mockApproval.prototype.createRight = function(name, quantity, quantity_unit) {
+
+    var deferred = this.Q.defer();
 
     var RightModel = this.server.app.db.models.Right;
     var right = new RightModel();
     right.name = name;
     right.quantity = quantity;
     right.quantity_unit = quantity_unit;
-    return right.save();
+    right.save(function(err, right) {
+
+        if (err) {
+            return deferred.reject(err);
+        }
+
+        var start = new Date();     start.setFullYear(start.getFullYear()-1);
+        var finish = new Date();    finish.setFullYear(finish.getFullYear()+1);
+
+        right.createRenewal(start, finish).then(function() {
+            deferred.resolve(right);
+        }, deferred.reject);
+
+    });
+
+
+    return deferred.promise;
 };
 
 
@@ -251,6 +270,12 @@ mockApproval.prototype.createDepartments = function(app) {
 
     return deferred.promise;
 
+};
+
+
+mockApproval.prototype.createRequest = function createRequest(user)
+{
+    return this.api.request.createRandomAbsence(this.server.app, user);
 };
 
 

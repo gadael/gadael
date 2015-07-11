@@ -17,6 +17,16 @@ describe('Approval on absence request', function() {
     var departments1;
     var collection1;
 
+    var async = require('async');
+
+    /**
+     * Callback from async
+     */
+    function getDepartmentUsers(department, callback) {
+        department.getUsers(callback);
+    }
+
+
 
     beforeEach(function(done) {
         var mockServerModule = require('../mockServer');
@@ -65,26 +75,46 @@ describe('Approval on absence request', function() {
 
     it('set collection on accounts', function(done) {
 
-        var async = require('async');
-
-        function iterator(department, callback) {
-            department.getUsers(callback);
-        }
 
         function userSetCollection(user, callback) {
-            if (user.roles.account !== undefined) {
-                return user.roles.account.setCollection(collection1).then(function(accountCollection) {
-                    callback();
-                }, callback);
+
+            if (user.roles.account === undefined) {
+                return callback();
             }
 
-            callback();
+            user.roles.account.setCollection(collection1).then(function(accountCollection) {
+                callback();
+            }, callback);
+
         }
 
-        async.concat(departments1, iterator, function(err, users) {
+        async.concat(departments1, getDepartmentUsers, function(err, users) {
             async.each(users, userSetCollection, done);
         });
 
+    });
+
+
+    it('create one request per user in each department', function(done) {
+
+
+        function userCreateRequest(user, callback) {
+
+            if (user.roles.account === undefined) {
+                return callback();
+            }
+
+            approval.createRequest(user).then(function(request) {
+                callback(undefined, request);
+            }).catch(callback);
+        }
+
+        async.concat(departments1, getDepartmentUsers, function(err, users) {
+            async.each(users, userCreateRequest, function(err, requests) {
+                expect(err).toBe(undefined);
+                done();
+            });
+        });
     });
 
 
