@@ -7,7 +7,7 @@ exports = module.exports = function(params) {
 	var messageSchema = new params.mongoose.Schema({
 		subject: { type: String, required: true },
 		body: String,
-		recipient: {
+		user: {       // recipient
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
             name: { type: String, required: true }
         },

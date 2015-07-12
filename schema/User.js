@@ -39,7 +39,7 @@ exports = module.exports = function(params) {
      * Get user name
      * @return {String}
      */
-    userSchema.methods.getName = function() {
+    userSchema.methods.getName = function getName() {
         return this.lastname+' '+this.firstname;
     };
 
@@ -648,6 +648,41 @@ exports = module.exports = function(params) {
         return query.exec();
     };
 
+
+
+    /**
+     * Get last 100 messages for the user
+     * @return {Promise}
+     */
+    userSchema.methods.getMessages = function getMessages() {
+        var query = params.db.models.Message.find()
+            .where('user.id', this._id);
+
+        query
+            .limit(100)
+            .sort({ 'timeCreated': -1 });
+
+        return query.exec();
+    };
+
+
+
+    /**
+     * @return {Promise}
+     */
+    userSchema.methods.sendMessage = function sendMessage(subject, body) {
+        var model = params.db.models.Message;
+        var message = new model();
+
+        message.user = {
+            id: this._id,
+            name: this.getName()
+        };
+        message.subject = subject;
+        message.body = body;
+
+        return message.save();
+    };
 
 
   
