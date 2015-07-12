@@ -17,6 +17,8 @@ describe('Approval on absence request', function() {
     var departments1;
     var collection1;
 
+    var requests = [];
+
     var async = require('async');
 
     /**
@@ -98,6 +100,7 @@ describe('Approval on absence request', function() {
     it('create one request per user in each department', function(done) {
 
 
+
         function userCreateRequest(user, callback) {
 
             if (user.roles.account === undefined) {
@@ -105,18 +108,45 @@ describe('Approval on absence request', function() {
             }
 
             approval.createRequest(user).then(function(request) {
+                requests.push(request);
                 callback(undefined, request);
             }).catch(callback);
         }
 
         async.concat(departments1, getDepartmentUsers, function(err, users) {
-            async.each(users, userCreateRequest, function(err, requests) {
+            async.each(users, userCreateRequest, function(err) {
                 expect(err).toBe(undefined);
+
+
+
                 done();
             });
         });
     });
 
+
+    it('contain at least one approval step per request', function() {
+
+        for(var i=0; i< requests.length; i++) {
+            expect(requests[i].approvalSteps.length).toBeGreaterThan(0);
+        }
+    });
+
+
+    it('contain at least one approver in each approval steps', function() {
+
+        var steps;
+
+        for(var i=0; i< requests.length; i++) {
+
+            steps = requests[i].approvalSteps;
+            for(var j=0; j<steps.length; j++) {
+
+                // at least one approver in each steps
+                expect(steps[j].approvers.length).toBeGreaterThan(0);
+            }
+        }
+    });
 
 
 

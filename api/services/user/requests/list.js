@@ -2,7 +2,7 @@
 
 
 /**
- * The Admin request list service
+ * The user request list service
  */
 
 

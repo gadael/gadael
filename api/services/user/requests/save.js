@@ -368,6 +368,9 @@ function prepareRequestFields(service, params, user)
 
 
     /**
+     * Get approval steps from the departments and ancestors
+     * bypass steps with no approvers (departments without manager)
+     *
      * @param {Array} departments
      * @return {Promise} resolve to the list of steps
      */
@@ -376,13 +379,27 @@ function prepareRequestFields(service, params, user)
 
 
         var Q = require('q');
-        var promises = [];
+        var deferred = Q.defer();
+        var steps = [];
+        var i;
 
-        for(var i=0; i< departments.length; i++) {
-            promises.push(getStepPromise(departments[i]));
+        function addStep(step) {
+
+            if (0 !== step.approvers.length) {
+                steps.push(step);
+            }
+
+            if (i >= departments.length -1) {
+                deferred.resolve(steps);
+            }
         }
 
-        return Q.all(promises);
+        for(i=0; i< departments.length; i++) {
+
+            getStepPromise(departments[i]).then(addStep);
+        }
+
+        return deferred.promise;
     }
 
 
