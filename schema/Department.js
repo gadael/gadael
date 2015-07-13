@@ -19,15 +19,16 @@ exports = module.exports = function(params) {
 
     /**
 	 * Find all users in department
-	 *
+	 * @return {Promise}
 	 */
 	departmentSchema.methods.getUsers = function getUsers(callback) {
-		this.model('User')
+		var query = this.model('User')
 			.find({ department: this._id })
             .populate('roles.admin')
             .populate('roles.manager')
-            .populate('roles.account')
-			.exec(callback);
+            .populate('roles.account');
+
+		return query.exec(callback);
 	};
 
 

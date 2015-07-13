@@ -149,6 +149,39 @@ describe('Approval on absence request', function() {
     });
 
 
+    /**
+     *
+     */
+    function departmentRequestsExpect(departmentName, reqNum, approvalSteps, approvers, done) {
+        approval.getRequests(departmentName).then(function(requests) {
+            expect(requests.length).toEqual(reqNum);
+            for(var i=0; i<requests.length; i++) {
+                expect(requests[i].approvalSteps.length).toEqual(approvalSteps);
+                expect(requests[i].approvalSteps[0].approvers.length).toEqual(approvers);
+            }
+
+            done();
+
+        }, function(err) {
+            expect(err).toBe(null);
+            done();
+        });
+    }
+
+
+    it('verify d0 approval steps', function(done) {
+        departmentRequestsExpect('d0', 1, 1, 1, done);
+    });
+
+    it('verify d1 approval steps', function(done) {
+        departmentRequestsExpect('d1', 0, 0, 0, done); // no requests
+    });
+
+    it('verify d2 approval steps', function(done) {
+        departmentRequestsExpect('d2', 2, 1, 1, done);
+    });
+
+
 
 
     it('close the mock server', function(done) {

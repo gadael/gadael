@@ -383,5 +383,23 @@ exports = module.exports = function(params) {
     };
 
 
+
+    /**
+     * Get the account requests
+     *
+     * @return {Promise}
+     */
+    accountSchema.methods.getRequests = function() {
+
+        var model = this.model('Request');
+        var query = model.find();
+
+        query.where('user.id', this.user.id);
+        query.sort({ timeCreated: 'desc' });
+
+        return query.exec();
+    };
+
+
     params.db.model('Account', accountSchema);
 };

@@ -246,7 +246,7 @@ mockApproval.prototype.createDepartments = function(app) {
 
 
                 if (count <= 7) {
-                    return api.department.create(app, parent).then(nextCreation);
+                    return api.department.create(app, parent, 'd'+count).then(nextCreation);
                 }
 
                 // resolve the main promise once the 7 departments are created
@@ -266,7 +266,7 @@ mockApproval.prototype.createDepartments = function(app) {
     }
 
 
-    api.department.create(app, parent).then(nextCreation);
+    api.department.create(app, parent, 'd0').then(nextCreation);
 
     return deferred.promise;
 
@@ -277,6 +277,65 @@ mockApproval.prototype.createRequest = function createRequest(user)
 {
     return this.api.request.createRandomAbsence(this.server.app, user);
 };
+
+
+
+/**
+ * Get requests created by users from one department name
+ * @param {String} departmentName       Department name
+ * @return {Promise}
+ */
+mockApproval.prototype.getRequests = function getRequests(departmentName)
+{
+    var deferred = this.Q.defer();
+    var async = require('async');
+
+    var model = this.server.app.db.models.Department;
+
+    function asyncRequests(user, callback) {
+
+        user.roles.account.getRequests().then(function(requests) {
+            callback(null, requests);
+        });
+    }
+
+
+    model.findOne({ name: departmentName }, function(err, department) {
+
+        if (err) {
+            return deferred.reject(err);
+        }
+
+        if (!department) {
+            return deferred.reject('No department with name '+departmentName);
+        }
+
+        department.getUsers(function(err, users) {
+
+            if (err) {
+                deferred.reject(err);
+            }
+
+            if (0 === users.length) {
+                return deferred.resolve([]);
+            }
+
+            async.concat(users, asyncRequests, function(err, requests) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+                deferred.resolve(requests);
+            });
+
+        });
+
+    });
+
+    return deferred.promise;
+};
+
+
+
 
 
 
