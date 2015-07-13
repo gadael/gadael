@@ -38,6 +38,7 @@ exports = module.exports = function(params) {
 
     approvalSteps: [params.embeddedSchemas.ApprovalStep],			// on request creation, approval steps are copied and contain references to users
                                                                     // informations about approval are stored in requestLog sub-documents instead
+                                                                    // first position in array is the last approval step (top level department in user deparments ancestors)
 
     requestLog: [params.embeddedSchemas.RequestLog]					// linear representation of all actions
                                                                     // create, edit, delete, and effectives approval steps

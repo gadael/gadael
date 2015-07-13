@@ -150,14 +150,34 @@ describe('Approval on absence request', function() {
 
 
     /**
+     * @param {String} departmentName
+     * @param {Object} expectations
+     *                  Number of requests
+     *                  number of approval steps
+     *                  Number of approvers for each approval steps in the treatment sequence
+     * @param {function} done
      *
      */
-    function departmentRequestsExpect(departmentName, reqNum, approvalSteps, approvers, done) {
+    function departmentRequestsExpect(departmentName, expectations, done) {
+
+        var approvalSteps, approvers;
+
         approval.getRequests(departmentName).then(function(requests) {
-            expect(requests.length).toEqual(reqNum);
+            expect(requests.length+' requests').toEqual(expectations.requests+' requests');
+
+
+
             for(var i=0; i<requests.length; i++) {
-                expect(requests[i].approvalSteps.length).toEqual(approvalSteps);
-                expect(requests[i].approvalSteps[0].approvers.length).toEqual(approvers);
+                expect(requests[i].approvalSteps.length+' approval steps').toEqual(expectations.approvalSteps+' approval steps');
+
+                approvalSteps = requests[i].approvalSteps;
+                approvers = expectations.approvers.slice();
+
+                expect(approvalSteps.length).toEqual(approvers.length);
+
+                for(var j=0; j<approvalSteps.length; j++) {
+                    expect(approvalSteps[j].approvers.length+' approvers').toEqual(approvers.pop()+' approvers');
+                }
             }
 
             done();
@@ -170,18 +190,44 @@ describe('Approval on absence request', function() {
 
 
     it('verify d0 approval steps', function(done) {
-        departmentRequestsExpect('d0', 1, 1, 1, done);
+        departmentRequestsExpect('d0', {
+            requests: 1,
+            approvalSteps: 1,
+            approvers: [1]
+        }, done);
     });
 
     it('verify d1 approval steps', function(done) {
-        departmentRequestsExpect('d1', 0, 0, 0, done); // no requests
+        departmentRequestsExpect('d1', {
+            requests: 0,
+            approvalSteps: 0,
+            approvers: []
+        }, done); // no requests
     });
 
     it('verify d2 approval steps', function(done) {
-        departmentRequestsExpect('d2', 2, 1, 1, done);
+        departmentRequestsExpect('d2', {
+            requests: 2,
+            approvalSteps: 1,
+            approvers: [1]
+        }, done);
     });
 
+    it('verify d3 approval steps', function(done) {
+        departmentRequestsExpect('d3', {
+            requests: 3,
+            approvalSteps: 3,
+            approvers: [1, 2, 1]
+        }, done);
+    });
 
+    it('verify d4 approval steps', function(done) {
+        departmentRequestsExpect('d4', {
+            requests: 1,
+            approvalSteps: 2,
+            approvers: [2, 1]
+        }, done);
+    });
 
 
     it('close the mock server', function(done) {

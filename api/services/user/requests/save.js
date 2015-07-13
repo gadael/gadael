@@ -353,6 +353,7 @@ function prepareRequestFields(service, params, user)
 
             var step = {};
             step.operator = 'AND';
+            step.department = department.name;
             step.approvers = [];
             for(var j=0; j< managers.length; j++) {
                 step.approvers.push(managers[j].user.id);
