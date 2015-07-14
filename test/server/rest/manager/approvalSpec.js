@@ -181,7 +181,7 @@ describe('Approval on absence request', function() {
                 expect(approvalSteps.length).toEqual(approvers.length);
 
                 for(var j=0; j<approvalSteps.length; j++) {
-                    expect(approvalSteps[j].approvers.length+' approvers').toEqual(approvers.pop()+' approvers');
+                    expect(approvalSteps[j].approvers.length+' approvers (step '+j+', on '+approvalSteps[j].department+')').toEqual(approvers.pop()+' approvers (step '+j+', on '+approvalSteps[j].department+')');
                 }
             }
 
@@ -217,7 +217,7 @@ describe('Approval on absence request', function() {
             approvers: [1]
         }, done);
     });
-/*
+
     it('verify d3 approval steps', function(done) {
         departmentRequestsExpect('d3', {
             requests: 3,
@@ -225,7 +225,7 @@ describe('Approval on absence request', function() {
             approvers: [1, 2, 1]
         }, done);
     });
-*/
+
     it('verify d4 approval steps', function(done) {
         departmentRequestsExpect('d4', {
             requests: 1,
