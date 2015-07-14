@@ -19,6 +19,8 @@ describe('Approval on absence request', function() {
 
     var requests = [];
 
+    var managersByDepartment;
+
     var async = require('async');
 
     /**
@@ -68,6 +70,7 @@ describe('Approval on absence request', function() {
             departments[7].getAncestors(function(err, ancestors) {
                 expect(err).toEqual(null);
                 expect(ancestors.length).toEqual(3);
+                managersByDepartment = approval.managersByDepartment;
                 done();
             });
         });
@@ -150,6 +153,8 @@ describe('Approval on absence request', function() {
 
 
     /**
+     * Verify requests created by account from a department
+     *
      * @param {String} departmentName
      * @param {Object} expectations
      *                  Number of requests
@@ -212,7 +217,7 @@ describe('Approval on absence request', function() {
             approvers: [1]
         }, done);
     });
-
+/*
     it('verify d3 approval steps', function(done) {
         departmentRequestsExpect('d3', {
             requests: 3,
@@ -220,7 +225,7 @@ describe('Approval on absence request', function() {
             approvers: [1, 2, 1]
         }, done);
     });
-
+*/
     it('verify d4 approval steps', function(done) {
         departmentRequestsExpect('d4', {
             requests: 1,
@@ -228,6 +233,23 @@ describe('Approval on absence request', function() {
             approvers: [2, 1]
         }, done);
     });
+
+
+    it('Login with the first approver from d6', function(done) {
+        expect(managersByDepartment.d6[0]).toBeDefined();
+        server.post('/rest/login', {
+            'username': managersByDepartment.d6[0].user.email,
+            'password': managersByDepartment.d6[0].password
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+
+    });
+
+    // TODO: validate request created by the user from d6
+
+    // TODO: logout
 
 
     it('close the mock server', function(done) {

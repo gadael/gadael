@@ -18,6 +18,9 @@ function mockApproval(server, readyCallback) {
     };
     this.Q = require('q');
     this.server = server;
+
+
+    this.managersByDepartment = {};
 }
 
 
@@ -113,7 +116,18 @@ mockApproval.prototype.createCollection = function(name) {
 
 
 
+/**
+ *
+ */
+mockApproval.prototype.addManager = function(department, manager) {
 
+    if (undefined === this.managersByDepartment[department.name]) {
+        this.managersByDepartment[department.name] = [];
+    }
+
+    this.managersByDepartment[department.name].push(manager);
+
+};
 
 
 
@@ -131,6 +145,7 @@ mockApproval.prototype.createCollection = function(name) {
  */
 mockApproval.prototype.createDepartments = function(app) {
 
+    var mockApproval = this;
     var departments = [], parent = null, count = 0, api = this.api, Q = this.Q;
     var deferred = this.Q.defer();
 
@@ -159,7 +174,7 @@ mockApproval.prototype.createDepartments = function(app) {
             api.user[method](app).then(function populate(randomUser) {
                 randomUser.user.populate(populateField, function(err, populatedUser) {
 
-                    users.push(populatedUser);
+                    users.push(randomUser);
                     loop--;
                     next(loop);
                 });
@@ -228,13 +243,14 @@ mockApproval.prototype.createDepartments = function(app) {
             var savedDocumentsPromises = []; // Manager & User
 
             for(i=0; i<managers.length; i++) {
-                managers[i].roles.manager.department.push(department._id);
-                savedDocumentsPromises.push(managers[i].roles.manager.save());
+                managers[i].user.roles.manager.department.push(department._id);
+                mockApproval.addManager(department, managers[i]);
+                savedDocumentsPromises.push(managers[i].user.roles.manager.save());
             }
 
             for(i=0; i<accounts.length; i++) {
-                accounts[i].department = department._id;
-                savedDocumentsPromises.push( accounts[i].save());
+                accounts[i].user.department = department._id;
+                savedDocumentsPromises.push( accounts[i].user.save());
             }
 
 
