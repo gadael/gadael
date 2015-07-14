@@ -378,27 +378,29 @@ function prepareRequestFields(service, params, user)
     function getApprovalSteps(departments)
     {
 
-
+        var async =require('async');
         var Q = require('q');
         var deferred = Q.defer();
         var steps = [];
-        var i;
 
-        function addStep(step) {
 
-            if (0 !== step.approvers.length) {
-                steps.push(step);
+        async.eachSeries(departments, function iterator(department, callback) {
+
+            getStepPromise(department).then(function addStep(step) {
+
+                if (0 !== step.approvers.length) {
+                    steps.push(step);
+                }
+
+                callback();
+            }, callback);
+        }, function done(err) {
+            if (err) {
+                return deferred.reject(err);
             }
+            deferred.resolve(steps);
+        });
 
-            if (i >= departments.length -1) {
-                deferred.resolve(steps);
-            }
-        }
-
-        for(i=0; i< departments.length; i++) {
-
-            getStepPromise(departments[i]).then(addStep);
-        }
 
         return deferred.promise;
     }
