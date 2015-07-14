@@ -4,6 +4,8 @@ exports = module.exports = function(params) {
 	
 	var mongoose = params.mongoose;
 	var approvalStepSchema = new mongoose.Schema({
+
+        status: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null },
     
         department: String,                                                // department name used to create this approval step
 		approvers: [mongoose.Schema.Types.ObjectId],			           // list of users

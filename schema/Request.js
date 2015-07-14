@@ -129,7 +129,7 @@ exports = module.exports = function(params) {
      */
     requestSchema.methods.forwardApproval = function(nextStep) {
 
-
+        nextStep.status = 'waiting';
 
         // TODO send message to managers of the nextStep
     };
@@ -142,6 +142,10 @@ exports = module.exports = function(params) {
      * @param {String} comment
      */
     requestSchema.methods.accept = function(approvalStep, user, comment) {
+
+        // update approval step
+
+        approvalStep.status = 'accepted';
 
         var nextStep = this.getNextApprovalStep();
 
@@ -167,6 +171,10 @@ exports = module.exports = function(params) {
      * @param {String} comment
      */
     requestSchema.methods.reject = function(approvalStep, user, comment) {
+
+        approvalStep.status = 'rejected';
+
+
          // add log entry
          this.addLog('wf_reject', user, comment, approvalStep);
     };

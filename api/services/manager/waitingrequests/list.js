@@ -23,8 +23,14 @@ var query = function(service, params) {
     find.where();
 
     if (params.user) {
-         find.where({ 'approvalSteps.approvers': params.user });
+         find.where({
+             'approvalSteps.approvers': params.user
+         });
     }
+
+    find.where({
+         'approvalSteps.status': 'waiting'
+     });
 
     return find;
 };

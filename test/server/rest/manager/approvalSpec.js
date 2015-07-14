@@ -23,6 +23,8 @@ describe('Approval on absence request', function() {
 
     var async = require('async');
 
+    var request_from_d6;
+
     /**
      * Callback from async
      */
@@ -244,10 +246,40 @@ describe('Approval on absence request', function() {
             expect(res.statusCode).toEqual(200);
             done();
         });
-
     });
 
-    // TODO: validate request created by the user from d6
+    it('Get list of waiting requests', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            request_from_d6 = body[0];
+            done();
+        });
+    });
+
+    it('Accept request from d6', function(done) {
+
+        var steps = request_from_d6.approvalSteps;
+        var firstStep = steps[steps.length-1];
+
+        server.put('/rest/manager/waitingrequests/'+request_from_d6._id, {
+            approvalStep: firstStep._id,
+            action: 'wf_accept'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('Get list of waiting requests once the request has been accepted', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(0);
+            done();
+        });
+    });
+
 
     // TODO: logout
 
