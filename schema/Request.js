@@ -103,21 +103,24 @@ exports = module.exports = function(params) {
 
         var last = this.getLastApprovalStep();
 
+
+
         if (null === last) {
             return this.approvalSteps[0];
         }
 
-        for(var i=0; i<this.approvalSteps.length; i++) {
+        for(var i=this.approvalSteps.length-1; i>0; i--) {
             if (this.approvalSteps[i]._id !== last._id) {
-                continue;
+                break;
             }
         }
 
-        if (this.approvalSteps[i+1] === undefined) {
+
+        if (this.approvalSteps[i] === undefined) {
             return false;
         }
 
-        return this.approvalSteps[i+1];
+        return this.approvalSteps[i];
     };
 
 
@@ -146,14 +149,14 @@ exports = module.exports = function(params) {
         // update approval step
 
         approvalStep.status = 'accepted';
+        this.addLog('wf_accept', user, comment, approvalStep);
+
 
         var nextStep = this.getNextApprovalStep();
 
         if (null === nextStep) {
             throw new Error('Nothing to accept');
         }
-
-        this.addLog('wf_accept', user, comment, approvalStep);
 
         if (false === nextStep || approvalStep._id === nextStep._id) {
             this.addLog('wf_end', user);

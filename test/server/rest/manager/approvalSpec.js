@@ -306,7 +306,34 @@ describe('Approval on absence request', function() {
     });
 
 
-    // TODO: logout
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('Login with the first approver from d4', function(done) {
+        expect(managersByDepartment.d4[0]).toBeDefined();
+        server.post('/rest/login', {
+            'username': managersByDepartment.d4[0].user.email,
+            'password': managersByDepartment.d4[0].password
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('Get list of waiting requests (d4)', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(3);
+
+            done();
+        });
+    });
 
 
     it('close the mock server', function(done) {
