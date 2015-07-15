@@ -237,6 +237,31 @@ describe('Approval on absence request', function() {
     });
 
 
+    it('verify d5 approval steps', function(done) {
+        departmentRequestsExpect('d5', {
+            requests: 1,
+            approvalSteps: 1,
+            approvers: [1]
+        }, done);
+    });
+
+    it('verify d6 approval steps', function(done) {
+        departmentRequestsExpect('d6', {
+            requests: 1,
+            approvalSteps: 3,
+            approvers: [2, 2, 1]
+        }, done);
+    });
+
+    it('verify d7 approval steps', function(done) {
+        departmentRequestsExpect('d7', {
+            requests: 1,
+            approvalSteps: 2,
+            approvers: [2, 1]
+        }, done);
+    });
+
+
     it('Login with the first approver from d6', function(done) {
         expect(managersByDepartment.d6[0]).toBeDefined();
         server.post('/rest/login', {

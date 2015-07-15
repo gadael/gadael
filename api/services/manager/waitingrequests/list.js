@@ -22,15 +22,18 @@ var query = function(service, params) {
     var find = service.app.db.models.Request.find();
     find.where();
 
+    var match = { status: 'waiting' };
+
     if (params.user) {
-         find.where({
-             'approvalSteps.approvers': params.user
-         });
+         match.approvers = params.user;
     }
 
     find.where({
-         'approvalSteps.status': 'waiting'
+         approvalSteps: {
+             $elemMatch: match
+         }
      });
+
 
     return find;
 };
