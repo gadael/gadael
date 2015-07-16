@@ -348,6 +348,41 @@ describe('Approval on absence request', function() {
     });
 
 
+
+
+    it('Accept request from d6', function(done) {
+
+        var steps = request_from_d6.approvalSteps;
+        var secondStep = steps[steps.length-2];
+
+        server.put('/rest/manager/waitingrequests/'+request_from_d6._id, {
+            approvalStep: secondStep._id,
+            action: 'wf_accept'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+
+    it('Get list of waiting requests once the request has been accepted', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(2);
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
     it('close the mock server', function(done) {
         server.close(done);
     });
