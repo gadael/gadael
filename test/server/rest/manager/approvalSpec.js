@@ -329,7 +329,19 @@ describe('Approval on absence request', function() {
     it('Get list of waiting requests (d4)', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(3);
+            expect(body.length).toEqual(3); // one request from d4 and the request from d6
+                                            // and one request from d7 (no managers in d7)
+
+            var expected = ['d4', 'd6', 'd7'];
+
+            var i, dep = {};
+            for(i=0; i<departments1.length; i++) {
+                dep[departments1[i]._id] = departments1[i].name;
+            }
+
+            for(i=0; i<body.length; i++) {
+                expect(expected).toContain(dep[body[i].user.id.department]);
+            }
 
             done();
         });
