@@ -331,18 +331,6 @@ describe('Approval on absence request', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(3); // one request from d4 and the request from d6
                                             // and one request from d7 (no managers in d7)
-
-            var expected = ['d4', 'd6', 'd7'];
-
-            var i, dep = {};
-            for(i=0; i<departments1.length; i++) {
-                dep[departments1[i]._id] = departments1[i].name;
-            }
-
-            for(i=0; i<body.length; i++) {
-                expect(expected).toContain(dep[body[i].user.id.department]);
-            }
-
             done();
         });
     });
@@ -381,6 +369,64 @@ describe('Approval on absence request', function() {
             done();
         });
     });
+
+
+
+
+    it('Login with the first approver from d0', function(done) {
+        expect(managersByDepartment.d4[0]).toBeDefined();
+        server.post('/rest/login', {
+            'username': managersByDepartment.d0[0].user.email,
+            'password': managersByDepartment.d0[0].password
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+
+    it('Get list of waiting requests (d0)', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(5); // one request from d0 and the request from d6
+                                            // no approvers on d5 & d2(2 requests)
+            done();
+        });
+    });
+
+
+    it('Accept request from d6', function(done) {
+
+        var steps = request_from_d6.approvalSteps;
+        var thirdStep = steps[steps.length-3];
+
+        server.put('/rest/manager/waitingrequests/'+request_from_d6._id, {
+            approvalStep: thirdStep._id,
+            action: 'wf_accept'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('Get list of waiting requests once the request has been accepted', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(4);
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
 
 
     it('close the mock server', function(done) {

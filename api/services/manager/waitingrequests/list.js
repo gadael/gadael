@@ -34,8 +34,6 @@ var query = function(service, params) {
          }
      });
 
-    find.populate('user.id');
-
     return find;
 };
 

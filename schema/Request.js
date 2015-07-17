@@ -6,8 +6,9 @@ exports = module.exports = function(params) {
 	
     var requestSchema = new mongoose.Schema({
     user: { // owner
-      id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-      name: { type: String, required: true }
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+        name: { type: String, required: true },
+        department: String
     },
 
     timeCreated: { type: Date, default: Date.now },
@@ -91,6 +92,8 @@ exports = module.exports = function(params) {
 
     /**
      * Get next approval step
+     * return false if the last approval step in log was the last step in request
+     *
      * @return {ApprovalStep|false}
      */
     requestSchema.methods.getNextApprovalStep = function() {
@@ -109,8 +112,10 @@ exports = module.exports = function(params) {
             return this.approvalSteps[0];
         }
 
-        for(var i=this.approvalSteps.length-1; i>0; i--) {
-            if (this.approvalSteps[i]._id !== last._id) {
+
+        for(var i=this.approvalSteps.length-1; i>=0; i--) {
+            if (this.approvalSteps[i]._id === last._id) {
+                i--;
                 break;
             }
         }

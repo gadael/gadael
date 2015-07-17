@@ -422,7 +422,8 @@ function prepareRequestFields(service, params, user)
         var fieldsToSet = {
             user: {
                 id: params.user,
-                name: account.user.name
+                name: account.user.name,
+                department: user.department.name
             },
             approvalSteps: approvalSteps
         };
@@ -526,7 +527,7 @@ function saveRequest(service, params) {
 
     UserModel.findOne({
         '_id': params.user
-    }).populate('roles.account')
+    }).populate('roles.account').populate('department')
     .exec(function(err, user) {
 
         if (!user) {
