@@ -31,12 +31,10 @@ define([], function() {
             // create a new request
             $scope.newRequest = true;
 
-            $scope.request = {
-                timeCreated: new Date(),
-                absence: {
+            $scope.request.timeCreated = new Date();
+            $scope.request.absence = {
                     distribution: []
-                }
-            }
+            };
         }
         
 
@@ -87,8 +85,6 @@ define([], function() {
 
 
         $scope.saveAbsence = function() {
-            console.log('save request');
-
             for(var i=0; i<$scope.distribution.length; i++) {
                 $scope.request.absence.distribution.push(AbsenceEdit.createElement($scope.distribution[i]));
             }

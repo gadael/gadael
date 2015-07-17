@@ -400,8 +400,9 @@ function prepareRequestFields(service, params, user)
             }
 
             // set the first step in waiting status
-
-            steps[steps.length -1].status = 'waiting';
+            if (steps.length > 0) {
+                steps[steps.length -1].status = 'waiting';
+            }
 
             deferred.resolve(steps);
         });
