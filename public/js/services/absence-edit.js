@@ -449,11 +449,11 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          * Create one element for the distribution array to send to server
          *
          */
-        createElement: function(scopeParams) {
+        createElement: function(rightId, quantity) {
 
             return {
-                quantity: 0,
-                right: 0
+                quantity: quantity,
+                right: rightId
             };
         }
 

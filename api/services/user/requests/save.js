@@ -312,13 +312,13 @@ function getCollectionFromDistribution(distribution, account) {
 
     if (undefined === distribution[0].event) {
         return Q.fcall(function () {
-            throw new Error('Invalid request, event to available in first right of distribution');
+            throw new Error('Invalid request, event is not available in first right of distribution');
         });
     }
 
     if (undefined === distribution[distribution.length -1].event) {
         return Q.fcall(function () {
-            throw new Error('Invalid request, event to available in last right of distribution');
+            throw new Error('Invalid request, event is not available in last right of distribution');
         });
     }
 

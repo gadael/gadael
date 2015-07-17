@@ -85,8 +85,16 @@ define([], function() {
 
 
         $scope.saveAbsence = function() {
-            for(var i=0; i<$scope.distribution.length; i++) {
-                $scope.request.absence.distribution.push(AbsenceEdit.createElement($scope.distribution[i]));
+
+            var distributionElement;
+            var rights = $scope.distribution.right;
+
+            for(var rightId in rights) {
+                if (rights.hasOwnProperty(rightId)){
+                    distributionElement = AbsenceEdit.createElement(rightId, rights[rightId]);
+                    console.log(distributionElement);
+                    $scope.request.absence.distribution.push(distributionElement);
+                }
             }
 
             $scope.request.ingaSave();
