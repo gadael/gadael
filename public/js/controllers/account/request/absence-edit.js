@@ -89,10 +89,11 @@ define([], function() {
             var distributionElement;
             var rights = $scope.distribution.right;
 
+            console.log($scope.selection.periods);
+
             for(var rightId in rights) {
                 if (rights.hasOwnProperty(rightId)){
                     distributionElement = AbsenceEdit.createElement(rightId, rights[rightId]);
-                    console.log(distributionElement);
                     $scope.request.absence.distribution.push(distributionElement);
                 }
             }
