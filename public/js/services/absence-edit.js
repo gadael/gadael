@@ -446,15 +446,192 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
 
         /**
-         * Create one element for the distribution array to send to server
-         *
+         * Create distribution to post for a absence request
+         * @param {object} rights   Rights distribution with right id and quantity (the form input)
+         * @param {object} periods  The list of selected periods, provided by the period picker widget
+         * @return {Array}
          */
-        createElement: function(rightId, quantity) {
+        createDistribution: function(rights, periods, accountRights) {
 
-            return {
-                quantity: quantity,
-                right: rightId
-            };
+
+            var totalSeconds = 0;
+            var totalDays = 0;
+
+            for(var j=0; j<periods.length; j++) {
+                totalDays += periods[j].businessDays;
+                totalSeconds += (periods[j].dtend.getTime() - periods[j].dtstart.getTime()) / 1000;
+            }
+
+
+            /**
+             * get the remainder quantity or the date in a period
+             *
+             * @param {object}  period      object with dtstart and dtend and businessDays
+             * @param {Date}    from        start date in period
+             * @param {Number}  secQuantity seconds to add to the from date
+             *
+             * @return {object} with properties:
+             *      to: the next date in period
+             *      remainder: the remaining quantity or 0, in seconds
+             */
+            function getLast(period, from, secQuantity)
+            {
+                if (isNaN(from.getTime())) {
+                    throw new Error('invalid date');
+                }
+
+                if (isNaN(secQuantity)) {
+                    throw new Error('invalid duration');
+                }
+
+                var to = new Date(from);
+                to.setSeconds(to.getSeconds() + secQuantity);
+
+                var remainder = 0;
+
+                if (to.getTime() > period.dtend.getTime()) {
+                    remainder = Math.round((to.getTime() - period.dtend.getTime()) / 1000);
+                    to = period.dtend;
+                }
+
+                return {
+                    to: to,
+                    remainder: remainder
+                };
+            }
+
+            /**
+             * get the period from date, if date is a period start date, return the period
+             * if date is not in a period, get the next period from date
+             * @return {object}
+             */
+            function getPeriod(date)
+            {
+                for(var i=0; i<periods.length; i++) {
+                    if (periods[i].dtstart.getTime() === date.getTime()) {
+                        return periods[i];
+                    }
+
+                    if (periods[i].dtend > date) {
+                        return periods[i];
+                    }
+                }
+
+                return null;
+            }
+
+
+            /**
+             * Get next date from quantity
+             * @param {Date}    date            Origin
+             * @param {Number}  secQuantity     User input converted to seconds
+             *
+             * @return {Date}
+             */
+            function getNextDate(date, secQuantity)
+            {
+                var next, period;
+
+                do {
+                    period = getPeriod(date);
+
+                    if (null === period) {
+                        throw new Error('Failed to get a period from '+date);
+                    }
+
+                    next = getLast(period, date, secQuantity);
+                    date = next.to;
+                    quantity = next.remainder;
+                } while(quantity > 0);
+
+
+                if (isNaN(date.getTime())) {
+                    throw new Error('Invalid output for getNextDate');
+                }
+
+                return date;
+            }
+
+
+            /**
+             * create event to embed in distribution
+             * @param {Number} secQuantity
+             * @param {Date} startDate
+             * @return {object}
+             */
+            function createEvent(secQuantity, startDate)
+            {
+                var event = {
+                    dtstart: startDate,
+                    dtend: getNextDate(startDate, secQuantity)
+                };
+
+
+                return event;
+            }
+
+            /**
+             * @return {String} D|H
+             */
+            function getQuantityUnit(rightId)
+            {
+                for(var i=0; i<accountRights.length; i++) {
+                    if (accountRights[i]._id === rightId) {
+                        return accountRights[i].quantity_unit;
+                    }
+                }
+
+                throw new Error('Right not found in available accountRights');
+            }
+
+
+            /**
+             * Get quantity in seconds
+             * @param {String} rightId
+             * @param {Number} inputQuantity
+             * @return {Int}
+             */
+            function getSecQuantity(rightId, inputQuantity)
+            {
+                var u = getQuantityUnit(rightId);
+
+                if ('H' === u) {
+                    return Math.round(inputQuantity*3600);
+                }
+
+                if ('D' === u) {
+                    var days = (totalSeconds * inputQuantity / totalDays);
+                    return days;
+                }
+
+                throw new Error('Invalid quantity unit');
+            }
+
+
+            var distribution = [];
+            var startDate = periods[0].dtstart;
+            var quantity, elem;
+
+
+
+            for(var rightId in rights) {
+                if (rights.hasOwnProperty(rightId)) {
+                    quantity = rights[rightId];
+                    elem = {
+                        right: rightId,
+                        quantity: quantity,
+                        event: createEvent(getSecQuantity(rightId, quantity), startDate)
+                    };
+
+                    distribution.push(elem);
+                    startDate = elem.event.dtend;
+                }
+            }
+
+            console.log(periods);
+            console.log(distribution);
+
+            return distribution;
         }
 
     };
