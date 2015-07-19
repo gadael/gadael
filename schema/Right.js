@@ -156,19 +156,7 @@ exports = module.exports = function(params) {
     
     rightSchema.methods.getDispUnit = function(quantity) {
         
-        if (undefined === quantity || null === quantity) {
-            quantity = 10;
-        }
-        
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
-        
-        switch(this.quantity_unit) {
-            case 'D':
-                return gt.ngettext('Day', 'Days', quantity);
-            case 'H':
-                return gt.ngettext('Hour', 'Hours', quantity);
-        }
+        return require('../modules/dispunits')(this.quantity_unit, quantity);
     };
 
     

@@ -3,9 +3,12 @@
     <h4 class="text-info"><i class="fa fa-book"></i> <span translate>Rights distribution</span></h4>
     <div class="inga-list-rows">
         <div class="row" ng-repeat="element in request.absence.distribution">
-            <span class="col-md-2">{{element.quantity}}</span>
-            <span class="col-md-10">{{element.right.name}}</span>
-
+            <div class="col-md-1">{{element.quantity}} {{element.right.dispUnit}}</div>
+            <div class="col-md-5">{{element.right.name}}</div>
+            <div class="col-md-6">
+                <span class="col-md-2">From</span> <span class="col-md-10">{{element.event.dtstart|date:'medium'}}</span>
+                <span class="col-md-2">To</span>   <span class="col-md-10">{{element.event.dtend|date:'medium'}}</span>
+            </div>
         </div>
     </div>
 </div>
