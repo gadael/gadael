@@ -1,0 +1,48 @@
+
+<div class="row">
+    <h4 class="text-info"><i class="fa fa-book"></i> <span translate>Rights distribution</span></h4>
+    <div class="inga-list-rows">
+        <div class="row" ng-repeat="element in request.absence.distribution">
+            <span class="col-md-2">{{element.quantity}}</span>
+            <span class="col-md-10">{{element.right.name}}</span>
+
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+
+
+<div class="row">
+    <h4 class="text-info"><i class="fa fa-sitemap"></i> <span translate>Approval steps</span></h4>
+    <div class="text-muted" ng-if="request.approvalSteps.length==0">
+        <span translate>No approval steps created for this request, the request has been accepted on creation</span>
+    </div>
+    <div class="inga-list-rows">
+        <div class="row" ng-repeat="step in request.approvalSteps">
+            <span class="col-md-2">{{step.status}}</span>
+            <span class="col-md-5">{{step.department}}</span>
+            <span class="col-md-5">
+                <ul>
+                    <li ng-repeat="approver in step.approvers">{{approver}}</li>
+                </ul>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<br />
+
+<div class="row">
+    <h4 class="text-info"><i class="fa fa-calendar"></i> <span translate>History</span></h4>
+    <div class="inga-list-rows">
+        <div class="row" ng-repeat="log in request.requestLog">
+            <span class="col-md-2">{{log.timeCreated|date:'medium'}}</span>
+            <span class="col-md-5">{{log.action}}</span>
+            <span class="col-md-5">{{log.userCreated.name}}</span>
+        </div>
+    </div>
+</div>

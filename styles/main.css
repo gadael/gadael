@@ -1,10 +1,12 @@
 
 
-.inga-list-rows .row:first-child {
+.inga-list-rows .row:first-child,
+.inga-row:first-child {
 	border-top:#ccc 1px dotted;
 }
 
-.inga-list-rows .row {
+.inga-list-rows .row,
+.inga-row {
 	padding:.8em 0;
 	border-bottom:#ccc 1px dotted;
 }
