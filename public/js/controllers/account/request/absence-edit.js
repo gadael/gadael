@@ -12,6 +12,7 @@ define([], function() {
         // resources 
         var calendars = Rest.account.calendars.getResource();
         var calendarEvents = Rest.account.calendarevents.getResource();
+        var personalEvents = Rest.account.personalevents.getResource();
         var accountCollection = Rest.account.collection.getResource();
         var accountRights = Rest.account.accountrights.getResource();
         var users = Rest.user.user.getResource();
@@ -48,6 +49,7 @@ define([], function() {
         });
 
         $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
+        $scope.loadPersonalEvents = AbsenceEdit.getLoadPersonalEvents(userPromise, personalEvents);
         $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
@@ -86,7 +88,6 @@ define([], function() {
 
         $scope.saveAbsence = function() {
 
-            var distributionElement;
             var rights = $scope.distribution.right;
             var periods = $scope.selection.periods;
 

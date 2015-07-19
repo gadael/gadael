@@ -11,6 +11,7 @@ define(['q'], function(Q) {
         // resources 
         var calendars = Rest.admin.calendars.getResource();
         var calendarEvents = Rest.admin.calendarevents.getResource();
+        var personalEvents = Rest.admin.personalevents.getResource();
         var accountRights = Rest.admin.accountrights.getResource();
         var users = Rest.admin.users.getResource();
         var collections = Rest.admin.collections.getResource();
@@ -73,6 +74,7 @@ define(['q'], function(Q) {
          * Period picker callbacks
          */
         $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(loadRequestAndUserPromise(), calendarEvents);
+        $scope.loadPersonalEvents = AbsenceEdit.getLoadPersonalEvents(userPromise, personalEvents);
         $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 

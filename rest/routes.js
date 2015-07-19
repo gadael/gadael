@@ -69,6 +69,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./account/accountrights');
     controllers.add('./account/calendars');
     controllers.add('./account/calendarevents');
+    controllers.add('./account/personalevents');
     controllers.add('./account/requests');
     controllers.add('./account/collection');
 
@@ -83,6 +84,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/collection');
     controllers.add('./admin/calendars');
     controllers.add('./admin/calendarevents');
+    controllers.add('./admin/personalevents');
     controllers.add('./admin/types');
     controllers.add('./admin/rights');
     controllers.add('./admin/rightrenewals');

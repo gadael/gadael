@@ -30,11 +30,11 @@ function getEventsQuery(service, params)
             find.where('calendar').equals(params.calendar);
         }
     }
-    /*
+
     if (params.user) {
         find.where('user.id').equals(params.user);   
     }
-    */
+
     
     find.or([
         { rrule: { $exists: true } },
@@ -98,8 +98,10 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      *                      params.dtstart                  search interval start
      *                      params.dtend                    serach interval end
-     *                      params.calendar                 carlendar ID to serach in
+     *                      params.calendar                 carlendar ID to search in
      *                      params.substractNonWorkingDays  substract non working days periods
+     *                      params.substractPersonalEvents  substract personal events
+     *                      params.user                     User ID for personal events
      *
      * @return {Promise}
      */
@@ -159,6 +161,34 @@ exports = module.exports = function(services, app) {
             return events;
         }
 
+        /**
+         * get personal events to substract
+         * @return {Promise} Era
+         */
+        function getPersonalEvents()
+        {
+            var Q = require('q');
+            var deferred = Q.defer();
+
+            if (undefined === params.user) {
+                deferred.reject('the user param is mandatory if substractPersonalEvents is used');
+            } else {
+
+                getEventsQuery(service, {
+                    dtstart: params.dtstart,
+                    dtend: params.dtend,
+                    user: params.user
+                }).exec(function(err, docs) {
+                    if (err) {
+                        return deferred.reject(err);
+                    }
+                    deferred.resolve(getExpandedEra(docs));
+                });
+            }
+
+            return deferred.promise;
+        }
+
         
         var checkParams = require('../../../../modules/requestdateparams');
         
@@ -168,7 +198,11 @@ exports = module.exports = function(services, app) {
         
         getScheduleCalendar(service, params.calendar).then(function(scheduleCalendar) {
 
-            getEventsQuery(service, params).exec(function(err, docs) {
+            getEventsQuery(service, {
+                dtstart: params.dtstart,
+                dtend: params.dtend,
+                calendar: params.calendar
+            }).exec(function(err, docs) {
 
                 var searchPeriod = new jurassic.Period();
                 searchPeriod.dtstart = params.dtstart;
@@ -202,7 +236,16 @@ exports = module.exports = function(services, app) {
                         var nonWorkingDays = getExpandedEra(docs);
                         var NWera = nonWorkingDays.intersectPeriod(searchPeriod);
                         var substracted = era.substractEra(NWera);
-                        service.mongOutcome(err, substracted.periods);
+
+                        if (undefined === params.substractPersonalEvents || false === params.substractPersonalEvents) {
+                            return service.mongOutcome(err, substracted.periods);
+                        }
+
+                        getPersonalEvents().then(function(personalEra) {
+                            substracted = substracted.substractEra(personalEra);
+                            service.mongOutcome(err, substracted.periods);
+                        });
+
                     });
                 }, service.error);
 

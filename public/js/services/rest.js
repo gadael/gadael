@@ -50,6 +50,7 @@ define(function() {
                 beneficiaries           : init('admin/beneficiaries/:id'),
                 calendars               : init('admin/calendars/:id'),
                 calendarevents          : init('admin/calendarevents/:id'),
+                personalevents          : init('admin/personalevents/:id'),
                 collections             : init('admin/collections/:id'),
                 departments             : init('admin/departments/:id'),
                 rightrenewals           : init('admin/rightrenewals/:id'),
@@ -65,6 +66,7 @@ define(function() {
                 accountrights           : init('account/accountrights/:id'),
                 calendars               : init('account/calendars/:id'),
                 calendarevents          : init('account/calendarevents/:id'),
+                personalevents          : init('account/personalevents/:id'),
                 requests                : init('account/requests/:id')
             },
             

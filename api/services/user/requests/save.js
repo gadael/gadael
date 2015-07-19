@@ -518,6 +518,7 @@ function saveRequest(service, params) {
                 event = elem.event;
 
                 if (event.absenceElem !== elem._id) {
+                    event.request = requestDoc._id;
                     event.absenceElem = elem._id;
                     event.save();
                 }

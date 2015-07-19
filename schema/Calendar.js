@@ -20,7 +20,7 @@ exports = module.exports = function(params) {
 	var calendarSchema = new params.mongoose.Schema({
 		name: { type: String, required: true },
 		url: { type: String, required: true },
-		type: { type: String, required: true },
+		type: { type: String, enum:['workschedule', 'nonworkingday', 'holiday'], required: true },
 		lastUpdate: { type: Date }, // date for last modification or last copy of events from ics to database
 		timeCreated: { type: Date, default: Date.now },
 		
@@ -37,11 +37,6 @@ exports = module.exports = function(params) {
 
 	calendarSchema.index({ 'lastUpdate': 1 });
 	calendarSchema.set('autoIndex', params.autoIndex);
-	
-	
-	calendarSchema.path('type').validate(function (value) {
-		return /workschedule|nonworkingday|holiday/.test(value);
-	}, 'Invalid type');
   
   
 	/**

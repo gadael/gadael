@@ -29,7 +29,8 @@ exports = module.exports = function(params) {
 			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 			name: { type: String, default: '' }
 		},
-        absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' },
+        absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }, // for absence
+        request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request' }, // for absence or workperiod_recover
 		timeCreated: { type: Date, default: Date.now }
 	});
 

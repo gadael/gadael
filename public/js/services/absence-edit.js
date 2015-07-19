@@ -378,13 +378,34 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                         calendar: account.currentScheduleCalendar._id,
                         dtstart: interval.from,
                         dtend: interval.to,
-                        substractNonWorkingDays: true
+                        substractNonWorkingDays: true,
+                        substractPersonalEvents: true
                     }).$promise.then(deferred.resolve);
                 });
 
                 return deferred.promise;
             };
         },
+
+
+        getLoadPersonalEvents: function(userPromise, personalEvents) {
+            return function(interval) {
+
+                var deferred = Q.defer();
+
+                userPromise.then(function(user) {
+
+                    personalEvents.query({
+                        user: user._id,
+                        dtstart: interval.from,
+                        dtend: interval.to
+                    }).$promise.then(deferred.resolve);
+                });
+
+                return deferred.promise;
+            };
+        },
+
 
 
         /**
