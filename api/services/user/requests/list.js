@@ -30,6 +30,8 @@ var query = function(service, params) {
          find.where({ 'user.id': params.user });
     }
 
+    find.populate('absence.distribution');
+    find.populate('events');
 
     return find;
 };
@@ -51,7 +53,7 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
-        var cols = 'user timeCreated createdBy absence time_saving_deposit workperiod_recover approvalSteps';
+        var cols = 'user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps';
         var sortkey = 'timeCreated';
         
         service.resolveQuery(

@@ -628,9 +628,6 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 }
             }
 
-            console.log(periods);
-            console.log(distribution);
-
             return distribution;
         }
 

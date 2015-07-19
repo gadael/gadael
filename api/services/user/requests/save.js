@@ -53,7 +53,7 @@ function saveEvent(service, user, elem, event)
     function setProperties(eventDocument)
     {
         eventDocument.dtstart = event.dtstart;
-        eventDocument.dtstart = event.dtend;
+        eventDocument.dtend = event.dtend;
         eventDocument.user = {
             id: user,
             name: '?'
@@ -436,6 +436,12 @@ function prepareRequestFields(service, params, user)
                 var promisedDistribution = saveAbsence(service, params.user, params.absence, collection);
 
                 promisedDistribution.then(function(distribution) {
+
+                        fieldsToSet.events = [];
+
+                        for(var d=0; d<distribution.length; d++) {
+                            fieldsToSet.events.push(distribution[d].event);
+                        }
 
                         fieldsToSet.absence = {
                             distribution: distribution

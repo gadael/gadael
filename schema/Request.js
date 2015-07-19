@@ -18,6 +18,9 @@ exports = module.exports = function(params) {
       name: { type: String, required: true }
     },
 
+    events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],   // for absence or workperiod_recover
+                                                                                // duplicated references to events
+
     absence: {
         rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' },
         distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }]
@@ -31,8 +34,7 @@ exports = module.exports = function(params) {
 
     workperiod_recover: {
         event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' },
-        user_right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-        timeCreated: { type: Date, default: Date.now }
+        user_right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' }
     },
 
     deleted: { type: Boolean, default: false },

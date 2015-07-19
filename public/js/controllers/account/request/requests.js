@@ -9,6 +9,7 @@ define([], function() {
         '$modal',
         function($scope, $location, Rest, $modal) {
 
+
  
         $scope.typeSelection = function() {
             var modalscope = $scope.$new();
@@ -16,7 +17,7 @@ define([], function() {
                 $location.url('/account/requests/'+requestType+'-edit');
             };
             
-            var myOtherModal = $modal({
+            $modal({
                 scope: modalscope,
                 template: 'partials/account/request/request-create-modal.html',
                 show: true

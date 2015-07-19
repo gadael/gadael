@@ -19,13 +19,30 @@
 				</begriffs.pagination>
 			</div>
 		</div>
-		
+
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="request in requests">
-				<div class="col-md-12">
-					<a ng-href="#/account/requests/absences/{{request._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a>
-					 &nbsp; {{request.user.name}}
-				</div> 
+
+                <div class="col-md-1">
+                    <a ng-href="#/account/requests/absences/{{request._id}}" class="btn btn-info btn-xs hidden-print" role="button">
+                        <i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span>
+                    </a>
+                </div>
+
+				<div class="col-md-5">
+
+                    <span class="col-md-2" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
+                    <span class="col-md-2" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
+				</div>
+
+                <div class="col-md-4">
+                    <span translate>Created the</span><br />
+                    {{request.timeCreated|date}}
+                </div>
+
+                <div class="col-md-2">
+                    {{request.approvalSteps}}
+                </div>
 			</div>
 		</div>
 

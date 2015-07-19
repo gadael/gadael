@@ -300,6 +300,8 @@ describe('request absence account rest service', function() {
             expect(body.absence.distribution.length).toEqual(2);
             expect(body.approvalSteps.length).toEqual(1);
             expect(body.requestLog.length).toEqual(1);
+            expect(body.events.length).toEqual(2);
+
             request1 = body;
             done();
         });
@@ -309,6 +311,10 @@ describe('request absence account rest service', function() {
         server.get('/rest/account/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
+            expect(body[0].events[0].dtstart).toBeDefined();
+            expect(body[0].events[0].dtend).toBeDefined();
+            expect(body[0].events[1].dtstart).toBeDefined();
+            expect(body[0].events[1].dtend).toBeDefined();
             done();
         });
     });
