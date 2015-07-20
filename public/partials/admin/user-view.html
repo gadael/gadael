@@ -50,7 +50,8 @@
             </div>
         </div>
         
-        <div ng-if="user.isAccount" ng-include="'partials/admin/user-view-account.html'">
+        <div ng-if="user.isAccount" ng-include="'partials/admin/user-view-account.html'"></div>
+        <div ng-if="user.isManager" ng-include="'partials/admin/user-view-manager.html'"></div>
         
     </div>
         
