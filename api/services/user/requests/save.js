@@ -22,7 +22,7 @@ function validate(service, params)
  * This function will create or update an event
  *
  * @param {apiService} service
- * @param {String} user         The user ID
+ * @param {User} user         The user document
  * @param {AbsenceElem} elem
  * @param {object}     event
  *
@@ -55,8 +55,8 @@ function saveEvent(service, user, elem, event)
         eventDocument.dtstart = event.dtstart;
         eventDocument.dtend = event.dtend;
         eventDocument.user = {
-            id: user,
-            name: '?'
+            id: user._id,
+            name: user.getName()
         };
 
         eventDocument.save(fwdPromise);
@@ -90,7 +90,7 @@ function saveEvent(service, user, elem, event)
  * This function will create or update an absence element
  *
  * @param {apiService}                  service
- * @param {String} user                 The user ID
+ * @param {User} user                 The user document
  * @param {object} elem                 document
  *
  *
@@ -145,8 +145,8 @@ function saveElement(service, user, elem)
 
 
                 element.user = {
-                    id: user,
-                    name: '?'
+                    id: user._id,
+                    name: user.getName()
                 };
 
 
@@ -251,7 +251,7 @@ function checkElement(service, user, elem)
  * Save list of events
  *
  * @param {apiService} service
- * @param {String} user             absence owner object ID
+ * @param {User} user             absence owner object
  * @param {Object} params
  * @param {RightCollection} collection
  * @return {Promise} promised distribution array
@@ -275,7 +275,7 @@ function saveAbsence(service, user, params, collection) {
 
     for(i=0; i<params.distribution.length; i++) {
         elem = params.distribution[i];
-        chekedElementsPromises.push(checkElement(service, user, elem));
+        chekedElementsPromises.push(checkElement(service, user._id, elem));
     }
 
     return Q.all(chekedElementsPromises).then(function() {
@@ -335,6 +335,7 @@ function getCollectionFromDistribution(distribution, account) {
 /**
  * @param {apiService} service
  * @param {Object} params
+ * @param {User} user
  * @return {Promise} promised fieldsToSet object
  */
 function prepareRequestFields(service, params, user)
@@ -433,7 +434,7 @@ function prepareRequestFields(service, params, user)
 
             getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
 
-                var promisedDistribution = saveAbsence(service, params.user, params.absence, collection);
+                var promisedDistribution = saveAbsence(service, user, params.absence, collection);
 
                 promisedDistribution.then(function(distribution) {
 
