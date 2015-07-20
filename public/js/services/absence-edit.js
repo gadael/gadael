@@ -414,7 +414,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          * @param {Resource} calendarEvents
          * @return function
          */
-        getLoadEvents: function(calendars, calendarEvents) {
+        getLoadNonWorkingDaysEvents: function(calendars, calendarEvents) {
             return function(interval) {
                 var deferred = Q.defer();
 
@@ -432,6 +432,29 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                         dtend: interval.to
                     }).$promise.then(deferred.resolve);
                 });
+
+                return deferred.promise;
+            };
+        },
+
+
+        getLoadEvents: function(userPromise, personalEvents, calendars, calendarEvents) {
+
+            var loadPersonalEvents = this.getLoadPersonalEvents(userPromise, personalEvents);
+            var loadNonWorkingDaysEvents = this.getLoadNonWorkingDaysEvents(calendars, calendarEvents);
+
+
+
+            return  function getLoadEvents(interval) {
+                var deferred = Q.defer();
+                var promises = [];
+
+                promises.push(loadPersonalEvents(interval));
+                promises.push(loadNonWorkingDaysEvents(interval));
+
+                Q.all(promises).then(function(arr) {
+                    deferred.resolve(arr[0].concat(arr[1]));
+                }, deferred.reject);
 
                 return deferred.promise;
             };

@@ -49,8 +49,7 @@ define([], function() {
         });
 
         $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
-        $scope.loadPersonalEvents = AbsenceEdit.getLoadPersonalEvents(userPromise, personalEvents);
-        $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
+        $scope.loadEvents = AbsenceEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
 

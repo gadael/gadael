@@ -74,8 +74,7 @@ define(['q'], function(Q) {
          * Period picker callbacks
          */
         $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(loadRequestAndUserPromise(), calendarEvents);
-        $scope.loadPersonalEvents = AbsenceEdit.getLoadPersonalEvents(userPromise, personalEvents);
-        $scope.loadEvents = AbsenceEdit.getLoadEvents(calendars, calendarEvents);
+        $scope.loadEvents = AbsenceEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
 
