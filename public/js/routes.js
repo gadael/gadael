@@ -212,6 +212,11 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/account-schedulecalendars-edit.html',
 			controller: 'AdminAccountScheduleCalendarsEdit'
 		});
+
+        $routeProvider.when('/admin/users/:id/manager-departments', {
+			templateUrl: 'partials/admin/manager-departments-edit.html',
+			controller: 'AdminManagerDepartmentsEdit'
+		});
 		
         
 		$routeProvider.when('/admin/departments', {
