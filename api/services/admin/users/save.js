@@ -126,9 +126,12 @@ function saveUserRoles(service, params, userDocument) {
     }
 
     var admin = params.isAdmin ? {} : null;
-    var manager = params.isManager ? {} : null;
-
     
+    var manager = null;
+
+    if (params.isManager && params.roles !== undefined && params.roles.manager !== undefined) {
+        manager = params.roles.manager;
+    }
                         
 
     saveRoles(

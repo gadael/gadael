@@ -42,6 +42,7 @@ exports = module.exports = function(services, app) {
         .findOne(filter)
         .populate('events')
         .populate('absence.distribution')
+        .populate('approvalSteps.approvers', null, 'User')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

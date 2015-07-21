@@ -5,7 +5,7 @@
         <div class="row" ng-repeat="element in request.absence.distribution">
             <div class="col-md-1">{{element.quantity}} {{element.right.dispUnit}}</div>
             <div class="col-md-5">{{element.right.name}}</div>
-            <div class="col-md-6">
+            <div class="col-md-6 hidden-xs hidden-sm">
                 <span class="col-md-2">From</span> <span class="col-md-10">{{element.event.dtstart|date:'medium'}}</span>
                 <span class="col-md-2">To</span>   <span class="col-md-10">{{element.event.dtend|date:'medium'}}</span>
             </div>
@@ -23,17 +23,24 @@
     <div class="text-muted" ng-if="request.approvalSteps.length==0">
         <span translate>No approval steps created for this request, the request has been accepted on creation</span>
     </div>
-    <div class="inga-list-rows">
-        <div class="row" ng-repeat="step in request.approvalSteps">
-            <span class="col-md-2">{{step.status}}</span>
-            <span class="col-md-5">{{step.department}}</span>
-            <span class="col-md-5">
-                <ul>
-                    <li ng-repeat="approver in step.approvers">{{approver}}</li>
-                </ul>
-            </span>
-        </div>
-    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th translate>Status</th>
+            <th class="hidden-xs hidden-sm" translate>Department</th>
+            <th translate>Approvers</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="step in request.approvalSteps">
+            <td>{{step.status}}</td>
+            <td class="hidden-xs hidden-sm">{{step.department}}</td>
+            <td>
+                <div ng-repeat="approver in step.approvers"><i class="fa fa-user"></i> {{approver.lastname}} {{approver.firstname}}</div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 
@@ -45,7 +52,7 @@
         <div class="row" ng-repeat="log in request.requestLog">
             <span class="col-md-2">{{log.timeCreated|date:'medium'}}</span>
             <span class="col-md-5">{{log.action}}</span>
-            <span class="col-md-5">{{log.userCreated.name}}</span>
+            <span class="col-md-5  hidden-xs hidden-sm"><i class="fa fa-user"></i> {{log.userCreated.name}}</span>
         </div>
     </div>
 </div>
