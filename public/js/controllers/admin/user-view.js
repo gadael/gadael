@@ -3,12 +3,10 @@ define([], function() {
     
 	return ['$scope', 
 		'$location', 
-		'Rest', 
-        '$http', function(
+		'Rest', function(
 			$scope, 
 			$location, 
-			Rest, 
-            $http
+			Rest
 		) {
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
@@ -17,7 +15,6 @@ define([], function() {
         var beneficiaries = Rest.admin.beneficiaries.getResource();
         var accountCollection = Rest.admin.accountcollections.getResource();
         var accountScheduleCalendars = Rest.admin.accountschedulecalendars.getResource();
-        var calendarEvents = Rest.admin.calendarevents.getResource();
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {

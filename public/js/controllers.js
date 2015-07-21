@@ -143,10 +143,6 @@ define(['angular', 'services'], function (angular) {
         .controller('AdminAccountScheduleCalendarsEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/account-schedulecalendars-edit', this, $scope, $injector);
 		}])
-		
-        .controller('AdminManagerDepartmentsEdit', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/manager-departments-edit', this, $scope, $injector);
-		}])
 
 		.controller('AdminDepartments', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/departments', this, $scope, $injector);
