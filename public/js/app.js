@@ -11,8 +11,7 @@ define([
 	'angularRoute',
 	'angularAuth',
 	'paginateAnything',
-	'passwordStrength',
-    'multiSelect'
+	'passwordStrength'
 	], 
 	
 	function (angular, jsondates) {
@@ -33,8 +32,7 @@ define([
 		'ngAnimate', 
 		'ngSanitize',
 		'mgcrea.ngStrap',
-        'tpTeleperiod',
-        'isteven-multi-select'
+        'tpTeleperiod'
 	]);
     
     

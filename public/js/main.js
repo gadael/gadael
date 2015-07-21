@@ -18,8 +18,7 @@ require.config({
         q:                      '../bower_components/q/q',
         d3:                     '../bower_components/d3/d3.min',
         teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',
-        angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod',
-        multiSelect:            '../bower_components/isteven-angular-multiselect/isteven-multi-select'
+        angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -42,8 +41,7 @@ require.config({
 		'angularSanitize': ['angular'],
         'q': { 'exports': 'Q' },
         'teleperiod': ['q', 'd3'],
-        'angularTeleperiod': ['q', 'angular', 'teleperiod'],
-        'multiSelect': ['angular']
+        'angularTeleperiod': ['q', 'angular', 'teleperiod']
 	},
 	priority: ["angular"]
 });

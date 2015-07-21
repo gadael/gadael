@@ -61,7 +61,6 @@ module.exports = function(grunt) {
             'public/bower_components/bootstrap/dist/css/bootstrap-theme.css',
             'public/bower_components/angular-motion/dist/angular-motion.css',
             'public/bower_components/teleperiod/styles/teleperiod.css',
-            'public/bower_components/isteven-angular-multiselect/isteven-multi-select.css',
             'styles/main.css'
             
           ],
