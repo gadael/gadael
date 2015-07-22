@@ -297,11 +297,13 @@ describe('request absence account rest service', function() {
         server.post('/rest/account/requests', { absence: { distribution: distribution } }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.absence.distribution.length).toEqual(2);
-            expect(body.approvalSteps.length).toEqual(1);
-            expect(body.requestLog.length).toEqual(1);
-            expect(body.events.length).toEqual(2);
-
+            expect(body.absence).toBeDefined();
+            if (body.absence) {
+                expect(body.absence.distribution.length).toEqual(2);
+                expect(body.approvalSteps.length).toEqual(1);
+                expect(body.requestLog.length).toEqual(1);
+                expect(body.events.length).toEqual(2);
+            }
             request1 = body;
             done();
         });
@@ -311,10 +313,12 @@ describe('request absence account rest service', function() {
         server.get('/rest/account/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            expect(body[0].events[0].dtstart).toBeDefined();
-            expect(body[0].events[0].dtend).toBeDefined();
-            expect(body[0].events[1].dtstart).toBeDefined();
-            expect(body[0].events[1].dtend).toBeDefined();
+            if (body[0]) {
+                expect(body[0].events[0].dtstart).toBeDefined();
+                expect(body[0].events[0].dtend).toBeDefined();
+                expect(body[0].events[1].dtstart).toBeDefined();
+                expect(body[0].events[1].dtend).toBeDefined();
+            }
             done();
         });
     });
@@ -322,9 +326,12 @@ describe('request absence account rest service', function() {
     it('get one request', function(done) {
         server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.absence.distribution).toBeDefined();
-            expect(body._id).toEqual(request1._id);
-            expect(body.absence.distribution[0].consumedQuantity).toEqual(1);
+            expect(body.absence).toBeDefined();
+            if (body.absence) {
+                expect(body.absence.distribution).toBeDefined();
+                expect(body._id).toEqual(request1._id);
+                expect(body.absence.distribution[0].consumedQuantity).toEqual(1);
+            }
             done();
         });
     });
@@ -514,7 +521,7 @@ describe('request absence account rest service', function() {
 
 
     it('request list of current deleted requests as account', function(done) {
-        server.get('/rest/account/requests', { deleted:1 }, function(res, body) {
+        server.get('/rest/account/requests', { 'status.deleted': 'accepted' }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             done();
@@ -523,10 +530,13 @@ describe('request absence account rest service', function() {
 
 
     it('get request 1', function(done) {
-        server.get('/rest/account/requests/'+request1._id, { deleted:1 }, function(res, body) {
+        server.get('/rest/account/requests/'+request1._id, { 'status.deleted': 'accepted' }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            var lastLog = body.requestLog[body.requestLog.length -1];
-            expect(lastLog.action).toEqual('delete');
+            expect(body.requestLog).toBeDefined();
+            if (body.requestLog) {
+                var lastLog = body.requestLog[body.requestLog.length -1];
+                expect(lastLog.action).toEqual('delete');
+            }
             done();
         });
     });

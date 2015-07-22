@@ -546,8 +546,7 @@ function saveRequest(service, params) {
         prepareRequestFields(service, params, user).then(function(fieldsToSet) {
 
             var filter = {
-                _id: params.id,
-                deleted: false
+                _id: params.id
             };
 
             filter['user.id'] = params.user;

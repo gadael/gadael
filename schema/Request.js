@@ -37,7 +37,10 @@ exports = module.exports = function(params) {
         user_right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' }
     },
 
-    deleted: { type: Boolean, default: false },
+    status: {                                                       // approval status for request creation or request deletion
+        created: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null },
+        deleted: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null }
+    },
 
     approvalSteps: [params.embeddedSchemas.ApprovalStep],			// on request creation, approval steps are copied and contain references to users
                                                                     // informations about approval are stored in requestLog sub-documents instead

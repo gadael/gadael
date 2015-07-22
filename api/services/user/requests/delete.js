@@ -18,7 +18,7 @@ exports = module.exports = function(services, app) {
 
         var filter = {
             _id: params.id,
-            deleted: false
+            'status.deleted': null
         };
         
         if (params.user) {
@@ -38,16 +38,34 @@ exports = module.exports = function(services, app) {
                     return service.forbidden(gt.gettext('The request is not accessible'));
                 }
 
-                document.deleted = true;
-                document.addLog('delete', params.deletedBy);
+                if ('accepted' !== document.status.created) {
+
+                    document.status.deleted = 'accepted';
+                    document.addLog('delete', params.deletedBy);
+
+                } else {
+
+                    // this is an accepted request, need approval to delete
+
+                    document.status.deleted = 'waiting';
+                    document.addLog(
+                        'wf_sent',
+                        params.deletedBy,
+                        gt.gettext('Start workflow to delete a confirmed absence')
+                    );
+
+                    // TODO: start workflow
+
+                }
+
 
                 document.save(function(err) {
                     if (service.handleMongoError(err)) {
                         service.success(gt.gettext('The request has been deleted'));
-                        
+
                         var request = document.toObject();
                         request.$outcome = service.outcome;
-                        
+
                         service.deferred.resolve(request);
                     }
                 });
