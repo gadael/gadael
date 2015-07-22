@@ -82,13 +82,9 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
           
-        var cols = 'name description type quantity quantity_unit';
-        var sortkey = 'sortkey';
-        
+
         service.resolveQuery(
-            query(service, params),
-            cols,
-            sortkey,
+            query(service, params).select('name description type quantity quantity_unit').sort('sortkey'),
             paginate,
             function(err, docs) {
                 getResultSet(docs, service.mongOutcome);

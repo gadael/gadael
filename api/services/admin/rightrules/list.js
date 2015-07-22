@@ -44,14 +44,9 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-          
-        var cols = 'title quantity type interval';
-        var sortkey = 'title';
-        
+
         service.resolveQuery(
-            query(service, params),
-            cols,
-            sortkey,
+            query(service, params).select('title quantity type interval').sort('title'),
             paginate
         );
 

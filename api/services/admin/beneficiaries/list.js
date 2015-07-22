@@ -102,18 +102,16 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
-        var cols = 'right document ref';
-        var sortkey = 'right.name';
-        
         getQuery(params, function(query) {
+
+            query.select('right document ref');
+            query.sort('right.name');
 
             //var query = getQuery(service, params);
             var populatedTypePromises = [];
 
             service.resolveQuery(
                 query,
-                cols,
-                sortkey,
                 paginate,
                 function(err, docs) {
                     if (service.handleMongoError(err))

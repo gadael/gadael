@@ -50,13 +50,9 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
           
-        var cols = 'name url type halfDayHour lastUpdate';
-        var sortkey = 'name';
-        
+
         service.resolveQuery(
-            query(service, params),
-            cols,
-            sortkey,
+            query(service, params).select('name url type halfDayHour lastUpdate').sort('name'),
             paginate
         );
 

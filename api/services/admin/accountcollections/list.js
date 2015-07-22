@@ -50,16 +50,12 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-          
-        var cols = 'account rightCollection from to';
-        var sortkey = 'from';
         
-        service.resolveQuery(
-            query(service, params),
-            cols,
-            sortkey,
-            paginate
-        );
+        var find = query(service, params);
+        find.select('account rightCollection from to');
+        find.sort('from');
+
+        service.resolveQuery(find, paginate);
 
         return service.deferred.promise;
     };

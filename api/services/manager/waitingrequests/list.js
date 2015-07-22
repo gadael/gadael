@@ -54,15 +54,11 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
-        var cols = 'user timeCreated createdBy absence time_saving_deposit workperiod_recover approvalSteps';
-        var sortkey = 'timeCreated';
+        var find = query(service, params);
+        find.select('user timeCreated createdBy absence time_saving_deposit workperiod_recover approvalSteps');
+        find.sort('timeCreated');
 
-        service.resolveQuery(
-            query(service, params),
-            cols,
-            sortkey,
-            paginate
-        );
+        service.resolveQuery(find, paginate);
 
         return service.deferred.promise;
     };

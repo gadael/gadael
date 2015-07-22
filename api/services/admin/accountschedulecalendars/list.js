@@ -45,15 +45,11 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
           
-        var cols = 'account calendar from to';
-        var sortkey = 'from';
+        var find = query(service, params);
+        find.select('account calendar from to');
+        find.sort('from');
         
-        service.resolveQuery(
-            query(service, params),
-            cols,
-            sortkey,
-            paginate
-        );
+        service.resolveQuery(find, paginate);
 
         return service.deferred.promise;
     };

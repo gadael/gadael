@@ -44,14 +44,9 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-          
-        var cols = 'right start finish';
-        var sortkey = 'start';
-        
+
         service.resolveQuery(
-            query(service, params),
-            cols,
-            sortkey,
+            query(service, params).select('right start finish').sort('start'),
             paginate
         );
 

@@ -92,10 +92,9 @@ exports = module.exports = function(services, app) {
         
         query(service, params, function(find) {
             
-            var cols = 'lastname firstname email roles isActive department';
-            var sortkey = 'lastname';
+            find.select('lastname firstname email roles isActive department').sort('lastname');
             
-            service.resolveQuery(find, cols, sortkey, paginate, function(err, docs) {
+            service.resolveQuery(find, paginate, function(err, docs) {
                 if (service.handleMongoError(err)) {
                     
                     var promises = [];
