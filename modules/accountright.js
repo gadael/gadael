@@ -1,6 +1,13 @@
+/**
+ * @module accountright
+ */
+
+
 var Q = require('q');
 
 /**
+ * This object represent one right associated to one user account
+ * @constructor
  * @param {Account} account mongoose document
  * @param {RightRenewal} renewal the vacation right attribution with right populated
  *
@@ -25,7 +32,7 @@ function accountRight(account, renewal)
 
 /**
  * Sum of consumed quantities from waiting requests
- * @return {Promise}    Number
+ * @return {Promise}    promise resolve to a number
  */
 accountRight.prototype.getWaitingQuantity = function()
 {
@@ -51,8 +58,9 @@ accountRight.prototype.getWaitingQuantity = function()
 };
 
  /**
- * Sum of consumed quantities from confirmed requests
- * @return {Promise}    Number
+ * Sum of quantities from confirmed requests, real input of user
+ * @todo This promise never resolve!
+ * @return {Promise}    promise resolve to a number
  */
 accountRight.prototype.getConfirmedQuantity = function()
 {
@@ -63,8 +71,12 @@ accountRight.prototype.getConfirmedQuantity = function()
     return deferred.promise;
 };
 
+
 /**
- * @return {Promise}    Number
+ * Get consumed quantity
+ * this is the quantity from accepted requests, consumed from right according to the collection percentage
+ *
+ * @return {Promise}    promise resolve to a number
  */
 accountRight.prototype.getConsumedQuantity = function()
 {
@@ -104,7 +116,9 @@ accountRight.prototype.getConsumedQuantity = function()
 
 
 /**
- * @return {Promise}    Number
+ * Get available quantity
+ * Available quantity is the initial quantity less the consumed quantity (from accepted requests only)
+ * @return {Promise}    promise resolve to a number
  */
 accountRight.prototype.getAvailableQuantity = function()
 {

@@ -36,7 +36,7 @@ define([], function() {
          * Select a user account in the create request popover, open a modal
          * with spoof informations and available actions
          * 
-         * @param {[[Type]]} user [[Description]]
+         * @param {Object} user
          */
         $scope.popoverSelect = function(user) {
             
@@ -46,7 +46,7 @@ define([], function() {
                 $location.url('/admin/requests/'+requestType+'-edit?user='+user._id);
             };
             
-            var myOtherModal = $modal({
+            $modal({
                 scope: modalscope,
                 template: 'partials/admin/request/spoof-user-modal.html',
                 show: true

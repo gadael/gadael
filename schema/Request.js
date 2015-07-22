@@ -5,53 +5,86 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	
     var requestSchema = new mongoose.Schema({
-    user: { // owner
-        id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-        name: { type: String, required: true },
-        department: String
-    },
+        user: { // owner
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+            name: { type: String, required: true },
+            department: String
+        },
 
-    timeCreated: { type: Date, default: Date.now },
+        timeCreated: { type: Date, default: Date.now },
 
-    createdBy: {
-      id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-      name: { type: String, required: true }
-    },
+        createdBy: {
+          id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+          name: { type: String, required: true }
+        },
 
-    events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],   // for absence or workperiod_recover
-                                                                                // duplicated references to events
+        events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],   // for absence or workperiod_recover
+                                                                                    // duplicated references to events
 
-    absence: {
-        rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' },
-        distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }]
-    },
+        absence: {
+            rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' },
+            distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }]
+        },
 
-    time_saving_deposit: {
-        from: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-        to: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-        quantity: { type: Number }
-    },
+        time_saving_deposit: {
+            from: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
+            to: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
+            quantity: { type: Number }
+        },
 
-    workperiod_recover: {
-        event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' },
-        user_right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' }
-    },
+        workperiod_recover: {
+            event: { type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' },
+            user_right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' }
+        },
 
-    status: {                                                       // approval status for request creation or request deletion
-        created: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null },
-        deleted: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null }
-    },
+        status: {                                                       // approval status for request creation or request deletion
+            created: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null },
+            deleted: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null }
+        },
 
-    approvalSteps: [params.embeddedSchemas.ApprovalStep],			// on request creation, approval steps are copied and contain references to users
-                                                                    // informations about approval are stored in requestLog sub-documents instead
-                                                                    // first position in array is the last approval step (top level department in user deparments ancestors)
+        approvalSteps: [params.embeddedSchemas.ApprovalStep],			// on request creation, approval steps are copied and contain references to users
+                                                                        // informations about approval are stored in requestLog sub-documents instead
+                                                                        // first position in array is the last approval step (top level department in user deparments ancestors)
 
-    requestLog: [params.embeddedSchemas.RequestLog]					// linear representation of all actions
-                                                                    // create, edit, delete, and effectives approval steps
+        requestLog: [params.embeddedSchemas.RequestLog]					// linear representation of all actions
+                                                                        // create, edit, delete, and effectives approval steps
     });
 
 
 
+    /**
+     * Get a displayable status, internationalized
+     * @return {String}
+     */
+    requestSchema.methods.getDispStatus = function() {
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
+
+        if (null !== this.status.created) {
+            switch(this.status.created) {
+                case 'waiting':
+                    return gt.gettext('Waiting approval');
+                case 'accepted':
+                    return gt.gettext('Accepted');
+                case 'rejected':
+                    return gt.gettext('Rejected');
+            }
+        }
+
+
+        if (null !== this.status.deleted) {
+            switch(this.status.deleted) {
+                case 'waiting':
+                    return gt.gettext('Waiting deletion approval');
+                case 'accepted':
+                    return gt.gettext('Deleted');
+                case 'rejected':
+                    return gt.gettext('Deletion rejected');
+            }
+        }
+
+        return gt.gettext('Undefined');
+    };
 
     /**
      * Get last request log inserted for the approval workflow

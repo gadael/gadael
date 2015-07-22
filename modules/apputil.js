@@ -1,4 +1,10 @@
+/**
+ * @module apputil
+ */
+
 'use strict';
+
+
 
 /**
  * Add utilities to app or headless app

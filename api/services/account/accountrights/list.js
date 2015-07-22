@@ -40,7 +40,7 @@ exports = module.exports = function(services, app)
         /**
          * Get the promise for the available quantity
          * @param   {Document} renewal
-         * @returns {[[Type]]} [[Description]]
+         * @returns {Promise} resolve to a number
          */
         function getRenewalAvailableQuantity(renewal) {
 

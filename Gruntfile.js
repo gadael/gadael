@@ -67,7 +67,22 @@ module.exports = function(grunt) {
           dest: 'public/css/merged.min.css'
         }
       },
-    
+    jsdoc : {
+        dist : {
+            src: [
+                'README.md',
+                'api/**/*.js',
+                'modules/**/*.js',
+                'rest/**/*.js',
+                'schema/**/*.js',
+                'public/js/**/*.js'
+            ],
+            options: {
+                destination: 'doc',
+                verbose: 1
+            }
+        }
+    },
     jshint: {
       client: {
         options: {
@@ -222,6 +237,7 @@ module.exports = function(grunt) {
 //  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-newer');
@@ -232,7 +248,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('default', [ 'jshint:server', 'nodemon']);
-  grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
+  grunt.registerTask('build', [ 'copy:fonts', 'cssmin', 'jsdoc']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('testold', ['karma', 'jasmine_node']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);

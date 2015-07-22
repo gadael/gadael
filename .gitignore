@@ -10,3 +10,4 @@ public/fonts/*.woff
 /bower_components
 /node_modules
 po/*.mo
+/doc/

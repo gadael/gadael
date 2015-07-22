@@ -5,11 +5,9 @@
 /**
  * Send email
  * 
- * @param	Object	req
- * 
- * @param	Object	res
- * 
- * @param	Object  options
+ * @param	{Object}	req
+ * @param	{Object}	res
+ * @param	{Object}  options
  *  options = {
  *  	from: String,
  *  	to: String,

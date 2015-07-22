@@ -3,9 +3,9 @@
 /**
  * Event workflow 
  * 
- * @property	int		httpstatus		Response HTTP code
- * @property	Object	document		the processed document, will be return by the http query for save method (mongoose document)
- * @property	Object	outcome			client infos
+ * @property	{Int}		httpstatus		Response HTTP code
+ * @property	{Object}	document		the processed document, will be return by the http query for save method (mongoose document)
+ * @property	{Object}	outcome			client infos
  * 
  * 
  * the outcome object is sent to client in json format inside the document in the $outcome property
@@ -14,7 +14,7 @@
  * alert: a list of message with { type: 'success|info|warning|danger' message: '' } type is one of bootstrap alert class
  * errfor: name of fields to highlight to client (empty value)
  * 
- * @return EventEmitter
+ * @return {EventEmitter}
  */ 
 exports = module.exports = function(req, res) {
   var workflow = new (require('events').EventEmitter)();
@@ -32,7 +32,7 @@ exports = module.exports = function(req, res) {
 
 
   /**
-   * @return bool
+   * @return {bool}
    */  
   workflow.hasErrors = function() {
 	  
@@ -54,6 +54,7 @@ exports = module.exports = function(req, res) {
   
   /**
    * Test required fields in req.body
+   * @param {Array} list
    * @return bool
    */  
   workflow.needRequiredFields = function(list) {
@@ -72,6 +73,7 @@ exports = module.exports = function(req, res) {
   
   /**
    * emit exception if parameter contain a mongoose error
+   * @param {Error} err
    */  
   workflow.handleMongoError = function(err) {
 	  if (err) {
@@ -82,9 +84,11 @@ exports = module.exports = function(req, res) {
 		  
 		  if (err.errors) {
 			  for(var field in err.errors) {
-				  var e = err.errors[field];
-				  workflow.outcome.errfor[field] = e.type;
-				  workflow.outcome.alert.push({ type:'danger' ,message: e.message});
+                  if (err.errors.hasOwnProperty(field)) {
+                      var e = err.errors[field];
+                      workflow.outcome.errfor[field] = e.type;
+                      workflow.outcome.alert.push({ type:'danger' ,message: e.message});
+                  }
 			  }
 		  }
 		  
@@ -105,7 +109,7 @@ exports = module.exports = function(req, res) {
     });
     
     workflow.emit('response');
-  }
+  };
   
 
   workflow.on('exception', function(err) {
@@ -127,7 +131,7 @@ exports = module.exports = function(req, res) {
         workflow.document = workflow.document.toObject();
     }
         
-    workflow.document['$outcome'] = workflow.outcome;
+    workflow.document.$outcome = workflow.outcome;
     
     res.status(workflow.httpstatus).send(workflow.document);
   });

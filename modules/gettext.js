@@ -1,4 +1,3 @@
-
 /**
  * a gettext instance
  * @todo set user language

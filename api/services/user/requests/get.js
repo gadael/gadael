@@ -76,6 +76,9 @@ exports = module.exports = function(services, app) {
                     }
                 }
 
+                // add displayable status
+                docObj.status.title = document.getDispStatus();
+
 
                 service.outcome.success = true;
                 service.deferred.resolve(docObj);
