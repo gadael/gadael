@@ -54,11 +54,19 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params, paginate) {
 
         var find = query(service, params)
-            .select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps')
+            .select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps status')
             .sort('timeCreated');
         
 
-        service.resolveQuery(find, paginate);
+        service.resolveQuery(find, paginate, function(err, docs) {
+            var docsObj = docs.map(function(request) {
+                var reqObj = request.toObject();
+                reqObj.status.title = request.getDispStatus();
+                return reqObj;
+            });
+
+            service.mongOutcome(err, docsObj);
+        });
 
         return service.deferred.promise;
     };

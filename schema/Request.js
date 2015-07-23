@@ -183,6 +183,7 @@ exports = module.exports = function(params) {
 
 
     /**
+     * Update document when an approval step has been accepted
      * @param {ApprovalStep} approvalStep
      * @param {User} user
      * @param {String} comment
@@ -203,6 +204,15 @@ exports = module.exports = function(params) {
 
         if (false === nextStep || approvalStep._id === nextStep._id) {
             this.addLog('wf_end', user);
+
+            if ('waiting' === this.status.created) {
+                this.status.created = 'accepted';
+            }
+
+            if ('waiting' === this.status.deleted) {
+                this.status.deleted = 'accepted';
+            }
+
             // TODO notify appliquant
             return;
         }
@@ -211,7 +221,9 @@ exports = module.exports = function(params) {
         this.forwardApproval(nextStep);
     };
 
+
     /**
+     * Update document when an approval step has been rejected
      * @param {ApprovalStep} approvalStep
      * @param {User} user
      * @param {String} comment
@@ -220,9 +232,16 @@ exports = module.exports = function(params) {
 
         approvalStep.status = 'rejected';
 
-
          // add log entry
          this.addLog('wf_reject', user, comment, approvalStep);
+
+        if ('waiting' === this.status.created) {
+            this.status.created = 'rejected';
+        }
+
+        if ('waiting' === this.status.deleted) {
+            this.status.deleted = 'rejected';
+        }
     };
 
 

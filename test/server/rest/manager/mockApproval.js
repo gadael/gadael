@@ -21,6 +21,7 @@ function mockApproval(server, readyCallback) {
 
 
     this.managersByDepartment = {};
+    this.accountsByDepartment = {};
 }
 
 
@@ -115,9 +116,22 @@ mockApproval.prototype.createCollection = function(name) {
 };
 
 
+/**
+ * @param {Department} department
+ * @param {Object} account
+ */
+mockApproval.prototype.addAccount = function(department, account) {
+
+    if (undefined === this.accountsByDepartment[department.name]) {
+        this.accountsByDepartment[department.name] = [];
+    }
+
+    this.accountsByDepartment[department.name].push(account);
+};
 
 /**
- *
+ * @param {Department} department
+ * @param {Object} manager
  */
 mockApproval.prototype.addManager = function(department, manager) {
 
@@ -250,6 +264,7 @@ mockApproval.prototype.createDepartments = function(app) {
 
             for(i=0; i<accounts.length; i++) {
                 accounts[i].user.department = department._id;
+                mockApproval.addAccount(department, accounts[i]);
                 savedDocumentsPromises.push( accounts[i].user.save());
             }
 

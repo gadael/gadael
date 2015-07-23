@@ -20,6 +20,7 @@ describe('Approval on absence request', function() {
     var requests = [];
 
     var managersByDepartment;
+    var accountsByDepartment;
 
     var async = require('async');
 
@@ -73,6 +74,7 @@ describe('Approval on absence request', function() {
                 expect(err).toEqual(null);
                 expect(ancestors.length).toEqual(3);
                 managersByDepartment = approval.managersByDepartment;
+                accountsByDepartment = approval.accountsByDepartment;
                 done();
             });
         });
@@ -103,8 +105,6 @@ describe('Approval on absence request', function() {
 
 
     it('create one request per user in each department', function(done) {
-
-
 
         function userCreateRequest(user, callback) {
 
@@ -348,6 +348,8 @@ describe('Approval on absence request', function() {
             action: 'wf_accept'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body.status).toBeDefined();
+            expect(body.status.created).toEqual('waiting');
             done();
         });
     });
@@ -374,7 +376,7 @@ describe('Approval on absence request', function() {
 
 
     it('Login with the first approver from d0', function(done) {
-        expect(managersByDepartment.d4[0]).toBeDefined();
+        expect(managersByDepartment.d0[0]).toBeDefined();
         server.post('/rest/login', {
             'username': managersByDepartment.d0[0].user.email,
             'password': managersByDepartment.d0[0].password
@@ -406,6 +408,8 @@ describe('Approval on absence request', function() {
             action: 'wf_accept'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body.status).toBeDefined();
+            expect(body.status.created).toEqual('accepted');
             done();
         });
     });
@@ -418,6 +422,40 @@ describe('Approval on absence request', function() {
             done();
         });
     });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+
+    it('Login with the user account from d6', function(done) {
+        expect(accountsByDepartment.d6[0]).toBeDefined();
+        server.post('/rest/login', {
+            'username': accountsByDepartment.d6[0].user.email,
+            'password': accountsByDepartment.d6[0].password
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('request list of current requests', function(done) {
+        server.get('/rest/account/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            expect(body[0].status.title).toBeDefined();
+            expect(body[0].status.created).toEqual('accepted');
+            expect(body[0].status.deleted).toEqual(null);
+            done();
+        });
+    });
+
 
 
     it('logout', function(done) {

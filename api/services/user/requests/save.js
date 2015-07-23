@@ -430,6 +430,22 @@ function prepareRequestFields(service, params, user)
             approvalSteps: approvalSteps
         };
 
+
+        // Set the request status
+
+        if (0 === approvalSteps.length) {
+            fieldsToSet.status = {
+                created: 'approved'
+            };
+        } else {
+
+            fieldsToSet.status = {
+                created: 'waiting'
+            };
+        }
+
+
+
         if (undefined !== params.absence) {
 
             getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
