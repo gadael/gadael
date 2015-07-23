@@ -211,6 +211,7 @@ exports = module.exports = function(params) {
 
             if ('waiting' === this.status.deleted) {
                 this.status.deleted = 'accepted';
+                this.addLog('delete', user, null, approvalStep);
             }
 
             // TODO notify appliquant

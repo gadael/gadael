@@ -26,7 +26,22 @@ exports = module.exports = function(services, app) {
         }
         
         
-        service.app.db.models.Request.findOne(filter, function(err, document) {
+        function endDelete(document) {
+            document.save(function(err) {
+                if (service.handleMongoError(err)) {
+                    service.success(gt.gettext('The request has been deleted'));
+
+                    var request = document.toObject();
+                    request.$outcome = service.outcome;
+
+                    service.deferred.resolve(request);
+                }
+            });
+        }
+
+
+        service.app.db.models.Request.findOne(filter).populate('user.id')
+            .exec(function(err, document) {
             if (service.handleMongoError(err)) {
                 
                 if (!params.deletedBy) {
@@ -42,33 +57,26 @@ exports = module.exports = function(services, app) {
 
                     document.status.deleted = 'accepted';
                     document.addLog('delete', params.deletedBy);
-
-                } else {
-
-                    // this is an accepted request, need approval to delete
-
-                    document.status.deleted = 'waiting';
-                    document.addLog(
-                        'wf_sent',
-                        params.deletedBy,
-                        gt.gettext('Start workflow to delete a confirmed absence')
-                    );
-
-                    // TODO: start workflow
-
+                    return endDelete(document);
                 }
 
+                // this is an accepted request, need approval to delete
 
-                document.save(function(err) {
-                    if (service.handleMongoError(err)) {
-                        service.success(gt.gettext('The request has been deleted'));
+                document.status.deleted = 'waiting';
+                document.addLog(
+                    'wf_sent',
+                    params.deletedBy,
+                    gt.gettext('Start workflow to delete a confirmed absence')
+                );
 
-                        var request = document.toObject();
-                        request.$outcome = service.outcome;
 
-                        service.deferred.resolve(request);
-                    }
+                var getApprovalSteps = require('../../../../modules/getApprovalSteps');
+
+                getApprovalSteps(document.user.id).then(function(approvalSteps) {
+                    document.approvalSteps = approvalSteps;
+                    endDelete(document);
                 });
+
             }
         });
         

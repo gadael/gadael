@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('request absence account rest service', function() {
+describe('request absence admin rest service', function() {
 
 
     var server,
@@ -389,6 +389,7 @@ describe('request absence account rest service', function() {
             action: 'wf_accept'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body.status.created).toEqual('accepted');
             var lastLog = body.requestLog[body.requestLog.length -1];
             expect(lastLog.action).toEqual('wf_end');
             done();
@@ -403,16 +404,48 @@ describe('request absence account rest service', function() {
         server.delete('/rest/admin/requests/'+request1._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.status).toBeDefined();
-            expect(body.status.deleted).toEqual('accepted');
+            expect(body.status.deleted).toEqual('waiting');
+            expect(body.approvalSteps).toBeDefined();
+            expect(body.approvalSteps.length).toEqual(1);
+
+            // Update approval step
+            approvalStep1 = body.approvalSteps[0];
+            done();
+        });
+    });
+
+    it('request list of current requests', function(done) {
+        server.get('/rest/admin/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            expect(body[0]).toBeDefined();
+            if (body[0].status) {
+                expect(body[0].status.deleted).toEqual('waiting');
+            }
+
+            done();
+        });
+    });
+
+    it('list waiting requests', function(done) {
+        server.get('/rest/admin/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
             done();
         });
     });
 
 
-    it('request list of current requests', function(done) {
-        server.get('/rest/admin/requests', {}, function(res, body) {
+    it('accept request 1 approval step for deletion', function(done) {
+        server.put('/rest/admin/waitingrequests/'+request1._id, {
+            user: userManager.user._id,
+            approvalStep: approvalStep1._id,
+            action: 'wf_accept'
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(0);
+            expect(body.status.deleted).toEqual('accepted');
+            var lastLog = body.requestLog[body.requestLog.length -1];
+            expect(lastLog.action).toEqual('delete');
             done();
         });
     });
