@@ -17,7 +17,7 @@ exports = module.exports = function(services, app) {
         var gt = new Gettext();
 
         service.app.db.models.Type
-        .findOne({ '_id' : params.id}, 'name group')
+        .findOne({ '_id' : params.id})
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

@@ -18,7 +18,8 @@ require.config({
         q:                      '../bower_components/q/q',
         d3:                     '../bower_components/d3/d3.min',
         teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',
-        angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod'
+        angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod',
+        angularColorpicker:     '../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},

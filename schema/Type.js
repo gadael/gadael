@@ -6,7 +6,7 @@ exports = module.exports = function(params) {
 	var typeSchema = new mongoose.Schema({
 		name: { type: String, unique: true },		
 		color: { type: String },					// color in calendar
-		group: { type: Boolean, default: false }, 	// user can select only one right from type
+		group: { type: Boolean, default: false }, 	// group rights in a foldable sub-tree
 		timeCreated: { type: Date, default: Date.now }
 	});
     

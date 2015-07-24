@@ -46,7 +46,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params, paginate) {
 
         service.resolveQuery(
-            query(service, params).select('name group').sort('name'),
+            query(service, params).sort('name'),
             paginate
         );
 

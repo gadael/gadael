@@ -11,7 +11,8 @@ define([
 	'angularRoute',
 	'angularAuth',
 	'paginateAnything',
-	'passwordStrength'
+	'passwordStrength',
+    'angularColorpicker'
 	], 
 	
 	function (angular, jsondates) {
@@ -32,7 +33,8 @@ define([
 		'ngAnimate', 
 		'ngSanitize',
 		'mgcrea.ngStrap',
-        'tpTeleperiod'
+        'tpTeleperiod',
+        'colorpicker.module'
 	]);
     
     

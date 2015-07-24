@@ -22,10 +22,16 @@
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="type in types">
-				<div class="col-md-12">
+				<div class="col-md-8">
 					<a ng-href="#/admin/types/{{type._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
-					 &nbsp; {{type.name}}
-				</div> 
+					 &nbsp; <i class="fa fa-asterisk" style="color:{{type.color}}"></i> {{type.name}}
+				</div>
+
+                <div class="col-md-4">
+                    <span ng-if="type.group">
+                        <i class="fa fa-check-square-o"></i> <span translate>Grouped rights</span>
+                    </span>
+                </div>
 			</div>
 		</div>
 

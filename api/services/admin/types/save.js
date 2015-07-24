@@ -30,7 +30,8 @@ function saveRightType(service, params) {
     
     var fieldsToSet = { 
         name: params.name,
-        group: params.group
+        group: params.group,
+        color: params.color
     };
     
     var Gettext = require('node-gettext');
