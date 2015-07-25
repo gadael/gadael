@@ -18,6 +18,25 @@
 	
 	
 	<div class="col-xs-12 col-sm-9">
+
+        <input type="file" name="fileInput" id="fileInput" onchange="angular.element(this).scope().fileChanged(event)" />
+
+        <div ng-show="imageCropStep == 2">
+            <image-crop
+             data-height="100"
+             data-width="100"
+             data-shape="square"
+             data-step="imageCropStep"
+             src="imgSrc"
+             data-result="user.image"
+             crop="initCrop"
+             padding="50"
+             max-size="1024"
+            ></image-crop>
+
+		   <button ng-click="clear()">Cancel</button>
+		   <button ng-click="initCrop = true">Crop</button>
+	   </div>
 	
 		<div class="form-group col-md-6">
 			<label for="user_firstname" translate>Firstname</label>

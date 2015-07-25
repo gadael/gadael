@@ -12,7 +12,8 @@ define([
 	'angularAuth',
 	'paginateAnything',
 	'passwordStrength',
-    'angularColorpicker'
+    'angularColorpicker',
+    'angularImageCrop'
 	], 
 	
 	function (angular, jsondates) {
@@ -34,7 +35,8 @@ define([
 		'ngSanitize',
 		'mgcrea.ngStrap',
         'tpTeleperiod',
-        'colorpicker.module'
+        'colorpicker.module',
+        'ImageCropper'
 	]);
     
     

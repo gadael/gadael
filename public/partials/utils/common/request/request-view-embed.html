@@ -1,0 +1,40 @@
+
+<div class="row top30">
+    <h4 class="text-info"><i class="fa fa-sitemap"></i> <span translate>Approval steps</span></h4>
+    <div class="text-muted" ng-if="request.approvalSteps.length==0">
+        <em translate>No approval steps created for this request, the request has been accepted on creation</em>
+    </div>
+    <div class="text-muted" ng-if="request.approvalSteps.length!==0">
+        <em translate>The list of approval steps needed for the request to be confirmed on planning, to be modified or deleted by the appliquant</em>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th translate>Status</th>
+            <th class="hidden-xs hidden-sm" translate>Department</th>
+            <th translate>Approvers</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="step in request.approvalSteps">
+            <td>{{step.status}}</td>
+            <td class="hidden-xs hidden-sm">{{step.department}}</td>
+            <td>
+                <div ng-repeat="approver in step.approvers"><i class="fa fa-user"></i> {{approver.lastname}} {{approver.firstname}}</div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="row top30">
+    <h4 class="text-info"><i class="fa fa-comments"></i> <span translate>Interventions history</span></h4>
+    <div class="inga-list-rows">
+        <div class="row" ng-repeat="log in request.requestLog">
+            <span class="col-md-2">{{log.timeCreated|date:'medium'}}</span>
+            <span class="col-md-5">{{log.action}}</span>
+            <span class="col-md-5  hidden-xs hidden-sm"><i class="fa fa-user"></i> {{log.userCreated.name}}</span>
+        </div>
+    </div>
+</div>

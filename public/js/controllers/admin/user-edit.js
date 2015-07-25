@@ -24,6 +24,20 @@ define([], function() {
                 
                 
         $scope.departments = Rest.admin.departments.getResource().query();
+
+
+        $scope.fileChanged = function(e) {
+
+			var files = e.target.files;
+
+     		var fileReader = new FileReader();
+			fileReader.readAsDataURL(files[0]);
+
+			fileReader.onload = function() {
+				$scope.imgSrc = this.result;
+				$scope.$apply();
+			};
+		};
 		
 		$scope.cancel = function() {
 			$location.path('/admin/users/'+$scope.user._id);

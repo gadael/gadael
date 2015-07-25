@@ -66,16 +66,7 @@ exports = module.exports = function(services, app) {
 
                 var docObj = document.toObject();
                 var elem;
-                docObj.total = {
-                    consumed: {
-                        D: 0,
-                        H: 0
-                    },
-                    duration: {
-                        D: 0,
-                        H: 0
-                    }
-                };
+
 
                 for(var r=0; r<document.absence.distribution.length; r++) {
                     elem = docObj.absence.distribution[r];
@@ -83,9 +74,6 @@ exports = module.exports = function(services, app) {
                     if (undefined !== events[elem.event]) {
                         elem.event = events[elem.event];
                     }
-
-                    docObj.total.consumed[elem.right.quantity_unit] += elem.consumedQuantity;
-                    docObj.total.duration[elem.right.quantity_unit] += elem.quantity;
                 }
 
                 // add displayable status

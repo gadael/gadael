@@ -12,6 +12,7 @@ exports = module.exports = function(params) {
 		email: { type: String, required: true },
 		lastname: { type: String, required: true },
 		firstname: { type: String },
+        image: String, // avatar base64 url
 		roles: {
 		  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
 		  account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },

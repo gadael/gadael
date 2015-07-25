@@ -19,7 +19,8 @@ require.config({
         d3:                     '../bower_components/d3/d3.min',
         teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',
         angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod',
-        angularColorpicker:     '../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min'
+        angularColorpicker:     '../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min',
+        angularImageCrop:       '../bower_components/angular-image-crop/image-crop'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -42,7 +43,8 @@ require.config({
 		'angularSanitize': ['angular'],
         'q': { 'exports': 'Q' },
         'teleperiod': ['q', 'd3'],
-        'angularTeleperiod': ['q', 'angular', 'teleperiod']
+        'angularTeleperiod': ['q', 'angular', 'teleperiod'],
+        'angularImageCrop': ['angular']
 	},
 	priority: ["angular"]
 });

@@ -62,6 +62,7 @@ module.exports = function(grunt) {
             'public/bower_components/angular-motion/dist/angular-motion.css',
             'public/bower_components/teleperiod/styles/teleperiod.css',
             'public/bower_components/angular-bootstrap-colorpicker/css/colorpicker.css',
+            'public/bower_components/angular-image-crop/image-crop-styles.css',
             'styles/main.css'
             
           ],

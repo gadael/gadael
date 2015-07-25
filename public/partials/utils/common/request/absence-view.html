@@ -15,11 +15,11 @@
 
     <div class="col-md-6 top10">
         <p class="row top20">
-            <span translate>Total consumption</span> {{request.total.consumed.D}} Days
+            <span translate>Total consumption</span> {{stat.consumed.D}} Days
         </p>
 
         <p class="row top20" ng-if="request.total.duration!==request.total.consumed">
-            <span translate>Total duration</span> {{request.total.duration.D}} Days
+            <span translate>Total duration</span> {{stat.duration.D}} Days
         </p>
 
         <p class="row" ng-if="request.absence.distribution.length===1">
@@ -47,47 +47,9 @@
     </div>
 </div>
 
+<ng-include src="'partials/utils/common/request/request-view-embed.html'"></ng-include>
 
 
 
-<div class="row top30">
-    <h4 class="text-info"><i class="fa fa-sitemap"></i> <span translate>Approval steps</span></h4>
-    <div class="text-muted" ng-if="request.approvalSteps.length==0">
-        <em translate>No approval steps created for this request, the request has been accepted on creation</em>
-    </div>
-    <div class="text-muted" ng-if="request.approvalSteps.length!==0">
-        <em translate>The list of approval steps needed for the request to be confirmed on planning, to be modified or deleted by the appliquant</em>
-    </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th translate>Status</th>
-            <th class="hidden-xs hidden-sm" translate>Department</th>
-            <th translate>Approvers</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="step in request.approvalSteps">
-            <td>{{step.status}}</td>
-            <td class="hidden-xs hidden-sm">{{step.department}}</td>
-            <td>
-                <div ng-repeat="approver in step.approvers"><i class="fa fa-user"></i> {{approver.lastname}} {{approver.firstname}}</div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 
 
-<br />
-
-<div class="row">
-    <h4 class="text-info"><i class="fa fa-calendar"></i> <span translate>History</span></h4>
-    <div class="inga-list-rows">
-        <div class="row" ng-repeat="log in request.requestLog">
-            <span class="col-md-2">{{log.timeCreated|date:'medium'}}</span>
-            <span class="col-md-5">{{log.action}}</span>
-            <span class="col-md-5  hidden-xs hidden-sm"><i class="fa fa-user"></i> {{log.userCreated.name}}</span>
-        </div>
-    </div>
-</div>
