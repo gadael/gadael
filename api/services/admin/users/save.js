@@ -66,6 +66,7 @@ function saveUser(service, params) {
                 user.firstname 	= params.firstname;
                 user.lastname 	= params.lastname;
                 user.email 		= params.email;
+                user.image      = params.image;
                 user.department = params.department ? params.department._id : undefined;
                 user.isActive   = params.isActive;
 

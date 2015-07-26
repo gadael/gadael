@@ -26,6 +26,14 @@ define([], function() {
         $scope.departments = Rest.admin.departments.getResource().query();
 
 
+        $scope.clearCrop = function() {
+			 $scope.imageCropStep = 1;
+			 delete $scope.imgSrc;
+			 delete $scope.result;
+			 delete $scope.resultBlob;
+		};
+
+
         $scope.fileChanged = function(e) {
 
 			var files = e.target.files;
@@ -48,6 +56,7 @@ define([], function() {
          * Save button
          */
 		$scope.saveUser = function() {
+
 			$scope.user.ingaSave()
             .then($scope.cancel);
 	    };
