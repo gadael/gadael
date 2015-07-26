@@ -3,11 +3,13 @@ define([], function() {
     
 	return ['$scope', 
 		'$location', 
-		'Rest', 
+		'Rest',
+        '$modal',
         function(
 			$scope, 
 			$location, 
-			Rest
+			Rest,
+            $modal
 		) {
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
@@ -26,26 +28,47 @@ define([], function() {
         $scope.departments = Rest.admin.departments.getResource().query();
 
 
-        $scope.clearCrop = function() {
-			 $scope.imageCropStep = 1;
-			 delete $scope.imgSrc;
-			 delete $scope.result;
-			 delete $scope.resultBlob;
-		};
+        /**
+         *
+         *
+         * @param {Object} user
+         */
+        $scope.setImage = function(user) {
+
+            var modalscope = $scope.$new();
+            modalscope.user = user;
+            modalscope.clearCrop = function() {
+                 $scope.imageCropStep = 1;
+                 delete $scope.imgSrc;
+                 delete $scope.result;
+                 delete $scope.resultBlob;
+            };
 
 
-        $scope.fileChanged = function(e) {
+            modalscope.fileChanged = function(e) {
 
-			var files = e.target.files;
+                var files = e.target.files;
 
-     		var fileReader = new FileReader();
-			fileReader.readAsDataURL(files[0]);
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL(files[0]);
 
-			fileReader.onload = function() {
-				$scope.imgSrc = this.result;
-				$scope.$apply();
-			};
-		};
+                fileReader.onload = function() {
+                    $scope.imgSrc = this.result;
+                    $scope.$apply();
+                };
+            };
+
+            var myModal = $modal({
+                scope: modalscope,
+                template: 'partials/admin/user-edit-image.html',
+                show: true
+            });
+
+
+        };
+
+
+
 		
 		$scope.cancel = function() {
 			$location.path('/admin/users/'+$scope.user._id);

@@ -1,0 +1,29 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit user image</h2>
+            </div>
+        <div class="modal-body">
+
+            <input type="file" name="fileInput" id="fileInput" onchange="angular.element(this).scope().fileChanged(event)" />
+
+            <div ng-show="imageCropStep == 2">
+                <image-crop
+                 data-height="100"
+                 data-width="100"
+                 data-shape="square"
+                 data-step="imageCropStep"
+                 src="imgSrc"
+                 data-result="user.image"
+                 data-result-blob="resultBlob"
+                 crop="initCrop"
+                 padding="50"
+                 max-size="150"
+                ></image-crop>
+
+               <button ng-click="clearCrop()">Cancel</button>
+               <button ng-click="$hide(); initCrop = true">Ok</button>
+            </div>
+        </div>
+</div>

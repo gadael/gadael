@@ -19,43 +19,24 @@
 	
 	<div class="col-xs-12 col-sm-9">
 
-        <input type="file" name="fileInput" id="fileInput" onchange="angular.element(this).scope().fileChanged(event)" />
+        <button type="button" class="col-md-2 btn" ng-click="setImage(user)">
+          <small>Photo</small><br/>
+          <img class="img-rounded" ng-src="{{user.image}}" />
+            <div ng-if="!user.image" class="top60"><br /></div>
+        </button>
 
-        <div ng-show="imageCropStep == 2">
-            <image-crop
-             data-height="100"
-             data-width="100"
-             data-shape="square"
-             data-step="imageCropStep"
-             src="imgSrc"
-             data-result="user.image"
-             data-result-blob="resultBlob"
-             crop="initCrop"
-             padding="50"
-             max-size="150"
-            ></image-crop>
 
-		   <button ng-click="clearCrop()">Cancel</button>
-		   <button ng-click="initCrop = true">Crop</button>
-	   </div>
-	
-
-        <div ng-show="imageCropStep == 3">
-            Done:
-            <img ng-src="{{user.image}}" />
-        </div>
-
-		<div class="form-group col-md-6">
+		<div class="form-group col-md-5">
 			<label for="user_firstname" translate>Firstname</label>
 			<input type="text" class="form-control" id="user_firstname" ng-model="user.firstname" ng-required="true" />
 		</div>
 		
-		<div class="form-group col-md-6">
+		<div class="form-group col-md-5">
 			<label for="user_lastname" translate>Lastname</label>
 			<input type="text" class="form-control" id="user_lastname" ng-model="user.lastname" ng-required="true" />
 		</div>
 	  
-		<div class="form-group col-md-12">
+		<div class="form-group col-md-10">
 			<label for="user_email" translate>Email</label>
 			<input type="email" class="form-control" id="user_email" ng-model="user.email" />
 		</div>
