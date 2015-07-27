@@ -35,7 +35,12 @@
 			<ul class="nav navbar-nav navbar-right" ng-switch on="user.intAuthenticated">
 				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-sign-in"></i> <span translate>Sign In</span></a></li>
 				<li class="dropdown" ng-switch-when="1">
-					<a href="" class="dropdown-toggle" bs-dropdown="menu.user"><i class="fa fa-user"></i> {{user.firstname}} {{user.lastname}} <b class="caret"></b></a>
+					<a href="" class="dropdown-toggle user-dropdown-menu" bs-dropdown="menu.user">
+                        <img class="img-rounded" ng-src="{{user.image}}" height="30" />
+                        <i class="fa fa-user" ng-if="!user.image"></i>
+                        &nbsp; {{user.firstname}} {{user.lastname}}
+                        <b class="caret"></b>
+                    </a>
 				</li>
 			</ul>
           

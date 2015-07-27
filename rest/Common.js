@@ -31,7 +31,8 @@ exports.getInfos = function(req, res) {
             isAdmin: req.user.canPlayRoleOf('admin'),
 			lastname: req.user.lastname,
 			firstname: req.user.firstname,
-			email: req.user.email
+			email: req.user.email,
+            image: req.user.image
 		};
 		
         menu.user = [

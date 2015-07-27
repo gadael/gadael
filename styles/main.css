@@ -103,3 +103,10 @@
 .absence-edit-distribution tfoot {
     font-weight:bold;
 }
+
+
+
+.navbar-nav > li > .user-dropdown-menu img {
+    margin-top:-8px;
+    margin-bottom:-8px;
+}
