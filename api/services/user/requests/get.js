@@ -43,6 +43,7 @@ exports = module.exports = function(services, app) {
         .populate('events')
         .populate('absence.distribution')
         .populate('approvalSteps.approvers', null, 'User')
+        .populate('requestLog.userCreated.id')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {
