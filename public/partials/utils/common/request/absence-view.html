@@ -1,38 +1,37 @@
 <div class="row panel panel-primary">
-    <div class="col-md-6">
-        <h3><i class="fa fa-calendar"></i> <span translate>Absence period</span></h3>
 
-        <p class="row top20">
-            <span class="col-md-1">From</span>
-            <span class="col-md-11">{{request.events[0].dtstart|date:'medium'}}</span>
-        </p>
-        <p class="row">
-            <span class="col-md-1">To</span>
-            <span class="col-md-11">{{request.events[request.events.length-1].dtend|date:'medium'}}</span>
-        </p>
+    <h3 class="text-center text-primary"><i class="fa fa-calendar"></i> <span translate>Absence period</span></h3>
+
+    <div class="col-md-6 top10">
+        <dl class="dl-horizontal">
+            <dt translate>From:</dt>
+            <dd>{{request.events[0].dtstart|date:'medium'}}</dd>
+            <dt translate>To:</dt>
+            <dd>{{request.events[request.events.length-1].dtend|date:'medium'}}</dd>
+        </dl>
         <br />
     </div>
 
     <div class="col-md-6 top10">
 
-        <p class="row top20">
-            <span translate>Status</span> {{request.status}}
-        </p>
+        <dl class="dl-horizontal">
+            <dt translate>Status:</dt>              <dd>{{request.status.title}}</dd>
+            <dt translate>Total consumption:</dt>   <dd>{{stat.consumed.D}} Days</dd>
+        </dl>
 
-        <p class="row top20">
-            <span translate>Total consumption</span> {{stat.consumed.D}} Days
-        </p>
+        <dl class="dl-horizontal" ng-if="request.total.duration!==request.total.consumed">
+            <dt translate>Total duration:</dt>      <dd>{{stat.duration.D}} Days</dd>
+        </dl>
 
-        <p class="row top20" ng-if="request.total.duration!==request.total.consumed">
-            <span translate>Total duration</span> {{stat.duration.D}} Days
-        </p>
-
-        <p class="row" ng-if="request.absence.distribution.length===1">
-            <i class="fa fa-asterisk"
-               style="color:{{request.absence.distribution[0].right.type.color}}"
-               title="{{request.absence.distribution[0].right.type.name}}"></i>
-            {{request.absence.distribution[0].right.name}}
-        </p>
+        <dl class="dl-horizontal" ng-if="request.absence.distribution.length===1">
+            <dt translate>Vacation right:</dt>
+            <dd>
+                <i class="fa fa-asterisk"
+                   style="color:{{request.absence.distribution[0].right.type.color}}"
+                   title="{{request.absence.distribution[0].right.type.name}}"></i>
+                {{request.absence.distribution[0].right.name}}
+            </dd>
+        </dl>
     </div>
 </div>
 
