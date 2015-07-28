@@ -34,6 +34,7 @@ var query = function(service, params) {
 
     find.populate('absence.distribution');
     find.populate('events');
+    find.populate('user.id');
 
     return find;
 };
