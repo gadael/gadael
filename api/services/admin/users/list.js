@@ -92,7 +92,7 @@ exports = module.exports = function(services, app) {
         
         query(service, params, function(find) {
             
-            find.select('lastname firstname email roles isActive department').sort('lastname');
+            find.select('lastname firstname email image roles isActive department').sort('lastname');
             
             service.resolveQuery(find, paginate, function(err, docs) {
                 if (service.handleMongoError(err)) {

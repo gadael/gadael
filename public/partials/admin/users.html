@@ -22,11 +22,13 @@
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="user in users">
-				<div class="col-xs-2">
-					<a ng-href="#/admin/users/{{user._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a> 
-				</div>	 
+				<div class="col-xs-1">
+					<a ng-href="#/admin/users/{{user._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs hidden-md" translate>View</span></a>
+				</div>
+
                  <div class="col-md-5">
                     <i class="text-danger" ng-class="user.isActive ? '' : 'fa fa-ban'"></i>
+
                     <strong>{{user.lastname}} {{user.firstname}}</strong><br />
                     <span class="text-muted text-nowrap" ng-if="user.roles.account">&nbsp;<i class="text-info fa fa-male"></i>&nbsp;<span translate>Absences account</span></span>
                     <span class="text-muted text-nowrap" ng-if="user.roles.admin">&nbsp;<i class="text-info glyphicon glyphicon-star"></i>&nbsp;<span translate>Administrator</span></span>
@@ -34,6 +36,9 @@
                  </div>
 				 
 				<div class="col-md-5 hidden-xs hidden-sm"><a href="mailto:{{user.email}}">{{user.email}}</a></div>
+                <div class="col-xs-1 hidden-xs">
+                    <img  ng-src="{{user.image}}" class="img-rounded" height="40" ng-if="user.image" />
+                </div>
 			</div>
 		</div>
 
