@@ -55,5 +55,12 @@ define([], function() {
         };
             
         $scope.departments = Rest.admin.departments.getResource().query();
+
+
+        $scope.getViewUrl = function(request) {
+            if (request.absence.distribution) {
+                return '/admin/requests/absences/'+request._id;
+            }
+        }
 	}];
 });

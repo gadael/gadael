@@ -41,6 +41,7 @@ exports = module.exports = function(services, app) {
         service.app.db.models.Request
         .findOne(filter)
         .populate('events')
+        .populate('user.id')
         .populate('absence.distribution')
         .populate('approvalSteps.approvers', null, 'User')
         .populate('requestLog.userCreated.id')

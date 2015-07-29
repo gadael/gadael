@@ -1,37 +1,10 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-9">
 		
-		<div ng-if="request.absence">
-            <h2>Absence request</h2>
-            
-            
-            <h3 translate>Distribution</h3>
+		<h3 class="row"><span translate>Vacation request</span></h3>
 
-            <table>
-                <tbody>
-                    <tr ng-repeat="elem in request.absence.distribution">
-                        <td>{{elem.right.name}}</td>
-                        <td>{{elem.quantity}}</td>
-                    </tr>
-                </tbody>
-                
-                <thead>
-                    <tr>
-                        <th translate>Vacation right</th>
-                        <th translate>Quantity</th>
-                    </tr>
-                </thead>
-            </table>
-		</div>
-        
-        <div ng-if="request.time_saving_deposit">
-            <h2>Time saving deposit request</h2>
-        </div>
-        
-        <div ng-if="request.workperiod_recover">
-            <h2>Workperiod recover request</h2>
-            
-        </div>
+        <ng-include src="'partials/utils/common/request/absence-view.html'"></ng-include>
+
 	</div>
 	
 	<div class="col-xs-12 col-sm-3">
@@ -41,9 +14,19 @@
                 <h3 class="panel-title" translate>Owner user account</h3>
             </div>
             <div class="panel-body">
-                <h4>{{user.lastname}} {{user.firstname}}</h4>
-                <p><span>Department:</span> {{user.department.name}}</p>
-                <p><span>Supervisor:</span> {{user.supervisor}}</p>
+                <div class="text-center">
+                    <img ng-src="{{request.user.id.image}}" class="img-rounded" />
+                    <h4>{{request.user.name}}</h4>
+                </div>
+
+                <dl>
+                    <dt translate>Department</dt>
+                    <dd>{{request.user.department}}</dd>
+
+                    <dt translate>Supervisor</dt>
+                    <dd>??</dd>
+                </dl>
+
             </div>
         </div>
 		

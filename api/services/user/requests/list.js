@@ -72,14 +72,6 @@ exports = module.exports = function(services, app) {
                     reqObj.status.title = docs[i].getDispStatus();
                     docsObj.push(reqObj);
                 }
-
-                /*
-                docsObj = docs.map(function(request) {
-                    var reqObj = request.toObject();
-                    reqObj.status.title = request.getDispStatus();
-                    return reqObj;
-                });
-                */
             }
 
             service.mongOutcome(err, docsObj);

@@ -24,5 +24,11 @@ define([], function() {
             });
             
         };
+
+        $scope.getViewUrl = function(request) {
+            if (request.absence.distribution) {
+                return '/account/requests/absences/'+request._id;
+            }
+        }
 	}];
 });

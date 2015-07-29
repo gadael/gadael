@@ -28,9 +28,11 @@
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="request in requests">
-				<div class="col-md-1">
-					<a ng-href="#/admin/requests/{{request._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs hidden-md" translate>Edit</span></a>
-				</div>
+				<div class="col-xs-1">
+                    <a ng-href="#{{getViewUrl(request)}}" class="btn btn-info btn-xs hidden-print" role="button">
+                        <i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span>
+                    </a>
+                </div>
 
                 <div class="col-md-3 text-center">
                     <img ng-src="{{request.user.id.image}}" ng-if="request.user.id.image" height="50" class="img-rounded" /><br />

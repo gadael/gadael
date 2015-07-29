@@ -3,18 +3,20 @@ define([], function() {
     
 	return ['$scope', 
 		'$location', 
-		'Rest' , function(
+		'Rest',
+        'AbsenceStat', function(
 			$scope, 
 			$location, 
-			Rest 
+			Rest,
+            AbsenceStat
 		) {
                 
 
 		$scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
-        
-        $scope.request.$promise.then(function() {
-            
-        });
+
+        AbsenceStat($scope);
+
+
         
 
 		$scope.cancel = function() {

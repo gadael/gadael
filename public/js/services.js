@@ -4,8 +4,9 @@ define([
     'services/catchOutcome', 
     'services/rest',
     'services/absence-edit',
+    'services/absence-stat',
     'angularResource'], 
-    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit) {
+    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, AbsenceStat) {
     
 	'use strict';
     
@@ -94,6 +95,16 @@ define([
     
     /**
      * 
+     */
+    .factory('AbsenceStat',
+        function() {
+            return AbsenceStat;
+        }
+    )
+
+
+    /**
+     *
      */
     .factory('AbsenceEdit',  
         function() {
