@@ -92,7 +92,7 @@ define([], function() {
 
             $scope.request.absence.distribution = AbsenceEdit.createDistribution(rights, periods, $scope.accountRights);
 
-            $scope.request.ingaSave();
+            $scope.request.ingaSave($scope.back);
         };
 
 	}];
