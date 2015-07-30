@@ -177,7 +177,8 @@ exports = module.exports = function(services, app) {
                 getEventsQuery(service, {
                     dtstart: params.dtstart,
                     dtend: params.dtend,
-                    user: params.user
+                    user: params.user,
+                    status: { $in: ['TENTATIVE', 'CONFIRMED'] }
                 }).exec(function(err, docs) {
                     if (err) {
                         return deferred.reject(err);

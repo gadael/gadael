@@ -27,8 +27,13 @@ function getEventsQuery(service, params)
         throw new Error('The user parameter is mandatory in the personalevents service');
     }
 
+    if (undefined === params.status) {
+        params.status = ['TENTATIVE', 'CONFIRMED'];
+    }
+
     find.where('user.id').equals(params.user);
 
+    find.where('status').in(params.status);
 
     find.or([
         { rrule: { $exists: true } },
