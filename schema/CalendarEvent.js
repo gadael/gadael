@@ -23,6 +23,7 @@ exports = module.exports = function(params) {
 		description: String,
 		rrule: String,
 		transp: String,
+        status: { type: String, enum:['TENTATIVE', 'CONFIRMED', 'CANCELLED'] },
 		
 		calendar: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
 		user: { // for events linked requests there is no link to calendar but a link to user, owner of event

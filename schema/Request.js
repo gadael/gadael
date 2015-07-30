@@ -56,7 +56,7 @@ exports = module.exports = function(params) {
      * Get a displayable status, internationalized
      * @return {String}
      */
-    requestSchema.methods.getDispStatus = function() {
+    requestSchema.methods.getDispStatus = function getDispStatus() {
         var Gettext = require('node-gettext');
         var gt = new Gettext();
 
@@ -90,7 +90,7 @@ exports = module.exports = function(params) {
      * Get last request log inserted for the approval workflow
      * @return {RequestLog}
      */
-    requestSchema.methods.getlastApprovalRequestLog = function() {
+    requestSchema.methods.getlastApprovalRequestLog = function getlastApprovalRequestLog() {
         for(var i=this.requestLog.length-1; i>=0; i--) {
             if (this.requestLog[i].approvalStep !== undefined) {
                 return this.requestLog[i];
@@ -105,7 +105,7 @@ exports = module.exports = function(params) {
      * Get the last approval step with a saved item in request log
      * @return {ApprovalStep}
      */
-    requestSchema.methods.getLastApprovalStep = function() {
+    requestSchema.methods.getLastApprovalStep = function getLastApprovalStep() {
 
         if (this.approvalSteps === undefined) {
             return null;
@@ -134,7 +134,7 @@ exports = module.exports = function(params) {
      *
      * @return {ApprovalStep|false}
      */
-    requestSchema.methods.getNextApprovalStep = function() {
+    requestSchema.methods.getNextApprovalStep = function getNextApprovalStep() {
 
 
 
@@ -173,7 +173,7 @@ exports = module.exports = function(params) {
      * otherwise notify the next manager using approvalsteps
      * @param {ApprovalStep} nextStep
      */
-    requestSchema.methods.forwardApproval = function(nextStep) {
+    requestSchema.methods.forwardApproval = function forwardApproval(nextStep) {
 
         nextStep.status = 'waiting';
 
@@ -188,7 +188,7 @@ exports = module.exports = function(params) {
      * @param {User} user
      * @param {String} comment
      */
-    requestSchema.methods.accept = function(approvalStep, user, comment) {
+    requestSchema.methods.accept = function accept(approvalStep, user, comment) {
 
         // update approval step
 
@@ -229,7 +229,7 @@ exports = module.exports = function(params) {
      * @param {User} user
      * @param {String} comment
      */
-    requestSchema.methods.reject = function(approvalStep, user, comment) {
+    requestSchema.methods.reject = function reject(approvalStep, user, comment) {
 
         approvalStep.status = 'rejected';
 
@@ -247,13 +247,37 @@ exports = module.exports = function(params) {
 
 
     /**
+     * Set status for all events associated to the request
+     * @param {String} status   TENTATIVE | CONFIRMED | CANCELLED
+     * @return {Promise}
+     */
+    requestSchema.methods.setEventsStatus = function setEventsStatus(status) {
+
+        var Q = require('q');
+
+        if (undefined === this.populated('events')) {
+            throw new Error('The events path shoud be populated on request');
+        }
+
+        var promises = [];
+
+        for(var i=0; i< this.events.length; i++) {
+            this.events[i].status = status;
+            promises.push(this.events[i].save());
+        }
+
+        return Q.All(promises);
+    };
+
+
+    /**
     * Add a log document to request
     * @param {String} action
     * @param {String} comment
     * @param {ApprovalStep} approvalStep
     *
     */
-    requestSchema.methods.addLog = function(action, user, comment, approvalStep) {
+    requestSchema.methods.addLog = function addLog(action, user, comment, approvalStep) {
 
         var log = {};
 

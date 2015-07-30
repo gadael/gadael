@@ -16,9 +16,20 @@ define([], function() {
 
         AbsenceStat($scope);
 
+        $scope.backToList = function() {
+            $location.path('/account/requests');
+        }
 
-		$scope.cancel = function() {
-			$location.path('/account/requests');
+
+		/**
+         * Delete the absence request
+         */
+		$scope.delete = function() {
+            if (confirm('Are you sure you whant to delete the absence request?')) {
+
+                $scope.request.$delete().then($scope.backToList);
+            }
+
 		};
 
 	}];

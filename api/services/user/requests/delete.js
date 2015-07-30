@@ -29,6 +29,9 @@ exports = module.exports = function(services, app) {
         function endDelete(document) {
             document.save(function(err) {
                 if (service.handleMongoError(err)) {
+
+                    // cancel all events associated to the request
+                    document.setEventsStatus('CANCELLED');
                     service.success(gt.gettext('The request has been deleted'));
 
                     var request = document.toObject();
@@ -40,7 +43,9 @@ exports = module.exports = function(services, app) {
         }
 
 
-        service.app.db.models.Request.findOne(filter).populate('user.id')
+        service.app.db.models.Request.findOne(filter)
+            .populate('user.id')
+            .populate('events')
             .exec(function(err, document) {
             if (service.handleMongoError(err)) {
                 
