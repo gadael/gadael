@@ -266,7 +266,7 @@ exports = module.exports = function(params) {
             promises.push(this.events[i].save());
         }
 
-        return Q.All(promises);
+        return Q.all(promises);
     };
 
 
