@@ -18,7 +18,12 @@ define([], function() {
 
         $scope.backToList = function() {
             $location.path('/account/requests');
-        }
+        };
+
+
+        $scope.edit = function() {
+            $location.path('/account/requests/absence-edit/'+$scope.request._id);
+        };
 
 
 		/**

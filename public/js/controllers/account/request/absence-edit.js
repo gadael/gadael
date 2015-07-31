@@ -24,8 +24,15 @@ define([], function() {
         if ($scope.request.$promise) {
             $scope.request.$promise.then(function() {
                 // edit this request
-                
                 $scope.editRequest = true;
+
+                var events = $scope.request.events;
+
+                $scope.selection = {
+                    begin: events[0].dtstart,
+                    end: events[events.length-1].dtend,
+                    periods: events
+                };
             });
         } else {
             

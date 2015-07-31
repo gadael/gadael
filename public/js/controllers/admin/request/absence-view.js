@@ -16,7 +16,9 @@ define([], function() {
 
         AbsenceStat($scope);
 
-
+        $scope.edit = function() {
+            $location.path('/admin/requests/absence-edit/'+$scope.request._id);
+        };
         
         /**
          * Cancel the absence request

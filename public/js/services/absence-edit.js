@@ -35,6 +35,27 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
 
 
+    /**
+     * Set a duration visible to the final user
+     *
+     * @param {object} $scope
+     * @param {Int} duration        Number of milliseconds
+     * @param {Number} businessDays Number of days
+     */
+    function setDuration($scope, duration, businessDays)
+    {
+        var momentMs = moment.duration(duration, "milliseconds");
+        var momentDays = moment.duration(businessDays, "days");
+
+        $scope.selection.duration = duration;
+        $scope.selection.days = momentDays.format("d [days]", 1);
+        $scope.selection.hours = momentMs.format("h [hours]", 2);
+
+        $scope.selection.isValid = duration > 0;
+    }
+
+
+
     // Service to edit an absence, 
     // shared by account/request/absence-edit and admin/request/absence-edit
     
@@ -67,6 +88,21 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         },
         
         
+        /**
+         * Set a selection object from request data
+         * @return selection
+         */
+        setSelectionFromRequest: function getSelectionFromRequest($scope) {
+
+            var events = $scope.request.events;
+
+            $scope.selection.begin = events[0].dtstart;
+            $scope.selection.end = events[events.length-1].dtend;
+            $scope.selection.periods = events;
+
+        },
+
+
         
         /**
          * The next button, from the period selection to the right distribution interface
@@ -164,23 +200,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             function getOnUpdateInterval($scope, account, calendarEvents) {
 
 
-                /**
-                 * Set a duration visible to the final user
-                 *
-                 * @param {Int} duration        Number of milliseconds
-                 * @param {Number} businessDays Number of days
-                 */
-                function setDuration(duration, businessDays)
-                {
-                    var momentMs = moment.duration(duration, "milliseconds");
-                    var momentDays = moment.duration(businessDays, "days");
 
-                    $scope.selection.duration = duration;
-                    $scope.selection.days = momentDays.format("d [days]", 1);
-                    $scope.selection.hours = momentMs.format("h [hours]", 2);
-
-                    $scope.selection.isValid = duration > 0;
-                }
 
 
 
@@ -193,12 +213,15 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 return function onUpdateInterval(begin, end)
                 {
                     if (!begin || !end) {
-                        return setDuration(0, 0);
+                        return setDuration($scope, 0, 0);
                     }
 
                     if (begin >= end) {
-                        return setDuration(0, 0);
+                        return setDuration($scope, 0, 0);
                     }
+
+                    duration = 0;
+                    businessDays = 0;
 
                     calendarEvents.query({ 
                         calendar: account.currentScheduleCalendar._id, 
@@ -220,7 +243,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                             businessDays += periods[i].businessDays;
                         }
 
-                        return setDuration(duration, businessDays);
+                        return setDuration($scope, duration, businessDays);
                     });  
                 };
             }
