@@ -92,7 +92,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          * Set a selection object from request data
          * @return selection
          */
-        setSelectionFromRequest: function getSelectionFromRequest($scope) {
+        setSelectionFromRequest: function setSelectionFromRequest($scope) {
 
             var events = $scope.request.events;
 
@@ -667,6 +667,11 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 }
 
                 if ('D' === u) {
+
+                    if (0 === totalDays) {
+                        throw new Error('Conversion not appliquable, totalDays must be greater than 0');
+                    }
+
                     var days = (totalSeconds * inputQuantity / totalDays);
                     return days;
                 }

@@ -52,6 +52,12 @@ function saveEvent(service, user, elem, event)
      */
     function setProperties(eventDocument)
     {
+        if (undefined === elem.right.type) {
+            eventDocument.summary = elem.right.name;
+        } else {
+            eventDocument.summary = elem.right.type.name;
+        }
+
         eventDocument.dtstart = event.dtstart;
         eventDocument.dtend = event.dtend;
         eventDocument.user = {
@@ -455,14 +461,13 @@ function saveRequest(service, params) {
             return;
         }
 
-        AbsenceElemModel.find().where('id').in(requestDoc.absence.distribution)
+        AbsenceElemModel.find().where('_id').in(requestDoc.absence.distribution)
             .populate('event')
             .exec(function(err, elements) {
 
             if (err) {
                 return console.log(err);
             }
-
 
             for( var i=0; i<elements.length; i++) {
 

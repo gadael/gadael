@@ -1,9 +1,9 @@
-define([], function() {
+define(['q'], function(Q) {
     
     'use strict';
 
 
-	return ['$scope', '$location', 'Rest', 'AbsenceEdit', function($scope, $location, Rest, AbsenceEdit) {
+	return ['$scope', '$location', 'Rest', 'AbsenceEdit', '$routeParams', function($scope, $location, Rest, AbsenceEdit, $routeParams) {
 
 
         
@@ -25,14 +25,7 @@ define([], function() {
             $scope.request.$promise.then(function() {
                 // edit this request
                 $scope.editRequest = true;
-
-                var events = $scope.request.events;
-
-                $scope.selection = {
-                    begin: events[0].dtstart,
-                    end: events[events.length-1].dtend,
-                    periods: events
-                };
+                AbsenceEdit.setSelectionFromRequest($scope);
             });
         } else {
             
@@ -56,8 +49,30 @@ define([], function() {
         });
 
         $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
-        $scope.loadEvents = AbsenceEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
+
+        var loadEvents = AbsenceEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
+
+        if (undefined === $routeParams.id) {
+            $scope.loadEvents = loadEvents;
+        } else {
+
+
+            $scope.loadEvents = function(interval) {
+                var deferred = Q.defer();
+                loadEvents(interval).then(function(events) {
+
+                    events = events.filter(function(e) {
+                        console.log(e);
+                        return (e.request !== $routeParams.id);
+                    });
+
+                    deferred.resolve(events);
+                });
+
+                return deferred.promise;
+            };
+        }
 
 
 
