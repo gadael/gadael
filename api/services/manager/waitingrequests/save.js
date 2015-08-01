@@ -56,20 +56,57 @@ function saveRequest(service, params) {
 
             UserModel.findOne({ _id: params.user }).exec(function(err, user) {
 
-                if ('wf_accept' === params.action) {
-                    document.accept(approvalStep, user, params.comment);
-                }
+                if (service.handleMongoError(err)) {
 
-                if ('wf_reject' === params.action) {
-                    document.reject(approvalStep, user, params.comment);
-                }
+                    if ('wf_accept' === params.action) {
+                        document.accept(approvalStep, user, params.comment);
+                    }
 
-                document.save(function(err, request) {
-                    service.resolveSuccess(
-                        document,
-                        gt.gettext('The request has been modified')
-                    );
-                });
+                    if ('wf_reject' === params.action) {
+                        document.reject(approvalStep, user, params.comment);
+                    }
+
+                    document.save(function(err, request) {
+
+                        if (service.handleMongoError(err)) {
+
+                            request.populate('events', function(err) {
+
+                                if (service.handleMongoError(err)) {
+
+                                    if ('accepted' === request.status.created) {
+                                        request.setEventsStatus('CONFIRMED').then(function() {
+                                            service.resolveSuccess(
+                                                document,
+                                                gt.gettext('The request has been confirmed')
+                                            );
+                                        });
+                                        return;
+                                    }
+
+                                    if ('accepted' === request.status.deleted) {
+                                        request.setEventsStatus('CANCELLED').then(function() {
+                                            service.resolveSuccess(
+                                                document,
+                                                gt.gettext('The request has been canceled')
+                                            );
+                                        });
+                                        return;
+                                    }
+
+                                    service.resolveSuccess(
+                                        document,
+                                        gt.gettext('The request has been forwarded to the next approval step')
+                                    );
+
+                                }
+
+                            });
+
+                        }
+                    });
+
+                }
 
             });
         }
