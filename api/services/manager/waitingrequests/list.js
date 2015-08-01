@@ -20,7 +20,6 @@ var query = function(service, params) {
 
 
     var find = service.app.db.models.Request.find();
-    find.where();
 
     var match = { status: 'waiting' };
 
@@ -33,6 +32,11 @@ var query = function(service, params) {
              $elemMatch: match
          }
      });
+
+    find.populate('user.id');
+    find.populate('events');
+    find.populate('absence.distribution');
+    find.populate('workperiod_recover.event');
 
     return find;
 };
@@ -55,7 +59,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params, paginate) {
 
         var find = query(service, params);
-        find.select('user timeCreated createdBy absence time_saving_deposit workperiod_recover approvalSteps');
+        find.select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps');
         find.sort('timeCreated');
 
         service.resolveQuery(find, paginate);

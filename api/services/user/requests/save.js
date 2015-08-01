@@ -477,6 +477,11 @@ function saveRequest(service, params) {
                 if (event.absenceElem !== elem._id) {
                     event.request = requestDoc._id;
                     event.absenceElem = elem._id;
+
+                    if ('waiting' === requestDoc.status.created) {
+                        event.status = 'TENTATIVE';
+                    }
+
                     event.save();
                 }
             }

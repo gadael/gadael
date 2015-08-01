@@ -282,6 +282,19 @@ describe('Approval on absence request', function() {
         });
     });
 
+
+    it('Verify events in the waiting request', function(done) {
+        expect(request_from_d6.events.length).toEqual(1);
+        var event;
+        for(var i=0; i< request_from_d6.events.length; i++) {
+            event = request_from_d6.events[i];
+            expect(event.status).toEqual('TENTATIVE');
+            expect(event.summary).toBeDefined();
+        }
+        done();
+    });
+
+
     it('Accept request from d6', function(done) {
 
         var steps = request_from_d6.approvalSteps;
