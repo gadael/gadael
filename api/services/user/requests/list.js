@@ -32,6 +32,15 @@ var query = function(service, params) {
          find.where({ 'user.id': params.user });
     }
 
+    if (undefined !== params.type) {
+        switch(params.type) {
+            case 'absence':
+            case 'time_saving_deposit':
+            case 'workperiod_recover':
+                find.where(params.type).ne(undefined);
+        }
+    }
+
     find.populate('absence.distribution');
     find.populate('events');
     find.populate('user.id');
