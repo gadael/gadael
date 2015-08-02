@@ -116,7 +116,13 @@ define(['angular', 'app'], function(angular, app) {
 		});
         
 		
-		// departments pages
+		// department managers pages
+
+
+        $routeProvider.when('/manager/waitingrequests', {
+			templateUrl: 'partials/manager/waitingrequests.html',
+			controller: 'ManagerWaitingRequests'
+		});
 		
 		
 		// administration pages

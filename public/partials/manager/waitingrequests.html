@@ -1,0 +1,71 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+
+		<div class="row inga-list-header">
+
+			<div class="text-center">
+				<begriffs.pagination
+					per-page="25"
+					collection="waitingrequests"
+					url="'/rest/manager/waitingrequests'"
+					url-params="search"
+					template-url="partials/utils/paginate-anything.html">
+				</begriffs.pagination>
+			</div>
+		</div>
+
+		<div class="inga-list-rows">
+			<div class="row" ng-repeat="request in waitingrequests">
+
+                <div class="col-xs-1">
+                    <a ng-href="#{{getViewUrl(request)}}" class="btn btn-info btn-xs hidden-print" role="button">
+                        <i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span>
+                    </a>
+                </div>
+
+                <div class="col-xs-11">
+                        <div class="col-md-3 text-center">
+                            <img ng-src="{{request.user.id.image}}" ng-if="request.user.id.image" height="50" class="img-rounded" /><br />
+                            {{request.user.name}}
+                        </div>
+
+                        <div class="col-md-5" ng-if="request.absence.distribution">
+                            <strong translate>Absence</strong>
+
+                            <div class="row">
+                                <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
+                                <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 hidden-xs hidden-sm">
+                            <span translate>Created the</span><br />
+                            {{request.timeCreated|date}}
+                        </div>
+
+
+                </div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div role="search" class="col-xs-12 col-sm-3">
+
+		<h2><i class="fa fa-search"></i> <span translate>Search in waiting requests</span></h2>
+
+
+        <div class="form-group">
+			<label for="search_type" translate>By type:</label><br />
+			<select class="form-control" id="search_type" ng-model="search.type">
+                <option></option>
+                <option value="absence" translate>Absence</option>
+                <option value="time_saving_deposit" translate>Time saving deposit</option>
+                <option value="workperiod_recover" translate>Workperiod recover</option>
+            </select>
+		</div>
+
+	</div>
+</div>

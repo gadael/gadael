@@ -70,11 +70,11 @@ exports.getInfos = function(req, res) {
             menu.manager = [
                 {
                     'text': '<i class="fa fa-calendar"></i>&nbsp;'+gt.gettext('Calendar'),
-                    'href': '#/mananger/calendar'
+                    'href': '#/manager/calendar'
                 },
                 {
                     'text': '<i class="fa fa-folder text-primary"></i>&nbsp;'+gt.gettext('Waiting requests'),
-                    'href': '#/mananger/waitingrequests'
+                    'href': '#/manager/waitingrequests'
                 }
             ];
         }

@@ -92,6 +92,11 @@ define(['angular', 'services'], function (angular) {
     
     
     
+        .controller('ManagerWaitingRequests', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/manager/waitingrequests', this, $scope, $injector);
+		}])
+
+
 		
 		.controller('Admin', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/index', this, $scope, $injector);
