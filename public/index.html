@@ -25,6 +25,10 @@
             <li class="dropdown" ng-if="user.isAccount">
 				<a href="" class="dropdown-toggle" bs-dropdown="menu.account"><span translate>My vacations</span> <b class="caret"></b></a>
 			</li>
+
+            <li class="dropdown" ng-if="user.isManager">
+                <a href="" class="dropdown-toggle" bs-dropdown="menu.manager"><span translate>Departments supervision</span> <b class="caret"></b></a>
+            </li>
             
             <li class="dropdown" ng-if="user.isAdmin">
                 <a href="" class="dropdown-toggle" bs-dropdown="menu.admin"><span translate>Admin</span> <b class="caret"></b></a>

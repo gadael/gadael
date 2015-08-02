@@ -28,6 +28,7 @@ exports.getInfos = function(req, res) {
 		user = {
 			isAuthenticated: true,
             isAccount: req.user.canPlayRoleOf('account'),
+            isManager: req.user.canPlayRoleOf('manager'),
             isAdmin: req.user.canPlayRoleOf('admin'),
 			lastname: req.user.lastname,
 			firstname: req.user.firstname,
@@ -65,6 +66,19 @@ exports.getInfos = function(req, res) {
             ];
         }
         
+        if (user.isManager) {
+            menu.manager = [
+                {
+                    'text': '<i class="fa fa-calendar"></i>&nbsp;'+gt.gettext('Calendar'),
+                    'href': '#/mananger/calendar'
+                },
+                {
+                    'text': '<i class="fa fa-folder text-primary"></i>&nbsp;'+gt.gettext('Waiting requests'),
+                    'href': '#/mananger/waitingrequests'
+                }
+            ];
+        }
+
         
         if (user.isAdmin) {
             
@@ -115,6 +129,7 @@ exports.getInfos = function(req, res) {
 		user = { 
 			isAuthenticated: false,
             isAccount: false,
+            isManager: false,
             isAdmin: false
 		};
 		
