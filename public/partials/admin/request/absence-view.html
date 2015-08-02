@@ -16,15 +16,21 @@
             <div class="panel-body">
                 <div class="text-center">
                     <img ng-src="{{request.user.id.image}}" class="img-rounded" />
-                    <h4>{{request.user.name}}</h4>
+                    <h4><a href="#/admin/users/{{request.user.id._id}}">{{request.user.name}}</a></h4>
                 </div>
 
                 <dl>
                     <dt translate>Department</dt>
                     <dd>{{request.user.department}}</dd>
 
-                    <dt translate>Supervisor</dt>
-                    <dd>??</dd>
+                    <dt ng-if="1 === request.approvalSteps[0].approvers.length"><span translate>Supervisor</span></dt>
+                    <dt ng-if="1 < request.approvalSteps[0].approvers.length"><span translate>Supervisors</span></dt>
+                    <dd ng-repeat="approver in request.approvalSteps[0].approvers">
+                        <a href="#/admin/users/{{approver._id}}">
+                            <img ng-if="approver.image" ng-src="{{approver.image}}" height="20" />
+                            {{approver.lastname}} {{approver.firstname}}
+                        </a>
+                    </dd>
                 </dl>
 
             </div>

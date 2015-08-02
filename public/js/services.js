@@ -6,7 +6,7 @@ define([
     'services/absence-edit',
     'services/absence-stat',
     'angularResource'], 
-    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, AbsenceStat) {
+    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, getAbsenceStat) {
     
 	'use strict';
     
@@ -94,11 +94,13 @@ define([
     
     
     /**
-     * 
+     * Set stats on the scope object
+     * Informations on the selected period
+     * Information for the approval steps progression status
      */
-    .factory('AbsenceStat',
+    .factory('getAbsenceStat',
         function() {
-            return AbsenceStat;
+            return getAbsenceStat;
         }
     )
 

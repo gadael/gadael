@@ -7,7 +7,8 @@ define([], function() {
         '$location', 
         'Rest', 
         '$modal',
-        function($scope, $location, Rest, $modal) {
+        'getAbsenceStat',
+        function($scope, $location, Rest, $modal, getAbsenceStat) {
 
         var users = Rest.admin.users.getResource();
         
@@ -61,6 +62,11 @@ define([], function() {
             if (request.absence.distribution) {
                 return '/admin/requests/absences/'+request._id;
             }
-        }
+        };
+
+
+        $scope.getStat = function(request) {
+            return getAbsenceStat(request);
+        };
 	}];
 });

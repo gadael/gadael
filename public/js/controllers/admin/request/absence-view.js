@@ -4,17 +4,17 @@ define([], function() {
 	return ['$scope', 
 		'$location', 
 		'Rest',
-        'AbsenceStat', function(
+        'getAbsenceStat', function(
 			$scope, 
 			$location, 
 			Rest,
-            AbsenceStat
+            getAbsenceStat
 		) {
                 
 
 		$scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
 
-        AbsenceStat($scope);
+        $scope.stat = getAbsenceStat($scope.request);
 
         $scope.edit = function() {
             $location.path('/admin/requests/absence-edit/'+$scope.request._id);

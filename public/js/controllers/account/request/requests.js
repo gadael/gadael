@@ -7,7 +7,8 @@ define([], function() {
         '$location', 
         'Rest', 
         '$modal',
-        function($scope, $location, Rest, $modal) {
+        'getAbsenceStat',
+        function($scope, $location, Rest, $modal, getAbsenceStat) {
 
 
  
@@ -29,6 +30,10 @@ define([], function() {
             if (request.absence.distribution) {
                 return '/account/requests/absences/'+request._id;
             }
-        }
+        };
+
+        $scope.getStat = function(request) {
+            return getAbsenceStat(request);
+        };
 	}];
 });
