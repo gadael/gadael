@@ -214,6 +214,9 @@ exports = module.exports = function(params) {
                 this.addLog('delete', user, null, approvalStep);
             }
 
+            // the workflow sheme has ended, remove approval steps list
+            this.approvalSteps = [];
+
             // TODO notify appliquant
             return;
         }
@@ -243,6 +246,9 @@ exports = module.exports = function(params) {
         if ('waiting' === this.status.deleted) {
             this.status.deleted = 'rejected';
         }
+
+        // the workflow sheme has ended, remove approval steps list
+        this.approvalSteps = [];
     };
 
 
