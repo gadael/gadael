@@ -48,6 +48,14 @@
     <h3  class="col-xs-10" translate>Vacations rights</h3>
 
     <table class="table">
+        <thead>
+        <tr>
+            <th>Right name</th>
+            <th class="hidden-xs">Type</th>
+            <th>Remaining</th>
+            <th class="hidden-xs hidden-sm">Used</th>
+        </tr>
+        </thead>
         <tbody>
         <tr ng-repeat="accountRight in accountRights">
             <td>
@@ -60,14 +68,7 @@
             <td class="hidden-xs hidden-sm">{{accountRight.currentperiod.used}}</td>
         </tr>
         </tbody>
-        <thead>
-        <tr>
-            <th>Right name</th>
-            <th class="hidden-xs">Type</th>
-            <th>Remaining</th>
-            <th class="hidden-xs hidden-sm">Used</th>
-        </tr>
-        </thead>
+
     </table>
     
     <div class="alert alert-danger" role="alert" ng-if="!accountRights.length">
@@ -84,6 +85,13 @@
     </div>
 
     <table class="table">
+        <thead>
+        <tr>
+            <th>Collection name</th>
+            <th class="col-sm-3">From</th>
+            <th class="col-sm-3">To</th>
+        </tr>
+        </thead>
         <tbody>
         <tr ng-repeat="accountCollection in accountCollections">
             <td>
@@ -95,13 +103,7 @@
             <td>{{accountCollection.to|date}}</td>
         </tr>
         </tbody>
-        <thead>
-        <tr>
-            <th>Collection name</th>  
-            <th class="col-sm-3">From</th>
-            <th class="col-sm-3">To</th>
-        </tr>
-        </thead>
+
     </table>
 </div>
 
@@ -113,6 +115,13 @@
     </div>
 
     <table class="table">
+        <thead>
+        <tr>
+            <th>Calendar name</th>
+            <th class="col-sm-3">From</th>
+            <th class="col-sm-3">To</th>
+        </tr>
+        </thead>
         <tbody>
         <tr ng-repeat="accountScheduleCalendar in accountScheduleCalendars">
             <td>
@@ -124,13 +133,7 @@
             <td>{{accountScheduleCalendar.to|date}}</td>
         </tr>
         </tbody>
-        <thead>
-        <tr>
-            <th>Calendar name</th>  
-            <th class="col-sm-3">From</th>
-            <th class="col-sm-3">To</th>
-        </tr>
-        </thead>
+
     </table>
 
     <div class="alert alert-danger" role="alert" ng-if="!accountScheduleCalendars.length">

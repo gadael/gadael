@@ -44,6 +44,20 @@ exports = module.exports = function(params) {
 	};
 
 
+    /**
+     * @return {Promise}
+     */
+    departmentSchema.methods.getSubDepartments = function()
+    {
+        var Q = require('q');
+        var deferred = Q.defer();
+
+        this.getChildren(true, deferred.makeNodeResolver());
+
+        return deferred.promise;
+    };
+
+
     departmentSchema.index({ 'name': 1 }, { unique: true });
 	departmentSchema.index({ 'parent': 1 });
 	departmentSchema.set('autoIndex', params.autoIndex);

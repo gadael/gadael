@@ -100,7 +100,7 @@ exports = module.exports = function(services, app) {
                     var promises = [];
                     
                     for(var i=0; i<docs.length; i++) {
-                        promises.push(require('../../../../modules/useraccount')(docs[i]));
+                        promises.push(require('../../../../modules/userComplete')(docs[i]));
                     }
                     
                     var Q = require('q');

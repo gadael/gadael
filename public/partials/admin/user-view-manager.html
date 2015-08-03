@@ -2,25 +2,26 @@
     <h3  class="col-xs-12" translate>Collaborators to supervise with request approvals</h3>
 
     <table class="table">
-        <tbody>
-        <tr ng-repeat="department in roles.manager.department">
-            <td>
-                <a ng-href="#/admin/departments/{{department._id}}">
-                    {{department.name}}
-                </a>
-            </td>
-            <td class="hidden-xs">{{department.collaboratorsCount}}</td>
-        </tr>
-        </tbody>
         <thead>
         <tr>
             <th>Department name</th>
             <th class="hidden-xs">Collaborators</th>
         </tr>
         </thead>
+        <tbody>
+        <tr ng-repeat="department in user.roles.manager.department">
+            <td>
+                <a ng-href="#/admin/departments/{{department._id}}">
+                    {{department.name}}
+                </a>
+            </td>
+            <td class="hidden-xs">0</td>
+        </tr>
+        </tbody>
+
     </table>
 
-    <div class="alert alert-danger" role="alert" ng-if="!roles.manager.department.length">
+    <div class="alert alert-danger" role="alert" ng-if="0 === roles.manager.department.length">
         <span translate>This manager has no departments configured for approval</span>
     </div>
 </div>

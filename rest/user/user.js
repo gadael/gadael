@@ -15,7 +15,7 @@ function getController() {
             return ctrl.accessDenied(gt.gettext('You must be logged in'));
         }
 
-        require('../../modules/useraccount')(ctrl.req.user).then(function(userObj) {
+        require('../../modules/userComplete')(ctrl.req.user).then(function(userObj) {
             ctrl.res.status(200).json(userObj);
         });
 

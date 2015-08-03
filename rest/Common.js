@@ -69,11 +69,7 @@ exports.getInfos = function(req, res) {
         if (user.isManager) {
             menu.manager = [
                 {
-                    'text': '<i class="fa fa-calendar"></i>&nbsp;'+gt.gettext('Calendar'),
-                    'href': '#/manager/calendar'
-                },
-                {
-                    'text': '<i class="fa fa-folder text-primary"></i>&nbsp;'+gt.gettext('Waiting requests'),
+                    'text': '<i class="fa fa-inbox text-primary"></i>&nbsp;'+gt.gettext('Waiting requests'),
                     'href': '#/manager/waitingrequests'
                 }
             ];
