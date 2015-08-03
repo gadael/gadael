@@ -54,7 +54,7 @@ exports = module.exports = function userComplete(userDoc)
                 user.roles.account.currentScheduleCalendar = calendar.toObject();
             }
 
-            if (null !== departmentsPromise) {
+            if (null !== departments) {
                 user.roles.manager.department = departments.map(function(d) {
                     return d.toObject();
                 });

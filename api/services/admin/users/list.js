@@ -98,9 +98,10 @@ exports = module.exports = function(services, app) {
                 if (service.handleMongoError(err)) {
                     
                     var promises = [];
+                    var userComplete= require('../../../../modules/userComplete');
                     
                     for(var i=0; i<docs.length; i++) {
-                        promises.push(require('../../../../modules/userComplete')(docs[i]));
+                        promises.push(userComplete(docs[i]));
                     }
                     
                     var Q = require('q');
