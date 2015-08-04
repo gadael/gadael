@@ -70,6 +70,10 @@ define(function() {
                 requests                : init('account/requests/:id')
             },
             
+            manager: {
+                waitingrequests         : init('manager/waitingrequests/:id')
+            },
+
             user: {
                 user                    : init('user')
             },

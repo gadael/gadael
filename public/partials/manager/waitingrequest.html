@@ -1,0 +1,11 @@
+<div class="row">
+    <h1 class="col-md-6">
+        <span translate>Request approval</span>
+    </h1>
+
+    <div class="col-md-6 text-right top30">
+        <button class="btn btn-primary" ng-click="accept()"><i class="fa fa-thumbs-up"></i> <span>Accept</span></button>
+        <button class="btn btn-danger" ng-click="reject()"><i class="fa fa-thumbs-down"></i> <span>Reject</span></button>
+    </div>
+</div>
+<ng-include ng-if="request.absence" src="'partials/utils/common/request/absence-view.html'"></ng-include>

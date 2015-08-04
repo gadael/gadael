@@ -18,7 +18,7 @@
 			<div class="row" ng-repeat="request in waitingrequests">
 
                 <div class="col-xs-1">
-                    <a ng-href="#{{getViewUrl(request)}}" class="btn btn-info btn-xs hidden-print" role="button">
+                    <a ng-href="#/manager/waitingrequests/{{request._id}}" class="btn btn-info btn-xs hidden-print" role="button">
                         <i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span>
                     </a>
                 </div>

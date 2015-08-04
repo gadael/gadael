@@ -123,6 +123,11 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/manager/waitingrequests.html',
 			controller: 'ManagerWaitingRequests'
 		});
+
+        $routeProvider.when('/manager/waitingrequests/:id', {
+			templateUrl: 'partials/manager/waitingrequest.html',
+			controller: 'ManagerWaitingRequest'
+		});
 		
 		
 		// administration pages
