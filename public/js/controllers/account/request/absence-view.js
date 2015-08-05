@@ -4,17 +4,17 @@ define([], function() {
 	return ['$scope',
 		'$location',
 		'Rest',
-        'getAbsenceStat', function(
+        'getRequestStat', function(
 			$scope,
 			$location,
 			Rest,
-            getAbsenceStat
+            getRequestStat
 		) {
 
 
 		$scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
-        $scope.stat = getAbsenceStat($scope.request);
+        $scope.stat = getRequestStat($scope.request);
 
         $scope.backToList = function() {
             $location.path('/account/requests');

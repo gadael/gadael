@@ -7,8 +7,8 @@ define([], function() {
         '$location', 
         'Rest', 
         '$modal',
-        'getAbsenceStat',
-        function($scope, $location, Rest, $modal, getAbsenceStat) {
+        'getRequestStat',
+        function($scope, $location, Rest, $modal, getRequestStat) {
 
 
  
@@ -33,7 +33,7 @@ define([], function() {
         };
 
         $scope.getStat = function(request) {
-            return getAbsenceStat(request);
+            return getRequestStat(request);
         };
 	}];
 });

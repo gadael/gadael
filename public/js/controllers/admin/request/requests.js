@@ -7,8 +7,8 @@ define([], function() {
         '$location', 
         'Rest', 
         '$modal',
-        'getAbsenceStat',
-        function($scope, $location, Rest, $modal, getAbsenceStat) {
+        'getRequestStat',
+        function($scope, $location, Rest, $modal, getRequestStat) {
 
         var users = Rest.admin.users.getResource();
         
@@ -23,7 +23,7 @@ define([], function() {
          * @param {string} newValue
          * @param {string} oldValue
          */
-        $scope.$watch('popover.selectuser.search', function(newValue, oldValue) {
+        $scope.$watch('popover.selectuser.search', function(newValue) {
             if (newValue && newValue.length > 0) {
                 $scope.popover.selectuser.users = users.query({ name: newValue, isAccount:true });
             } else {
@@ -66,7 +66,7 @@ define([], function() {
 
 
         $scope.getStat = function(request) {
-            return getAbsenceStat(request);
+            return getRequestStat(request);
         };
 	}];
 });

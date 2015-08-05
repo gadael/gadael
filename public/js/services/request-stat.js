@@ -9,7 +9,7 @@ define([], function() {
      *
      * @param {Resource|object} request
      */
-    return function getAbsenceStat(request) {
+    return function getRequestStat(request) {
 
         var stat = {
             consumed: {
