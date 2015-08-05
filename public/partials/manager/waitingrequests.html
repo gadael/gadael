@@ -4,19 +4,20 @@
 <div class="inga-list-rows" ng-repeat="user in users">
 
     <div class="row list-group-item-info">
-        <h3 class="col-xs-8">
-            <img ng-src="{{user.id.image}}" ng-if="user.id.image" height="50" class="img-rounded" />
-            {{user.name}}
-        </h3>
+        <h2 class="col-xs-8">
+            <img ng-src="{{user.id.image}}" ng-if="user.id.image" height="60" class="img-rounded" align="left" style="margin-right:.8em;" />
+            {{user.name}}<br />
+            <small>{{user.department}}</small>
+        </h2>
 
         <div class="col-xs-4 text-right top30">
-            <button class="btn btn-primary" ng-click="accept()">
+            <button class="btn btn-primary" type="button" ng-click="accept()">
                 <i class="fa fa-thumbs-up"></i>
-                <span class="hidden-xs"> <span translate>Accept</span></span>
+                <span class="hidden-xs"> <span translate>Accept</span> <span class="badge">{{user.requests.length}}</span></span>
             </button>
-            <button class="btn btn-danger" ng-click="reject()">
+            <button class="btn btn-danger" type="button" ng-click="reject()">
                 <i class="fa fa-thumbs-down"></i>
-                <span  class="hidden-xs"> <span translate>Reject</span></span>
+                <span  class="hidden-xs"> <span translate>Reject</span> <span class="badge">{{user.requests.length}}</span></span>
             </button>
         </div>
     </div>
