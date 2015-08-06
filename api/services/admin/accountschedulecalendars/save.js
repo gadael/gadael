@@ -72,7 +72,6 @@ function saveAccountScheduleCalendar(service, params) {
     
     var scheduleCalendar = service.app.db.models.AccountScheduleCalendar;
     var util = require('util');
-    
 
     if (params.id) {
         scheduleCalendar.findById(params.id, function(err, document) {
@@ -82,6 +81,7 @@ function saveAccountScheduleCalendar(service, params) {
                     return;
                 }
                 
+
                 document.calendar 	= params.calendar._id;
                 document.from 		= params.from;
                 document.to 		= params.to;

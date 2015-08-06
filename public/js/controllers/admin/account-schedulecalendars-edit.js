@@ -53,6 +53,8 @@ define([], function() {
         }
 		
         $scope.calendars = Rest.admin.calendars.getResource().query();
+
+
 		
 		$scope.cancel = function() {
 			$location.path('/admin/users/'+$scope.user._id);

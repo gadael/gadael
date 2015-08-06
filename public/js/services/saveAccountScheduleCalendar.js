@@ -1,5 +1,7 @@
 define([], function() {
     
+    'use strict';
+
     /**
      * Save one row
      * @param   {$resource}   resource
@@ -38,7 +40,7 @@ define([], function() {
 
 
         $scope.accountScheduleCalendars.forEach(function(document) {
-            
+
             if ($scope.user.roles && $scope.user.roles.account) {
                 document.account = $scope.user.roles.account._id;
             } else {
