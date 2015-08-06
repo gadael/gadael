@@ -16,6 +16,12 @@ var query = function(service, params) {
     var find = service.app.db.models.AccountScheduleCalendar.find();
     find.populate('calendar');
 
+    if (undefined === params.account) {
+        throw new Error('The account parameter is mandatory in the account schedule calendar service');
+    }
+
+    find.where({ account: params.account });
+
     if (params && params.calendar) {
         find.where({ calendar: params.calendar });
     }
