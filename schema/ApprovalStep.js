@@ -14,7 +14,38 @@ exports = module.exports = function(params) {
  		operator: { type: String, enum: ['OR', 'AND'], required: true },   // approvers operator for step validation
 		timeCreated: { type: Date, default: Date.now }
 	});
+
+
+
+    /**
+     * Test if a user is in the approvers list
+     * @param {String|User} user
+     * @return {Boolean}
+     */
+    approvalStepSchema.methods.isApprover = function(user) {
+
+        var approverId;
+        var userId = user;
+        if (undefined !== user._id) {
+            userId = user._id;
+        }
+
+        for(var i=0; i<this.approvers.length; i++) {
+            approverId = this.approvers[i];
+            if (undefined !== approverId._id) {
+                approverId = approverId._id.toString();
+            }
+
+            if (approverId.equals(userId)) {
+                return true;
+            }
+        }
+
+        return false;
+    };
   
+
+
 	approvalStepSchema.set('autoIndex', params.autoIndex);
 
     params.embeddedSchemas.ApprovalStep = approvalStepSchema;

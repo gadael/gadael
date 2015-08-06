@@ -190,6 +190,11 @@ exports = module.exports = function(params) {
      */
     requestSchema.methods.accept = function accept(approvalStep, user, comment) {
 
+        if (!approvalStep.isApprover(user)) {
+            console.log(approvalStep);
+            throw new Error('User not allowed to accept this approval step');
+        }
+
         // update approval step
 
         approvalStep.status = 'accepted';
@@ -233,6 +238,10 @@ exports = module.exports = function(params) {
      * @param {String} comment
      */
     requestSchema.methods.reject = function reject(approvalStep, user, comment) {
+
+        if (!approvalStep.isApprover(user)) {
+            throw new Error('User not allowed to accept this approval step');
+        }
 
         approvalStep.status = 'rejected';
 
