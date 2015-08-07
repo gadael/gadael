@@ -5,30 +5,39 @@ define([], function() {
 		'$location',
 		'Rest',
         'getRequestStat',
-        '$alert', function(
+        '$alert',
+        '$http',
+        'catchOutcome', function(
 			$scope,
 			$location,
 			Rest,
             getRequestStat,
-            $alert
+            $alert,
+            $http,
+            catchOutcome
 		) {
 
 
 		$scope.request = Rest.manager.waitingrequests.getFromUrl().loadRouteId();
+
+        /**
+         * The approval step to edit
+         * @var {Object}
+         */
+        var approvalStep;
 
         $scope.request.$promise.then(function() {
             // find the approval step to approve
 
             $scope.request.approvalSteps.forEach(function(step) {
                 if ('waiting' === step.status && step.approvers.indexOf($scope.user._id)) {
-                    $scope.request.approvalStep = step;
+                    approvalStep = step;
                 }
             });
 
-            if (undefined === $scope.request.approvalStep) {
+            if (undefined === approvalStep) {
                 $alert({
                     title: 'No waiting step to approve',
-                    placement: 'top',
                     type: 'danger',
                     show: true
                 });
@@ -42,14 +51,21 @@ define([], function() {
         };
 
 
+        function save(action) {
+            catchOutcome(
+                $http.put('/rest/manager/waitingrequests/'+$scope.request._id, {
+                    approvalStep: approvalStep,
+                    action: action
+                })
+            ).then($scope.backToList);
+        }
+
         $scope.accept = function() {
-            $scope.request.action = 'wf_accept';
-            $scope.request.ingaSave($scope.backToList);
+            save('wf_accept');
         };
 
         $scope.reject = function() {
-            $scope.request.action = 'wf_reject';
-            $scope.request.ingaSave($scope.backToList);
+            save('wf_reject');
         };
 
 
