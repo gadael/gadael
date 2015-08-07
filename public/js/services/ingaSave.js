@@ -2,7 +2,7 @@ define(function() {
 
     'use strict';
 
-    return function(catchOutcome) {
+    return function(resource, catchOutcome) {
         /**
          * Additional method on resource to save and redirect messages
          * to the rootscope message list
@@ -13,10 +13,10 @@ define(function() {
         function ingaSave(nextaction) {
             
             var p = null;
-            if (undefined === this._id || null === this._id) {
-                p = catchOutcome(this.$create());
+            if (undefined === resource._id || null === resource._id) {
+                p = catchOutcome(resource.$create());
             } else {
-                p = catchOutcome(this.$save());
+                p = catchOutcome(resource.$save());
             }
 
             if (nextaction) {
@@ -26,8 +26,8 @@ define(function() {
             }
 
             return p;
-        };
+        }
         
         return ingaSave;
-    }
+    };
 });

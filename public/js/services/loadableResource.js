@@ -29,8 +29,8 @@ define(['services/ingaSave'],
              *                     after get is resolved
              */
             item.loadRouteId = function() {
-                return this.get(function(data) {
-                    data.ingaSave = ingaSave(catchOutcome);
+                return this.get(function(inst) {
+                    inst.ingaSave = ingaSave(inst, catchOutcome);
                 });
             };
 
@@ -54,7 +54,7 @@ define(['services/ingaSave'],
                 // scope will be loaded with an empty instance
 
                 var inst = new collection();
-                inst.ingaSave = ingaSave(catchOutcome);
+                inst.ingaSave = ingaSave(inst, catchOutcome);
 
                 return inst;
             };
@@ -67,7 +67,7 @@ define(['services/ingaSave'],
             real: realLoadableResource,
             fake: fakeLoadableResource
         };
-    };
+    }
     
     return loadableResource;
 
