@@ -21,6 +21,13 @@ var query = function(service, params) {
 
     var find = service.app.db.models.Request.find();
 
+    find.where({ $or:
+        [
+            { 'status.created': 'waiting' },
+            { 'status.deleted': 'waiting' }
+        ]
+    });
+
     var match = { status: 'waiting' };
 
     if (params.user) {
@@ -59,10 +66,24 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params, paginate) {
 
         var find = query(service, params);
-        find.select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps');
+        find.select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps status');
         find.sort('timeCreated');
 
-        service.resolveQuery(find, paginate);
+        service.resolveQuery(find, paginate, function(err, docs) {
+
+            var docsObj = [];
+
+            if (!err && undefined !== docs) {
+
+                for(var i=0; i<docs.length; i++) {
+                    var reqObj = docs[i].toObject();
+                    reqObj.status.title = docs[i].getDispStatus();
+                    docsObj.push(reqObj);
+                }
+            }
+
+            service.mongOutcome(err, docsObj);
+        });
 
         return service.deferred.promise;
     };
