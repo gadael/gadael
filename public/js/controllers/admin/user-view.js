@@ -24,7 +24,7 @@ define([], function() {
                 $scope.user.isManager 	= ($scope.user.roles && $scope.user.roles.manager 	!== undefined && $scope.user.roles.manager 	!== null);
                 
                 // after user resource loaded, load account Collections
-                if ($scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
+                if (undefined !== $scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
                     
                     var account = $scope.user.roles.account;
                     
@@ -40,7 +40,8 @@ define([], function() {
                 }
 
                 
-                if ($scope.user.roles.account.seniority) {
+                if (undefined !== $scope.user.roles && undefined !== $scope.user.roles.account && undefined !== $scope.user.roles.account.seniority) {
+
                     var seniority = new Date($scope.user.roles.account.seniority);
                     var today = new Date();
                     $scope.seniority_years = today.getFullYear() - seniority.getFullYear();

@@ -30,7 +30,7 @@ define([], function() {
             // find the approval step to approve
 
             $scope.request.approvalSteps.forEach(function(step) {
-                if ('waiting' === step.status && step.approvers.indexOf($scope.user._id)) {
+                if ('waiting' === step.status && step.approvers.indexOf($scope.sessionUser._id)) {
                     approvalStep = step;
                 }
             });

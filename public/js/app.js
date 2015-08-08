@@ -66,7 +66,7 @@ define([
                     }
 				}
 
-				$rootScope.user.intAuthenticated = response.user.isAuthenticated ? 1 : 0;
+				$rootScope.sessionUser.intAuthenticated = response.sessionUser.isAuthenticated ? 1 : 0;
 			});
 			
 			

@@ -58,7 +58,7 @@ define([], function() {
                 };
             };
 
-            var myModal = $modal({
+            $modal({
                 scope: modalscope,
                 template: 'partials/admin/user-edit-image.html',
                 show: true

@@ -94,7 +94,7 @@ define(['q'], function(Q) {
              * The collection available on the selected period
              */
             $scope.collection = accountCollection.get({
-                user: $scope.user.id,
+                user: $scope.sessionUser.id,
                 dtstart: $scope.selection.begin,
                 dtend: $scope.selection.end
             });

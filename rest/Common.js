@@ -15,7 +15,7 @@ exports.getInfos = function(req, res) {
     // detect language from HTTP-ACCEPT
 	var lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
 	
-	var user = null;
+	var sessionUser;
 	
 	var menu = {
 		account: null,
@@ -25,7 +25,7 @@ exports.getInfos = function(req, res) {
   
 	if (req.isAuthenticated())
 	{
-		user = {
+		sessionUser = {
 			isAuthenticated: true,
             isAccount: req.user.canPlayRoleOf('account'),
             isManager: req.user.canPlayRoleOf('manager'),
@@ -48,7 +48,7 @@ exports.getInfos = function(req, res) {
         ];
         
         
-        if (user.isAccount) {
+        if (sessionUser.isAccount) {
             
             menu.account = [
                 {
@@ -66,7 +66,7 @@ exports.getInfos = function(req, res) {
             ];
         }
         
-        if (user.isManager) {
+        if (sessionUser.isManager) {
             menu.manager = [
                 {
                     'text': '<i class="fa fa-inbox text-primary"></i>&nbsp;'+gt.gettext('Waiting requests'),
@@ -76,7 +76,7 @@ exports.getInfos = function(req, res) {
         }
 
         
-        if (user.isAdmin) {
+        if (sessionUser.isAdmin) {
             
             menu.admin = [
                 {
@@ -122,7 +122,7 @@ exports.getInfos = function(req, res) {
         
 
 	} else {
-		user = { 
+		sessionUser = {
 			isAuthenticated: false,
             isAccount: false,
             isManager: false,
@@ -134,7 +134,7 @@ exports.getInfos = function(req, res) {
 
 	res.json({ 
 		lang: lang[0].lang,
-		user: user,
+		sessionUser: sessionUser,
 		menu: menu,
 		date: {
 			short: 'dd-MM-yyyy',

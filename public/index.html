@@ -22,27 +22,27 @@
         </div>
         <div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
           <ul class="nav navbar-nav">
-            <li class="dropdown" ng-if="user.isAccount">
+            <li class="dropdown" ng-if="sessionUser.isAccount">
 				<a href="" class="dropdown-toggle" bs-dropdown="menu.account"><span translate>My vacations</span> <b class="caret"></b></a>
 			</li>
 
-            <li class="dropdown" ng-if="user.isManager">
+            <li class="dropdown" ng-if="sessionUser.isManager">
                 <a href="" class="dropdown-toggle" bs-dropdown="menu.manager"><span translate>Departments supervision</span> <b class="caret"></b></a>
             </li>
             
-            <li class="dropdown" ng-if="user.isAdmin">
+            <li class="dropdown" ng-if="sessionUser.isAdmin">
                 <a href="" class="dropdown-toggle" bs-dropdown="menu.admin"><span translate>Admin</span> <b class="caret"></b></a>
             </li>
           </ul>
           
           
-			<ul class="nav navbar-nav navbar-right" ng-switch on="user.intAuthenticated">
+			<ul class="nav navbar-nav navbar-right" ng-switch on="sessionUser.intAuthenticated">
 				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-sign-in"></i> <span translate>Sign In</span></a></li>
 				<li class="dropdown" ng-switch-when="1">
 					<a href="" class="dropdown-toggle user-dropdown-menu" bs-dropdown="menu.user">
-                        <img class="img-rounded" ng-src="{{user.image}}" height="35" />
-                        <i class="fa fa-user" ng-if="!user.image"></i>
-                        &nbsp; {{user.firstname}} {{user.lastname}}
+                        <img class="img-rounded" ng-src="{{sessionUser.image}}" height="35" />
+                        <i class="fa fa-user" ng-if="!sessionUser.image"></i>
+                        &nbsp; {{sessionUser.firstname}} {{sessionUser.lastname}}
                         <b class="caret"></b>
                     </a>
 				</li>
