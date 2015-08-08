@@ -84,11 +84,32 @@ function saveRequest(service, params) {
                                         return;
                                     }
 
+                                    if ('rejected' === request.status.created) {
+                                        request.setEventsStatus('CANCELLED').then(function() {
+                                            service.resolveSuccess(
+                                                document,
+                                                gt.gettext('The request has been cancelled')
+                                            );
+                                        });
+                                        return;
+                                    }
+
+
                                     if ('accepted' === request.status.deleted) {
                                         request.setEventsStatus('CANCELLED').then(function() {
                                             service.resolveSuccess(
                                                 document,
-                                                gt.gettext('The request has been canceled')
+                                                gt.gettext('The appliquant has requested a delete, the request has been canceled')
+                                            );
+                                        });
+                                        return;
+                                    }
+
+                                    if ('rejected' === request.status.deleted) {
+                                        request.setEventsStatus('CONFIRMED').then(function() {
+                                            service.resolveSuccess(
+                                                document,
+                                                gt.gettext('The appliquant has requested a delete, the request has been confirmed anyway')
                                             );
                                         });
                                         return;
