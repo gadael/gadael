@@ -27,8 +27,6 @@ var query = function(service, params) {
     var find = service.app.db.models.Request.find();
     find.where('status.deleted').in(params['status.deleted']);
 
-    console.log(params);
-
 
     if (undefined !== params['user.id']) {
         find.where({ 'user.id': params['user.id'] });
