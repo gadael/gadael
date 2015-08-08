@@ -65,7 +65,7 @@
 		
 		<div class="form-group">
 			<label for="search_username" translate>By user name:</label><br />
-			<input type="text" class="form-control" id="search_username" ng-model="search.user.name" ng-model-options="{ debounce: 500 }" />
+			<input type="text" class="form-control" id="search_username" ng-model="search['user.name']" ng-model-options="{ debounce: 500 }" />
 		</div>
         
         
@@ -81,7 +81,7 @@
         
         <div class="form-group">
 			<label for="search_type" translate>By department:</label><br />
-			<select class="form-control" id="search_department" ng-model="search.user.department" ng-options="department._id as department.name for department in departments">
+			<select class="form-control" id="search_department" ng-model="search['user.department']" ng-options="department.name as department.name for department in departments">
                 <option></option>
             </select>
 		</div>

@@ -27,10 +27,21 @@ var query = function(service, params) {
     var find = service.app.db.models.Request.find();
     find.where('status.deleted').in(params['status.deleted']);
 
-    if (params.user)
-    {
-         find.where({ 'user.id': params.user });
+    console.log(params);
+
+
+    if (undefined !== params['user.id']) {
+        find.where({ 'user.id': params['user.id'] });
     }
+
+    if (undefined !== params['user.name']) {
+        find.where({ 'user.name': new RegExp(params['user.name'], 'i') });
+    }
+
+    if (undefined !== params['user.department']) {
+        find.where({ 'user.department': params['user.department'] });
+    }
+
 
     if (undefined !== params.type) {
         switch(params.type) {
