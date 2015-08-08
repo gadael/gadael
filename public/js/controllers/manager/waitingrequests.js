@@ -22,7 +22,6 @@ define([], function() {
                 for(var i=0; i<waitingrequests.length; i++) {
                     var uid = waitingrequests[i].user.id._id;
                     if (undefined === $scope.users[uid]) {
-                        console.log(uid);
                         $scope.users[uid] = waitingrequests[i].user;
                         $scope.users[uid].requests = [];
                     }

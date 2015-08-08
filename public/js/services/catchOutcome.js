@@ -45,6 +45,12 @@ define(function() {
             
             promise.then(
                 function(data) {
+
+                    // accept promises with a data object or a response object with the data property
+                    if (undefined !== data.data) {
+                        data = data.data;
+                    }
+
                     if (data.$outcome) {
                         addMessages(data.$outcome);
                     }
