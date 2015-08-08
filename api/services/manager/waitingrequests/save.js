@@ -58,12 +58,16 @@ function saveRequest(service, params) {
 
                 if (service.handleMongoError(err)) {
 
-                    if ('wf_accept' === params.action) {
-                        document.accept(approvalStep, user, params.comment);
-                    }
+                    try {
+                        if ('wf_accept' === params.action) {
+                            document.accept(approvalStep, user, params.comment);
+                        }
 
-                    if ('wf_reject' === params.action) {
-                        document.reject(approvalStep, user, params.comment);
+                        if ('wf_reject' === params.action) {
+                            document.reject(approvalStep, user, params.comment);
+                        }
+                    } catch(e) {
+                        return service.forbidden(e.message);
                     }
 
                     document.save(function(err, request) {

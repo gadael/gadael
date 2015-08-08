@@ -191,7 +191,6 @@ exports = module.exports = function(params) {
     requestSchema.methods.accept = function accept(approvalStep, user, comment) {
 
         if (!approvalStep.isApprover(user)) {
-            console.log(approvalStep);
             throw new Error('User not allowed to accept this approval step');
         }
 

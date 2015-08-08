@@ -349,6 +349,21 @@ describe('Approval on absence request', function() {
     });
 
 
+    it('Try to accept request from d6 with a wrong approvalStep', function(done) {
+
+        var steps = request_from_d6.approvalSteps;
+        var thirdStep = steps[steps.length-1];
+
+        server.put('/rest/manager/waitingrequests/'+request_from_d6._id, {
+            approvalStep: thirdStep._id,
+            action: 'wf_accept'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(403);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.status).toBeFalsy();
+            done();
+        });
+    });
 
 
     it('Accept request from d6', function(done) {

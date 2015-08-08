@@ -8,7 +8,7 @@ function listController() {
     ctrlFactory.list.call(this, '/rest/account/requests');
     
     this.controllerAction = function() {
-        this.jsonService(this.service('user/requests/list', { user: this.req.user._id }));
+        this.jsonService(this.service('user/requests/list', { 'user.id': this.req.user._id }));
     };
 }
 listController.prototype = new ctrlFactory.list();
