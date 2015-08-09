@@ -19,7 +19,7 @@ exports = module.exports = function getApprovalStepsModule(user) {
             }
 
             var step = {};
-            step.operator = 'AND';
+            step.operator = department.operator;
             step.department = department.name;
             step.approvers = [];
             for(var j=0; j< managers.length; j++) {
