@@ -82,6 +82,12 @@ exports = module.exports = function(services, app) {
                 docObj.status.title = document.getDispStatus();
 
 
+                // complete request log with action summary
+                for (var a=0; a<document.requestLog.length; a++) {
+                    docObj.requestLog[a].actionSummary = document.requestLog[a].getActionSummary();
+                }
+
+
                 service.outcome.success = true;
                 service.deferred.resolve(docObj);
             }

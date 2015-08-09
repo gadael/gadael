@@ -130,6 +130,15 @@ describe('Approval on absence request', function() {
     });
 
 
+    it('Try to get list of waiting requests with a basic account', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(401);
+            expect(body.$outcome).toBeDefined();
+            done();
+        });
+    });
+
+
     it('contain at least one approval step per request', function() {
 
         for(var i=0; i< requests.length; i++) {

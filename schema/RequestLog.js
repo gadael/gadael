@@ -27,6 +27,32 @@ exports = module.exports = function(params) {
 	});
 
 
+    /**
+     * @return {String}
+     */
+    requestLogSchema.methods.getActionSummary = function getActionSummary() {
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
+
+        switch(this.action) {
+            case 'create':
+                return gt.gettext('Create request');
+            case 'wf_sent':
+                return gt.gettext('Send request to approval');
+            case 'wf_accept':
+                return gt.gettext('Approval step accepted');
+            case 'wf_reject':
+                return gt.gettext('Approval step rejected');
+            case 'wf_end':
+                return gt.gettext('Approval workflow end');
+            case 'modify':
+                return gt.gettext('Modify request');
+            case 'delete':
+                return gt.gettext('Delete request');
+        }
+
+        return gt.gettext('Unknown action');
+    };
 
   
 	requestLogSchema.set('autoIndex', params.autoIndex);

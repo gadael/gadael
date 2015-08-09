@@ -1,12 +1,7 @@
 
-<div class="row top30">
+<div class="row top30" ng-if="request.approvalSteps.length!==0">
     <h4 class="text-info"><i class="fa fa-sitemap"></i> <span translate>Ongoing approval steps</span></h4>
-    <div class="text-muted" ng-if="request.approvalSteps.length==0">
-        <em translate>No approval steps created for this request, the request has been accepted on creation</em>
-    </div>
-    <div class="text-muted" ng-if="request.approvalSteps.length!==0">
-        <em translate>The list of approval steps needed for the request to be confirmed on planning, to be modified or deleted by the appliquant</em>
-    </div>
+
     <table class="table">
         <thead>
         <tr>
@@ -44,7 +39,7 @@
             </div>
             <div class="col-md-10">
                 <p class="text-primary"><i class="fa fa-calendar"></i> {{log.timeCreated|date:'medium'}}</p>
-                <p>{{log.action}}</p>
+                <p>{{log.actionSummary}}</p>
                 <p>{{log.comment}}</p>
             </div>
 
