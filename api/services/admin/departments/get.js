@@ -17,7 +17,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
         
         service.app.db.models.Department
-        .findOne({ '_id' : params.id}, 'name nonWorkingDays')
+        .findOne({ '_id' : params.id}, 'name nonWorkingDays operator')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

@@ -215,6 +215,17 @@ mockApproval.prototype.createDepartments = function(app) {
         4       // d7
     ];
 
+    var managerOperator = [
+        'OR',   // d0
+        'OR',   // d1
+        'OR',   // d2
+        'OR',   // d3
+        'OR',   // d4
+        'OR',   // d5
+        'OR',   // d6
+        'OR'    // d7
+    ];
+
     // prepare number of managers by index
 
     var managerCount = [

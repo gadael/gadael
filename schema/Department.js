@@ -7,11 +7,14 @@ exports = module.exports = function(params) {
 
 	var mongoose = params.mongoose;
 	var departmentSchema = new mongoose.Schema({
-		name: { type: String, unique: true },
+		name: { type: String, unique: true, required: true },
 		timeCreated: { type: Date, default: Date.now },
         
         // list of non working days calendars
-        nonWorkingDays: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' }]
+        nonWorkingDays: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' }],
+
+        // initialisation for approval steps
+        operator: { type: String, enum: ['OR', 'AND'], default: 'OR' }
 
         // we have parent and path mananged by the tree plugin
 	});

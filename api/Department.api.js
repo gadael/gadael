@@ -13,7 +13,7 @@ exports = module.exports = api;
  *
  * @return {Promise}
  */
-api.create = function(app, parent, name) {
+api.create = function(app, parent, name, operator) {
 
     var Charlatan = require('charlatan');
     var DepartmentModel = app.db.models.Department;
@@ -21,6 +21,10 @@ api.create = function(app, parent, name) {
 
     department.name = name || Charlatan.Commerce.department();
     department.parent = parent;
+
+    if (undefined !== operator) {
+        department.operator = operator;
+    }
 
     return department.save();
 };

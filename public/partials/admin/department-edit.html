@@ -5,8 +5,22 @@
     <input type="text" class="form-control" id="department_name" ng-model="department.name" />
   </div>
     
+  <div class="radio">
+      <label>
+        <input type="radio" value="OR" ng-model="department.operator" />
+        <span translate>At least one manager must confirm approval step</span>
+      </label>
+  </div>
+
+  <div class="radio">
+      <label>
+        <input type="radio" value="AND" ng-model="department.operator" />
+        <span translate>All managers must confirm approval step</span>
+      </label>
+  </div>
     
-<div class="form-group">
+
+  <div class="form-group">
     <strong translate>Non Working days calendars used by the user accounts in this service</strong>
     
     <div class="checkbox"  ng-repeat="nonworkingday in nonworkingdays">
@@ -19,7 +33,7 @@
       > {{nonworkingday.name}}
     </label>
     </div>
-</div>
+  </div>
   
   <button class="btn btn-primary" ng-click="saveDepartment()" translate>Save</button> 
   <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
