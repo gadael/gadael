@@ -153,7 +153,7 @@ mockApproval.prototype.addManager = function(department, manager) {
  *   /\
  * d1  d2       d1: 2 managers             d2: 2 members
  *  |  | \
- * d3 d4  d5    d3: 1 manager, 3 members    d4: 2 manager, 1 member     d5: 1 member
+ * d3 d4  d5    d3: 1 manager, 3 members    d4: 2 manager (AND), 1 member     d5: 1 member
  *   /  \
  *  d6  d7      d6: 2 managers, 1 member    d7: 1 member
  */
@@ -220,7 +220,7 @@ mockApproval.prototype.createDepartments = function(app) {
         'OR',   // d1
         'OR',   // d2
         'OR',   // d3
-        'OR',   // d4
+        'AND',  // d4
         'OR',   // d5
         'OR',   // d6
         'OR'    // d7
@@ -288,7 +288,7 @@ mockApproval.prototype.createDepartments = function(app) {
 
 
                 if (count <= 7) {
-                    return api.department.create(app, parent, 'd'+count).then(nextCreation);
+                    return api.department.create(app, parent, 'd'+count, managerOperator[count]).then(nextCreation);
                 }
 
                 // resolve the main promise once the 7 departments are created
@@ -308,7 +308,7 @@ mockApproval.prototype.createDepartments = function(app) {
     }
 
 
-    api.department.create(app, parent, 'd0').then(nextCreation);
+    api.department.create(app, parent, 'd0', managerOperator[0]).then(nextCreation);
 
     return deferred.promise;
 

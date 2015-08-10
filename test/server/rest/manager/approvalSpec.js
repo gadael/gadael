@@ -375,7 +375,64 @@ describe('Approval on absence request', function() {
     });
 
 
-    it('Accept request from d6', function(done) {
+    it('Accept request from d6 (first approver)', function(done) {
+
+        var steps = request_from_d6.approvalSteps;
+        var secondStep = steps[steps.length-2];
+
+        server.put('/rest/manager/waitingrequests/'+request_from_d6._id, {
+            approvalStep: secondStep._id,
+            action: 'wf_accept'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            //console.log(body.$outcome.alert[0].message);
+            expect(body.status).toBeDefined();
+            if (undefined !== body.status) {
+                expect(body.status.created).toEqual('waiting');
+            }
+            done();
+        });
+    });
+
+    it('Get list of waiting requests after the first approver', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(2);
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('Login with the second approver from d4', function(done) {
+        expect(managersByDepartment.d4[1]).toBeDefined();
+        server.post('/rest/login', {
+            'username': managersByDepartment.d4[1].user.email,
+            'password': managersByDepartment.d4[1].password
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('Get list of waiting requests (d4)', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(3); // one request from d4 and the request from d6
+                                            // and one request from d7 (no managers in d7)
+            done();
+        });
+    });
+
+    it('Accept request from d6 (second approver)', function(done) {
 
         var steps = request_from_d6.approvalSteps;
         var secondStep = steps[steps.length-2];
@@ -386,20 +443,23 @@ describe('Approval on absence request', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.status).toBeDefined();
-            expect(body.status.created).toEqual('waiting');
+            if (undefined !== body.status) {
+                expect(body.status.created).toEqual('waiting');
+            }
             done();
         });
     });
-
 
 
     it('Get list of waiting requests once the request has been accepted', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(2);
+            expect(body.length).toEqual(3);
             done();
         });
     });
+
+
 
 
     it('logout', function(done) {

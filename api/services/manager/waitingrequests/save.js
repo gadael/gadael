@@ -58,9 +58,15 @@ function saveRequest(service, params) {
 
                 if (service.handleMongoError(err)) {
 
+                    /**
+                     * Greater than 0 if more approvers acceptations are required to complete the step
+                     * @var {Int}
+                     */
+                    var remainingApprovers = 0;
+
                     try {
                         if ('wf_accept' === params.action) {
-                            document.accept(approvalStep, user, params.comment);
+                            remainingApprovers = document.accept(approvalStep, user, params.comment);
                         }
 
                         if ('wf_reject' === params.action) {
@@ -116,6 +122,14 @@ function saveRequest(service, params) {
                                                 gt.gettext('The appliquant has requested a delete, the request has been confirmed anyway')
                                             );
                                         });
+                                        return;
+                                    }
+
+                                    if (remainingApprovers > 0) {
+                                        service.resolveSuccess(
+                                            document,
+                                            gt.gettext('Approval for others approvers are required to complete this step')
+                                        );
                                         return;
                                     }
 

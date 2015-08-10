@@ -178,8 +178,49 @@ exports = module.exports = function(params) {
         nextStep.status = 'waiting';
 
         // TODO send message to managers of the nextStep
+
+
     };
 
+
+    /**
+     * Get the list of approvers without reply on the approval step
+     * @param {ApprovalStep} approvalStep
+     * @return {Array}
+     */
+    requestSchema.methods.getRemainingApprovers = function getRemainingApprovers(approvalStep) {
+
+        var interveners = [];
+
+        this.requestLog.forEach(function(log) {
+
+            if (undefined === log.approvalStep || !log.approvalStep.equals(approvalStep._id)) {
+                return;
+            }
+
+            if (undefined === log.userCreated) {
+                throw new Error('Wrong format in request log');
+            }
+
+            if (undefined === log.userCreated.id.id) {
+                interveners.push(log.userCreated.id);
+            } else {
+                interveners.push(log.userCreated.id.id);
+            }
+        });
+
+
+        var approvers = approvalStep.approvers.filter(function(approver) {
+
+            if (undefined !== approver.id) {
+                approver = approver.id;
+            }
+
+            return (-1 === interveners.indexOf(approver));
+        });
+
+        return approvers;
+    };
 
 
     /**
@@ -187,6 +228,8 @@ exports = module.exports = function(params) {
      * @param {ApprovalStep} approvalStep
      * @param {User} user
      * @param {String} comment
+     *
+     * @return {Int}
      */
     requestSchema.methods.accept = function accept(approvalStep, user, comment) {
 
@@ -198,6 +241,13 @@ exports = module.exports = function(params) {
 
         approvalStep.status = 'accepted';
         this.addLog('wf_accept', user, comment, approvalStep);
+
+        if ('AND' === approvalStep.operator) {
+            var remain = this.getRemainingApprovers(approvalStep);
+            if (0 !== remain.length) {
+                return remain.length;
+            }
+        }
 
 
         var nextStep = this.getNextApprovalStep();
@@ -222,11 +272,13 @@ exports = module.exports = function(params) {
             this.approvalSteps = [];
 
             // TODO notify appliquant
-            return;
+            return 0;
         }
 
         // add log entry
         this.forwardApproval(nextStep);
+
+        return 0;
     };
 
 
