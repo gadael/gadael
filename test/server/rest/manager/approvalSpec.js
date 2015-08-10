@@ -348,7 +348,7 @@ describe('Approval on absence request', function() {
     });
 
 
-    it('Get list of waiting requests (d4)', function(done) {
+    it('Get list of waiting requests (d4 first approver)', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(3); // one request from d4 and the request from d6
@@ -423,7 +423,7 @@ describe('Approval on absence request', function() {
     });
 
 
-    it('Get list of waiting requests (d4)', function(done) {
+    it('Get list of waiting requests (d4 second approver)', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(3); // one request from d4 and the request from d6
@@ -451,10 +451,10 @@ describe('Approval on absence request', function() {
     });
 
 
-    it('Get list of waiting requests once the request has been accepted', function(done) {
+    it('Get list of waiting requests once the request has been accepted by the second approver', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(3);
+            expect(body.length).toEqual(2);
             done();
         });
     });

@@ -155,7 +155,7 @@ mockApproval.prototype.addManager = function(department, manager) {
  *  |  | \
  * d3 d4  d5    d3: 1 manager, 3 members    d4: 2 manager (AND), 1 member     d5: 1 member
  *   /  \
- *  d6  d7      d6: 2 managers, 1 member    d7: 1 member
+ *  d6  d7      d6: 2 managers (OR), 1 member    d7: 1 member
  */
 mockApproval.prototype.createDepartments = function(app) {
 

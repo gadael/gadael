@@ -183,10 +183,13 @@ exports = module.exports = function(params) {
     };
 
 
+
+
+
     /**
      * Get the list of approvers without reply on the approval step
      * @param {ApprovalStep} approvalStep
-     * @return {Array}
+     * @return {Array}      Array of user ID (mongoose objects)
      */
     requestSchema.methods.getRemainingApprovers = function getRemainingApprovers(approvalStep) {
 
@@ -224,6 +227,33 @@ exports = module.exports = function(params) {
 
 
     /**
+     * @return {Array} array of string
+     */
+    requestSchema.methods.getRemainingApproversOnWaitingSteps = function() {
+        var approvers = [];
+        var request = this;
+
+        function feApprover(approver) {
+            approver = approver.toString();
+            if (-1 === approvers.indexOf(approver)) {
+                approvers.push(approver);
+            }
+        }
+
+        this.approvalSteps.forEach(function(step) {
+            if (step.status !== 'waiting') {
+                return;
+            }
+
+            request.getRemainingApprovers(step).forEach(feApprover);
+        });
+
+        return approvers;
+    };
+
+
+
+    /**
      * Update document when an approval step has been accepted
      * @param {ApprovalStep} approvalStep
      * @param {User} user
@@ -239,7 +269,6 @@ exports = module.exports = function(params) {
 
         // update approval step
 
-        approvalStep.status = 'accepted';
         this.addLog('wf_accept', user, comment, approvalStep);
 
         if ('AND' === approvalStep.operator) {
@@ -248,6 +277,8 @@ exports = module.exports = function(params) {
                 return remain.length;
             }
         }
+
+        approvalStep.status = 'accepted';
 
 
         var nextStep = this.getNextApprovalStep();

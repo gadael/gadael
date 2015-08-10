@@ -44,6 +44,8 @@ var query = function(service, params) {
     find.populate('events');
     find.populate('absence.distribution');
     find.populate('workperiod_recover.event');
+    find.populate('approvalSteps');
+    find.populate('requestLog');
 
     return find;
 };
@@ -66,23 +68,34 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params, paginate) {
 
         var find = query(service, params);
-        find.select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps status');
+        find.select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover requestLog approvalSteps status');
         find.sort('timeCreated');
 
         service.resolveQuery(find, paginate, function(err, docs) {
+            if (service.handleMongoError(err))
+            {
+                var docsObj = [];
+                var approvers;
 
-            var docsObj = [];
+                if (undefined !== docs) {
 
-            if (!err && undefined !== docs) {
+                    for(var i=0; i<docs.length; i++) {
 
-                for(var i=0; i<docs.length; i++) {
-                    var reqObj = docs[i].toObject();
-                    reqObj.status.title = docs[i].getDispStatus();
-                    docsObj.push(reqObj);
+                        approvers = docs[i].getRemainingApproversOnWaitingSteps();
+
+
+                        if (-1 === approvers.indexOf(params.user)) {
+                            continue;
+                        }
+
+                        var reqObj = docs[i].toObject();
+                        reqObj.status.title = docs[i].getDispStatus();
+                        docsObj.push(reqObj);
+                    }
                 }
-            }
 
-            service.mongOutcome(err, docsObj);
+                service.mongOutcome(err, docsObj);
+            }
         });
 
         return service.deferred.promise;
