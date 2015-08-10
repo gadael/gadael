@@ -36,7 +36,7 @@ function updateController() {
 
         controller.jsonService(
             controller.service('manager/waitingrequests/save', {
-                user: this.req.user._id
+                user: this.req.user.id
             })
         );
     };

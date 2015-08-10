@@ -84,7 +84,7 @@ exports = module.exports = function(services, app) {
                         approvers = docs[i].getRemainingApproversOnWaitingSteps();
 
 
-                        if (-1 === approvers.indexOf(params.user)) {
+                        if (params.user && -1 === approvers.indexOf(params.user)) {
                             continue;
                         }
 

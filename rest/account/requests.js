@@ -18,7 +18,7 @@ function getController() {
     ctrlFactory.get.call(this, '/rest/account/requests/:id');
     
     this.controllerAction = function() {
-        this.jsonService(this.service('user/requests/get', { user: this.req.user._id }));
+        this.jsonService(this.service('user/requests/get', { user: this.req.user.id }));
     };
 }
 getController.prototype = new ctrlFactory.get();

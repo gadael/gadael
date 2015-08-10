@@ -12,7 +12,7 @@ function listController() {
             throw 'Must be logged in';
         }
 
-        this.jsonService(this.service('account/accountrights/list', { user: this.req.user._id }));
+        this.jsonService(this.service('account/accountrights/list', { user: this.req.user.id }));
     };
 }
 listController.prototype = new ctrlFactory.list();
