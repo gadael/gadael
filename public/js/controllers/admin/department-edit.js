@@ -7,6 +7,13 @@ define([], function() {
 		$scope.department = Rest.admin.departments.getFromUrl().loadRouteId();
         $scope.nonworkingdays = Rest.admin.calendars.getResource().query({ type: 'nonworkingday' });
         
+
+        if (undefined === $scope.department.$promise) {
+            // new item
+            $scope.department.operator = 'OR';
+        }
+
+
 		/**
 		 * Toggle selection of non-working day calendar
 		 * @param {String} id calendar ID

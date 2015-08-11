@@ -1,11 +1,14 @@
+<h1 ng-if="undefined === department._id"><i class="fa fa-magic text-muted"></i> <span translate>Create a department</span></h1>
+<h1 ng-if="undefined !== department._id"><i class="fa fa-edit text-muted"></i> <span translate>Modify a department</span></h1>
 
 <form role="form">
-  <div class="form-group">
+
+  <div class="form-group top30">
     <label for="department_name" translate>Department name</label>
     <input type="text" class="form-control" id="department_name" ng-model="department.name" />
   </div>
     
-  <div class="radio">
+  <div class="radio top30">
       <label>
         <input type="radio" value="OR" ng-model="department.operator" />
         <span translate>At least one manager must confirm approval step</span>
@@ -20,7 +23,7 @@
   </div>
     
 
-  <div class="form-group">
+  <div class="form-group top30">
     <strong translate>Non Working days calendars used by the user accounts in this service</strong>
     
     <div class="checkbox"  ng-repeat="nonworkingday in nonworkingdays">
