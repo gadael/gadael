@@ -19,6 +19,11 @@ define([], function() {
 		 * @param {String} id calendar ID
 		 */
 		$scope.toggleSelection = function(id) {
+
+            if (undefined === $scope.department.nonWorkingDays) {
+                $scope.department.nonWorkingDays = [];
+            }
+
             var idx = $scope.department.nonWorkingDays.indexOf(id);
 
             // is currently selected
