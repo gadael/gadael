@@ -27,11 +27,11 @@
     
     <p><i class="fa fa-envelope text-info"></i> <span translate>Notifications options:</span>
         <ul>
-            <li ng-if="user.roles.account.notify.approval">
-                <span translate>Notify on approval</span>
+            <li ng-if="user.roles.account.notify.approvals">
+                <span translate>Notify on approvals</span>
             </li>
-            <li ng-if="!user.roles.account.notify.approval">
-                <span translate>Do not notify on approval</span>
+            <li ng-if="!user.roles.account.notify.approvals">
+                <span translate>Do not notify on approvals</span>
             </li>
 
             <li ng-if="user.roles.account.notify.allocations">
