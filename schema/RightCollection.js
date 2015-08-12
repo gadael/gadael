@@ -4,7 +4,10 @@ exports = module.exports = function(params) {
     var collectionSchema = new params.mongoose.Schema({
         name: { type: String, required: true, unique: true  },
         timeCreated: { type: Date, default: Date.now },
-        attendance: { type: Number, min: 0, max: 100, default: 100 }
+        attendance: { type: Number, min: 0, max: 100, default: 100 }    // attendance percentage
+                                                                        // vacation right consuption will be recorded according to this percentage
+                                                                        // ex: for one day of absence,
+                                                                        // the consumed quantity will be 0.5 day if the attendance is 50%
     });
   
     collectionSchema.set('autoIndex', params.autoIndex);
