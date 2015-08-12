@@ -41,6 +41,16 @@ define([], function() {
 
         $scope.accountScheduleCalendars.forEach(function(document) {
 
+            // remove time on dates before saving
+
+            if (document.from instanceof Date) {
+                document.from.setHours(0,0,0,0);
+            }
+
+            if (document.to instanceof Date) {
+                document.to.setHours(0,0,0,0);
+            }
+
             if ($scope.user.roles && $scope.user.roles.account) {
                 document.account = $scope.user.roles.account._id;
             } else {
