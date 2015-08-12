@@ -52,7 +52,7 @@ define([], function() {
             });
         }
 		
-        $scope.calendars = Rest.admin.calendars.getResource().query();
+        $scope.calendars = Rest.admin.calendars.getResource().query({ type: 'workschedule' });
 
 
 		
