@@ -21,10 +21,18 @@
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="collection in collections">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/collections/{{collection._id}}" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
 					 &nbsp; {{collection.name}}
 				</div>
+
+                <div class="col-md-3">
+                    {{collection.attendance}}%
+                </div>
+
+                <div class="col-md-3">
+                    {{collection.rights.length}} rights
+                </div>
 			</div>
 		</div>
 

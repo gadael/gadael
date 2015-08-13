@@ -109,9 +109,9 @@ exports = module.exports = function(services, app) {
                     Q.all(promises).then(function(objects) {
                         service.outcome.success = true;
                         service.deferred.resolve(objects);
-                    }).catch(function() {
+                    }).catch(function(err) {
                         service.outcome.success = false;
-                        service.deferred.reject();
+                        service.deferred.reject(err);
                     });
                 }
             });

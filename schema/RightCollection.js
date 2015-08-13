@@ -17,7 +17,7 @@ exports = module.exports = function(params) {
     
     /**
      * Get the list of rights in collection
-     * @return {Promise} resolve to an array
+     * @return {Promise} resolve to an array of beneficiaries
      */
     collectionSchema.methods.getRights = function getRights() {
         

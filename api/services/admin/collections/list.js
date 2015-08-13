@@ -45,7 +45,45 @@ exports = module.exports = function(services, app) {
 
         service.resolveQuery(
             query(service, params).select('name attendance').sort('name'),
-            paginate
+            paginate,
+            function(err, docs) {
+                if (service.handleMongoError(err)) {
+
+                    var async = require('async');
+                    var collObj;
+                    var collectionObjects = [];
+
+                    async.eachSeries(docs,
+                        function(collection, callback) {
+                            collObj = collection.toObject();
+
+                            collection.getRights().then(function(beneficiaries) {
+
+                                collObj.rights = [];
+                                beneficiaries.forEach(function(b) {
+                                    collObj.rights.push(b.right);
+                                });
+
+                                collectionObjects.push(collObj);
+                                callback();
+                            });
+
+                        },
+                        function(err) {
+
+                            if (err) {
+                                service.outcome.success = false;
+                                service.deferred.reject(err);
+                                return;
+                            }
+
+
+                            service.outcome.success = true;
+                            service.deferred.resolve(collectionObjects);
+                        }
+                    );
+                }
+            }
         );
 
         return service.deferred.promise;
