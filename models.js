@@ -24,7 +24,7 @@ models.load = function() {
 	require('./schema/StatusLog')(requirements);
 	require('./schema/RequestLog')(requirements);
     require('./schema/ApprovalStep')(requirements);
-	
+	require('./schema/Right_Rule')(requirements);
 
 	//then regular docs
 
@@ -45,7 +45,6 @@ models.load = function() {
 	require('./schema/Type')(requirements);
 	require('./schema/Right')(requirements);
     require('./schema/Right_Renewal')(requirements);
-    require('./schema/Right_Rule')(requirements);
 	require('./schema/Calendar')(requirements);
 	require('./schema/CalendarEvent')(requirements);
     require('./schema/Beneficiary')(requirements);

@@ -42,7 +42,9 @@ exports = module.exports = function(params) {
             useDefault: { type: Boolean, default:true },
             min: Number,
             max: Number
-        }
+        },
+
+        rules: [params.embeddedSchemas.RightRule]
 	});
     
     
