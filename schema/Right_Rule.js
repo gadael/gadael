@@ -175,17 +175,39 @@ exports = module.exports = function(params) {
 
 
     /**
+     * Test validity from the request creation date
+     * @param {Date}            timeCreated
+     * @param {RightRenewal}    renewal
      * @return {boolean}
      */
     rightRuleSchema.methods.validateEntryDate = function(timeCreated, renewal) {
+        var interval = this.getInterval(renewal);
+
+        if (timeCreated >= interval.dtstart && timeCreated <= interval.dtend) {
+            return true;
+        }
+
         return false;
     };
 
     /**
+     * Test validity of all events in a request
+     * @param {Array} events
+     * @param {RightRenewal} renewal
      * @return {boolean}
      */
     rightRuleSchema.methods.validateRequestDate = function(events, renewal) {
-        return false;
+        var interval = this.getInterval(renewal);
+        var evt;
+
+        for(var i=0; i<events.length; i++) {
+            evt = events[i];
+            if (evt.dtstart < interval.dtstart || evt.dtend > interval.dtend) {
+                return false;
+            }
+        }
+
+        return true;
     };
 
 
