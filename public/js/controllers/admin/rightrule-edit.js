@@ -19,42 +19,13 @@ define([], function() {
             });
         }
             
+        console.log($location.search());
             
         if ($location.search().right) {
             $scope.right = rightResource.get({id: $location.search().right});
             $scope.right.$promise.then(onRightLoaded);
         }
-            
-        $scope.rightrule = Rest.admin.rightrules.getFromUrl().loadRouteId();
-        if ($scope.rightrule.$promise) {
-            $scope.rightrule.$promise.then(
-                function(rightrule) {
-                    $scope.right = rightResource.get({id: rightrule.right});
-                    $scope.right.$promise.then(onRightLoaded);
-                }
-            );
-        } else {
-            // init with default values
-            
-            
-        }
-            
-        $scope.estimated = {
-            min:null,
-            max:null
-        };
-            
-        $scope.$watch('rightrule.interval.min', function(newValue) {
-            var today = new Date();
-            $scope.estimated.min = new Date();
-            $scope.estimated.min.setFullYear(today.getFullYear()-newValue);
-        });
-            
-        $scope.$watch('rightrule.interval.max', function(newValue) {
-            var today = new Date();
-            $scope.estimated.max = new Date();
-            $scope.estimated.max.setFullYear(today.getFullYear()-newValue);
-        });
+
 
             
 

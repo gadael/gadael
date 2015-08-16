@@ -39,16 +39,16 @@
             </div>
             <table class="table">
                 <tbody>
-                <tr ng-repeat="rule in rightRules">
+                <tr ng-repeat="rule in right.rules">
                     <td>
-                        <a class="hidden-print" role="button" ng-href="#/admin/rightrules/{{rule._id}}">
+                        <a class="hidden-print" role="button" ng-href="#/admin/rightrules/{{rule._id}}?right={{right._id}}">
                             <i class="fa fa-edit"></i> Edit
                         </a>
                     </td>
                     <td>{{rule.title}}</td>
                     <td>{{rule.type}}</td>
-                    <td class="hidden-xs hidden-sm">{{rule.interval.min|date:'d MMM'}}</td>
-                    <td class="hidden-xs hidden-sm">{{rule.interval.max|date:'d MMM'}}</td>
+                    <td class="hidden-xs hidden-sm">{{rule.interval.min}}</td>
+                    <td class="hidden-xs hidden-sm">{{rule.interval.max}}</td>
                 </tr>
                 </tbody>
                 <thead>
