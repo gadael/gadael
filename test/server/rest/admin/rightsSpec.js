@@ -87,39 +87,6 @@ describe('vacations rights admin rest service', function() {
     });
 
 
-    it('create new right with embeded rules', function(done) {
-        server.post('/rest/admin/rights', {
-            name: 'Rest right test with rules',
-            quantity: 25,
-            quantity_unit: 'D',
-            rules: [{
-                type: 'entry_date',
-                'title': 'Creation date must be in the renewal period'
-            },
-            {
-                type: 'request_date',
-                'title': 'Request period must be in the renewal period, with a one week tolerance',
-                interval: {
-                    min: 7,
-                    max: 7
-                }
-            }]
-        }, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body._id).toBeDefined();
-            expect(body.rules).toBeDefined();
-            if (undefined !== body.rules) {
-                expect(body.rules.length).toEqual(2);
-            }
-            expect(body.$outcome).toBeDefined();
-            if (undefined !== body.$outcome) {
-                expect(body.$outcome.success).toBeTruthy();
-            }
-
-            done();
-        });
-    });
-
 
 
     it('fail to create new right with wrong quantity unit', function(done) {
@@ -161,6 +128,77 @@ describe('vacations rights admin rest service', function() {
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
             done();
+        });
+    });
+
+
+
+
+
+    it('create new right with embeded rules', function(done) {
+        server.post('/rest/admin/rights', {
+            name: 'Rest right test with rules',
+            quantity: 25,
+            quantity_unit: 'D',
+            rules: [{
+                type: 'entry_date',
+                'title': 'Creation date must be in the renewal period'
+            },
+            {
+                type: 'request_date',
+                'title': 'Request period must be in the renewal period, with a one week tolerance',
+                interval: {
+                    min: 7,
+                    max: 7
+                }
+            }]
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.rules).toBeDefined();
+            if (undefined !== body.rules) {
+                expect(body.rules.length).toEqual(2);
+            }
+            expect(body.$outcome).toBeDefined();
+            if (undefined !== body.$outcome) {
+                expect(body.$outcome.success).toBeTruthy();
+            }
+
+            right = body._id;
+
+            done();
+        });
+    });
+
+
+    it('get the created right and add one rule', function(done) {
+
+        expect(right).toBeDefined();
+
+        server.get('/rest/admin/rights/'+right, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.rules.length).toEqual(2);
+
+            var edit = body;
+            delete edit.$outcome;
+
+            // add a rule
+
+            edit.rules.push({
+                type: 'seniority',
+                title: 'Last 5 years',
+                interval: {
+                    min: 5,
+                    max: 0
+                }
+            });
+
+            server.put('/rest/admin/rights/'+right, edit, function(res, body) {
+                expect(res.statusCode).toEqual(200);
+                expect(body.rules.length).toEqual(3);
+                done();
+            });
+
         });
     });
 

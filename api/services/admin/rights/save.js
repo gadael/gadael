@@ -57,32 +57,47 @@ function saveRight(service, params) {
         fieldsToSet.description = params.description;
     }
 
-    /*
-    if(undefined !== params.rules) {
 
-        var rule;
-
-        params.rules.forEach(function(ruleObject) {
-            rule = new RightModel.rules();
-            fieldsToSet.rules.push(rule);
-        });
-
-    }
-    */
 
     if (params.id)
     {
-        RightModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
+        var existingRules = [];
+        var newRules = [];
+        params.rules.forEach(function(rule) {
+            if (undefined !== rule._id) {
+                existingRules.push(rule);
+            } else {
+                newRules.push(rule);
+            }
+        });
+
+        RightModel.findById(params.id, function(err, document) {
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
-                    document, 
-                    gt.gettext('The vacation right has been modified')
-                );
+                existingRules.forEach(function(existingRule) {
+                    document.rules.id(existingRule._id).set(existingRule);
+                });
+
+                newRules.forEach(function(newRule) {
+                    document.rules.push(newRule);
+                });
+
+                document.save(function(err, document) {
+                    if (service.handleMongoError(err)) {
+                        service.resolveSuccess(
+                            document,
+                            gt.gettext('The vacation right has been modified')
+                        );
+                    }
+                });
             }
         });
 
     } else {
+
+        if (undefined === params.rules) {
+            fieldsToSet.rules = params.rules;
+        }
 
         RightModel.create(fieldsToSet, function(err, document) {
 

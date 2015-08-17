@@ -18,7 +18,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
         
         service.app.db.models.Right
-        .findOne({ '_id' : params.id}, 'name description type require_approval autoDistribution quantity quantity_unit activeFor activeSpan')
+        .findOne({ '_id' : params.id}, 'name description type require_approval autoDistribution quantity quantity_unit activeFor activeSpan rules')
         .populate('type')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
