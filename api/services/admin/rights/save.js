@@ -36,6 +36,7 @@ function saveRight(service, params) {
     
     var RightModel = service.app.db.models.Right;
     
+
     var type;
     if (undefined !== params.type) {
         type = params.type._id;
@@ -48,13 +49,26 @@ function saveRight(service, params) {
         require_approval: params.require_approval,
         quantity: params.quantity,
         quantity_unit: params.quantity_unit,
-        activeFor: params.activeFor
+        activeFor: params.activeFor,
+        rules: params.rules
     };
     
     if(undefined !== params.description) {
         fieldsToSet.description = params.description;
     }
 
+    /*
+    if(undefined !== params.rules) {
+
+        var rule;
+
+        params.rules.forEach(function(ruleObject) {
+            rule = new RightModel.rules();
+            fieldsToSet.rules.push(rule);
+        });
+
+    }
+    */
 
     if (params.id)
     {

@@ -25,9 +25,7 @@ exports = module.exports = function(params) {
 
 	
 	var rightRuleSchema = new mongoose.Schema({
-        
-        right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
-        
+
         // title displayed to the user as a condition
         // to apply this vacation right
 		title: { type: String, required: true },
@@ -123,7 +121,7 @@ exports = module.exports = function(params) {
      * @param {RightRenewal} renewal    Right renewal
      * @return {boolean}
      */
-    rightRuleSchema.methods.validate = function(request, renewal) {
+    rightRuleSchema.methods.validateAll = function(request, renewal) {
 
         if (undefined === request.populated('user.id')) {
             throw new Error('The user.id field need to be populated');
