@@ -61,11 +61,13 @@ function saveRight(service, params) {
 
     if (params.id)
     {
-        var existingRules = [];
+        var postedRules = [];
+        var postedRulesId = [];
         var newRules = [];
         params.rules.forEach(function(rule) {
             if (undefined !== rule._id) {
-                existingRules.push(rule);
+                postedRules.push(rule);
+                postedRulesId.push(rule._id);
             } else {
                 newRules.push(rule);
             }
@@ -74,8 +76,14 @@ function saveRight(service, params) {
         RightModel.findById(params.id, function(err, document) {
             if (service.handleMongoError(err))
             {
-                existingRules.forEach(function(existingRule) {
+                postedRules.forEach(function(existingRule) {
                     document.rules.id(existingRule._id).set(existingRule);
+                });
+
+                document.rules.forEach(function(rule, position) {
+                    if (-1 === postedRulesId.indexOf(rule.id)) {
+                        document.rules[position].remove();
+                    }
                 });
 
                 newRules.forEach(function(newRule) {
@@ -83,6 +91,11 @@ function saveRight(service, params) {
                 });
 
                 document.save(function(err, document) {
+
+                    if (err) {
+                        console.log(err);
+                    }
+
                     if (service.handleMongoError(err)) {
                         service.resolveSuccess(
                             document,

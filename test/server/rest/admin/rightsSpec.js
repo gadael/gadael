@@ -203,6 +203,29 @@ describe('vacations rights admin rest service', function() {
     });
 
 
+
+    it('get the created right and remove one rule', function(done) {
+
+        expect(right).toBeDefined();
+
+        server.get('/rest/admin/rights/'+right, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.rules.length).toEqual(3);
+
+            var edit = body;
+            delete edit.$outcome;
+
+            edit.rules.splice(2, 1);
+            server.put('/rest/admin/rights/'+right, edit, function(res, body) {
+                expect(res.statusCode).toEqual(200);
+                expect(body.rules.length).toEqual(2);
+                done();
+            });
+        });
+    });
+
+
+
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
             expect(res.statusCode).toEqual(200);

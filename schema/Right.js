@@ -18,8 +18,8 @@ exports = module.exports = function(params) {
         quantity: { type: Number, min:0 },
         quantity_unit: { type: String, enum:['D', 'H'] },
         
-        increment: {
-            monthQuantity: { type: Number, min:0 },
+        addMonthly: {
+            quantity: { type: Number, min:0 },
             max: { type: Number, min:0 },
             last: Date
         },
