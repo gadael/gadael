@@ -13,7 +13,7 @@ exports = module.exports = function(params) {
                             // min in days before the renewal start date
                             // max in days after the renewal end date
 
-        'request_date',     // right is visible when request begin date >= computed min date
+        'request_period',   // right is visible when request begin date >= computed min date
                             // and request end date <= computed max date
                             // min in days before the renewal start date
                             // max in days after the renewal end date
@@ -81,7 +81,7 @@ exports = module.exports = function(params) {
             break;
             
             case 'entry_date':
-            case 'request_date':
+            case 'request_period':
                 // no possible verification
                 
             break;
@@ -116,21 +116,26 @@ exports = module.exports = function(params) {
 
     /**
      * Validate right rule
+     * return false if the rule is not appliquable (ex: for request date when the request does not exists)
      *
-     * @param {Request}      request    Request document with populated user.id field
-     * @param {RightRenewal} renewal    Right renewal
+     * @param {RightRenewal} renewal      Right renewal
+     * @param {User}         user         Request appliquant
+     * @param {Request}      [request]    Request document with populated user.id field
      * @return {boolean}
      */
-    rightRuleSchema.methods.validateAll = function(request, renewal) {
+    rightRuleSchema.methods.validateAll = function(renewal, user, request) {
 
-        if (undefined === request.populated('user.id')) {
-            throw new Error('The user.id field need to be populated');
+        if (undefined === request) {
+            request = {
+                timeCreated: new Date(),
+                events: []
+            }
         }
 
         switch(this.type) {
-            case 'seniority':       return this.validateSeniority(request.timeCreated, request.user.id);
+            case 'seniority':       return this.validateSeniority(request.events, user);
             case 'entry_date':      return this.validateEntryDate(request.timeCreated, renewal);
-            case 'request_date':    return this.validateRequestDate(request.events, renewal);
+            case 'request_period':    return this.validateRequestDate(request.events, renewal);
         }
 
         return false;
@@ -140,15 +145,19 @@ exports = module.exports = function(params) {
     /**
      * test validity from the seniority date
      * the seniority date is the previsional retirment date
-     * @param {Date}            timeCreated        request creation date
+     * @param {Array}           events        request events
      * @param {User}            user
      *
      * @return {boolean}
      */
-    rightRuleSchema.methods.validateSeniority = function(timeCreated, user) {
+    rightRuleSchema.methods.validateSeniority = function(events, user) {
 
         if (undefined === user.populated('roles.account')) {
             throw new Error('The roles.account field need to be populated');
+        }
+
+        if (0 === events.length) {
+            return false;
         }
 
         var seniority = user.roles.account.seniority;
@@ -163,11 +172,16 @@ exports = module.exports = function(params) {
         min.setFullYear(min.getFullYear() - this.interval.min);
         max.setFullYear(max.getFullYear() - this.interval.max);
 
-        if (min <= timeCreated && max >= timeCreated) {
-            return true;
+        var evt;
+
+        for(var i=0; i<events.length; i++) {
+            evt = events[i];
+            if (evt.dtstart < min || evt.dtend > max) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     };
 
 
@@ -195,6 +209,11 @@ exports = module.exports = function(params) {
      * @return {boolean}
      */
     rightRuleSchema.methods.validateRequestDate = function(events, renewal) {
+
+        if (0 === events.length) {
+            return false;
+        }
+
         var interval = this.getInterval(renewal);
         var evt;
 

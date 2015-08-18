@@ -145,7 +145,7 @@ describe('vacations rights admin rest service', function() {
                 'title': 'Creation date must be in the renewal period'
             },
             {
-                type: 'request_date',
+                type: 'request_period',
                 'title': 'Request period must be in the renewal period, with a one week tolerance',
                 interval: {
                     min: 7,

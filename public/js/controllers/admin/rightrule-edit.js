@@ -17,17 +17,26 @@ define([], function() {
             rightRenewal.query({right: right._id}).$promise.then(function(renewals) {
                 $scope.renewal = renewals[0];
             });
+
+            //TODO: populate $scope.rightrule
         }
             
-        console.log($location.search());
+
             
         if ($location.search().right) {
             $scope.right = rightResource.get({id: $location.search().right});
             $scope.right.$promise.then(onRightLoaded);
         }
-
-
             
+
+        $scope.step = 1;
+        $scope.rightrule = {
+            type: 'entry_date'
+        };
+
+        $scope.next = function() {
+            $scope.step = 2;
+        };
 
 		$scope.back = function() {
 			$location.url('/admin/rights/'+$scope.right._id);
@@ -35,11 +44,8 @@ define([], function() {
 		
 		$scope.saveRightrule = function() {
             
-            if (!$scope.rightrule.right) {
-                $scope.rightrule.right = $scope.right._id;
-            }
-            
-			$scope.rightrule.ingaSave($scope.back);
+            //TODO add or replace $scope.rightrule into right document
+			$scope.right.$save($scope.back);
 	    };
 	}];
 });

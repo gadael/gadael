@@ -6,96 +6,110 @@
                 <input type="text" id="rightrule_title" class="form-control" ng-model="rightrule.title" ng-required />
             </div>
             
-            <div ng-if="!rightrule.type">
+            <div ng-if="step===1">
                 
                 <h3>Select rule type</h3>
                 
                 <div class="form-group">
                     <label><input type="radio" ng-model="rightrule.type" value="entry_date" /> 
-                        <strong translate>Activate the right according to the entry date</strong></label>
-                        <p translate>Quantity in right is usable when the entry dates are in a period interval</p>
+                        <strong translate>Activate the right according to the entry creation date</strong></label>
+                        <p translate>Right is visible when the request creation date is in the renewal period</p>
                 </div>    
 
                 <div class="form-group">
-                    <label><input type="radio" ng-model="rightrule.type" value="request_date" /> 
-                        <strong translate>Activate the right according to the request moment</strong></label>
-                        <p translate>Right is visible when request moment is in a period interval</p>
+                    <label><input type="radio" ng-model="rightrule.type" value="request_period" />
+                        <strong translate>Activate the right according to the request period</strong></label>
+                        <p translate>Right is visible when request period is in the renewal period</p>
                 </div> 
 
                 <div class="form-group">
                     <label><input type="radio" ng-model="rightrule.type" value="seniority" /> 
                         <strong translate>Add quantity to the right according to the seniority</strong></label>
-                        <p translate>A quantity is added if the user account seniority date is 
-                        in a period interval relative to the entry date, min and max are in years before the entry start date</p>
+                        <p translate>Right is visible when the request period is in a period relative to the user seniority date</p>
                 </div>
+                
+                
+                <button class="btn btn-primary" ng-click="next()" translate>Next</button>
+                <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
             </div>
-                
-            <div ng-switch on="rightrule.type">
-                <div ng-switch-when="entry_date">
-                    <p translate>Rule type: activate the right according to the entry date</p>
-                    <p translate>If this rule is not verified, the right will not be available in the second step of a request, once the entry dates are set. The dates for the futures renewals will be computed with the same gap starting from the renewal start date</p>
 
-                    <div class="form-group">
-                        <label for="entry_min" translate>In last renewal, entry begin date must be greater than:</label>
-                        <input type="text" id="entry_min" class="form-control" ng-model="rightrule.interval.min" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
-                    </div>
+            <div ng-if="step===2">
+                
+                <div ng-switch on="rightrule.type">
+                    <div ng-switch-when="entry_date">
+                        <p translate>Rule type: activate the right according to the entry creation date</p>
+                        <p translate>If this rule is not verified, the right will not be visible by the user in the rights list and when allocating</p>
 
-                    <div class="form-group">
-                        <label for="entry_max" translate>In last renewal, entry end date must be lower than:</label>
-                        <input type="text" id="entry_max" class="form-control" ng-model="rightrule.interval.max" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
-                    </div>
-                </div>
-                
-                
-                
-                <div ng-switch-when="request_date">
-                    <p translate>Rule type: activate the right according to the request moment</p>
-                    <p translate>If this rule is not verified, the right will not be visible by the user in the rights list and when allocating</p>
-
-                    <div class="form-group">
-                        <label for="request_min" translate>In last renewal, entry begin date must be greater than:</label>
-                        <input type="text" id="request_min" class="form-control" ng-model="rightrule.interval.min" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="request_max" translate>In last renewal, entry end date must be lower than:</label>
-                        <input type="text" id="request_max" class="form-control" ng-model="rightrule.interval.max" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />
-                    </div>
-                </div>
-                
-                
-                <div ng-switch-when="seniority">
-                    <p translate>Rule type: add quantity to the right according to the seniority</p>
-                    
-                    <div class="form-group">
-                        <label for="seniority_min" translate>Quantity to add if the seniority date is in the period interval:</label>
-                        
-                        <div class="input-group">
-                        <input type="text" id="seniority_min" class="form-control" ng-model="rightrule.quantity" ng-required />
-                        <div class="input-group-addon">{{right.disp_unit}}</div>
+                        <div class="form-group">
+                            <label for="entry_min" translate>Additional days before the renewal start date:</label>
+                            <div class="input-group">
+                                <input type="text" id="entry_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                                <div class="input-group-addon" translate>Days</div>
+                            </div>
                         </div>
-                        
-                    </div>
-                    
-                    <p translate>If this rule is not verified, the right quantity will not be modified</p>
 
-                    <div class="form-group">
-                        <label for="seniority_min" translate>Years before the entry start date to set the period start:</label>
-                        <input type="number" id="seniority_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                        <div class="form-group">
+                            <label for="entry_max" translate>Additional days after the renewal end date:</label>
+                            <div class="input-group">
+                                <input type="text" id="entry_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+                                <div class="input-group-addon" translate>Days</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="seniority_max" translate>Number of years before the entry start date to set the period end:</label>
-                        <input type="number" id="seniority_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+
+
+                    <div ng-switch-when="request_period">
+                        <p translate>Rule type: activate the right according to the request period</p>
+                        <p translate>If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.</p>
+
+                        <div class="form-group">
+                            <label for="entry_min" translate>Additional days before the renewal start date:</label>
+                            <div class="input-group">
+                                <input type="text" id="entry_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                                <div class="input-group-addon" translate>Days</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="entry_max" translate>Additional days after the renewal end date:</label>
+                                <input type="text" id="entry_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+                                <div class="input-group-addon" translate>Days</div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <p>For an entry with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, {{rightrule.quantity}} {{right.disp_unit|lowercase}} will be added to the available quantity.</p>
+
+
+                    <div ng-switch-when="seniority">
+                        <p translate>Rule type: activate the right according to the user seniority</p>
+                        <p translate>If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:</p>
+
+                        <div class="form-group">
+                            <label for="seniority_min" translate>Years before the entry start date to set the period start:</label>
+                            <div class="input-group">
+                                <input type="number" id="seniority_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                                <div class="input-group-addon" translate>Years</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="seniority_max" translate>Number of years before the entry start date to set the period end:</label>
+                            <div class="input-group">
+                                <input type="number" id="seniority_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+                                <div class="input-group-addon" translate>Years</div>
+                            </div>
+                        </div>
+
+                        <p>For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.</p>
+                    </div>
                 </div>
-                
+
+
+                <button class="btn btn-primary" ng-click="saveRightrule()" translate>Save</button>
+                <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
             </div>
-            
-            <button class="btn btn-primary" ng-click="saveRightrule()" translate>Save</button> 
-            <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+
         </form>
     </div>
     
