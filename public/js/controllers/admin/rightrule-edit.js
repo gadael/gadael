@@ -5,7 +5,8 @@ define([], function() {
 	return [
         '$scope',
         '$location',
-        'Rest', function($scope, $location, Rest) {
+        'Rest',
+        'setSubDocument', function($scope, $location, Rest, setSubDocument) {
 
             
         var rightResource = Rest.admin.rights.getResource();
@@ -19,8 +20,31 @@ define([], function() {
             });
 
             //TODO: populate $scope.rightrule
+
         }
             
+
+
+
+        // estimation for the seniority rule via $scope.estimated
+        var min, max;
+
+        $scope.$watchCollection('rightrule.interval', function onChangeInterval(interval) {
+            if (undefined === interval) {
+                return;
+            }
+
+            min = new Date();
+            max = new Date();
+
+            min.setFullYear(min.getFullYear() - interval.min);
+            max.setFullYear(max.getFullYear() - interval.max);
+
+            $scope.estimated = {
+                min: min,
+                max: max
+            };
+        });
 
             
         if ($location.search().right) {
@@ -31,7 +55,12 @@ define([], function() {
 
         $scope.step = 1;
         $scope.rightrule = {
-            type: 'entry_date'
+            type: 'entry_date',
+            title: '',
+            interval: {
+                min:0,
+                max:0
+            }
         };
 
         $scope.next = function() {
@@ -44,7 +73,7 @@ define([], function() {
 		
 		$scope.saveRightrule = function() {
             
-            //TODO add or replace $scope.rightrule into right document
+            $scope.right.rules = setSubDocument($scope.right.rules, $scope.rightrule);
 			$scope.right.$save($scope.back);
 	    };
 	}];

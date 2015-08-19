@@ -188,7 +188,40 @@ define([
             
             return deferred.promise;
         };
-	}]);
+	}])
 	
 	
+
+
+    .factory('setSubDocument', function() {
+
+        /**
+         * Replace subdocument by id
+         * or push the new document
+         * @param {Array}   arr is a list of subdocuments
+         * @param {Object}  Object from a mongoose document from a REST service
+         * @return {Array}  The modified array
+         */
+        return function(arr, newDocument) {
+
+            if (-1 !== arr.indexOf(newDocument)) {
+                // allready inserted
+                return arr;
+            }
+
+            if (undefined === newDocument._id) {
+                arr.push(newDocument);
+                return arr;
+            }
+
+            return arr.map(function(doc) {
+                if (doc._id === newDocument._id) {
+                    return newDocument;
+                }
+
+                return doc;
+            });
+        };
+
+	});
 });

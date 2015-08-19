@@ -129,7 +129,7 @@ exports = module.exports = function(params) {
             request = {
                 timeCreated: new Date(),
                 events: []
-            }
+            };
         }
 
         switch(this.type) {
@@ -166,16 +166,21 @@ exports = module.exports = function(params) {
             return false;
         }
 
-        var min = new Date(timeCreated);
-        var max = new Date(timeCreated);
 
-        min.setFullYear(min.getFullYear() - this.interval.min);
-        max.setFullYear(max.getFullYear() - this.interval.max);
 
-        var evt;
+        var evt, min, max;
+
+        min = new Date(events[0].dtstart);
+        max = new Date(events[0].dtstart);
 
         for(var i=0; i<events.length; i++) {
             evt = events[i];
+
+
+
+            min.setFullYear(min.getFullYear() - this.interval.min);
+            max.setFullYear(max.getFullYear() - this.interval.max);
+
             if (evt.dtstart < min || evt.dtend > max) {
                 return false;
             }

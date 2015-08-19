@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label for="entry_min" translate>Additional days before the renewal start date:</label>
                             <div class="input-group">
-                                <input type="text" id="entry_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                                <input type="number" id="entry_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
                                 <div class="input-group-addon" translate>Days</div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label for="entry_max" translate>Additional days after the renewal end date:</label>
                             <div class="input-group">
-                                <input type="text" id="entry_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+                                <input type="number" id="entry_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
                                 <div class="input-group-addon" translate>Days</div>
                             </div>
                         </div>
@@ -64,17 +64,17 @@
                         <p translate>If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.</p>
 
                         <div class="form-group">
-                            <label for="entry_min" translate>Additional days before the renewal start date:</label>
+                            <label for="request_period_min" translate>Additional days before the renewal start date:</label>
                             <div class="input-group">
-                                <input type="text" id="entry_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                                <input type="number" id="request_period_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
                                 <div class="input-group-addon" translate>Days</div>
                             </div>
                         </div>
 
                         <div class="form-group">
+                            <label for="request_period_max" translate>Additional days after the renewal end date:</label>
                             <div class="input-group">
-                                <label for="entry_max" translate>Additional days after the renewal end date:</label>
-                                <input type="text" id="entry_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+                                <input type="number" id="request_period_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
                                 <div class="input-group-addon" translate>Days</div>
                             </div>
                         </div>
