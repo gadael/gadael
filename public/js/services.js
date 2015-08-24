@@ -193,6 +193,38 @@ define([
 	
 
 
+    .factory('removeSubDocument', function() {
+
+        /**
+         * Remove subdocument from array
+         * @param {Array}   arr is a list of subdocuments
+         * @param {Object}  Object from a mongoose document from a REST service
+         * @return {Array}  The modified array
+         */
+        return function(arr, oldDocument) {
+
+            if (-1 === arr.indexOf(oldDocument)) {
+                // not found, return the unmodified array
+                return arr;
+            }
+
+            if (undefined === oldDocument._id) {
+                // not saved, return the unmodified array
+                return arr;
+            }
+
+            return arr.filter(function(doc) {
+                if (doc._id === oldDocument._id) {
+                    return false;
+                }
+
+                return true;
+            });
+        };
+
+	})
+
+
     .factory('setSubDocument', function() {
 
         /**

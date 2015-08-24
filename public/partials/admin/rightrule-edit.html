@@ -37,7 +37,8 @@
                 
                 <div ng-switch on="rightrule.type">
                     <div ng-switch-when="entry_date">
-                        <p translate>Rule type: activate the right according to the entry creation date</p>
+                        <strong translate>Rule type:</strong>
+                        <p translate>Activate the right according to the entry creation date</p>
                         <p translate>If this rule is not verified, the right will not be visible by the user in the rights list and when allocating</p>
 
                         <div class="form-group">
@@ -60,7 +61,8 @@
 
 
                     <div ng-switch-when="request_period">
-                        <p translate>Rule type: activate the right according to the request period</p>
+                        <strong translate>Rule type:</strong>
+                        <p translate>Activate the right according to the request period</p>
                         <p translate>If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.</p>
 
                         <div class="form-group">
@@ -82,7 +84,8 @@
 
 
                     <div ng-switch-when="seniority">
-                        <p translate>Rule type: activate the right according to the user seniority</p>
+                        <strong translate>Rule type:</strong>
+                        <p translate>Activate the right according to the user seniority</p>
                         <p translate>If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:</p>
 
                         <div class="form-group">
@@ -101,13 +104,16 @@
                             </div>
                         </div>
 
-                        <p>For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.</p>
+                        <em class="text-info" translate>For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.</em>
                     </div>
                 </div>
 
+                <br />
 
-                <button class="btn btn-primary" ng-click="saveRightrule()" translate>Save</button>
+                <button class="btn btn-primary" ng-click="saveRightrule()" translate><i class="fa fa-save"></i> Save</button>
+                <button class="btn btn-danger" ng-click="delete()" translate><i class="fa fa-times"></i> Delete</button>
                 <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+
             </div>
 
         </form>

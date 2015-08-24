@@ -75,6 +75,13 @@
                 </a>
             </div>
             <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Start</th>
+                    <th>Finish</th>
+                </tr>
+                </thead>
                 <tbody>
                 <tr ng-repeat="renewal in rightRenewals">
                     <td>
@@ -86,13 +93,7 @@
                     <td>{{renewal.finish|date}}</td>
                 </tr>
                 </tbody>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Start</th>
-                    <th>Finish</th>
-                </tr>
-                </thead>
+
             </table>
 
             <div class="alert alert-danger" role="alert" ng-if="!rightRenewals.length">

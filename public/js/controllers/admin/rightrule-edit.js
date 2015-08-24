@@ -8,7 +8,8 @@ define([], function() {
         '$routeParams',
         'Rest',
         'catchOutcome',
-        'setSubDocument', function($scope, $location, $routeParams, Rest, catchOutcome, setSubDocument) {
+        'setSubDocument',
+        'removeSubDocument', function($scope, $location, $routeParams, Rest, catchOutcome, setSubDocument, removeSubDocument) {
 
             
         var rightResource = Rest.admin.rights.getResource();
@@ -90,6 +91,13 @@ define([], function() {
             $scope.right.rules = setSubDocument($scope.right.rules, $scope.rightrule);
 			catchOutcome($scope.right.$save()).then($scope.back);
 	    };
+
+
+        $scope.delete = function() {
+
+            $scope.right.rules = removeSubDocument($scope.right.rules, $scope.rightrule);
+            catchOutcome($scope.right.$save()).then($scope.back);
+        };
 	}];
 });
 
