@@ -37,7 +37,14 @@
                     <i class="fa fa-plus-circle"></i> Add
                 </a>
             </div>
-            <table class="table">
+            <table class="table" ng-if="0!==right.rules.length">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Type</th>
+                    <th>Title</th>
+                </tr>
+                </thead>
                 <tbody>
                 <tr ng-repeat="rule in right.rules">
                     <td>
@@ -45,24 +52,14 @@
                             <i class="fa fa-edit"></i> Edit
                         </a>
                     </td>
-                    <td>{{rule.title}}</td>
                     <td>{{rule.type}}</td>
-                    <td class="hidden-xs hidden-sm">{{rule.interval.min}}</td>
-                    <td class="hidden-xs hidden-sm">{{rule.interval.max}}</td>
+                    <td>{{rule.title}}</td>
                 </tr>
                 </tbody>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th class="hidden-xs hidden-sm">Min</th>
-                    <th class="hidden-xs hidden-sm">Max</th>
-                </tr>
-                </thead>
+
             </table>
 
-            <div class="alert alert-danger" role="alert" ng-if="!rightRules.length">
+            <div class="col-xs-12 alert alert-danger" role="alert" ng-if="0===right.rules.length">
                 <span>This right has no configured rules</span>
             </div>
         </div>
