@@ -5,8 +5,10 @@ define([], function() {
 	return [
         '$scope',
         '$location',
+        '$routeParams',
         'Rest',
-        'setSubDocument', function($scope, $location, Rest, setSubDocument) {
+        'catchOutcome',
+        'setSubDocument', function($scope, $location, $routeParams, Rest, catchOutcome, setSubDocument) {
 
             
         var rightResource = Rest.admin.rights.getResource();
@@ -19,8 +21,20 @@ define([], function() {
                 $scope.renewal = renewals[0];
             });
 
-            //TODO: populate $scope.rightrule
+            // Populate $scope.rightrule
 
+            var ruleArr = right.rules.filter(function(r) {
+                if (r._id === $routeParams.id) {
+                    return true;
+                }
+
+                return false;
+            });
+
+            if (ruleArr.length === 1) {
+                $scope.rightrule = ruleArr[0];
+                $scope.step = 2;
+            }
         }
             
 
@@ -74,7 +88,7 @@ define([], function() {
 		$scope.saveRightrule = function() {
             
             $scope.right.rules = setSubDocument($scope.right.rules, $scope.rightrule);
-			$scope.right.$save($scope.back);
+			catchOutcome($scope.right.$save()).then($scope.back);
 	    };
 	}];
 });
