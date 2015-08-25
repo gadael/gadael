@@ -72,7 +72,11 @@ describe('request absence account rest service', function() {
         server.post('/rest/admin/rights', {
             name: 'Right 1',
             quantity: 25,
-            quantity_unit: 'D'
+            quantity_unit: 'D',
+            rules: [{
+                type: 'request_period',
+                'title': 'Request period must be in the renewal period'
+            }]
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             right1 = body;
@@ -267,6 +271,25 @@ describe('request absence account rest service', function() {
             if (body.length === 2) {
                 expect(body[0].available_quantity).toEqual(right1.quantity);
                 expect(body[1].available_quantity).toEqual(right2.quantity);
+            }
+            done();
+        });
+    });
+
+
+    it('check that right1 is not accessible if the associated rule is not verified', function(done) {
+
+        where = {
+            dtstart: new Date(2014,12,1, 8).toJSON(),
+            dtend: new Date(2014,12,1, 18).toJSON()
+        };
+
+        server.get('/rest/account/accountrights', where, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            // check quantities of renewal, with 0 consumed, the quantities should be defaults
+            if (body.length === 1) {
+                expect(body[0].available_quantity).toEqual(right2.quantity);
             }
             done();
         });

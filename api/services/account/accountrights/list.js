@@ -32,7 +32,6 @@ exports = module.exports = function(services, app)
      */
     function resolveAccountRights(user, rights, dtstart, dtend)
     {
-        var Q = require('q');
         var async = require('async');
         
         /**
@@ -43,19 +42,8 @@ exports = module.exports = function(services, app)
          */
         function getRenewalAvailableQuantity(right, renewal) {
 
-            if (null === renewal) {
-                return Q.fcall(function () {
-                    // default available quantity if no renewal
-                    return 0;
-                });
-            }
-
-            
             if (!right.validateRules(renewal, user, dtstart, dtend)) {
-                return Q.fcall(function () {
-                    // default available quantity for non appliquables rights
-                    return 0;
-                });
+                return null;
             }
 
             return renewal.getUserAvailableQuantity(user);
@@ -65,25 +53,85 @@ exports = module.exports = function(services, app)
 
 
 
-        async.map(rights, function(rightDocument, cb) {
+
+
+
+        var output = [];
+
+
+        /**
+         * add renewals into the right object
+         * @param {Right} rightDocument
+         * @param {object} right
+         * @param {Array} renewals
+         * @param {function} callback
+         */
+        function processRenewals(rightDocument, right, renewals, callback)
+        {
+            async.each(renewals, function(renewalDocument, renewalCallback) {
+                var p = getRenewalAvailableQuantity(rightDocument, renewalDocument);
+
+                if (null === p) {
+                    // no error but the right is discarded in this renewal because of the rules or missing renewal
+                    return renewalCallback();
+                }
+
+                p.then(function(quantity) {
+
+                    var renewalObj = renewalDocument.toObject();
+                    renewalObj.available_quantity = quantity;
+                    right.renewals.push(renewalObj);
+                    right.available_quantity += quantity;
+
+                    renewalCallback();
+
+                }, renewalCallback);
+
+            }, callback);
+        }
+
+
+        async.each(rights, function(rightDocument, cb) {
 
             var right = rightDocument.toObject();
             right.disp_unit = rightDocument.getDispUnit();
-            
-            rightDocument
-                .getPeriodRenewal(dtstart, dtend)
-                .then(function(renewal) {
-            
-                getRenewalAvailableQuantity(rightDocument, renewal).then(function(quantity) {
-                    right.available_quantity = quantity;
-                    right.available_quantity_dispUnit = rightDocument.getDispUnit(quantity);
 
-                    cb(null, right);
+            
+            rightDocument.getAllRenewals().then(function(renewals) {
+
+                /**
+                 * Store available quantity for each accessibles renewals
+                 * renewals with right rules not verified will not be included
+                 */
+                right.renewals = [];
+
+                /**
+                 * Sum of quantities from the accessibles renewals
+                 */
+                right.available_quantity = 0;
+
+                processRenewals(rightDocument, right, renewals, function done(err) {
+
+                    if (err) {
+                        return cb(err);
+                    }
+
+                    if (right.renewals.length > 0) {
+                        right.available_quantity_dispUnit = rightDocument.getDispUnit(right.available_quantity);
+                        output.push(right);
+                    }
+
+                    cb();
                 });
+
             });
 
 
-        }, function(err, output) {
+        }, function(err) {
+
+            if (err) {
+                return service.error(err);
+            }
 
             service.outcome.success = true;
             service.deferred.resolve(output);

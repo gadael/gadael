@@ -82,6 +82,18 @@ exports = module.exports = function(params) {
     
 
     /**
+     * Get all renewals
+     * @return {Promise} mongoose
+     */
+    rightSchema.methods.getAllRenewals = function() {
+        var Q = require('q');
+        var deferred = Q.defer();
+
+        return this.getRenewalsQuery().exec();
+    }
+
+
+    /**
      * Get renewal by date interval or null if no renewal
      * requests straddling two periods are not allowed
      *
