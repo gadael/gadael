@@ -3,6 +3,7 @@
 
 /**
  * The user account rights list service
+ * Get available rights beetween two dates
  */
 
 
@@ -32,17 +33,15 @@ exports = module.exports = function(services, app)
     function resolveAccountRights(user, rights, dtstart, dtend)
     {
         var Q = require('q');
-        var right, available_quantity_promise;
-        var output = [];
-        var available_quantity_promises = [];
-        
+        var async = require('async');
         
         /**
          * Get the promise for the available quantity
-         * @param   {Document} renewal
+         * @param   {Right} right
+         * @param   {RightRenewal} renewal
          * @returns {Promise} resolve to a number
          */
-        function getRenewalAvailableQuantity(renewal) {
+        function getRenewalAvailableQuantity(right, renewal) {
 
             if (null === renewal) {
                 return Q.fcall(function () {
@@ -51,36 +50,44 @@ exports = module.exports = function(services, app)
                 });
             }
 
+            
+            if (!right.validateRules(renewal, user, dtstart, dtend)) {
+                return Q.fcall(function () {
+                    // default available quantity for non appliquables rights
+                    return 0;
+                });
+            }
+
             return renewal.getUserAvailableQuantity(user);
         }
-        
-        // create an array of promises
-        for(var i=0; i<rights.length; i++) {
-            right = rights[i].toObject();
-            right.disp_unit = rights[i].getDispUnit();
-            available_quantity_promise = rights[i].getPeriodRenewal(dtstart, dtend).then(getRenewalAvailableQuantity);
-            
-            available_quantity_promises.push(available_quantity_promise);
-            
-            output.push(right);
-        }
-        
-        
-        Q.all(available_quantity_promises).then(function(available_quantity_arr) {
 
-            if (available_quantity_arr.length !== output.length) {
-                return service.notFound('Internal error, number of computed quantites does not match with the rights count');
-            }
+
+
+
+
+        async.map(rights, function(rightDocument, cb) {
+
+            var right = rightDocument.toObject();
+            right.disp_unit = rightDocument.getDispUnit();
             
-            for(var i=0; i<available_quantity_arr.length; i++) {
-                output[i].available_quantity = available_quantity_arr[i];
-                output[i].available_quantity_dispUnit = rights[i].getDispUnit(available_quantity_arr[i]);
-            }
+            rightDocument
+                .getPeriodRenewal(dtstart, dtend)
+                .then(function(renewal) {
             
+                getRenewalAvailableQuantity(rightDocument, renewal).then(function(quantity) {
+                    right.available_quantity = quantity;
+                    right.available_quantity_dispUnit = rightDocument.getDispUnit(quantity);
+
+                    cb(null, right);
+                });
+            });
+
+
+        }, function(err, output) {
+
             service.outcome.success = true;
             service.deferred.resolve(output);
-            
-        }).catch(service.notFound);
+        });
     }
     
     
@@ -96,7 +103,7 @@ exports = module.exports = function(services, app)
     
     
     /**
-     * Call the calendar events list service
+     * Call the account rights list service
      * 
      * @param {Object} params
      * 

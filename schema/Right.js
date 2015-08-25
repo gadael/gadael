@@ -83,6 +83,8 @@ exports = module.exports = function(params) {
 
     /**
      * Get renewal by date interval or null if no renewal
+     * requests straddling two periods are not allowed
+     *
      * @param {Date} dtstart
      * @param {Date} dtend
      * @returns {Promise} q
@@ -95,7 +97,6 @@ exports = module.exports = function(params) {
         this.getRenewalsQuery()
             .where('start').lte(dtstart)
             .where('finish').gte(dtend)
-        //    .populate('right')
             .exec(function(err, arr) {
             
                 if (err) {
@@ -107,7 +108,7 @@ exports = module.exports = function(params) {
                     deferred.resolve(null);
                     return;   
                 }
-            
+
                 deferred.resolve(arr[0]);
             });
         
@@ -162,6 +163,31 @@ exports = module.exports = function(params) {
     };
 
     
+    /**
+     * Validate right rules
+     * return false if one of the rules is not appliquable (ex: for request date when the request does not exists)
+     *
+     * @param {RightRenewal} renewal        Right renewal
+     * @param {User}         user           Request appliquant
+     * @param {Date}         dtstart        Request start date
+     * @param {Date}         dtend          Request end date
+     * @param {Date}         [timeCreated]  Request creation date
+     * @return {boolean}
+     */
+    rightSchema.methods.validateRules = function(renewal, user, dtstart, dtend, timeCreated) {
+
+        if (undefined === timeCreated) {
+            timeCreated = new Date();
+        }
+
+        for(var i=0; i<this.rules.length; i++) {
+            if (!this.rules[i].validateRule(renewal, user, dtstart, dtend, timeCreated)) {
+                return false;
+            }
+        }
+
+        return true;
+    };
     
 	
 	params.db.model('Right', rightSchema);

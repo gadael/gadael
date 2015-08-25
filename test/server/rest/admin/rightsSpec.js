@@ -171,12 +171,17 @@ describe('vacations rights admin rest service', function() {
     });
 
 
-    it('get the created right and add one rule', function(done) {
+    it('get the created right and add seniority rule', function(done) {
 
         expect(right).toBeDefined();
 
         server.get('/rest/admin/rights/'+right, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body.rules).toBeDefined();
+            if (!body.rules) {
+                return done();
+            }
+
             expect(body.rules.length).toEqual(2);
 
             var edit = body;
@@ -186,7 +191,7 @@ describe('vacations rights admin rest service', function() {
 
             edit.rules.push({
                 type: 'seniority',
-                title: 'Last 5 years',
+                title: 'Accessible on the last 5 years before retirment',
                 interval: {
                     min: 5,
                     max: 0
@@ -204,12 +209,17 @@ describe('vacations rights admin rest service', function() {
 
 
 
-    it('get the created right and remove one rule', function(done) {
+    it('get the created right and remove the seniority rule', function(done) {
 
         expect(right).toBeDefined();
 
         server.get('/rest/admin/rights/'+right, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body.rules).toBeDefined();
+            if (!body.rules) {
+                return done();
+            }
+
             expect(body.rules.length).toEqual(3);
 
             var edit = body;

@@ -120,22 +120,18 @@ exports = module.exports = function(params) {
      *
      * @param {RightRenewal} renewal      Right renewal
      * @param {User}         user         Request appliquant
-     * @param {Request}      [request]    Request document with populated user.id field
+     * @param {Date}         dtstart        Request start date
+     * @param {Date}         dtend          Request end date
+     * @param {Date}         [timeCreated]  Request creation date
      * @return {boolean}
      */
-    rightRuleSchema.methods.validateAll = function(renewal, user, request) {
+    rightRuleSchema.methods.validateRule = function(renewal, user, dtstart, dtend, timeCreated) {
 
-        if (undefined === request) {
-            request = {
-                timeCreated: new Date(),
-                events: []
-            };
-        }
 
         switch(this.type) {
-            case 'seniority':       return this.validateSeniority(request.events, user);
-            case 'entry_date':      return this.validateEntryDate(request.timeCreated, renewal);
-            case 'request_period':    return this.validateRequestDate(request.events, renewal);
+            case 'seniority':       return this.validateSeniority(dtstart, dtend, user);
+            case 'entry_date':      return this.validateEntryDate(timeCreated, renewal);
+            case 'request_period':  return this.validateRequestDate(dtstart, dtend, renewal);
         }
 
         return false;
@@ -145,18 +141,19 @@ exports = module.exports = function(params) {
     /**
      * test validity from the seniority date
      * the seniority date is the previsional retirment date
-     * @param {Array}           events        request events
-     * @param {User}            user
+     * @param {Date}         dtstart        Request start date
+     * @param {Date}         dtend          Request end date
+     * @param {User}         user
      *
      * @return {boolean}
      */
-    rightRuleSchema.methods.validateSeniority = function(events, user) {
+    rightRuleSchema.methods.validateSeniority = function(dtstart, dtend, user) {
 
         if (undefined === user.populated('roles.account')) {
             throw new Error('The roles.account field need to be populated');
         }
 
-        if (0 === events.length) {
+        if (undefined === dtstart || null === dtstart) {
             return false;
         }
 
@@ -168,23 +165,19 @@ exports = module.exports = function(params) {
 
 
 
-        var evt, min, max;
+        var min, max;
 
-        min = new Date(events[0].dtstart);
-        max = new Date(events[0].dtstart);
-
-        for(var i=0; i<events.length; i++) {
-            evt = events[i];
+        min = new Date(seniority);
+        max = new Date(seniority);
 
 
+        min.setFullYear(min.getFullYear() - this.interval.min);
+        max.setFullYear(max.getFullYear() - this.interval.max);
 
-            min.setFullYear(min.getFullYear() - this.interval.min);
-            max.setFullYear(max.getFullYear() - this.interval.max);
-
-            if (evt.dtstart < min || evt.dtend > max) {
-                return false;
-            }
+        if (dtstart < min || dtend > max) {
+            return false;
         }
+
 
         return true;
     };
@@ -209,24 +202,21 @@ exports = module.exports = function(params) {
 
     /**
      * Test validity of all events in a request
-     * @param {Array} events
+     * @param {Date}         dtstart        Request start date
+     * @param {Date}         dtend          Request end date
      * @param {RightRenewal} renewal
      * @return {boolean}
      */
-    rightRuleSchema.methods.validateRequestDate = function(events, renewal) {
+    rightRuleSchema.methods.validateRequestDate = function(dtstart, dtend, renewal) {
 
-        if (0 === events.length) {
+        if (!dtstart || !dtend) {
             return false;
         }
 
         var interval = this.getInterval(renewal);
-        var evt;
 
-        for(var i=0; i<events.length; i++) {
-            evt = events[i];
-            if (evt.dtstart < interval.dtstart || evt.dtend > interval.dtend) {
-                return false;
-            }
+        if (dtstart < interval.dtstart || dtend > interval.dtend) {
+            return false;
         }
 
         return true;
