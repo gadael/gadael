@@ -27,6 +27,9 @@ exports = module.exports = function(params) {
         },
         statusLog: [params.embeddedSchemas.StatusLog],
 
+        // date used to compute quantity on the first renewal (if this date is in the renewal interval)
+        arrival: Date,
+
         // start date for seniority vacation rights
         seniority: Date,
 
