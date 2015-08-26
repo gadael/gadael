@@ -75,6 +75,10 @@ describe('beneficiaries rest service', function() {
 
 
 
+
+
+
+
     it('create account 1', function(done) {
         server.post('/rest/admin/users', {
             firstname: 'beneficiaries',
@@ -176,6 +180,37 @@ describe('beneficiaries rest service', function() {
             if (body.length > 0) {
                 expect(body[0].right._id).toEqual(right1._id);
             }
+            done();
+        });
+    });
+
+
+    it('verify that a right without renewal is not accessible for an absence request creation', function(done) {
+
+        server.get('/rest/admin/accountrights', {
+            user: user1._id,
+            dtstart:today.toISOString(),
+            dtend:tomorrow.toISOString()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(0);
+            done();
+        });
+    });
+
+
+
+    it('create renewal 1', function(done) {
+        server.post('/rest/admin/rightrenewals', {
+            right: right1._id,
+            start: new Date(2015,0,1),
+            finish: new Date(2015,11,31)
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
             done();
         });
     });
