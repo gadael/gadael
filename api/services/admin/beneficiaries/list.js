@@ -35,7 +35,7 @@ exports = module.exports = function(services, app) {
      */
     function getQuery(params, next) {
 
-        if (!params.account) {
+        if (undefined === params.account) {
             return service.error('The account parameter is mandatory');
         }
 

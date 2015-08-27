@@ -31,14 +31,6 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    it('request beneficiaries list as anonymous', function(done) {
-        server.get('/rest/admin/beneficiaries', {}, function(res) {
-            expect(res.statusCode).toEqual(401);
-            done();
-        });
-    });
-
-
     it('Create admin session', function(done) {
         server.createAdminSession().then(function() {
             done();
@@ -46,10 +38,64 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    it('request beneficiaries list as admin', function(done) {
-        server.get('/rest/admin/beneficiaries', {}, function(res, body) {
+    it('create account 1', function(done) {
+        server.post('/rest/admin/users', {
+            firstname: 'beneficiaries',
+            lastname: 'Test',
+            email: 'beneficiary_user1@example.com',
+            department: null,
+            setpassword: true,
+            newpassword: 'secret',
+            newpassword2: 'secret',
+            isActive: true,
+            isAccount: true,
+            roles: {
+                account: {
+                }
+            }
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(0); // no default beneficiaries
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            user1 = body;
+            delete user1.$outcome;
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('request beneficiaries list as anonymous', function(done) {
+        server.get('/rest/admin/beneficiaries', { account: user1.roles.account }, function(res) {
+            expect(res.statusCode).toEqual(401);
+            done();
+        });
+    });
+
+
+
+
+
+    it('login as admin', function(done) {
+        server.createAdminSession().then(function() {
+            done();
+        });
+    });
+
+
+
+    it('request beneficiaries list as admin', function(done) {
+        server.get('/rest/admin/beneficiaries', { account: user1.roles.account }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(0); // no beneficiaries
             done();
         });
     });
@@ -79,32 +125,7 @@ describe('beneficiaries rest service', function() {
 
 
 
-    it('create account 1', function(done) {
-        server.post('/rest/admin/users', {
-            firstname: 'beneficiaries',
-            lastname: 'Test',
-            email: 'beneficiary_user1@example.com',
-            department: null,
-            setpassword: true,
-            newpassword: 'secret',
-            newpassword2: 'secret',
-            isActive: true,
-            isAccount: true,
-            roles: {
-                account: {
-                }
-            }
-        }, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
 
-            user1 = body;
-            delete user1.$outcome;
-
-            done();
-        });
-    });
 
 
     it('Create collection 1', function(done) {
@@ -156,6 +177,7 @@ describe('beneficiaries rest service', function() {
 
 
     it('Link right to collection with a beneficiary', function(done) {
+
         server.post('/rest/admin/beneficiaries', {
             document: collection1._id,
             right: right1,
@@ -171,7 +193,6 @@ describe('beneficiaries rest service', function() {
 
 
     it('list beneficiaries from the admin', function(done) {
-
         server.get('/rest/admin/beneficiaries', {
             account: user1.roles.account
         }, function(res, body) {
