@@ -86,11 +86,8 @@ exports = module.exports = function(params) {
      * @return {Promise} mongoose
      */
     rightSchema.methods.getAllRenewals = function() {
-        var Q = require('q');
-        var deferred = Q.defer();
-
         return this.getRenewalsQuery().exec();
-    }
+    };
 
 
     /**

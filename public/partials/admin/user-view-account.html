@@ -53,22 +53,20 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Right name</th>
-            <th class="hidden-xs">Type</th>
-            <th>Remaining</th>
-            <th class="hidden-xs hidden-sm">Used</th>
+            <th translate>Right name</th>
+            <th translate>Available quantity</th>
+            <th translate>Renewals with remaining quantity</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="accountRight in accountRights">
             <td>
-                <a ng-href="#/admin/users/{{user._id}}/rights">
-                    {{accountRight.right.name}}
+                <a ng-href="#/admin/users/{{user._id}}/rights/{{accountRight.right._id}}">
+                    <i title="{{accountRight.right.type.name}}" class="fa fa-asterisk" style="color:{{accountRight.right.type.color}}"></i> {{accountRight.right.name}}
                 </a>
             </td>
-            <td class="hidden-xs">{{accountRight.right.type.name}}</td>
-            <td>{{accountRight.currentperiod.remaining}}</td>
-            <td class="hidden-xs hidden-sm">{{accountRight.currentperiod.used}}</td>
+            <td>{{accountRight.available_quantity}} {{accountRight.available_quantity_dispUnit}}</td>
+            <td>{{accountRight.renewals.length}}</td>
         </tr>
         </tbody>
 

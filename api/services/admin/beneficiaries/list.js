@@ -35,57 +35,154 @@ exports = module.exports = function(services, app) {
      */
     function getQuery(params, next) {
 
-
+        if (!params.account) {
+            return service.error('The account parameter is mandatory');
+        }
 
         var find = service.app.db.models.Beneficiary.find({});
         find.populate('right');
 
-        if (!params || Object.getOwnPropertyNames(params).length === 0) {
-            return next( find);
-        }
+        service.app.db.models.Account
+            .findOne({ _id: params.account})
+            .populate('user.id')
+            .exec(function(err, account) {
 
-        if (null !== params.account) {
+            if (service.handleMongoError(err)) {
 
-            service.app.db.models.Account
-                .findOne({ _id: params.account})
-                .exec(function(err, account) {
+                if (null === account) {
+                    find.where('document').in([]);
+                    return next(find, account);
+                }
 
+                var docs = [account.user.id._id];
 
-                if (service.handleMongoError(err)) {
+                account.getCurrentCollection().then(function(rightCollection) {
 
-                    if (null === account) {
-                        find.where('document').in([]);
-                        return next(find);
+                    if (rightCollection) {
+                        docs.push(rightCollection._id);
                     }
 
-                    var docs = [account.user.id];
+                    find.where('document').in(docs);
+                    next(find, account);
+                });
+            }
 
-                    account.getCurrentCollection().then(function(rightCollection) {
+        });
 
-                        if (rightCollection) {
-                            docs.push(rightCollection._id);
-                        }
-
-                        find.where('document').in(docs);
-                        next(find);
-                    });
-
-                }
-            });
-
-
-            return;
-        }
-
-
-        find.where(params);
-        next(find);
     }
 
 
 
 
 
+     /**
+     *
+     * @param {Account} account
+     * @param {Array} rights array of mongoose documents
+     */
+    function resolveAccountRights(account, user, beneficiaries)
+    {
+        var async = require('async');
+
+        /**
+         * Get the promise for the available quantity
+         * @param   {Right} right
+         * @param   {RightRenewal} renewal
+         * @returns {Promise} resolve to a number
+         */
+        function getRenewalAvailableQuantity(right, renewal) {
+
+            if (account.arrival > renewal.finish) {
+                return null;
+            }
+
+            return renewal.getUserAvailableQuantity(user);
+        }
+
+
+
+        var output = [];
+
+
+        /**
+         * add renewals into the right object
+         * @param {Right} rightDocument
+         * @param {object} right
+         * @param {Array} renewals
+         * @param {function} callback
+         */
+        function processRenewals(rightDocument, beneficiary, renewals, callback)
+        {
+            async.each(renewals, function(renewalDocument, renewalCallback) {
+                var p = getRenewalAvailableQuantity(rightDocument, renewalDocument);
+
+                if (null === p) {
+                    // no error but the right is discarded in this renewal because of the rules or missing renewal
+                    return renewalCallback();
+                }
+
+                p.then(function(quantity) {
+
+                    var renewalObj = renewalDocument.toObject();
+                    renewalObj.available_quantity = quantity;
+                    beneficiary.renewals.push(renewalObj);
+                    beneficiary.available_quantity += quantity;
+
+                    renewalCallback();
+
+                }, renewalCallback);
+
+            }, callback);
+        }
+
+
+        async.each(beneficiaries, function(beneficiaryDocument, cb) {
+
+            var rightDocument = beneficiaryDocument.right;
+            var beneficiary = beneficiaryDocument.toObject();
+            beneficiary.disp_unit = rightDocument.getDispUnit();
+
+
+            rightDocument.getAllRenewals().then(function(renewals) {
+
+                /**
+                 * Store available quantity for each accessibles renewals
+                 * renewals with right rules not verified will not be included
+                 */
+                beneficiary.renewals = [];
+
+                /**
+                 * Sum of quantities from the accessibles renewals
+                 */
+                beneficiary.available_quantity = 0;
+
+                processRenewals(rightDocument, beneficiary, renewals, function done(err) {
+
+                    if (err) {
+                        return cb(err);
+                    }
+
+                    if (beneficiary.renewals.length > 0) {
+                        beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.available_quantity);
+                        output.push(beneficiary);
+                    }
+
+                    cb();
+                });
+
+            });
+
+
+        }, function(err) {
+
+            if (err) {
+                return service.error(err);
+            }
+
+            service.outcome.success = true;
+            service.deferred.resolve(output);
+        });
+    }
 
 
 
@@ -102,12 +199,11 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
-        getQuery(params, function(query) {
+        getQuery(params, function(query, account) {
 
             query.select('right document ref');
             query.sort('right.name');
 
-            //var query = getQuery(service, params);
             var populatedTypePromises = [];
 
             service.resolveQuery(
@@ -127,11 +223,10 @@ exports = module.exports = function(services, app) {
 
                         Q.all(populatedTypePromises).then(function() {
 
-                            service.outcome.success = true;
-                            service.deferred.resolve(docs);
-                        }).catch(function(err) {
+                            resolveAccountRights(account, account.user.id, docs);
 
-                            console.log(err);
+                        }).catch(function(err) {
+                            service.error(err.message);
                         });
                     }
                 }
