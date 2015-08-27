@@ -179,7 +179,7 @@ describe('account arrival', function() {
     });
 
 
-    it('verify that a right is not accessible before arrival date', function(done) {
+    it('verify that a right renewal is not accessible before arrival date', function(done) {
 
         server.get('/rest/admin/accountrights', {
             user: user1._id,
@@ -192,23 +192,6 @@ describe('account arrival', function() {
         });
     });
 
-
-
-
-
-
-    it('verify that a right is accessible after arrival date', function(done) {
-
-         server.get('/rest/admin/accountrights', {
-            user: user1._id,
-            dtstart:new Date(2016, 1, 1).toISOString(),
-            dtend:new Date(2016, 1, 2).toISOString()
-        }, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(1);
-            done();
-        });
-    });
 
 
 
@@ -234,8 +217,6 @@ describe('account arrival', function() {
 
     it('verify that a right quantity is modified if the arrival date is in the renewal period', function(done) {
 
-
-
          server.get('/rest/admin/accountrights', {
             user: user1._id,
             dtstart:new Date(2016, 1, 1).toISOString(),
@@ -243,9 +224,9 @@ describe('account arrival', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            expect(body[0].quantity).toBeDefined();
-            expect(body[0].quantity).not.toBe(0);
-            expect(body[0].quantity).not.toBe(10);
+            var renewal = body[0].renewals[0];
+            expect(body[0].available_quantity).toBe(6);
+            expect(renewal.available_quantity).toBe(6);
             done();
         });
     });

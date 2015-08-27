@@ -120,6 +120,9 @@ exports = module.exports = function(params) {
     /**
      * Get a user initial quantity 
      * default right quantity + adjustments on renewal
+     * The default quantity from right is accessible only after the account arrival date
+     * for renewals straddling the arrival date, the quantiy is computed using the percentage of account valid time
+     *
      * @todo duplicated with accountRight object
      * 
      * @param {User} user
@@ -134,7 +137,35 @@ exports = module.exports = function(params) {
         
         Q.all([renewal.getRightPromise(), renewal.getUserAdjustmentQuantity(user)])
             .then(function(arr) {
-                deferred.resolve(arr[0].quantity + arr[1]);
+
+                /**
+                 * Default right quantity available for the renewal
+                 * if the user account arrival date is > renewal.start
+                 * a pro rata of the quantity is computed for the default quantity
+                 * @var {Number}
+                 */
+                var rightQuantity = arr[0].quantity;
+
+                /**
+                 * @var {Number}
+                 */
+                var userAdjustment = arr[1];
+
+                if (user.roles.account.arrival > renewal.finish) {
+                    // this will not be used via the REST API because invalid renewal are disacarded before
+                    return deferred.resolve(0);
+                }
+
+
+                if (user.roles.account.arrival > renewal.start) {
+                    var renewalDuration = renewal.finish.getTime() - renewal.start.getTime();
+                    var availableDuration = renewal.finish.getTime() - user.roles.account.arrival.getTime();
+
+                    rightQuantity = Math.round(rightQuantity * availableDuration / renewalDuration);
+                }
+
+
+                deferred.resolve(rightQuantity + userAdjustment);
             })
             .catch(deferred.reject);
             

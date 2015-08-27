@@ -46,6 +46,10 @@ exports = module.exports = function(services, app)
                 return null;
             }
 
+            if (user.roles.account.arrival > renewal.finish) {
+                return null;
+            }
+
             return renewal.getUserAvailableQuantity(user);
         }
 
