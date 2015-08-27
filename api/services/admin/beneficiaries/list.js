@@ -30,14 +30,11 @@ exports = module.exports = function(services, app) {
      * Create the query with filters
      *
      * @param {array} params      query parameters if called by controller
+     * @param {function} next
      *
-     * @return {Promise} resolve to query
      */
     function getQuery(params, next) {
 
-        if (undefined === params.account) {
-            return service.error('The account parameter is mandatory');
-        }
 
         var find = service.app.db.models.Beneficiary.find({});
         find.populate('right');
@@ -162,10 +159,8 @@ exports = module.exports = function(services, app) {
                         return cb(err);
                     }
 
-                    if (beneficiary.renewals.length > 0) {
-                        beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.available_quantity);
-                        output.push(beneficiary);
-                    }
+                    beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.available_quantity);
+                    output.push(beneficiary);
 
                     cb();
                 });
@@ -178,6 +173,8 @@ exports = module.exports = function(services, app) {
             if (err) {
                 return service.error(err);
             }
+
+
 
             service.outcome.success = true;
             service.deferred.resolve(output);
@@ -199,6 +196,13 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
+        if (undefined === params || !params.account) {
+            service.error('The account parameter is mandatory');
+            return service.deferred.promise;
+        }
+
+
+
         getQuery(params, function(query, account) {
 
             query.select('right document ref');
@@ -214,6 +218,8 @@ exports = module.exports = function(services, app) {
                     {
                         // populate type in right, wait for resolution of all promises before
                         // resolving the service
+
+
 
                         for(var i=0; i<docs.length; i++) {
                             var deferred = Q.defer();

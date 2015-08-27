@@ -30,8 +30,14 @@ describe('users admin API service', function UsersTestSuite() {
 
     it("request beneficiaries list", function(done) {
         var list = app.getService('admin/beneficiaries/list');
-        list.getResultPromise().then(function(val) {
-            expect(list.httpstatus).toEqual(200);
+        list.getResultPromise({ account: null }).then(function(val) {
+            // not used
+            expect(list.httpstatus).toEqual(500);
+            done();
+        }, function(err) {
+            // account is mandatory parameter
+            // the promise will return error
+            expect(list.httpstatus).toEqual(500);
             done();
         });
 	});
