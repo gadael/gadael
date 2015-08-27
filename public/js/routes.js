@@ -214,6 +214,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminUserView'
 		});
         
+        $routeProvider.when('/admin/beneficiaries/:id', {
+			templateUrl: 'partials/admin/beneficiary-edit.html',
+			controller: 'AdminBeneficiaryEdit'
+		});
+
         $routeProvider.when('/admin/users/:id/account-collections', {
 			templateUrl: 'partials/admin/account-collections-edit.html',
 			controller: 'AdminAccountCollectionsEdit'

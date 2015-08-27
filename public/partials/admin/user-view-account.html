@@ -59,20 +59,20 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="accountRight in accountRights">
+        <tr ng-repeat="beneficiary in beneficiaries">
             <td>
-                <a ng-href="#/admin/users/{{user._id}}/rights/{{accountRight.right._id}}">
-                    <i title="{{accountRight.right.type.name}}" class="fa fa-asterisk" style="color:{{accountRight.right.type.color}}"></i> {{accountRight.right.name}}
+                <a ng-href="#/admin/beneficiaries/{{beneficiary._id}}?user={{user._id}}">
+                    <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}
                 </a>
             </td>
-            <td>{{accountRight.available_quantity}} {{accountRight.available_quantity_dispUnit}}</td>
-            <td>{{accountRight.renewals.length}}</td>
+            <td>{{beneficiary.available_quantity}} {{beneficiary.available_quantity_dispUnit}}</td>
+            <td>{{beneficiary.renewals.length}}</td>
         </tr>
         </tbody>
 
     </table>
     
-    <div class="alert alert-danger" role="alert" ng-if="!accountRights.length">
+    <div class="alert alert-danger" role="alert" ng-if="!beneficiaries.length">
         <span translate>This user has no configured vacation rights for the current period</span>
     </div>
 </div>

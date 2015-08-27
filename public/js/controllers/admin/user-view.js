@@ -28,13 +28,13 @@ define([], function() {
                     
                     var account = $scope.user.roles.account;
                     
-                    $scope.accountRights = beneficiaries.query({ account: account._id });
+                    $scope.beneficiaries = beneficiaries.query({ account: account._id });
                     $scope.accountCollections = accountCollection.query({ account: account._id });
                     $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: account._id });
 
                    
                 } else {
-                    $scope.accountRights = [];
+                    $scope.beneficiaries = [];
                     $scope.accountCollections = [];
                     $scope.seniority_years = 0;
                 }
