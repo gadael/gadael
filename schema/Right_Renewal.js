@@ -223,6 +223,27 @@ exports = module.exports = function(params) {
     };
     
     
+    /**
+     * Get a user available, consumed and initial quantity
+     *
+     * @param {User} user
+     * @returns {Promise} resolve to an object
+     */
+    rightRenewalSchema.methods.getUserQuantityStats = function(user) {
+         var Q = require('q');
+        var deferred = Q.defer();
+        Q.all([this.getUserQuantity(user), this.getUserConsumedQuantity(user)]).then(function(arr) {
+            deferred.resolve({
+                initial: arr[0],
+                consumed: arr[1],
+                available: (arr[0] - arr[1])
+            });
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+    };
+
+
     params.db.model('RightRenewal', rightRenewalSchema);
     
     
