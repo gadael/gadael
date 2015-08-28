@@ -74,7 +74,8 @@ exports = module.exports = function(services, app) {
                                         return service.error(err);
                                     }
 
-                                    beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.available_quantity);
+                                    beneficiary.right.quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.quantity);
+                                    beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.available_quantity);
 
                                     service.outcome.success = true;
                                     service.deferred.resolve(beneficiary);
