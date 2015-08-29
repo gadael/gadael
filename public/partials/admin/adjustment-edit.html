@@ -1,0 +1,42 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Change the initial quantity</h2>
+            </div>
+            <div class="modal-body">
+
+                <div class="row col-xs-12">
+                    <p translate>Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|date}}</p>
+                </div>
+
+                <form role="form">
+
+                    <div class="form-group">
+                        <label for="adjustment_quantity" translate>Adjustment</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="adjustment_quantity" ng-model="quantity" step="any" />
+                            <span class="input-group-addon">{{renewal.initial_quantity_dispUnit}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="available_quantity" translate>Available quantity</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="available_quantity" ng-model="available_quantity" step="any" />
+                            <span class="input-group-addon">{{renewal.initial_quantity_dispUnit}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adjustment_description" translate>Justification, write about this manual adjustment</label>
+                        <textarea class="form-control" id="adjustment_description" ng-model="description"></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" ng-click="save()" translate>Save</button>
+                    <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

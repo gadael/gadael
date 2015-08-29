@@ -53,6 +53,7 @@ define(function() {
                 personalevents          : init('admin/personalevents/:id'),
                 collections             : init('admin/collections/:id'),
                 departments             : init('admin/departments/:id'),
+                adjustments             : init('admin/adjustments/:id'),
                 rightrenewals           : init('admin/rightrenewals/:id'),
                 rightrules              : init('admin/rightrules/:id'),
                 rights                  : init('admin/rights/:id'),

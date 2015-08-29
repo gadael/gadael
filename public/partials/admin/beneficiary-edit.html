@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-3">
+    <div class="col-sm-3">
 
         <img class="img-rounded" ng-if="user.image" ng-src="{{user.image}}" />
         <i class="top15 glyphicon glyphicon-user text-muted fa-5x" ng-if="!user.image"></i>
@@ -17,10 +17,18 @@
     <div class="col-xs-12 col-sm-9">
 
         <div class="row panel panel-primary">
-            <div class="col-xs-12">
-                <h2>{{beneficiary.right.name}}</h2>
+
+            <h2 class="col-sm-12"><a href="#/admin/rights/{{beneficiary.right._id}}">{{beneficiary.right.name}}</a></h2>
+
+            <div class="col-sm-8">
                 <p><span translate>Type:</span> {{beneficiary.right.type.name}}</p>
                 <p><span translate>Default quantity on start renewal:</span> {{beneficiary.right.quantity | number}} {{beneficiary.right.quantity_dispUnit}}</p>
+            </div>
+
+            <div class="col-sm-4">
+                <p ng-if="beneficiary.right.require_approval"><span translate>Require approval</span></p>
+                <p ng-if="!beneficiary.right.require_approval"><span translate>Do not require approval</span></p>
+                <p>{{beneficiary.right.rules.length}} rules</p>
             </div>
         </div>
 
@@ -29,16 +37,20 @@
         <div class="inga-list-rows">
             <div class="row" ng-repeat="renewal in beneficiary.renewals">
 
-                <dl class="dl-horizontal col-md-6">
+                <dl class="dl-horizontal col-md-4">
                     <dt translate>From:</dt>    <dd>{{renewal.start|date}}</dd>
                     <dt translate>To:</dt>      <dd>{{renewal.finish|date}}</dd>
                 </dl>
 
-                <dl class="dl-horizontal col-md-6">
-                    <dt translate>Initial quantity:</dt>    <dd>{{renewal.initial_quantity}} {{renewal.initial_quantity_dispUnit}}</dd>
-                    <dt translate>Consumed quantity:</dt>   <dd>{{renewal.consumed_quantity}} {{renewal.consumed_quantity_dispUnit}}</dd>
-                    <dt translate>Available quantity:</dt>  <dd>{{renewal.available_quantity}} {{renewal.available_quantity_dispUnit}}</dd>
+                <dl class="dl-horizontal col-md-4">
+                    <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity}} {{renewal.initial_quantity_dispUnit}}</dd>
+                    <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity}} {{renewal.consumed_quantity_dispUnit}}</dd>
+                    <dt translate>Available:</dt>  <dd>{{renewal.available_quantity}} {{renewal.available_quantity_dispUnit}}</dd>
                 </dl>
+
+                <div class="col-md-4">
+                    <button class="btn btn-primary" ng-click="addAdjustment(renewal);"><i class="fa fa-plus"></i> Add a quantity adjustment</button>
+                </div>
             </div>
         </div>
     </div>

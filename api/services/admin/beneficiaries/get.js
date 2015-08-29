@@ -47,53 +47,55 @@ exports = module.exports = function(services, app) {
                     {
                         if (document) {
 
-                            var processRenewals = require('./renewals')(account.user.id, account);
+                            document.right.populate('type', function() {
+
+                                var processRenewals = require('./renewals')(account.user.id, account);
 
 
-                            var rightDocument = document.right;
-                            var beneficiary = document.toObject();
-                            beneficiary.disp_unit = rightDocument.getDispUnit();
+                                var rightDocument = document.right;
+                                var beneficiary = document.toObject();
+                                beneficiary.disp_unit = rightDocument.getDispUnit();
 
 
-                            rightDocument.getAllRenewals().then(function(renewals) {
+                                rightDocument.getAllRenewals().then(function(renewals) {
 
-                                /**
-                                 * Store available quantity for each accessibles renewals
-                                 * renewals with right rules not verified will not be included
-                                 */
-                                beneficiary.renewals = [];
+                                    /**
+                                     * Store available quantity for each accessibles renewals
+                                     * renewals with right rules not verified will not be included
+                                     */
+                                    beneficiary.renewals = [];
 
-                                /**
-                                 * Sum of quantities from the accessibles renewals
-                                 */
-                                beneficiary.initial_quantity = 0;
+                                    /**
+                                     * Sum of quantities from the accessibles renewals
+                                     */
+                                    beneficiary.initial_quantity = 0;
 
-                                /**
-                                 * Sum of quantities from the accessibles renewals
-                                 */
-                                beneficiary.consumed_quantity = 0;
+                                    /**
+                                     * Sum of quantities from the accessibles renewals
+                                     */
+                                    beneficiary.consumed_quantity = 0;
 
-                                /**
-                                 * Sum of quantities from the accessibles renewals
-                                 */
-                                beneficiary.available_quantity = 0;
+                                    /**
+                                     * Sum of quantities from the accessibles renewals
+                                     */
+                                    beneficiary.available_quantity = 0;
 
-                                processRenewals(rightDocument, beneficiary, renewals, function done(err) {
+                                    processRenewals(rightDocument, beneficiary, renewals, function done(err) {
 
-                                    if (err) {
-                                        return service.error(err);
-                                    }
+                                        if (err) {
+                                            return service.error(err);
+                                        }
 
-                                    beneficiary.right.quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.quantity);
+                                        beneficiary.right.quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.quantity);
 
 
-                                    service.outcome.success = true;
-                                    service.deferred.resolve(beneficiary);
+                                        service.outcome.success = true;
+                                        service.deferred.resolve(beneficiary);
+                                    });
+
                                 });
 
                             });
-
-
 
                         } else {
                             service.notFound(gt.gettext('This beneficiary does not exists for account or collection'));
