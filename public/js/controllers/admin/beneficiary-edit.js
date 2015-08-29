@@ -45,6 +45,16 @@ define([], function() {
             modalscope.adjustment.quantity = 0;
             modalscope.adjustment.comment = '';
 
+            modalscope.adjustment.available_quantity = renewal.available_quantity;
+
+
+            modalscope.setAdjustmentQuantity = function setAdjustmentQuantity() {
+                modalscope.adjustment.available_quantity = renewal.available_quantity + modalscope.adjustment.quantity;
+            };
+
+            modalscope.setAvailableQuantity = function setAvailableQuantity() {
+                modalscope.adjustment.quantity = modalscope.adjustment.available_quantity - renewal.available_quantity;
+            };
 
             var modal = $modal({
                 scope: modalscope,

@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Change the initial quantity</h2>
+                <h2><i class="fa fa-pencil-square-o"></i> <span translate>Change the initial quantity</span></h2>
             </div>
             <div class="modal-body">
 
@@ -13,27 +13,27 @@
                 <form role="form">
 
                     <div class="form-group">
-                        <label for="adjustment_quantity" translate>Adjustment</label>
+                        <label for="adjustment_quantity" translate>Set the adjustment quantity</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="adjustment_quantity" ng-model="quantity" step="any" />
+                            <input type="number" class="form-control" id="adjustment_quantity" ng-model="adjustment.quantity" ng-change="setAdjustmentQuantity()" step="any" />
                             <span class="input-group-addon">{{renewal.initial_quantity_dispUnit}}</span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="available_quantity" translate>Available quantity</label>
+                        <label for="_available_quantity" translate>Or set the available quantity</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="available_quantity" ng-model="available_quantity" step="any" />
+                            <input type="number" class="form-control" id="_available_quantity" ng-model="adjustment.available_quantity" ng-change="setAvailableQuantity()" step="any" />
                             <span class="input-group-addon">{{renewal.initial_quantity_dispUnit}}</span>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="adjustment_description" translate>Justification, write about this manual adjustment</label>
-                        <textarea class="form-control" id="adjustment_description" ng-model="description"></textarea>
+                        <textarea class="form-control" id="adjustment_description" ng-model="adjustment.description"></textarea>
                     </div>
 
-                    <button class="btn btn-primary" ng-click="save()" translate>Save</button>
+                    <button class="btn btn-primary" ng-click="save()" translate><i class="fa fa-save"></i> Save</button>
                     <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
                 </form>
             </div>
