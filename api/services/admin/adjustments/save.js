@@ -8,55 +8,56 @@
  * @param {Object} params
  */
 function validate(service, params) {
-    
-    if (service.needRequiredFields(params, ['right', 'document', 'ref'])) {
+
+    if (service.needRequiredFields(params, ['right', 'user', 'quantity', 'userCreated'])) {
         return;
     }
-    
-    saveBeneficiary(service, params);
+
+    saveAdjustment(service, params);
 }
 
 
 
-    
-    
+
+
 /**
- * Update/create the Beneficiary document
- * 
+ * Update/create the Adjustment document
+ *
  * @param {saveItemService} service
  * @param {Object} params
- */  
-function saveBeneficiary(service, params) {
-    
+ */
+function saveAdjustment(service, params) {
+
     var Gettext = require('node-gettext');
     var gt = new Gettext();
 
 
-    var Beneficiary = service.app.db.models.Beneficiary;
+    var Adjustment = service.app.db.models.Adjustment;
     var util = require('util');
-    
+
 
     if (params._id) {
-                       
 
-        Beneficiary.findById(params._id, function(err, document) {
+
+        Adjustment.findById(params._id, function(err, document) {
             if (service.handleMongoError(err)) {
                 if (null === document) {
-                    service.notFound(util.format(gt.gettext('beneficiary document not found for id %s'), params.id));
+                    service.notFound(util.format(gt.gettext('Adjustment document not found for id %s'), params.id));
                     return;
                 }
-                
+
                 document.right 	  = params.right._id;
-                document.ref 	  = params.ref;
-                document.document = params.document;
+                document.user 	  = params.user._id;
+                document.quantity = params.quantity;
+                document.comment  = params.comment;
 
                 document.save(function (err) {
 
                     if (service.handleMongoError(err)) {
 
                         service.resolveSuccess(
-                            document, 
-                            gt.gettext('The right association has been modified')
+                            document,
+                            gt.gettext('The adjustment has been modified')
                         );
                     }
                 });
@@ -66,46 +67,51 @@ function saveBeneficiary(service, params) {
     } else {
 
 
-        Beneficiary.create({
+        Adjustment.create({
                 right: params.right._id,
-                document: params.document,
-                ref: params.ref 
+                user: params.user._id,
+                quantity: params.quantity,
+                comment: params.comment,
+                userCreated: {
+                    id: params.userCreated._id,
+                    name: params.userCreated.getName()
+                }
             }, function(err, document) {
 
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
-                    document, 
-                    gt.gettext('The right association has been created')
+                    document,
+                    gt.gettext('The quantity adjustment has been created')
                 );
             }
         });
 
     }
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
 /**
- * Construct the AccountCollection save service
+ * Construct the Adjustments save service
  * @param   {object}          services list of base classes from apiService
  * @param   {express|object}  app      express or headless app
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
-     * Call the beneficiaries save service
-     * 
+     * Call the adjustments save service
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -115,8 +121,8 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
 
