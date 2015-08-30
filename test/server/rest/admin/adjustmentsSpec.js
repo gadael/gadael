@@ -184,8 +184,8 @@ describe('adjustments rest service', function() {
     it('Create adjustment', function(done) {
 
         server.post('/rest/admin/adjustments', {
-            rightRenewal: renewal1,
-            user: user1,
+            rightRenewal: renewal1._id,
+            user: user1._id,
             quantity: -2,
             comment: 'test reduction'
         }, function(res, body) {
@@ -220,8 +220,8 @@ describe('adjustments rest service', function() {
     it('Create adjustment 2', function(done) {
 
         server.post('/rest/admin/adjustments', {
-            rightRenewal: renewal1,
-            user: user1,
+            rightRenewal: renewal1._id,
+            user: user1._id,
             quantity: 4,
             comment: 'test add'
         }, function(res, body) {

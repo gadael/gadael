@@ -46,8 +46,8 @@ function saveAdjustment(service, params) {
                     return;
                 }
 
-                document.rightRenewal = params.rightRenewal._id;
-                document.user 	      = params.user._id;
+                document.rightRenewal = params.rightRenewal;
+                document.user 	      = params.user;
                 document.quantity     = params.quantity;
                 document.comment      = params.comment;
 
@@ -68,8 +68,8 @@ function saveAdjustment(service, params) {
 
 
         Adjustment.create({
-                rightRenewal: params.rightRenewal._id,
-                user: params.user._id,
+                rightRenewal: params.rightRenewal,
+                user: params.user,
                 quantity: params.quantity,
                 comment: params.comment,
                 userCreated: {

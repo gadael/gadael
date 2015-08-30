@@ -8,7 +8,8 @@ define([], function() {
         '$routeParams',
         'Rest',
         '$modal',
-        function($scope, $location, $routeParams, Rest, $modal) {
+        'catchOutcome',
+        function($scope, $location, $routeParams, Rest, $modal, catchOutcome) {
 
         var userResource = Rest.admin.users.getResource();
         var beneficiaryResource = Rest.admin.beneficiaries.getResource();
@@ -26,6 +27,15 @@ define([], function() {
             $scope.beneficiary = beneficiaryResource.get({
                 id: $routeParams.id,
                 account: $scope.user.roles.account._id
+            });
+
+            $scope.beneficiary.$promise.then(function(beneficiary) {
+                // for each renewals, add the list of adjustments
+                beneficiary.renewals.forEach(function(r) {
+                    var adjustments = adjustmentResource.query({ rightRenewal: r._id, user: $scope.user._id }, function() {
+                        r.adjustments = adjustments;
+                    });
+                });
             });
         });
 
@@ -68,7 +78,7 @@ define([], function() {
             };
 
             modalscope.save = function() {
-                modalscope.adjustment.$save();
+                catchOutcome(modalscope.adjustment.$create()).then(modal.hide);
             };
         };
 

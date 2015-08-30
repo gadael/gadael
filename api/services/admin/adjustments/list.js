@@ -36,8 +36,11 @@ exports = module.exports = function(services, app) {
 
 
         var find = service.app.db.models.Adjustment.find({});
-        find.populate('right');
         find.where('user', params.user);
+
+        if (undefined !== params.rightRenewal) {
+            find.where('rightRenewal', params.rightRenewal);
+        }
 
         next(find);
 
