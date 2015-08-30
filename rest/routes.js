@@ -91,6 +91,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/beneficiaries');
     controllers.add('./admin/requests');
     controllers.add('./admin/waitingrequests');
+    controllers.add('./admin/adjustments');
 
     controllers.add('./anonymous/createfirstadmin');
 	

@@ -15,7 +15,7 @@ listController.prototype = new ctrlFactory.list();
 
 
 function save() {
-    this.jsonService(this.service('admin/adjustments/save'));
+    this.jsonService(this.service('admin/adjustments/save', { userCreated: this.req.user }));
 }
 
 function createController() {

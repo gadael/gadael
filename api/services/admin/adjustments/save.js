@@ -9,7 +9,7 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['right', 'user', 'quantity', 'userCreated'])) {
+    if (service.needRequiredFields(params, ['rightRenewal', 'user', 'quantity', 'userCreated'])) {
         return;
     }
 
@@ -46,10 +46,10 @@ function saveAdjustment(service, params) {
                     return;
                 }
 
-                document.right 	  = params.right._id;
-                document.user 	  = params.user._id;
-                document.quantity = params.quantity;
-                document.comment  = params.comment;
+                document.rightRenewal = params.rightRenewal._id;
+                document.user 	      = params.user._id;
+                document.quantity     = params.quantity;
+                document.comment      = params.comment;
 
                 document.save(function (err) {
 
@@ -68,7 +68,7 @@ function saveAdjustment(service, params) {
 
 
         Adjustment.create({
-                right: params.right._id,
+                rightRenewal: params.rightRenewal._id,
                 user: params.user._id,
                 quantity: params.quantity,
                 comment: params.comment,
