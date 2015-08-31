@@ -250,7 +250,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('default', [ 'jshint:server', 'nodemon']);
-  grunt.registerTask('build', [ 'copy:fonts', 'cssmin', 'jsdoc']);
+  grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('testold', ['karma', 'jasmine_node']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);

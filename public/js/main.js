@@ -63,7 +63,7 @@ require( [
 	'routes',
 	'angularstraptpl',
 	'angular_frfr',
-	'angularAnimate',
+//	'angularAnimate',
 	'angularSanitize',
     'angularTeleperiod'
 	], 

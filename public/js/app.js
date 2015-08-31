@@ -31,7 +31,7 @@ define([
 		'http-auth-interceptor',
 		'begriffs.paginate-anything',
 		'vr.directives.passwordStrength.width',
-		'ngAnimate', 
+	//	'ngAnimate',
 		'ngSanitize',
 		'mgcrea.ngStrap',
         'tpTeleperiod',
