@@ -13,7 +13,8 @@ define([
 	'paginateAnything',
 	'passwordStrength',
     'angularColorpicker',
-    'angularImageCrop'
+    'angularImageCrop',
+    'angularnvd3'
 	], 
 	
 	function (angular, jsondates) {
@@ -36,7 +37,8 @@ define([
 		'mgcrea.ngStrap',
         'tpTeleperiod',
         'colorpicker.module',
-        'ImageCropper'
+        'ImageCropper',
+        'nvd3ChartDirectives'
 	]);
     
     

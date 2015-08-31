@@ -13,7 +13,6 @@
     </div>
 
 
-
     <div class="col-xs-12 col-sm-9">
 
         <div class="row panel panel-primary">
@@ -32,6 +31,19 @@
             </div>
         </div>
 
+        <div class="hidden-md hidden-sm hidden-xs">
+            <nvd3-line-chart
+                data="exampleData"
+                width="850"
+                height="200"
+                showXAxis="true"
+                showYAxis="true"
+                isArea="false"
+                interpolate="cardinal"
+                >
+                    <svg></svg>
+            </nvd3-line-chart>
+        </div>
 
         <div class="row panel panel-default" ng-repeat="renewal in beneficiary.renewals">
 
