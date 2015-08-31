@@ -33,13 +33,13 @@
 
         <div class="hidden-md hidden-sm hidden-xs">
             <nvd3-line-chart
-                data="exampleData"
+                data="timedAvailableQuantity"
                 width="850"
                 height="200"
                 showXAxis="true"
                 showYAxis="true"
-                isArea="false"
-                interpolate="cardinal"
+                isArea="true"
+                xAxisTickFormat="xAxisTickFormat_Date_Format()"
                 >
                     <svg></svg>
             </nvd3-line-chart>
