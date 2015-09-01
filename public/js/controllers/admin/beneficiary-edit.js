@@ -1,6 +1,124 @@
-define([], function() {
+define(['q'], function(Q) {
 
     'use strict';
+
+
+    /**
+     * Create graph values
+     *
+     * @param {array} renewals
+     * @param {object} adjustmentPromises   promises with adjustment id as key
+     * @param {Promise} requestsPromise
+     * @param {function} next
+     *
+     * @todo Monthly updates
+     */
+    function createGraphValues(renewals, adjustmentPromises, requestsPromise, next)
+    {
+        var history = [];
+
+        /**
+         * renewals and adjustements by date
+         */
+        function buildRenewalsWithAdjustments() {
+
+            var deferred = Q.defer();
+            var lastRenewalId = renewals[renewals.length-1]._id;
+
+            renewals.forEach(function(r) {
+                history.push({
+                    position: r.start,
+                    add: r.initial_quantity
+                });
+
+                adjustmentPromises[r._id].then(function(adjustments) {
+                    adjustments.forEach(function(adjustment) {
+                        history.push({
+                            position: adjustment.timeCreated,
+                            add: adjustment.quantity
+                        });
+                    });
+
+                    if (0 === adjustments.length || adjustments[0].rightRenewal === lastRenewalId) {
+                        deferred.resolve();
+                    }
+                });
+            });
+
+            return deferred.promise;
+        }
+
+
+        function getElem(request)
+        {
+            if (undefined === request.absence || undefined === request.absence.distribution) {
+                return null;
+            }
+
+            var elem;
+            for(var i=0; i<request.absence.distribution.length; i++) {
+                elem = request.absence.distribution[i];
+                if (elem.right.id === renewals[0].right._id) {
+                    return elem;
+                }
+            }
+
+            return null;
+        }
+
+
+        /**
+         * requests by date
+         */
+        function buildRequests() {
+            var deferred = Q.defer();
+
+            requestsPromise.then(function(requests) {
+                requests.forEach(function(r) {
+                    var elem = getElem(r);
+                    if (null === elem) {
+                        return;
+                    }
+
+                    history.push({
+                        position: r.timeCreated,
+                        add: (-1 * elem.consumedQuantity)
+                    });
+                });
+
+                deferred.resolve();
+            });
+
+            return deferred.promise;
+        }
+
+
+
+
+        Q.all([buildRenewalsWithAdjustments(), buildRequests()]).then(function() {
+
+            history.sort(function (a, b) {
+                if (a.position > b.position) {
+                    return 1;
+                }
+                if (a.position < b.position) {
+                    return -1;
+                }
+                return 0;
+            });
+
+            var graph = [];
+            var current_quantity = 0;
+            history.forEach(function(element) {
+                current_quantity += element.add;
+                graph.push([element.position, current_quantity]);
+            });
+
+            next(graph);
+        });
+    }
+
+
 
 	return [
         '$scope',
@@ -14,7 +132,7 @@ define([], function() {
         var userResource = Rest.admin.users.getResource();
         var beneficiaryResource = Rest.admin.beneficiaries.getResource();
         var adjustmentResource = Rest.admin.adjustments.getResource();
-
+        var requestResource = Rest.admin.requests.getResource();
 
 
 
@@ -30,26 +148,37 @@ define([], function() {
             });
 
             $scope.beneficiary.$promise.then(function(beneficiary) {
+
+                var adjustmentPromises = {};
+
                 // for each renewals, add the list of adjustments
                 beneficiary.renewals.forEach(function(r) {
                     var adjustments = adjustmentResource.query({ rightRenewal: r._id, user: $scope.user._id }, function() {
                         r.adjustments = adjustments;
                     });
+
+                    adjustmentPromises[r._id] = adjustments.$promise;
+                });
+
+                var requests = requestResource.query({
+                    'user.id': $location.search().user,
+                    absence: true
+                });
+
+                createGraphValues(beneficiary.renewals, adjustmentPromises, requests.$promise, function(values) {
+                    $scope.timedAvailableQuantity = [{
+                        "key": "Available quantity",
+                        "values": values
+                    }];
                 });
             });
+
+
         });
 
 
-        $scope.timedAvailableQuantity = [{
-            "key": "Available quantity over time",
-            "values": [
-                [ new Date(2014,0,1) , 25],
-                [ new Date(2014,3,1) , 23],
-                [ new Date(2014,3,20), 22],
-                [ new Date(2014,5,1) , 18],
-                [ new Date(2014,8,1) , 10]
-            ]
-        }];
+
+
 
         $scope.xAxisTickFormat_Date_Format = function() {
             return function(d){
