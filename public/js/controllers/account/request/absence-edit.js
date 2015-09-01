@@ -20,6 +20,7 @@ define(['q'], function(Q) {
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
         var userPromise =  users.get().$promise;
+        var requestUser = null;
         
         if ($scope.request.$promise) {
             $scope.request.$promise.then(function() {
@@ -40,6 +41,8 @@ define(['q'], function(Q) {
         
 
         userPromise.then(function(user) {
+
+            requestUser = user;
             AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
 
             $scope.request.user = {
@@ -99,7 +102,7 @@ define(['q'], function(Q) {
                 dtend: $scope.selection.end
             });
 
-            var serviceAction = AbsenceEdit.getNextButtonJob($scope, accountRights);
+            var serviceAction = AbsenceEdit.getNextButtonJob($scope, requestUser, accountRights);
 
             serviceAction();
         };

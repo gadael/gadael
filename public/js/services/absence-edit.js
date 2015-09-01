@@ -108,9 +108,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          * The next button, from the period selection to the right distribution interface
          *
          * @param {object} $scope
+         * @param {object} user
          * @param {Resource} accountRights
          */
-        getNextButtonJob: function getNextButtonJob($scope, accountRights) {
+        getNextButtonJob: function getNextButtonJob($scope, user, accountRights) {
             return function() {
 
                 // hide the period selection
@@ -127,43 +128,41 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     completed: false
                 };
 
-                if ($scope.user) {
+                /**
+                 * Load accountRights
+                 * the list of rights accessible on the selected period
+                 */
 
-                    /**
-                     * Load accountRights
-                     * the list of rights accessible on the selected period
-                     */
+                $scope.accountRights = accountRights.query({
+                    user: user._id,
+                    dtstart: $scope.selection.begin,
+                    dtend: $scope.selection.end
+                });
 
-                    $scope.accountRights = accountRights.query({
-                        user: $scope.user._id,
-                        dtstart: $scope.selection.begin,
-                        dtend: $scope.selection.end
-                    });
+                $scope.accountRights.$promise.then(function(ar) {
+                    // loaded
 
-                    $scope.accountRights.$promise.then(function(ar) {
-                        // loaded
+                    var days=0, hours=0;
 
-                        var days=0, hours=0;
+                    for (var i=0; i<ar.length; i++) {
 
-                        for (var i=0; i<ar.length; i++) {
+                        available[ar[i]._id] = ar[i].available_quantity;
+                        quantity_unit[ar[i]._id] = ar[i].quantity_unit;
 
-                            available[ar[i]._id] = ar[i].available_quantity;
-                            quantity_unit[ar[i]._id] = ar[i].quantity_unit;
-
-                            switch (ar[i].quantity_unit) {
-                                case 'D': days  += ar[i].available_quantity; break;
-                                case 'H': hours += ar[i].available_quantity; break;
-                            }
+                        switch (ar[i].quantity_unit) {
+                            case 'D': days  += ar[i].available_quantity; break;
+                            case 'H': hours += ar[i].available_quantity; break;
                         }
+                    }
 
-                        $scope.available = {
-                            total: getDuration(days, hours)
-                        };
-                    }, function(err) {
-                        // TODO: redirect message to catchOutcome
-                        alert(err.data.$outcome.alert[0].message);
-                    });
-                }
+                    $scope.available = {
+                        total: getDuration(days, hours)
+                    };
+                }, function(err) {
+                    // TODO: redirect message to catchOutcome
+                    alert(err.data.$outcome.alert[0].message);
+                });
+
             };
         },
         
