@@ -18,10 +18,17 @@ exports = module.exports = function(params) {
         quantity: { type: Number, min:0 },
         quantity_unit: { type: String, enum:['D', 'H'] },
         
+        /**
+         * Add "quantity" every first day of month
+         * on each modification of the right, an array of rightAdjustments will be created from the current
+         * date to "last" or to once the "max" quantity is reached or to the last renewal date
+         * The adjustments array should be updated if new renewal is added or removed
+         */
         addMonthly: {
             quantity: { type: Number, min:0 },
             max: { type: Number, min:0 },
-            last: Date
+            last: Date,
+            adjustments: [params.embeddedSchemas.RightAdjustment]
         },
         
         activeFor: {

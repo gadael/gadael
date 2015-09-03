@@ -25,6 +25,7 @@ models.load = function() {
 	require('./schema/RequestLog')(requirements);
     require('./schema/ApprovalStep')(requirements);
 	require('./schema/Right_Rule')(requirements);
+    require('./schema/RightAdjustment')(requirements);
 
 	//then regular docs
 
