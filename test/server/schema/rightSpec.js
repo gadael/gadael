@@ -41,7 +41,7 @@ describe('User model', function() {
             right1 = right;
 
             // because there is no end date set:
-            expect(right1.addMonthly.adjustments).toBeUndefined();
+
 
             var renewal = new rightRenewalModel();
 
@@ -53,6 +53,8 @@ describe('User model', function() {
             renewal.save(function(err, renewal) {
                 expect(err).toBeNull();
                 renewal1 = renewal;
+                expect(renewal1.adjustments).toBeDefined();
+                expect(renewal1.adjustments.length).toEqual(12);
                 done();
             });
         });

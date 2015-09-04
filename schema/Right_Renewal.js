@@ -26,8 +26,11 @@ exports = module.exports = function(params) {
 		
 		var renewal = this;
         
+        renewal.updateMonthlyAdjustment();
+        //TODO: do not call next, because update monthly adjustment is not finished
+
         var model = params.db.models.AccountCollection;
-		model.find({ right: renewal.right })
+        model.find({ right: renewal.right })
             .where('start').lt(renewal.finish)
             .where('finish').gt(renewal.start)
             .count(function(err, renewals) {
@@ -35,25 +38,33 @@ exports = module.exports = function(params) {
                     next(err);
                     return;   
                 }
-            
+
                 if (renewals > 0) {
                     next('The renewals periods must not overlap');
                     return;
                 }
             }
         );
-        
+
         next();
         
+
+
+
 	});
     
     
     /**
      * The last renwal end date
      */
-    rightRenewalSchema.methods.updateMonthlyAdjustment = function()
+    rightRenewalSchema.methods.updateMonthlyAdjustment = function(next)
     {
-
+        var renewal = this;
+        this.getRightPromise().then(function(right) {
+            renewal.removeFutureAdjustments();
+            renewal.createAdjustments(right);
+            next();
+        });
 
     };
 
@@ -67,8 +78,10 @@ exports = module.exports = function(params) {
             return;
         }
 
+        var now = new Date();
+
         for (var i = this.adjustments.length - 1; i >= 0; i--) {
-            if (this.adjustments[i].from >= Date.now) {
+            if (this.adjustments[i].from >= now) {
                 this.adjustments.splice(i, 1);
             }
         }
@@ -83,7 +96,7 @@ exports = module.exports = function(params) {
 
         var renewal = this;
 
-        if (renewal.finish <= Date.now) {
+        if (renewal.finish <= new Date()) {
             return false;
         }
 
@@ -105,7 +118,7 @@ exports = module.exports = function(params) {
 
         var inserted = 0;
 
-        while(loop < renewal.finish && right.getMonthlyAdjustmentsQuantity() <= max) {
+        while(loop < renewal.finish && renewal.getMonthlyAdjustmentsQuantity(right) <= max) {
             renewal.adjustments.push({
                 from: new Date(loop),
                 quantity: right.addMonthly.quantity
@@ -118,6 +131,27 @@ exports = module.exports = function(params) {
 
         return (inserted > 0);
 
+    };
+
+
+
+    /**
+     * get the quantity in the monthly adjustments list
+     * cap quantity to max because past adjustments are never removed
+     * but max can be modified afterward
+     * @return {Number}
+     */
+    rightRenewalSchema.methods.getMonthlyAdjustmentsQuantity = function(right) {
+        var quantity = 0;
+        this.adjustments.forEach(function(adjustment) {
+            quantity += adjustment.quantity;
+        });
+
+        if (quantity > right.getMonthlyMaxQuantity()) {
+            quantity = right.getMonthlyMaxQuantity();
+        }
+
+        return quantity;
     };
 
 

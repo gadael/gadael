@@ -72,10 +72,16 @@ exports = module.exports = function(params) {
 
         var right = this;
         this.getAllRenewals().then(function(arr) {
+
+            var rightRenewalSchema = params.db.models.RightRenewal;
+
             arr.forEach(function(renewal) {
+
                 renewal.removeFutureAdjustments();
                 if (renewal.createAdjustments(right)) {
-                    renewal.save();
+
+                    // do not call pre save hook on renewal
+                    rightRenewalSchema.findByIdAndUpdate(renewal._id, { $set: { adjustments: renewal.adjustments }});
                 }
             });
 
@@ -99,24 +105,6 @@ exports = module.exports = function(params) {
     };
 
 
-    /**
-     * get the quantity in the monthly adjustments list
-     * cap quantity to max because past adjustments are never removed
-     * but max can be modified afterward
-     * @return {Number}
-     */
-    rightSchema.methods.getMonthlyAdjustmentsQuantity = function() {
-        var quantity = 0;
-        this.addMonthly.adjustments.forEach(function(adjustment) {
-            quantity += adjustment.quantity;
-        });
-
-        if (quantity > this.getMonthlyMaxQuantity()) {
-            quantity = this.getMonthlyMaxQuantity();
-        }
-
-        return quantity;
-    };
 
 
 
