@@ -59,6 +59,111 @@ exports = module.exports = function(params) {
 	rightSchema.set('autoIndex', params.autoIndex);
 
     
+    rightSchema.pre('save', function(next) {
+        // set monthly adjustments from today
+        this.removeFutureAdjustments();
+        this.createAdjustments();
+        next();
+    });
+
+
+    /**
+     * remove future adjustments in the monthly adjustments
+     */
+    rightSchema.methods.removeFutureAdjustments = function() {
+
+        for (var i = this.addMonthly.adjustments.length - 1; i >= 0; i--) {
+            if (this.addMonthly.adjustments[i].from >= Date.now) {
+                this.addMonthly.adjustments.splice(i, 1);
+            }
+        }
+    };
+
+
+    /**
+     * Get max value or infinity if not set
+     * @return {Number}
+     */
+    rightSchema.methods.getMonthlyMaxQuantity = function() {
+        var max = Infinity;
+
+        if (undefined !== this.addMonthly.max && 0 !== this.addMonthly.max) {
+            max = this.addMonthly.max;
+        }
+
+        return max;
+    };
+
+
+    /**
+     * get the quantity in the monthly adjustments list
+     * cap quantity to max because past adjustments are never removed
+     * but max can be modified afterward
+     * @return {Number}
+     */
+    rightSchema.methods.getMonthlyAdjustmentsQuantity = function() {
+        var quantity = 0;
+        this.addMonthly.adjustments.forEach(function(adjustment) {
+            quantity += adjustment.quantity;
+        });
+
+        if (quantity > this.getMonthlyMaxQuantity()) {
+            quantity = this.getMonthlyMaxQuantity();
+        }
+
+        return quantity;
+    };
+
+
+    /**
+     * Create adjustments from the next month 1st day to the limit
+     *
+     */
+    rightSchema.methods.createAdjustments = function() {
+
+        if (undefined === this.addMonthly.quantity || 0 === this.addMonthly.quantity) {
+            // functionality has been disabled
+            return;
+        }
+
+        var right = this;
+        this.getLastRenewal().then(function(renewal) {
+            var endDate;
+            var max = right.getMonthlyMaxQuantity();
+            var loop = new Date();
+
+            if (undefined !== renewal) {
+                endDate = renewal.finish;
+            }
+
+            if (undefined !== right.addMonthly.last && right.addMonthly.last > renewal.finish) {
+                endDate = right.addMonthly.last;
+            }
+
+
+
+            if (undefined === endDate && Infinity === max) {
+                throw new Error('Fail to create monthly adjustments because there is no end, create at least one renewal for futures dates to create adjustments');
+            }
+
+
+            // start at the begining of the next month
+
+            loop.setDate(1);
+            loop.setHours(0,0,0,0);
+            loop.setMonth(loop.getMonth()+1);
+
+            while(loop < endDate && right.getMonthlyAdjustmentsQuantity() <= max) {
+                right.addMonthly.adjustments.push({
+                    from: new Date(loop),
+                    quantity: right.addMonthly.quantity
+                });
+
+                loop.setMonth(loop.getMonth()+1);
+            }
+        });
+    };
+
 
     /**
      * Create renewal
