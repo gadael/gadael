@@ -10,7 +10,9 @@ exports = module.exports = function(params) {
         timeCreated: { type: Date, default: Date.now },
         lastUpdate: { type: Date, default: Date.now },
         start: { type: Date, required: true },
-        finish: { type: Date, required: true }
+        finish: { type: Date, required: true },
+
+        adjustments: [params.embeddedSchemas.RightAdjustment]
 	});
   
 	rightRenewalSchema.set('autoIndex', params.autoIndex);
@@ -46,6 +48,79 @@ exports = module.exports = function(params) {
 	});
     
     
+    /**
+     * The last renwal end date
+     */
+    rightRenewalSchema.methods.updateMonthlyAdjustment = function()
+    {
+
+
+    };
+
+
+    /**
+     * remove future adjustments in the monthly adjustments
+     */
+    rightRenewalSchema.methods.removeFutureAdjustments = function() {
+
+        if (undefined === this.adjustments) {
+            return;
+        }
+
+        for (var i = this.adjustments.length - 1; i >= 0; i--) {
+            if (this.adjustments[i].from >= Date.now) {
+                this.adjustments.splice(i, 1);
+            }
+        }
+    };
+
+
+    /**
+     * Create adjustments from the next month 1st day to the limit
+     * @return {bool}
+     */
+    rightRenewalSchema.methods.createAdjustments = function(right) {
+
+        var renewal = this;
+
+        if (renewal.finish <= Date.now) {
+            return false;
+        }
+
+
+        if (undefined === right.addMonthly.quantity || 0 === right.addMonthly.quantity) {
+            // functionality has been disabled
+            return false;
+        }
+
+        var max = right.getMonthlyMaxQuantity();
+        var loop = new Date();
+
+
+        // start at the begining of the next month
+
+        loop.setDate(1);
+        loop.setHours(0,0,0,0);
+        loop.setMonth(loop.getMonth()+1);
+
+        var inserted = 0;
+
+        while(loop < renewal.finish && right.getMonthlyAdjustmentsQuantity() <= max) {
+            renewal.adjustments.push({
+                from: new Date(loop),
+                quantity: right.addMonthly.quantity
+            });
+
+            loop.setMonth(loop.getMonth()+1);
+
+            inserted++;
+        }
+
+        return (inserted > 0);
+
+    };
+
+
     
     /**
      * Get a user adjustement quantity, can be a negative value

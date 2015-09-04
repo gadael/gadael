@@ -5,7 +5,7 @@ exports = module.exports = function(params) {
     var mongoose = params.mongoose;
     
 	var rightSchema = new params.mongoose.Schema({
-		name: { type: String, unique: true },
+		name: { type: String, unique: true, required: true },
         description: String,
 		timeCreated: { type: Date, default: Date.now },
         type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
@@ -15,20 +15,19 @@ exports = module.exports = function(params) {
         // automatic distribution on this right on request creation
         autoDistribution: { type: Boolean, default:true },
         
-        quantity: { type: Number, min:0 },
-        quantity_unit: { type: String, enum:['D', 'H'] },
+        quantity: { type: Number, min:0, required: true },
+        quantity_unit: { type: String, enum:['D', 'H'], required: true },
         
         /**
          * Add "quantity" every first day of month
-         * on each modification of the right, an array of rightAdjustments will be created from the current
-         * date to "last" or to once the "max" quantity is reached or to the last renewal date
-         * The adjustments array should be updated if new renewal is added or removed
+         * on each modification of the right, an array of rightAdjustments will be created in renewal
+         * from the current date to once the "max" quantity is reached or to the renewal date
+         * The adjustments array should be updated if new renewal is added or removed or if the right
+         * is modified but only for futur adjustments
          */
         addMonthly: {
             quantity: { type: Number, min:0 },
-            max: { type: Number, min:0 },
-            last: Date,
-            adjustments: [params.embeddedSchemas.RightAdjustment]
+            max: { type: Number, min:0 }
         },
         
         activeFor: {
@@ -61,22 +60,27 @@ exports = module.exports = function(params) {
     
     rightSchema.pre('save', function(next) {
         // set monthly adjustments from today
-        this.removeFutureAdjustments();
-        this.createAdjustments();
-        next();
+        this.updateAdjustments(next);
+
     });
 
 
     /**
-     * remove future adjustments in the monthly adjustments
+     * update monthly adjustments
      */
-    rightSchema.methods.removeFutureAdjustments = function() {
+    rightSchema.methods.updateAdjustments = function(next) {
 
-        for (var i = this.addMonthly.adjustments.length - 1; i >= 0; i--) {
-            if (this.addMonthly.adjustments[i].from >= Date.now) {
-                this.addMonthly.adjustments.splice(i, 1);
-            }
-        }
+        var right = this;
+        this.getAllRenewals().then(function(arr) {
+            arr.forEach(function(renewal) {
+                renewal.removeFutureAdjustments();
+                if (renewal.createAdjustments(right)) {
+                    renewal.save();
+                }
+            });
+
+            next();
+        });
     };
 
 
@@ -115,54 +119,7 @@ exports = module.exports = function(params) {
     };
 
 
-    /**
-     * Create adjustments from the next month 1st day to the limit
-     *
-     */
-    rightSchema.methods.createAdjustments = function() {
 
-        if (undefined === this.addMonthly.quantity || 0 === this.addMonthly.quantity) {
-            // functionality has been disabled
-            return;
-        }
-
-        var right = this;
-        this.getLastRenewal().then(function(renewal) {
-            var endDate;
-            var max = right.getMonthlyMaxQuantity();
-            var loop = new Date();
-
-            if (undefined !== renewal) {
-                endDate = renewal.finish;
-            }
-
-            if (undefined !== right.addMonthly.last && right.addMonthly.last > renewal.finish) {
-                endDate = right.addMonthly.last;
-            }
-
-
-
-            if (undefined === endDate && Infinity === max) {
-                throw new Error('Fail to create monthly adjustments because there is no end, create at least one renewal for futures dates to create adjustments');
-            }
-
-
-            // start at the begining of the next month
-
-            loop.setDate(1);
-            loop.setHours(0,0,0,0);
-            loop.setMonth(loop.getMonth()+1);
-
-            while(loop < endDate && right.getMonthlyAdjustmentsQuantity() <= max) {
-                right.addMonthly.adjustments.push({
-                    from: new Date(loop),
-                    quantity: right.addMonthly.quantity
-                });
-
-                loop.setMonth(loop.getMonth()+1);
-            }
-        });
-    };
 
 
     /**
