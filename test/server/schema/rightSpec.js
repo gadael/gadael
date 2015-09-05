@@ -3,7 +3,7 @@
 var helpers = require('./mockDatabase');
 var app;
 
-describe('User model', function() {
+describe('Right model', function() {
 
 
     var rightModel, rightRenewalModel;
@@ -40,9 +40,6 @@ describe('User model', function() {
 
             right1 = right;
 
-            // because there is no end date set:
-
-
             var renewal = new rightRenewalModel();
 
             renewal.right = right1._id;
@@ -57,6 +54,34 @@ describe('User model', function() {
                 expect(renewal1.adjustments.length).toEqual(12);
                 done();
             });
+        });
+    });
+
+
+    it('update adjustment if renewal is modified with less months', function(done) {
+        renewal1.finish.setMonth(renewal1.finish.getMonth()-2);
+        renewal1.save(function(err, renewal) {
+            expect(err).toEqual(null);
+            expect(renewal).toBeDefined();
+            if (renewal) {
+                expect(renewal.adjustments).toBeDefined();
+                expect(renewal.adjustments.length).toEqual(10);
+            }
+            done();
+        });
+    });
+
+
+    it('update adjustment if renewal is modified with more months', function(done) {
+        renewal1.finish.setMonth(renewal1.finish.getMonth()+4);
+        renewal1.save(function(err, renewal) {
+            expect(err).toEqual(null);
+            expect(renewal).toBeDefined();
+            if (renewal) {
+                expect(renewal.adjustments).toBeDefined();
+                expect(renewal.adjustments.length).toEqual(14);
+            }
+            done();
         });
     });
 

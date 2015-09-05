@@ -22,50 +22,65 @@ exports = module.exports = function(params) {
     /**
      * Ensure that the renewal interval do not overlap another renewal period
      */
-    rightRenewalSchema.pre('save', function (next) {
+    rightRenewalSchema.pre('save', function(next) {
 		
 		var renewal = this;
-        
-        renewal.updateMonthlyAdjustment();
-        //TODO: do not call next, because update monthly adjustment is not finished
 
-        var model = params.db.models.AccountCollection;
-        model.find({ right: renewal.right })
-            .where('start').lt(renewal.finish)
-            .where('finish').gt(renewal.start)
+        renewal.checkOverlap()
+            .then(function() {
+                return renewal.updateMonthlyAdjustment.call(renewal);
+            })
+            .catch(next)
+            .then(next);
+	});
+
+
+
+    /**
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.checkOverlap = function()
+    {
+        var deferred = require('q').defer();
+        var model = params.db.models.RightRenewal;
+
+        model.find({ right: this.right })
+            .where('start').lt(this.finish)
+            .where('finish').gt(this.start)
+            .where('_id').ne(this._id)
             .count(function(err, renewals) {
                 if (err) {
-                    next(err);
-                    return;   
+                    return deferred.reject(err);
                 }
 
                 if (renewals > 0) {
-                    next('The renewals periods must not overlap');
-                    return;
+                    return deferred.reject(new Error('The renewals periods must not overlap'));
                 }
+
+                deferred.resolve(true);
             }
         );
-
-        next();
         
-
-
-
-	});
+        return deferred.promise;
+    };
     
     
     /**
      * The last renwal end date
+     * @return {Promise}
      */
-    rightRenewalSchema.methods.updateMonthlyAdjustment = function(next)
+    rightRenewalSchema.methods.updateMonthlyAdjustment = function()
     {
+        var deferred = require('q').defer();
         var renewal = this;
-        this.getRightPromise().then(function(right) {
+
+        renewal.getRightPromise().then(function(right) {
             renewal.removeFutureAdjustments();
             renewal.createAdjustments(right);
-            next();
-        });
+            deferred.resolve(true);
+        }).catch(deferred.reject);
 
+        return deferred.promise;
     };
 
 
@@ -201,15 +216,13 @@ exports = module.exports = function(params) {
         
         if (renewal.right && renewal.right._id) {
             // allready populated
-            Q.fcall(function () {
-                return renewal.right;
-            });
+            deferred.resolve(renewal.right);
+
         } else if (!renewal.right) {
             
             // No right, should not happen, a renewal must be linked to a right
-            Q.fcall(function () {
-                return null;
-            });
+            deferred.resolve(null);
+
         } else {
             
             renewal.populate('right', function(err, renewal) {
