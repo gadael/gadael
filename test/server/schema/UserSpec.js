@@ -1,11 +1,11 @@
 'use strict';
 
 var helpers = require('./mockDatabase');
-var app;
+
 
 describe('User model', function() {
 
-
+    var app;
     var userModel, managerModel;
     var userDocument, userManagerDocument, manager;
     var department1, department2;

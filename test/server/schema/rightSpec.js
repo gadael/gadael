@@ -1,11 +1,11 @@
 'use strict';
 
 var helpers = require('./mockDatabase');
-var app;
+
 
 describe('Right model', function() {
 
-
+    var app;
     var rightModel, rightRenewalModel;
     var right1;
     var renewal1;
