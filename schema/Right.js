@@ -71,21 +71,23 @@ exports = module.exports = function(params) {
     rightSchema.methods.updateAdjustments = function(next) {
 
         var right = this;
+        var async = require('async');
+
         this.getAllRenewals().then(function(arr) {
 
             var rightRenewalSchema = params.db.models.RightRenewal;
 
-            arr.forEach(function(renewal) {
+            async.each(arr,function(renewal, renewalDone) {
 
                 renewal.removeFutureAdjustments();
                 if (renewal.createAdjustments(right)) {
 
                     // do not call pre save hook on renewal
-                    rightRenewalSchema.findByIdAndUpdate(renewal._id, { $set: { adjustments: renewal.adjustments }});
+                    rightRenewalSchema
+                        .findByIdAndUpdate(renewal._id, { $set: { adjustments: renewal.adjustments }})
+                        .exec(renewalDone);
                 }
-            });
-
-            next();
+            }, next);
         });
     };
 
