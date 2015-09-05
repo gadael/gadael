@@ -45,7 +45,7 @@ function mockDatabase(dbname, done)
 }
 
 
-var expapp;
+var expapp = {};
 
 exports = module.exports = {
 
@@ -55,18 +55,18 @@ exports = module.exports = {
      */
     mockDatabase: function(dbname, ready) {
 
-        if (!expapp) {
+        if (undefined === expapp[dbname]) {
             mockDatabase(dbname, function(app) {
-                expapp = app;
+                expapp[dbname] = app;
                 ready(app);
             });
 
         } else {
 
-            ready(expapp);
+            ready(expapp[dbname]);
         }
 
-        return expapp;
+        return expapp[dbname];
     },
 
 
