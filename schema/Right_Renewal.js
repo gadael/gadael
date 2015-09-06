@@ -241,7 +241,7 @@ exports = module.exports = function(params) {
     
     /**
      * Get a user initial quantity 
-     * default right quantity + adjustments on renewal
+     * default right quantity + adjustments on renewal from the monthly updates + manual adjustments on renewal for the user
      * The default quantity from right is accessible only after the account arrival date
      * for renewals straddling the arrival date, the quantiy is computed using the percentage of account valid time
      *
@@ -269,6 +269,7 @@ exports = module.exports = function(params) {
                 var rightQuantity = arr[0].quantity;
 
                 /**
+                 * Manual adjustment created by administrators on the account-right page
                  * @var {Number}
                  */
                 var userAdjustment = arr[1];
@@ -286,8 +287,22 @@ exports = module.exports = function(params) {
                     rightQuantity = Math.round(rightQuantity * availableDuration / renewalDuration);
                 }
 
+                /**
+                 * If the right is configured with monthly quantity update,
+                 * this variable will contain adjustments in renewal from the arrival date to the current date
+                 * @var {Number}
+                 */
+                var renewalAdjustment = 0;
+                var now = new Date();
 
-                deferred.resolve(rightQuantity + userAdjustment);
+                renewal.adjustments.forEach(function(adjustment) {
+                    if (adjustment.from >= user.roles.account.arrival && adjustment.from <= now) {
+                        renewalAdjustment += adjustment.quantity;
+                    }
+                });
+
+
+                deferred.resolve(rightQuantity + renewalAdjustment + userAdjustment);
             })
             .catch(deferred.reject);
             
