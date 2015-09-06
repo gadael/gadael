@@ -60,6 +60,7 @@ describe('Right model', function() {
 
     it('update adjustments if renewal is modified with less months', function(done) {
         renewal1.finish.setMonth(renewal1.finish.getMonth()-2);
+        renewal1.markModified('finish');
         renewal1.save(function(err, renewal) {
             expect(err).toEqual(null);
             expect(renewal).toBeDefined();
@@ -72,8 +73,19 @@ describe('Right model', function() {
     });
 
 
+    it('test getLastRenewal', function(done) {
+        right1.getLastRenewal().then(function(renewal) {
+            expect(renewal.adjustments.length).toEqual(10);
+            expect(renewal.finish).toEqual(renewal1.finish);
+            done();
+        });
+    });
+
+
+
     it('update adjustments if renewal is modified with more months', function(done) {
         renewal1.finish.setMonth(renewal1.finish.getMonth()+4);
+        renewal1.markModified('finish');
         renewal1.save(function(err, renewal) {
             expect(err).toEqual(null);
             expect(renewal).toBeDefined();
@@ -85,6 +97,19 @@ describe('Right model', function() {
             done();
         });
     });
+
+
+
+
+
+    it('test getAllRenewal', function(done) {
+        right1.getAllRenewals().then(function(arr) {
+            expect(arr[0].adjustments.length).toEqual(14);
+            expect(arr[0].finish).toEqual(renewal1.finish);
+            done();
+        });
+    });
+
 
     it('update adjustments if right.addMonthly.quantity is modified', function(done) {
 
