@@ -1,7 +1,7 @@
 
 <div class="form-group col-md-12">
     <label for="managerDepartments" translate>Departments to supervise with request approvals</label><br />
-    <button id="managerDepartments" type="button" class="btn btn-default" ng-model="user.roles.manager.department" data-multiple="1" ng-options="department._id as department.name for department in departments" bs-select>
+    <button id="managerDepartments" type="button" class="btn btn-default" ng-model="user.roles.manager.department" data-multiple="1" bs-options="department._id as department.name for department in departments" bs-select>
       Action <span class="caret"></span>
     </button>
 </div>

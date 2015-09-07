@@ -135,7 +135,7 @@ function saveRight(service, params) {
 
 
 /**
- * Construct the calendar save service
+ * Construct the right save service
  * @param   {object}          services list of base classes from apiService
  * @param   {express|object}  app      express or headless app
  * @returns {saveItemService}

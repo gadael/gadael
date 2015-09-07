@@ -10,94 +10,101 @@
         <textarea class="form-control" id="right_description" ng-model="right.description"></textarea>
     </div>
 
-
-
-    <div class="row form-horizontal">
-      <div class="col-md-6 form-group">
-        <label class="col-sm-2 control-label" for="right_type" translate>Type</label>
-        <div class="col-sm-10">
-            <select class="form-control" id="right_type" ng-model="right.type._id" ng-options="type._id as type.name for type in types">
-                <option></option>
-            </select>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-          <div class="form-group">
-            <label for="right_quantity" class="col-sm-4 control-label" translate>Default quantity</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="right_quantity" ng-model="right.quantity" />
-            </div>
-            <div class="col-sm-4">
-                <select class="form-control" ng-model="right.quantity_unit">
-                    <option value="D">Days</option>
-                    <option value="H">Hours</option>
-                </select>
-            </div>
-          </div>
-      </div>
+    <div class="form-group">
+        <label for="right_type" translate>Type</label>
+        <select class="form-control" id="right_type" ng-model="right.type._id" ng-options="type._id as type.name for type in types">
+            <option></option>
+        </select>
     </div>
 
-    <div class="row">
-        <div class="col-md-6 form-group">
-            <label for="addMonthly_quantity" translate>Quantity to add every month</label>
-            <div class="input-group">
-                <input type="number" class="form-control" id="addMonthly_quantity" ng-model="right.addMonthly.quantity" />
-                <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>
-                <span class="input-group-addon" ng-if="right.quantity_unit=='H'"><span translate>Hours</span></span>
+    <div class="row top30">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+
+                <div class="panel-heading"><span translate>Quantity provided on each renewals</span></div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label for="right_quantity" class="control-label" translate>Default quantity</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="right_quantity" ng-model="right.quantity" step="any" />
+
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-model="right.quantity_unit" bs-options="qunit.value as qunit.label for qunit in quantityUnits" bs-select>Select unit <span class="caret"></span></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="addMonthly_quantity" translate>Quantity to add every month</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="addMonthly_quantity" ng-model="right.addMonthly.quantity" step="any" />
+                            <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>
+                            <span class="input-group-addon" ng-if="right.quantity_unit=='H'"><span translate>Hours</span></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addMonthly_max" translate>Max quantity</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="addMonthly_max" ng-model="right.addMonthly.max" step="any" />
+                            <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>
+                            <span class="input-group-addon" ng-if="right.quantity_unit=='H'"><span translate>Hours</span></span>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
-        <div class="col-md-6 form-group">
-            <label for="addMonthly_max" translate>Max quantity</label>
-            <div class="input-group">
-                <input type="number" class="form-control" id="addMonthly_max" ng-model="right.addMonthly.max" />
-                <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>
-                <span class="input-group-addon" ng-if="right.quantity_unit=='H'"><span translate>Hours</span></span>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span translate>Options</span></div>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <h4 translate>Active for:</h4>
+                        <div class="form-group">
+
+                            <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.account" /><span translate>Account</span></label><br />
+                            <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.manager" /><span translate>Manager, substituting one of his subordinates</span></label><br />
+                            <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.admin" /><span translate>Admin, substituting one of his subordinates</span></label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="checkbox" id="right_autoDistribution" ng-model="right.autoDistribution" />
+                            <label for="right_autoDistribution" translate>Automatic distribution of this right when creating a request</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="checkbox" id="right_require_approval" ng-model="right.require_approval" />
+                            <label for="right_require_approval" translate>Require approval</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="checkbox" id="right_activeSpan_useDefault" ng-model="right.activeSpan.useDefault" />
+                            <label for="right_activeSpan_useDefault" translate>Use default active span</label>
+                        </div>
+
+                        <div ng-if="!right.activeSpan.useDefault">
+                          <div class="form-group">
+                            <label for="right_activeSpan_min" translate>Minimal number of days between entry date and request start date</label>
+                            <input type="text" class="form-control" id="right_activeSpan_min" ng-model="right.activeSpan.min" />
+                          </div>
+
+                          <div class="form-group">
+                            <label for="right_activeSpan_max" translate>Maximal number of days between entry date and request end date</label>
+                            <input type="text" class="form-control" id="right_activeSpan_max" ng-model="right.activeSpan.max" />
+                          </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-
-    <div class="row">
-        <div class="col-md-6">
-            <h4 translate>Active for:</h4>
-            <div class="form-group">
-
-                <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.account" /><span translate>Account</span></label><br />
-                <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.manager" /><span translate>Manager, substituting one of his subordinates</span></label><br />
-                <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.admin" /><span translate>Admin, substituting one of his subordinates</span></label>
-            </div>
-
-            <div class="form-group">
-                <input type="checkbox" id="right_autoDistribution" ng-model="right.autoDistribution" />
-                <label for="user_autoDistribution" translate>Automatic distribution of this right when creating a request</label>
-            </div>
-
-            <div class="form-group">
-                <input type="checkbox" id="right_require_approval" ng-model="right.require_approval" />
-                <label for="user_require_approval" translate>Require approval</label>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <input type="checkbox" id="right_activeSpan_useDefault" ng-model="right.activeSpan.useDefault" />
-                <label for="right_activeSpan_useDefault" translate>Use default active span</label>
-            </div>
-
-            <div ng-if="!right.activeSpan.useDefault">
-              <div class="form-group">
-                <label for="right_activeSpan_min" translate>Minimal number of days between entry date and request start date</label>
-                <input type="text" class="form-control" id="right_activeSpan_min" ng-model="right.activeSpan.min" />
-              </div>
-
-              <div class="form-group">
-                <label for="right_activeSpan_max" translate>Maximal number of days between entry date and request end date</label>
-                <input type="text" class="form-control" id="right_activeSpan_max" ng-model="right.activeSpan.max" />
-              </div>
-            </div>
-        </div>
-    </div>
     <div class="row text-center">
         <button class="btn btn-primary" ng-click="saveRight()" translate>Save</button> 
         <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
