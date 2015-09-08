@@ -206,6 +206,16 @@ module.exports = function(grunt) {
         jasmine_theseus: {
             command: 'node-theseus node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server/'
         }
+    },
+
+
+    codeclimate: {
+        main: {
+          options: {
+            file: 'coverage/lcov.info',
+            token: '410b77f13f631686506a66173f61f835c13f50d53c033747c9b4e7146e892181'
+          }
+        }
     }
 
     
@@ -277,5 +287,5 @@ module.exports = function(grunt) {
   grunt.registerTask('testold', ['karma', 'jasmine_node']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);
   grunt.registerTask('coverage', ['jasmine_node:jasmine_coverage']);
-  grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage']);
+  grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage', 'codeclimate:main']);
 };
