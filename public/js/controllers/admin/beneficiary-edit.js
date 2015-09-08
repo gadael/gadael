@@ -167,7 +167,27 @@ define(['q'], function(Q) {
                 // for each renewals, add the list of adjustments
                 beneficiary.renewals.forEach(function(r) {
                     var adjustments = adjustmentResource.query({ rightRenewal: r._id, user: $scope.user._id }, function() {
-                        r.adjustments = adjustments;
+                        // Combine adjustments with r.adjustments
+
+                        r.combinedAdjustments = [];
+
+                        for(var i=0; i<r.adjustments.length; i++) {
+                            r.combinedAdjustments.push({
+                                from: r.adjustments[i].from,
+                                quantity: r.adjustments[i].quantity,
+                                comment: 'Auto monthly update'
+                            });
+                        }
+
+                        adjustments.forEach(function(manualAdjustment) {
+                            manualAdjustment.from = manualAdjustment.timeCreated;
+                            r.combinedAdjustments.push(manualAdjustment);
+                        });
+
+                        r.combinedAdjustments.sort(function(a1, a2) {
+                            return (a1.from.getTime() - a2.from.getTime());
+                        });
+
                     });
 
                     adjustmentPromises[r._id] = adjustments.$promise;
