@@ -22,6 +22,19 @@ define(function() {
          */
         return function catchOutcome(promise) {
 
+            /**
+             * Add messages to the rootScope
+             * @param {string} message
+             */
+            function addPageAlert(message) {
+                if (undefined === $rootScope.pageAlerts) {
+                    $rootScope.pageAlerts = [];
+                }
+
+                $rootScope.pageAlerts.push({ type: 'error', message: message });
+
+            }
+
 
             /**
              * Add messages to the rootScope
@@ -46,6 +59,11 @@ define(function() {
             promise.then(
                 function(data) {
 
+                    if (null === data) {
+                        addPageAlert('No response from server');
+                        return deferred.resolve(null);
+                    }
+
                     // accept promises with a data object or a response object with the data property
                     if (undefined !== data.data) {
                         data = data.data;
@@ -63,10 +81,16 @@ define(function() {
                 function(badRequest) {
                     
                     var data = badRequest.data;
+
+                    if (null === data) {
+                        addPageAlert('No response from server');
+                        return  deferred.reject(null);
+                    }
+
                     var outcome = data.$outcome;
                     
                     if (!outcome) {
-                        return;
+                        return deferred.reject(data);
                     }
                     
                     addMessages(outcome);

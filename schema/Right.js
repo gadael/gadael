@@ -86,6 +86,8 @@ exports = module.exports = function(params) {
                     rightRenewalSchema
                         .findByIdAndUpdate(renewal._id, { $set: { adjustments: renewal.adjustments }})
                         .exec(renewalDone);
+                } else {
+                    renewalDone();
                 }
             }, next);
         });

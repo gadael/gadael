@@ -63,42 +63,40 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><span translate>Options</span></div>
                 <div class="panel-body">
-                    <div class="col-md-6">
-                        <h4 translate>Active for:</h4>
-                        <div class="form-group">
 
-                            <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.account" /><span translate>Account</span></label><br />
-                            <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.manager" /><span translate>Manager, substituting one of his subordinates</span></label><br />
-                            <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.admin" /><span translate>Admin, substituting one of his subordinates</span></label>
-                        </div>
+                    <h4 translate>Active for:</h4>
+                    <div class="form-group">
 
-                        <div class="form-group">
-                            <input type="checkbox" id="right_autoDistribution" ng-model="right.autoDistribution" />
-                            <label for="right_autoDistribution" translate>Automatic distribution of this right when creating a request</label>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="checkbox" id="right_require_approval" ng-model="right.require_approval" />
-                            <label for="right_require_approval" translate>Require approval</label>
-                        </div>
+                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.account" /><span translate>Account</span></label><br />
+                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.manager" /><span translate>Manager, substituting one of his subordinates</span></label><br />
+                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.admin" /><span translate>Admin, substituting one of his subordinates</span></label>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="checkbox" id="right_activeSpan_useDefault" ng-model="right.activeSpan.useDefault" />
-                            <label for="right_activeSpan_useDefault" translate>Use default active span</label>
-                        </div>
 
-                        <div ng-if="!right.activeSpan.useDefault">
-                          <div class="form-group">
-                            <label for="right_activeSpan_min" translate>Minimal number of days between entry date and request start date</label>
-                            <input type="text" class="form-control" id="right_activeSpan_min" ng-model="right.activeSpan.min" />
-                          </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="right_autoDistribution" ng-model="right.autoDistribution" />
+                        <label for="right_autoDistribution" translate>Automatic distribution of this right when creating a request</label>
+                    </div>
 
-                          <div class="form-group">
-                            <label for="right_activeSpan_max" translate>Maximal number of days between entry date and request end date</label>
-                            <input type="text" class="form-control" id="right_activeSpan_max" ng-model="right.activeSpan.max" />
-                          </div>
-                        </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="right_require_approval" ng-model="right.require_approval" />
+                        <label for="right_require_approval" translate>Require approval</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="right_activeSpan_useDefault" ng-model="right.activeSpan.useDefault" />
+                        <label for="right_activeSpan_useDefault" translate>Use default active span</label>
+                    </div>
+
+                    <div ng-if="!right.activeSpan.useDefault">
+                      <div class="form-group">
+                        <label for="right_activeSpan_min" translate>Minimal number of days between entry date and request start date</label>
+                        <input type="text" class="form-control" id="right_activeSpan_min" ng-model="right.activeSpan.min" />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="right_activeSpan_max" translate>Maximal number of days between entry date and request end date</label>
+                        <input type="text" class="form-control" id="right_activeSpan_max" ng-model="right.activeSpan.max" />
+                      </div>
                     </div>
                 </div>
             </div>
