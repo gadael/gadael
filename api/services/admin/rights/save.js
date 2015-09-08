@@ -50,14 +50,13 @@ function saveRight(service, params) {
         quantity: params.quantity,
         quantity_unit: params.quantity_unit,
         activeFor: params.activeFor,
-        rules: params.rules
+        rules: params.rules,
+        addMonthly: params.addMonthly
     };
     
     if(undefined !== params.description) {
         fieldsToSet.description = params.description;
     }
-
-
 
     if (params.id)
     {
@@ -76,6 +75,8 @@ function saveRight(service, params) {
         RightModel.findById(params.id, function(err, document) {
             if (service.handleMongoError(err))
             {
+                document.set(fieldsToSet);
+
                 postedRules.forEach(function(existingRule) {
                     document.rules.id(existingRule._id).set(existingRule);
                 });

@@ -11,3 +11,4 @@ public/fonts/*.woff
 /node_modules
 po/*.mo
 /doc/
+/coverage/

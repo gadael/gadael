@@ -26,10 +26,23 @@ define(['q'], function(Q) {
             var lastRenewalId = renewals[renewals.length-1]._id;
 
             renewals.forEach(function(r) {
+
+
                 history.push({
                     position: r.start,
                     add: r.initial_quantity
                 });
+
+                // process monthly update adjustments
+
+                r.adjustments.forEach(function(adjustment) {
+                    history.push({
+                        position: adjustment.from,
+                        add: adjustment.quantity
+                    });
+                });
+
+                // process manual adjustments
 
                 adjustmentPromises[r._id].then(function(adjustments) {
                     adjustments.forEach(function(adjustment) {

@@ -179,7 +179,27 @@ module.exports = function(grunt) {
 			consolidate: true
 		  }
 		},
-		all: ['test/server/']
+		all: ['test/server/'],
+
+        jasmine_coverage: {
+          options: {
+            coverage: {},
+            forceExit: true,
+            match: '.',
+            matchAll: false,
+            specFolders: ['test/server/'],
+            extensions: 'js',
+            specNameMatcher: 'Spec',
+            captureExceptions: true,
+            junitreport: {
+              report: false,
+              savePath : './build/reports/jasmine/',
+              useDotNotation: true,
+              consolidate: true
+            }
+          },
+          src: ['**/*.js']
+        }
 	},
 
     shell: {
@@ -246,7 +266,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-pot');
-  grunt.loadNpmTasks('grunt-jasmine-node-new');
+  //grunt.loadNpmTasks('grunt-jasmine-node-new');
+  grunt.loadNpmTasks('grunt-jasmine-node-coverage');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-shell');
 
@@ -255,5 +276,6 @@ module.exports = function(grunt) {
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('testold', ['karma', 'jasmine_node']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);
-  grunt.registerTask('travis', ['copy:config', 'jasmine_node']);
+  grunt.registerTask('coverage', ['jasmine_node:jasmine_coverage']);
+  grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage']);
 };
