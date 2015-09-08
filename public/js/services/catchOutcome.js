@@ -31,7 +31,7 @@ define(function() {
                     $rootScope.pageAlerts = [];
                 }
 
-                $rootScope.pageAlerts.push({ type: 'error', message: message });
+                $rootScope.pageAlerts.push({ type: 'danger', message: message });
 
             }
 
