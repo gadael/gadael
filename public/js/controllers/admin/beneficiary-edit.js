@@ -11,7 +11,7 @@ define(['q'], function(Q) {
      * @param {Promise} requestsPromise
      * @param {function} next
      *
-     * @todo Monthly updates
+     *
      */
     function createGraphValues(renewals, adjustmentPromises, requestsPromise, next)
     {
@@ -155,12 +155,12 @@ define(['q'], function(Q) {
 
         $scope.user = userResource.get({id: $location.search().user});
         $scope.user.$promise.then(function() {
-            $scope.beneficiary = beneficiaryResource.get({
+            var beneficiaryContainer = beneficiaryResource.get({
                 id: $routeParams.id,
                 account: $scope.user.roles.account._id
             });
 
-            $scope.beneficiary.$promise.then(function(beneficiary) {
+            beneficiaryContainer.$promise.then(function(beneficiary) {
 
                 var adjustmentPromises = {};
 
@@ -187,7 +187,6 @@ define(['q'], function(Q) {
                         r.combinedAdjustments.sort(function(a1, a2) {
                             return (a1.from.getTime() - a2.from.getTime());
                         });
-
                     });
 
                     adjustmentPromises[r._id] = adjustments.$promise;
@@ -198,12 +197,17 @@ define(['q'], function(Q) {
                     absence: true
                 });
 
+
+                $scope.beneficiary = beneficiary;
+
                 createGraphValues(beneficiary.renewals, adjustmentPromises, requests.$promise, function(values) {
                     $scope.timedAvailableQuantity = [{
                         "key": "Available quantity",
                         "values": values
                     }];
                 });
+
+
             });
 
 
