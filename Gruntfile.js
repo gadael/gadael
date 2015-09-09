@@ -280,6 +280,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jasmine-node-coverage');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-codeclimate-reporter');
 
   grunt.registerTask('default', [ 'jshint:server', 'nodemon']);
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
