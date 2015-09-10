@@ -124,12 +124,15 @@ exports = module.exports = function(params) {
         var max = right.getMonthlyMaxQuantity();
         var loop = new Date();
 
+        if (loop < renewal.start) {
+            loop = new Date(renewal.start);
+        }
+
 
         // start at the begining of the next month
 
         loop.setDate(1);
         loop.setHours(0,0,0,0);
-        loop.setMonth(loop.getMonth()+1);
 
         var inserted = 0;
 
