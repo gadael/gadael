@@ -132,6 +132,9 @@ define(['q', 'async'], function(Q, async) {
 
 
 
+
+
+
 	return [
         '$scope',
         '$location',
@@ -141,6 +144,37 @@ define(['q', 'async'], function(Q, async) {
         'catchOutcome',
         'gettext',
         function($scope, $location, $routeParams, Rest, $modal, catchOutcome, gettext) {
+
+
+        /**
+         * Create the combinedAdjustments list on a renewal object
+         * @param {Object} renewal
+         * @param {Array} adjustments   Manual adjustments created for this user
+         */
+        function createCombinedAdjustments(renewal, adjustments)
+        {
+            renewal.combinedAdjustments = [];
+
+            // Combine adjustments with r.adjustments
+            for(var i=0; i<renewal.adjustments.length; i++) {
+                renewal.combinedAdjustments.push({
+                    from: renewal.adjustments[i].from,
+                    quantity: renewal.adjustments[i].quantity,
+                    comment: gettext('Auto monthly update')
+                });
+            }
+
+            adjustments.forEach(function(manualAdjustment) {
+                manualAdjustment.from = manualAdjustment.timeCreated;
+                renewal.combinedAdjustments.push(manualAdjustment);
+            });
+
+            renewal.combinedAdjustments.sort(function(a1, a2) {
+                return (a1.from.getTime() - a2.from.getTime());
+            });
+
+        }
+
 
         var userResource = Rest.admin.users.getResource();
         var beneficiaryResource = Rest.admin.beneficiaries.getResource();
@@ -153,7 +187,15 @@ define(['q', 'async'], function(Q, async) {
             throw new Error('The user parameter is mandatory');
         }
 
+
+
+        var requests = requestResource.query({
+            'user.id': $location.search().user,
+            absence: true
+        });
+
         $scope.user = userResource.get({id: $location.search().user});
+
         $scope.user.$promise.then(function() {
             var beneficiaryContainer = beneficiaryResource.get({
                 id: $routeParams.id,
@@ -162,20 +204,13 @@ define(['q', 'async'], function(Q, async) {
 
             beneficiaryContainer.$promise.then(function(beneficiary) {
 
-                var renewalsById = {};
                 var now = new Date();
-
-
-
 
                 var panel = 0;
 
                 // for each renewals, add the list of adjustments
 
                 async.each(beneficiary.renewals, function(r, nextRenewal) {
-
-                    renewalsById[r._id] = r;
-                    r.combinedAdjustments = [];
 
                     if (r.start < now && r.finish > now) {
                         $scope.activePanel = panel;
@@ -184,37 +219,15 @@ define(['q', 'async'], function(Q, async) {
                     panel++;
 
                     var adjustments = adjustmentResource.query({ rightRenewal: r._id, user: $scope.user._id }, function() {
-
-                        // Combine adjustments with r.adjustments
-                        for(var i=0; i<r.adjustments.length; i++) {
-                            r.combinedAdjustments.push({
-                                from: r.adjustments[i].from,
-                                quantity: r.adjustments[i].quantity,
-                                comment: gettext('Auto monthly update')
-                            });
-                        }
-
-                        adjustments.forEach(function(manualAdjustment) {
-                            manualAdjustment.from = manualAdjustment.timeCreated;
-                            r.combinedAdjustments.push(manualAdjustment);
-                        });
-
-                        r.combinedAdjustments.sort(function(a1, a2) {
-                            return (a1.from.getTime() - a2.from.getTime());
-                        });
-
+                        createCombinedAdjustments(r, adjustments);
                         nextRenewal();
                     });
 
                     r.adjustmentPromise = adjustments.$promise;
 
 
-                }, function endEachRenewal() {
+                }, function endRenewals() {
 
-                    var requests = requestResource.query({
-                        'user.id': $location.search().user,
-                        absence: true
-                    });
 
                     $scope.beneficiary = beneficiary;
 

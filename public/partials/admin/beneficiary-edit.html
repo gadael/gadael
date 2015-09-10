@@ -51,23 +51,23 @@
 
         <div ng-model="activePanel" class="panel-group row panel panel-default" ng-repeat="renewal in beneficiary.renewals" role="tablist" aria-multiselectable="true" bs-collapse>
 
-            <div class="panel-heading" role="tab" bs-collapse-toggle>
+            <div class="panel-heading pointer" role="tab" bs-collapse-toggle>
                 <i class="glyphicon glyphicon-retweet"></i> &nbsp; From <strong>{{renewal.start|date}}</strong> to <strong>{{renewal.finish|date}}</strong>
             </div>
 
-
-            <div class="panel-body">
-                <dl class="dl-horizontal col-md-8">
-                    <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity}} {{renewal.initial_quantity_dispUnit}} (<span translate>adjustments included</span>)</dd>
-                    <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity}} {{renewal.consumed_quantity_dispUnit}}</dd>
-                    <dt translate>Available:</dt>  <dd>{{renewal.available_quantity}} {{renewal.available_quantity_dispUnit}}</dd>
-                </dl>
-
-                <div class="col-md-4">
-                    <button class="btn btn-primary" ng-click="addAdjustment(renewal);"><i class="fa fa-plus"></i> <span translate>Add a quantity adjustment</span></button>
-                </div>
-            </div>
             <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                <div class="panel-body">
+                    <dl class="dl-horizontal col-md-8">
+                        <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity}} {{renewal.initial_quantity_dispUnit}} (<span translate>adjustments included</span>)</dd>
+                        <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity}} {{renewal.consumed_quantity_dispUnit}}</dd>
+                        <dt translate>Available:</dt>  <dd>{{renewal.available_quantity}} {{renewal.available_quantity_dispUnit}}</dd>
+                    </dl>
+
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" ng-click="addAdjustment(renewal);"><i class="fa fa-plus"></i> <span translate>Add a quantity adjustment</span></button>
+                    </div>
+                </div>
+
                 <table class="table" ng-if="renewal.combinedAdjustments.length>0">
                     <thead>
                         <tr>

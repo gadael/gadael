@@ -110,3 +110,8 @@
     margin-top:-10px;
     margin-bottom:-8px;
 }
+
+
+.pointer {
+    cursor:pointer;
+}
