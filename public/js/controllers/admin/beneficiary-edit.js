@@ -140,7 +140,8 @@ define(['q'], function(Q) {
         'Rest',
         '$modal',
         'catchOutcome',
-        function($scope, $location, $routeParams, Rest, $modal, catchOutcome) {
+        'gettext',
+        function($scope, $location, $routeParams, Rest, $modal, catchOutcome, gettext) {
 
         var userResource = Rest.admin.users.getResource();
         var beneficiaryResource = Rest.admin.beneficiaries.getResource();
@@ -162,10 +163,17 @@ define(['q'], function(Q) {
 
             beneficiaryContainer.$promise.then(function(beneficiary) {
 
-                var adjustmentPromises = {};
+                var r, adjustmentPromises = {};
+                var now = new Date();
 
                 // for each renewals, add the list of adjustments
-                beneficiary.renewals.forEach(function(r) {
+                for(var panel =0; panel<beneficiary.renewals.length; panel++) {
+                    r = beneficiary.renewals[panel];
+
+                    if (r.start < now && r.finish > now) {
+                        $scope.activePanel = panel;
+                    }
+
                     var adjustments = adjustmentResource.query({ rightRenewal: r._id, user: $scope.user._id }, function() {
                         // Combine adjustments with r.adjustments
 
@@ -175,7 +183,7 @@ define(['q'], function(Q) {
                             r.combinedAdjustments.push({
                                 from: r.adjustments[i].from,
                                 quantity: r.adjustments[i].quantity,
-                                comment: 'Auto monthly update'
+                                comment: gettext('Auto monthly update')
                             });
                         }
 
@@ -190,7 +198,7 @@ define(['q'], function(Q) {
                     });
 
                     adjustmentPromises[r._id] = adjustments.$promise;
-                });
+                }
 
                 var requests = requestResource.query({
                     'user.id': $location.search().user,

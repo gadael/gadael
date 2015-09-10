@@ -49,42 +49,47 @@
             </nvd3-line-chart>
         </div>
 
-        <div class="row panel panel-default" ng-repeat="renewal in beneficiary.renewals">
+        <div ng-model="activePanel" role="tablist" aria-multiselectable="true" class="panel-group row panel panel-default" ng-repeat="renewal in beneficiary.renewals" bs-collapse>
 
-            <div class="panel-heading"><i class="glyphicon glyphicon-retweet"></i> &nbsp; From <strong>{{renewal.start|date}}</strong> to <strong>{{renewal.finish|date}}</strong></div>
-
-            <div class="panel-body">
-                <dl class="dl-horizontal col-md-8">
-                    <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity}} {{renewal.initial_quantity_dispUnit}} (<span translate>adjustments included</span>)</dd>
-                    <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity}} {{renewal.consumed_quantity_dispUnit}}</dd>
-                    <dt translate>Available:</dt>  <dd>{{renewal.available_quantity}} {{renewal.available_quantity_dispUnit}}</dd>
-                </dl>
-
-                <div class="col-md-4">
-                    <button class="btn btn-primary" ng-click="addAdjustment(renewal);"><i class="fa fa-plus"></i> <span translate>Add a quantity adjustment</span></button>
-                </div>
+            <div class="panel-heading" role="tab">
+                <a bs-collapse-toggle>
+                    <i class="glyphicon glyphicon-retweet"></i> &nbsp; From <strong>{{renewal.start|date}}</strong> to <strong>{{renewal.finish|date}}</strong>
+                </a>
             </div>
 
-            <table class="table" ng-if="renewal.combinedAdjustments.length>0">
-                <thead>
-                    <tr>
-                        <th width="20%">Date</th>
-                        <th width="20%" class="hidden-xs">Author</th>
-                        <th width="20%">Quantity</th>
-                        <th>Comment</th>
-                    </tr>
-                </thead>
 
-                <tbody>
-                    <tr ng-repeat="adjustment in renewal.combinedAdjustments">
-                        <td>{{adjustment.from|date}}<span class="hidden-xs"> {{adjustment.from|date:'HH:mm'}}</span></td>
-                        <td class="hidden-xs">{{adjustment.userCreated.name}}</td>
-                        <td><span ng-if="adjustment.quantity>0">+</span>{{adjustment.quantity}} {{renewal.initial_quantity_dispUnit}}</td>
-                        <td>{{adjustment.comment}}</td>
-                    </tr>
-                </tbody>
-            </table>
+                <div class="panel-body">
+                    <dl class="dl-horizontal col-md-8">
+                        <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity}} {{renewal.initial_quantity_dispUnit}} (<span translate>adjustments included</span>)</dd>
+                        <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity}} {{renewal.consumed_quantity_dispUnit}}</dd>
+                        <dt translate>Available:</dt>  <dd>{{renewal.available_quantity}} {{renewal.available_quantity_dispUnit}}</dd>
+                    </dl>
 
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" ng-click="addAdjustment(renewal);"><i class="fa fa-plus"></i> <span translate>Add a quantity adjustment</span></button>
+                    </div>
+                </div>
+            <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                <table class="table" ng-if="renewal.combinedAdjustments.length>0">
+                    <thead>
+                        <tr>
+                            <th width="20%">Date</th>
+                            <th width="20%" class="hidden-xs">Author</th>
+                            <th width="20%">Quantity</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="adjustment in renewal.combinedAdjustments">
+                            <td>{{adjustment.from|date}}<span class="hidden-xs"> {{adjustment.from|date:'HH:mm'}}</span></td>
+                            <td class="hidden-xs">{{adjustment.userCreated.name}}</td>
+                            <td><span ng-if="adjustment.quantity>0">+</span>{{adjustment.quantity}} {{renewal.initial_quantity_dispUnit}}</td>
+                            <td>{{adjustment.comment}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
 
