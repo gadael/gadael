@@ -1,4 +1,4 @@
-define(['q'], function(Q) {
+define(['q', 'async'], function(Q, async) {
 
     'use strict';
 
@@ -7,13 +7,12 @@ define(['q'], function(Q) {
      * Create graph values
      *
      * @param {array} renewals
-     * @param {object} adjustmentPromises   promises with adjustment id as key
      * @param {Promise} requestsPromise
      * @param {function} next
      *
      *
      */
-    function createGraphValues(renewals, adjustmentPromises, requestsPromise, next)
+    function createGraphValues(renewals, requestsPromise, next)
     {
         var history = [];
 
@@ -44,7 +43,7 @@ define(['q'], function(Q) {
 
                 // process manual adjustments
 
-                adjustmentPromises[r._id].then(function(adjustments) {
+                r.adjustmentPromise.then(function(adjustments) {
                     adjustments.forEach(function(adjustment) {
                         history.push({
                             position: adjustment.timeCreated,
@@ -163,22 +162,30 @@ define(['q'], function(Q) {
 
             beneficiaryContainer.$promise.then(function(beneficiary) {
 
-                var r, adjustmentPromises = {};
+                var renewalsById = {};
                 var now = new Date();
 
+
+
+
+                var panel = 0;
+
                 // for each renewals, add the list of adjustments
-                for(var panel =0; panel<beneficiary.renewals.length; panel++) {
-                    r = beneficiary.renewals[panel];
+
+                async.each(beneficiary.renewals, function(r, nextRenewal) {
+
+                    renewalsById[r._id] = r;
+                    r.combinedAdjustments = [];
 
                     if (r.start < now && r.finish > now) {
                         $scope.activePanel = panel;
                     }
 
+                    panel++;
+
                     var adjustments = adjustmentResource.query({ rightRenewal: r._id, user: $scope.user._id }, function() {
+
                         // Combine adjustments with r.adjustments
-
-                        r.combinedAdjustments = [];
-
                         for(var i=0; i<r.adjustments.length; i++) {
                             r.combinedAdjustments.push({
                                 from: r.adjustments[i].from,
@@ -195,25 +202,33 @@ define(['q'], function(Q) {
                         r.combinedAdjustments.sort(function(a1, a2) {
                             return (a1.from.getTime() - a2.from.getTime());
                         });
+
+                        nextRenewal();
                     });
 
-                    adjustmentPromises[r._id] = adjustments.$promise;
-                }
+                    r.adjustmentPromise = adjustments.$promise;
 
-                var requests = requestResource.query({
-                    'user.id': $location.search().user,
-                    absence: true
+
+                }, function endEachRenewal() {
+
+                    var requests = requestResource.query({
+                        'user.id': $location.search().user,
+                        absence: true
+                    });
+
+                    $scope.beneficiary = beneficiary;
+
+                    createGraphValues(beneficiary.renewals, requests.$promise, function(values) {
+                        $scope.timedAvailableQuantity = [{
+                            "key": "Available quantity",
+                            "values": values
+                        }];
+                    });
                 });
 
 
-                $scope.beneficiary = beneficiary;
 
-                createGraphValues(beneficiary.renewals, adjustmentPromises, requests.$promise, function(values) {
-                    $scope.timedAvailableQuantity = [{
-                        "key": "Available quantity",
-                        "values": values
-                    }];
-                });
+
 
 
             });
