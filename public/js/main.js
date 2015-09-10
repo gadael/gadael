@@ -16,6 +16,7 @@ require.config({
         moment:                 '../bower_components/moment/min/moment-with-locales.min',
         momentDurationFormat:   '../bower_components/moment-duration-format/lib/moment-duration-format',
         q:                      '../bower_components/q/q',
+        async:                  '../bower_components/async/dist/async.min',
         d3:                     '../bower_components/d3/d3.min',
         nvd3:                   '../bower_components/nvd3/build/nv.d3.min',
         angularnvd3:            '../bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min',
