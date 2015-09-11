@@ -24,7 +24,7 @@
 				</div>
 
                 <div class="col-sm-7 col-xs-9">
-                    <strong>{{right.name}}</strong><br />
+                    <i class="fa fa-asterisk" style="color:{{right.type.color}}" title="{{right.type.name}}"></i> <strong>{{right.name}}</strong><br />
                     
                     <div ng-if="!right.currentRenewal">
                         <i class="fa fa-exclamation-triangle text-warning"></i> <span translate>No active renewal</span>

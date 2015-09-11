@@ -16,7 +16,7 @@
         
         <div class="row panel panel-primary">
             <div class="col-xs-10">
-                <h2>{{right.name}}</h2>
+                <h2><i class="fa fa-asterisk" style="color:{{right.type.color}}" title="{{right.type.name}}"></i> {{right.name}}</h2>
                 <p><span translate>Type:</span> {{right.type.name}}</p>
                 <p><span translate>Default quantity on start renewal:</span> {{right.quantity | number}} {{right.disp_unit}}</p>
                 <p ng-if="right.addMonthly.quantity>0"><span translate>Monthly additions:</span> {{right.addMonthly.quantity | number}} {{right.disp_unit}}</p>
