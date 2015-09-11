@@ -21,7 +21,8 @@
 
             <div class="col-sm-8">
                 <p><span translate>Type:</span> {{beneficiary.right.type.name}}</p>
-                <p><span translate>Default quantity on start renewal:</span> {{beneficiary.right.quantity | number}} {{beneficiary.right.quantity_dispUnit}}</p>
+                <p><span translate>Default quantity on start renewal:</span> {{beneficiary.right.quantity | number:1}} {{beneficiary.right.quantity_dispUnit}}</p>
+                <p><span translate>Montly additions:</span> {{beneficiary.right.addMonthly.quantity | number:1}} {{beneficiary.right.quantity_dispUnit}}</p>
             </div>
 
             <div class="col-sm-4">
@@ -49,7 +50,7 @@
             </nvd3-line-chart>
         </div>
 
-        <div ng-model="activePanel" class="panel-group row panel panel-default" ng-repeat="renewal in beneficiary.renewals" role="tablist" aria-multiselectable="true" bs-collapse>
+        <div ng-model="activePanel" class="panel-group row panel panel-{{renewal.paneltype}}" ng-repeat="renewal in beneficiary.renewals" role="tablist" aria-multiselectable="true" bs-collapse>
 
             <div class="panel-heading pointer" role="tab" bs-collapse-toggle>
                 <i class="glyphicon glyphicon-retweet"></i> &nbsp; From <strong>{{renewal.start|date}}</strong> to <strong>{{renewal.finish|date}}</strong>
@@ -58,9 +59,9 @@
             <div class="panel-collapse" role="tabpanel" bs-collapse-target>
                 <div class="panel-body">
                     <dl class="dl-horizontal col-md-8">
-                        <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity}} {{renewal.initial_quantity_dispUnit}} (<span translate>adjustments included</span>)</dd>
-                        <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity}} {{renewal.consumed_quantity_dispUnit}}</dd>
-                        <dt translate>Available:</dt>  <dd>{{renewal.available_quantity}} {{renewal.available_quantity_dispUnit}}</dd>
+                        <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity | number:1}} {{renewal.initial_quantity_dispUnit}} (<span translate>adjustments included</span>)</dd>
+                        <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity | number:1}} {{renewal.consumed_quantity_dispUnit}}</dd>
+                        <dt translate>Available:</dt>  <dd>{{renewal.available_quantity | number:1}} {{renewal.available_quantity_dispUnit}}</dd>
                     </dl>
 
                     <div class="col-md-4">
@@ -82,7 +83,7 @@
                         <tr ng-repeat="adjustment in renewal.combinedAdjustments">
                             <td>{{adjustment.from|date}}<span class="hidden-xs"> {{adjustment.from|date:'HH:mm'}}</span></td>
                             <td class="hidden-xs">{{adjustment.userCreated.name}}</td>
-                            <td><span ng-if="adjustment.quantity>0">+</span>{{adjustment.quantity}} {{renewal.initial_quantity_dispUnit}}</td>
+                            <td><span ng-if="adjustment.quantity>0">+</span>{{adjustment.quantity | number:1}} {{renewal.initial_quantity_dispUnit}}</td>
                             <td>{{adjustment.comment}}</td>
                         </tr>
                     </tbody>
