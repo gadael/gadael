@@ -121,18 +121,27 @@ exports = module.exports = function(params) {
             return false;
         }
 
+        function getNextMonthStart(date)
+        {
+            date.setDate(1);
+            date.setHours(0,0,0,0);
+            date.setMonth(date.getMonth()+1);
+
+            return date;
+        }
+
         var max = right.getMonthlyMaxQuantity();
-        var loop = new Date();
+        var loop = getNextMonthStart(new Date());
+
 
         if (loop < renewal.start) {
-            loop = new Date(renewal.start);
+            loop = getNextMonthStart(new Date(renewal.start));
         }
 
 
         // start at the begining of the next month
 
-        loop.setDate(1);
-        loop.setHours(0,0,0,0);
+
 
         var inserted = 0;
 
