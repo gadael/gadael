@@ -19,7 +19,7 @@ api.create = function(app, parent, name, operator) {
     var DepartmentModel = app.db.models.Department;
     var department = new DepartmentModel();
 
-    department.name = name || Charlatan.Commerce.department();
+    department.name = name || Charlatan.Commerce.department();
     department.parent = parent;
 
     if (undefined !== operator) {
