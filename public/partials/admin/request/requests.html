@@ -49,9 +49,7 @@
 
                 </div>
 
-                <div class="col-md-3">
-                    {{request.status.title}}
-                    <span class="label label-primary" ng-if="getStat(request).approval.steps">{{getStat(request).approval.position}} / {{getStat(request).approval.steps}}</span>
+                <div class="col-md-3" ng-include="'partials/utils/common/request/request-list-status.html'">
                 </div>
 			</div>
 		</div>

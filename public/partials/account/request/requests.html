@@ -30,25 +30,21 @@
                 </div>
 
                 <div class="col-xs-11">
-                        <div class="col-md-5" ng-if="request.absence.distribution">
-                             <strong translate>Absence</strong>
-                            <div class="row">
-                                <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
-                                <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
-                            </div>
+                    <div class="col-md-5" ng-if="request.absence.distribution">
+                         <strong translate>Absence</strong>
+                        <div class="row">
+                            <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
+                            <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
                         </div>
+                    </div>
 
-                        <div class="col-md-4 hidden-xs hidden-sm">
-                            <span translate>Created the</span><br />
-                            {{request.timeCreated|date}}
-                        </div>
+                    <div class="col-md-4 hidden-xs hidden-sm">
+                        <span translate>Created the</span><br />
+                        {{request.timeCreated|date}}
+                    </div>
 
-                        <div class="col-md-3">
-                            {{request.status.title}}
-                            <span class="label label-primary" ng-if="getStat(request).approval.steps">
-                                {{getStat(request).approval.position}} / {{getStat(request).approval.steps}}
-                            </span>
-                        </div>
+                    <div class="col-md-3" ng-include="'partials/utils/common/request/request-list-status.html'">
+                    </div>
 
                 </div>
 			</div>
