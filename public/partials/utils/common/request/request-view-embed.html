@@ -12,7 +12,12 @@
         </thead>
         <tbody>
         <tr ng-repeat="step in request.approvalSteps">
-            <td>{{step.status}}</td>
+            <td>
+                <span ng-class="[{ 'label label-success': step.status=='accepted' }, { 'label label-danger': step.status=='rejected' }]">
+                    <i ng-class="[{ 'fa fa-thumbs-up': step.status=='accepted' }, { 'fa fa-thumbs-down': step.status=='rejected' }]"></i>
+                    {{step.dispStatus}}
+                </span>
+            </td>
             <td class="hidden-xs hidden-sm">{{step.department}}</td>
             <td>
                 <div class="bottom5" ng-repeat="approver in step.approvers">

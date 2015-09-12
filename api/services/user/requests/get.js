@@ -67,6 +67,17 @@ exports = module.exports = function(services, app) {
 
 
                 var docObj = document.toObject();
+
+
+
+                // get a displayable status for each approval steps
+                if (undefined !== docObj.approvalSteps) {
+                    for(var i=0; i<docObj.approvalSteps.length; i++) {
+                        docObj.approvalSteps[i].dispStatus = document.approvalSteps[i].getDispStatus();
+                    }
+                }
+
+
                 var elem;
 
 

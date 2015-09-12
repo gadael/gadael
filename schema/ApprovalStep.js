@@ -42,6 +42,24 @@ exports = module.exports = function(params) {
 
         return false;
     };
+
+
+    /**
+     * Get displayable status
+     * @return {string}
+     */
+    approvalStepSchema.methods.getDispStatus = function() {
+        var Gettext = require('node-gettext');
+        var gt = new Gettext();
+
+        switch(this.status) {
+            case 'waiting':     return gt.gettext('Waiting');
+            case 'accepted':    return gt.gettext('Waiting');
+            case 'rejected':    return gt.gettext('Rejected');
+        }
+
+        return null;
+    };
   
 
 

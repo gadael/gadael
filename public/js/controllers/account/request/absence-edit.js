@@ -66,7 +66,6 @@ define(['q'], function(Q) {
                 loadEvents(interval).then(function(events) {
 
                     events = events.filter(function(e) {
-                        console.log(e);
                         return (e.request !== $routeParams.id);
                     });
 
