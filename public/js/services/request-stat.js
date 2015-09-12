@@ -22,7 +22,8 @@ define([], function() {
             },
             approval: {
                 steps: 0,
-                position: 0
+                position: 0,
+                department: null
             }
         };
 
@@ -43,18 +44,21 @@ define([], function() {
             // this can be displayed in list where the full steps list is not visible
 
             var total = request.approvalSteps.length;
-            var position;
 
             for(i=0; i<total; i++) {
                 if ('waiting' !== request.approvalSteps[i].status) {
                     continue;
                 }
-                position = i+1;
+                stat.approval.position = i+1;
+
+                if (undefined !== request.approvalSteps[i]) {
+                    stat.approval.department = request.approvalSteps[i].department;
+                }
                 break;
             }
 
             stat.approval.steps = total;
-            stat.approval.position = position;
+
         }
 
 

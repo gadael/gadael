@@ -33,9 +33,7 @@ define([], function() {
 
             });
 
-            $scope.getStat = function(request) {
-                return getRequestStat(request);
-            };
+            $scope.getStat = getRequestStat;
 
 	}];
 });

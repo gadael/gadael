@@ -2,6 +2,6 @@
     <i ng-class="[{ 'fa fa-thumbs-up': request.status.created=='accepted' }, { 'fa fa-thumbs-down': request.status.created=='rejected' }]"></i>
     {{request.status.title}}
 </span>
-<span class="label label-primary" ng-if="getStat(request).approval.steps">
+<span class="label label-primary" ng-if="getStat(request).approval.steps" bs-tooltip="getStat(request).approval.department">
     {{getStat(request).approval.position}} / {{getStat(request).approval.steps}}
 </span>
