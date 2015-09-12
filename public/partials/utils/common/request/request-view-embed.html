@@ -15,7 +15,7 @@
             <td>{{step.status}}</td>
             <td class="hidden-xs hidden-sm">{{step.department}}</td>
             <td>
-                <div ng-repeat="approver in step.approvers">
+                <div class="bottom5" ng-repeat="approver in step.approvers">
                     <i class="fa fa-user" ng-if="!approver.image"></i>
                     <img ng-if="approver.image" ng-src="{{approver.image}}" class="img-rounded" height="30" />
                     &nbsp; {{approver.lastname}} {{approver.firstname}}

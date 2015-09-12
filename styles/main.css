@@ -31,6 +31,17 @@
 .top60 { margin-top:60px; }
 
 
+.bottom5 { margin-bottom:5px; }
+.bottom7 { margin-bottom:7px; }
+.bottom10 { margin-bottom:10px; }
+.bottom15 { margin-bottom:15px; }
+.bottom17 { margin-bottom:17px; }
+.bottom30 { margin-bottom:30px; }
+.bottom40 { margin-bottom:40px; }
+.bottom50 { margin-bottom:50px; }
+.bottom60 { margin-bottom:60px; }
+
+
 .inga-list-header {
 	background-image: linear-gradient(to bottom, #eee 0px, #f8f8f8 100%);
     background-repeat: repeat-x;
