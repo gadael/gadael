@@ -16,7 +16,6 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	
 	var eventSchema = new mongoose.Schema({
-		uid: { type: String },
 		dtstart: { type: Date, required: true },
 		dtend: { type: Date }, // , required: true
 		summary: String,
@@ -34,6 +33,7 @@ exports = module.exports = function(params) {
         request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request' }, // for absence or workperiod_recover
 		timeCreated: { type: Date, default: Date.now }
 	});
+
 
 	eventSchema.index({ 'uid': 1 });
 	eventSchema.index({ 'dtstart': 1 });

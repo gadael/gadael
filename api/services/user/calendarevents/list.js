@@ -183,6 +183,7 @@ exports = module.exports = function(services, app) {
                     if (err) {
                         return deferred.reject(err);
                     }
+
                     deferred.resolve(getExpandedEra(docs));
                 });
             }
@@ -234,6 +235,7 @@ exports = module.exports = function(services, app) {
                         dtend: params.dtend,
                         calendar: nwdCalId
                     }).exec(function(err, docs) {
+
                         var nonWorkingDays = getExpandedEra(docs);
                         var NWera = nonWorkingDays.intersectPeriod(searchPeriod);
                         var substracted = era.substractEra(NWera);

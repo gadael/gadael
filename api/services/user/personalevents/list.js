@@ -90,9 +90,16 @@ exports = module.exports = function(services, app) {
         }
 
         getEventsQuery(service, params).exec(function(err, docs) {
+            var objects = docs.map(function(event) {
+                event = event.toObject();
+                if (undefined === event.uid || null === event.uid || '' === event.uid) {
+                    event.uid = event._id;
+                }
 
+                return event;
+            });
 
-            return service.mongOutcome(err, docs);
+            return service.mongOutcome(err, objects);
 
 
         });
