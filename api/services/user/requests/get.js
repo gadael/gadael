@@ -99,6 +99,13 @@ exports = module.exports = function(services, app) {
                 }
 
 
+                docObj.events.map(function(event) {
+                    if (undefined === event.uid) {
+                        event.uid = event._id;
+                    }
+                    return event;
+                });
+
                 service.outcome.success = true;
                 service.deferred.resolve(docObj);
             }

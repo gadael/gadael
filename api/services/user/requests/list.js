@@ -74,6 +74,7 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
+
         var find = query(service, params)
             .select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps status')
             .sort('timeCreated');
@@ -88,6 +89,13 @@ exports = module.exports = function(services, app) {
                 for(var i=0; i<docs.length; i++) {
                     var reqObj = docs[i].toObject();
                     reqObj.status.title = docs[i].getDispStatus();
+                    reqObj.events.map(function(event) {
+                        if (undefined === event.uid) {
+                            event.uid = event._id;
+                        }
+                        return event;
+                    });
+
                     docsObj.push(reqObj);
                 }
             }
