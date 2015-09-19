@@ -20,7 +20,15 @@ require.config({
         d3:                     '../bower_components/d3/d3.min',
         nvd3:                   '../bower_components/nvd3/build/nv.d3.min',
         angularnvd3:            '../bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min',
-        teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',
+
+    //    teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',
+
+        tp_mousedrag:           '../bower_components/teleperiod/src/mousedrag',
+        tp_selection:           '../bower_components/teleperiod/src/selection',
+        tp_timeline:            '../bower_components/teleperiod/src/timeline',
+        tp_timespanboundary:    '../bower_components/teleperiod/src/timespan-boundary',
+        teleperiod:          '../bower_components/teleperiod/src/teleperiod',
+
         angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod',
         angularColorpicker:     '../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min',
         angularImageCrop:       '../bower_components/angular-image-crop/image-crop'
@@ -45,7 +53,8 @@ require.config({
 		'angularAnimate': ['angular'],
 		'angularSanitize': ['angular'],
         'q': { 'exports': 'Q' },
-        'teleperiod': ['q', 'd3'],
+      //  'teleperiod': ['q', 'd3'],
+          'teleperiod': ['q', 'd3', 'tp_mousedrag', 'tp_selection', 'tp_timeline', 'tp_timespanboundary'],
         'angularTeleperiod': ['q', 'angular', 'teleperiod'],
         'angularImageCrop': ['angular'],
         'angularnvd3': ['angular', 'd3', 'nvd3']

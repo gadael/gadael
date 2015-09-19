@@ -101,7 +101,9 @@ exports = module.exports = function(services, app) {
      *                      params.calendar                 carlendar ID to search in
      *                      params.substractNonWorkingDays  substract non working days periods
      *                      params.substractPersonalEvents  substract personal events
+     *                      params.substractException       Array of personal event ID to ignore in the personal events to substract
      *                      params.user                     User ID for personal events
+     *
      *
      * @return {Promise}
      */
@@ -174,12 +176,21 @@ exports = module.exports = function(services, app) {
                 deferred.reject('the user param is mandatory if substractPersonalEvents is used');
             } else {
 
-                getEventsQuery(service, {
+                var filter = {
                     dtstart: params.dtstart,
                     dtend: params.dtend,
                     user: params.user,
                     status: { $in: ['TENTATIVE', 'CONFIRMED'] }
-                }).exec(function(err, docs) {
+                };
+
+                if (undefined !== params.substractException) {
+                    // Do not substract those personnal events
+                    // because this is the events to update with selection
+                    // the others personal events will be substracted from working hours
+                    filter._id = { $not: { $in: params.substractException } };
+                }
+
+                getEventsQuery(service, filter).exec(function(err, docs) {
                     if (err) {
                         return deferred.reject(err);
                     }

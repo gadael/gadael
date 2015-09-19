@@ -27,6 +27,8 @@ define(['q'], function(Q) {
                 // edit this request
                 $scope.editRequest = true;
                 AbsenceEdit.setSelectionFromRequest($scope);
+                console.log('test');
+                $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents, $scope.request.events);
             });
         } else {
             
@@ -37,6 +39,8 @@ define(['q'], function(Q) {
             $scope.request.absence = {
                     distribution: []
             };
+
+            $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
         }
         
 
@@ -51,13 +55,14 @@ define(['q'], function(Q) {
             };
         });
 
-        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
+
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
         var loadEvents = AbsenceEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
 
         if (undefined === $routeParams.id) {
             $scope.loadEvents = loadEvents;
+
         } else {
 
 

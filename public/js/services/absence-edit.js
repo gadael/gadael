@@ -380,9 +380,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          * Get Period picker callback for working times
          * @param {Promise} userPromise
          * @param {Resource} calendarEvents
+         * @param {Array} [personalEvents] Optional personal events list, the list of events curently modified
          * @return function
          */
-        getLoadWorkingTimes: function(userPromise, calendarEvents) {
+        getLoadWorkingTimes: function(userPromise, calendarEvents, personalEvents) {
 
             return function(interval) {
 
@@ -396,13 +397,22 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                         return;
                     }
 
-                    calendarEvents.query({
+                    var queryParams = {
                         calendar: account.currentScheduleCalendar._id,
                         dtstart: interval.from,
                         dtend: interval.to,
                         substractNonWorkingDays: true,
                         substractPersonalEvents: true
-                    }).$promise.then(deferred.resolve);
+                    };
+
+                    if (undefined !== personalEvents) {
+                        queryParams.substractException = [];
+                        personalEvents.forEach(function(personalEvent) {
+                            queryParams.substractException.push(personalEvent._id);
+                        });
+                    }
+
+                    calendarEvents.query(queryParams).$promise.then(deferred.resolve);
                 });
 
                 return deferred.promise;
