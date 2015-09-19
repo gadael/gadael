@@ -187,7 +187,7 @@ exports = module.exports = function(services, app) {
                     // Do not substract those personnal events
                     // because this is the events to update with selection
                     // the others personal events will be substracted from working hours
-                    filter._id = { $not: { $in: params.substractException } };
+                    filter._id = { $nin: params.substractException };
                 }
 
                 getEventsQuery(service, filter).exec(function(err, docs) {
