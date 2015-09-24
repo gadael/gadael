@@ -1,4 +1,4 @@
-
+'use strict';
 
 
 /**
@@ -6,6 +6,19 @@
  */
 
 
+function addDatesCriterion(find, params)
+{
+     find.or([
+        { rrule: { $exists: true } },
+        { $and:
+            [
+                { rrule: { $exists: false } },
+                { dtend: { $gt: params.dtstart } },
+                { dtstart: { $lt: params.dtend } }
+            ]
+        }
+    ]);
+}
 
 
 /**
@@ -19,8 +32,6 @@
  */
 function getEventsQuery(service, params)
 {
-    'use strict';
-
     var find = service.app.db.models.CalendarEvent.find();
 
     if (params.calendar) {
@@ -35,17 +46,8 @@ function getEventsQuery(service, params)
         find.where('user.id').equals(params.user);   
     }
 
-    
-    find.or([
-        { rrule: { $exists: true } },
-        { $and: 
-            [
-                { rrule: { $exists: false } },
-                { dtend: { $gt: params.dtstart } },
-                { dtstart: { $lt: params.dtend } }
-            ]
-        }
-    ]);
+    addDatesCriterion(find, params);
+
     
     return find;
 }
@@ -56,8 +58,6 @@ function getEventsQuery(service, params)
  */
 function getScheduleCalendar(service, calendar)
 {
-    'use strict';
-
     var find = service.app.db.models.CalendarEvent.findOne(calendar);
     return find.exec();
 }
@@ -66,8 +66,6 @@ function getScheduleCalendar(service, calendar)
 
 function getNonWorkingDaysCalendar(service)
 {
-    'use strict';
-
     var find = service.app.db.models.Calendar.find();
     find.where('type', 'nonworkingday');
     return find.exec();
@@ -86,8 +84,6 @@ function getNonWorkingDaysCalendar(service)
  * @returns {listItemsService}
  */
 exports = module.exports = function(services, app) {
-    
-    'use strict';
 
     var service = new services.list(app);
     
@@ -151,6 +147,7 @@ exports = module.exports = function(services, app) {
             expandStart.setDate(expandStart.getDate() -1);
 
             for(var i =0; i<docs.length; i++) {
+
                 expanded = docs[i].expand(expandStart, params.dtend);
 
                 // expand event if RRULE
@@ -177,9 +174,7 @@ exports = module.exports = function(services, app) {
             } else {
 
                 var filter = {
-                    dtstart: params.dtstart,
-                    dtend: params.dtend,
-                    user: params.user,
+                    'user.id': params.user,
                     status: { $in: ['TENTATIVE', 'CONFIRMED'] }
                 };
 
@@ -187,13 +182,24 @@ exports = module.exports = function(services, app) {
                     // Do not substract those personnal events
                     // because this is the events to update with selection
                     // the others personal events will be substracted from working hours
-                    filter._id = { $nin: params.substractException };
+                    filter._id = { $ne: params.substractException };
                 }
 
-                getEventsQuery(service, filter).exec(function(err, docs) {
+                var find = service.app.db.models.CalendarEvent.find(filter);
+                addDatesCriterion(find, params);
+
+                find.exec(function(err, docs) {
                     if (err) {
                         return deferred.reject(err);
                     }
+
+                    docs.forEach(function(doc) {
+                        if (params.substractException === doc._id.toString()) {
+                            console.log(doc);
+                        }
+
+                    });
+
 
                     deferred.resolve(getExpandedEra(docs));
                 });
