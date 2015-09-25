@@ -3,7 +3,8 @@ define(['q'], function(Q) {
     'use strict';
 
 
-	return ['$scope', '$location', 'Rest', 'AbsenceEdit', '$routeParams', function($scope, $location, Rest, AbsenceEdit, $routeParams) {
+	return ['$scope', '$location', 'Rest', 'AbsenceEdit', '$routeParams', '$rootScope',
+            function($scope, $location, Rest, AbsenceEdit, $routeParams, $rootScope) {
 
 
         
@@ -34,6 +35,7 @@ define(['q'], function(Q) {
             // create a new request
             $scope.newRequest = true;
 
+            $scope.request.events = [];
             $scope.request.timeCreated = new Date();
             $scope.request.absence = {
                     distribution: []
@@ -118,9 +120,15 @@ define(['q'], function(Q) {
             var rights = $scope.distribution.right;
             var periods = $scope.selection.periods;
 
-            $scope.request.absence.distribution = AbsenceEdit.createDistribution(rights, periods, $scope.accountRights);
-
-            $scope.request.ingaSave($scope.back);
+            try {
+                $scope.request.absence.distribution = AbsenceEdit.createDistribution(rights, periods, $scope.accountRights);
+                $scope.request.ingaSave($scope.back);
+            } catch(e) {
+                $rootScope.pageAlerts.push({
+                    message: e.message,
+                    type: 'danger'
+                });
+            }
         };
 
 	}];

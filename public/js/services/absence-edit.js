@@ -583,6 +583,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
              */
             function getPeriod(date)
             {
+
                 for(var i=0; i<periods.length; i++) {
                     if (periods[i].dtstart.getTime() === date.getTime()) {
                         return periods[i];
@@ -608,17 +609,26 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             {
                 var next, period;
 
+                if (0 === secQuantity) {
+                    throw new Error('Wrong input in getNextDate method');
+                }
+
                 do {
                     period = getPeriod(date);
 
                     if (null === period) {
-                        throw new Error('Failed to get a period from '+date);
+                        throw new Error('Failed to get a period from '+date+', try to get a date in selected periods by adding '+quantity+' seconds');
                     }
 
                     next = getLast(period, date, secQuantity);
+
+                    if (next.to.getTime() === date.getTime()) {
+                        throw new Error('Next date in selected periods must not be equal to the previous date');
+                    }
+
                     date = next.to;
-                    quantity = next.remainder;
-                } while(quantity > 0);
+                    secQuantity = next.remainder;
+                } while(secQuantity > 0);
 
 
                 if (isNaN(date.getTime())) {
