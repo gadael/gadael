@@ -591,121 +591,63 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             }
 
 
+
             /**
-             * get the remainder quantity or the date in a period
+             * @param {object} selectePeriod    selected working period
+             * @param {Number} secQuantity      Duration for the element
+             * @param {Date} startDate          Start date for the element
              *
-             * @param {object}  period      object with dtstart and dtend and businessDays
-             * @param {Date}    from        start date in period
-             * @param {Number}  secQuantity seconds to add to the from date
-             *
-             * @return {object} with properties:
-             *      to: the next date in period
-             *      remainder: the remaining quantity or 0, in seconds
+             * @return {object}
              */
-            function getLast(period, from, secQuantity)
+            function extractEvent(selectedPeriod, startDate, secQuantity)
             {
-                if (isNaN(from.getTime())) {
-                    throw new Error('invalid date');
+                if (selectedPeriod.dtend <= startDate) {
+                    return null;
                 }
 
-                if (isNaN(secQuantity)) {
-                    throw new Error('invalid duration');
+                var endDate = new Date(startDate);
+                endDate.setTime(endDate.getTime() + (1000* secQuantity));
+
+                if (selectedPeriod.dtstart >= endDate) {
+                    return null;
                 }
 
-                var to = new Date(from);
-                to.setSeconds(to.getSeconds() + secQuantity);
 
-                var remainder = 0;
-
-                if (to.getTime() > period.dtend.getTime()) {
-                    remainder = Math.round((to.getTime() - period.dtend.getTime()) / 1000);
-                    to = period.dtend;
-                }
+                var dtstart = selectedPeriod.dtstart > startDate ? selectedPeriod.dtstart : startDate;
+                var dtend = selectedPeriod.dtend < endDate ? selectedPeriod.dtend : endDate;
 
                 return {
-                    to: to,
-                    remainder: remainder
+                    dtstart: dtstart,
+                    dtend: dtend
                 };
             }
 
-            /**
-             * get the period from date, if date is a period start date, return the period
-             * if date is not in a period, get the next period from date
-             * @return {object}
-             */
-            function getPeriod(date)
-            {
-
-                for(var i=0; i<periods.length; i++) {
-                    if (periods[i].dtstart.getTime() === date.getTime()) {
-                        return periods[i];
-                    }
-
-                    if (periods[i].dtend > date) {
-                        return periods[i];
-                    }
-                }
-
-                return null;
-            }
-
 
             /**
-             * Get next date from quantity
-             * @param {Date}    date            Origin
-             * @param {Number}  secQuantity     User input converted to seconds
+             * create events to embed in distribution
+             * One event per working period
              *
-             * @return {Date}
+             * @param {Number} secQuantity      Duration for the element
+             * @param {Date} startDate          Start date for the element
+             * @return {array}
              */
-            function getNextDate(date, secQuantity)
+            function createEvents(secQuantity, startDate)
             {
-                var next, period;
 
-                if (0 === secQuantity || isNaN(secQuantity)) {
-                    throw new Error('Wrong input in getNextDate method');
-                }
+                var event, events = [];
 
-                do {
-                    period = getPeriod(date);
+                periods.forEach(function(selectedPeriod) {
+                    event = extractEvent(selectedPeriod, startDate, secQuantity);
+                    if (null !== event) {
+                        events.push(event);
 
-                    if (null === period) {
-                        throw new Error('Failed to get a period from '+date+', try to get a date in selected periods by adding '+quantity+' seconds');
+                        startDate = event.dtend;
+                        secQuantity = secQuantity - Math.round((event.dtend.getTime() - event.dtstart.getTime())/1000);
+
                     }
+                });
 
-                    next = getLast(period, date, secQuantity);
-
-                    if (next.to.getTime() === date.getTime()) {
-                        throw new Error('Next date in selected periods must not be equal to the previous date');
-                    }
-
-                    date = next.to;
-                    secQuantity = next.remainder;
-                } while(secQuantity > 0);
-
-
-                if (isNaN(date.getTime())) {
-                    throw new Error('Invalid output for getNextDate');
-                }
-
-                return date;
-            }
-
-
-            /**
-             * create event to embed in distribution
-             * @param {Number} secQuantity
-             * @param {Date} startDate
-             * @return {object}
-             */
-            function createEvent(secQuantity, startDate)
-            {
-                var event = {
-                    dtstart: startDate,
-                    dtend: getNextDate(startDate, secQuantity)
-                };
-
-
-                return event;
+                return events;
             }
 
             /**
@@ -765,11 +707,13 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     elem = {
                         right: rightId,
                         quantity: quantity,
-                        event: createEvent(getSecQuantity(rightId, quantity), startDate)
+                        events: createEvents(getSecQuantity(rightId, quantity), startDate)
                     };
 
                     distribution.push(elem);
-                    startDate = elem.event.dtend;
+
+                    // set startDate for the next element
+                    startDate = elem.events[elem.events.length-1].dtend;
                 }
             }
 

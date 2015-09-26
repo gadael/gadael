@@ -78,15 +78,22 @@ exports = module.exports = function(services, app) {
                 }
 
 
-                var elem;
+                var elem, newEvents;
 
+                var eachEventId = function(elemEvtId) {
+                    if (undefined !== events[elemEvtId]) {
+                        newEvents.push(events[elemEvtId]);
+                    }
+                };
 
                 for(var r=0; r<document.absence.distribution.length; r++) {
                     elem = docObj.absence.distribution[r];
                     elem.right.dispUnit = dispunits(elem.right.quantity_unit, elem.quantity);
-                    if (undefined !== events[elem.event]) {
-                        elem.event = events[elem.event];
-                    }
+
+                    // replace events id by objects
+                    newEvents = [];
+                    elem.events.forEach(eachEventId);
+                    elem.events = newEvents;
                 }
 
                 // add displayable status

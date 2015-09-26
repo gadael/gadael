@@ -302,18 +302,18 @@ describe('request absence account rest service', function() {
             {
                 right: right1._id,
                 quantity: 1,
-                event: {
+                events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
                     dtend: new Date(2015,1,1, 18).toJSON()
-                }
+                }]
             },
             {
                 right: right2._id,
                 quantity: 1,
-                event: {
+                events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
                     dtend: new Date(2015,1,1, 18).toJSON()
-                }
+                }]
             }
         ];
 
@@ -366,10 +366,10 @@ describe('request absence account rest service', function() {
             {
                 right: right1._id,
                 quantity: 5,
-                event: {
+                events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
                     dtend: new Date(2015,1,5, 18).toJSON()
-                }
+                }]
             }
         ];
 
@@ -391,10 +391,10 @@ describe('request absence account rest service', function() {
             {
                 right: right1._id,
                 quantity: 22, // there should be only 20 days left
-                event: {
+                events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
                     dtend: new Date(2015,1,22, 18).toJSON()
-                }
+                }]
             }
         ];
 
