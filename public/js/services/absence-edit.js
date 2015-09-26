@@ -229,6 +229,12 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             var events = $scope.request.events;
 
+            events.forEach(function(evt) {
+                if (undefined === evt.businessDays) {
+                    throw new Error('events in selection must contain the businessDays property');
+                }
+            });
+
             $scope.selection.begin = events[0].dtstart;
             $scope.selection.end = events[events.length-1].dtend;
             $scope.selection.periods = events;
