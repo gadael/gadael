@@ -21,36 +21,30 @@ function validate(service, params)
 /**
  * This function will create or update an event
  *
- * @param {apiService} service
- * @param {User} user         The user document
+ * @param {apiService}  service
+ * @param {User}        user         The user document
  * @param {AbsenceElem} elem
- * @param {object}     event
+ * @param {array}       events       array of objects
  *
- * @return {Promise}        Promise the AbsenceElem document, modified with the event ID
+ * @return {Promise}        Promise the AbsenceElem document, modified with the events ID
  */
-function saveEvent(service, user, elem, event)
+function saveEvents(service, user, elem, events)
 {
+    var async = require('async');
     var Q = require('q');
     var deferred = Q.defer();
     var EventModel = service.app.db.models.CalendarEvent;
 
 
 
-    function fwdPromise(err, event)
-    {
-        if (err) {
-            return deferred.reject(err);
-        }
-
-        elem.event = event._id;
-        deferred.resolve(elem);
-    }
-
 
     /**
      * Set event properties and save
+     * @param {CalendarEvent} eventDocument
+     * @param {object} event
+     * @param {function} callback
      */
-    function setProperties(eventDocument)
+    function setProperties(eventDocument, event, callback)
     {
         if (undefined === elem.right.type) {
             eventDocument.summary = elem.right.name;
@@ -65,19 +59,40 @@ function saveEvent(service, user, elem, event)
             name: user.getName()
         };
 
-        eventDocument.save(fwdPromise);
+        eventDocument.save(function(err) {
+            if (err) {
+                return callback(err);
+            }
+
+            elem.events.push(event._id);
+        });
     }
 
 
 
-    if (elem.event) {
-        EventModel.findById(elem.event, function(err, existingEvent) {
-            if (existingEvent) {
-                setProperties(existingEvent);
-            } else {
-                setProperties(new EventModel());
+    if (elem.events) {
+        async.each(events, function(postedEvent, callback) {
+
+            if (undefined === postedEvent._id || null === postedEvent._id) {
+                return setProperties(new EventModel(), postedEvent, callback);
             }
+
+            EventModel.findById(postedEvent._id, function(err, existingEvent) {
+                if (existingEvent) {
+                    setProperties(existingEvent, postedEvent, callback);
+                } else {
+                    setProperties(new EventModel(), postedEvent, callback);
+                }
+            });
+
+        }, function(err) {
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            deferred.resolve(elem);
         });
+
 
         return deferred.promise;
     }
@@ -157,7 +172,7 @@ function saveElement(service, user, elem)
 
 
 
-                saveEvent(service, user, element, elem.event).then(function(savedEvent) {
+                saveEvents(service, user, element, elem.events).then(function() {
 
 
                     element.save(function(err, element) {
