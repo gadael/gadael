@@ -108,11 +108,46 @@ function saveEvents(service, user, elem, events)
 
 
 /**
+ * get one period for one element
+ * combine mutiples events into one if more than one event
+ * @return {object}
+ */
+function getElemPeriod(elem)
+{
+    if (elem.events.length === 0) {
+        throw new Error('Missing events in element');
+    }
+
+    if (elem.events.length === 1) {
+        return elem.events[0];
+    }
+
+    var period = {
+        dtstart: elem.events[0].dtstart,
+        dtend: elem.events[0].dtend
+    };
+
+    elem.events.forEach(function(evt) {
+        if (evt.dtstart < period.dtstart) {
+            period.dtstart = evt.dtstart;
+        }
+
+        if (evt.dtend > period.dtend) {
+            period.dtend = evt.dtend;
+        }
+    });
+
+    return period;
+}
+
+
+
+/**
  * This function will create or update an absence element
  *
  * @param {apiService}                  service
- * @param {User} user                 The user document
- * @param {object} elem                 document
+ * @param {User} user                   The user document
+ * @param {object} elem                 elem object from params
  *
  *
  * @return {Promise}        Promise the AbsenceElem document
@@ -123,6 +158,8 @@ function saveElement(service, user, elem)
     var deferred = Q.defer();
     var ElementModel = service.app.db.models.AbsenceElem;
     var RightModel = service.app.db.models.Right;
+
+    var elemPeriod = getElemPeriod(elem);
 
     function setProperties(element)
     {
@@ -138,7 +175,7 @@ function saveElement(service, user, elem)
             }
 
             // get renewal to save in element
-            rightDocument.getPeriodRenewal(elem.event.dtstart, elem.event.dtend).then(function(renewal) {
+            rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
 
                 if (null === renewal) {
                     return deferred.reject('No available renewal for the element');
@@ -212,6 +249,9 @@ function saveElement(service, user, elem)
 
 /**
  * Check element validity of one element
+ * @param {apiService}                  service
+ * @param {User} user                   The user document
+ * @param {object} elem                 elem object from params
  * @return {Promise}
  */
 function checkElement(service, user, elem)
@@ -222,6 +262,8 @@ function checkElement(service, user, elem)
     var RightModel = service.app.db.models.Right;
     var AccountModel = service.app.db.models.Account;
 
+    var elemPeriod = getElemPeriod(elem);
+
     RightModel.findOne({ _id: elem.right })
         .exec(function(err, rightDocument) {
 
@@ -230,7 +272,7 @@ function checkElement(service, user, elem)
         }
 
         // get renewal to save in element
-        rightDocument.getPeriodRenewal(elem.event.dtstart, elem.event.dtend).then(function(renewal) {
+        rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
 
             if (null === renewal) {
                 return deferred.reject('No available renewal for the element');
@@ -331,20 +373,21 @@ function getCollectionFromDistribution(distribution, account) {
         });
     }
 
-    if (undefined === distribution[0].event) {
+    if (undefined === distribution[0].events) {
         return Q.fcall(function () {
-            throw new Error('Invalid request, event is not available in first right of distribution');
+            throw new Error('Invalid request, events are not available in first right of distribution');
         });
     }
 
-    if (undefined === distribution[distribution.length -1].event) {
+    if (undefined === distribution[distribution.length -1].events) {
         return Q.fcall(function () {
-            throw new Error('Invalid request, event is not available in last right of distribution');
+            throw new Error('Invalid request, events are not available in last right of distribution');
         });
     }
 
-    dtstart = distribution[0].event.dtstart;
-    dtend = distribution[distribution.length -1].event.dtend;
+    dtstart = distribution[0].events[0].dtstart;
+    var lastElemEvents = distribution[distribution.length -1].events;
+    dtend = lastElemEvents[lastElemEvents.length -1].dtend;
 
     return account.getValidCollectionForPeriod(dtstart, dtend, new Date());
 }
@@ -412,8 +455,15 @@ function prepareRequestFields(service, params, user)
 
                         fieldsToSet.events = [];
 
-                        for(var d=0; d<distribution.length; d++) {
-                            fieldsToSet.events.push(distribution[d].event);
+                        // push elements events to the request events
+
+                        var d, e, elem;
+
+                        for(d=0; d<distribution.length; d++) {
+                            elem = distribution[d];
+                            for(e=0; e<elem.events.length; e++) {
+                                fieldsToSet.events.push(elem.events[e]);
+                            }
                         }
 
                         fieldsToSet.absence = {
@@ -470,7 +520,7 @@ function saveRequest(service, params) {
      */
     function saveEmbedEvents(requestDoc)
     {
-        var elem, event;
+        var elem, events;
 
         if (requestDoc.absence === undefined) {
             return;
@@ -484,20 +534,27 @@ function saveRequest(service, params) {
                 return console.log(err);
             }
 
-            for( var i=0; i<elements.length; i++) {
+            var i, j, event;
+
+            for (i=0; i<elements.length; i++) {
 
                 elem = elements[i];
-                event = elem.event;
+                events = elem.events;
 
-                if (event.absenceElem !== elem._id) {
-                    event.request = requestDoc._id;
-                    event.absenceElem = elem._id;
+                for (j=0; j<events.length; j++) {
 
-                    if ('waiting' === requestDoc.status.created) {
-                        event.status = 'TENTATIVE';
+                    event = events[j];
+
+                    if (event.absenceElem !== elem._id) {
+                        event.request = requestDoc._id;
+                        event.absenceElem = elem._id;
+
+                        if ('waiting' === requestDoc.status.created) {
+                            event.status = 'TENTATIVE';
+                        }
+
+                        event.save();
                     }
-
-                    event.save();
                 }
             }
 

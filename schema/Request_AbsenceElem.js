@@ -41,13 +41,7 @@ exports = module.exports = function(params) {
 	 * @return {Promise} Mongoose promise
 	 */ 
 	absenceElemSchema.methods.next = function (callback) {
-		return this.model('AbsenceElem')
-		//	.populate('event')
-			.find({ absence: this.absence })
-			.where('event.dtstart').gte(this.event.dtstart)
-			.limit(1)
-			.sort('event.dtstart')
-			.exec(callback);
+		// TODO
 	};
 
 

@@ -44,8 +44,8 @@
             <div class="col-md-1">{{element.quantity}} {{element.right.dispUnit}}</div>
             <div class="col-md-5"><i class="fa fa-asterisk" style="color:{{element.right.type.color}}" title="{{element.right.type.name}}"></i> {{element.right.name}}</div>
             <div class="col-md-6 hidden-xs hidden-sm">
-                <span class="col-md-2">From</span> <span class="col-md-10">{{element.event.dtstart|date:'medium'}}</span>
-                <span class="col-md-2">To</span>   <span class="col-md-10">{{element.event.dtend|date:'medium'}}</span>
+                <span class="col-md-2">From</span> <span class="col-md-10">{{element.events[0].dtstart|date:'medium'}}</span>
+                <span class="col-md-2">To</span>   <span class="col-md-10">{{element.events[element.events.length-1].dtend|date:'medium'}}</span>
             </div>
         </div>
     </div>
