@@ -59,12 +59,16 @@ function saveEvents(service, user, elem, events)
             name: user.getName()
         };
 
-        eventDocument.save(function(err) {
+        eventDocument.save(function(err, savedEvent) {
             if (err) {
                 return callback(err);
             }
 
-            elem.events.push(event._id);
+            if (undefined === savedEvent._id || null === savedEvent._id) {
+                throw new Error('Unexpected value');
+            }
+
+            elem.events.push(savedEvent._id);
             callback();
         });
     }
@@ -528,7 +532,7 @@ function saveRequest(service, params) {
         }
 
         AbsenceElemModel.find().where('_id').in(requestDoc.absence.distribution)
-            .populate('event')
+            .populate('events')
             .exec(function(err, elements) {
 
             if (err) {
