@@ -65,6 +65,7 @@ function saveEvents(service, user, elem, events)
             }
 
             elem.events.push(event._id);
+            callback();
         });
     }
 
@@ -218,7 +219,7 @@ function saveElement(service, user, elem)
                         }
                         deferred.resolve(element);
                     });
-                });
+                }, deferred.reject);
 
 
             });
@@ -325,7 +326,7 @@ function saveAbsence(service, user, params, collection) {
 
 
     if (params.distribution === undefined || params.distribution.length === 0) {
-        Q.fcall(function () {
+        return Q.fcall(function () {
             throw new Error('right distribution is mandatory to save an absence request');
         });
     }
@@ -476,7 +477,7 @@ function prepareRequestFields(service, params, user)
 
                         deferred.resolve(fieldsToSet);
 
-                }, service.error);
+                }, deferred.reject);
 
             });
         }
