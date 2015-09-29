@@ -1,5 +1,5 @@
-define(['services/ingaSave'], 
-    function(ingaSave) {
+define(['services/ingaSave', 'services/ingaDelete'],
+    function(ingaSave, ingaDelete) {
 
     'use strict';
     
@@ -31,6 +31,7 @@ define(['services/ingaSave'],
             item.loadRouteId = function() {
                 return this.get(function(inst) {
                     inst.ingaSave = ingaSave(inst, catchOutcome);
+                    inst.ingaDelete = ingaDelete(inst, catchOutcome);
                 });
             };
 
@@ -55,6 +56,7 @@ define(['services/ingaSave'],
 
                 var inst = new collection();
                 inst.ingaSave = ingaSave(inst, catchOutcome);
+                inst.ingaDelete = ingaDelete(inst, catchOutcome);
 
                 return inst;
             };

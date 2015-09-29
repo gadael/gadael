@@ -32,7 +32,7 @@ define([], function() {
 		$scope.delete = function() {
             if (confirm('Are you sure you whant to delete the absence request?')) {
 
-                $scope.request.$delete().then($scope.backToList);
+                $scope.request.ingaDelete($scope.backToList);
             }
 
 		};
