@@ -293,7 +293,7 @@ function checkElement(service, user, elem)
                 accountRight.getAvailableQuantity().then(function(available) {
 
                     if (available < elem.quantity) {
-                        return deferred.reject(util.format('The quantity requests for right "%s" is not available', rightDocument.name));
+                        return deferred.reject(util.format('The quantity requested on right "%s" is not available', rightDocument.name));
                     }
 
                     deferred.resolve(true);
@@ -327,7 +327,7 @@ function checkElement(service, user, elem)
 function saveAbsence(service, user, params, collection) {
 
     var Q = require('q');
-
+    var deferred = Q.defer();
 
     if (params.distribution === undefined || params.distribution.length === 0) {
         return Q.fcall(function () {
@@ -346,7 +346,7 @@ function saveAbsence(service, user, params, collection) {
         chekedElementsPromises.push(checkElement(service, user._id, elem));
     }
 
-    return Q.all(chekedElementsPromises).then(function() {
+    Q.all(chekedElementsPromises).then(function() {
 
         // save the events and create the elements documents
 
@@ -356,8 +356,11 @@ function saveAbsence(service, user, params, collection) {
             savedElementsPromises.push(saveElement(service, user, elem));
         }
 
-        return Q.all(savedElementsPromises);
-    });
+        deferred.resolve(Q.all(savedElementsPromises));
+
+    }, deferred.reject);
+
+    return deferred.promise;
 }
 
 
@@ -642,7 +645,7 @@ function saveRequest(service, params) {
                 end(document, gt.gettext('The request has been created'));
             }
 
-        });
+        }, service.error);
 
     });
 }
