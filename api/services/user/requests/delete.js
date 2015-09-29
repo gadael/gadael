@@ -32,12 +32,12 @@ exports = module.exports = function(services, app) {
 
                     // cancel all events associated to the request
                     document.setEventsStatus('CANCELLED');
-                    service.success(gt.gettext('The request has been deleted'));
-
                     var request = document.toObject();
-                    request.$outcome = service.outcome;
 
-                    service.deferred.resolve(request);
+                    service.resolveSuccess(
+                        request,
+                        gt.gettext('The request has been deleted')
+                    );
                 }
             });
         }
@@ -49,6 +49,8 @@ exports = module.exports = function(services, app) {
             .exec(function(err, document) {
             if (service.handleMongoError(err)) {
                 
+
+
                 if (!params.deletedBy) {
                     return service.error('the deletedBy parameter is missing');
                 }
@@ -59,7 +61,6 @@ exports = module.exports = function(services, app) {
                 }
 
                 if ('accepted' !== document.status.created) {
-
                     document.status.deleted = 'accepted';
                     document.addLog('delete', params.deletedBy);
                     return endDelete(document);
@@ -80,7 +81,7 @@ exports = module.exports = function(services, app) {
                 getApprovalSteps(document.user.id).then(function(approvalSteps) {
                     document.approvalSteps = approvalSteps;
                     endDelete(document);
-                });
+                }, service.error);
 
             }
         });
