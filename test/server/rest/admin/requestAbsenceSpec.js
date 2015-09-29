@@ -251,18 +251,18 @@ describe('request absence admin rest service', function() {
             {
                 right: right1._id,
                 quantity: 1,
-                event: {
+                events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
                     dtend: new Date(2015,1,1, 18).toJSON()
-                }
+                }]
             },
             {
                 right: right2._id,
                 quantity: 1,
-                event: {
+                events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
                     dtend: new Date(2015,1,1, 18).toJSON()
-                }
+                }]
             }
         ];
 
@@ -271,11 +271,15 @@ describe('request absence admin rest service', function() {
             absence: { distribution: distribution }
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            console.log(body.$outcome.alert[0]);
             expect(body._id).toBeDefined();
-            expect(body.absence.distribution.length).toEqual(2);
-            expect(body.approvalSteps.length).toEqual(1);
-            expect(body.requestLog.length).toEqual(1);
-            request1 = body;
+            expect(body.absence).toBeDefined();
+            if (body.absence) {
+                expect(body.absence.distribution.length).toEqual(2);
+                expect(body.approvalSteps.length).toEqual(1);
+                expect(body.requestLog.length).toEqual(1);
+                request1 = body;
+            }
             done();
         });
     });
@@ -312,10 +316,10 @@ describe('request absence admin rest service', function() {
             {
                 right: right1._id,
                 quantity: 5,
-                event: {
+                events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
                     dtend: new Date(2015,1,5, 18).toJSON()
-                }
+                }]
             }
         ];
 
@@ -340,10 +344,10 @@ describe('request absence admin rest service', function() {
             {
                 right: right1._id,
                 quantity: 22, // there should be only 20 days left
-                event: {
+                events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
                     dtend: new Date(2015,1,22, 18).toJSON()
-                }
+                }]
             }
         ];
 
@@ -419,7 +423,7 @@ describe('request absence admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             expect(body[0]).toBeDefined();
-            if (body[0].status) {
+            if (body[0] && body[0].status) {
                 expect(body[0].status.deleted).toEqual('waiting');
             }
 

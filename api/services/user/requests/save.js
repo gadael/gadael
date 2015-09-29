@@ -376,21 +376,15 @@ function getCollectionFromDistribution(distribution, account) {
     var Q = require('q');
 
     if (undefined === distribution[0]) {
-        return Q.fcall(function () {
-            throw new Error('Invalid request, no distribution');
-        });
+        return Q.reject('Invalid request, no distribution');
     }
 
     if (undefined === distribution[0].events) {
-        return Q.fcall(function () {
-            throw new Error('Invalid request, events are not available in first right of distribution');
-        });
+        return Q.reject('Invalid request, events are not available in first right of distribution');
     }
 
     if (undefined === distribution[distribution.length -1].events) {
-        return Q.fcall(function () {
-            throw new Error('Invalid request, events are not available in last right of distribution');
-        });
+        return Q.reject('Invalid request, events are not available in last right of distribution');
     }
 
     dtstart = distribution[0].events[0].dtstart;
@@ -486,7 +480,7 @@ function prepareRequestFields(service, params, user)
 
                 }, deferred.reject);
 
-            });
+            }, deferred.reject);
         }
 
         if (undefined !== params.time_saving_deposit) {

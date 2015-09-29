@@ -332,6 +332,7 @@ describe('request absence account rest service', function() {
         });
     });
 
+
     it('request list of current requests as account', function(done) {
         server.get('/rest/account/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -345,6 +346,8 @@ describe('request absence account rest service', function() {
             done();
         });
     });
+
+
 
     it('get one request', function(done) {
         server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
@@ -545,6 +548,8 @@ describe('request absence account rest service', function() {
             done();
         });
     });
+
+
 
 
     it('logout', function(done) {

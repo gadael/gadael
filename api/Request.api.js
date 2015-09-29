@@ -48,10 +48,10 @@ api.createRandomAbsence = function(app, user) {
             absence: {
                 distribution: [
                     {
-                        event: {
+                        events: [{
                             dtstart: today,
                             dtend: tomorrow
-                        },
+                        }],
                         quantity: 1,
                         right: rights[0]._id
                     }
