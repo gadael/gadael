@@ -15,6 +15,10 @@ exports = module.exports = function userComplete(userDoc)
     var Q = require('q');
     var deferred = Q.defer();
 
+    if (!userDoc.roles.account && !userDoc.roles.manager) {
+        deferred.resolve(user);
+    }
+
     var collectionPromise, calendarPromise, departmentsPromise;
 
     if (userDoc.roles.account) {
@@ -32,38 +36,35 @@ exports = module.exports = function userComplete(userDoc)
     }
 
 
-    if (!userDoc.roles.account) {
+
+    Q.all([
+        collectionPromise,
+        calendarPromise,
+        departmentsPromise
+    ]).then(function(results) {
+
+        var collection = results[0];
+        var calendar = results[1];
+        var departments = results[2];
+
+        if (null !== collection) {
+            user.roles.account.currentCollection = collection.toObject();
+        }
+
+        if (null !== calendar) {
+            user.roles.account.currentScheduleCalendar = calendar.toObject();
+        }
+
+        if (null !== departments) {
+            user.roles.manager.department = departments.map(function(d) {
+                return d.toObject();
+            });
+        }
+
         deferred.resolve(user);
-    } else {
+    })
+    .catch(deferred.reject);
 
-        Q.all([
-            collectionPromise,
-            calendarPromise,
-            departmentsPromise
-        ]).then(function(results) {
-
-            var collection = results[0];
-            var calendar = results[1];
-            var departments = results[2];
-
-            if (null !== collection) {
-                user.roles.account.currentCollection = collection.toObject();
-            }
-
-            if (null !== calendar) {
-                user.roles.account.currentScheduleCalendar = calendar.toObject();
-            }
-
-            if (null !== departments) {
-                user.roles.manager.department = departments.map(function(d) {
-                    return d.toObject();
-                });
-            }
-
-            deferred.resolve(user);
-        })
-        .catch(deferred.reject);
-    }
 
     return deferred.promise;
 };
