@@ -56,12 +56,28 @@ exports = module.exports = function userComplete(userDoc)
         }
 
         if (null !== departments) {
-            user.roles.manager.department = departments.map(function(d) {
-                return d.toObject();
-            });
-        }
+            var usersPromises = [], department;
 
-        deferred.resolve(user);
+            departments.forEach(function(d) {
+                usersPromises.push(d.getUsers());
+            });
+
+            user.roles.manager.department = [];
+
+            Q.all(usersPromises).then(function(usersResults) {
+                for (var i=0; i<departments.length; i++) {
+                    department = departments[i].toObject();
+                    department.members = usersResults[i].length;
+                    user.roles.manager.department.push(department);
+                }
+
+                deferred.resolve(user);
+            });
+
+        } else {
+
+            deferred.resolve(user);
+        }
     })
     .catch(deferred.reject);
 
