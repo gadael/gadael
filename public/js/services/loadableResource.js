@@ -29,10 +29,15 @@ define(['services/ingaSave', 'services/ingaDelete'],
              *                     after get is resolved
              */
             item.loadRouteId = function() {
-                return this.get(function(inst) {
+
+                var resource = this.get(function(inst) {
                     inst.ingaSave = ingaSave(inst, catchOutcome);
                     inst.ingaDelete = ingaDelete(inst, catchOutcome);
                 });
+
+                catchOutcome(resource.$promise);
+
+                return resource;
             };
 
             return item;

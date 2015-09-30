@@ -23,7 +23,6 @@ define(function() {
             return p;
         }
 
-        console.log(ingaDelete);
         return ingaDelete;
     };
 });
