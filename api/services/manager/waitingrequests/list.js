@@ -28,6 +28,8 @@ var query = function(service, params) {
         ]
     });
 
+    find.where('status.deleted').ne('accepted');
+
     var match = { status: 'waiting' };
 
     if (params.user) {
