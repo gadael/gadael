@@ -2,63 +2,42 @@
 
 
 
-exports.save = function(req, res) {
-	req.ensureUser(req, res, function() {
-		var gt = req.app.utility.gettext;
-		var workflow = req.app.utility.workflow(req, res);
-		var user = req.app.db.models.User;
-		
-		workflow.on('validate', function() {
+var ctrlFactory = require('restitute').controller;
 
-			if (workflow.needRequiredFields(['lastname', 'firstname', 'email'])) {
-			  return workflow.emit('response');
-			}
 
-			workflow.emit('save');
-		});
-		
-		workflow.on('save', function() {
+function getController() {
+    ctrlFactory.get.call(this, '/rest/user/settings');
 
-			var fieldsToSet = { 
-				firstname: req.body.firstname,
-				lastname: req.body.lastname,
-				email: req.body.email
-			};
+    this.controllerAction = function() {
+        this.jsonService(this.service('user/settings/get', { user: this.req.user.id }));
+    };
+}
+getController.prototype = new ctrlFactory.get();
 
-			
-			user.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, collection) {
-				if (err) {
-					return workflow.emit('exception', err.err);
-				}
-				
-				workflow.outcome.alert.push({
-					type: 'success',
-					message: gt.gettext('Your settings has been modified')
-				});
-				
-				workflow.emit('response');
-			});
-		});
-		
-		workflow.emit('validate');
-	});
+
+
+
+
+function updateController() {
+    ctrlFactory.update.call(this, '/rest/user/settings');
+
+    var controller = this;
+    this.controllerAction = function() {
+
+        // since service is query independant, we have to give
+        // the additional parameter
+
+        controller.jsonService(
+            controller.service('user/settings/save', {
+                user: controller.req.user._id,
+                modifiedBy: controller.req.user
+            })
+        );
+    };
+}
+
+
+exports = module.exports = {
+    get: getController,
+    update: updateController
 };
-
-
-exports.getItem = function(req, res) {
-	req.ensureUser(req, res, function() {
-		
-		var workflow = req.app.utility.workflow(req, res);
-		
-		req.app.db.models.User.findOne({ '_id' : req.params.id}, 'firstname lastname email', function(err, user) {
-			if (err)
-			{
-				return workflow.emit('exception', err.message);
-			}
-			
-			res.json(user);
-		});
-	});
-};	
-
-

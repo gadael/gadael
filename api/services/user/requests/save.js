@@ -654,7 +654,7 @@ function saveRequest(service, params) {
 
 
 /**
- * Construct the type save service
+ * Construct the requests save service
  * @param   {object}          services list of base classes from apiService
  * @param   {express|object}  app      express or headless app
  * @returns {saveItemService}
