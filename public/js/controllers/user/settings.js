@@ -2,9 +2,11 @@ define([], function() {
     
     'use strict';
     
-	return ['$scope', '$location', 'IngaResource', function($scope, $location, IngaResource) {
+	return ['$scope', '$location', 'Rest', function($scope, $location, Rest) {
 		
-		$scope.user = IngaResource('rest/user/settings').loadRouteId();
+        $scope.user = Rest.user.settings.getFromUrl().ingaGet();
+
+
 
 		$scope.back = function() {
 			// TODO: go to a user homepage

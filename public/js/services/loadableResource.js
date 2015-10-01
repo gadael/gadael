@@ -52,6 +52,19 @@ define(['services/ingaSave', 'services/ingaDelete'],
         function fakeLoadableResource(collectionPath) {
             var collection = ResourceFactory(collectionPath);
 
+            // if the path lead to one item only
+            collection.ingaGet = function() {
+
+                var resource = this.get(function(inst) {
+                    inst.ingaSave = ingaSave(inst, catchOutcome);
+                    inst.ingaDelete = ingaDelete(inst, catchOutcome);
+                });
+
+                catchOutcome(resource.$promise);
+
+                return resource;
+            };
+
             /**
              * Get a resource instance
              * @returns {Resource} an empty resource instance, no get triggered
@@ -61,7 +74,9 @@ define(['services/ingaSave', 'services/ingaDelete'],
 
                 var inst = new collection();
                 inst.ingaSave = ingaSave(inst, catchOutcome);
-                inst.ingaDelete = ingaDelete(inst, catchOutcome);
+
+                // new record created, no need to delete
+                //inst.ingaDelete = ingaDelete(inst, catchOutcome);
 
                 return inst;
             };

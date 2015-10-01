@@ -65,6 +65,7 @@ exports = module.exports = function(app, passport)
 	app.get('/rest/admin', require('./admin/index').getInfos);
     
     controllers.add('./user/user');
+    controllers.add('./user/settings');
     
     controllers.add('./account/accountrights');
     controllers.add('./account/calendars');

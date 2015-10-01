@@ -76,7 +76,8 @@ define(function() {
             },
 
             user: {
-                user                    : init('user')
+                user                    : init('user'),
+                settings                : init('user/settings')
             },
 
             anonymous: {

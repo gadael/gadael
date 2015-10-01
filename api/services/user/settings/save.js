@@ -49,8 +49,18 @@ function saveUser(service, params) {
     UserModel.findByIdAndUpdate(params.user, fieldsToSet, function(err, user) {
 
         if (service.handleMongoError(err)) {
+
+            // do not return the full user document for security reasons
+
+            var savedUser = {
+                _id: user._id,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email
+            };
+
             service.resolveSuccess(
-                user,
+                savedUser,
                 gt.gettext('Your settings has been modified')
             );
         }
