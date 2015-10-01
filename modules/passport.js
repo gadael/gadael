@@ -70,6 +70,7 @@ exports = module.exports = function(app, passport) {
     db.models.User.findOne({ _id: id })
         .populate('department')
         .populate('roles.admin')
+        .populate('roles.manager')
         .populate('roles.account').exec(function(err, user) {
       if (user && user.roles && user.roles.admin) {
         user.roles.admin.populate("groups", function(err, admin) {
