@@ -33,7 +33,6 @@ function saveDepartment(service, params) {
     
     var fieldsToSet = { 
         name: params.name,
-        nonWorkingDays: params.nonWorkingDays,
         operator: params.operator
     };
 
