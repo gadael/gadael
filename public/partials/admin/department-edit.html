@@ -21,22 +21,7 @@
         <span translate>All managers must confirm approval step</span>
       </label>
   </div>
-    
 
-  <div class="form-group top30">
-    <strong translate>Non Working days calendars used by the user accounts in this service</strong>
-    
-    <div class="checkbox"  ng-repeat="nonworkingday in nonworkingdays">
-    <label>
-        <input
-        type="checkbox"
-        value="{{nonworkingday._id}}"
-        ng-checked="department.nonWorkingDays.indexOf(nonworkingday._id) > -1"
-        ng-click="toggleSelection(nonworkingday._id)"
-      > {{nonworkingday.name}}
-    </label>
-    </div>
-  </div>
   
   <button class="btn btn-primary" ng-click="saveDepartment()" translate>Save</button> 
   <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
