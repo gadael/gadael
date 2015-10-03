@@ -67,10 +67,10 @@ function getAccount(service, userId)
 
 
 
-function getNonWorkingDaysCalendar(service)
+function getTypeCalendar(service, type)
 {
     var find = service.app.db.models.Calendar.find();
-    find.where('type', 'nonworkingday');
+    find.where('type', type);
     return find.exec();
 }
 
@@ -88,6 +88,7 @@ function getNonWorkingDaysCalendar(service)
  */
 exports = module.exports = function(services, app) {
 
+    var Q = require('q');
     var service = new services.list(app);
     
     /**
@@ -154,7 +155,6 @@ exports = module.exports = function(services, app) {
          */
         function getPersonalEvents()
         {
-            var Q = require('q');
             var deferred = Q.defer();
 
             if (undefined === params.user) {
@@ -189,48 +189,145 @@ exports = module.exports = function(services, app) {
             return deferred.promise;
         }
 
-        
-        var checkParams = require('../../../../modules/requestdateparams');
-        
-        if (!checkParams(service, params)) {
-            return service.deferred.promise;   
+
+
+        /**
+         * get era with expanded events from all calendars of a type
+         * @param {string} type
+         * @param {Date} dtstart
+         * @param {Date} dtend
+         * @return {Promise}
+         */
+        function getEventsTypeEra(type, dtstart, dtend)
+        {
+            var deferred = Q.defer();
+
+            getTypeCalendar(service, type).then(function(calendars) {
+                var calId = calendars.map(function(cal) {
+                    return cal._id;
+                });
+
+                getEventsQuery(service, {
+                    dtstart: dtstart,
+                    dtend: dtend,
+                    calendar: calId
+                }).exec(function(err, docs) {
+                    deferred.resolve(getExpandedEra(docs));
+                });
+            }, deferred.reject);
+
+            return deferred.promise;
         }
+
         
+
+        /**
+         * @return {Promise}
+         */
+        function getEraFromType(account, dtstart, dtend, type)
+        {
+
+            switch(type) {
+
+                case 'personal':
+                    return getPersonalEvents();
+
+                case 'workschedule':
+                    return account.getPeriodScheduleEvents(dtstart, dtend);
+
+                case 'holiday':
+                case 'nonworkingday':
+                    return getEventsTypeEra(type, dtstart, dtend);
+            }
+
+            throw new Error('Unexpected type');
+        }
+
+
+        /**
+         * @return {Promise}
+         */
+        function substractNonWorkingDays(era)
+        {
+            var deferred = Q.defer();
+
+
+            if (undefined === params.substractNonWorkingDays || false === params.substractNonWorkingDays) {
+                deferred.resolve(era);
+                return deferred.promise;
+            }
+
+            getEventsTypeEra('nonworkingday', params.dtstart, params.dtend).then(function(nwEra) {
+                deferred.resolve(era.substractEra(nwEra));
+            });
+
+
+            return deferred.promise;
+        }
+
+
+        function substractPersonalEvents(era)
+        {
+            var deferred = Q.defer();
+
+
+            if (undefined === params.substractPersonalEvents || false === params.substractPersonalEvents) {
+                deferred.resolve(era);
+                return deferred.promise;
+            }
+
+            getPersonalEvents().then(function(eventsEra) {
+                deferred.resolve(era.substractEra(eventsEra));
+            });
+
+
+            return deferred.promise;
+        }
+
+
+
+
+
+        /**
+         * @return {boolean}
+         */
+        function checkParams(service, params) {
+            var checkDateParams = require('../../../../modules/requestdateparams');
+
+            if (!checkDateParams(service, params)) {
+                return false;
+            }
+
+            if (undefined === params.type) {
+                service.forbidden('The type parameter is mandatory');
+                return false;
+            }
+
+            var CalendarModel = service.app.db.models.Calendar;
+            if (-1 === CalendarModel.schema.path('type').enumValues.indexOf(params.type)) {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        if (!checkParams(service, params)) {
+            return service.deferred.promise;
+        }
+
+
+
         getAccount(service, params.user).then(function(account) {
 
-            account.getPeriodScheduleEvents(params.dtstart, params.dtend).then(function(era) {
+            getEraFromType(account, params.dtstart, params.dtend, params.type)
+                .then(substractNonWorkingDays)
+                .then(substractPersonalEvents)
+                .then(function(era) {
 
-                if (undefined === params.substractNonWorkingDays || false === params.substractNonWorkingDays) {
-                    return service.mongOutcome(null, era.periods);
-                }
-
-                getNonWorkingDaysCalendar(service).then(function(nwdCalendars) {
-                    var nwdCalId = nwdCalendars.map(function(cal) {
-                        return cal._id;
-                    });
-
-                    getEventsQuery(service, {
-                        dtstart: params.dtstart,
-                        dtend: params.dtend,
-                        calendar: nwdCalId
-                    }).exec(function(err, docs) {
-
-                        var nonWorkingDays = getExpandedEra(docs);
-                        var substracted = era.substractEra(nonWorkingDays);
-
-                        if (undefined === params.substractPersonalEvents || false === params.substractPersonalEvents) {
-                            return service.mongOutcome(err, substracted.periods);
-                        }
-
-                        getPersonalEvents().then(function(personalEra) {
-                            substracted = substracted.substractEra(personalEra);
-                            service.mongOutcome(err, substracted.periods);
-                        });
-
-                    });
-                }, service.error);
-
-            });
+                    service.mongOutcome(null, era.periods);
+                })
+                .catch(service.error);
 
         }, service.error);
 

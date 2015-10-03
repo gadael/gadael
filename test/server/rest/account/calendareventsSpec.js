@@ -62,7 +62,7 @@ describe('calendarevents accout rest service', function() {
         dtstart = new Date(2015,1,1).toJSON();
         dtend = new Date(2015,2,1).toJSON();
 
-        server.get('/rest/account/calendarevents', { dtstart: dtstart  , dtend: dtend }, function(res, body) {
+        server.get('/rest/account/calendarevents', { dtstart: dtstart, dtend: dtend, type: 'workschedule' }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBe(0); // no working period defined
             done();
@@ -126,7 +126,7 @@ describe('calendarevents accout rest service', function() {
         dtstart = new Date(2015,1,1).toJSON();
         dtend = new Date(2015,2,1).toJSON();
 
-        server.get('/rest/account/calendarevents', { dtstart: dtstart, dtend: dtend }, function(res, body) {
+        server.get('/rest/account/calendarevents', { dtstart: dtstart, dtend: dtend, type: 'workschedule' }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeGreaterThan(0); // at least for the working periods
 
