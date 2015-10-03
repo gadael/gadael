@@ -4,7 +4,7 @@
 describe('calendarevents accout rest service', function() {
 
 
-    var server;
+    var server, userAccount;
 
 
     beforeEach(function(done) {
@@ -33,9 +33,15 @@ describe('calendarevents accout rest service', function() {
 
 
     it('Create account session', function(done) {
-        server.createAccountSession().then(function() {
-            done();
+
+        server.createUserAccount()
+        .then(function(account) {
+            userAccount = account;
+            server.authenticateAccount(account).then(function() {
+                done();
+            });
         });
+
     });
 
 
@@ -49,14 +55,78 @@ describe('calendarevents accout rest service', function() {
 
 
 
-    it('request calendar events list as account, for all calendars of the user', function(done) {
+    it('request workingtimes as account, without working period', function(done) {
+
+        var dtstart, dtend;
+
+        dtstart = new Date(2015,1,1).toJSON();
+        dtend = new Date(2015,2,1).toJSON();
+
+        server.get('/rest/account/calendarevents', { dtstart: dtstart  , dtend: dtend }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toBe(0); // no working period defined
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+    it('login as admin', function(done) {
+        server.createAdminSession().then(function() {
+            done();
+        });
+    });
+
+
+    it('set a working period for account', function(done) {
+
+        var find = server.app.db.models.Calendar.findOne({ type: 'nonworkingday' });
+        find.exec(function(err, calendar) {
+            var from = new Date(2015,1,1);
+            var to = new Date(2016,1,1);
+
+            server.post('/rest/admin/accountschedulecalendars', {
+                user: userAccount.user._id,
+                calendar: { _id: calendar._id },
+                from: from,
+                to: to
+            }, function(res, body) {
+                expect(res.statusCode).toEqual(200);
+                expect(body.$outcome.success).toBeTruthy();
+                done();
+            });
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+    it('Authenticate as account', function(done) {
+        server.authenticateAccount(userAccount).then(function() {
+            done();
+        });
+    });
+
+
+    it('request workingtimes as account, with working period set', function(done) {
 
         var dtstart, dtend, event;
 
         dtstart = new Date(2015,1,1).toJSON();
         dtend = new Date(2015,2,1).toJSON();
 
-        server.get('/rest/account/calendarevents', { dtstart: dtstart  , dtend: dtend }, function(res, body) {
+        server.get('/rest/account/calendarevents', { dtstart: dtstart, dtend: dtend }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeGreaterThan(0); // at least for the working periods
 
@@ -66,14 +136,6 @@ describe('calendarevents accout rest service', function() {
                 expect(event.dtend).toBeDefined();
             }
 
-            done();
-        });
-    });
-
-
-    it('logout', function(done) {
-        server.get('/rest/logout', {}, function(res) {
-            expect(res.statusCode).toEqual(200);
             done();
         });
     });

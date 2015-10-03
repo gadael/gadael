@@ -209,9 +209,112 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Query for schedule calendars overlapping a period
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Query}
+     */
+    accountSchema.methods.getScheduleCalendarOverlapQuery = function(dtstart, dtend) {
+
+        dtstart.setHours(0,0,0,0);
+        dtend.setHours(0,0,0,0);
+
+        return this.getAccountScheduleCalendarQuery()
+                        .where('from').lte(dtend)
+                        .where('to').gte(dtstart)
+                        .populate('calendar');
+    };
+
+    /**
+     * Query for schedule calendars witout end date, starting before a date
+     * @param {Date} moment
+     * @return {Query}
+     */
+    accountSchema.methods.getScheduleCalendarBeforeFromQuery = function(moment) {
+
+        moment.setHours(0,0,0,0);
+
+        return this.getAccountScheduleCalendarQuery()
+                        .where('from').lte(moment)
+                        .where('to').equals(null)
+                        .populate('calendar');
+    };
+
+     /**
+      * @param {Date} dtstart
+      * @param {Date} dtend
+      *
+      * @see {AccountScheduleCalendar}
+      * @return {Promise} resolve to an array of AccountScheduleCalendar
+      */
+     accountSchema.methods.getPeriodScheduleCalendars = function(dtstart, dtend) {
+
+         var Q = require('q');
+         var deferred = Q.defer();
+         var account = this;
+
+         account.getScheduleCalendarOverlapQuery(dtstart, dtend)
+            .populate('calendar')
+            .exec(function(err, arr1) {
+
+                if (err) {
+                    deferred.reject(err);
+                    return;
+                }
+
+                account.getScheduleCalendarBeforeFromQuery(dtend)
+                    .populate('calendar')
+                    .exec(function(err, arr2) {
+
+                    if (err) {
+                        deferred.reject(err);
+                        return;
+                    }
+
+                    deferred.resolve(arr1.concat(arr2));
+                });
+
+            });
+
+         return deferred.promise;
+     };
 
 
 
+    /**
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise} resolve to an Era object
+     */
+    accountSchema.methods.getPeriodScheduleEvents = function(dtstart, dtend) {
+
+        var jurassic = require('jurassic');
+        var Q = require('q');
+        var deferred = Q.defer();
+        var account = this;
+
+        account.getPeriodScheduleCalendars(dtstart, dtend).then(function(ascList) {
+
+            var from, to, events = new jurassic.Era();
+
+            ascList.forEach(function(asc) {
+                from = asc.from > dtstart ? asc.from : dtstart;
+                to = (null !== asc.to && asc.to < dtend) ? asc.to : dtend;
+                asc.calendar.getEvents(from, to, function eventsCb(err, calendarEvents) {
+                    calendarEvents.forEach(function(event) {
+                        events.addPeriod(event);
+                        var last = events.periods.length-1;
+                        events.periods[last].businessDays = events.periods[last].getBusinessDays(asc.calendar.halfDayHour);
+                    });
+                });
+            });
+
+            deferred.resolve(events);
+        });
+
+        return deferred.promise;
+    };
 
 
     /**
@@ -223,13 +326,8 @@ exports = module.exports = function(params) {
         var Q = require('q');
         var deferred = Q.defer();
         var account = this;
-
-        moment.setHours(0,0,0,0);
         
-        account.getAccountScheduleCalendarQuery()
-            .where('from').lte(moment)
-            .where('to').gte(moment)
-            .populate('calendar')
+        account.getScheduleCalendarOverlapQuery(moment, moment)
             .exec(function(err, arr) {
 
                 if (err) {
@@ -239,10 +337,7 @@ exports = module.exports = function(params) {
             
                 if (!arr || 0 === arr.length) {
                     
-                    account.getAccountScheduleCalendarQuery()
-                        .where('from').lte(moment)
-                        .where('to').equals(null)
-                        .populate('calendar')
+                    account.getScheduleCalendarBeforeFromQuery(moment)
                         .exec(function(err, arr) {
                         
                         if (err) {

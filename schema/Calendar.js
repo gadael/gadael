@@ -164,10 +164,7 @@ exports = module.exports = function(params) {
 				});
 				
 			}, function(err){
-				if (!err)
-				{
-					callback(events);
-				}
+				callback(err, events);
 			});
 		});
 	};
