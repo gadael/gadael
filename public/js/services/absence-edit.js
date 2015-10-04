@@ -435,35 +435,22 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             return function(interval) {
 
-                var deferred = Q.defer();
+                var queryParams = {
+                    type: 'workschedule',
+                    dtstart: interval.from,
+                    dtend: interval.to,
+                    substractNonWorkingDays: true,
+                    substractPersonalEvents: true
+                };
 
-                userPromise.then(function(user) {
-                    var account = user.roles.account;
+                if (undefined !== personalEvents) {
+                    queryParams.substractException = [];
+                    personalEvents.forEach(function(personalEvent) {
+                        queryParams.substractException.push(personalEvent._id);
+                    });
+                }
 
-                    if (!account.currentScheduleCalendar) {
-                        deferred.reject('No valid schedule calendar');
-                        return;
-                    }
-
-                    var queryParams = {
-                        calendar: account.currentScheduleCalendar._id,
-                        dtstart: interval.from,
-                        dtend: interval.to,
-                        substractNonWorkingDays: true,
-                        substractPersonalEvents: true
-                    };
-
-                    if (undefined !== personalEvents) {
-                        queryParams.substractException = [];
-                        personalEvents.forEach(function(personalEvent) {
-                            queryParams.substractException.push(personalEvent._id);
-                        });
-                    }
-
-                    calendarEvents.query(queryParams).$promise.then(deferred.resolve);
-                });
-
-                return deferred.promise;
+                return calendarEvents.query(queryParams).$promise;
             };
         },
 
@@ -476,6 +463,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 userPromise.then(function(user) {
 
                     personalEvents.query({
+                        type: 'personal',
                         user: user._id,
                         dtstart: interval.from,
                         dtend: interval.to
@@ -496,24 +484,12 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          */
         getLoadNonWorkingDaysEvents: function(calendars, calendarEvents) {
             return function(interval) {
-                var deferred = Q.defer();
 
-                calendars.query({
-                    type: 'nonworkingday'
-                }).$promise.then(function(nwdCalendars) {
-
-                    var nwdCalId = nwdCalendars.map(function(cal) {
-                        return cal._id;
-                    });
-
-                    calendarEvents.query({
-                        calendar: nwdCalId,
-                        dtstart: interval.from,
-                        dtend: interval.to
-                    }).$promise.then(deferred.resolve);
-                });
-
-                return deferred.promise;
+                return calendarEvents.query({
+                    type: 'nonworkingday',
+                    dtstart: interval.from,
+                    dtend: interval.to
+                }).$promise;
             };
         },
 
@@ -547,24 +523,11 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         getLoadScholarHolidays: function(calendars, calendarEvents) {
             return function(interval) {
 
-                var deferred = Q.defer();
-
-                calendars.query({
-                    type: 'holiday'
-                }).$promise.then(function(hCalendars) {
-
-                    var hCalId = hCalendars.map(function(cal) {
-                        return cal._id;
-                    });
-
-                    calendarEvents.query({
-                        calendar: hCalId,
-                        dtstart: interval.from,
-                        dtend: interval.to
-                    }).$promise.then(deferred.resolve);
-                });
-
-                return deferred.promise;
+                return calendarEvents.query({
+                    type: 'holiday',
+                    dtstart: interval.from,
+                    dtend: interval.to
+                }).$promise;
             };
         },
 
