@@ -217,12 +217,14 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getScheduleCalendarOverlapQuery = function(dtstart, dtend) {
 
-        dtstart.setHours(0,0,0,0);
-        dtend.setHours(0,0,0,0);
+        var from = new Date(dtstart);
+        from.setHours(0,0,0,0);
+        var to = new Date(dtend);
+        to.setHours(0,0,0,0);
 
         return this.getAccountScheduleCalendarQuery()
-                        .where('from').lte(dtend)
-                        .where('to').gte(dtstart)
+                        .where('from').lte(to)
+                        .where('to').gte(from)
                         .populate('calendar');
     };
 
@@ -233,10 +235,11 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getScheduleCalendarBeforeFromQuery = function(moment) {
 
-        moment.setHours(0,0,0,0);
+        var d = new Date(moment);
+        d.setHours(0,0,0,0);
 
         return this.getAccountScheduleCalendarQuery()
-                        .where('from').lte(moment)
+                        .where('from').lte(d)
                         .where('to').equals(null)
                         .populate('calendar');
     };

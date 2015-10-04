@@ -367,7 +367,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     businessDays = 0;
 
                     calendarEvents.query({ 
-                        calendar: account.currentScheduleCalendar._id, 
+                        type: 'workschedule',
                         dtstart: begin, 
                         dtend: end 
                     }).$promise.then(function(periods) {
