@@ -291,7 +291,7 @@ exports = module.exports = function(services, app) {
         /**
          * @return {boolean}
          */
-        function checkParams(service, params) {
+        function checkParams() {
             var checkDateParams = require('../../../../modules/requestdateparams');
 
             if (!checkDateParams(service, params)) {
@@ -312,7 +312,7 @@ exports = module.exports = function(services, app) {
         }
 
 
-        if (!checkParams(service, params)) {
+        if (!checkParams()) {
             return service.deferred.promise;
         }
 
@@ -324,7 +324,6 @@ exports = module.exports = function(services, app) {
                 .then(substractNonWorkingDays)
                 .then(substractPersonalEvents)
                 .then(function(era) {
-
                     service.mongOutcome(null, era.periods);
                 })
                 .catch(service.error);

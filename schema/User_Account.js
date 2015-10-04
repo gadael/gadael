@@ -255,7 +255,6 @@ exports = module.exports = function(params) {
          var account = this;
 
          account.getScheduleCalendarOverlapQuery(dtstart, dtend)
-            .populate('calendar')
             .exec(function(err, arr1) {
 
                 if (err) {
@@ -264,7 +263,6 @@ exports = module.exports = function(params) {
                 }
 
                 account.getScheduleCalendarBeforeFromQuery(dtend)
-                    .populate('calendar')
                     .exec(function(err, arr2) {
 
                     if (err) {
@@ -291,6 +289,8 @@ exports = module.exports = function(params) {
 
         var jurassic = require('jurassic');
         var Q = require('q');
+        var async = require('async');
+
         var deferred = Q.defer();
         var account = this;
 
@@ -298,7 +298,7 @@ exports = module.exports = function(params) {
 
             var from, to, events = new jurassic.Era();
 
-            ascList.forEach(function(asc) {
+            async.each(ascList, function(asc, callback) {
                 from = asc.from > dtstart ? asc.from : dtstart;
                 to = (null !== asc.to && asc.to < dtend) ? asc.to : dtend;
                 asc.calendar.getEvents(from, to, function eventsCb(err, calendarEvents) {
@@ -307,10 +307,12 @@ exports = module.exports = function(params) {
                         var last = events.periods.length-1;
                         events.periods[last].businessDays = events.periods[last].getBusinessDays(asc.calendar.halfDayHour);
                     });
-                });
-            });
 
-            deferred.resolve(events);
+                    callback();
+                });
+            }, function(err) {
+                deferred.resolve(events);
+            });
         });
 
         return deferred.promise;

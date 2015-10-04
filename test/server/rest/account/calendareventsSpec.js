@@ -54,7 +54,7 @@ describe('calendarevents accout rest service', function() {
     });
 
 
-
+    /*
     it('request workingtimes as account, without working period', function(done) {
 
         var dtstart, dtend;
@@ -68,7 +68,7 @@ describe('calendarevents accout rest service', function() {
             done();
         });
     });
-
+    */
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
@@ -140,6 +140,34 @@ describe('calendarevents accout rest service', function() {
         });
     });
 
+    /*
+    it('request workingtimes as account, with optional substractions', function(done) {
+
+        var dtstart, dtend, event;
+
+        dtstart = new Date(2015,1,1).toJSON();
+        dtend = new Date(2015,2,1).toJSON();
+
+        server.get('/rest/account/calendarevents', {
+            dtstart: dtstart,
+            dtend: dtend,
+            type: 'workschedule',
+            substractNonWorkingDays: true,
+            substractPersonalEvents: true
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toBeGreaterThan(0); // at least for the working periods
+
+            for(var i=0; i<body.length; i++) {
+                event = body[i];
+                expect(event.dtstart).toBeDefined();
+                expect(event.dtend).toBeDefined();
+            }
+
+            done();
+        });
+    });
+    */
 
     it('close the mock server', function(done) {
         server.close(done);

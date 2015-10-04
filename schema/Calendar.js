@@ -131,6 +131,9 @@ exports = module.exports = function(params) {
 	 * get events from database beeween two dates
 	 * RRULE events are expanded from this mehod
 	 *
+     * @param {Date} span_start
+     * @param {Date} span_end
+     * @param {function} callback
 	 */ 
 	calendarSchema.methods.getEvents = function(span_start, span_end, callback) {
 		
@@ -147,6 +150,7 @@ exports = module.exports = function(params) {
 				} 
 			]
 		})
+        .where('calendar', this._id)
 		.sort('dtstart')
 		.exec(function(err, documents) {
 			if (err) {
