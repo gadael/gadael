@@ -82,7 +82,7 @@ exports = module.exports = function(params) {
 		
 		var document = this;
 		var rrule = require('rrule').RRule;
-		
+
 		if (document.rrule === undefined || document.rrule === null)
 		{
 			return [document.toObject()];

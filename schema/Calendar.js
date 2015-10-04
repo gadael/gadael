@@ -135,8 +135,7 @@ exports = module.exports = function(params) {
 	calendarSchema.methods.getEvents = function(span_start, span_end, callback) {
 		
 		var EventModel = params.db.models.CalendarEvent;
-		var async = require('async');
-		
+
 		EventModel.find({ 
 			$or:[ 
 				{'rrule': { $ne: null } }, 
@@ -156,16 +155,13 @@ exports = module.exports = function(params) {
 			}
 			
 			var events = [];
-			
-			async.eachSeries(documents, function(document, async_expanded) {
-				document.expand(span_start, span_end, function(epanded_event) {
-					events.push(epanded_event);
-					async_expanded();
-				});
-				
-			}, function(err){
-				callback(err, events);
-			});
+
+            documents.forEach(function(document) {
+               events = events.concat(document.expand(span_start, span_end));
+            });
+
+            callback(null, events);
+
 		});
 	};
     
