@@ -302,6 +302,11 @@ exports = module.exports = function(params) {
                 from = asc.from > dtstart ? asc.from : dtstart;
                 to = (null !== asc.to && asc.to < dtend) ? asc.to : dtend;
                 asc.calendar.getEvents(from, to, function eventsCb(err, calendarEvents) {
+
+                    if (err) {
+                        return callback(err);
+                    }
+
                     calendarEvents.forEach(function(event) {
                         events.addPeriod(event);
                         var last = events.periods.length-1;
@@ -311,6 +316,11 @@ exports = module.exports = function(params) {
                     callback();
                 });
             }, function(err) {
+
+                if (err) {
+                    return deferred.reject(err);
+                }
+
                 deferred.resolve(events);
             });
         });

@@ -113,7 +113,7 @@ exports = module.exports = function(params) {
 			});
 		}
 
-		if (0 === this.url.indexOf('http://')) {
+		if (0 === this.url.indexOf('http://') || 0 === this.url.indexOf('https://')) {
             ical.fromURL(this.url, {}, processEventsData);
         } else {
             // relative address, use the local file instead because the http server is not allways present
@@ -161,7 +161,7 @@ exports = module.exports = function(params) {
 			var events = [];
 
             documents.forEach(function(document) {
-               events = events.concat(document.expand(span_start, span_end));
+                events = events.concat(document.expand(span_start, span_end));
             });
 
             callback(null, events);

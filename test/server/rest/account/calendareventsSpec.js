@@ -54,7 +54,7 @@ describe('calendarevents accout rest service', function() {
     });
 
 
-    /*
+
     it('request workingtimes as account, without working period', function(done) {
 
         var dtstart, dtend;
@@ -68,7 +68,7 @@ describe('calendarevents accout rest service', function() {
             done();
         });
     });
-    */
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
@@ -86,7 +86,7 @@ describe('calendarevents accout rest service', function() {
 
     it('set a working period for account', function(done) {
 
-        var find = server.app.db.models.Calendar.findOne({ type: 'nonworkingday' });
+        var find = server.app.db.models.Calendar.findOne({ type: 'workschedule' });
         find.exec(function(err, calendar) {
             var from = new Date(2015,1,1);
             var to = new Date(2016,1,1);
@@ -140,7 +140,7 @@ describe('calendarevents accout rest service', function() {
         });
     });
 
-    /*
+
     it('request workingtimes as account, with optional substractions', function(done) {
 
         var dtstart, dtend, event;
@@ -167,7 +167,7 @@ describe('calendarevents accout rest service', function() {
             done();
         });
     });
-    */
+
 
     it('close the mock server', function(done) {
         server.close(done);
