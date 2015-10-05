@@ -19,7 +19,7 @@
  * @returns {listItemsService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.list(app);
     var Q = require('q');
 
@@ -138,10 +138,10 @@ exports = module.exports = function(services, app) {
 
 
 
-    
+
     /**
      * Call the beneficiaries list service
-     * 
+     *
      * @param {Object} params
      * @param {function} [paginate]  Optional parameter to paginate the results
      *
@@ -191,12 +191,12 @@ exports = module.exports = function(services, app) {
                 }
             );
         });
-        
+
 
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
 

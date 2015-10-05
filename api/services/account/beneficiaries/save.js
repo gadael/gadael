@@ -8,36 +8,36 @@
  * @param {Object} params
  */
 function validate(service, params) {
-    
+
     if (service.needRequiredFields(params, ['right', 'document', 'ref'])) {
         return;
     }
-    
+
     saveBeneficiary(service, params);
 }
 
 
 
-    
-    
+
+
 /**
  * Update/create the Beneficiary document
- * 
+ *
  * @param {saveItemService} service
  * @param {Object} params
- */  
+ */
 function saveBeneficiary(service, params) {
-    
+
     var Gettext = require('node-gettext');
     var gt = new Gettext();
 
 
     var Beneficiary = service.app.db.models.Beneficiary;
     var util = require('util');
-    
+
 
     if (params._id) {
-                       
+
 
         Beneficiary.findById(params._id, function(err, document) {
             if (service.handleMongoError(err)) {
@@ -45,7 +45,7 @@ function saveBeneficiary(service, params) {
                     service.notFound(util.format(gt.gettext('beneficiary document not found for id %s'), params.id));
                     return;
                 }
-                
+
                 document.right 	  = params.right._id;
                 document.ref 	  = params.ref;
                 document.document = params.document;
@@ -55,7 +55,7 @@ function saveBeneficiary(service, params) {
                     if (service.handleMongoError(err)) {
 
                         service.resolveSuccess(
-                            document, 
+                            document,
                             gt.gettext('The right association has been modified')
                         );
                     }
@@ -69,13 +69,13 @@ function saveBeneficiary(service, params) {
         Beneficiary.create({
                 right: params.right._id,
                 document: params.document,
-                ref: params.ref 
+                ref: params.ref
             }, function(err, document) {
 
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
-                    document, 
+                    document,
                     gt.gettext('The right association has been created')
                 );
             }
@@ -83,13 +83,13 @@ function saveBeneficiary(service, params) {
 
     }
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -100,12 +100,12 @@ function saveBeneficiary(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the beneficiaries save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -115,8 +115,8 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
 

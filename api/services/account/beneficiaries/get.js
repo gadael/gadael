@@ -2,20 +2,20 @@
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.get(app);
-    
+
 
 
 
     /**
      * Call the beneficiaries get service
-     * 
+     *
      * @param {Object} params
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
+
 
         if (undefined === params || !params.id) {
             service.error('The id parameter is mandatory');
@@ -103,10 +103,10 @@ exports = module.exports = function(services, app) {
                     }
                 });
             });
-        
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
