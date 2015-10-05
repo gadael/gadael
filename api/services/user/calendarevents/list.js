@@ -26,27 +26,20 @@ function addDatesCriterion(find, params)
  * And rrule events by calling the expand on the events
  * 
  * @param {listItemsService} service
- * @param {array} params      query parameters if called by controller
+ * @param {array} calendarIds
  *
  * @return {Query}
  */
-function getEventsQuery(service, params)
+function getEventsQuery(service, dtstart, dtend, calendarIds)
 {
     var find = service.app.db.models.CalendarEvent.find();
 
-    if (params.calendar) {
-        if (params.calendar instanceof Array) {
-            find.where('calendar').in(params.calendar);
-        } else {
-            find.where('calendar').equals(params.calendar);
-        }
-    }
+    find.where('calendar').in(calendarIds);
 
-    if (params.user) {
-        find.where('user.id').equals(params.user);   
-    }
-
-    addDatesCriterion(find, params);
+    addDatesCriterion(find, {
+        dtstart: dtstart,
+        dtend: dtend
+    });
 
     
     return find;
@@ -98,12 +91,10 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      *                      params.dtstart                  search interval start
      *                      params.dtend                    search interval end
-     *                      params.calendar                 DEPRECATED
      *                      params.type                     workschedule|nonworkingday|holiday
      *                      params.substractNonWorkingDays  substract non working days periods
      *                      params.substractPersonalEvents  substract personal events
      *                      params.substractException       Array of personal event ID to ignore in the personal events to substract
-     *                      params.user                     User ID for personal events
      *
      *
      * @return {Promise}
@@ -207,11 +198,7 @@ exports = module.exports = function(services, app) {
                     return cal._id;
                 });
 
-                getEventsQuery(service, {
-                    dtstart: dtstart,
-                    dtend: dtend,
-                    calendar: calId
-                }).exec(function(err, docs) {
+                getEventsQuery(service, dtstart, dtend, calId).exec(function(err, docs) {
                     deferred.resolve(getExpandedEra(docs));
                 });
             }, deferred.reject);
@@ -228,9 +215,6 @@ exports = module.exports = function(services, app) {
         {
 
             switch(type) {
-
-                case 'personal':
-                    return getPersonalEvents();
 
                 case 'workschedule':
                     return account.getPeriodScheduleEvents(dtstart, dtend);

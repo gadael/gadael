@@ -428,10 +428,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          * Get Period picker callback for working times
          * @param {Promise} userPromise
          * @param {Resource} calendarEvents
-         * @param {Array} [personalEvents] Optional personal events list, the list of events curently modified
+         * @param {Array} [personalEventList] Optional personal events list, the list of events curently modified
          * @return function
          */
-        getLoadWorkingTimes: function(userPromise, calendarEvents, personalEvents) {
+        getLoadWorkingTimes: function(userPromise, calendarEvents, personalEventList) {
 
             return function(interval) {
 
@@ -443,9 +443,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     substractPersonalEvents: true
                 };
 
-                if (undefined !== personalEvents) {
+                if (undefined !== personalEventList) {
                     queryParams.substractException = [];
-                    personalEvents.forEach(function(personalEvent) {
+                    personalEventList.forEach(function(personalEvent) {
                         queryParams.substractException.push(personalEvent._id);
                     });
                 }
@@ -463,7 +463,6 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 userPromise.then(function(user) {
 
                     personalEvents.query({
-                        type: 'personal',
                         user: user._id,
                         dtstart: interval.from,
                         dtend: interval.to
