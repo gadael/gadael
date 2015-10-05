@@ -1,0 +1,29 @@
+<div class="row">
+    <h3  class="col-xs-10" translate>Vacations rights</h3>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th translate>Right name</th>
+            <th translate>Available quantity</th>
+            <th translate>Renewals</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="beneficiary in beneficiaries">
+            <td>
+                <a ng-href="#/account/beneficiaries/{{beneficiary._id}}">
+                    <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}
+                </a>
+            </td>
+            <td>{{beneficiary.available_quantity}} {{beneficiary.available_quantity_dispUnit}}</td>
+            <td>{{beneficiary.renewals.length}}</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <div class="alert alert-danger" role="alert" ng-if="!beneficiaries.length">
+        <span translate>This user has no configured vacation rights for the current period</span>
+    </div>
+</div>

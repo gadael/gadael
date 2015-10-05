@@ -62,6 +62,10 @@ exports.getInfos = function(req, res) {
                 {
                     'text': '<i class="fa fa-bullhorn"></i>&nbsp;'+gt.gettext('Request a vacation period'),
                     'href': '#/account/absence-edit'
+                },
+                {
+                    'text': '<i class="fa fa-balance-scale text-success"></i>&nbsp;'+gt.gettext('My rights'),
+                    'href': '#/account/rights'
                 }
             ];
         }
@@ -114,7 +118,7 @@ exports.getInfos = function(req, res) {
                     'href': '#/admin/types'
                 },
                 {
-                    'text': '<i class="fa fa-book"></i>&nbsp;'+gt.gettext('Rights configuration'),
+                    'text': '<i class="fa fa-balance-scale"></i>&nbsp;'+gt.gettext('Rights configuration'),
                     'href': '#/admin/rights'
                 }
             ];
