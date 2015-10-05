@@ -73,6 +73,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./account/personalevents');
     controllers.add('./account/requests');
     controllers.add('./account/collection');
+    controllers.add('./account/beneficiaries');
 
     controllers.add('./manager/waitingrequests');
 	

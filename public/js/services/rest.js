@@ -68,7 +68,8 @@ define(function() {
                 calendars               : init('account/calendars/:id'),
                 calendarevents          : init('account/calendarevents/:id'),
                 personalevents          : init('account/personalevents/:id'),
-                requests                : init('account/requests/:id')
+                requests                : init('account/requests/:id'),
+                beneficiaries           : init('account/beneficiaries/:id')
             },
             
             manager: {

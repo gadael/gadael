@@ -115,6 +115,18 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AccountWorkperiodRecoverView'
 		});
         
+
+
+
+        $routeProvider.when('/account/beneficiaries', {
+			templateUrl: 'partials/account/beneficiaries.html',
+			controller: 'AccountBeneficiaries'
+		});
+
+        $routeProvider.when('/account/beneficiaries/:id', {
+			templateUrl: 'partials/account/request/beneficiary-view.html',
+			controller: 'AccountBeneficiaryView'
+		});
 		
 		// department managers pages
 

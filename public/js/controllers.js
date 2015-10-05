@@ -89,6 +89,13 @@ define(['angular', 'services'], function (angular) {
             invokeController('controllers/account/request/workperiod-recover-view', this, $scope, $injector);
 		}])
 
+        .controller('AccountBeneficiaries', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/beneficiaries', this, $scope, $injector);
+		}])
+        .controller('AccountBeneficiaryView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/beneficiary-view', this, $scope, $injector);
+		}])
+
     
     
     
