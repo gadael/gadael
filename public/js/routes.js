@@ -124,7 +124,7 @@ define(['angular', 'app'], function(angular, app) {
 		});
 
         $routeProvider.when('/account/beneficiaries/:id', {
-			templateUrl: 'partials/account/request/beneficiary-view.html',
+			templateUrl: 'partials/account/beneficiary-view.html',
 			controller: 'AccountBeneficiaryView'
 		});
 		

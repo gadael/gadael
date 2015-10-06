@@ -1,29 +1,40 @@
-<div class="row">
-    <h3  class="col-xs-10" translate>Vacations rights</h3>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th translate>Right name</th>
-            <th translate>Available quantity</th>
-            <th translate>Renewals</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="beneficiary in beneficiaries">
-            <td>
-                <a ng-href="#/account/beneficiaries/{{beneficiary._id}}">
-                    <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}
-                </a>
-            </td>
-            <td>{{beneficiary.available_quantity}} {{beneficiary.available_quantity_dispUnit}}</td>
-            <td>{{beneficiary.renewals.length}}</td>
-        </tr>
-        </tbody>
+    <h3 class="row" translate>Vacations rights</h3>
 
-    </table>
+    <div class="inga-list-rows">
+        <div ng-repeat="beneficiary in beneficiaries" class="row">
+
+            <div class="col-md-8">
+
+                <h4>
+                    <a ng-href="#/account/beneficiaries/{{beneficiary._id}}">
+                        <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}
+                    </a>
+                </h4>
+                <dl class="dl-horizontal">
+                    <dt translate>Available quantity</dt>
+                    <dd>{{beneficiary.available_quantity}} {{beneficiary.available_quantity_dispUnit}}</dd>
+                </dl>
+
+                <ol>
+                    <li ng-repeat="rule in beneficiary.right.rules">{{rule.title}}</li>
+                </ol>
+
+            </div>
+
+
+            <div class="col-md-4">
+                <dl class="top15">
+                    <dt translate>Period end</dt>
+                    <dd>{{getCurrentPeriod(beneficiary.renewals).finish|date}}</dd>
+                </dl>
+            </div>
+
+        </div>
+
+    </div>
 
     <div class="alert alert-danger" role="alert" ng-if="!beneficiaries.length">
         <span translate>This user has no configured vacation rights for the current period</span>
     </div>
-</div>
+
