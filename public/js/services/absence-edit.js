@@ -223,21 +223,31 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         
         /**
          * Set a selection object from request data
-         * @return selection
+         *
          */
         setSelectionFromRequest: function setSelectionFromRequest($scope) {
 
             var events = $scope.request.events;
 
+            $scope.selection.begin = events[0].dtstart;
+            $scope.selection.end = events[events.length-1].dtend;
+            $scope.selection.periods = $scope.request.events;
+
+
+            var us = 0, businessDays =0;
+
             events.forEach(function(evt) {
                 if (undefined === evt.businessDays) {
                     throw new Error('events in selection must contain the businessDays property');
                 }
+
+                us += evt.dtend.getTime() - evt.dtstart.getTime();
+                businessDays += evt.businessDays;
+
             });
 
-            $scope.selection.begin = events[0].dtstart;
-            $scope.selection.end = events[events.length-1].dtend;
-            $scope.selection.periods = events;
+
+            setDuration($scope, duration, businessDays);
 
         },
 
@@ -608,6 +618,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
                     }
                 });
+
+                if (0 === events.length) {
+                    throw new Error('Wrong events count for quantity='+secQuantity+' startDate='+startDate);
+                }
 
                 return events;
             }

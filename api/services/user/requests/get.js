@@ -8,7 +8,7 @@ exports = module.exports = function(services, app) {
     var Gettext = require('node-gettext');
     var gt = new Gettext();
 
-
+    var jurassic = require('jurassic');
     var service = new services.get(app);
     
     /**
@@ -110,6 +110,14 @@ exports = module.exports = function(services, app) {
                     if (undefined === event.uid) {
                         event.uid = event._id;
                     }
+
+                    if (undefined === event.businessDays) {
+                        var period = new jurassic.Period();
+                        period.dtstart = event.dtstart;
+                        period.dtend = event.dtend;
+                        event.businessDays = period.getBusinessDays();
+                    }
+
                     return event;
                 });
 

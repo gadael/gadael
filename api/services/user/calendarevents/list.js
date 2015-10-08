@@ -161,7 +161,7 @@ exports = module.exports = function(services, app) {
                     // Do not substract those personnal events
                     // because this is the events to update with selection
                     // the others personal events will be substracted from working hours
-                    filter._id = { $ne: params.substractException };
+                    filter._id = { $nin: params.substractException };
                 }
 
                 var find = service.app.db.models.CalendarEvent.find(filter);
@@ -262,7 +262,7 @@ exports = module.exports = function(services, app) {
 
             getPersonalEvents().then(function(eventsEra) {
                 deferred.resolve(era.substractEra(eventsEra));
-            });
+            }, deferred.reject);
 
 
             return deferred.promise;
