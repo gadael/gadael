@@ -120,6 +120,11 @@ define(['q'], function(Q) {
             var rights = $scope.distribution.right;
             var periods = $scope.selection.periods;
 
+
+            // cleanup object
+            delete $scope.request.requestLog;
+            delete $scope.request.approvalSteps;
+
             try {
                 $scope.request.absence.distribution = AbsenceEdit.createDistribution(rights, periods, $scope.accountRights);
                 $scope.request.ingaSave($scope.back);
