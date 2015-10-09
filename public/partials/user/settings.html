@@ -8,7 +8,7 @@
 	<div class="row">
 	
 		
-		<h3 translate>Account parameters</h3>
+		<h3 translate>Your account parameters</h3>
 		
 		
 		<div class="form-group col-md-6">
@@ -52,24 +52,12 @@
 		</div>
 		
 	</div>
-	
-	
-	<div class="row top30" ng-if="user.role.account">
-		<h3 translate>Notifications parameters</h3>
-	
-		<div class="form-group col-md-12">
-			<input type="checkbox" id="notify_approvals" ng-model="user.notify.approvals" />
-			<label for="notify_approvals" translate>Notify me when a request is accepted or rejected</label>
-		</div>
-		
-		
-		<div class="form-group col-md-12">
-			<input type="checkbox" id="notify_allocations" ng-model="user.notify.allocations" />
-			<label for="notify_allocations" translate>Notify me when new vacation rights are opened or closed for my account</label>
-		</div>
+
+    <div class="row top20" ng-if="user.roles.account" ng-include="'partials/user/settings-account.html'">
 	</div>
 	
 	
+
 	<div class="row top30">
 		<button class="btn btn-primary" ng-click="userSettings.$valid && saveUser()" translate>Save</button>
 		<button class="btn btn-link" ng-click="back()" translate>Cancel</button>

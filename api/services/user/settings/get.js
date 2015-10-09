@@ -20,7 +20,9 @@ exports = module.exports = function(services, app) {
 
         service.app.db.models.User.findOne(
             { '_id' : params.user },
-            'firstname lastname email',
+            'image firstname lastname email roles notify')
+        .populate('roles.account', 'notify')
+        .exec(
             function(err, document) {
 
             if (service.handleMongoError(err))

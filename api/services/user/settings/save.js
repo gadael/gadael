@@ -19,7 +19,36 @@ function validate(service, params)
 
 
 
+function resolve(service, user, account)
+{
+    var Gettext = require('node-gettext');
+    var gt = new Gettext();
 
+    // do not return the full user document for security reasons
+
+    var savedUser = {
+        _id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email
+    };
+
+    if (null !== account) {
+        savedUser.roles = {
+            account: {
+                notify: {
+                    approvals: account.notify.approvals,
+                    allocations: account.notify.allocations
+                }
+            }
+        };
+    }
+
+    service.resolveSuccess(
+        savedUser,
+        gt.gettext('Your settings has been modified')
+    );
+}
 
 
 
@@ -33,12 +62,12 @@ function validate(service, params)
  */
 function saveUser(service, params) {
 
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+
+
 
 
     var UserModel = service.app.db.models.User;
-
+    var AccountModel = service.app.db.models.Account;
 
     var fieldsToSet = {
         firstname: params.firstname,
@@ -50,19 +79,22 @@ function saveUser(service, params) {
 
         if (service.handleMongoError(err)) {
 
-            // do not return the full user document for security reasons
+            if (undefined !== params.roles.account.notify) {
 
-            var savedUser = {
-                _id: user._id,
-                firstname: user.firstname,
-                lastname: user.lastname,
-                email: user.email
-            };
+                var fieldsToSet = {
+                    approvals: params.roles.account.notify.approvals,
+                    allocations: params.roles.account.notify.allocations
+                };
 
-            service.resolveSuccess(
-                savedUser,
-                gt.gettext('Your settings has been modified')
-            );
+                AccountModel.findByIdAndUpdate(user.roles.account, fieldsToSet, function(err, account) {
+                    resolve(service, user, account);
+                });
+
+                return;
+            }
+
+
+            resolve(service, user, null);
         }
 
     });
