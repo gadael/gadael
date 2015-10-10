@@ -286,7 +286,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                  */
 
                 $scope.accountRights = accountRights.query({
-                    user: user._id,
+                    user: user._id, // need that if the request is created by the admin, ignored if created by the user
                     dtstart: $scope.selection.begin,
                     dtend: $scope.selection.end
                 });
