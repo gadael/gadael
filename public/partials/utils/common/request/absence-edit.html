@@ -65,7 +65,7 @@
         
 
             <tbody>
-                <tr class="form-group" ng-repeat="accountRight in accountRights">
+                <tr class="form-group" ng-repeat="accountRight in accountRightsRenewals">
 
                     <td ng-class="distribution.class[accountRight._id]" class="input-group">
                         <input id="ar{{accountRight._id}}" type="number" class="form-control" ng-model="distribution.right[accountRight._id]" step="any" min="0" />
@@ -73,7 +73,8 @@
                     </td>
                     
                     <td>
-                        <label for="ar{{accountRight._id}}" class="control-label">{{accountRight.name}}</label>
+                        <label for="ar{{accountRight._id}}" class="control-label">{{accountRight.name}}</label><br />
+                        <small translate>From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}</small>
                     </td>
 
                     <td class="hidden-xs">

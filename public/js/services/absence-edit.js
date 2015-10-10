@@ -291,6 +291,8 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     dtend: $scope.selection.end
                 });
 
+                $scope.accountRightsRenewals = [];
+
                 $scope.accountRights.$promise.then(function(ar) {
                     // loaded
 
@@ -306,6 +308,11 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                             case 'H': hours += ar[i].available_quantity; break;
                         }
 
+                        for(var j=0; j<ar[i].renewals.length; j++) {
+                            var accountRightRenewal = ar[i];
+                            accountRightRenewal.renewal = ar[i].renewals[j];
+                            $scope.accountRightsRenewals.push(accountRightRenewal);
+                        }
                     }
 
                     $scope.available = {
@@ -681,7 +688,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     quantity = rights[rightId];
 
                     elem = {
-                        right: rightId,
+                        right: {
+                            id: rightId,
+                            renewal:0
+                        },
                         quantity: quantity,
                         events: createEvents(getSecQuantity(rightId, quantity), startDate)
                     };

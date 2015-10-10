@@ -171,13 +171,16 @@ function saveElement(service, user, elem)
         element.quantity = elem.quantity;
         element.consumedQuantity = elem.consumedQuantity;
 
-        RightModel.findOne({ _id: elem.right })
+        RightModel.findOne({ _id: elem.right.id })
         .populate('type')
         .exec(function(err, rightDocument) {
 
             if (err) {
                 return deferred.reject(err);
             }
+
+            //TODO: the renewal ID tu use must be in params
+            // a right can have multiples usable renewals at the same time
 
             // get renewal to save in element
             rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
@@ -188,7 +191,7 @@ function saveElement(service, user, elem)
 
 
                 element.right = {
-                    id: elem.right,
+                    id: elem.right.id,
                     name: rightDocument.name,
                     quantity_unit: rightDocument.quantity_unit,
                     renewal: {
@@ -267,13 +270,35 @@ function checkElement(service, user, elem)
     var RightModel = service.app.db.models.Right;
     var AccountModel = service.app.db.models.Account;
 
+
+    if (undefined === elem.right) {
+        return deferred.reject('element must contain a right property');
+    }
+
+    if (undefined === elem.right.id) {
+        return deferred.reject('element must contain a right.id property');
+    }
+
+    if (undefined === elem.right.renewal) {
+        return deferred.reject('element must contain a right.renewal property');
+    }
+
+    if (undefined === elem.events) {
+        return deferred.reject('element must contain an events property');
+    }
+
+    if (undefined === elem.quantity) {
+        return deferred.reject('element must contain a quantity property');
+    }
+
+
     var elemPeriod = getElemPeriod(elem);
 
-    RightModel.findOne({ _id: elem.right })
+    RightModel.findOne({ _id: elem.right.id })
         .exec(function(err, rightDocument) {
 
         if (!rightDocument) {
-            return deferred.reject('failed to get right document from id '+elem.right);
+            return deferred.reject('failed to get right document from id '+elem.right.id);
         }
 
         // get renewal to save in element

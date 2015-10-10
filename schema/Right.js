@@ -164,6 +164,7 @@ exports = module.exports = function(params) {
         var Q = require('q');
         var deferred = Q.defer();
         
+
         this.getRenewalsQuery()
             .where('start').lte(dtstart)
             .where('finish').gte(dtend)

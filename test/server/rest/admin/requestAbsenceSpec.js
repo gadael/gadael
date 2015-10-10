@@ -249,7 +249,10 @@ describe('request absence admin rest service', function() {
 
         var distribution = [
             {
-                right: right1._id,
+                right: {
+                    id: right1._id,
+                    renewal:0
+                },
                 quantity: 1,
                 events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
@@ -257,7 +260,10 @@ describe('request absence admin rest service', function() {
                 }]
             },
             {
-                right: right2._id,
+                right: {
+                    id: right2._id,
+                    renewal:0
+                },
                 quantity: 1,
                 events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
@@ -314,7 +320,10 @@ describe('request absence admin rest service', function() {
 
         var distribution = [
             {
-                right: right1._id,
+                right: {
+                    id: right1._id,
+                    renewal:0
+                },
                 quantity: 5,
                 events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
@@ -342,7 +351,10 @@ describe('request absence admin rest service', function() {
 
         var distribution = [
             {
-                right: right1._id,
+                right: {
+                    id: right1._id,
+                    renewal:0
+                },
                 quantity: 22, // there should be only 20 days left
                 events: [{
                     dtstart: new Date(2015,1,1, 8).toJSON(),
