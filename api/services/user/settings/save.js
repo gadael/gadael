@@ -72,7 +72,8 @@ function saveUser(service, params) {
     var fieldsToSet = {
         firstname: params.firstname,
         lastname: params.lastname,
-        email: params.email
+        email: params.email,
+        image: params.image
     };
 
     UserModel.findByIdAndUpdate(params.user, fieldsToSet, function(err, user) {
@@ -82,12 +83,17 @@ function saveUser(service, params) {
             if (undefined !== params.roles.account.notify) {
 
                 var fieldsToSet = {
-                    approvals: params.roles.account.notify.approvals,
-                    allocations: params.roles.account.notify.allocations
+                    notify: {
+                        approvals: params.roles.account.notify.approvals,
+                        allocations: params.roles.account.notify.allocations
+                    }
                 };
 
                 AccountModel.findByIdAndUpdate(user.roles.account, fieldsToSet, function(err, account) {
-                    resolve(service, user, account);
+
+                    if (service.handleMongoError(err)) {
+                        resolve(service, user, account);
+                    }
                 });
 
                 return;

@@ -5,11 +5,13 @@ define([], function() {
 		'$location', 
 		'Rest',
         '$modal',
+        'UserEdit',
         function(
 			$scope, 
 			$location, 
 			Rest,
-            $modal
+            $modal,
+            UserEdit
 		) {
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
@@ -29,43 +31,9 @@ define([], function() {
 
 
         /**
-         *
-         *
-         * @param {Object} user
+         * setImage modal popup
          */
-        $scope.setImage = function(user) {
-
-            var modalscope = $scope.$new();
-            modalscope.user = user;
-            modalscope.clearCrop = function() {
-                 $scope.imageCropStep = 1;
-                 delete $scope.imgSrc;
-                 delete $scope.result;
-                 delete $scope.resultBlob;
-            };
-
-
-            modalscope.fileChanged = function(e) {
-
-                var files = e.target.files;
-
-                var fileReader = new FileReader();
-                fileReader.readAsDataURL(files[0]);
-
-                fileReader.onload = function() {
-                    $scope.imgSrc = this.result;
-                    $scope.$apply();
-                };
-            };
-
-            $modal({
-                scope: modalscope,
-                template: 'partials/admin/user-edit-image.html',
-                show: true
-            });
-
-
-        };
+        $scope.setImage = UserEdit.setImage($scope);
 
 
 

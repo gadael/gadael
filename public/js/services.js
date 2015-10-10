@@ -4,9 +4,10 @@ define([
     'services/catchOutcome', 
     'services/rest',
     'services/absence-edit',
+    'services/user-edit',
     'services/request-stat',
     'angularResource'], 
-    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, getRequestStat) {
+    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, UserEdit, getRequestStat) {
     
 	'use strict';
     
@@ -114,6 +115,16 @@ define([
         }
     )
     
+
+    /**
+     *
+     */
+    .factory('UserEdit', ['$modal',
+        function($modal) {
+            return UserEdit($modal);
+        }
+    ])
+
         
     /**
 	 * Add periods form in the array of items
