@@ -20,13 +20,15 @@ define([], function() {
                         $scope.addRight();
                     }
                 });
+
+                catchOutcome($scope.collectionRights.$promise);
             });
         }
         
         $scope.collectionRights = [];
         
         $scope.addRight = function() {
-            $scope.collectionRights.push(new beneficiaries);
+            $scope.collectionRights.push(new beneficiaries());
         };
         
         /**

@@ -7,7 +7,7 @@ function listController() {
     ctrlFactory.list.call(this, '/rest/admin/beneficiaries');
     
     this.controllerAction = function() {
-        this.jsonService(this.service('account/beneficiaries/list'));
+        this.jsonService(this.service('admin/beneficiaries/list'));
     };
 }
 listController.prototype = new ctrlFactory.list();
@@ -17,14 +17,14 @@ function getController() {
     ctrlFactory.get.call(this, '/rest/admin/beneficiaries/:id');
     
     this.controllerAction = function() {
-        this.jsonService(this.service('account/beneficiaries/get'));
+        this.jsonService(this.service('admin/beneficiaries/get'));
     };
 }
 getController.prototype = new ctrlFactory.get();
 
 
 function save() {
-    this.jsonService(this.service('account/beneficiaries/save'));
+    this.jsonService(this.service('admin/beneficiaries/save'));
 }
 
 function createController() {
@@ -43,7 +43,7 @@ function deleteController() {
     ctrlFactory.delete.call(this, '/rest/admin/beneficiaries/:id');
     
     this.controllerAction = function() {
-        this.jsonService(this.service('account/beneficiaries/delete'));
+        this.jsonService(this.service('admin/beneficiaries/delete'));
     };
 }
 deleteController.prototype = new ctrlFactory.delete();
