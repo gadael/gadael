@@ -269,6 +269,7 @@ function checkElement(service, user, elem)
     var deferred = Q.defer();
     var RightModel = service.app.db.models.Right;
     var AccountModel = service.app.db.models.Account;
+    var RenewalModel = service.app.db.models.RightRenewal;
 
 
     if (undefined === elem.right) {
@@ -301,32 +302,53 @@ function checkElement(service, user, elem)
             return deferred.reject('failed to get right document from id '+elem.right.id);
         }
 
-        // get renewal to save in element
-        rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
 
-            if (null === renewal) {
+        RenewalModel.findOne({ _id: elem.right.renewal })
+        .exec(function(err, renewalDocument) {
+
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            if (null === renewalDocument) {
                 return deferred.reject('No available renewal for the element');
             }
 
 
+            if (!rightDocument.validateRules(renewalDocument, user, elemPeriod.dtstart, elemPeriod.dtend)) {
+                return deferred.reject('This renewal is not valid on the period');
+            }
 
-            AccountModel.findOne({ 'user.id': user  })
-            .exec(function(err, accountDocument) {
-                renewal.right = rightDocument;
-                var accountRight = accountDocument.getAccountRight(renewal);
 
-                accountRight.getAvailableQuantity().then(function(available) {
 
-                    if (available < elem.quantity) {
-                        return deferred.reject(util.format('The quantity requested on right "%s" is not available', rightDocument.name));
+            // get renewal to save in element
+            rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
+
+                AccountModel.findOne({ 'user.id': user  })
+                .exec(function(err, accountDocument) {
+
+                    if (accountDocument.arrival > renewalDocument.finish) {
+                        return deferred.reject('Arrival date must be before renewal finish');
                     }
 
-                    deferred.resolve(true);
+
+                    renewal.right = rightDocument;
+                    var accountRight = accountDocument.getAccountRight(renewal);
+
+                    accountRight.getAvailableQuantity().then(function(available) {
+
+                        if (available < elem.quantity) {
+                            return deferred.reject(util.format('The quantity requested on right "%s" is not available', rightDocument.name));
+                        }
+
+                        deferred.resolve(true);
+                    });
+
+
                 });
 
 
             });
-
 
         });
 
