@@ -53,7 +53,10 @@ api.createRandomAbsence = function(app, user) {
                             dtend: tomorrow
                         }],
                         quantity: 1,
-                        right: rights[0]._id
+                        right: {
+                            id: rights[0]._id,
+                            renewal:0
+                        }
                     }
                 ]
             }

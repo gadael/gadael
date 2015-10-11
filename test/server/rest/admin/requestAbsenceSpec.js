@@ -277,7 +277,6 @@ describe('request absence admin rest service', function() {
             absence: { distribution: distribution }
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            console.log(body.$outcome.alert[0]);
             expect(body._id).toBeDefined();
             expect(body.absence).toBeDefined();
             if (body.absence) {
