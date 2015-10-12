@@ -42,28 +42,41 @@ api.createRandomAbsence = function(app, user) {
         var tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate()+1);
 
-        var params = { // parameters given to the service
-            user: user._id,
-            createdBy: user,
-            absence: {
-                distribution: [
-                    {
-                        events: [{
-                            dtstart: today,
-                            dtend: tomorrow
-                        }],
-                        quantity: 1,
-                        right: {
-                            id: rights[0]._id,
-                            renewal:0
-                        }
-                    }
-                ]
-            }
-        };
+        rights[0].getPeriodRenewal(today, tomorrow).then(function(renewal) {
 
-        deferred.resolve(save.getResultPromise(params));
-    });
+            if (!renewal) {
+                return deferred.reject('No renewal on this period');
+            }
+
+
+            var params = { // parameters given to the service
+                user: user._id,
+                createdBy: user,
+                absence: {
+                    distribution: [
+                        {
+                            events: [{
+                                dtstart: today,
+                                dtend: tomorrow
+                            }],
+                            quantity: 1,
+                            right: {
+                                id: rights[0]._id,
+                                renewal:renewal._id
+                            }
+                        }
+                    ]
+                }
+            };
+
+            deferred.resolve(save.getResultPromise(params));
+
+        }, deferred.reject);
+
+
+
+
+    }, deferred.reject);
 
     return deferred.promise;
 };

@@ -84,6 +84,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          *
          */
         function browseInputValue(action) {
+
             for(var rightId in distribution.right) {
                 if (distribution.right.hasOwnProperty(rightId)) {
                     action(rightId);
@@ -155,7 +156,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             // first pass, compute total
             browseInputValue(function(rightId) {
-                var inputValue = distribution.right[rightId];
+                var inputValue = distribution.right[rightId].quantity;
                 if (!inputValue) {
                     return;
                 }
@@ -174,7 +175,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             // second pass, apply styles on cells
             browseInputValue(function(rightId) {
-                var inputValue = distribution.right[rightId];
+                var inputValue = distribution.right[rightId].quantity;
                 $scope.distribution.class[rightId] = getValueClass(inputValue, available[rightId], completed);
             });
 
@@ -298,6 +299,19 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
                     var days=0, hours=0;
 
+                    function createAccountRenewal(item, renewalIndex)
+                    {
+                        var accountRightRenewal = Object.create(item);
+                        accountRightRenewal.renewal = item.renewals[renewalIndex];
+
+                        $scope.distribution.right[item._id] = {
+                            quantity: null,
+                            renewal: accountRightRenewal.renewal._id
+                        };
+
+                        return accountRightRenewal;
+                    }
+
                     for (var i=0; i<ar.length; i++) {
 
                         available[ar[i]._id] = ar[i].available_quantity;
@@ -309,9 +323,8 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                         }
 
                         for(var j=0; j<ar[i].renewals.length; j++) {
-                            var accountRightRenewal = ar[i];
-                            accountRightRenewal.renewal = ar[i].renewals[j];
-                            $scope.accountRightsRenewals.push(accountRightRenewal);
+                            $scope.accountRightsRenewals.push(createAccountRenewal(ar[i], j));
+
                         }
                     }
 
@@ -322,7 +335,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     // load distribution if this is a request modification
                     if (undefined !== $scope.request.absence && $scope.request.absence.distribution.length > 0) {
                         $scope.request.absence.distribution.forEach(function(element) {
-                            $scope.distribution.right[element.right.id] = element.quantity;
+                            $scope.distribution.right[element.right.id] = {
+                                quantity: element.quantity,
+                                renewal: element.right.renewal.id
+                            };
                         });
 
                         distributionWatch($scope.distribution, $scope);
@@ -556,6 +572,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          */
         createDistribution: function(rights, periods, accountRights) {
 
+            console.log(rights);
 
             var totalSeconds = 0;
             var totalDays = 0;
