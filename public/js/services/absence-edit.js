@@ -179,9 +179,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             $scope.distribution.completed = completed;
 
             // second pass, apply styles on cells
-            browseInputValue(function(renewalId, rightId) {
+            browseInputValue(function(renewalId) {
                 var inputValue = distribution.renewal[renewalId].quantity;
-                $scope.distribution.class[rightId] = getValueClass(inputValue, available[rightId], completed);
+                $scope.distribution.class[renewalId] = getValueClass(inputValue, available[renewalId], completed);
             });
 
             // Assigned duration to display to the user
