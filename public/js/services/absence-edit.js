@@ -3,10 +3,15 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
     'use strict';
 
     /**
-     * store quantity_unit for each loaded right
+     * store quantity_unit for each loaded right ID
      */
     var quantity_unit = {};
 
+
+    /**
+     * available quantity per renewal ID
+     * @var {object}
+     */
     var available = {};
 
 
@@ -85,9 +90,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          */
         function browseInputValue(action) {
 
-            for(var rightId in distribution.right) {
-                if (distribution.right.hasOwnProperty(rightId)) {
-                    action(rightId);
+            for(var renewalId in distribution.renewal) {
+                if (distribution.renewal.hasOwnProperty(renewalId)) {
+                    action(renewalId, distribution.renewal[renewalId].right);
                 }
             }
         }
@@ -145,7 +150,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
         if (distribution === undefined) {
             $scope.distribution = {
                 class: {},
-                right: {},
+                renewal: {},
                 total: 0,
                 completed: false
             };
@@ -155,8 +160,8 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             var value, days = 0, hours = 0;
 
             // first pass, compute total
-            browseInputValue(function(rightId) {
-                var inputValue = distribution.right[rightId].quantity;
+            browseInputValue(function(renewalId, rightId) {
+                var inputValue = distribution.renewal[renewalId].quantity;
                 if (!inputValue) {
                     return;
                 }
@@ -174,8 +179,8 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             $scope.distribution.completed = completed;
 
             // second pass, apply styles on cells
-            browseInputValue(function(rightId) {
-                var inputValue = distribution.right[rightId].quantity;
+            browseInputValue(function(renewalId, rightId) {
+                var inputValue = distribution.renewal[renewalId].quantity;
                 $scope.distribution.class[rightId] = getValueClass(inputValue, available[rightId], completed);
             });
 
@@ -273,7 +278,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 // init distribution if this is a request modification after accountRights.$promise
                 $scope.distribution = {
                     class: {},
-                    right: {},
+                    renewal: {},
                     total: 0,
                     completed: false
                 };
@@ -304,27 +309,29 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                         var accountRightRenewal = Object.create(item);
                         accountRightRenewal.renewal = item.renewals[renewalIndex];
 
-                        $scope.distribution.right[item._id] = {
+                        $scope.distribution.renewal[accountRightRenewal.renewal._id] = {
                             quantity: null,
-                            renewal: accountRightRenewal.renewal._id
+                            right: item._id
                         };
 
                         return accountRightRenewal;
                     }
 
+
+                    var accountRightRenewal;
+
                     for (var i=0; i<ar.length; i++) {
-
-                        available[ar[i]._id] = ar[i].available_quantity;
-                        quantity_unit[ar[i]._id] = ar[i].quantity_unit;
-
-                        switch (ar[i].quantity_unit) {
-                            case 'D': days  += ar[i].available_quantity; break;
-                            case 'H': hours += ar[i].available_quantity; break;
-                        }
-
                         for(var j=0; j<ar[i].renewals.length; j++) {
-                            $scope.accountRightsRenewals.push(createAccountRenewal(ar[i], j));
+                            accountRightRenewal = createAccountRenewal(ar[i], j);
+                            $scope.accountRightsRenewals.push(accountRightRenewal);
 
+                            available[accountRightRenewal.renewal._id] = ar[i].available_quantity;
+                            quantity_unit[accountRightRenewal._id] = ar[i].quantity_unit;
+
+                            switch (accountRightRenewal.quantity_unit) {
+                                case 'D': days  += accountRightRenewal.renewal.available_quantity; break;
+                                case 'H': hours += accountRightRenewal.renewal.available_quantity; break;
+                            }
                         }
                     }
 
@@ -335,9 +342,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     // load distribution if this is a request modification
                     if (undefined !== $scope.request.absence && $scope.request.absence.distribution.length > 0) {
                         $scope.request.absence.distribution.forEach(function(element) {
-                            $scope.distribution.right[element.right.id] = {
+                            $scope.distribution.renewal[element.right.renewal.id] = {
                                 quantity: element.quantity,
-                                renewal: element.right.renewal.id
+                                right: element.right.id
                             };
                         });
 

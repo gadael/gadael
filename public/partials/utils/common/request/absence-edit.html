@@ -65,15 +65,15 @@
         
 
             <tbody>
-                <tr class="form-group" ng-repeat="accountRight in accountRightsRenewals track by $index">
+                <tr class="form-group" ng-repeat="accountRight in accountRightsRenewals track by accountRight.renewal._id">
 
                     <td ng-class="distribution.class[accountRight._id]" class="input-group">
-                        <input id="ar{{accountRight._id}}" type="number" class="form-control" ng-model="distribution.right[accountRight._id].quantity" step="any" min="0" />
+                        <input id="ar{{accountRight.renewal._id}}" type="number" class="form-control" ng-model="distribution.renewal[accountRight.renewal._id].quantity" step="any" min="0" />
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
                     </td>
                     
                     <td>
-                        <label for="ar{{accountRight._id}}" class="control-label">{{accountRight.name}}</label><br />
+                        <label for="ar{{accountRight.renewal._id}}" class="control-label">{{accountRight.name}}</label><br />
                         <small translate>From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}</small>
                     </td>
 
