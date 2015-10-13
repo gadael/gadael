@@ -100,6 +100,7 @@ describe('request absence admin rest service', function() {
             finish: new Date(2016,1,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            right1.renewal = body;
             done();
         });
     });
@@ -140,6 +141,7 @@ describe('request absence admin rest service', function() {
             finish: new Date(2016,1,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            right2.renewal = body;
             done();
         });
     });
@@ -251,7 +253,7 @@ describe('request absence admin rest service', function() {
             {
                 right: {
                     id: right1._id,
-                    renewal:0
+                    renewal:right1.renewal._id
                 },
                 quantity: 1,
                 events: [{
@@ -262,7 +264,7 @@ describe('request absence admin rest service', function() {
             {
                 right: {
                     id: right2._id,
-                    renewal:0
+                    renewal:right2.renewal._id
                 },
                 quantity: 1,
                 events: [{
@@ -321,7 +323,7 @@ describe('request absence admin rest service', function() {
             {
                 right: {
                     id: right1._id,
-                    renewal:0
+                    renewal:right1.renewal._id
                 },
                 quantity: 5,
                 events: [{
@@ -352,7 +354,7 @@ describe('request absence admin rest service', function() {
             {
                 right: {
                     id: right1._id,
-                    renewal:0
+                    renewal:right1.renewal._id
                 },
                 quantity: 22, // there should be only 20 days left
                 events: [{

@@ -573,13 +573,11 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
         /**
          * Create distribution to post for a absence request
-         * @param {object} rights   Rights distribution with right id and quantity (the form input)
-         * @param {object} periods  The list of selected periods, provided by the period picker widget
+         * @param {object} renewals   Rights renenwals distribution with renewal id as property, right id and quantity (the form input) in the value
+         * @param {object} periods    The list of selected periods, provided by the period picker widget
          * @return {Array}
          */
-        createDistribution: function(rights, periods, accountRights) {
-
-            console.log(rights);
+        createDistribution: function(renewals, periods, accountRights) {
 
             var totalSeconds = 0;
             var totalDays = 0;
@@ -703,18 +701,19 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             var distribution = [];
             var startDate = periods[0].dtstart;
-            var quantity, elem;
+            var rightId, quantity, elem;
 
 
 
-            for(var rightId in rights) {
-                if (rights.hasOwnProperty(rightId)) {
-                    quantity = rights[rightId];
+            for(var renewalId in renewals) {
+                if (renewals.hasOwnProperty(renewalId)) {
+                    quantity = renewals[renewalId].quantity;
+                    rightId = renewals[renewalId].right;
 
                     elem = {
                         right: {
                             id: rightId,
-                            renewal:0
+                            renewal:renewalId
                         },
                         quantity: quantity,
                         events: createEvents(getSecQuantity(rightId, quantity), startDate)
@@ -725,6 +724,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     // set startDate for the next element
                     startDate = elem.events[elem.events.length-1].dtend;
                 }
+            }
+
+            if (0 === distribution.length) {
+                throw new Error('Nothing to save');
             }
 
             return distribution;

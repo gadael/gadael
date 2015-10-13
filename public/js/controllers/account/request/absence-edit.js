@@ -117,7 +117,7 @@ define(['q'], function(Q) {
 
         $scope.saveAbsence = function() {
 
-            var rights = $scope.distribution.right;
+            var renewals = $scope.distribution.renewal;
             var periods = $scope.selection.periods;
 
 
@@ -126,7 +126,7 @@ define(['q'], function(Q) {
             delete $scope.request.approvalSteps;
 
             try {
-                $scope.request.absence.distribution = AbsenceEdit.createDistribution(rights, periods, $scope.accountRights);
+                $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights);
                 $scope.request.ingaSave($scope.back);
             } catch(e) {
                 $rootScope.pageAlerts.push({
