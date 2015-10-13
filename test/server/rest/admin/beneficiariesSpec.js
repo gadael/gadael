@@ -65,42 +65,6 @@ describe('beneficiaries rest service', function() {
     });
 
 
-    it('logout', function(done) {
-        server.get('/rest/logout', {}, function(res) {
-            expect(res.statusCode).toEqual(200);
-            done();
-        });
-    });
-
-
-    it('request beneficiaries list as anonymous', function(done) {
-        server.get('/rest/admin/beneficiaries', { account: user1.roles.account }, function(res) {
-            expect(res.statusCode).toEqual(401);
-            done();
-        });
-    });
-
-
-
-
-
-    it('login as admin', function(done) {
-        server.createAdminSession().then(function() {
-            done();
-        });
-    });
-
-
-
-    it('request beneficiaries list as admin', function(done) {
-        server.get('/rest/admin/beneficiaries', { account: user1.roles.account }, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(0); // no beneficiaries
-            done();
-        });
-    });
-
-
     it('create right 1', function(done) {
         server.post('/rest/admin/rights', {
             name: 'Beneficiaires test 1',
@@ -120,14 +84,6 @@ describe('beneficiaries rest service', function() {
     });
 
 
-
-
-
-
-
-
-
-
     it('Create collection 1', function(done) {
         server.post('/rest/admin/collections', {
             name: 'Beneficiaires test 1'
@@ -143,6 +99,52 @@ describe('beneficiaries rest service', function() {
             done();
         });
     });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('request beneficiaries list as anonymous', function(done) {
+        server.get('/rest/admin/beneficiaries', {
+            ref: 'RightCollection',
+            document: collection1._id
+        }, function(res) {
+            expect(res.statusCode).toEqual(401);
+            done();
+        });
+    });
+
+
+
+
+
+    it('login as admin', function(done) {
+        server.createAdminSession().then(function() {
+            done();
+        });
+    });
+
+
+
+
+    it('request beneficiaries list as admin', function(done) {
+        server.get('/rest/admin/beneficiaries', {
+            ref: 'RightCollection',
+            document: collection1._id
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(0); // no beneficiaries
+            done();
+        });
+    });
+
+
+
 
 
     it('Link account to collection', function(done) {
@@ -194,7 +196,8 @@ describe('beneficiaries rest service', function() {
 
     it('list beneficiaries from the admin', function(done) {
         server.get('/rest/admin/beneficiaries', {
-            account: user1.roles.account
+            ref: 'RightCollection',
+            document: collection1._id
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);

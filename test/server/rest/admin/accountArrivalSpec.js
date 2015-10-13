@@ -167,7 +167,8 @@ describe('account arrival', function() {
     it('list beneficiaries from the admin', function(done) {
 
         server.get('/rest/admin/beneficiaries', {
-            account: user1.roles.account
+            ref: 'RightCollection',
+            document: collection1._id
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
