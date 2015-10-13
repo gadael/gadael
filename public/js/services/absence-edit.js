@@ -678,6 +678,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
              */
             function getSecQuantity(rightId, inputQuantity)
             {
+                if (null === inputQuantity) {
+                    throw new Error('Input quantity must be set');
+                }
+
                 var u = getQuantityUnit(rightId);
 
                 if ('H' === u) {
@@ -707,7 +711,13 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
             for(var renewalId in renewals) {
                 if (renewals.hasOwnProperty(renewalId)) {
+
                     quantity = renewals[renewalId].quantity;
+
+                    if (undefined === quantity || null === quantity || 0 === quantity) {
+                        continue;
+                    }
+
                     rightId = renewals[renewalId].right;
 
                     elem = {
