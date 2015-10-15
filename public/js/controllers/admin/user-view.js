@@ -28,15 +28,31 @@ define([], function() {
                     
                     var account = $scope.user.roles.account;
                     
-                    $scope.beneficiaries = beneficiaries.query({ account: account._id });
-                    $scope.accountCollections = accountCollection.query({ account: account._id });
-                    $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: account._id });
 
+
+                    $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: account._id });
+                    $scope.accountCollections = accountCollection.query({ account: account._id });
+
+                    $scope.accountCollections.$promise.then(function(collections) {
+                        var today = new Date(), accountCollection;
+                        for(var i=0; i<collections.length; i++) {
+                            accountCollection = collections[i];
+                            if (accountCollection.from <= today && (undefined === accountCollection.to || accountCollection.to > today)) {
+                                $scope.currentCollection = accountCollection.rightCollection;
+                                $scope.beneficiaries = beneficiaries.query({
+                                    ref: 'RightCollection',
+                                    document: accountCollection.rightCollection._id
+                                });
+                                break;
+                            }
+                        }
+                    });
                    
                 } else {
                     $scope.beneficiaries = [];
                     $scope.accountCollections = [];
                     $scope.seniority_years = 0;
+                    $scope.currentCollection = {};
                 }
 
                 

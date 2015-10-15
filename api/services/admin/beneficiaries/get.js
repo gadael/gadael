@@ -28,36 +28,31 @@ exports = module.exports = function(services, app) {
         var gt = new Gettext();
 
 
-        service.app.db.models.Account
-            .findOne({ _id: params.account})
-            .populate('user.id')
-            .exec(function(err, account) {
 
 
+        service.app.db.models.Beneficiary
+        .findOne({ '_id' : params.id }, 'right ref document')
+        .populate('right')
+        .exec(function(err, document) {
+            if (service.handleMongoError(err))
+            {
+                if (document) {
 
-                service.app.db.models.Beneficiary
-                .findOne({ '_id' : params.id }, 'right ref document')
-                .populate('right')
-                .exec(function(err, document) {
-                    if (service.handleMongoError(err))
-                    {
-                        if (document) {
+                    document.right.populate('type', function() {
 
-                            document.right.populate('type', function() {
+                        var rightDocument = document.right;
+                        var beneficiary = document.toObject();
+                        beneficiary.disp_unit = rightDocument.getDispUnit();
 
-                                var rightDocument = document.right;
-                                var beneficiary = document.toObject();
-                                beneficiary.disp_unit = rightDocument.getDispUnit();
+                        service.deferred.resolve(beneficiary);
+                    });
 
-                                service.deferred.resolve(beneficiary);
-                            });
+                } else {
+                    service.notFound(gt.gettext('This beneficiary does not exists'));
+                }
+            }
+        });
 
-                        } else {
-                            service.notFound(gt.gettext('This beneficiary does not exists'));
-                        }
-                    }
-                });
-            });
 
         return service.deferred.promise;
     };

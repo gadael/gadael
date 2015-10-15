@@ -94,6 +94,17 @@ exports = module.exports = function(services, app) {
             return service.deferred.promise;
         }
 
+
+        switch(params.ref) {
+            case 'RightCollection':
+            case 'User':
+                break;
+            default:
+                service.error('Unauthorized value for ref');
+                return service.deferred.promise;
+        }
+
+
         if (undefined === params || !params.document) {
             service.error('The document parameter is mandatory');
             return service.deferred.promise;
@@ -116,7 +127,6 @@ exports = module.exports = function(services, app) {
                     {
                         // populate type in right, wait for resolution of all promises before
                         // resolving the service
-
 
 
                         for(var i=0; i<docs.length; i++) {

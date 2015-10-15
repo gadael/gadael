@@ -13,17 +13,13 @@
     </div>
     
     
-    <ul>
-        <li ng-repeat="event in testEvents">
-            {{event.dtstart|date}} - {{event.dtend|date}}
-        </li>
-    </ul>
-    
-    <p><span translate>Arrival date:</span>
+    <p ng-if="user.roles.account.arrival">
+        <span translate>Arrival date:</span>
         {{user.roles.account.arrival|date}}
     </p>
     
-    <p><span translate>Seniority date:</span> 
+    <p ng-if="user.roles.account.seniority">
+        <span translate>Seniority date:</span>
         {{user.roles.account.seniority|date}} 
         (<span translate translate-n="seniority_years" translate-plural="{{$count}} years seniority">One year seniority</span>)
     </p>
@@ -48,7 +44,7 @@
 </div>
 
 <div class="row">
-    <h3  class="col-xs-10" translate>Vacations rights</h3>
+    <h3  class="col-xs-10" translate>Vacations rights in "{{currentCollection.name}}"</h3>
 
     <table class="table">
         <thead>

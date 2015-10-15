@@ -19,7 +19,8 @@ define(['q', 'async'], function(Q, async) {
         'catchOutcome',
         'gettext',
         'decimalAdjust',
-        function($scope, $location, $routeParams, Rest, $modal, catchOutcome, gettext, decimalAdjust) {
+        '$q',
+        function($scope, $location, $routeParams, Rest, $modal, catchOutcome, gettext, decimalAdjust, $q) {
 
 
 
@@ -157,6 +158,28 @@ define(['q', 'async'], function(Q, async) {
         }
 
 
+        /**
+         * @param {Promise} promisedBeneficiary
+         * @return {Promise}
+         */
+        function addBeneficiaryRenewals(promisedBeneficiary)
+        {
+            var renewalsResource = Rest.admin.rightrenewals.getResource();
+
+            return promisedBeneficiary.then(function(beneficiary) {
+                var deferred = $q.defer();
+
+                var r = renewalsResource.query({ right: beneficiary.right._id });
+
+                r.$promise.then(function(renewals) {
+
+                    beneficiary.renewals = renewals;
+                    deferred.resolve(beneficiary);
+                });
+
+                return deferred.promise;
+            });
+        }
 
 
 
@@ -212,11 +235,10 @@ define(['q', 'async'], function(Q, async) {
 
         $scope.user.$promise.then(function() {
             var beneficiaryContainer = beneficiaryResource.get({
-                id: $routeParams.id,
-                account: $scope.user.roles.account._id
+                id: $routeParams.id
             });
 
-            beneficiaryContainer.$promise.then(function(beneficiary) {
+            addBeneficiaryRenewals(beneficiaryContainer.$promise).then(function(beneficiary) {
 
                 var now = new Date();
 
@@ -247,6 +269,8 @@ define(['q', 'async'], function(Q, async) {
 
 
                     $scope.beneficiary = beneficiary;
+
+
 
                     createGraphValues(beneficiary.renewals, requests.$promise, function(values) {
                         $scope.timedAvailableQuantity = [{
