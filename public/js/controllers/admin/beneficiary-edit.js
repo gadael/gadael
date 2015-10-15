@@ -19,8 +19,7 @@ define(['q', 'async'], function(Q, async) {
         'catchOutcome',
         'gettext',
         'decimalAdjust',
-        '$q',
-        function($scope, $location, $routeParams, Rest, $modal, catchOutcome, gettext, decimalAdjust, $q) {
+        function($scope, $location, $routeParams, Rest, $modal, catchOutcome, gettext, decimalAdjust) {
 
 
 
