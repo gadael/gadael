@@ -44,6 +44,7 @@ define(function() {
         return {
             
             admin: {
+                accountbeneficiaries    : init('admin/accountbeneficiaries/:id'),
                 accountrights           : init('admin/accountrights/:id'),
                 accountcollections      : init('admin/accountcollections/:id'),
                 accountschedulecalendars: init('admin/accountschedulecalendars/:id'),
