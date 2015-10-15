@@ -8,5 +8,6 @@ define([], function() {
         function($scope, Rest) {
 
             $scope.beneficiary = Rest.account.beneficiaries.getFromUrl().loadRouteId();
+
 	}];
 });

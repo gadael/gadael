@@ -6,8 +6,9 @@ define([
     'services/absence-edit',
     'services/user-edit',
     'services/request-stat',
+    'services/beneficiary',
     'angularResource'], 
-    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, UserEdit, getRequestStat) {
+    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, UserEdit, getRequestStat, initBeneficiary) {
     
 	'use strict';
     
@@ -296,5 +297,14 @@ define([
             value = value.toString().split('e');
             return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
         };
-    });
+    })
+
+    /**
+     * Load the collection of REST services
+     */
+    .factory('Beneficiary', ['decimalAdjust',
+        function(decimalAdjust) {
+            return initBeneficiary(decimalAdjust);
+        }
+    ]);
 });
