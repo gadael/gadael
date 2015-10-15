@@ -160,28 +160,6 @@ define(['q', 'async'], function(Q, async) {
         }
 
 
-        /**
-         * @param {Promise} promisedBeneficiary
-         * @return {Promise}
-         */
-        function addBeneficiaryRenewals(promisedBeneficiary)
-        {
-            var renewalsResource = Rest.admin.rightrenewals.getResource();
-
-            return promisedBeneficiary.then(function(beneficiary) {
-                var deferred = $q.defer();
-
-                var r = renewalsResource.query({ right: beneficiary.right._id });
-
-                r.$promise.then(function(renewals) {
-
-                    beneficiary.renewals = renewals;
-                    deferred.resolve(beneficiary);
-                });
-
-                return deferred.promise;
-            });
-        }
 
 
 
@@ -219,7 +197,7 @@ define(['q', 'async'], function(Q, async) {
 
 
         var userResource = Rest.admin.users.getResource();
-        var beneficiaryResource = Rest.admin.beneficiaries.getResource();
+        var accountbeneficiaryResource = Rest.admin.accountbeneficiaries.getResource();
         var adjustmentResource = Rest.admin.adjustments.getResource();
         var requestResource = Rest.admin.requests.getResource();
 
@@ -239,11 +217,12 @@ define(['q', 'async'], function(Q, async) {
         $scope.user = userResource.get({id: $location.search().user});
 
         $scope.user.$promise.then(function() {
-            var beneficiaryContainer = beneficiaryResource.get({
-                id: $routeParams.id
+            var beneficiaryContainer = accountbeneficiaryResource.get({
+                id: $routeParams.id,
+                account: $scope.user.roles.account._id
             });
 
-            addBeneficiaryRenewals(beneficiaryContainer.$promise).then(function(beneficiary) {
+            beneficiaryContainer.$promise.then(function(beneficiary) {
 
                 var now = new Date();
 
