@@ -61,12 +61,14 @@ define(['q', 'async'], function(Q, async) {
 
                     // process monthly update adjustments
 
-                    r.adjustments.forEach(function(adjustment) {
-                        history.push({
-                            position: adjustment.from,
-                            add: round(adjustment.quantity)
+                    if (undefined !== r.adjustments) {
+                        r.adjustments.forEach(function(adjustment) {
+                            history.push({
+                                position: adjustment.from,
+                                add: round(adjustment.quantity)
+                            });
                         });
-                    });
+                    }
 
                     // process manual adjustments
 
@@ -192,13 +194,16 @@ define(['q', 'async'], function(Q, async) {
         {
             renewal.combinedAdjustments = [];
 
-            // Combine adjustments with r.adjustments
-            for(var i=0; i<renewal.adjustments.length; i++) {
-                renewal.combinedAdjustments.push({
-                    from: renewal.adjustments[i].from,
-                    quantity: renewal.adjustments[i].quantity,
-                    comment: gettext('Auto monthly update')
-                });
+            // Combine adjustments with renewal.adjustments
+
+            if (undefined !== renewal.adjustments) {
+                for(var i=0; i<renewal.adjustments.length; i++) {
+                    renewal.combinedAdjustments.push({
+                        from: renewal.adjustments[i].from,
+                        quantity: renewal.adjustments[i].quantity,
+                        comment: gettext('Auto monthly update')
+                    });
+                }
             }
 
             adjustments.forEach(function(manualAdjustment) {

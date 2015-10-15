@@ -4,20 +4,20 @@ var ctrlFactory = require('restitute').controller;
 
 
 function listController() {
-    ctrlFactory.list.call(this, '/rest/account/beneficiaries');
+    ctrlFactory.list.call(this, '/rest/admin/accountbeneficiaries');
 
     this.controllerAction = function() {
-        this.jsonService(this.service('user/accountbeneficiaries/list', { account: this.req.user.roles.account.id }));
+        this.jsonService(this.service('user/accountbeneficiaries/list'));
     };
 }
 listController.prototype = new ctrlFactory.list();
 
 
 function getController() {
-    ctrlFactory.get.call(this, '/rest/account/beneficiaries/:id');
+    ctrlFactory.get.call(this, '/rest/admin/accountbeneficiaries/:id');
 
     this.controllerAction = function() {
-        this.jsonService(this.service('user/accountbeneficiaries/get', { account: this.req.user.roles.account.id }));
+        this.jsonService(this.service('user/accountbeneficiaries/get'));
     };
 }
 getController.prototype = new ctrlFactory.get();

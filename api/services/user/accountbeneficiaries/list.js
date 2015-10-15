@@ -2,7 +2,7 @@
 
 
 /**
- * The Admin beneficiaries list service
+ * The user account beneficiaries list service
  */
 
 
