@@ -29,7 +29,7 @@ describe('users admin API service', function UsersTestSuite() {
 
 
     it("request beneficiaries list", function(done) {
-        var list = app.getService('account/beneficiaries/list');
+        var list = app.getService('admin/beneficiaries/list');
         list.getResultPromise({ account: null }).then(function(val) {
             // not used
             expect(list.httpstatus).toEqual(500);

@@ -20,6 +20,24 @@
 </div>
 
 
+<div class="hidden-md hidden-sm hidden-xs">
+    <nvd3-line-chart
+        data="timedAvailableQuantity"
+        width="850"
+        height="200"
+        showXAxis="true"
+        showYAxis="true"
+        isArea="false"
+        xAxisTickFormat="xAxisTickFormat_Date_Format()"
+        interpolate="step-after"
+         interactive="true"
+         useInteractiveGuideLine="true"
+         tooltips="true"
+        >
+            <svg></svg>
+    </nvd3-line-chart>
+</div>
+
 <div ng-model="activePanel" class="panel-group row panel panel-{{renewal.paneltype}}" ng-repeat="renewal in beneficiary.renewals" role="tablist" aria-multiselectable="true" bs-collapse>
 
     <div class="panel-heading pointer" role="tab" bs-collapse-toggle>

@@ -228,7 +228,12 @@ define(['q', 'async'], function(Q, async) {
 
         return {
             createGraphValues: createGraphValues,
-            processBeneficiary: processBeneficiary
+            processBeneficiary: processBeneficiary,
+            xAxisTickFormat_Date_Format: function() {
+                return function(d){
+                    return (new Date(d)).toLocaleDateString();
+                };
+            }
         };
     };
 

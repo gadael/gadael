@@ -58,11 +58,7 @@ define([], function() {
 
 
 
-        $scope.xAxisTickFormat_Date_Format = function() {
-            return function(d){
-                return (new Date(d)).toLocaleDateString();
-            };
-        };
+        $scope.xAxisTickFormat_Date_Format = Beneficiary.xAxisTickFormat_Date_Format;
 
 
 

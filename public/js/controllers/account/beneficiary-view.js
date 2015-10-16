@@ -20,6 +20,9 @@ define([], function() {
                 return adjustmentResource.query({ rightRenewal: renewalId }, callback);
             });
 
+
+            $scope.xAxisTickFormat_Date_Format = Beneficiary.xAxisTickFormat_Date_Format;
+
 	    }
     ];
 });
