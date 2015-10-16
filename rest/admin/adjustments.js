@@ -7,7 +7,7 @@ function listController() {
     ctrlFactory.list.call(this, '/rest/admin/adjustments');
 
     this.controllerAction = function() {
-        this.jsonService(this.service('admin/adjustments/list'));
+        this.jsonService(this.service('user/adjustments/list'));
     };
 }
 listController.prototype = new ctrlFactory.list();
@@ -15,7 +15,7 @@ listController.prototype = new ctrlFactory.list();
 
 
 function save() {
-    this.jsonService(this.service('admin/adjustments/save', { userCreated: this.req.user }));
+    this.jsonService(this.service('user/adjustments/save', { userCreated: this.req.user }));
 }
 
 function createController() {

@@ -302,9 +302,9 @@ define([
     /**
      * Load the collection of REST services
      */
-    .factory('Beneficiary', ['decimalAdjust',
-        function(decimalAdjust) {
-            return initBeneficiary(decimalAdjust);
+    .factory('Beneficiary', ['decimalAdjust', 'gettext',
+        function(decimalAdjust, gettext) {
+            return initBeneficiary(decimalAdjust, gettext);
         }
     ]);
 });
