@@ -330,6 +330,8 @@ describe('request absence account rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.absence).toBeDefined();
             if (body.absence) {
+                expect(body.user.id).toEqual(userAccount.user._id.toString());
+                expect(body.user.name).toBeDefined();
                 expect(body.absence.distribution.length).toEqual(2);
                 expect(body.approvalSteps.length).toEqual(1);
                 expect(body.requestLog.length).toEqual(1);

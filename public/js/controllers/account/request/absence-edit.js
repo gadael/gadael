@@ -49,11 +49,6 @@ define(['q'], function(Q) {
 
             requestUser = user;
             AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
-
-            $scope.request.user = {
-                id: user._id,
-                name: user.lastname+' '+user.firstname
-            };
         });
 
 

@@ -60,10 +60,6 @@ exports.getInfos = function(req, res) {
                     'href': '#/account/requests'
                 },
                 {
-                    'text': '<i class="fa fa-bullhorn"></i>&nbsp;'+gt.gettext('Request a vacation period'),
-                    'href': '#/account/absence-edit'
-                },
-                {
                     'text': '<i class="fa fa-balance-scale text-success"></i>&nbsp;'+gt.gettext('My rights'),
                     'href': '#/account/beneficiaries'
                 }
