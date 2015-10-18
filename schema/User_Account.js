@@ -370,10 +370,15 @@ exports = module.exports = function(params) {
 
                 async.each(calendars, function(calendar, endCal) {
                     calendar.getEvents(dtstart, dtend, function(err, events) {
+                        if (err) {
+                            return endCal(err);
+                        }
+
+
                         events.forEach(function(event) {
-                            nonWorkingDays.addPeriod(event.toObject());
+                            nonWorkingDays.addPeriod(event);
                         });
-                        endCal(err);
+                        endCal();
                     });
                 }, function(err) {
                     if (err) {
