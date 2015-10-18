@@ -52,6 +52,7 @@ define(function() {
                 calendars               : init('admin/calendars/:id'),
                 calendarevents          : init('admin/calendarevents/:id'),
                 personalevents          : init('admin/personalevents/:id'),
+                unavailableevents       : init('admin/unavailableevents/:id'),
                 collections             : init('admin/collections/:id'),
                 departments             : init('admin/departments/:id'),
                 adjustments             : init('admin/adjustments/:id'),
@@ -69,6 +70,7 @@ define(function() {
                 calendars               : init('account/calendars/:id'),
                 calendarevents          : init('account/calendarevents/:id'),
                 personalevents          : init('account/personalevents/:id'),
+                unavailableevents       : init('account/unavailableevents/:id'),
                 requests                : init('account/requests/:id'),
                 beneficiaries           : init('account/beneficiaries/:id'),
                 adjustments             : init('account/adjustments/:id')

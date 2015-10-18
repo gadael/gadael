@@ -284,6 +284,7 @@ exports = module.exports = function(params) {
 
 
     /**
+     * get schedule events in a period
      * @param {Date} dtstart
      * @param {Date} dtend
      * @return {Promise} resolve to an Era object
@@ -327,6 +328,64 @@ exports = module.exports = function(params) {
                 deferred.resolve(events);
             });
         });
+
+        return deferred.promise;
+    };
+
+
+    /**
+     * get non working periods in a period
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise} resolve to an Era object
+     */
+    accountSchema.methods.getPeriodUnavailableEvents = function(dtstart, dtend) {
+        var jurassic = require('jurassic');
+        var Q = require('q');
+        var deferred = Q.defer();
+        var acSchema = this;
+
+
+        this.getPeriodScheduleEvents(dtstart, dtend).then(function(scheduleEvents) {
+
+            var unavailableEvents = new jurassic.Era();
+            var p = new jurassic.Period();
+            p.dtstart = dtstart;
+            p.dtend = dtend;
+            unavailableEvents.addPeriod(p);
+            unavailableEvents.substractEra(scheduleEvents);
+
+
+            // add non-working days
+
+            var searchCals = acSchema.model('Calendar').find();
+            searchCals.where('type', 'nonworkingday');
+            searchCals.exec(function(err, calendars) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                var searchEvents = acSchema.model('CalendarEvent').find();
+                searchEvents.where('calendar').in(calendars.map(function(c) { return c._id; }));
+                searchEvents.exec(function(err, events) {
+                    if (err) {
+                        return deferred.reject(err);
+                    }
+
+                    var nonWorkingDays = new jurassic.Era();
+                    events.forEach(function(event) {
+                        nonWorkingDays.addPeriod(event.toObject());
+                    });
+
+                    unavailableEvents.addEra(nonWorkingDays);
+
+                    // TODO: add absence events
+
+                    deferred.resolve(unavailableEvents.getFlattenedEra());
+                });
+            });
+        });
+
 
         return deferred.promise;
     };
