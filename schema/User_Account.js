@@ -365,17 +365,20 @@ exports = module.exports = function(params) {
                     return deferred.reject(err);
                 }
 
-                var searchEvents = acSchema.model('CalendarEvent').find();
-                searchEvents.where('calendar').in(calendars.map(function(c) { return c._id; }));
-                searchEvents.exec(function(err, events) {
+                var async = require('async');
+                var nonWorkingDays = new jurassic.Era();
+
+                async.each(calendars, function(calendar, endCal) {
+                    calendar.getEvents(dtstart, dtend, function(err, events) {
+                        events.forEach(function(event) {
+                            nonWorkingDays.addPeriod(event.toObject());
+                        });
+                        endCal(err);
+                    });
+                }, function(err) {
                     if (err) {
                         return deferred.reject(err);
                     }
-
-                    var nonWorkingDays = new jurassic.Era();
-                    events.forEach(function(event) {
-                        nonWorkingDays.addPeriod(event.toObject());
-                    });
 
                     unavailableEvents.addEra(nonWorkingDays);
 
