@@ -1,0 +1,18 @@
+<form role="form">
+
+    <div class="form-group">
+		<label for="time_saving_deposit_from" translate>Right</label>
+		<select class="form-control" id="time_saving_deposit_from" ng-model="time_saving_deposit.from">
+        </select>
+	</div>
+
+
+    <div class="form-group">
+		<label for="time_saving_deposit_quantity" translate>Quantity</label>
+		<input type="number" class="form-control" id="time_saving_deposit_quantity" ng-model="time_saving_deposit.quantity" />
+	</div>
+
+    <div class="col-sm-12 top30">
+        <button class="btn btn-primary" ng-disabled="!selection.end || !selection.begin" ng-click="save()" translate>Save</button>
+    </div>
+</form>
