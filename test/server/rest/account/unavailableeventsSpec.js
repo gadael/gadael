@@ -123,12 +123,12 @@ describe('unavailableevents accout rest service', function() {
 
         var dtstart, dtend, event;
 
-        dtstart = new Date(2015,1,1).toJSON();
-        dtend = new Date(2015,2,1).toJSON();
+        dtstart = new Date(2015,3,1).toJSON();
+        dtend = new Date(2015,5,1).toJSON();
 
         server.get('/rest/account/unavailableevents', { dtstart: dtstart, dtend: dtend }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toBeGreaterThan(1); // at least for the working periods
+            expect(body.length).toBeGreaterThan(1); // 1er mai
 
             for(var i=0; i<body.length; i++) {
                 event = body[i];
