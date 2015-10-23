@@ -94,7 +94,7 @@ exports = module.exports = function(services, app) {
      *                      params.type                     workschedule|nonworkingday|holiday
      *                      params.substractNonWorkingDays  substract non working days periods
      *                      params.substractPersonalEvents  substract personal events
-     *                      params.substractException       Array of personal event ID to ignore in the personal events to substract
+     *                      params.subtractException       Array of personal event ID to ignore in the personal events to substract
      *
      *
      * @return {Promise}
@@ -157,11 +157,11 @@ exports = module.exports = function(services, app) {
                     status: { $in: ['TENTATIVE', 'CONFIRMED'] }
                 };
 
-                if (undefined !== params.substractException) {
+                if (undefined !== params.subtractException) {
                     // Do not substract those personnal events
                     // because this is the events to update with selection
                     // the others personal events will be substracted from working hours
-                    filter._id = { $nin: params.substractException };
+                    filter._id = { $nin: params.subtractException };
                 }
 
                 var find = service.app.db.models.CalendarEvent.find(filter);

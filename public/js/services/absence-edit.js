@@ -484,9 +484,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 };
 
                 if (undefined !== personalEventList) {
-                    queryParams.substractException = [];
+                    queryParams.subtractException = [];
                     personalEventList.forEach(function(personalEvent) {
-                        queryParams.substractException.push(personalEvent._id);
+                        queryParams.subtractException.push(personalEvent._id);
                     });
                 }
 

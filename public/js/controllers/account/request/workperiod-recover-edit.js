@@ -3,12 +3,12 @@ define([], function() {
     'use strict';
 
 
-	return ['$scope', '$location', 'Rest', '$routeParams', '$rootScope',
-            function($scope, $location, Rest, $routeParams, $rootScope) {
+	return ['$scope', '$location', 'Rest', '$routeParams', '$rootScope', 'WorkperiodRecoverEdit',
+            function($scope, $location, Rest, $routeParams, $rootScope, WorkperiodRecoverEdit) {
 
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
-
+        var unavailableEvents = Rest.account.unavailableevents.getResource();
 
 
         if ($scope.request.$promise) {
@@ -27,7 +27,7 @@ define([], function() {
         }
 
 
-
+        $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents);
 
         /**
          * Go back to requests list, admin view

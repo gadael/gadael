@@ -4,11 +4,12 @@ define([
     'services/catchOutcome', 
     'services/rest',
     'services/absence-edit',
+    'services/workperiod-recover-edit',
     'services/user-edit',
     'services/request-stat',
     'services/beneficiary',
     'angularResource'], 
-    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, UserEdit, getRequestStat, initBeneficiary) {
+    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, WorkperiodRecoverEdit, UserEdit, getRequestStat, initBeneficiary) {
     
 	'use strict';
     
@@ -116,6 +117,12 @@ define([
         }
     )
     
+    .factory('WorkperiodRecoverEdit',
+        function() {
+            return WorkperiodRecoverEdit;
+        }
+    )
+
 
     /**
      *
