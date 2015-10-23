@@ -242,7 +242,7 @@ exports = module.exports = function(services, app) {
             }
 
             getEventsTypeEra('nonworkingday', params.dtstart, params.dtend).then(function(nwEra) {
-                deferred.resolve(era.substractEra(nwEra));
+                deferred.resolve(era.subtractEra(nwEra));
             });
 
 
@@ -261,7 +261,7 @@ exports = module.exports = function(services, app) {
             }
 
             getPersonalEvents().then(function(eventsEra) {
-                deferred.resolve(era.substractEra(eventsEra));
+                deferred.resolve(era.subtractEra(eventsEra));
             }, deferred.reject);
 
 

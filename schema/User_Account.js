@@ -345,7 +345,6 @@ exports = module.exports = function(params) {
         var deferred = Q.defer();
         var acSchema = this;
 
-
         this.getPeriodScheduleEvents(dtstart, dtend).then(function(scheduleEvents) {
 
             var unavailableEvents = new jurassic.Era();
@@ -353,8 +352,7 @@ exports = module.exports = function(params) {
             p.dtstart = dtstart;
             p.dtend = dtend;
             unavailableEvents.addPeriod(p);
-            unavailableEvents.substractEra(scheduleEvents);
-
+            unavailableEvents.subtractEra(scheduleEvents);
 
             // add non-working days
 
@@ -388,7 +386,6 @@ exports = module.exports = function(params) {
                     unavailableEvents.addEra(nonWorkingDays);
 
                     // TODO: add absence events
-
                     deferred.resolve(unavailableEvents.getFlattenedEra());
                 });
             });

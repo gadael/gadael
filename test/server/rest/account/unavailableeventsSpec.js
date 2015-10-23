@@ -118,7 +118,7 @@ describe('unavailableevents accout rest service', function() {
         });
     });
 
-
+    /*
     it('request unavailableevents as account, with working period set', function(done) {
 
         var dtstart, dtend, event;
@@ -139,6 +139,22 @@ describe('unavailableevents accout rest service', function() {
             done();
         });
     });
+
+
+    */
+    it('request unavailableevents as account on one year', function(done) {
+
+        var dtstart, dtend;
+
+        dtstart = new Date(2015,0,1).toJSON();
+        dtend = new Date(2016,0,1).toJSON();
+
+        server.get('/rest/account/unavailableevents', { dtstart: dtstart, dtend: dtend }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
 
 
     it('close the mock server', function(done) {
