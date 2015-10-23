@@ -354,6 +354,8 @@ exports = module.exports = function(params) {
             unavailableEvents.addPeriod(p);
             unavailableEvents.subtractEra(scheduleEvents);
 
+
+
             // add non-working days
 
             var searchCals = acSchema.model('Calendar').find();
@@ -386,7 +388,10 @@ exports = module.exports = function(params) {
                     unavailableEvents.addEra(nonWorkingDays);
 
                     // TODO: add absence events
-                    deferred.resolve(unavailableEvents.getFlattenedEra());
+
+                    var era = unavailableEvents.getFlattenedEra();
+                    console.log(era.periods);
+                    deferred.resolve(era);
                 });
             });
         });
