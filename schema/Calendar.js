@@ -160,7 +160,10 @@ exports = module.exports = function(params) {
 			
 			var events = [];
 
+
+
             documents.forEach(function(document) {
+
                 events = events.concat(document.expand(span_start, span_end));
             });
 

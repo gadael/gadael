@@ -312,6 +312,7 @@ exports = module.exports = function(params) {
                     }
 
                     calendarEvents.forEach(function(event) {
+
                         events.addPeriod(event);
                         var last = events.periods.length-1;
                         events.periods[last].businessDays = events.periods[last].getBusinessDays(asc.calendar.halfDayHour);
@@ -354,8 +355,6 @@ exports = module.exports = function(params) {
             unavailableEvents.addPeriod(p);
             unavailableEvents.subtractEra(scheduleEvents);
 
-
-
             // add non-working days
 
             var searchCals = acSchema.model('Calendar').find();
@@ -389,8 +388,9 @@ exports = module.exports = function(params) {
 
                     // TODO: add absence events
 
+
                     var era = unavailableEvents.getFlattenedEra();
-                    console.log(era.periods);
+
                     deferred.resolve(era);
                 });
             });
