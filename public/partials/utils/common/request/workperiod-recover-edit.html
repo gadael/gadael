@@ -1,6 +1,15 @@
 
 <div tp-teleperiod>
-    <tp-period-picker workingtimes="loadNonWorkingTimes" events="loadEvents" dtstart="selection.begin" dtend="selection.end" focusdate="selection.begin" periods="selection.periods" selectedevents="request.events"></tp-period-picker>
+    <tp-period-picker
+                      workingtimes="loadNonWorkingTimes"
+                      events="loadEvents"
+                      dtstart="selection.begin"
+                      dtend="selection.end"
+                      focusdate="selection.begin"
+                      periods="selection.periods"
+                      selectedevents="request.events"
+                      dayFirstMinute="0"
+                      dayLastMinute="1439"></tp-period-picker>
 </div>
 
 <form class="form-inline" role="form">
