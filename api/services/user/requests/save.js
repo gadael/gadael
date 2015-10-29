@@ -27,7 +27,7 @@ function validate(service, params)
 /**
  * @param {apiService} service
  * @param {Object} params
- * @param {User} user
+ * @param {User} user               Request owner
  * @return {Promise} promised fieldsToSet object
  */
 function prepareRequestFields(service, params, user)
@@ -35,8 +35,6 @@ function prepareRequestFields(service, params, user)
     var Q = require('q');
     var deferred = Q.defer();
     var getApprovalSteps = require('../../../../modules/getApprovalSteps');
-    var saveAbsence = require('./saveAbsence');
-
 
 
 
@@ -74,6 +72,8 @@ function prepareRequestFields(service, params, user)
 
 
         if (undefined !== params.absence) {
+
+            var saveAbsence = require('./saveAbsence');
 
             saveAbsence.getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
 
@@ -115,8 +115,14 @@ function prepareRequestFields(service, params, user)
         }
 
         if (undefined !== params.workperiod_recover) {
-            fieldsToSet.workperiod_recover = params.workperiod_recover;
-            deferred.resolve(fieldsToSet);
+
+            var saveWorkperiodRecover = require('./saveWorkperiodRecover');
+            saveWorkperiodRecover.getFieldsToSet(service, user, params.workperiod_recover, approvalSteps.length >0)
+                .then(function(workperiod_recover) {
+                fieldsToSet.workperiod_recover = workperiod_recover;
+                deferred.resolve(fieldsToSet);
+            }, deferred.reject);
+
         }
     });
 
