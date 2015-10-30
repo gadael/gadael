@@ -51,8 +51,8 @@ function getFieldsToSet(wrParams)
 
     fieldsToSet.quantity = wrParams.quantity;
 
-    // only the approver can change gainedQuantity, this is initialized from quantity
-    fieldsToSet.gainedQuantity = wrParams.quantity;
+    // only the approver can change gainedQuantity
+    fieldsToSet.gainedQuantity = 0;
 
     // name set by creator for the new right
     fieldsToSet.right.name = wrParams.right.name;

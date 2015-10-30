@@ -216,13 +216,13 @@ describe('request workperiod recover account rest service', function() {
                     dtstart: new Date(2015,1,1, 19).toJSON(),
                     dtend: new Date(2015,1,1, 22).toJSON()
                 }],
-                workperiod_recover: {
+                workperiod_recover: [{
                     quantity: 3,
                     right: {
                         name: 'User input for recovery',
                         quantity_unit:'H'
                     }
-                }
+                }]
             },
             function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -236,11 +236,11 @@ describe('request workperiod recover account rest service', function() {
                 expect(body.requestLog.length).toEqual(1);
                 expect(body.events.length).toEqual(1);
 
-                expect(body.workperiod_recover.quantity).toEqual(4);
-                expect(body.workperiod_recover.gainedQuantity).toEqual(0); // because not confimed
-                expect(body.workperiod_recover.right.id).toEqual(null); // created after approval
-                expect(body.workperiod_recover.right.name).toBeDefined();
-                expect(body.workperiod_recover.right.quantity_unit).toEqual('H');
+                expect(body.workperiod_recover[0].quantity).toEqual(3);
+                expect(body.workperiod_recover[0].gainedQuantity).toEqual(0); // because not confimed
+                expect(body.workperiod_recover[0].right.id).toEqual(null); // created after approval
+                expect(body.workperiod_recover[0].right.name).toBeDefined();
+                expect(body.workperiod_recover[0].right.quantity_unit).toEqual('H');
             }
             request1 = body;
             done();
@@ -269,7 +269,7 @@ describe('request workperiod recover account rest service', function() {
             if (body.absence) {
                 expect(body.absence.distribution).toBeDefined();
                 expect(body._id).toEqual(request1._id);
-                expect(body.workperiod_recover.gainedQuantity).toEqual(0);
+                expect(body.workperiod_recover[0].gainedQuantity).toEqual(0);
 
             }
             done();
@@ -286,13 +286,13 @@ describe('request workperiod recover account rest service', function() {
                     dtstart: new Date(2015,1,1, 19).toJSON(),
                     dtend: new Date(2015,1,1, 23).toJSON()
                 }],
-                workperiod_recover: {
+                workperiod_recover: [{
                     quantity: 4,
                     right: {
                         name: 'User input for recovery',
                         quantity_unit:'H'
                     }
-                }
+                }]
             }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
@@ -300,11 +300,11 @@ describe('request workperiod recover account rest service', function() {
             if (body.requestLog) {
                 expect(body.requestLog.length).toEqual(2);
 
-                expect(body.workperiod_recover.quantity).toEqual(4);
-                expect(body.workperiod_recover.gainedQuantity).toEqual(0); // because not confimed
-                expect(body.workperiod_recover.right.id).toEqual(null); // created after approval
-                expect(body.workperiod_recover.right.name).toBeDefined();
-                expect(body.workperiod_recover.right.quantity_unit).toEqual('H');
+                expect(body.workperiod_recover[0].quantity).toEqual(4);
+                expect(body.workperiod_recover[0].gainedQuantity).toEqual(0); // because not confimed
+                expect(body.workperiod_recover[0].right.id).toEqual(null); // created after approval
+                expect(body.workperiod_recover[0].right.name).toBeDefined();
+                expect(body.workperiod_recover[0].right.quantity_unit).toEqual('H');
             }
             done();
         });
