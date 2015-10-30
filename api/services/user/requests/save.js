@@ -119,7 +119,7 @@ function prepareRequestFields(service, params, user)
             var saveWorkperiodRecover = require('./saveWorkperiodRecover');
             saveWorkperiodRecover.getFieldsToSet(params.workperiod_recover)
                 .then(function(workperiod_recover) {
-                fieldsToSet.workperiod_recover = workperiod_recover;
+                fieldsToSet.workperiod_recover = [workperiod_recover];
                 deferred.resolve(fieldsToSet);
             }, deferred.reject);
 

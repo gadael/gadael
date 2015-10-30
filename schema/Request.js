@@ -34,20 +34,7 @@ exports = module.exports = function(params) {
             quantity: { type: Number }
         },
 
-        workperiod_recover: {
-            quantity: { type: Number, required: true },         // quantity equal du duration of period in the planning
-            gainedQuantity: { type: Number, required: true },   // quantity earned from recovery of the period, can be modified by approvers
-            right: {
-                id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-                name: { type: String, required: true },         // right created after approval
-                quantity_unit: { type: String, enum:['D', 'H'], required: true },
-                renewal: {                                      // open period for the recovery right
-                    id: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' , required: true },
-                    start: { type: Date, required: true },
-                    finish: { type: Date, required: true }
-                }
-            }
-        },
+        workperiod_recover: [params.embeddedSchemas.WorperiodRecover],
 
         status: {                                                       // approval status for request creation or request deletion
             created: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null },

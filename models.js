@@ -26,6 +26,7 @@ models.load = function() {
     require('./schema/ApprovalStep')(requirements);
 	require('./schema/Right_Rule')(requirements);
     require('./schema/RightAdjustment')(requirements);
+    require('./schema/Request_WorkperiodRecover')(requirements);
 
 	//then regular docs
 
