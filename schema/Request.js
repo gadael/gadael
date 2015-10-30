@@ -257,8 +257,12 @@ exports = module.exports = function(params) {
      */
     requestSchema.methods.createRecoveryRight = function createRecoveryRight() {
 
+        if (undefined === this.workperiod_recover || 0 === this.workperiod_recover.length) {
+            return Q(this);
+        }
 
-        var recover = this.workperiod_recover;
+
+        var recover = this.workperiod_recover[0];
         var request = this;
 
         /**
@@ -287,6 +291,11 @@ exports = module.exports = function(params) {
         var deferred = Q.defer();
 
         createRight().then(function(right) {
+
+            if (null === right) {
+                deferred.resolve(request);
+            }
+
             recover.right.id = right._id;
             right.createRecoveryRenewal(recover).then(function(renewal) {
                 recover.right.renewal = renewal._id;

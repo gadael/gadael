@@ -1,5 +1,6 @@
 'use strict';
 
+var Q = require('q');
 
 /**
  * @throws Error
@@ -73,6 +74,11 @@ function getFieldsToSet(wrParams)
 function createRight(user, document)
 {
     document.createRecoveryRight().then(function(right) {
+
+        if (null === right) {
+            return Q(null);
+        }
+
         // link right to user using a beneficiary
         return right.addUserBeneficiary(user);
     });
