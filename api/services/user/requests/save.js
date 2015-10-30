@@ -117,11 +117,12 @@ function prepareRequestFields(service, params, user)
         if (undefined !== params.workperiod_recover) {
 
             var saveWorkperiodRecover = require('./saveWorkperiodRecover');
-            saveWorkperiodRecover.getFieldsToSet(params.workperiod_recover)
-                .then(function(workperiod_recover) {
-                fieldsToSet.workperiod_recover = [workperiod_recover];
-                deferred.resolve(fieldsToSet);
-            }, deferred.reject);
+
+            fieldsToSet.workperiod_recover = [
+                saveWorkperiodRecover.getFieldsToSet(params.workperiod_recover)
+            ];
+
+            deferred.resolve(fieldsToSet);
 
         }
     });

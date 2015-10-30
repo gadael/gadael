@@ -272,7 +272,7 @@ exports = module.exports = function(params) {
          */
         function createRight()
         {
-            var rightModel = this.model('Right');
+            var rightModel = request.model('Right');
 
             var right = new rightModel();
             right.name = recover.right.name;

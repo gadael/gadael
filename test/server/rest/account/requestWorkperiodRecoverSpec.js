@@ -295,13 +295,16 @@ describe('request workperiod recover account rest service', function() {
             }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.requestLog.length).toEqual(2);
+            expect(body.requestLog).toBeDefined();
+            if (body.requestLog) {
+                expect(body.requestLog.length).toEqual(2);
 
-            expect(body.workperiod_recover.quantity).toEqual(4);
-            expect(body.workperiod_recover.gainedQuantity).toEqual(0); // because not confimed
-            expect(body.workperiod_recover.right.id).toEqual(null); // created after approval
-            expect(body.workperiod_recover.right.name).toBeDefined();
-            expect(body.workperiod_recover.right.quantity_unit).toEqual('H');
+                expect(body.workperiod_recover.quantity).toEqual(4);
+                expect(body.workperiod_recover.gainedQuantity).toEqual(0); // because not confimed
+                expect(body.workperiod_recover.right.id).toEqual(null); // created after approval
+                expect(body.workperiod_recover.right.name).toBeDefined();
+                expect(body.workperiod_recover.right.quantity_unit).toEqual('H');
+            }
             done();
         });
     });
@@ -397,8 +400,11 @@ describe('request workperiod recover account rest service', function() {
     it('get request 1', function(done) {
         server.get('/rest/manager/waitingrequests/'+request1._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.approvalSteps.length).toEqual(1);
-            approvalStep1 = body.approvalSteps[0];
+            expect(body.approvalSteps).toBeDefined();
+            if (body.approvalSteps) {
+                expect(body.approvalSteps.length).toEqual(1);
+                approvalStep1 = body.approvalSteps[0];
+            }
             done();
         });
     });
@@ -450,7 +456,7 @@ describe('request workperiod recover account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             expect(body[0]).toBeDefined();
-            if (body[0].status) {
+            if (body[0] && body[0].status) {
                 expect(body[0].status.deleted).toEqual('waiting');
             }
             done();
