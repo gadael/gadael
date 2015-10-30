@@ -1,6 +1,5 @@
 'use strict';
 
-var Q = require('q');
 
 /**
  * @throws Error
@@ -25,114 +24,63 @@ function testRequired(wrParams)
 }
 
 
-/**
- * @param {apiService   service
- * @param {Object} wrParams
- * @return {Promise}
- */
-function createRight(service, wrParams)
-{
-
-    var rightModel = service.app.db.models.Right;
-
-    var right = new rightModel();
-    right.name = wrParams.right.name;
-    right.type = '';
-    right.quantity = wrParams.quantity;
-    right.quantity_unit = wrParams.right.quantity_unit;
-    right.rules = [{
-        title: 'Active for request dates in the renewal period',
-        type: 'request_period'
-    }];
-
-    return right.save();
-}
-
-/**
- * @param {apiService   service
- * @param {Right} right
- * @return {Promise}
- */
-function createRenewal(service, right)
-{
-    var renewalModel = service.app.db.models.RightRenewal;
-
-    var renewal = new renewalModel();
-    renewal.right = right._id;
-
-    //TODO
-    renewal.start = new Date();
-    renewal.finish = new Date();
-
-
-    return renewal.save();
-}
 
 
 
 /**
  * Get object to set into request.workperiod_recover on save
- * if no approval, right is created immediately
  *
- * @param {apiService   service
- * @param {User}        user            Request owner
+ *
  * @param {Object}      wrParams        Worperiod recover request parmeters from post|put request
- * @param {Boolean}     approval        True if request need approval
  *
- * @return {Promise}                Resolve to an object
+ *
+ * @return {Object}
  */
-function getFieldsToSet(service, user, wrParams, approval)
+function getFieldsToSet(wrParams)
 {
 
-    return Q.try(function() {
-        testRequired(wrParams);
-
-    }).then(function() {
-
+    if (!testRequired(wrParams)) {
+        return null;
+    }
 
 
-        var fieldsToSet = {
-            right: {}
-        };
+    var fieldsToSet = {
+        right: {}
+    };
 
-        fieldsToSet.quantity = wrParams.quantity;
+    fieldsToSet.quantity = wrParams.quantity;
 
-        // only the approver can change gainedQuantity, this is initialized from quantity
-        fieldsToSet.gainedQuantity = wrParams.quantity;
+    // only the approver can change gainedQuantity, this is initialized from quantity
+    fieldsToSet.gainedQuantity = wrParams.quantity;
 
-        // name set by creator for the new right
-        fieldsToSet.right.name = wrParams.right.name;
-        fieldsToSet.right.quantity_unit = wrParams.right.quantity_unit;
+    // name set by creator for the new right
+    fieldsToSet.right.name = wrParams.right.name;
+    fieldsToSet.right.quantity_unit = wrParams.right.quantity_unit;
 
-        if (approval) {
-            return Q.fcall(function () {
-                return fieldsToSet;
-            });
-        }
+    return fieldsToSet;
+
+}
 
 
-        var deferred = Q.defer();
-
-        createRight(service, wrParams.right).then(function(right) {
-            fieldsToSet.right.id = right._id;
-            createRenewal(service, right).then(function(renewal) {
-                fieldsToSet.right.renewal = {
-                    id: renewal._id,
-                    start: renewal.start,
-                    finish: renewal.finish
-                };
-
-                deferred.resolve(fieldsToSet);
-            });
-
-        }, deferred.reject);
-
-
-        return deferred.promise;
+/**
+ * Create right if no approval
+ *
+ * @param {User}        user            Request owner
+ * @param {Request}     document
+ *
+ * @return {Promise}    resolve to the Beneficiary document
+ */
+function createRight(user, document)
+{
+    document.createRecoveryRight().then(function(right) {
+        // link right to user using a beneficiary
+        return right.addUserBeneficiary(user);
     });
 }
 
 
+
 exports = module.exports = {
-    getFieldsToSet: getFieldsToSet
+    getFieldsToSet: getFieldsToSet,
+    createRight: createRight
 };

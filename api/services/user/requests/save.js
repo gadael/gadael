@@ -117,7 +117,7 @@ function prepareRequestFields(service, params, user)
         if (undefined !== params.workperiod_recover) {
 
             var saveWorkperiodRecover = require('./saveWorkperiodRecover');
-            saveWorkperiodRecover.getFieldsToSet(service, user, params.workperiod_recover, approvalSteps.length >0)
+            saveWorkperiodRecover.getFieldsToSet(params.workperiod_recover)
                 .then(function(workperiod_recover) {
                 fieldsToSet.workperiod_recover = workperiod_recover;
                 deferred.resolve(fieldsToSet);
@@ -176,7 +176,14 @@ function saveRequest(service, params) {
                             require('./saveAbsence').saveEmbedEvents(service, document);
                         }
 
-                        // Do not wait for event update?
+                        if (document.workperiod_recover !== undefined) {
+                            // create right if no approval
+                            require('./saveWorkperiodRecover').createRight(user, document);
+                        }
+
+                        // Absence: Do not wait for event update?
+                        // worperiod recover: Do not wait for right creation?
+
                         service.resolveSuccess(
                             document,
                             message

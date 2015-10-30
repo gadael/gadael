@@ -1,5 +1,7 @@
 'use strict';
 
+var Q = require('q');
+
 exports = module.exports = function(params) {
 	
 	var mongoose = params.mongoose;
@@ -262,6 +264,54 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Create recovery right from request
+     * @return {Promise}
+     */
+    requestSchema.methods.createRecoveryRight = function createRecoveryRight() {
+
+
+        var recover = this.workperiod_recover;
+        var request = this;
+
+        /**
+         * @param {apiService   service
+         * @param {Object} wrParams
+         * @return {Promise}
+         */
+        function createRight()
+        {
+            var rightModel = this.model('Right');
+
+            var right = new rightModel();
+            right.name = recover.right.name;
+            right.type = '';
+            right.quantity = recover.quantity;
+            right.quantity_unit = recover.right.quantity_unit;
+            right.rules = [{
+                title: 'Active for request dates in the renewal period',
+                type: 'request_period'
+            }];
+
+            return right.save();
+        }
+
+
+        var deferred = Q.defer();
+
+        createRight().then(function(right) {
+            recover.right.id = right._id;
+            right.createRecoveryRenewal(recover).then(function(renewal) {
+                recover.right.renewal = renewal._id;
+                deferred.resolve(request.save());
+            });
+        });
+
+
+        return deferred.promise;
+    };
+
+
 
     /**
      * Update document when an approval step has been accepted
@@ -360,7 +410,7 @@ exports = module.exports = function(params) {
      */
     requestSchema.methods.setEventsStatus = function setEventsStatus(status) {
 
-        var Q = require('q');
+
 
         if (undefined === this.populated('events')) {
             throw new Error('The events path shoud be populated on request');

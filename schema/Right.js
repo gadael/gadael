@@ -132,6 +132,34 @@ exports = module.exports = function(params) {
 
 
     /**
+     * create a renewal for a recover request
+     * @param {Object} recover  the workperiod_recover property of a Request document
+     * @return {Promise}
+     */
+    rightSchema.methods.createRecoveryRenewal = function createRecoveryRenewal(recover) {
+        var r = recover.renewal;
+        return this.createRenewal(r.start, r.finish);
+    };
+
+
+    /**
+     * Link the right to one user, use a beneficary document with a user ref instead of a right collection
+     * @param {User} user
+     * @return {Promise}
+     */
+    rightSchema.methods.addUserBeneficiary = function addUserBeneficiary(user) {
+        var model = this.model('Beneficiary');
+        var beneficiary = new model();
+        beneficiary.right = this._id;
+        beneficiary.document = user._id;
+        beneficiary.ref = 'User';
+
+        return beneficiary.save();
+    };
+
+
+
+    /**
      * Find right renewals
      * @returns {Query} A mongoose query on the right renewal schema
      */
