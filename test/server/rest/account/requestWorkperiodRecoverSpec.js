@@ -226,6 +226,7 @@ describe('request workperiod recover account rest service', function() {
             },
             function(res, body) {
             expect(res.statusCode).toEqual(200);
+
             expect(body._id).toBeDefined();
             expect(body.workperiod_recover).toBeDefined();
             if (body.workperiod_recover) {

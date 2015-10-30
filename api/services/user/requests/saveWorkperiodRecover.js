@@ -85,8 +85,46 @@ function createRight(user, document)
 }
 
 
+/**
+ * create calendar events en resolve to an array of calendar event ID
+ * @return {Promise}
+ */
+function getEventsPromise(service, param)
+{
+    if (!param || param.length === 0) {
+        throw new Error('events parameter is mandatory');
+    }
+
+    var EventModel = service.app.db.models.CalendarEvent;
+    var eventPromises = [];
+
+    param.forEach(function(evt) {
+
+        var event = new EventModel();
+        event.dtstart = new Date(evt.dtstart);
+        event.dtend = new Date(evt.dtend);
+        eventPromises.push(event.save());
+    });
+
+    var deferred = Q.defer();
+
+    var eventIds = [];
+
+    Q.all(eventPromises).then(function(events) {
+        events.forEach(function(event) {
+            eventIds.push(event);
+        });
+
+        deferred.resolve(eventIds);
+    }, deferred.reject);
+
+    return deferred.promise;
+}
+
+
 
 exports = module.exports = {
+    getEventsPromise: getEventsPromise,
     getFieldsToSet: getFieldsToSet,
     createRight: createRight
 };

@@ -118,12 +118,15 @@ function prepareRequestFields(service, params, user)
 
             var saveWorkperiodRecover = require('./saveWorkperiodRecover');
 
-            fieldsToSet.workperiod_recover = [
-                saveWorkperiodRecover.getFieldsToSet(params.workperiod_recover)
-            ];
+            saveWorkperiodRecover.getEventsPromise(service, params.events).then(function(events) {
+                fieldsToSet.events = events;
 
-            deferred.resolve(fieldsToSet);
+                fieldsToSet.workperiod_recover = [
+                    saveWorkperiodRecover.getFieldsToSet(params.workperiod_recover)
+                ];
 
+                deferred.resolve(fieldsToSet);
+            });
         }
     });
 
