@@ -282,7 +282,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-codeclimate-reporter');
 
-  grunt.registerTask('default', [ 'jshint:server', 'nodemon']);
+  grunt.registerTask('default', [ 'jshint', 'nodemon']);
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('testold', ['karma', 'jasmine_node']);

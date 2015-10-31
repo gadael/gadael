@@ -4,11 +4,10 @@ define([], function() {
 	return ['$scope', 
 		'$location', 
 		'Rest',
-        '$http', function(
+        function(
 			$scope, 
 			$location, 
-			Rest, 
-            $http
+			Rest
 		) {
                 
 
