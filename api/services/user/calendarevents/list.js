@@ -158,10 +158,15 @@ exports = module.exports = function(services, app) {
                 };
 
                 if (undefined !== params.subtractException) {
+
                     // Do not substract those personnal events
                     // because this is the events to update with selection
                     // the others personal events will be substracted from working hours
-                    filter._id = { $nin: params.subtractException };
+                    if (params.subtractException instanceof Array) {
+                        filter._id = { $nin: params.subtractException };
+                    } else {
+                        filter._id = { $ne: params.subtractException };
+                    }
                 }
 
                 var find = service.app.db.models.CalendarEvent.find(filter);

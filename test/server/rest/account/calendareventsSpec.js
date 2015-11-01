@@ -169,6 +169,38 @@ describe('calendarevents accout rest service', function() {
     });
 
 
+
+
+    it('request workingtimes as account, with optional exceptions', function(done) {
+
+        var dtstart, dtend, event;
+
+        dtstart = new Date(2015,9,24,22).toJSON();
+        dtend = new Date(2015,2,1).toJSON();
+
+        server.get('/rest/account/calendarevents', {
+            dtstart: '2015-10-24T22:00:00.000Z',
+            dtend: '2015-10-31T23:00:00.000Z',
+            type: 'workschedule',
+            substractNonWorkingDays: true,
+            substractPersonalEvents: true,
+            subtractException: '5636712ff350ada4143117f5'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toBeGreaterThan(0); // at least for the working periods
+
+            for(var i=0; i<body.length; i++) {
+                event = body[i];
+                expect(event.dtstart).toBeDefined();
+                expect(event.dtend).toBeDefined();
+            }
+
+            done();
+        });
+    });
+
+
+
     it('close the mock server', function(done) {
         server.close(done);
     });

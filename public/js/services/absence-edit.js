@@ -473,7 +473,11 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
          */
         getLoadWorkingTimes: function(userPromise, calendarEvents, personalEventList) {
 
+
+
             return function(interval) {
+
+
 
                 var queryParams = {
                     type: 'workschedule',
