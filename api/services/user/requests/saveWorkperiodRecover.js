@@ -75,7 +75,7 @@ function createRight(user, document)
 {
     document.createRecoveryRight().then(function(right) {
 
-        if (null === right) {
+        if (null === right || undefined === right) {
             return Q(null);
         }
 

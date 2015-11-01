@@ -1,5 +1,11 @@
 <div class="jumbotron">
     
+
+    <div ng-if="!sessionUser.isAuthenticated">
+        <h2 translate>Wellcome to your absence manager</h2>
+        <p translate>Please log into the application to see your account informations</p>
+    </div>
+
     <div ng-if="sessionUser.isAccount">
         <h2 translate>My account</h2>
 
