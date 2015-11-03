@@ -1,4 +1,4 @@
-define(['momentDurationFormat', 'q'], function(moment, Q) {
+define([], function() {
 
     'use strict';
 
@@ -7,7 +7,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
     return {
 
-        getLoadNonWorkingTimes: function(unavailableEvents) {
+        getLoadEvents: function(personalEvents) {
             return function(interval) {
 
                 var queryParams = {
@@ -15,6 +15,18 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                     dtend: interval.to
                 };
 
+                return personalEvents.query(queryParams).$promise;
+            };
+        },
+
+        getLoadNonWorkingTimes: function(unavailableEvents) {
+
+            return function(interval) {
+
+                var queryParams = {
+                    dtstart: interval.from,
+                    dtend: interval.to
+                };
 
                 return unavailableEvents.query(queryParams).$promise;
             };

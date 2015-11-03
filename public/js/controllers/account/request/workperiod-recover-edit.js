@@ -9,6 +9,10 @@ define([], function() {
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
         var unavailableEvents = Rest.account.unavailableevents.getResource();
+        var personalEvents = Rest.account.personalevents.getResource();
+
+        $scope.loadEvents = WorkperiodRecoverEdit.getLoadEvents(personalEvents);
+        $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents);
 
 
         if ($scope.request.$promise) {
@@ -27,7 +31,6 @@ define([], function() {
         }
 
 
-        $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents);
 
         /**
          * Go back to requests list, admin view
