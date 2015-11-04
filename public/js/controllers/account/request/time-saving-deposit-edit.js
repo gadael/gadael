@@ -9,6 +9,21 @@ define([], function() {
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
+        var beneficiariesResource = Rest.account.beneficiaries.getResource();
+        var beneficiaries = beneficiariesResource.query();
+
+
+
+        // prepare select
+        $scope.rightBeneficiaries = [];
+        beneficiaries.$promise.then(function(b) {
+            b.forEach(function(beneficiary) {
+                $scope.rightBeneficiaries.push({
+                    value: beneficiary,
+                    label: '<i class="fa fa-asterisk" style="color:'+beneficiary.right.type.color+'" title="'+beneficiary.right.type.name+'"></i> '+beneficiary.right.name
+                });
+            });
+        });
 
 
         if ($scope.request.$promise) {
