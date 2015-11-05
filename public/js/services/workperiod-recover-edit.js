@@ -1,4 +1,4 @@
-define([], function() {
+define(['services/request-edit'], function(RequestEdit) {
 
     'use strict';
 
@@ -7,17 +7,15 @@ define([], function() {
 
     return {
 
-        getLoadEvents: function(personalEvents) {
-            return function(interval) {
+        initScope: RequestEdit.initScope,
 
-                var queryParams = {
-                    dtstart: interval.from,
-                    dtend: interval.to
-                };
+        setSelectionFromRequest: RequestEdit.setSelectionFromRequest,
 
-                return personalEvents.query(queryParams).$promise;
-            };
-        },
+        getLoadPersonalEvents: RequestEdit.getLoadPersonalEvents,
+        getLoadNonWorkingDaysEvents: RequestEdit.getLoadNonWorkingDaysEvents,
+        getLoadEvents: RequestEdit.getLoadEvents,
+        getLoadScholarHolidays: RequestEdit.getLoadScholarHolidays,
+
 
         getLoadNonWorkingTimes: function(unavailableEvents) {
 
@@ -30,7 +28,10 @@ define([], function() {
 
                 return unavailableEvents.query(queryParams).$promise;
             };
-        }
+        },
+
+
+        onceUserLoaded: RequestEdit.onceUserLoaded
     };
 
 });

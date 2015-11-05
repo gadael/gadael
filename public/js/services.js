@@ -9,7 +9,16 @@ define([
     'services/request-stat',
     'services/beneficiary',
     'angularResource'], 
-    function (angular, loadableResource, catchOutcome, rest, AbsenceEdit, WorkperiodRecoverEdit, UserEdit, getRequestStat, initBeneficiary) {
+    function (
+       angular,
+        loadableResource,
+        catchOutcome,
+        rest,
+        AbsenceEdit,
+        WorkperiodRecoverEdit,
+        UserEdit,
+        getRequestStat,
+        initBeneficiary) {
     
 	'use strict';
     
@@ -111,6 +120,7 @@ define([
     /**
      *
      */
+
     .factory('AbsenceEdit',  
         function() {
             return AbsenceEdit;

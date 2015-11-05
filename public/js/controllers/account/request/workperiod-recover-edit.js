@@ -6,10 +6,23 @@ define([], function() {
 	return ['$scope', '$location', 'Rest', '$routeParams', '$rootScope', 'WorkperiodRecoverEdit',
             function($scope, $location, Rest, $routeParams, $rootScope, WorkperiodRecoverEdit) {
 
+        WorkperiodRecoverEdit.initScope($scope);
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
         var unavailableEvents = Rest.account.unavailableevents.getResource();
         var personalEvents = Rest.account.personalevents.getResource();
+        var users = Rest.user.user.getResource();
+        var calendarEvents = Rest.account.calendarevents.getResource();
+
+
+        var userPromise =  users.get().$promise;
+        var requestUser = null;
+
+        userPromise.then(function(user) {
+
+            requestUser = user;
+            WorkperiodRecoverEdit.onceUserLoaded($scope, user, calendarEvents);
+        });
 
         $scope.loadEvents = WorkperiodRecoverEdit.getLoadEvents(personalEvents);
         $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents);
