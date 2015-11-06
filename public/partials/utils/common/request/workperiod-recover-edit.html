@@ -12,10 +12,10 @@
                       dayLastMinute="1320"></tp-period-picker>
 </div>
 
-<form class="form-inline" role="form">
+<form class="" role="form">
 
     <div class="col-sm-7">
-        <div class="form-group top17">
+        <div class="form-group top17 form-inline">
             <div class="input-group">
                 <label class="sr-only" for="absenceBeginDate">Begin date</label>
                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
@@ -30,7 +30,7 @@
         </div>
 
 
-        <div class="form-group top17">
+        <div class="form-group top17 form-inline">
             <div class="input-group">
                 <label class="sr-only" for="absenceEndDate">End date</label>
                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
@@ -42,6 +42,17 @@
                 <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
                 <input id="absenceEndHour" class="form-control" ng-model="selection.end" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
             </div>
+        </div>
+
+        <div class="form-group">
+            <label for="right_name" translate>Recovery request summary</label>
+		    <input type="text" class="form-control" id="right_name" ng-model="request.workperiod_recover.right.name" />
+        </div>
+
+        <div class="form-group">
+            <label for="right_quantity" translate>Recovery claimed</label>
+		    <select id="right_quantity" class="form-control">
+            </select>
         </div>
     </div>
 

@@ -58,11 +58,13 @@ define([], function() {
 
         $scope.save = function() {
 
+
             // cleanup object
             delete $scope.request.requestLog;
             delete $scope.request.approvalSteps;
 
             try {
+                $scope.request.events = $scope.selection.periods;
                 $scope.request.ingaSave($scope.back);
             } catch(e) {
                 $rootScope.pageAlerts.push({
