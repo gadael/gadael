@@ -9,9 +9,11 @@ define([], function() {
         WorkperiodRecoverEdit.initScope($scope);
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
+
         var unavailableEvents = Rest.account.unavailableevents.getResource();
         var personalEvents = Rest.account.personalevents.getResource();
         var users = Rest.user.user.getResource();
+        var calendars = Rest.account.calendars.getResource();
         var calendarEvents = Rest.account.calendarevents.getResource();
 
 
@@ -24,7 +26,7 @@ define([], function() {
             WorkperiodRecoverEdit.onceUserLoaded($scope, user, calendarEvents);
         });
 
-        $scope.loadEvents = WorkperiodRecoverEdit.getLoadEvents(personalEvents);
+        $scope.loadEvents = WorkperiodRecoverEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
         $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents);
 
 
