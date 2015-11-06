@@ -157,12 +157,14 @@ exports = module.exports = {
             var typeModel = db.models.Type;
             var calendarModel = db.models.Calendar;
             var collectionModel = db.models.RightCollection;
+            var recoverQuantityModel = db.models.RecoverQuantity;
 
             async.parallel([
                 companyDoc.save.bind(companyDoc),
                 typeModel.createFrenchDefaults.bind(typeModel),
                 calendarModel.createFrenchDefaults.bind(calendarModel),
-                collectionModel.createFrenchDefaults.bind(collectionModel)
+                collectionModel.createFrenchDefaults.bind(collectionModel),
+                recoverQuantityModel.createFrenchDefaults.bind(recoverQuantityModel)
             ],
             function(err) {
                 if (err) {

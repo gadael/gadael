@@ -61,7 +61,8 @@ define(function() {
                 rights                  : init('admin/rights/:id'),
                 types                   : init('admin/types/:id'),
                 users                   : init('admin/users/:id'),
-                requests                : init('admin/requests/:id')
+                requests                : init('admin/requests/:id'),
+                recoverquantities       : init('admin/recoverquantities/:id')
             },
             
             account: {
