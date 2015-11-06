@@ -42,6 +42,7 @@ models.load = function() {
 	require('./schema/LoginAttempt')(requirements);
     require('./schema/Request_AbsenceElem')(requirements);
 	require('./schema/Request')(requirements);
+    require('./schema/RecoverQuantity')(requirements);
   
 	require('./schema/RightCollection')(requirements);
 	require('./schema/Type')(requirements);
