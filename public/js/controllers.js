@@ -222,5 +222,13 @@ define(['angular', 'services'], function (angular) {
 
 		.controller('UserSettings', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/user/settings', this, $scope, $injector);
+		}])
+
+        .controller('AdminRecoverQuantities', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/recoverquantities', this, $scope, $injector);
+		}])
+
+		.controller('AdminRecoverQuantityEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/recoverquantity-edit', this, $scope, $injector);
 		}]);
 });

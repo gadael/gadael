@@ -343,6 +343,22 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/rightrule-edit.html',
 			controller: 'AdminRightRuleEdit'
 		});
+
+
+        $routeProvider.when('/admin/recoverquantities', {
+			templateUrl: 'partials/admin/recoverquantities.html',
+			controller: 'AdminRecoverQuantities'
+		});
+
+        $routeProvider.when('/admin/recoverquantities/:id', {
+			templateUrl: 'partials/admin/recoverquantity-edit.html',
+			controller: 'AdminRecoverQuantityEdit'
+		});
+
+        $routeProvider.when('/admin/recoverquantity-edit', {
+			templateUrl: 'partials/admin/recoverquantity-edit.html',
+			controller: 'AdminRecoverQuantityEdit'
+		});
 		
 		$routeProvider.otherwise({redirectTo: '/home'});
 	}]);

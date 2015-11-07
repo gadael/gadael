@@ -116,6 +116,10 @@ exports.getInfos = function(req, res) {
                 {
                     'text': '<i class="fa fa-balance-scale"></i>&nbsp;'+gt.gettext('Rights configuration'),
                     'href': '#/admin/rights'
+                },
+                {
+                    'text': '<i class="fa fa-calendar-check-o"></i>&nbsp;'+gt.gettext('Recover quantities'),
+                    'href': '#/admin/recoverquantities'
                 }
             ];
         }
