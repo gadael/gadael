@@ -15,7 +15,9 @@ define([], function() {
         var users = Rest.user.user.getResource();
         var calendars = Rest.account.calendars.getResource();
         var calendarEvents = Rest.account.calendarevents.getResource();
+        var recoverQuantities = Rest.account.recoverquantities.getResource();
 
+        $scope.recoverquantities = recoverQuantities.query();
 
         var userPromise =  users.get().$promise;
         var requestUser = null;

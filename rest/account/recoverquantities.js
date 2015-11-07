@@ -5,7 +5,7 @@ var ctrlFactory = require('restitute').controller;
 
 
 function listController() {
-    ctrlFactory.list.call(this, '/rest/admin/recoverquantities');
+    ctrlFactory.list.call(this, '/rest/account/recoverquantities');
 
     this.controllerAction = function() {
         this.jsonService(this.service('user/recoverquantities/list'));
@@ -15,7 +15,7 @@ listController.prototype = new ctrlFactory.list();
 
 
 function getController() {
-    ctrlFactory.get.call(this, '/rest/admin/recoverquantities/:id');
+    ctrlFactory.get.call(this, '/rest/account/recoverquantities/:id');
 
     this.controllerAction = function() {
         this.jsonService(this.service('user/recoverquantities/get'));
@@ -26,7 +26,7 @@ getController.prototype = new ctrlFactory.get();
 
 
 function createController() {
-    ctrlFactory.create.call(this, '/rest/admin/recoverquantities');
+    ctrlFactory.create.call(this, '/rest/account/recoverquantities');
 
     var controller = this;
     this.controllerAction = function() {
@@ -47,7 +47,7 @@ createController.prototype = new ctrlFactory.create();
 
 
 function updateController() {
-    ctrlFactory.update.call(this, '/rest/admin/recoverquantities/:id');
+    ctrlFactory.update.call(this, '/rest/account/recoverquantities/:id');
 
     var controller = this;
     this.controllerAction = function() {
@@ -65,7 +65,7 @@ function updateController() {
 updateController.prototype = new ctrlFactory.update();
 
 function deleteController() {
-    ctrlFactory.delete.call(this, '/rest/admin/recoverquantities/:id');
+    ctrlFactory.delete.call(this, '/rest/account/recoverquantities/:id');
 
     var controller = this;
     this.controllerAction = function() {

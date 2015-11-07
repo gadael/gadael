@@ -74,7 +74,8 @@ define(function() {
                 unavailableevents       : init('account/unavailableevents/:id'),
                 requests                : init('account/requests/:id'),
                 beneficiaries           : init('account/beneficiaries/:id'),
-                adjustments             : init('account/adjustments/:id')
+                adjustments             : init('account/adjustments/:id'),
+                recoverquantities       : init('account/recoverquantities/:id')
             },
             
             manager: {
