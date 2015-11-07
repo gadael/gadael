@@ -16,7 +16,7 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
-        service.app.db.models.Department
+        service.app.db.models.RecoverQuantity
         .findOne({ '_id' : params.id}, 'name quantity quantity_unit')
         .exec(function(err, document) {
             if (service.handleMongoError(err))

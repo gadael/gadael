@@ -9,7 +9,7 @@
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['name'])) {
+    if (service.needRequiredFields(params, ['name', 'quantity', 'quantity_unit'])) {
         return;
     }
 

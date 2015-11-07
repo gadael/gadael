@@ -18,8 +18,13 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
 
 
-        service.app.db.models.Department.findById(params.id, function (err, document) {
+        service.app.db.models.RecoverQuantity.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
+
+                if (!document) {
+                    return service.notFound(gt.gettext('the recover quantity does not exists'));
+                }
+
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {
                         service.success(gt.gettext('The recover quantity has been deleted'));
