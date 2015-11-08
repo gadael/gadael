@@ -11,10 +11,10 @@
   <div class="form-group top30 form-horizontal">
     <label for="recoverquantity_quantity" translate>Quantity to recover from the event</label>
     <div class="input-group">
-        <input type="number" class="form-control" id="recoverquantity_quantity" ng-model="right.quantity" step="any" />
+        <input type="number" class="form-control" id="recoverquantity_quantity" ng-model="recoverquantity.quantity" step="any" />
 
         <div class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-model="right.quantity_unit" bs-options="qunit.value as qunit.label for qunit in quantityUnits" bs-select>Select unit <span class="caret"></span></button>
+            <button type="button" class="btn btn-default" ng-model="recoverquantity.quantity_unit" bs-options="qunit.value as qunit.label for qunit in quantityUnits" bs-select>Select unit <span class="caret"></span></button>
         </div>
     </div>
   </div>

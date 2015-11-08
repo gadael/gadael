@@ -329,7 +329,7 @@ describe('request absence account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.absence).toBeDefined();
-            console.log(body.$outcome.alert);
+
             if (body.absence) {
                 expect(body.user.id).toEqual(userAccount.user._id.toString());
                 expect(body.user.name).toBeDefined();
