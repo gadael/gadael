@@ -7,6 +7,7 @@
 exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var wpRecoverSchema = new mongoose.Schema({
+        recoverQuantity: { type: mongoose.Schema.Types.ObjectId, ref: 'RecoverQuantity' },
         quantity: { type: Number, required: true },         // quantity equal du duration of period in the planning
         gainedQuantity: { type: Number, required: true },   // quantity earned from recovery of the period, can be modified by approvers
         right: {

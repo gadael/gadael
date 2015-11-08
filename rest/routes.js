@@ -76,6 +76,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./account/requests');
     controllers.add('./account/collection');
     controllers.add('./account/beneficiaries');
+    controllers.add('./account/recoverquantities');
 
     controllers.add('./manager/waitingrequests');
 	
