@@ -257,8 +257,9 @@ exports = module.exports = function(params) {
      */
     requestSchema.methods.createRecoveryRight = function createRecoveryRight() {
 
+
         if (undefined === this.workperiod_recover || 0 === this.workperiod_recover.length) {
-            return Q(this);
+            return Q(null);
         }
 
 
@@ -301,7 +302,7 @@ exports = module.exports = function(params) {
                 recover.right.renewal = renewal._id;
                 deferred.resolve(request.save());
             });
-        });
+        }, deferred.reject);
 
 
         return deferred.promise;

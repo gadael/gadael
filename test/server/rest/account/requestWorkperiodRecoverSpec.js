@@ -15,6 +15,8 @@ describe('request workperiod recover account rest service', function() {
         department,     // department associated to userManager
         collection,     // user account collection, contain right1 & 2
 
+        recoverQuantity,
+
         request1;
 
 
@@ -168,6 +170,9 @@ describe('request workperiod recover account rest service', function() {
 
 
 
+
+
+
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
             expect(res.statusCode).toEqual(200);
@@ -208,6 +213,16 @@ describe('request workperiod recover account rest service', function() {
     });
 
 
+    it('get the recoverquantity from default values', function(done) {
+        server.get('/rest/account/recoverquantities', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toBeGreaterThan(0);
+            recoverQuantity = body[0];
+            done();
+        });
+    });
+
+
     it('Create workperiod recover request', function(done) {
 
 
@@ -217,10 +232,11 @@ describe('request workperiod recover account rest service', function() {
                     dtend: new Date(2015,1,1, 22).toJSON()
                 }],
                 workperiod_recover: [{
+                    recoverQuantity: recoverQuantity._id,
                     quantity: 3,
                     right: {
                         name: 'User input for recovery',
-                        quantity_unit:'H'
+                        quantity_unit:recoverQuantity.quantity_unit
                     }
                 }]
             },
@@ -287,10 +303,11 @@ describe('request workperiod recover account rest service', function() {
                     dtend: new Date(2015,1,1, 23).toJSON()
                 }],
                 workperiod_recover: [{
+                    recoverQuantity: recoverQuantity._id,
                     quantity: 4,
                     right: {
                         name: 'User input for recovery',
-                        quantity_unit:'H'
+                        quantity_unit:recoverQuantity.quantity_unit
                     }
                 }]
             }, function(res, body) {

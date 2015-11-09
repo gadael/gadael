@@ -21,6 +21,10 @@ function testRequired(wrParams)
         throw new Error('The right.name parameter must be 3 characters at least');
     }
 
+    if (undefined === wrParams.recoverQuantity) {
+        throw new Error('The recoverQuantity parameter is mandatory');
+    }
+
     return true;
 }
 
@@ -35,13 +39,18 @@ function testRequired(wrParams)
  * @param {Object}      wrParams        Worperiod recover request parmeters from post|put request
  *
  *
- * @return {Object}
+ * @return {Promise}
  */
-function getFieldsToSet(wrParams)
+function getFieldsToSet(service, wrParams)
 {
 
-    if (!testRequired(wrParams)) {
-        return null;
+    var deferred = Q.defer();
+
+    try {
+        testRequired(wrParams);
+    } catch (e) {
+        deferred.reject(e);
+        return deferred.promise;
     }
 
 
@@ -49,16 +58,33 @@ function getFieldsToSet(wrParams)
         right: {}
     };
 
+    // the real quantity from the list of events, must be in the quantity unit of the recover quantity
     fieldsToSet.quantity = wrParams.quantity;
-
-    // only the approver can change gainedQuantity
-    fieldsToSet.gainedQuantity = 0;
 
     // name set by creator for the new right
     fieldsToSet.right.name = wrParams.right.name;
-    fieldsToSet.right.quantity_unit = wrParams.right.quantity_unit;
 
-    return fieldsToSet;
+
+    var RecoverQuantityModel = service.app.db.models.RecoverQuantity;
+
+    RecoverQuantityModel.findOne({ _id: wrParams.recoverQuantity }).then(function(recoverQuantity) {
+
+        if (!recoverQuantity) {
+            return deferred.reject('Failed to get recover quantity from '+wrParams.recoverQuantity);
+        }
+
+        // gainedQuantity is the quantity provided by the selected recover quantity
+        fieldsToSet.gainedQuantity = recoverQuantity.quantity;
+
+        fieldsToSet.right.quantity_unit = recoverQuantity.quantity_unit;
+
+        deferred.resolve(fieldsToSet);
+
+    }, deferred.reject);
+
+
+
+    return deferred.promise;
 
 }
 
