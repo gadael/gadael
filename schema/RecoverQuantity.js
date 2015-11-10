@@ -57,7 +57,7 @@ exports = module.exports = function(params) {
         }, function(err){
             // if any of the file processing produced an error, err would equal that error
             if(err) {
-                console.log(err);
+                console.trace(err);
                 return;
             }
 

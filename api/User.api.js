@@ -28,7 +28,7 @@ api.populate = function(app, count, callback) {
 		
 		if (err)
 		{
-			console.log(err);
+			console.trace(err);
 		}
 		
 		callback(users);

@@ -429,6 +429,10 @@ describe('request workperiod recover account rest service', function() {
 
 
     it('accept request 1 approval step', function(done) {
+        expect(approvalStep1).toBeDefined();
+        if (!approvalStep1) {
+            return done();
+        }
         server.put('/rest/manager/waitingrequests/'+request1._id, {
             approvalStep: approvalStep1._id,
             action: 'wf_accept'

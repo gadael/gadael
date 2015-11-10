@@ -9,7 +9,7 @@ exports.populate = function(req, res) {
 	var createRandom = function(err) {
 		if (err)
 		{
-			console.log(err);
+			console.trace(err);
 		}
 	};
 	

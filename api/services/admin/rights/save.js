@@ -93,10 +93,6 @@ function saveRight(service, params) {
 
                 document.save(function(err, document) {
 
-                    if (err) {
-                        console.log(err);
-                    }
-
                     if (service.handleMongoError(err)) {
                         service.resolveSuccess(
                             document,

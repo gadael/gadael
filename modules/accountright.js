@@ -17,7 +17,6 @@ function accountRight(account, renewal)
     'use strict';
 
     if (renewal.right === undefined || renewal.right._id === undefined) {
-        console.log(renewal);
         throw new Error('The renewal need a vacation right');
     }
 

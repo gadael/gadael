@@ -454,7 +454,7 @@ function saveEmbedEvents(service, requestDoc)
         .exec(function(err, elements) {
 
         if (err) {
-            return console.log(err);
+            return console.trace(err);
         }
 
         var i, j, event;

@@ -122,7 +122,6 @@ exports = module.exports = function(req, res) {
     workflow.outcome.success = !workflow.hasErrors();
     
     if (!workflow.document) {
-        // console.log('missing document in outcome');
         workflow.document = {}; // return empty document
     }
     

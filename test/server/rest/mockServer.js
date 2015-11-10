@@ -142,11 +142,29 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
 
             if (body) {
 
+                var bodyObject;
+
                 try {
-                    done(res, JSON.parse(body));
+                    bodyObject = JSON.parse(body);
                 } catch(e) {
+                    console.log('Failed to parse JSON in mockServer');
                     console.log(e);
                     console.log(body);
+                }
+
+
+                try {
+                    done(res, bodyObject);
+                } catch(e) {
+
+                    Error.captureStackTrace(done);
+
+                    console.log('\nresponse from '+path);
+                    console.log(e);
+                    console.log('------------');
+                    console.log(done.stack);
+                    console.log('------------');
+                    console.log(bodyObject, null, 4);
                     done(res, {});
                 }
 
