@@ -218,6 +218,7 @@ describe('request workperiod recover account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeGreaterThan(0);
             recoverQuantity = body[0];
+
             done();
         });
     });
@@ -225,6 +226,7 @@ describe('request workperiod recover account rest service', function() {
 
     it('Create workperiod recover request', function(done) {
 
+        var quantity = 'H' === recoverQuantity.quantity_unit ? 3 : 0.5;
 
         server.post('/rest/account/requests', {
                 events: [{
@@ -233,7 +235,7 @@ describe('request workperiod recover account rest service', function() {
                 }],
                 workperiod_recover: [{
                     recoverQuantity: recoverQuantity._id,
-                    quantity: 3,
+                    quantity: quantity,
                     right: {
                         name: 'User input for recovery',
                         quantity_unit:recoverQuantity.quantity_unit
@@ -251,12 +253,14 @@ describe('request workperiod recover account rest service', function() {
                 expect(body.approvalSteps.length).toEqual(1);
                 expect(body.requestLog.length).toEqual(1);
                 expect(body.events.length).toEqual(1);
-
-                expect(body.workperiod_recover[0].quantity).toEqual(3);
-                expect(body.workperiod_recover[0].gainedQuantity).toEqual(0); // because not confimed
-                expect(body.workperiod_recover[0].right.id).toEqual(null); // created after approval
-                expect(body.workperiod_recover[0].right.name).toBeDefined();
-                expect(body.workperiod_recover[0].right.quantity_unit).toEqual('H');
+                expect(body.workperiod_recover.length).toEqual(1);
+                if (undefined !== body.workperiod_recover[0]) {
+                    expect(body.workperiod_recover[0].quantity).toEqual(quantity);
+                    expect(body.workperiod_recover[0].gainedQuantity).toEqual(recoverQuantity.quantity);
+                    expect(body.workperiod_recover[0].right.id).toEqual(null); // created after approval
+                    expect(body.workperiod_recover[0].right.name).toBeDefined();
+                    expect(body.workperiod_recover[0].right.quantity_unit).toEqual(recoverQuantity.quantity_unit);
+                }
             }
             request1 = body;
             done();
@@ -285,8 +289,10 @@ describe('request workperiod recover account rest service', function() {
             if (body.absence) {
                 expect(body.absence.distribution).toBeDefined();
                 expect(body._id).toEqual(request1._id);
-                expect(body.workperiod_recover[0].gainedQuantity).toEqual(0);
-
+                expect(body.workperiod_recover.length).toEqual(1);
+                if (undefined !== body.workperiod_recover[0]) {
+                    expect(body.workperiod_recover[0].gainedQuantity).toEqual(recoverQuantity.quantity);
+                }
             }
             done();
         });
@@ -295,7 +301,7 @@ describe('request workperiod recover account rest service', function() {
 
     it('update request recovery period', function(done) {
 
-
+        var quantity = 'H' === recoverQuantity.quantity_unit ? 4 : 0.5;
 
         server.put('/rest/account/requests/'+request1._id, {
                 events: [{
@@ -304,7 +310,7 @@ describe('request workperiod recover account rest service', function() {
                 }],
                 workperiod_recover: [{
                     recoverQuantity: recoverQuantity._id,
-                    quantity: 4,
+                    quantity: quantity,
                     right: {
                         name: 'User input for recovery',
                         quantity_unit:recoverQuantity.quantity_unit
@@ -317,15 +323,16 @@ describe('request workperiod recover account rest service', function() {
             if (body.requestLog) {
                 expect(body.requestLog.length).toEqual(2);
 
-                expect(body.workperiod_recover[0].quantity).toEqual(4);
-                expect(body.workperiod_recover[0].gainedQuantity).toEqual(0); // because not confimed
+                expect(body.workperiod_recover[0].quantity).toEqual(quantity);
+                expect(body.workperiod_recover[0].gainedQuantity).toEqual(recoverQuantity.quantity);
                 expect(body.workperiod_recover[0].right.id).toEqual(null); // created after approval
                 expect(body.workperiod_recover[0].right.name).toBeDefined();
-                expect(body.workperiod_recover[0].right.quantity_unit).toEqual('H');
+                expect(body.workperiod_recover[0].right.quantity_unit).toEqual(recoverQuantity.quantity_unit);
             }
             done();
         });
     });
+
 
 
     /*

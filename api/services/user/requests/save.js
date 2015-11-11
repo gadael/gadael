@@ -123,11 +123,9 @@ function prepareRequestFields(service, params, user)
 
                 saveWorkperiodRecover.getFieldsToSet(service, params.workperiod_recover[0]).then(function(wpFields) {
                     fieldsToSet.workperiod_recover = [wpFields];
+                    deferred.resolve(fieldsToSet);
                 }, deferred.reject);
 
-
-
-                deferred.resolve(fieldsToSet);
             });
         }
     });
