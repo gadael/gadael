@@ -51,7 +51,7 @@
 
         <div class="form-group">
             <label for="right_quantity" translate>Recovery claimed</label>
-		    <select id="right_quantity" class="form-control" ng-model="request.workperiod_recover.recoverQuantity" ng-options="option.name for option in recoverquantities track by option._id">
+		    <select id="right_quantity" class="form-control" ng-model="request.workperiod_recover.recoverQuantity" ng-options="option._id as option.name for option in recoverquantities">
             </select>
         </div>
     </div>
