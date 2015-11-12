@@ -8,8 +8,9 @@ define([], function() {
 
         WorkperiodRecoverEdit.initScope($scope);
 
-        $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
+
+        // resources
         var unavailableEvents = Rest.account.unavailableevents.getResource();
         var personalEvents = Rest.account.personalevents.getResource();
         var users = Rest.user.user.getResource();
@@ -17,10 +18,31 @@ define([], function() {
         var calendarEvents = Rest.account.calendarevents.getResource();
         var recoverQuantities = Rest.account.recoverquantities.getResource();
 
+
+        $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
+
         $scope.recoverquantities = recoverQuantities.query();
 
         var userPromise =  users.get().$promise;
         var requestUser = null;
+
+        if ($scope.request.$promise) {
+            $scope.request.$promise.then(function() {
+                // edit this request
+                $scope.editRequest = true;
+                WorkperiodRecoverEdit.setSelectionFromRequest($scope);
+                $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents, $scope.request.events);
+            });
+        } else {
+
+            // create a new request
+            $scope.newRequest = true;
+
+            $scope.request.events = [];
+            $scope.request.timeCreated = new Date();
+
+            $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents, $scope.request.events);
+        }
 
         userPromise.then(function(user) {
 
@@ -29,23 +51,10 @@ define([], function() {
         });
 
         $scope.loadEvents = WorkperiodRecoverEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
-        $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents);
 
 
-        if ($scope.request.$promise) {
-            $scope.request.$promise.then(function() {
-                // edit this request
-                $scope.editRequest = true;
 
-            });
-        } else {
 
-            // create a new request
-            $scope.newRequest = true;
-
-            $scope.request.events = [];
-
-        }
 
 
 

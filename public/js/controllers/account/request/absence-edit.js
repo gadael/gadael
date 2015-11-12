@@ -28,7 +28,7 @@ define(['q'], function(Q) {
                 // edit this request
                 $scope.editRequest = true;
                 AbsenceEdit.setSelectionFromRequest($scope);
-                $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents, $scope.request.events);
+                $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events);
             });
         } else {
             
@@ -41,7 +41,7 @@ define(['q'], function(Q) {
                     distribution: []
             };
 
-            $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(userPromise, calendarEvents);
+            $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events);
         }
         
 

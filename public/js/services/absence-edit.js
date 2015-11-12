@@ -299,12 +299,11 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
 
         /**
          * Get Period picker callback for working times
-         * @param {Promise} userPromise
          * @param {Resource} calendarEvents
-         * @param {Array} [personalEventList] Optional personal events list, the list of events curently modified
+         * @param {Array} personalEventList personal events list, the list of events curently modified
          * @return function
          */
-        getLoadWorkingTimes: function(userPromise, calendarEvents, personalEventList) {
+        getLoadWorkingTimes: function(calendarEvents, personalEventList) {
 
 
 
@@ -320,7 +319,7 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
                     substractPersonalEvents: true
                 };
 
-                if (undefined !== personalEventList) {
+                if (personalEventList.length > 0) {
                     queryParams.subtractException = [];
                     personalEventList.forEach(function(personalEvent) {
                         queryParams.subtractException.push(personalEvent._id);
