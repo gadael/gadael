@@ -49,7 +49,7 @@ function getFieldsToSet(service, wrParams)
     try {
         testRequired(wrParams);
     } catch (e) {
-        deferred.reject(e);
+        deferred.reject(e.message);
         return deferred.promise;
     }
 
@@ -67,7 +67,9 @@ function getFieldsToSet(service, wrParams)
 
     var RecoverQuantityModel = service.app.db.models.RecoverQuantity;
 
-    RecoverQuantityModel.findOne({ _id: wrParams.recoverQuantity }).then(function(recoverQuantity) {
+
+
+    RecoverQuantityModel.findOne({ _id: wrParams.recoverQuantity._id }).then(function(recoverQuantity) {
 
         if (!recoverQuantity) {
             return deferred.reject('Failed to get recover quantity from '+wrParams.recoverQuantity);

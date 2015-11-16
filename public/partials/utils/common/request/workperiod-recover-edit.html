@@ -51,7 +51,7 @@
 
         <div class="form-group">
             <label for="right_quantity" translate>Recovery claimed</label>
-		    <select id="right_quantity" class="form-control" ng-model="request.workperiod_recover[0].recoverQuantity" ng-options="option._id as option.name for option in recoverquantities">
+		    <select id="right_quantity" class="form-control" ng-model="request.workperiod_recover[0].recoverQuantity" ng-options="option.name for option in recoverquantities">
             </select>
         </div>
     </div>
@@ -61,6 +61,8 @@
         <p>{{selection.duration}}</p>
 
         <p translate>Consumption on the selected period: {{selection.days}} or {{selection.hours}}</p>
+
+        <p>{{recoverQuantity.quantity}} {{recoverQuantity.quantity_unit}}</p>
     </div>
 
     <div class="col-sm-12 top30">

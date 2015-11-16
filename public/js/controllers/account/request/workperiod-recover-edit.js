@@ -75,6 +75,15 @@ define([], function() {
             delete $scope.request.requestLog;
             delete $scope.request.approvalSteps;
 
+            var q;
+            if ('H' === $scope.request.workperiod_recover[0].recoverQuantity.quantity_unit) {
+                q = $scope.selection.hours.split(' ')[0];
+            } else {
+                q = $scope.selection.days.split(' ')[0];
+            }
+
+            $scope.request.workperiod_recover[0].quantity = q;
+
             try {
                 $scope.request.events = $scope.selection.periods;
                 $scope.request.ingaSave($scope.back);
