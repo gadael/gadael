@@ -114,7 +114,15 @@ function prepareRequestFields(service, params, user)
             deferred.resolve(fieldsToSet);
         }
 
-        if (undefined !== params.workperiod_recover && params.workperiod_recover.length === 1) {
+        if (undefined !== params.workperiod_recover) {
+
+            if (!Array.isArray(params.workperiod_recover)) {
+                return deferred.reject('Unsupported parameter for workperiod_recover');
+            }
+
+            if (params.workperiod_recover.length !== 1) {
+                return deferred.reject('Unsupported parameter for workperiod_recover');
+            }
 
             var saveWorkperiodRecover = require('./saveWorkperiodRecover');
 
@@ -126,7 +134,7 @@ function prepareRequestFields(service, params, user)
                     deferred.resolve(fieldsToSet);
                 }, deferred.reject);
 
-            });
+            }, deferred.reject);
         }
     });
 

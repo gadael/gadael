@@ -40,6 +40,7 @@ define([], function() {
 
             $scope.request.events = [];
             $scope.request.timeCreated = new Date();
+            $scope.request.workperiod_recover = [];
 
             $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents, $scope.request.events);
         }
