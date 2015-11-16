@@ -234,12 +234,11 @@ describe('request workperiod recover account rest service', function() {
                     dtend: new Date(2015,1,1, 22).toJSON()
                 }],
                 workperiod_recover: [{
-                    recoverQuantity: recoverQuantity._id,
                     quantity: quantity,
                     right: {
-                        name: 'User input for recovery',
-                        quantity_unit:recoverQuantity.quantity_unit
-                    }
+                        name: 'User input for recovery'
+                    },
+                    recoverQuantity:recoverQuantity._id
                 }]
             },
             function(res, body) {
@@ -312,8 +311,7 @@ describe('request workperiod recover account rest service', function() {
                     recoverQuantity: recoverQuantity._id,
                     quantity: quantity,
                     right: {
-                        name: 'User input for recovery',
-                        quantity_unit:recoverQuantity.quantity_unit
+                        name: 'User input for recovery'
                     }
                 }]
             }, function(res, body) {
