@@ -1,0 +1,32 @@
+<div class="row panel panel-primary">
+
+    <h3 class="text-center text-primary"><i class="fa fa-calendar"></i> <span translate>Workperiod recover</span></h3>
+
+    <div class="col-md-6 top10">
+        <dl class="dl-horizontal">
+            <dt translate>From:</dt>
+            <dd>{{request.events[0].dtstart|date:'medium'}}</dd>
+            <dt translate>To:</dt>
+            <dd>{{request.events[request.events.length-1].dtend|date:'medium'}}</dd>
+        </dl>
+        <br />
+    </div>
+
+    <div class="col-md-6 top10">
+
+        <dl class="dl-horizontal">
+            <dt translate>Status:</dt>                  <dd>{{request.status.title}}</dd>
+            <dt translate>Entitlement recovery:</dt>    <dd>{{request.workperiod_recover[0].quantity}} {{request.workperiod_recover[0].right.quantity_unit}}</dd>
+            <dt translate>Right given name:</dt>        <dd>{{request.workperiod_recover[0].right.name}}</dd>
+        </dl>
+
+    </div>
+</div>
+
+
+<ng-include src="'partials/utils/common/request/request-view-embed.html'"></ng-include>
+
+
+
+
+
