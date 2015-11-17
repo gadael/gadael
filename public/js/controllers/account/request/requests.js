@@ -27,8 +27,12 @@ define([], function() {
         };
 
         $scope.getViewUrl = function(request) {
-            if (request.absence.distribution) {
+            if (request.absence.distribution.length > 0) {
                 return '/account/requests/absences/'+request._id;
+            }
+
+            if (request.workperiod_recover.length > 0) {
+                return '/account/requests/workperiod_recover/'+request._id;
             }
         };
 

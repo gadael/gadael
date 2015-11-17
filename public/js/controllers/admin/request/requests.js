@@ -59,8 +59,12 @@ define([], function() {
 
 
         $scope.getViewUrl = function(request) {
-            if (request.absence.distribution) {
+            if (request.absence.distribution.length > 0) {
                 return '/admin/requests/absences/'+request._id;
+            }
+
+            if (request.workperiod_recover.length > 0) {
+                return '/admin/requests/workperiod_recover/'+request._id;
             }
         };
 
