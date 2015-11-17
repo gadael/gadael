@@ -320,7 +320,7 @@ describe('request workperiod recover account rest service', function() {
             expect(body.requestLog).toBeDefined();
             if (body.requestLog) {
                 expect(body.requestLog.length).toEqual(2);
-
+                expect(body.absence.distribution.length).toEqual(0);
                 expect(body.workperiod_recover[0].quantity).toEqual(quantity);
                 expect(body.workperiod_recover[0].gainedQuantity).toEqual(recoverQuantity.quantity);
                 expect(body.workperiod_recover[0].right.id).toEqual(null); // created after approval

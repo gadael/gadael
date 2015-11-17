@@ -44,9 +44,16 @@ var query = function(service, params) {
     if (undefined !== params.type) {
         switch(params.type) {
             case 'absence':
+                find.where('absence.distribution', {$exists: true, $not: {$size: 0}});
+                break;
+
             case 'time_saving_deposit':
-            case 'workperiod_recover':
                 find.where(params.type).ne(undefined);
+                break;
+
+            case 'workperiod_recover':
+                find.where('workperiod_recover', {$exists: true, $not: {$size: 0}});
+                break;
         }
     }
 
