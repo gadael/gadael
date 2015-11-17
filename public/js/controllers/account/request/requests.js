@@ -32,7 +32,7 @@ define([], function() {
             }
 
             if (request.workperiod_recover.length > 0) {
-                return '/account/requests/workperiod_recover/'+request._id;
+                return '/account/requests/workperiod-recovers/'+request._id;
             }
         };
 

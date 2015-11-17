@@ -64,7 +64,7 @@ define([], function() {
             }
 
             if (request.workperiod_recover.length > 0) {
-                return '/admin/requests/workperiod_recover/'+request._id;
+                return '/admin/requests/workperiod-recovers/'+request._id;
             }
         };
 
