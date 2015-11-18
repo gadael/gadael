@@ -43,6 +43,7 @@ exports = module.exports = function(services, app) {
         .populate('events')
         .populate('user.id')
         .populate('absence.distribution')
+        .populate('workperiod_recover.recoverQuantity')
         .populate('approvalSteps.approvers', null, 'User')
         .populate('requestLog.userCreated.id')
         .exec(function(err, document) {
