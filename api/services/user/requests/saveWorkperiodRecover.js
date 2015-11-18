@@ -75,6 +75,8 @@ function getFieldsToSet(service, wrParams)
             return deferred.reject('Failed to get recover quantity from '+wrParams.recoverQuantity);
         }
 
+        fieldsToSet.recoverQuantity = recoverQuantity._id;
+
         // gainedQuantity is the quantity provided by the selected recover quantity
         fieldsToSet.gainedQuantity = recoverQuantity.quantity;
 
