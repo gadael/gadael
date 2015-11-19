@@ -122,6 +122,14 @@ exports = module.exports = function(services, app) {
                     return event;
                 });
 
+                var getDispUnit = require('../../../../modules/dispunits');
+
+                docObj.workperiod_recover.map(function(recover) {
+                    var recoverQuantity = recover.recoverQuantity;
+                    recoverQuantity.quantity_dispUnit = getDispUnit(recoverQuantity.quantity_unit, recoverQuantity.quantity);
+                    return recover;
+                });
+
                 service.outcome.success = true;
                 service.deferred.resolve(docObj);
             }

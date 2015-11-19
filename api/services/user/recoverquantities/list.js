@@ -45,10 +45,33 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
+
+
+
         service.resolveQuery(
             query(service, params).select('name quantity quantity_unit').sort('name'),
-            paginate
+            paginate,
+            function outcome(err, docs) {
+                if (service.handleMongoError(err))
+                {
+                    var getDispUnit = require('../../../../modules/dispunits');
+
+                    service.outcome.success = true;
+                    service.deferred.resolve(
+                        docs.map(function(recoverQuantity) {
+                            recoverQuantity = recoverQuantity.toObject();
+                            recoverQuantity.quantity_dispUnit = getDispUnit(
+                                recoverQuantity.quantity_unit,
+                                recoverQuantity.quantity
+                            );
+
+                            return recoverQuantity;
+                        })
+                    );
+                }
+            }
         );
+
 
         return service.deferred.promise;
     };

@@ -57,12 +57,22 @@
     </div>
 
     <div class="col-sm-5">
-        <h4 translate>Selected duration:</h4>
-        <p>{{selection.duration}}</p>
+        <div class="panel  panel-default top30">
+            <div class="panel-body">
+                <h4 translate>Selected duration:</h4>
+                <p>{{selection.duration}}</p>
+                <p translate>Consumption on the selected period: {{selection.days}} or {{selection.hours}}</p>
+            </div>
+        </div>
 
-        <p translate>Consumption on the selected period: {{selection.days}} or {{selection.hours}}</p>
 
-        <p>{{recoverQuantity.quantity}} {{recoverQuantity.quantity_unit}}</p>
+
+        <div class="panel  panel-primary top30">
+            <div class="panel-body bg-primary">
+                <h4>Right quantity claimed by recovery:</h4>
+                <p>{{request.workperiod_recover[0].recoverQuantity.quantity}} {{request.workperiod_recover[0].recoverQuantity.quantity_dispUnit}}</p>
+            </div>
+        </div>
     </div>
 
     <div class="col-sm-12 top30">
