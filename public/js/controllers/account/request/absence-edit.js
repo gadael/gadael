@@ -22,6 +22,8 @@ define(['q'], function(Q) {
 
         var userPromise =  users.get().$promise;
         var requestUser = null;
+
+        $scope.selectionReady = false;
         
         if ($scope.request.$promise) {
             $scope.request.$promise.then(function() {
@@ -29,6 +31,7 @@ define(['q'], function(Q) {
                 $scope.editRequest = true;
                 AbsenceEdit.setSelectionFromRequest($scope);
                 $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events);
+                $scope.selectionReady = true;
             });
         } else {
             
@@ -42,6 +45,7 @@ define(['q'], function(Q) {
             };
 
             $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events);
+            $scope.selectionReady = true; // no selection
         }
         
 
