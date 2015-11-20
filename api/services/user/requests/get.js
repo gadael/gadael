@@ -125,8 +125,14 @@ exports = module.exports = function(services, app) {
                 var getDispUnit = require('../../../../modules/dispunits');
 
                 docObj.workperiod_recover.map(function(recover) {
-                    var recoverQuantity = recover.recoverQuantity;
-                    recoverQuantity.quantity_dispUnit = getDispUnit(recoverQuantity.quantity_unit, recoverQuantity.quantity);
+                    if (undefined !== recover.recoverQuantity && undefined !== recover.recoverQuantity._id) {
+                        var recoverQuantity = recover.recoverQuantity;
+                        recoverQuantity.quantity_dispUnit = getDispUnit(recoverQuantity.quantity_unit, recoverQuantity.quantity);
+                    }
+
+                    if (undefined !== recover.right) {
+                        recover.right.quantity_dispUnit = getDispUnit(recover.right.quantity_unit, recover.quantity);
+                    }
                     return recover;
                 });
 
