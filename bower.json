@@ -2,7 +2,7 @@
   "name": "inga-server",
   "dependencies": {
     "font-awesome": "~4.4.0",
-    "angular": "~1.4.5",
+    "angular": "~1.4.8",
     "angular-route": "1.2.x",
     "angular-loader": "1.2.x",
     "angular-mocks": "~1.2.x",
@@ -20,7 +20,7 @@
     "rrule": "~2.1.0",
     "moment": "~2.8.4",
     "moment-duration-format": "https://github.com/ricwa230/moment-duration-format.git#e7b0b15a9c3709103017438b1c2b2929d95f8f6e",
-    "angular-teleperiod": "#a7e6ed466a209ab2b35f2706bd1142ec34e15a57",
+    "angular-teleperiod": "#ca53eb99b18a2ed4d559e5b0ce96a8093c0d1e3d",
     "angular-bootstrap-colorpicker": "~3.0.18",
     "angular-image-crop": "https://github.com/demarchisd/angular-image-crop.git#master",
     "nvd3": "~1.8.1",
@@ -29,7 +29,6 @@
     "async": "~1.4.2"
   },
   "resolutions": {
-    "angular": "1.4.5",
     "nvd3": "~1.8.1",
     "d3": "~3.5.3",
     "q": "~1.4.1"
