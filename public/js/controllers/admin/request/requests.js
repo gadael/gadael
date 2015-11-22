@@ -49,7 +49,7 @@ define([], function() {
             
             $modal({
                 scope: modalscope,
-                template: 'partials/admin/request/spoof-user-modal.html',
+                templateUrl: 'partials/admin/request/spoof-user-modal.html',
                 show: true
             });
             

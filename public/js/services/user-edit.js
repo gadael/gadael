@@ -40,7 +40,7 @@ define([], function() {
 
                     $modal({
                         scope: modalscope,
-                        template: 'partials/utils/common/user/user-edit-image.html',
+                        templateUrl: 'partials/utils/common/user/user-edit-image.html',
                         show: true
                     });
 

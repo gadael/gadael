@@ -92,7 +92,7 @@ define([], function() {
 
             var modal = $modal({
                 scope: modalscope,
-                template: 'partials/admin/adjustment-edit.html',
+                templateUrl: 'partials/admin/adjustment-edit.html',
                 show: true
             });
 

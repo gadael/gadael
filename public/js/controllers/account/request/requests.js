@@ -20,7 +20,7 @@ define([], function() {
             
             $modal({
                 scope: modalscope,
-                template: 'partials/account/request/request-create-modal.html',
+                templateUrl: 'partials/account/request/request-create-modal.html',
                 show: true
             });
             
