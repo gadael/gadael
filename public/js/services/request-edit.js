@@ -13,11 +13,6 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
      */
     var duration = 0;
 
-    /**
-     * Duration in days updated on every period changes
-     * @var {Number}
-     */
-    var businessDays = 0;
 
 
 
@@ -30,12 +25,12 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
      *
      * @param {object} $scope
      * @param {Int} duration        Number of milliseconds
-     * @param {Number} businessDays Number of days
+     *
      */
-    function setDuration($scope, duration, businessDays)
+    function setDuration($scope, duration)
     {
         var momentMs = moment.duration(duration, "milliseconds");
-        var momentDays = moment.duration(businessDays, "days");
+        var momentDays = moment.duration($scope.selection.businessDays, "days");
 
         $scope.selection.duration = duration;
         $scope.selection.days = momentDays.format("d [days]", 1);
@@ -118,9 +113,9 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             $scope.selection.begin = events[0].dtstart;
             $scope.selection.end = events[events.length-1].dtend;
             $scope.selection.periods = $scope.request.events;
+            $scope.selection.businessDays =0;
 
-
-            var us = 0, businessDays =0;
+            var us = 0;
 
             events.forEach(function(evt) {
                 if (undefined === evt.businessDays) {
@@ -128,12 +123,12 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                 }
 
                 us += evt.dtend.getTime() - evt.dtstart.getTime();
-                businessDays += evt.businessDays;
+                $scope.selection.businessDays += evt.businessDays;
 
             });
 
 
-            setDuration($scope, duration, businessDays);
+            setDuration($scope, us, $scope.selection.businessDays);
 
         },
 
@@ -172,16 +167,19 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                  */
                 return function onUpdateInterval(begin, end)
                 {
+                    duration = 0;
+                    $scope.selection.businessDays = 0;
+
+
                     if (!begin || !end) {
-                        return setDuration($scope, 0, 0);
+                        return setDuration($scope, duration);
                     }
 
                     if (begin >= end) {
-                        return setDuration($scope, 0, 0);
+                        return setDuration($scope, duration);
                     }
 
-                    duration = 0;
-                    businessDays = 0;
+
 
                     calendarEvents.query({
                         type: 'workschedule',
@@ -200,10 +198,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
                             duration += p.dtend.getTime() - p.dtstart.getTime();
 
-                            businessDays += periods[i].businessDays;
+                            $scope.selection.businessDays += periods[i].businessDays;
                         }
 
-                        return setDuration($scope, duration, businessDays);
+                        return setDuration($scope, duration);
                     });
                 };
             }

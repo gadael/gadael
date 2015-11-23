@@ -15,17 +15,6 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
     var available = {};
 
 
-    /**
-     * Duration in milliseconds updated on every period changes
-     * @var {int}
-     */
-    var duration = 0;
-
-    /**
-     * Duration in days updated on every period changes
-     * @var {Number}
-     */
-    var businessDays = 0;
 
 
 
@@ -64,8 +53,8 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
          * @return {Boolean}
          */
         function isCompleted(days, hours) {
-            var daysCompleted = (businessDays === days) && !hours;
-            var hoursCompleted = (duration === (hours*360000)) && !days;
+            var daysCompleted = ($scope.selection.businessDays === days) && !hours;
+            var hoursCompleted = ($scope.selection.duration === (hours*360000)) && !days;
             return (daysCompleted || hoursCompleted);
         }
 

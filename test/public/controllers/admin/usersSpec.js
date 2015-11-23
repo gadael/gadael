@@ -4,8 +4,11 @@ define([
     'usersTpl'
     ], function() {
 
+    "use strict";
+
     describe('Users controller', function () {
-        'use strict';
+
+
         
         var scope = null;
 
