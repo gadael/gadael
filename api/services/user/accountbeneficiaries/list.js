@@ -30,6 +30,7 @@ exports = module.exports = function(services, app) {
      * Create the query with filters
      *
      * @param {array} params      query parameters if called by controller
+     *                            params.account     mandatory parameter to get the account beneficaries
      * @param {function} next
      *
      */
@@ -60,6 +61,7 @@ exports = module.exports = function(services, app) {
                     }
 
                     find.where('document').in(docs);
+
                     next(find, account);
                 });
             }
