@@ -51,15 +51,16 @@ function saveRight(service, params) {
         quantity_unit: params.quantity_unit,
         activeFor: params.activeFor,
         rules: params.rules,
-        addMonthly: params.addMonthly
+        addMonthly: params.addMonthly,
+        timeSaving: params.timeSaving
     };
     
     if(undefined !== params.description) {
         fieldsToSet.description = params.description;
     }
 
-    if (0 >= fieldsToSet.addMonthly.quantity) {
-        // thie field is hidden anyway
+    if (undefined !== fieldsToSet.addMonthly && undefined !== fieldsToSet.addMonthly.quantity && 0 >= fieldsToSet.addMonthly.quantity) {
+        // this field is hidden anyway
         fieldsToSet.addMonthly.max = null;
     }
 
