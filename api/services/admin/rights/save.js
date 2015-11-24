@@ -58,6 +58,12 @@ function saveRight(service, params) {
         fieldsToSet.description = params.description;
     }
 
+    if (0 >= fieldsToSet.addMonthly.quantity) {
+        // thie field is hidden anyway
+        fieldsToSet.addMonthly.max = null;
+    }
+
+
     if (params.id)
     {
         var postedRules = [];

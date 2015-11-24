@@ -46,8 +46,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="addMonthly_max" translate>Max quantity</label>
+                    <div class="form-group" ng-if="right.addMonthly.quantity>0">
+                        <label for="addMonthly_max" translate>Do not add monthly quantity if greater than</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="addMonthly_max" ng-model="right.addMonthly.max" step="any" />
                             <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>

@@ -30,6 +30,14 @@ exports = module.exports = function(params) {
             max: { type: Number, min:0 }
         },
         
+        timeSaving: {
+            max: { type: Number, min:0 },
+            savingInterval: {
+                min: { type: Number, default: 0 }, // years before renewal start date
+                max: { type: Number, default: 0 }  // years before renewal end date
+            }
+        },
+
         activeFor: {
             account: { type: Boolean, default:true },
             
