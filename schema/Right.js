@@ -31,10 +31,12 @@ exports = module.exports = function(params) {
         },
         
         timeSaving: {
-            max: { type: Number, min:0 },
+            active: { type: Boolean, default: false },
+            max: { type: Number, min:0 },          // max quantity per renewal
             savingInterval: {
-                min: { type: Number, default: 0 }, // years before renewal start date
-                max: { type: Number, default: 0 }  // years before renewal end date
+                useDefault: { type: Boolean, default:true },
+                min: Number, // years before renewal start date
+                max: Number  // years before renewal end date
             }
         },
 
