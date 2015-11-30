@@ -82,6 +82,8 @@ exports = module.exports = function(services, app) {
 
         });
 
+        return deferred.promise;
+
     }
 
 

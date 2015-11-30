@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('vacations rights admin rest service', function() {
+describe('time saving account rest service', function() {
 
 
     var server, timeSavingAccount;
@@ -73,13 +73,6 @@ describe('vacations rights admin rest service', function() {
         });
     });
 
-
-    it('Get one time saving account', function(done) {
-        server.get('/rest/account/timesavingaccounts/'+timeSavingAccount.renewal._id, {}, function(res) {
-            expect(res.statusCode).toEqual(200);
-            done();
-        });
-    });
 
 
     it('close the mock server', function(done) {
