@@ -160,6 +160,7 @@ describe('vacations rights admin rest service', function() {
     });
 
 
+
     it('close the mock server', function(done) {
         server.close(done);
     });
