@@ -393,6 +393,48 @@ exports = module.exports = function(params) {
     };
 
 
+
+    /**
+     * Get the saving period for the renewal
+     * With start and finish properties
+     *
+     * @param {Right} [right]
+     * @return {Object}
+     */
+    rightRenewalSchema.methods.getSavingPeriod = function(right) {
+
+        if (undefined === right || null === right) {
+            right = this.populate('right');
+        }
+
+        if (undefined === right.timeSaving || !right.timeSaving.active) {
+            return null;
+        }
+
+        if (undefined === right.timeSaving.savingInterval) {
+            return null;
+        }
+
+        if (right.timeSaving.savingInterval.useDefault) {
+            return {
+                start: this.start,
+                finish: this.finish
+            };
+        }
+
+        var savingPeriod = {
+            start: new Date(this.start),
+            finish: new Date(this.finish)
+        };
+
+        savingPeriod.start.setFullYear(savingPeriod.start.getFullYear() - right.timeSaving.savingInterval.min);
+        savingPeriod.finish.setFullYear(savingPeriod.finish.getFullYear() - right.timeSaving.savingInterval.max);
+
+        return savingPeriod;
+    };
+
+
+
     params.db.model('RightRenewal', rightRenewalSchema);
     
     

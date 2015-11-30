@@ -86,6 +86,53 @@ exports = module.exports = function(services, app) {
 
 
 
+    /**
+     * Get beneficiaries and renwals with active saving periods
+     * @param {String} accountId
+     * @return {Promise}
+     */
+    function getRenewals(accountId)
+    {
+        var async = require('async');
+        var deferred = Q.defer();
+
+        var results = [], savingPeriod;
+
+        getAccountBeneficiaries(accountId).then(function(timeSavingBeneficiaries) {
+
+            async.each(timeSavingBeneficiaries, function(beneficiary, callback) {
+
+                beneficiary.right.getAllRenewals().then(function(renewals) {
+
+                    for(var i=0; i<renewals.length; i++) {
+                        savingPeriod = renewals[i].getSavingPeriod();
+
+                        if (null === savingPeriod) {
+                            continue;
+                        }
+
+                        results.push({
+                            savingPeriod: savingPeriod,
+                            renewal: renewals[i],
+                            beneficiary: beneficiary
+                        });
+                    }
+
+                    callback(null, results);
+                });
+
+            }, function eachEnd(err) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+                deferred.resolve(results);
+            });
+        }, deferred.reject);
+
+        return deferred.promise;
+    }
+
+
 
     /**
      * Call the beneficiaries list service
@@ -103,7 +150,7 @@ exports = module.exports = function(services, app) {
         }
 
 
-
+        getRenewals(params.account).then(service.deferred.resolve, service.error);
 
 
 
