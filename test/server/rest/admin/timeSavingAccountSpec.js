@@ -152,6 +152,35 @@ describe('vacations rights admin rest service', function() {
     });
 
 
+    it('list time saving accounts witout parameter', function(done) {
+        server.get('/rest/admin/timesavingaccounts', {}, function(res, body) {
+            expect(res.statusCode).toEqual(500);
+            done();
+        });
+    });
+
+
+
+    it('list time saving accounts for unknown account', function(done) {
+        server.get('/rest/admin/timesavingaccounts', { account: 'xxxxxxx' }, function(res, body) {
+            expect(res.statusCode).toEqual(500);
+            done();
+        });
+    });
+
+
+    it('list time saving accounts', function(done) {
+        server.createUserAccount().then(function(account) {
+            server.get('/rest/admin/timesavingaccounts', { account: account.user.roles.account.toString() }, function(res, body) {
+                expect(res.statusCode).toEqual(200);
+                done();
+            });
+        });
+
+    });
+
+
+
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
             expect(res.statusCode).toEqual(200);
