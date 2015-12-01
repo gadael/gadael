@@ -404,8 +404,14 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getSavingPeriod = function(right) {
 
         if (undefined === right || null === right) {
-            right = this.populate('right');
+            if (undefined !== this.populated('right')) {
+                right = this.right;
+            } else {
+                throw new Error('missing right as parameter or by populate');
+            }
         }
+
+
 
         if (undefined === right.timeSaving || !right.timeSaving.active) {
             return null;

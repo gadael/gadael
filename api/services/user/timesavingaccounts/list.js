@@ -104,10 +104,13 @@ exports = module.exports = function(services, app) {
 
             async.each(timeSavingBeneficiaries, function(beneficiary, callback) {
 
+
                 beneficiary.right.getAllRenewals().then(function(renewals) {
 
+
+
                     for(var i=0; i<renewals.length; i++) {
-                        savingPeriod = renewals[i].getSavingPeriod();
+                        savingPeriod = renewals[i].getSavingPeriod(beneficiary.right);
 
                         if (null === savingPeriod) {
                             continue;

@@ -4,8 +4,9 @@
 describe('time saving account rest service', function() {
 
 
-    var server, timeSavingAccount;
+    var server, collection, right, timeSavingAccount, userAccount;
 
+    var today = new Date();
 
 
     beforeEach(function(done) {
@@ -44,10 +45,90 @@ describe('time saving account rest service', function() {
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
 
+            right = body;
+
             done();
         });
     });
 
+
+    it('create renewal', function(done) {
+
+        var start = new Date(today);
+        start.setDate(1);
+        start.setMonth(0);
+        var finish = new Date(start);
+        finish.setFullYear(finish.getFullYear()+1);
+
+        server.post('/rest/admin/rightrenewals', {
+            right: right._id,
+            start: start,
+            finish: finish
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            done();
+        });
+    });
+
+
+    it('Create account session', function(done) {
+
+        server.createUserAccount()
+        .then(function(account) {
+            userAccount = account;
+            done();
+        });
+
+    });
+
+
+    it('create a collection', function(done) {
+        server.post('/rest/admin/collections', {
+            name: 'Test'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            collection = body;
+            done();
+        });
+    });
+
+
+    it('Link account to collection', function(done) {
+        server.post('/rest/admin/accountcollections', {
+            user: userAccount.user._id,
+            rightCollection: collection,
+            from: today.toISOString(),
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            done();
+        });
+    });
+
+
+
+    it('Link right to collection with a beneficiary', function(done) {
+
+        server.post('/rest/admin/beneficiaries', {
+            document: collection._id,
+            right: right,
+            ref: 'RightCollection'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            done();
+        });
+    });
 
 
     it('logout', function(done) {
@@ -58,8 +139,8 @@ describe('time saving account rest service', function() {
     });
 
 
-    it('create account session', function(done) {
-        server.createAccountSession().then(function() {
+    it('login account session', function(done) {
+        server.authenticateAccount(userAccount).then(function() {
             done();
         });
     });
@@ -68,6 +149,7 @@ describe('time saving account rest service', function() {
     it('list time saving accounts', function(done) {
         server.get('/rest/account/timesavingaccounts', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
             timeSavingAccount = body[0];
             done();
         });
