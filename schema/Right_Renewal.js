@@ -116,7 +116,7 @@ exports = module.exports = function(params) {
         }
 
 
-        if (undefined === right.addMonthly.quantity || 0 === right.addMonthly.quantity) {
+        if (undefined === right.addMonthly.quantity || 0 === right.addMonthly.quantity || null === right.addMonthly.quantity) {
             // functionality has been disabled
             return false;
         }

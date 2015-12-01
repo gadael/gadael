@@ -62,7 +62,8 @@ define(function() {
                 types                   : init('admin/types/:id'),
                 users                   : init('admin/users/:id'),
                 requests                : init('admin/requests/:id'),
-                recoverquantities       : init('admin/recoverquantities/:id')
+                recoverquantities       : init('admin/recoverquantities/:id'),
+                timesavingaccounts      : init('admin/timesavingaccounts/:id')
             },
             
             account: {
@@ -75,7 +76,8 @@ define(function() {
                 requests                : init('account/requests/:id'),
                 beneficiaries           : init('account/beneficiaries/:id'),
                 adjustments             : init('account/adjustments/:id'),
-                recoverquantities       : init('account/recoverquantities/:id')
+                recoverquantities       : init('account/recoverquantities/:id'),
+                timesavingaccounts      : init('account/timesavingaccounts/:id')
             },
             
             manager: {

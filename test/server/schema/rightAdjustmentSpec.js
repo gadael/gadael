@@ -22,6 +22,39 @@ describe('Right model', function() {
     });
 
 
+    it('create a right without monthly adjustment', function(done) {
+        var right = new rightModel();
+
+        right.name = 'Preliminary test right';
+        right.quantity = 10;
+        right.quantity_unit = 'D';
+        right.addMonthly = {
+            quantity: null
+        };
+
+        right.save(function(err, right) {
+            expect(err).toBeNull();
+            if (err) {
+                return done();
+            }
+
+            var renewal = new rightRenewalModel();
+
+            renewal.right = right._id;
+            renewal.start = new Date();
+            renewal.finish = new Date(renewal.start);
+            renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
+
+            renewal.save(function(err, renewal) {
+                expect(err).toBeNull();
+                expect(renewal.adjustments).toBeDefined();
+                expect(renewal.adjustments.length).toEqual(0);
+                done();
+            });
+        });
+    });
+
+
     it('create a right with monthly adjustment', function(done) {
         var right = new rightModel();
 

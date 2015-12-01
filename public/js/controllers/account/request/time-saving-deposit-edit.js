@@ -12,6 +12,8 @@ define([], function() {
         var beneficiariesResource = Rest.account.beneficiaries.getResource();
         var beneficiaries = beneficiariesResource.query();
 
+        var timeSavingAccountsResource = Rest.account.timesavingaccounts.getResource();
+        $scope.timeSavingAccounts = timeSavingAccountsResource.query();
 
 
         // prepare select

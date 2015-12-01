@@ -24,7 +24,7 @@ exports = module.exports = function(services, app) {
             {
                 if (document) {
                     service.outcome.success = true;
-                    service.deferred.resolve();
+                    service.deferred.resolve(document);
                 } else {
                     service.notFound(gt.gettext('This right renewal periods does not exists'));
                 }

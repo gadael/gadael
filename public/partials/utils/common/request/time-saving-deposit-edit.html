@@ -20,6 +20,11 @@
 	</div>
 
 
+    <div class="form-group col-sm-6 top10">
+        <label for="time_saving_account" translate>Save in account</label>
+        <select id="time_saving_account" class="form-control" ng-options="tsa.beneficiary.right.name for tsa in timeSavingAccounts"></select>
+        {{timeSavingAccounts[0].beneficiary.right.name}}
+    </div>
 
     <div class="col-sm-12 top30">
         <button class="btn btn-primary" ng-disabled="!selection.end || !selection.begin" ng-click="save()" translate>Save</button>
