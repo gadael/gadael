@@ -4,26 +4,31 @@
 
     <div class="top30">
 
-        <button type="button" class="btn btn-default" ng-model="beneficiary" data-html="1" bs-options="right.value as right.label for right in rightBeneficiaries" bs-select>
+        <button type="button" class="btn btn-default" ng-model="sourceBeneficiary" data-html="1" bs-options="right.value as right.label for right in rightBeneficiaries" bs-select>
           Choose a right <span class="caret"></span>
         </button>
 	</div>
 
     <div class="top30">
-        <p translate>Available quantity in right: {{beneficiary.available_quantity}} {{beneficiary.available_quantity_dispUnit}}</p>
+        <p translate>Available quantity in right: {{sourceBeneficiary.available_quantity}} {{sourceBeneficiary.available_quantity_dispUnit}}</p>
     </div>
 
 
-    <div class="form-group col-sm-2 top10">
-		<label for="time_saving_deposit_quantity" translate>Quantity to spare</label>
-		<input type="number" class="form-control" id="time_saving_deposit_quantity" ng-model="time_saving_deposit.quantity" />
-	</div>
+    <div class="top30 row">
+        <div class="form-group col-sm-2 top10">
+            <label for="time_saving_deposit_quantity" translate>Quantity to spare</label>
+            <input type="number" class="form-control" id="time_saving_deposit_quantity" ng-model="request.time_saving_deposit.quantity" />
+        </div>
 
 
-    <div class="form-group col-sm-6 top10">
-        <label for="time_saving_account" translate>Save in account</label>
-        <select id="time_saving_account" class="form-control" ng-options="tsa.beneficiary.right.name for tsa in timeSavingAccounts"></select>
-        {{timeSavingAccounts[0].beneficiary.right.name}}
+        <div class="form-group col-sm-6 top10">
+            <label for="time_saving_account" translate>Save in account</label>
+            <select id="time_saving_account" class="form-control" ng-model="targetBeneficiary" ng-options="tsa.beneficiary as tsa.beneficiary.right.name for tsa in timeSavingAccounts"></select>
+        </div>
+    </div>
+
+    <div class="top30">
+        <p translate>Quantity in time saving account: {{targetBeneficiary.available_quantity}} {{targetBeneficiary.available_quantity_dispUnit}}</p>
     </div>
 
     <div class="col-sm-12 top30">

@@ -15,11 +15,28 @@ define([], function() {
         var timeSavingAccountsResource = Rest.account.timesavingaccounts.getResource();
         $scope.timeSavingAccounts = timeSavingAccountsResource.query();
 
+        $scope.timeSavingAccounts.$promise.then(function(timeSavingAccounts) {
+            // default to first available time saving account
+            $scope.targetBeneficiary = timeSavingAccounts[0].beneficiary;
+        });
+
+
+        // default request values
+        $scope.request = {
+            time_saving_deposit: {
+                quantity: 1
+            }
+        };
 
         // prepare select
         $scope.rightBeneficiaries = [];
         beneficiaries.$promise.then(function(b) {
             b.forEach(function(beneficiary) {
+
+                if (undefined !== beneficiary.right.timeSaving && beneficiary.right.timeSaving.active) {
+                    return;
+                }
+
                 $scope.rightBeneficiaries.push({
                     value: beneficiary,
                     label: '<i class="fa fa-asterisk" style="color:'+beneficiary.right.type.color+'" title="'+beneficiary.right.type.name+'"></i> '+beneficiary.right.name
