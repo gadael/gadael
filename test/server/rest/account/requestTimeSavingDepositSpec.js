@@ -1,21 +1,19 @@
 'use strict';
 
 
-describe('request workperiod recover account rest service', function() {
+describe('request time saving deposit rest service', function() {
 
 
     var server,
         userAdmin,      // create the account, the manager
         userAccount,    // create the request
         userManager,    // should be assigned to approval
-        userStranger,   // another user
 
-        right1,
+        right1,                 // source
+        timeSavingAccount1,     // target for deposit
 
         department,     // department associated to userManager
         collection,     // user account collection, contain right1 & 2
-
-        recoverQuantity,
 
         request1;
 
@@ -23,7 +21,7 @@ describe('request workperiod recover account rest service', function() {
     beforeEach(function(done) {
         var helpers = require('../mockServer');
 
-        helpers.mockServer('accountRequestWorkperiodRecover', function(_mockServer) {
+        helpers.mockServer('accountRequestTimeSavingDeposit', function(_mockServer) {
             server = _mockServer;
             done();
         });
@@ -112,6 +110,45 @@ describe('request workperiod recover account rest service', function() {
 
 
 
+    it('create time saving account 1', function(done) {
+        server.post('/rest/admin/rights', {
+            name: 'Time saving account 1',
+            quantity: 0,
+            quantity_unit: 'D',
+            timeSaving: {
+                active: true
+            }
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            timeSavingAccount1 = body;
+            expect(timeSavingAccount1._id).toBeDefined();
+            done();
+        });
+    });
+
+    it('link the timeSavingAccount1 to collection', function(done) {
+        server.post('/rest/admin/beneficiaries', {
+            ref: 'RightCollection',
+            document: collection._id,
+            right: timeSavingAccount1
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('create renewal for time saving account 1', function(done) {
+        server.post('/rest/admin/rightrenewals', {
+            right: right1._id,
+            start: new Date(2014,1,1).toJSON(),
+            finish: new Date(2019,1,1).toJSON()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            timeSavingAccount1.renewal = body;
+            done();
+        });
+    });
 
 
     it('create a department', function(done) {
@@ -135,15 +172,6 @@ describe('request workperiod recover account rest service', function() {
 
     });
 
-
-    it('create the stranger account', function(done) {
-        server.createUserStranger(department)
-        .then(function(account) {
-            userStranger = account;
-            done();
-        });
-
-    });
 
 
     it('link user to collection', function(done) {
@@ -213,52 +241,37 @@ describe('request workperiod recover account rest service', function() {
     });
 
 
-    it('get the recoverquantity from default values', function(done) {
-        server.get('/rest/account/recoverquantities', {}, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.length).toBeGreaterThan(0);
-            recoverQuantity = body[0];
+    it('Create time saving account deposit', function(done) {
 
-            done();
-        });
-    });
-
-
-    it('Create workperiod recover request', function(done) {
-
-        var quantity = 'H' === recoverQuantity.quantity_unit ? 3 : 0.5;
+        var quantity = 1.5;
 
         server.post('/rest/account/requests', {
-                events: [{
-                    dtstart: new Date(2015,1,1, 19).toJSON(),
-                    dtend: new Date(2015,1,1, 22).toJSON()
-                }],
-                workperiod_recover: [{
+
+                time_saving_deposit: [{
                     quantity: quantity,
-                    right: {
-                        name: 'User input for recovery'
+                    from: {
+                        renewal: right1.renewal
                     },
-                    recoverQuantity: recoverQuantity
+                    to: {
+                        renewal: timeSavingAccount1.renewal
+                    }
                 }]
             },
             function(res, body) {
             expect(res.statusCode).toEqual(200);
 
             expect(body._id).toBeDefined();
-            expect(body.workperiod_recover).toBeDefined();
-            if (body.workperiod_recover) {
+            expect(body.time_saving_deposit).toBeDefined();
+            if (body.time_saving_deposit) {
                 expect(body.user.id).toEqual(userAccount.user._id.toString());
                 expect(body.user.name).toBeDefined();
                 expect(body.approvalSteps.length).toEqual(1);
                 expect(body.requestLog.length).toEqual(1);
                 expect(body.events.length).toEqual(1);
-                expect(body.workperiod_recover.length).toEqual(1);
-                if (undefined !== body.workperiod_recover[0]) {
-                    expect(body.workperiod_recover[0].quantity).toEqual(quantity);
-                    expect(body.workperiod_recover[0].gainedQuantity).toEqual(recoverQuantity.quantity);
-                    expect(body.workperiod_recover[0].right.id).toEqual(null); // created after approval
-                    expect(body.workperiod_recover[0].right.name).toBeDefined();
-                    expect(body.workperiod_recover[0].right.quantity_unit).toEqual(recoverQuantity.quantity_unit);
+                expect(body.time_saving_deposit.length).toEqual(1);
+                if (undefined !== body.time_saving_deposit[0]) {
+                    expect(body.time_saving_deposit[0].quantity).toEqual(quantity);
+
                 }
             }
             request1 = body;
@@ -271,10 +284,7 @@ describe('request workperiod recover account rest service', function() {
         server.get('/rest/account/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            if (body[0]) {
-                expect(body[0].events[0].dtstart).toBeDefined();
-                expect(body[0].events[0].dtend).toBeDefined();
-            }
+
             done();
         });
     });
@@ -284,27 +294,25 @@ describe('request workperiod recover account rest service', function() {
     it('get one request', function(done) {
         server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.workperiod_recover).toBeDefined();
-            expect(body.workperiod_recover.length).toEqual(1);
+            expect(body.time_saving_deposit).toBeDefined();
+            expect(body.time_saving_deposit.length).toEqual(1);
             done();
         });
     });
 
 
-    it('update request recovery period', function(done) {
+    it('update time saving account deposit', function(done) {
 
-        var quantity = 'H' === recoverQuantity.quantity_unit ? 4 : 0.5;
+        var quantity = 4;
 
         server.put('/rest/account/requests/'+request1._id, {
-                events: [{
-                    dtstart: new Date(2015,1,1, 19).toJSON(),
-                    dtend: new Date(2015,1,1, 23).toJSON()
-                }],
-                workperiod_recover: [{
-                    recoverQuantity: recoverQuantity,
+                time_saving_deposit: [{
                     quantity: quantity,
-                    right: {
-                        name: 'User input for recovery'
+                    from: {
+                        renewal: right1.renewal
+                    },
+                    to: {
+                        renewal: timeSavingAccount1.renewal
                     }
                 }]
             }, function(res, body) {
@@ -314,11 +322,8 @@ describe('request workperiod recover account rest service', function() {
             if (body.requestLog) {
                 expect(body.requestLog.length).toEqual(2);
                 expect(body.absence.distribution.length).toEqual(0);
-                expect(body.workperiod_recover[0].quantity).toEqual(quantity);
-                expect(body.workperiod_recover[0].gainedQuantity).toEqual(recoverQuantity.quantity);
-                expect(body.workperiod_recover[0].right.id).toEqual(null); // created after approval
-                expect(body.workperiod_recover[0].right.name).toBeDefined();
-                expect(body.workperiod_recover[0].right.quantity_unit).toEqual(recoverQuantity.quantity_unit);
+                expect(body.time_saving_deposit[0].quantity).toEqual(quantity);
+
             }
             done();
         });
@@ -326,14 +331,7 @@ describe('request workperiod recover account rest service', function() {
 
 
 
-    /*
 
-    it('forbid creation of request on a work period', function(done) {
-
-
-    });
-
-    */
 
 
     it('logout', function(done) {
@@ -344,50 +342,7 @@ describe('request workperiod recover account rest service', function() {
     });
 
 
-    // stranger part
 
-
-    it('Authenticate user stranger session', function(done) {
-        expect(userStranger.user.roles.account).toBeDefined();
-        server.authenticateAccount(userStranger).then(function() {
-            done();
-        });
-
-    });
-
-
-    it('request list of current requests as account', function(done) {
-        server.get('/rest/account/requests', {}, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(0);
-            done();
-        });
-    });
-
-
-    it('try to get unaccessible request', function(done) {
-        server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
-            expect(res.statusCode).toEqual(404);
-            expect(body.$outcome.status).toBeFalsy();
-            done();
-        });
-    });
-
-
-    it('try to delete a request', function(done) {
-        server.delete('/rest/account/requests/'+request1._id, function(res, body) {
-            expect(res.statusCode).toEqual(403);
-            done();
-        });
-    });
-
-
-    it('logout', function(done) {
-        server.get('/rest/logout', {}, function(res) {
-            expect(res.statusCode).toEqual(200);
-            done();
-        });
-    });
 
 
     // login as manager (approver)

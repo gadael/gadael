@@ -28,11 +28,7 @@ exports = module.exports = function(params) {
             distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }]
         },
 
-        time_saving_deposit: {
-            from: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' },
-            to: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' },
-            quantity: { type: Number }
-        },
+        time_saving_deposit: [params.embeddedSchemas.TimeSavingDeposit],
 
         workperiod_recover: [params.embeddedSchemas.WorperiodRecover],
 
