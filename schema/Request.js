@@ -29,8 +29,8 @@ exports = module.exports = function(params) {
         },
 
         time_saving_deposit: {
-            from: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-            to: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
+            from: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' },
+            to: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' },
             quantity: { type: Number }
         },
 

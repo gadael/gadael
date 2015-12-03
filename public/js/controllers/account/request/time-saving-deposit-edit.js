@@ -37,9 +37,23 @@ define([], function() {
                     return;
                 }
 
-                $scope.rightBeneficiaries.push({
-                    value: beneficiary,
-                    label: '<i class="fa fa-asterisk" style="color:'+beneficiary.right.type.color+'" title="'+beneficiary.right.type.name+'"></i> '+beneficiary.right.name
+                beneficiary.renewals.forEach(function(renewal) {
+
+                    var available = renewal.available_quantity;
+
+                    if (available <= 0) {
+                        return;
+                    }
+
+                    $scope.rightBeneficiaries.push({
+                        value: {
+                            right: beneficiary.right,
+                            renewal: renewal
+                        },
+                        group: beneficiary.right.name,
+                        label: available+' '+renewal.available_quantity_dispUnit+' up to '+renewal.finish.toLocaleDateString()
+                    });
+
                 });
             });
         });
