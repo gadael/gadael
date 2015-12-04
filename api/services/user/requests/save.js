@@ -110,8 +110,22 @@ function prepareRequestFields(service, params, user)
         }
 
         if (undefined !== params.time_saving_deposit) {
-            fieldsToSet.time_saving_deposit = params.time_saving_deposit;
-            deferred.resolve(fieldsToSet);
+
+            if (!Array.isArray(params.time_saving_deposit)) {
+                return deferred.reject('Unsupported parameter for time_saving_deposit');
+            }
+
+            if (params.time_saving_deposit.length !== 1) {
+                return deferred.reject('Unsupported parameter for time_saving_deposit');
+            }
+
+            var saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
+
+
+            saveTimeSavingDeposit.getFieldsToSet(service, params.workperiod_recover[0]).then(function(tsdFields) {
+                fieldsToSet.time_saving_deposit = [tsdFields];
+                deferred.resolve(fieldsToSet);
+            }, deferred.reject);
         }
 
         if (undefined !== params.workperiod_recover) {
