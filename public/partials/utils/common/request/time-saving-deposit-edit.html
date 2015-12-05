@@ -18,7 +18,7 @@
         <div class="form-group col-sm-2 top10">
             <label for="time_saving_deposit_quantity" translate>Quantity to spare</label>
             <div class="input-group">
-            <input type="number" class="form-control" id="time_saving_deposit_quantity" ng-model="request.time_saving_deposit.quantity" aria-describedby="depositQuantityUnit" />
+            <input type="number" class="form-control" id="time_saving_deposit_quantity" ng-model="request.time_saving_deposit[0].quantity" aria-describedby="depositQuantityUnit" />
                 <span class="input-group-addon" id="depositQuantityUnit">{{from.renewal.available_quantity_dispUnit}}</span>
             </div>
         </div>
@@ -35,6 +35,6 @@
     </div>
 
     <div class="col-sm-12 top30">
-        <button class="btn btn-primary" ng-disabled="!request.time_saving_deposit.quantity || !from" ng-click="save()" translate>Save</button>
+        <button class="btn btn-primary" ng-disabled="!request.time_saving_deposit[0].quantity || !from" ng-click="save()" translate>Save</button>
     </div>
 </form>

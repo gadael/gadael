@@ -20,12 +20,11 @@ define([], function() {
             $scope.targetBeneficiary = timeSavingAccounts[0].beneficiary;
         });
 
-
         // default request values
         $scope.request = {
-            time_saving_deposit: {
+            time_saving_deposit: [{
                 quantity: 1
-            }
+            }]
         };
 
         // prepare select
@@ -92,6 +91,19 @@ define([], function() {
             delete $scope.request.requestLog;
             delete $scope.request.approvalSteps;
 
+            $scope.request.time_saving_deposit[0].quantity_unit = $scope.from.right.quantity_unit;
+
+            $scope.request.time_saving_deposit[0].from = {
+                renewal: $scope.from.renewal
+            };
+
+            $scope.request.time_saving_deposit[0].to = {
+                renewal: $scope.targetBeneficiary.renewal
+            };
+
+            console.log($scope.request);
+
+
             try {
                 $scope.request.ingaSave($scope.back);
             } catch(e) {
@@ -100,6 +112,8 @@ define([], function() {
                     type: 'danger'
                 });
             }
+
+
         };
 
 	}];
