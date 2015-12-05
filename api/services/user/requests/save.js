@@ -72,7 +72,6 @@ function prepareRequestFields(service, params, user)
 
 
         if (undefined !== params.absence) {
-
             var saveAbsence = require('./saveAbsence');
 
             saveAbsence.getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
@@ -121,8 +120,7 @@ function prepareRequestFields(service, params, user)
 
             var saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
 
-
-            saveTimeSavingDeposit.getFieldsToSet(service, params.workperiod_recover[0]).then(function(tsdFields) {
+            saveTimeSavingDeposit.getFieldsToSet(service, params.time_saving_deposit[0]).then(function(tsdFields) {
                 fieldsToSet.time_saving_deposit = [tsdFields];
                 deferred.resolve(fieldsToSet);
             }, deferred.reject);

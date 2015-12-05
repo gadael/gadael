@@ -140,7 +140,7 @@ describe('request time saving deposit rest service', function() {
 
     it('create renewal for time saving account 1', function(done) {
         server.post('/rest/admin/rightrenewals', {
-            right: right1._id,
+            right: timeSavingAccount1._id,
             start: new Date(2014,1,1).toJSON(),
             finish: new Date(2019,1,1).toJSON()
         }, function(res, body) {
@@ -249,6 +249,7 @@ describe('request time saving deposit rest service', function() {
 
                 time_saving_deposit: [{
                     quantity: quantity,
+                    quantity_unit: 'D',
                     from: {
                         renewal: right1.renewal
                     },
@@ -259,7 +260,6 @@ describe('request time saving deposit rest service', function() {
             },
             function(res, body) {
             expect(res.statusCode).toEqual(200);
-
             expect(body._id).toBeDefined();
             expect(body.time_saving_deposit).toBeDefined();
             if (body.time_saving_deposit) {
@@ -267,11 +267,10 @@ describe('request time saving deposit rest service', function() {
                 expect(body.user.name).toBeDefined();
                 expect(body.approvalSteps.length).toEqual(1);
                 expect(body.requestLog.length).toEqual(1);
-                expect(body.events.length).toEqual(1);
+                expect(body.events.length).toEqual(0);
                 expect(body.time_saving_deposit.length).toEqual(1);
                 if (undefined !== body.time_saving_deposit[0]) {
                     expect(body.time_saving_deposit[0].quantity).toEqual(quantity);
-
                 }
             }
             request1 = body;
@@ -295,7 +294,9 @@ describe('request time saving deposit rest service', function() {
         server.get('/rest/account/requests/'+request1._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.time_saving_deposit).toBeDefined();
-            expect(body.time_saving_deposit.length).toEqual(1);
+            if (body.time_saving_deposit) {
+                expect(body.time_saving_deposit.length).toEqual(1);
+            }
             done();
         });
     });
@@ -308,6 +309,7 @@ describe('request time saving deposit rest service', function() {
         server.put('/rest/account/requests/'+request1._id, {
                 time_saving_deposit: [{
                     quantity: quantity,
+                    quantity_unit: 'D',
                     from: {
                         renewal: right1.renewal
                     },

@@ -4,27 +4,27 @@ var Q = require('q');
 
 /**
  * @throws Error
- * @param {Object}  wrParams        Worperiod recover request parmeters from post|put request
+ * @param {Object}  tsdParams        Worperiod recover request parmeters from post|put request
  */
-function testRequired(wrParams)
+function testRequired(tsdParams)
 {
-    if (undefined === wrParams.quantity || wrParams.quantity <= 0) {
+    if (undefined === tsdParams.quantity || tsdParams.quantity <= 0) {
         throw new Error('The quantity parameter must be positive number');
     }
 
-    if (undefined === wrParams.from) {
+    if (undefined === tsdParams.from) {
         throw new Error('The from parameter is mandatory');
     }
 
-    if (undefined === wrParams.to) {
+    if (undefined === tsdParams.to) {
         throw new Error('The to parameter is mandatory');
     }
 
-    if (undefined === wrParams.from.renewal) {
+    if (undefined === tsdParams.from.renewal) {
         throw new Error('The from.renewal parameter is mandatory');
     }
 
-    if (undefined === wrParams.to.renewal) {
+    if (undefined === tsdParams.to.renewal) {
         throw new Error('The to.renewal parameter is mandatory');
     }
 
@@ -39,50 +39,58 @@ function testRequired(wrParams)
  * Get object to set into request.workperiod_recover on save
  *
  * @param {apiService}  service
- * @param {Object}      wrParams        Worperiod recover request parmeters from post|put request
+ * @param {Object}      tsdParams        Worperiod recover request parmeters from post|put request
  *
  *
  * @return {Promise}
  */
-function getFieldsToSet(service, wrParams)
+function getFieldsToSet(service, tsdParams)
 {
 
     var deferred = Q.defer();
     var async = require('async');
 
     try {
-        testRequired(wrParams);
+        testRequired(tsdParams);
     } catch (e) {
         deferred.reject(e.message);
         return deferred.promise;
     }
 
 
-    var refTemplate = {
+    function setRenewal(obj, renewal) {
+
+        if (tsdParams.quantity_unit !== renewal.right.quantity_unit) {
+            throw new Error('Quantity unit missmatch');
+        }
+
+        obj.renewal.id = renewal._id;
+        obj.renewal.start = renewal.start;
+        obj.renewal.finish = renewal.finish;
+
+        obj.right = renewal.right.id;
+        obj.name = renewal.right.name;
+    }
+
+    var from = {
         right: null,
         name: null,
-
         renewal: {
             id: null,
             start: null,
             finish: null
-        },
-
-        setRenewal: function(renewal) {
-            this.renewal.id = renewal.id;
-            this.renewal.start = renewal.start;
-            this.renewal.finish = renewal.finish;
-
-            this.right = renewal.right.id;
-            this.name = renewal.right.name;
         }
     };
 
-    var from = {};
-    from.prototype = refTemplate;
-
-    var to = {};
-    to.prototype = refTemplate;
+    var to = {
+        right: null,
+        name: null,
+        renewal: {
+            id: null,
+            start: null,
+            finish: null
+        }
+    };
 
     var fieldsToSet = {
         from: from,
@@ -90,7 +98,7 @@ function getFieldsToSet(service, wrParams)
     };
 
 
-    var renewalModel = service.app.db.models.rightRenewal;
+    var renewalModel = service.app.db.models.RightRenewal;
 
 
     /**
@@ -100,6 +108,7 @@ function getFieldsToSet(service, wrParams)
      * @param {Function} cb         Callback
      */
     function setFromRenewalId(target, id, cb) {
+
         var query = renewalModel.findOne({ _id: id });
         query.populate('right');
 
@@ -108,28 +117,27 @@ function getFieldsToSet(service, wrParams)
                 return cb(err);
             }
 
-            target.setRenewal(renewal);
+            setRenewal(target, renewal);
             cb();
         });
     }
 
 
     // the real quantity from the list of events, must be in the quantity unit of the recover quantity
-    fieldsToSet.quantity = wrParams.quantity;
-
+    fieldsToSet.quantity = tsdParams.quantity;
+    fieldsToSet.quantity_unit = tsdParams.quantity_unit;
 
     async.parallel([
         function(cb) {
-            setFromRenewalId(fieldsToSet.from, fieldsToSet.from.renewal, cb);
+            setFromRenewalId(fieldsToSet.from, tsdParams.from.renewal._id, cb);
         },
         function(cb) {
-            setFromRenewalId(fieldsToSet.to, fieldsToSet.to.renewal, cb);
+            setFromRenewalId(fieldsToSet.to, tsdParams.to.renewal._id, cb);
         }
     ], function(err) {
         if (err) {
             return deferred.reject(err);
         }
-
         deferred.resolve(fieldsToSet);
     });
 
