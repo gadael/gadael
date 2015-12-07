@@ -17,7 +17,7 @@ define([], function() {
 
         $scope.timeSavingAccounts.$promise.then(function(timeSavingAccounts) {
             // default to first available time saving account
-            $scope.targetBeneficiary = timeSavingAccounts[0].beneficiary;
+            $scope.target = timeSavingAccounts[0];
         });
 
         // default request values

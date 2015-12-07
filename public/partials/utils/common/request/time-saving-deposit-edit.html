@@ -2,36 +2,59 @@
 
     <p translate>Using this feature, you save the vacation right entitlement for future use</p>
 
-    <div class="top30">
-        <label for="right_source" translate>Choose from your remnant quantity</label>
-        <select id="right_source" class="form-control" ng-model="from" ng-options="renewal.value as renewal.label group by renewal.group for renewal in rightBeneficiaries">
-        </select>
-	</div>
+    <div class="col-sm-8">
 
-    <div class="top5" ng-if="from">
-        <p><span translate>To pick-up on right</span> <i class="fa fa-asterisk" style="color:{{from.right.type.color}};" title="{{from.right.type.name}}"></i>
-            <strong>{{from.right.name}}</strong></p>
+        <div class="top30">
+            <label for="right_source" translate>Choose from your remnant quantity</label>
+            <select id="right_source" class="form-control" ng-model="from" ng-options="renewal.value as renewal.label group by renewal.group for renewal in rightBeneficiaries">
+            </select>
+        </div>
+
+        <div class="top5" ng-if="from">
+            <p><span translate>To pick-up on right</span> <i class="fa fa-asterisk" style="color:{{from.right.type.color}};" title="{{from.right.type.name}}"></i>
+                <strong>{{from.right.name}}</strong></p>
+        </div>
+
+
+        <div class="top30 row">
+            <div class="col-sm-4 form-group top10">
+                <label for="time_saving_deposit_quantity" translate>Quantity to spare</label>
+                <div class="input-group">
+                <input type="number" class="form-control" id="time_saving_deposit_quantity" ng-model="request.time_saving_deposit[0].quantity" aria-describedby="depositQuantityUnit" />
+                    <span class="input-group-addon" id="depositQuantityUnit">{{from.renewal.available_quantity_dispUnit}}</span>
+                </div>
+            </div>
+
+
+            <div class="form-group col-sm-8 top10">
+                <label for="time_saving_account" translate>Save in account</label>
+                <select id="time_saving_account" class="form-control" ng-model="target" ng-options="tsa as tsa.beneficiary.right.name for tsa in timeSavingAccounts"></select>
+            </div>
+
+
+        </div>
     </div>
 
+    <div class="col-sm-4 top10">
 
-    <div class="top30 row">
-        <div class="form-group col-sm-2 top10">
-            <label for="time_saving_deposit_quantity" translate>Quantity to spare</label>
-            <div class="input-group">
-            <input type="number" class="form-control" id="time_saving_deposit_quantity" ng-model="request.time_saving_deposit[0].quantity" aria-describedby="depositQuantityUnit" />
-                <span class="input-group-addon" id="depositQuantityUnit">{{from.renewal.available_quantity_dispUnit}}</span>
+        <div class="panel panel-default">
+
+            <div class="panel-heading" translate>Saving period</div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt translate>From:</dt><dd>{{target.savingPeriod.start|date}}</dd>
+                    <dt translate>To:</dt><dd>{{target.savingPeriod.finish|date}}</dd>
+                </dl>
+            </div>
+
+            <div class="panel-heading" translate>Current quantity</div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt translate>Actual quantity:</dt><dd>{{target.beneficiary.availableQuantity}}</dd>
+                    <dt translate>Max quantity:</dt><dd>{{target.beneficiary.right.timeSaving.max}}</dd>
+                </dl>
             </div>
         </div>
-
-
-        <div class="form-group col-sm-6 top10">
-            <label for="time_saving_account" translate>Save in account</label>
-            <select id="time_saving_account" class="form-control" ng-model="targetBeneficiary" ng-options="tsa.beneficiary as tsa.beneficiary.right.name for tsa in timeSavingAccounts"></select>
-        </div>
-    </div>
-
-    <div class="top30">
-        <p translate>Quantity in time saving account: {{targetBeneficiary.available_quantity}} {{targetBeneficiary.available_quantity_dispUnit}}</p>
     </div>
 
     <div class="col-sm-12 top30">
