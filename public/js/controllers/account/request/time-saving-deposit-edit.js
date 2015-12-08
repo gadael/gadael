@@ -3,6 +3,20 @@ define([], function() {
     'use strict';
 
 
+    function sortRenewals(renewal1, renewal2) {
+        if (renewal1.finish > renewal2.finish) {
+            return 1;
+        }
+
+        if (renewal2.finish > renewal1.finish) {
+            return -1;
+        }
+
+        return 0;
+    }
+
+
+
 	return ['$scope', '$location', 'Rest', '$routeParams', '$rootScope',
             function($scope, $location, Rest, $routeParams, $rootScope) {
 
@@ -21,11 +35,9 @@ define([], function() {
         });
 
         // default request values
-        $scope.request = {
-            time_saving_deposit: [{
-                quantity: 1
-            }]
-        };
+        $scope.request.time_saving_deposit = [{
+            quantity: 1
+        }];
 
         // prepare select
         $scope.rightBeneficiaries = [];
@@ -35,6 +47,8 @@ define([], function() {
                 if (undefined !== beneficiary.right.timeSaving && beneficiary.right.timeSaving.active) {
                     return;
                 }
+
+                beneficiary.renewals.sort(sortRenewals);
 
                 beneficiary.renewals.forEach(function(renewal) {
 
@@ -52,10 +66,14 @@ define([], function() {
                         group: beneficiary.right.name,
                         label: available+' '+renewal.available_quantity_dispUnit+' up to '+renewal.finish.toLocaleDateString()
                     });
-
                 });
             });
+
+            $scope.from = $scope.rightBeneficiaries[0].value;
         });
+
+
+
 
 
         if ($scope.request.$promise) {
@@ -98,15 +116,19 @@ define([], function() {
             };
 
             $scope.request.time_saving_deposit[0].to = {
-                renewal: $scope.targetBeneficiary.renewal
+                renewal: $scope.target.renewal
             };
 
-            console.log($scope.request);
 
 
             try {
                 $scope.request.ingaSave($scope.back);
             } catch(e) {
+
+                if (undefined === $rootScope.pageAlerts) {
+                    $rootScope.pageAlerts = [];
+                }
+
                 $rootScope.pageAlerts.push({
                     message: e.message,
                     type: 'danger'
