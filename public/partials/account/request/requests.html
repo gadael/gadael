@@ -47,6 +47,20 @@
                         </div>
                     </div>
 
+                    <div class="col-md-5" ng-if="request.time_saving_deposit.length > 0">
+                         <strong translate>Time saving deposit</strong>
+                        <div class="row" ng-repeat="deposit in request.time_saving_deposit">
+                            <div class="col-xs-12">
+                                <span ng-switch="deposit.quantity_unit">
+                                    <span ng-switch-when="D"><span translate translate-n="deposit.quantity" translate-plural="{{deposit.quantity}} days">1 day</span></span>
+                                  <span ng-switch-when="H"><span translate translate-n="deposit.quantity" translate-plural="{{deposit.quantity}} hours">1 hour</span></span>
+                                </span>
+                                {{deposit.from.name}}<br />
+                                <span translate>To</span> {{deposit.to.name}}
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-4 hidden-xs hidden-sm">
                         <span translate>Created the</span><br />
                         {{request.timeCreated|date}}
