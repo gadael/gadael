@@ -24,29 +24,24 @@ exports = module.exports = function(services, app) {
     var Q = require('q');
 
 
-    /**
-     * Get beneficiaries linked to a time saving right
-     * @param {String} accountId
-     * @return {Promise}
-     */
-    function getAccountBeneficiaries(accountId)
+    function getAccount(accountId)
     {
-        var deferred = Q.defer();
-
-        service.app.db.models.Account
+        return service.app.db.models.Account
             .findOne({ _id: accountId})
             .populate('user.id')
-            .exec(function(err, account) {
-
-            if (err) {
-                return deferred.reject(err);
-            }
+            .exec();
+    }
 
 
+    /**
+     * Get beneficiaries linked to a time saving right
+     * @param {Account} account
+     * @return {Promise}
+     */
+    function getAccountBeneficiaries(account)
+    {
+            var deferred = Q.defer();
 
-            if (null === account) {
-                return deferred.reject('Account not found');
-            }
 
             var timeSavingBeneficiaries = [];
 
@@ -80,8 +75,6 @@ exports = module.exports = function(services, app) {
             }, deferred.reject);
 
 
-        });
-
         return deferred.promise;
 
     }
@@ -96,11 +89,21 @@ exports = module.exports = function(services, app) {
     function getRenewals(accountId)
     {
         var async = require('async');
+        var dispUnits = require('../../../../modules/dispunits');
         var deferred = Q.defer();
 
         var results = [], savingPeriod;
+        var user;
 
-        getAccountBeneficiaries(accountId).then(function(timeSavingBeneficiaries) {
+        function getUser(account) {
+            user = account.user.id;
+            return Q(account);
+        }
+
+        getAccount(accountId)
+            .then(getUser)
+            .then(getAccountBeneficiaries)
+            .then(function(timeSavingBeneficiaries) {
 
             async.each(timeSavingBeneficiaries, function(beneficiary, callback) {
 
@@ -108,22 +111,32 @@ exports = module.exports = function(services, app) {
                 beneficiary.right.getAllRenewals().then(function(renewals) {
 
 
+                    async.each(renewals, function(renewal, renewalCb) {
 
-                    for(var i=0; i<renewals.length; i++) {
-                        savingPeriod = renewals[i].getSavingPeriod(beneficiary.right);
+                        savingPeriod = renewal.getSavingPeriod(beneficiary.right);
 
                         if (null === savingPeriod) {
-                            continue;
+                            return renewalCb();
                         }
 
-                        results.push({
-                            savingPeriod: savingPeriod,
-                            renewal: renewals[i],
-                            beneficiary: beneficiary
-                        });
-                    }
+                        renewal.getUserAvailableQuantity(user).then(function(availableQuantity) {
 
-                    callback(null, results);
+                            results.push({
+                                savingPeriod: savingPeriod,
+                                renewal: renewal,
+                                beneficiary: beneficiary,
+                                availableQuantity: availableQuantity,
+                                availableQuantity_dispUnit: dispUnits(beneficiary.right.quantity_unit, availableQuantity)
+                            });
+
+                            renewalCb();
+                        }, renewalCb);
+
+                    }, function(err) {
+                        callback(err, results);
+                    });
+
+
                 });
 
             }, function eachEnd(err) {

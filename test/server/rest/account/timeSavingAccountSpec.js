@@ -151,6 +151,21 @@ describe('time saving account rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             timeSavingAccount = body[0];
+
+            expect(timeSavingAccount.savingPeriod).toBeDefined();
+            expect(timeSavingAccount.renewal).toBeDefined();
+            expect(timeSavingAccount.beneficiary).toBeDefined();
+
+            if (timeSavingAccount.beneficiary) {
+                var beneficiary = timeSavingAccount.beneficiary;
+                expect(beneficiary.right).toBeDefined();
+                expect(beneficiary.right.quantity).toBeDefined();
+
+            }
+
+            expect(timeSavingAccount.availableQuantity).toBeDefined();
+            expect(timeSavingAccount.availableQuantity_dispUnit).toBeDefined();
+
             done();
         });
     });
