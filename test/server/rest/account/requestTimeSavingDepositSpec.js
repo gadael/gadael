@@ -420,6 +420,19 @@ describe('request time saving deposit rest service', function() {
     });
 
 
+    it('list time saving accounts', function(done) {
+        server.get('/rest/account/timesavingaccounts', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            var timeSavingAccount = body[0];
+            expect(timeSavingAccount.availableQuantity).toBeDefined();
+            expect(timeSavingAccount.availableQuantity).toEqual(4);
+
+            done();
+        });
+    });
+
+
     it('delete a request', function(done) {
         server.delete('/rest/account/requests/'+request1._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
