@@ -37,22 +37,26 @@
 
     <div class="col-sm-4 top10">
 
-        <div class="panel panel-default">
+        <div class="panel panel-default" ng-if="target">
 
-            <div class="panel-heading" translate>Saving period</div>
+            <div class="panel-heading">{{target.beneficiary.right.name}}</div>
             <div class="panel-body">
+
+                <dl class="dl-horizontal">
+                    <dt translate>Actual quantity:</dt><dd>{{target.availableQuantity}} {{target.availableQuantity_dispUnit}}</dd>
+                    <dt translate>Max quantity:</dt><dd>{{target.beneficiary.right.timeSaving.max}}</dd>
+                    <dt translate>Accepted deposits:</dt><dd>???</dd>
+                </dl>
+
+                <h4 translate>Saving period</h4>
+
                 <dl class="dl-horizontal">
                     <dt translate>From:</dt><dd>{{target.savingPeriod.start|date}}</dd>
                     <dt translate>To:</dt><dd>{{target.savingPeriod.finish|date}}</dd>
                 </dl>
-            </div>
 
-            <div class="panel-heading" translate>Current quantity</div>
-            <div class="panel-body">
-                <dl class="dl-horizontal">
-                    <dt translate>Actual quantity:</dt><dd>{{target.beneficiary.availableQuantity}}</dd>
-                    <dt translate>Max quantity:</dt><dd>{{target.beneficiary.right.timeSaving.max}}</dd>
-                </dl>
+
+
             </div>
         </div>
     </div>
