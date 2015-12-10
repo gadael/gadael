@@ -321,20 +321,52 @@ exports = module.exports = function(params) {
         return deferred.promise;
     };
     
+    /**
+     * Quantity moved to time saving accounts
+     * sum of quantities in deposits for this renewal
+     *
+     * @param {User} user
+     *
+     * @returns {Promise} resolve to a number
+     */
+    rightRenewalSchema.methods.getUserSavedQuantity = function(user) {
+        var deferred = require('q').defer();
+        var model = this.model('Request');
+        model.find({
+            'time_saving_deposit.from.renewal.id': this._id,
+            'user.id': user._id
+        }, 'time_saving_deposit.quantity', function (err, docs) {
+            if (err) {
+                deferred.reject(err);
+            }
+
+            var deposits = 0;
+            for(var i=0; i<docs.length; i++) {
+                deposits += docs[i].time_saving_deposit[0].quantity;
+            }
+
+            deferred.resolve(deposits);
+        });
+
+        return deferred.promise;
+    };
+
     
     /**
      * Get a user consumed quantity 
-     * sum of quantities in requests from this renewal
+     * sum of quantities in requests and saved from this renewal
+     *
      * @todo duplicated with accountRight object
      * 
      * @param {User} user
      * 
-     * @returns {Number} resolve to a number
+     * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserConsumedQuantity = function(user) {
         var deferred = require('q').defer();
         var model = this.model('AbsenceElem');
-        model.find({ 'right.renewal.id': this._id, 'user.id': user._id }, 'quantity', function (err, docs) {
+        var renewal = this;
+        model.find({ 'right.renewal.id': renewal._id, 'user.id': user._id }, 'quantity', function(err, docs) {
             if (err) {
                 deferred.reject(err);
             }
@@ -344,16 +376,50 @@ exports = module.exports = function(params) {
                 consumed += docs[i].quantity;
             }
             
-            deferred.resolve(consumed);
+            renewal.getUserSavedQuantity(user).then(function(savedQuantity) {
+                deferred.resolve(consumed - savedQuantity);
+            }, deferred.reject);
         });
         
         return deferred.promise;
     };
+
+
+    /**
+     * If the associated right is a time saving account
+     * sum of quantities in deposits for this renewal
+     *
+     * @param {User} user
+     *
+     * @returns {Promise} resolve to a number
+     */
+    rightRenewalSchema.methods.getUserTimeSavingDepositsQuantity = function(user) {
+        var deferred = require('q').defer();
+        var model = this.model('Request');
+        model.find({
+            'time_saving_deposit.to.renewal.id': this._id,
+            'user.id': user._id
+        }, 'time_saving_deposit.quantity', function (err, docs) {
+            if (err) {
+                deferred.reject(err);
+            }
+
+            var deposits = 0;
+            for(var i=0; i<docs.length; i++) {
+                deposits += docs[i].time_saving_deposit[0].quantity;
+            }
+
+            deferred.resolve(deposits);
+        });
+
+        return deferred.promise;
+    };
+
         
     
     /**
      * Get a user available quantity 
-     * the user quantity - the consumed quantity
+     * the user quantity - the consumed quantity + deposits quantity
      *
      * @todo duplicated with accountRight object
      *
@@ -364,8 +430,12 @@ exports = module.exports = function(params) {
         
         var Q = require('q');
         var deferred = Q.defer();
-        Q.all([this.getUserQuantity(user), this.getUserConsumedQuantity(user)]).then(function(arr) {
-            deferred.resolve(arr[0] - arr[1]);
+        Q.all([
+            this.getUserQuantity(user),
+            this.getUserConsumedQuantity(user),
+            this.getUserTimeSavingDepositsQuantity(user)
+        ]).then(function(arr) {
+            deferred.resolve(arr[0] - arr[1] + arr[2]);
         }).catch(deferred.reject);
         
         return deferred.promise;
@@ -381,11 +451,16 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getUserQuantityStats = function(user) {
          var Q = require('q');
         var deferred = Q.defer();
-        Q.all([this.getUserQuantity(user), this.getUserConsumedQuantity(user)]).then(function(arr) {
+        Q.all([
+            this.getUserQuantity(user),
+            this.getUserConsumedQuantity(user),
+            this.getUserTimeSavingDepositsQuantity(user)
+        ]).then(function(arr) {
             deferred.resolve({
                 initial: arr[0],
                 consumed: arr[1],
-                available: (arr[0] - arr[1])
+                deposits: arr[2],
+                available: (arr[0] - arr[1] + arr[2])
             });
         }).catch(deferred.reject);
 
