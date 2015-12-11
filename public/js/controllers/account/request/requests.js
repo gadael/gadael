@@ -34,6 +34,10 @@ define([], function() {
             if (request.workperiod_recover.length > 0) {
                 return '/account/requests/workperiod-recovers/'+request._id;
             }
+
+            if (request.time_saving_deposit.length > 0) {
+                return '/account/requests/time-saving-deposits/'+request._id;
+            }
         };
 
         $scope.getStat = getRequestStat;

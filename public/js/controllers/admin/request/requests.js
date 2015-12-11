@@ -66,6 +66,10 @@ define([], function() {
             if (request.workperiod_recover.length > 0) {
                 return '/admin/requests/workperiod-recovers/'+request._id;
             }
+
+            if (request.time_saving_deposit.length > 0) {
+                return '/admin/requests/time-saving-deposits/'+request._id;
+            }
         };
 
 

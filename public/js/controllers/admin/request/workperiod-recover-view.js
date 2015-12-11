@@ -17,7 +17,7 @@ define([], function() {
         $scope.stat = getRequestStat($scope.request);
 
         $scope.edit = function() {
-            $location.path('/admin/requests/workperiod_recover-edit/'+$scope.request._id);
+            $location.path('/admin/requests/workperiod-recover-edit/'+$scope.request._id);
         };
 
         /**

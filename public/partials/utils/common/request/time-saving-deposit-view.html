@@ -1,0 +1,21 @@
+<div class="row panel panel-primary">
+
+    <h3 class="text-center text-primary"><i class="fa fa-clock-o"></i> <span translate>Time saving deposit</span></h3>
+
+    <div class="col-md-6 top10">
+
+    </div>
+
+    <div class="col-md-6 top10">
+
+        <dl class="dl-horizontal">
+            <dt translate>Status:</dt>                  <dd>{{request.status.title}}</dd>
+            <dt translate>From right:</dt>              <dd>{{request.time_saving_deposit[0].from.name}}</dd>
+            <dt translate>To right:</dt>                <dd>{{request.time_saving_deposit[0].to.name}}</dd>
+        </dl>
+
+    </div>
+</div>
+
+
+<ng-include src="'partials/utils/common/request/request-view-embed.html'"></ng-include>
