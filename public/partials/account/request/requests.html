@@ -30,43 +30,16 @@
                 </div>
 
                 <div class="col-xs-11">
-                    <div class="col-md-5" ng-if="request.absence.distribution.length > 0">
-                         <strong translate>Absence</strong>
-                        <div class="row">
-                            <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
-                            <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
-                        </div>
+
+                    <div class="col-md-5" ng-include="'partials/utils/common/request/request-list-type.html'">
                     </div>
 
-
-                    <div class="col-md-5" ng-if="request.workperiod_recover.length > 0">
-                         <strong translate>Worperiod recover</strong>
-                        <div class="row">
-                            <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
-                            <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
-                        </div>
-                    </div>
-
-                    <div class="col-md-5" ng-if="request.time_saving_deposit.length > 0">
-                         <strong translate>Time saving deposit</strong>
-                        <div class="row" ng-repeat="deposit in request.time_saving_deposit">
-                            <div class="col-xs-12">
-                                <span ng-switch="deposit.quantity_unit">
-                                    <span ng-switch-when="D"><span translate translate-n="deposit.quantity" translate-plural="{{deposit.quantity}} days">1 day</span></span>
-                                  <span ng-switch-when="H"><span translate translate-n="deposit.quantity" translate-plural="{{deposit.quantity}} hours">1 hour</span></span>
-                                </span>
-                                {{deposit.from.name}}<br />
-                                <span translate>To</span> {{deposit.to.name}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 hidden-xs hidden-sm">
+                    <div class="col-md-3 hidden-xs hidden-sm">
                         <span translate>Created the</span><br />
                         {{request.timeCreated|date}}
                     </div>
 
-                    <div class="col-md-3" ng-include="'partials/utils/common/request/request-list-status.html'">
+                    <div class="col-md-4" ng-include="'partials/utils/common/request/request-list-status.html'">
                     </div>
 
                 </div>
