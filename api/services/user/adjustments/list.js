@@ -2,7 +2,7 @@
 
 
 /**
- * The Admin adjustments list service
+ * The user adjustments list service
  */
 
 
