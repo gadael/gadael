@@ -1,5 +1,5 @@
 <div ng-if="request.absence.distribution.length > 0">
-     <strong translate>Absence</strong>
+    <i class="fa fa-calendar text-primary"></i> <strong translate>Absence</strong>
     <div class="row">
         <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
         <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
@@ -8,7 +8,7 @@
 
 
 <div ng-if="request.workperiod_recover.length > 0">
-     <strong translate>Worperiod recover</strong>
+    <i class="fa fa-undo text-primary"></i> <strong translate>Worperiod recover</strong>
     <div class="row">
         <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
         <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
@@ -16,7 +16,7 @@
 </div>
 
 <div ng-if="request.time_saving_deposit.length > 0">
-     <strong translate>Time saving deposit</strong>
+    <i class="fa fa-clock-o text-primary"></i> <strong translate>Time saving deposit</strong>
     <div class="row" ng-repeat="deposit in request.time_saving_deposit">
         <div class="col-xs-3 text-info">
             <strong ng-switch="deposit.quantity_unit">
@@ -25,8 +25,8 @@
             </strong>
         </div>
         <div class="col-xs-9">
-            <span title="{{'From'|translate}}" class="fa fa-sign-out"></span> {{deposit.from.name}}<br />
-            <span title="{{'To'|translate}}" class="fa fa-sign-in"></span> {{deposit.to.name}}
+            <span title="{{'From'|translate}}" class="text-primary fa fa-sign-out"></span> {{deposit.from.name}}<br />
+            <span title="{{'To'|translate}}" class="text-primary fa fa-sign-in"></span> {{deposit.to.name}}
         </div>
     </div>
 </div>

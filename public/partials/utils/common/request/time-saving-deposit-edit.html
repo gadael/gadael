@@ -45,17 +45,21 @@
                 <dl class="dl-horizontal">
                     <dt translate>Actual quantity:</dt><dd>{{target.availableQuantity}} {{target.availableQuantity_dispUnit}}</dd>
                     <dt translate>Max quantity:</dt><dd>{{target.beneficiary.right.timeSaving.max}} {{target.beneficiary.right.timeSaving.max_dispUnit}}</dd>
-                    <dt translate>Accepted deposits:</dt><dd>???</dd>
                 </dl>
 
-                <h4 translate>Saving period</h4>
+                <h4><i class="text-primary fa fa-sign-in"></i> <span translate>Saving period</span></h4>
 
                 <dl class="dl-horizontal">
                     <dt translate>From:</dt><dd>{{target.savingPeriod.start|date}}</dd>
                     <dt translate>To:</dt><dd>{{target.savingPeriod.finish|date}}</dd>
                 </dl>
 
+                <h4><i class="text-primary fa fa-sign-out"></i> <span translate>Usage period</span></h4>
 
+                <dl class="dl-horizontal">
+                    <dt translate>From:</dt><dd>{{target.renewal.start|date}}</dd>
+                    <dt translate>To:</dt><dd>{{target.renewal.finish|date}}</dd>
+                </dl>
 
             </div>
         </div>

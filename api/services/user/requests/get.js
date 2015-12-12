@@ -136,6 +136,13 @@ exports = module.exports = function(services, app) {
                     return recover;
                 });
 
+
+                docObj.time_saving_deposit.map(function(deposit) {
+                    deposit.quantity_dispUnit = getDispUnit(deposit.quantity_unit, deposit.quantity);
+                    return deposit;
+                });
+
+
                 service.outcome.success = true;
                 service.deferred.resolve(docObj);
             }
