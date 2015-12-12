@@ -66,7 +66,7 @@ exports = module.exports = function(params) {
     
     
     /**
-     * The last renwal end date
+     * The last renewal end date
      * @return {Promise}
      */
     rightRenewalSchema.methods.updateMonthlyAdjustment = function()

@@ -258,7 +258,6 @@ function checkElement(service, user, elem)
     var Q = require('q');
     var deferred = Q.defer();
     var RightModel = service.app.db.models.Right;
-    var AccountModel = service.app.db.models.Account;
     var RenewalModel = service.app.db.models.RightRenewal;
 
 
@@ -305,7 +304,7 @@ function checkElement(service, user, elem)
             }
 
 
-            if (!rightDocument.validateRules(renewalDocument, user, elemPeriod.dtstart, elemPeriod.dtend)) {
+            if (!rightDocument.validateRules(renewalDocument, user._id, elemPeriod.dtstart, elemPeriod.dtend)) {
                 return deferred.reject('This renewal is not valid on the period');
             }
 
@@ -314,30 +313,22 @@ function checkElement(service, user, elem)
             // get renewal to save in element
             rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
 
-                AccountModel.findOne({ 'user.id': user  })
-                .exec(function(err, accountDocument) {
 
-                    if (accountDocument.arrival > renewalDocument.finish) {
-                        return deferred.reject('Arrival date must be before renewal finish');
+                if (user.roles.account.arrival > renewalDocument.finish) {
+                    return deferred.reject('Arrival date must be before renewal finish');
+                }
+
+
+                renewal.getUserAvailableQuantity(user).then(function(available) {
+
+                    if (available < elem.quantity) {
+                        return deferred.reject(util.format('The quantity requested on right "%s" is not available', rightDocument.name));
                     }
 
-
-                    renewal.right = rightDocument;
-                    var accountRight = accountDocument.getAccountRight(renewal);
-
-                    accountRight.getAvailableQuantity().then(function(available) {
-
-                        if (available < elem.quantity) {
-                            return deferred.reject(util.format('The quantity requested on right "%s" is not available', rightDocument.name));
-                        }
-
-                        deferred.resolve(true);
-                    });
+                    deferred.resolve(true);
 
 
-                });
-
-
+                }, deferred.reject);
             });
 
         });
@@ -383,7 +374,7 @@ function saveAbsence(service, user, params, collection) {
 
     for(i=0; i<params.distribution.length; i++) {
         elem = params.distribution[i];
-        chekedElementsPromises.push(checkElement(service, user._id, elem));
+        chekedElementsPromises.push(checkElement(service, user, elem));
     }
 
     Q.all(chekedElementsPromises).then(function() {
