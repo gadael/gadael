@@ -1,5 +1,6 @@
 /**
  * @module accountright
+ * @deprecated Replaced by methods on renewal
  */
 
 
