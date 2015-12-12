@@ -119,6 +119,12 @@ exports = module.exports = function(services, app) {
                             return renewalCb();
                         }
 
+                        beneficiary = beneficiary.toObject();
+                        beneficiary.right.timeSaving.max_dispUnit = dispUnits(
+                            beneficiary.right.quantity_unit,
+                            beneficiary.right.timeSaving.max
+                        );
+
                         renewal.getUserAvailableQuantity(user).then(function(availableQuantity) {
 
                             results.push({
