@@ -19,10 +19,10 @@
     <i class="fa fa-clock-o text-primary"></i> <strong translate>Time saving deposit</strong>
     <div class="row" ng-repeat="deposit in request.time_saving_deposit">
         <div class="col-xs-3 text-info">
-            <strong ng-switch="deposit.quantity_unit">
-                <span ng-switch-when="D"><span translate translate-n="deposit.quantity" translate-plural="{{deposit.quantity}} days">1 day</span></span>
-                <span ng-switch-when="H"><span translate translate-n="deposit.quantity" translate-plural="{{deposit.quantity}} hours">1 hour</span></span>
-            </strong>
+            <span ng-switch="deposit.quantity_unit">
+                <span ng-switch-when="D"><span translate translate-n="deposit.quantity" translate-plural="{{deposit.quantity| number}} days">1 day</span></span>
+                <span ng-switch-when="H"><span translate translate-n="deposit.quantity" translate-plural="{{deposit.quantity| number}} hours">1 hour</span></span>
+            </span>
         </div>
         <div class="col-xs-9">
             <span title="{{'From'|translate}}" class="text-primary fa fa-sign-out"></span> {{deposit.from.name}}<br />

@@ -14,11 +14,11 @@
 
         <dl class="dl-horizontal">
             <dt translate>Status:</dt>              <dd>{{request.status.title}}</dd>
-            <dt translate>Total consumption:</dt>   <dd>{{stat.consumed.D}} Days</dd>
+            <dt translate>Total consumption:</dt>   <dd>{{stat.consumed.D| number}} Days</dd>
         </dl>
 
         <dl class="dl-horizontal" ng-if="request.total.duration!==request.total.consumed">
-            <dt translate>Total duration:</dt>      <dd>{{stat.duration.D}} Days</dd>
+            <dt translate>Total duration:</dt>      <dd>{{stat.duration.D| number}} Days</dd>
         </dl>
 
         <dl class="dl-horizontal" ng-if="request.absence.distribution.length===1">
@@ -39,7 +39,7 @@
     <h4 class="text-info"><i class="fa fa-book"></i> <span translate>Rights distribution</span></h4>
     <div class="inga-list-rows">
         <div class="row" ng-repeat="element in request.absence.distribution">
-            <div class="col-md-1">{{element.quantity}} {{element.right.dispUnit}}</div>
+            <div class="col-md-1">{{element.quantity| number}} {{element.right.dispUnit}}</div>
             <div class="col-md-5"><i class="fa fa-asterisk" style="color:{{element.right.type.color}}" title="{{element.right.type.name}}"></i> {{element.right.name}}</div>
             <div class="col-md-6 hidden-xs hidden-sm">
                 <span class="col-md-2">From</span> <span class="col-md-10">{{element.events[0].dtstart|date:'medium'}}</span>

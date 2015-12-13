@@ -15,8 +15,8 @@
         <dl class="dl-horizontal">
             <dt translate>Status:</dt>                  <dd>{{request.status.title}}</dd>
             <dt translate>Selected recovery:</dt>       <dd>{{request.workperiod_recover[0].recoverQuantity.name}}</dd>
-            <dt translate>Worked duration:</dt>         <dd>{{request.workperiod_recover[0].quantity}} {{request.workperiod_recover[0].right.quantity_dispUnit}}</dd>
-            <dt translate>Entitlement quantity:</dt>    <dd>{{request.workperiod_recover[0].gainedQuantity}} {{request.workperiod_recover[0].right.quantity_dispUnit}}</dd>
+            <dt translate>Worked duration:</dt>         <dd>{{request.workperiod_recover[0].quantity| number}} {{request.workperiod_recover[0].right.quantity_dispUnit}}</dd>
+            <dt translate>Entitlement quantity:</dt>    <dd>{{request.workperiod_recover[0].gainedQuantity| number}} {{request.workperiod_recover[0].right.quantity_dispUnit}}</dd>
             <dt translate>Right given name:</dt>        <dd>{{request.workperiod_recover[0].right.name}}</dd>
         </dl>
 
