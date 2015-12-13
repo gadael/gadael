@@ -38,7 +38,8 @@ define([], function() {
 
         var requests = requestResource.query({
             'user.id': $location.search().user,
-            absence: true
+            absence: true,
+            time_saving_deposit: true
         });
 
         $scope.user = userResource.get({id: $location.search().user});

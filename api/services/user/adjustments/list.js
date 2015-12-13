@@ -3,6 +3,7 @@
 
 /**
  * The user adjustments list service
+ * manual quantity adjustments on a renewal-user link
  */
 
 

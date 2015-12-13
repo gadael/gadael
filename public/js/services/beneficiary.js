@@ -70,6 +70,9 @@ define(['q', 'async'], function(Q, async) {
             }
 
 
+            /**
+             * @param {Object} request
+             */
             function getElem(request)
             {
                 if (undefined === request.absence || undefined === request.absence.distribution) {
@@ -89,6 +92,20 @@ define(['q', 'async'], function(Q, async) {
 
 
             /**
+             * @param {Object} request
+             */
+            function getDeposit(request)
+            {
+                if (undefined === request.time_saving_deposit || 1 !== request.time_saving_deposit.length) {
+                    return null;
+                }
+
+                return request.time_saving_deposit[0];
+            }
+
+
+
+            /**
              * requests by date
              */
             function buildRequests() {
@@ -97,14 +114,21 @@ define(['q', 'async'], function(Q, async) {
                 requestsPromise.then(function(requests) {
                     requests.forEach(function(r) {
                         var elem = getElem(r);
-                        if (null === elem) {
-                            return;
+                        if (null !== elem) {
+                            history.push({
+                                position: r.timeCreated, // TODO: must be on approval
+                                add: (-1 * elem.consumedQuantity)
+                            });
                         }
 
-                        history.push({
-                            position: r.timeCreated,
-                            add: (-1 * elem.consumedQuantity)
-                        });
+                        var deposit = getDeposit(r);
+                        if (null !== deposit) {
+                            history.push({
+                                position: r.timeCreated, // TODO: must be on approval
+                                add: deposit.quantity
+                            });
+                        }
+
                     });
 
                     deferred.resolve();
@@ -175,7 +199,17 @@ define(['q', 'async'], function(Q, async) {
 
 
 
-
+        /**
+         * prepare panels for each renewals
+         * prepare graph values
+         *
+         * @param {Scope} $scope
+         * @param beneficiaryContainer
+         * @param requests                  absences to be substracted on quantity
+         *                                  time saving deposits to be added on quantity (for time saving account)
+         * @param adjustmentResourceQuery
+         *
+         */
         function processBeneficiary($scope, beneficiaryContainer, requests, adjustmentResourceQuery)
         {
             beneficiaryContainer.$promise.then(function onLoadBeneficiary(beneficiary) {

@@ -13,7 +13,8 @@ define([], function() {
             var requestResource = Rest.account.requests.getResource();
 
             var requests = requestResource.query({
-                absence: true
+                absence: true,
+                time_saving_deposit: true
             });
 
             Beneficiary.processBeneficiary($scope, beneficiaryContainer, requests, function(renewalId, callback) {
