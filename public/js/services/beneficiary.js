@@ -29,42 +29,50 @@ define(['q', 'async'], function(Q, async) {
             function buildRenewalsWithAdjustments() {
 
                 var deferred = Q.defer();
-                var lastRenewalId = renewals[renewals.length-1]._id;
 
-                renewals.forEach(function(r) {
+                if (renewals.length > 0) {
+                    var lastRenewalId = renewals[renewals.length-1]._id;
+
+                    renewals.forEach(function(r) {
 
 
-                    history.push({
-                        position: r.start,
-                        add: round(r.initial_quantity)
-                    });
-
-                    // process monthly update adjustments
-
-                    if (undefined !== r.adjustments) {
-                        r.adjustments.forEach(function(adjustment) {
-                            history.push({
-                                position: adjustment.from,
-                                add: round(adjustment.quantity)
-                            });
-                        });
-                    }
-
-                    // process manual adjustments
-
-                    r.adjustmentPromise.then(function(adjustments) {
-                        adjustments.forEach(function(adjustment) {
-                            history.push({
-                                position: adjustment.timeCreated,
-                                add: round(adjustment.quantity)
-                            });
+                        history.push({
+                            position: r.start,
+                            add: round(r.initial_quantity)
                         });
 
-                        if (0 === adjustments.length || adjustments[0].rightRenewal === lastRenewalId) {
-                            deferred.resolve();
+                        // process monthly update adjustments
+
+                        if (undefined !== r.adjustments) {
+                            r.adjustments.forEach(function(adjustment) {
+                                history.push({
+                                    position: adjustment.from,
+                                    add: round(adjustment.quantity)
+                                });
+                            });
                         }
+
+                        // process manual adjustments
+
+                        r.adjustmentPromise.then(function(adjustments) {
+                            adjustments.forEach(function(adjustment) {
+                                history.push({
+                                    position: adjustment.timeCreated,
+                                    add: round(adjustment.quantity)
+                                });
+                            });
+
+                            if (0 === adjustments.length || adjustments[0].rightRenewal === lastRenewalId) {
+                                deferred.resolve();
+                            }
+                        });
                     });
-                });
+                } else {
+                    deferred.resolve();
+                }
+
+
+
 
                 return deferred.promise;
             }
@@ -75,6 +83,10 @@ define(['q', 'async'], function(Q, async) {
              */
             function getElem(request)
             {
+                if (0 === renewals.length) {
+                    return null;
+                }
+
                 if (undefined === request.absence || undefined === request.absence.distribution) {
                     return null;
                 }
