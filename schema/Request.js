@@ -41,8 +41,13 @@ exports = module.exports = function(params) {
                                                                         // informations about approval are stored in requestLog sub-documents instead
                                                                         // first position in array is the last approval step (top level department in user deparments ancestors)
 
-        requestLog: [params.embeddedSchemas.RequestLog]					// linear representation of all actions
+        requestLog: [params.embeddedSchemas.RequestLog],				// linear representation of all actions
                                                                         // create, edit, delete, and effectives approval steps
+
+        validInterval: [params.embeddedSchemas.ValidInterval]           // list of dates interval where the request is confirmed
+                                                                        // absence: the quantity is consumed
+                                                                        // time saving deposit: the quantity is available is time saving account
+                                                                        // workperiod recover: the quantity is available in recovery right
     });
 
 
@@ -305,6 +310,32 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Open a validity interval
+     */
+    requestSchema.methods.openValidInterval = function()
+    {
+        this.validInterval.push({
+            start: new Date(),
+            finish: null
+        });
+    };
+
+
+    /**
+     * Close the current validity interval
+     */
+    requestSchema.methods.closeValidInterval = function()
+    {
+        var last = this.validInterval[this.validInterval.length -1];
+
+        if (null !== last.finish) {
+            throw new Error('No open interval found');
+        }
+
+        last.finish = new Date();
+    };
+
 
     /**
      * Update document when an approval step has been accepted
@@ -345,11 +376,13 @@ exports = module.exports = function(params) {
 
             if ('waiting' === this.status.created) {
                 this.status.created = 'accepted';
+                this.openValidInterval();
             }
 
             if ('waiting' === this.status.deleted) {
                 this.status.deleted = 'accepted';
                 this.addLog('delete', user, null, approvalStep);
+                this.closeValidInterval();
             }
 
             // the workflow sheme has ended, remove approval steps list

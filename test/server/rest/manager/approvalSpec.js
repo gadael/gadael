@@ -506,7 +506,9 @@ describe('Approval on absence request', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.status).toBeDefined();
-            expect(body.status.created).toEqual('accepted');
+            if (body.status) {
+                expect(body.status.created).toEqual('accepted');
+            }
             done();
         });
     });

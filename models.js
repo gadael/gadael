@@ -28,6 +28,7 @@ models.load = function() {
     require('./schema/RightAdjustment')(requirements);
     require('./schema/Request_WorkperiodRecover')(requirements);
     require('./schema/Request_TimeSavingDeposit')(requirements);
+    require('./schema/ValidInterval')(requirements);
 
 	//then regular docs
 

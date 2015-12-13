@@ -109,24 +109,27 @@ define(['q', 'async'], function(Q, async) {
              * requests by date
              */
             function buildRequests() {
+
+                function addHistoryQuantity(request, quantity)
+                {
+                    history.push({
+                        position: request.timeCreated,
+                        add: quantity
+                    });
+                }
+
                 var deferred = Q.defer();
 
                 requestsPromise.then(function(requests) {
                     requests.forEach(function(r) {
                         var elem = getElem(r);
                         if (null !== elem) {
-                            history.push({
-                                position: r.timeCreated, // TODO: must be on approval
-                                add: (-1 * elem.consumedQuantity)
-                            });
+                            addHistoryQuantity(r, (-1 * elem.consumedQuantity));
                         }
 
                         var deposit = getDeposit(r);
                         if (null !== deposit) {
-                            history.push({
-                                position: r.timeCreated, // TODO: must be on approval
-                                add: deposit.quantity
-                            });
+                            addHistoryQuantity(r, deposit.quantity);
                         }
 
                     });

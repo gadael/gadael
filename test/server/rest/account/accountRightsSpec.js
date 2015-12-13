@@ -255,6 +255,19 @@ describe('account right rest service', function() {
             expect(body.length).toEqual(2);
 
             if (2 === body.length) {
+
+                body.sort(function(r1, r2) {
+                    if (r1.name > r2.name) {
+                        return 1;
+                    }
+
+                    if (r1.name < r2.name) {
+                        return -1;
+                    }
+
+                    return 0;
+                });
+
                 var r1 = body[0];
                 var r2 = body[1];
 

@@ -406,9 +406,15 @@ describe('request absence admin rest service', function() {
             action: 'wf_accept'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.status.created).toEqual('accepted');
-            var lastLog = body.requestLog[body.requestLog.length -1];
-            expect(lastLog.action).toEqual('wf_end');
+            expect(body.status).toBeDefined();
+            if (body.status) {
+                expect(body.status.created).toEqual('accepted');
+            }
+            expect(body.requestLog).toBeDefined();
+            if (body.requestLog) {
+                var lastLog = body.requestLog[body.requestLog.length -1];
+                expect(lastLog.action).toEqual('wf_end');
+            }
             done();
         });
     });
@@ -460,9 +466,15 @@ describe('request absence admin rest service', function() {
             action: 'wf_accept'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.status.deleted).toEqual('accepted');
-            var lastLog = body.requestLog[body.requestLog.length -1];
-            expect(lastLog.action).toEqual('delete');
+            expect(body.status).toBeDefined();
+            if (body.status) {
+                expect(body.status.deleted).toEqual('accepted');
+            }
+            expect(body.requestLog).toBeDefined();
+            if (body.requestLog) {
+                var lastLog = body.requestLog[body.requestLog.length -1];
+                expect(lastLog.action).toEqual('delete');
+            }
             done();
         });
     });
