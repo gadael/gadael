@@ -75,6 +75,7 @@ exports = module.exports = function(params) {
         var renewal = this;
 
         renewal.getRightPromise().then(function(right) {
+
             renewal.removeFutureAdjustments();
             renewal.createAdjustments(right);
             deferred.resolve(true);

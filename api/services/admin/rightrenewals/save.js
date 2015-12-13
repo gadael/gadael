@@ -44,19 +44,35 @@ function saveRenewal(service, params) {
 
     if (params.id)
     {
-        RightRenewalModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
+        RightRenewalModel.findOne({ _id: params.id }, function(err, document) {
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
-                    document, 
-                    gt.gettext('The right renewal period has been modified')
-                );
+                document.adjustments = document.adjustments.filter(function(a) {
+                    return (null !== a.quantity);
+                });
+
+                document.save(function(err, document) {
+
+                    if (service.handleMongoError(err)) {
+
+                        service.resolveSuccess(
+                            document,
+                            gt.gettext('The right renewal period has been modified')
+                        );
+
+                    }
+
+                });
+
+
             }
         });
 
     } else {
 
-        RightRenewalModel.create(fieldsToSet, function(err, document) {
+        var document = new RightRenewalModel();
+        document.set(fieldsToSet);
+        document.save(function(err, document) {
 
             if (service.handleMongoError(err))
             {

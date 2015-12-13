@@ -110,12 +110,35 @@ define(['q', 'async'], function(Q, async) {
              */
             function buildRequests() {
 
+
+                /**
+                 * Add all valid interval of the request to the graph dates
+                 * @param {Object} request
+                 * @param {Number} quantity
+                 */
                 function addHistoryQuantity(request, quantity)
                 {
-                    history.push({
-                        position: request.timeCreated,
-                        add: quantity
+                    if (undefined === request.validInterval) {
+                        return;
+                    }
+
+                    request.validInterval.forEach(function(validInterval) {
+
+                        history.push({
+                            position: validInterval.start,
+                            add: quantity
+                        });
+
+                        if (null !== validInterval.finish) {
+                            history.push({
+                                position: validInterval.start,
+                                add: (-1 *quantity)
+                            });
+                        }
+
                     });
+
+
                 }
 
                 var deferred = Q.defer();
