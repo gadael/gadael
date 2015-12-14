@@ -29,8 +29,7 @@ exports = module.exports = function(services, app) {
 
     function getUser(userId) {
 
-        var find = service.app.db.models.User.find();
-        find.where('user.id').equals(userId);
+        var find = service.app.db.models.User.findOne({ _id: userId });
         find.populate('department');
 
         return find.exec();
@@ -38,6 +37,11 @@ exports = module.exports = function(services, app) {
 
 
     function getUsers(user) {
+
+        if (null === user) {
+            throw new Error('user not found');
+        }
+
         return user.department.getUsers();
     }
 
@@ -68,6 +72,8 @@ exports = module.exports = function(services, app) {
             // do not give personal informations to collaborators
             // TODO: this could be a parameter
             event.summary = '';
+            event.description = '';
+            event.location = '';
 
             return event;
         });
