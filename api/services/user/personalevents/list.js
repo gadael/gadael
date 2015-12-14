@@ -2,7 +2,7 @@
 
 
 /**
- * The calendar events list service
+ * The personal events list service
  */
 
 
