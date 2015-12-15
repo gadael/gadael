@@ -3,6 +3,8 @@
 
 /**
  * The collaborators list service
+ * list of collaborators in same department with an account role
+ * a property on each collaborator contain the list of events between the two dates given in parameter
  */
 
 var Q = require('q');
@@ -26,7 +28,11 @@ exports = module.exports = function(services, app) {
 
     var service = new services.list(app);
 
+    var collaborators = {};
 
+    /**
+     * @return {Promise}
+     */
     function getUser(userId) {
 
         var find = service.app.db.models.User.findOne({ _id: userId });
@@ -36,6 +42,9 @@ exports = module.exports = function(services, app) {
     }
 
 
+    /**
+     * @return {Promise}
+     */
     function getUsers(user) {
 
         if (null === user) {
@@ -45,6 +54,9 @@ exports = module.exports = function(services, app) {
         return user.department.getUsers();
     }
 
+    /**
+     * @return {Promise}
+     */
     function filterAccounts(users) {
 
         return Q(users.filter(function(user) {
@@ -61,9 +73,26 @@ exports = module.exports = function(services, app) {
     }
 
 
+    function populateCollaborators(userAccounts) {
+
+        userAccounts.forEach(function(user) {
+            if (undefined === collaborators[user.id]) {
+                collaborators[user.id] = user.toObject();
+                collaborators[user.id].events = [];
+            }
+        });
+
+        return Q(userAccounts);
+    }
+
+
+
+    /**
+     * @return {Promise}
+     */
     function addUid(events) {
 
-        return events.map(function(event) {
+        function fixEvent(event) {
             event = event.toObject();
             if (undefined === event.uid || null === event.uid || '' === event.uid) {
                 event.uid = event._id;
@@ -74,10 +103,42 @@ exports = module.exports = function(services, app) {
             event.summary = '';
             event.description = '';
             event.location = '';
-
             return event;
-        });
+        }
+
+        return Q(events.map(fixEvent));
     }
+
+
+
+
+    /**
+     * @return {Promise}
+     */
+    function groupByCollaborator(events) {
+
+
+        events.forEach(function(event) {
+
+            var collaborator = event.user.id;
+
+            if (undefined === collaborators[collaborator.id]) {
+                throw new Error('Missing collaborator');
+            }
+
+            collaborators[collaborator.id].events.push(event);
+        });
+
+        var result = [];
+        for(var id in collaborators) {
+            if ( collaborators.hasOwnProperty(id)) {
+                result.push(collaborators[id]);
+            }
+        }
+
+        return Q(result);
+    }
+
 
 
 
@@ -109,11 +170,16 @@ exports = module.exports = function(services, app) {
 
         function getEvents(userAccounts) {
 
+            var deferred = Q.defer();
+
+
             var find = service.app.db.models.CalendarEvent.find();
 
-            find.where('user.id').in(userAccounts.map(function(u) {
+            var users = userAccounts.map(function(u) {
                 return u.id;
-            }));
+            });
+
+            find.where('user.id').in(users);
 
             find.where('status').in(['TENTATIVE', 'CONFIRMED']);
 
@@ -128,10 +194,20 @@ exports = module.exports = function(services, app) {
                 }
             ]);
 
+            find.populate('user.id');
+            find.exec(function(err, docs) {
 
-            return find.exec();
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                var getExpandedEra = require('../../../../modules/getExpandedEra');
+                var era = getExpandedEra(docs);
+                deferred.resolve(era.periods);
+            });
+
+            return deferred.promise;
         }
-
 
 
 
@@ -140,11 +216,13 @@ exports = module.exports = function(services, app) {
         getUser(params.user)
             .then(getUsers)
             .then(filterAccounts)
+            .then(populateCollaborators)
             .then(getEvents)
             .then(addUid)
+            .then(groupByCollaborator)
             .then(function(objects) {
 
-            service.resolve(objects);
+            service.deferred.resolve(objects);
         }, service.error);
 
         return service.deferred.promise;

@@ -144,8 +144,9 @@ describe('Collaborators', function() {
             dtstart: dtstart.toJSON(),
             dtend: dtend.toJSON()
         }, function(res, body) {
-            console.log(body.$outcome);
+
             expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1); // 1 member in d6
             done();
         });
     });
