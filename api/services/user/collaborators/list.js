@@ -93,7 +93,7 @@ exports = module.exports = function(services, app) {
     function addUid(events) {
 
         function fixEvent(event) {
-            event = event.toObject();
+
             if (undefined === event.uid || null === event.uid || '' === event.uid) {
                 event.uid = event._id;
             }
@@ -122,11 +122,11 @@ exports = module.exports = function(services, app) {
 
             var collaborator = event.user.id;
 
-            if (undefined === collaborators[collaborator.id]) {
+            if (undefined === collaborators[collaborator._id]) {
                 throw new Error('Missing collaborator');
             }
 
-            collaborators[collaborator.id].events.push(event);
+            collaborators[collaborator._id].events.push(event);
         });
 
         var result = [];
@@ -202,7 +202,7 @@ exports = module.exports = function(services, app) {
                 }
 
                 var getExpandedEra = require('../../../../modules/getExpandedEra');
-                var era = getExpandedEra(docs);
+                var era = getExpandedEra(docs, params.dtstart, params.dtend);
                 deferred.resolve(era.periods);
             });
 

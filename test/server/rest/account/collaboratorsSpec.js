@@ -121,7 +121,7 @@ describe('Collaborators', function() {
 
 
 
-    it('Login with the first user from d6', function(done) {
+    it('login with the first user from d6', function(done) {
         expect(accountsByDepartment.d6[0].user).toBeDefined();
         server.post('/rest/login', {
             'username': accountsByDepartment.d6[0].user.email,
@@ -133,12 +133,12 @@ describe('Collaborators', function() {
     });
 
 
-    it('List collaborators availability', function(done) {
+    it('list collaborators availability', function(done) {
 
         var dtstart = new Date();
-        dtstart.setTime(12);
+        dtstart.setDate(dtstart.getDate()-1);
         var dtend = new Date();
-        dtend.setTime(15);
+        dtend.setDate(dtend.getDate()+1);
 
         server.get('/rest/account/collaborators', {
             dtstart: dtstart.toJSON(),
@@ -147,7 +147,68 @@ describe('Collaborators', function() {
 
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1); // 1 member in d6
+
+            if (undefined !== body[0]) {
+                var collaborator = body[0];
+                expect(collaborator.events.length).toEqual(1);
+            }
             done();
         });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('login with the first user from d3', function(done) {
+        expect(accountsByDepartment.d3[0].user).toBeDefined();
+        server.post('/rest/login', {
+            'username': accountsByDepartment.d3[0].user.email,
+            'password': accountsByDepartment.d3[0].password
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('list collaborators availability', function(done) {
+
+        var dtstart = new Date();
+        dtstart.setDate(dtstart.getDate()-1);
+        var dtend = new Date();
+        dtend.setDate(dtend.getDate()+1);
+
+        server.get('/rest/account/collaborators', {
+            dtstart: dtstart.toJSON(),
+            dtend: dtend.toJSON()
+        }, function(res, body) {
+
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(3); // 3 members in d3
+
+            var collaborator = body[0];
+            expect(collaborator.events.length).toEqual(1);
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+
+    it('close the mock server', function(done) {
+        server.close(done);
     });
 });

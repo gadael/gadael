@@ -15,6 +15,11 @@ var jurassic = require('jurassic');
 function getExpandedEra(docs, dtstart, dtend)
 {
 
+    if (!(dtstart instanceof Date) || !(dtend instanceof Date)) {
+        throw new Error('parameters must be dates');
+    }
+
+
     var events = new jurassic.Era();
     var expanded;
 
