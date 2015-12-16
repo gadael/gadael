@@ -77,7 +77,8 @@ define(function() {
                 beneficiaries           : init('account/beneficiaries/:id'),
                 adjustments             : init('account/adjustments/:id'),
                 recoverquantities       : init('account/recoverquantities/:id'),
-                timesavingaccounts      : init('account/timesavingaccounts/:id')
+                timesavingaccounts      : init('account/timesavingaccounts/:id'),
+                collaborators           : init('account/collaborators/:id')
             },
             
             manager: {

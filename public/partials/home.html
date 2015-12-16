@@ -25,3 +25,20 @@
     </div>
 
 </div>
+
+
+<h2>{{sessionUser.department.name}}</h2>
+
+<div class="inga-list-rows">
+    <div ng-repeat="collaborator in collaborators" class="row">
+
+        <img class="img-rounded" ng-src="{{collaborator.image}}" height="35" />
+        <i class="fa fa-user" ng-if="!collaborator.image"></i>
+        {{collaborator.lastname}} {{collaborator.firstname}}
+        <ul ng-if="collaborator.events.length>0">
+            <li ng-repeat="event in collaborator.events">
+                from {{event.dtstart|date:'short'}} to {{event.dtend|date:'short'}}
+            </li>
+        </ul>
+    </div>
+</div>

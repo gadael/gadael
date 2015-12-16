@@ -11,5 +11,19 @@ define([], function() {
             $scope.waitingrequests = waitingRequestResource.query();
 
         }
+
+
+        if ($scope.sessionUser.department) {
+            var collaboratorsResource = Rest.account.collaborators.getResource();
+
+            var endDate = new Date();
+            endDate.setDate(endDate.getDate() + 7);
+
+            $scope.collaborators = collaboratorsResource.query({
+                dtstart: new Date(),
+                dtend: endDate
+            });
+        }
+
 	}];
 });
