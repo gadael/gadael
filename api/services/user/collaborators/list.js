@@ -78,6 +78,7 @@ exports = module.exports = function(services, app) {
         userAccounts.forEach(function(user) {
             if (undefined === collaborators[user.id]) {
                 collaborators[user.id] = user.toObject();
+                collaborators[user.id].workingtimes = [];
                 collaborators[user.id].events = [];
             }
         });
@@ -168,19 +169,13 @@ exports = module.exports = function(services, app) {
         }
 
 
-        function getEvents(userAccounts) {
-
-            var deferred = Q.defer();
-
-
+        /**
+         * @return {Query}
+         */
+        function findEvents(users) {
             var find = service.app.db.models.CalendarEvent.find();
 
-            var users = userAccounts.map(function(u) {
-                return u.id;
-            });
-
             find.where('user.id').in(users);
-
             find.where('status').in(['TENTATIVE', 'CONFIRMED']);
 
             find.or([
@@ -195,7 +190,24 @@ exports = module.exports = function(services, app) {
             ]);
 
             find.populate('user.id');
-            find.exec(function(err, docs) {
+
+            return find;
+        }
+
+
+
+        /**
+         * @return {Promise}
+         */
+        function getEvents(userAccounts) {
+
+            var users = userAccounts.map(function(u) {
+                return u.id;
+            });
+
+            var deferred = Q.defer();
+
+            findEvents(users).exec(function(err, docs) {
 
                 if (err) {
                     return deferred.reject(err);
@@ -210,13 +222,41 @@ exports = module.exports = function(services, app) {
         }
 
 
+        /**
+         * Add working times to collaborators
+         * @param {Array} userAccounts
+         * @return {Promise}
+         */
+        function getWorkingTimes(userAccounts) {
 
+            var deferred = Q.defer();
+
+            var users = [];
+            var promisedWorkingTimes = [];
+            userAccounts.forEach(function(user) {
+                users.push(user.id);
+                promisedWorkingTimes.push(
+                    user.roles.account.getPeriodScheduleEvents(params.dtstart, params.dtend)
+                );
+            });
+
+            Q.all(promisedWorkingTimes).then(function(workingTimes) {
+                for(var i=0; i< workingTimes.length; i++) {
+                    collaborators[users[i]].workingtimes = workingTimes[i].periods;
+                }
+
+                deferred.resolve(userAccounts);
+            });
+
+            return deferred.promise;
+        }
 
 
         getUser(params.user)
             .then(getUsers)
             .then(filterAccounts)
             .then(populateCollaborators)
+            .then(getWorkingTimes)
             .then(getEvents)
             .then(addUid)
             .then(groupByCollaborator)

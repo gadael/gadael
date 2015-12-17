@@ -40,5 +40,11 @@
                 from {{event.dtstart|date:'short'}} to {{event.dtend|date:'short'}}
             </li>
         </ul>
+
+        <ul ng-if="collaborator.workingtimes.length>0">
+            <li ng-repeat="event in collaborator.workingtimes">
+                work from {{event.dtstart|date:'short'}} to {{event.dtend|date:'short'}}
+            </li>
+        </ul>
     </div>
 </div>
