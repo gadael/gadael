@@ -87,7 +87,7 @@ exports = module.exports = function(services, app) {
                 collaborators[user.id].eventsEra = new jurassic.Era();
                 collaborators[user.id].events = [];
 
-                collaborators[user.id].freebusy = [];
+                collaborators[user.id].free = [];
             }
         });
 
@@ -154,13 +154,18 @@ exports = module.exports = function(services, app) {
 
     function createFreeBusy(collaborators) {
 
-        collaborators.forEach(function(collaborator) {
-            collaborator.workscheduleEra.subtractEra(collaborator.eventsEra);
-            collaborator.freebusy = collaborator.workscheduleEra.periods;
+        var collaborator;
 
-            delete collaborator.workscheduleEra;
-            delete collaborator.eventsEra;
-        });
+        for(var id in collaborators) {
+            if (collaborators.hasOwnProperty(id)) {
+                collaborator = collaborators[id];
+                collaborator.workscheduleEra.subtractEra(collaborator.eventsEra);
+                collaborator.free = collaborator.workscheduleEra.periods;
+
+                delete collaborator.workscheduleEra;
+                delete collaborator.eventsEra;
+            }
+        }
 
         return Q(collaborators);
     }
@@ -265,6 +270,9 @@ exports = module.exports = function(services, app) {
             });
 
             Q.all(promisedWorkingTimes).then(function(workingTimes) {
+
+
+
                 for(var i=0; i< workingTimes.length; i++) {
                     collaborators[users[i]].workscheduleEra = workingTimes[i];
                     collaborators[users[i]].workingtimes = addUid(workingTimes[i].periods);
