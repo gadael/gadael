@@ -27,10 +27,13 @@
 </div>
 
 
-<h2>{{sessionUser.department.name}}</h2>
 
-<div class="inga-list-rows">
-    <table class="table table-bordered">
+
+<div class="inga-department">
+
+    <h2>{{sessionUser.department.name}}</h2>
+
+    <table class="table">
         <thead>
             <tr>
                 <td></td>
@@ -49,10 +52,11 @@
 
                 <td class="text-center"
                     ng-repeat="col in collaborator.days"
-                    ng-class="{'danger': !col.free && !col.nonworkingday, 'success': col.free, 'warning': col.nonworkingday,'hidden-xs': $index>7 }"
-                    title="{{col.nonworkingday.summary}}">
+                    ng-class="{'danger': !col.free, 'success': col.free,'hidden-xs': $index>7 }"
+                    >
+                    <i class="text-muted fa fa-times nonworkingday" ng-if="col.nonworkingday" data-title="{{col.nonworkingday.summary}}" bs-tooltip></i>
                     <i ng-repeat="event in col.events"
-                       class="text-muted fa fa-2x"
+                       class="text-muted fa"
                        ng-class="{ 'fa-calendar-check-o': event.status!='TENTATIVE', 'fa-calendar-times-o': event.status=='TENTATIVE' }"
                        data-title="{{event.dtstart|date:'shortTime'}} - {{event.dtend|date:'shortTime'}}" bs-tooltip></i>
                 </td>

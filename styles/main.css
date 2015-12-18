@@ -126,3 +126,20 @@
 .pointer {
     cursor:pointer;
 }
+
+
+.inga-department .table {
+    border-spacing: 6px;
+    border-collapse: separate;
+}
+
+.inga-department .table th,
+.inga-department .table td {
+    border:none;
+    vertical-align:middle;
+}
+
+
+.inga-department .table .nonworkingday {
+    opacity:.5;
+}
