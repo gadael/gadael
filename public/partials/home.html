@@ -30,21 +30,31 @@
 <h2>{{sessionUser.department.name}}</h2>
 
 <div class="inga-list-rows">
-    <div ng-repeat="collaborator in collaborators" class="row">
 
-        <img class="img-rounded" ng-src="{{collaborator.image}}" height="35" />
-        <i class="fa fa-user" ng-if="!collaborator.image"></i>
-        {{collaborator.lastname}} {{collaborator.firstname}}
-        <ul ng-if="collaborator.events.length>0">
-            <li ng-repeat="event in collaborator.events">
-                from {{event.dtstart|date:'short'}} to {{event.dtend|date:'short'}}
-            </li>
-        </ul>
 
-        <ul ng-if="collaborator.workingtimes.length>0">
-            <li ng-repeat="event in collaborator.workingtimes">
-                work from {{event.dtstart|date:'short'}} to {{event.dtend|date:'short'}}
-            </li>
-        </ul>
-    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <td></td>
+                <td></td>
+                <th class="text-center" ng-repeat="col in collaborators[0].days">
+                    {{col.date|date:'d'}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="collaborator in collaborators" class="row">
+                <th>
+                    <img class="img-rounded" ng-src="{{collaborator.image}}" height="35" />
+                    <i class="fa fa-user" ng-if="!collaborator.image"></i>
+                    {{collaborator.lastname}} {{collaborator.firstname}}
+                </th>
+
+                <td class="text-center" ng-repeat="col in collaborators[0].days"  ng-class="{'danger': col.freebusy, 'success': !col.freebusy}">
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
