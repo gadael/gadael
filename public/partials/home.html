@@ -30,15 +30,12 @@
 <h2>{{sessionUser.department.name}}</h2>
 
 <div class="inga-list-rows">
-
-
-
     <table class="table">
         <thead>
             <tr>
                 <td></td>
                 <td></td>
-                <th class="text-center" ng-repeat="col in collaborators[0].days">
+                <th class="text-center" ng-repeat="col in collaborators[0].days" ng-class="{'hidden-xs': $index>7 }">
                     {{col.date|date:'d'}}
                 </th>
             </tr>
@@ -46,12 +43,12 @@
         <tbody>
             <tr ng-repeat="collaborator in collaborators" class="row">
                 <th>
-                    <img class="img-rounded" ng-src="{{collaborator.image}}" height="35" />
-                    <i class="fa fa-user" ng-if="!collaborator.image"></i>
-                    {{collaborator.lastname}} {{collaborator.firstname}}
+                    <img class="img-rounded" ng-src="{{collaborator.image}}" title="{{collaborator.lastname}} {{collaborator.firstname}}" height="35" />
+                    <i class="fa fa-user" ng-if="!collaborator.image" title="{{collaborator.lastname}} {{collaborator.firstname}}"></i>
+                    <span class="hidden-sm hidden-xs">{{collaborator.lastname}} {{collaborator.firstname}}</span>
                 </th>
 
-                <td class="text-center" ng-repeat="col in collaborators[0].days"  ng-class="{'danger': col.freebusy, 'success': !col.freebusy}">
+                <td class="text-center" ng-repeat="col in collaborators[0].days"  ng-class="{'danger': col.freebusy, 'success': !col.freebusy, 'hidden-xs': $index>7 }">
 
                 </td>
             </tr>

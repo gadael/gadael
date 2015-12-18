@@ -140,8 +140,10 @@ exports = module.exports = function(services, app) {
                         return deferred.reject(err);
                     }
 
+                    var dtstart = new Date(params.dtstart);
+                    var dtend = new Date(params.dtend);
 
-                    deferred.resolve(getExpandedEra(docs));
+                    deferred.resolve(getExpandedEra(docs, dtstart, dtend));
                 });
             }
 
@@ -167,7 +169,7 @@ exports = module.exports = function(services, app) {
                 });
 
                 getEventsQuery(service, dtstart, dtend, calId).exec(function(err, docs) {
-                    deferred.resolve(getExpandedEra(docs));
+                    deferred.resolve(getExpandedEra(docs, dtstart, dtend));
                 });
             }, deferred.reject);
 
