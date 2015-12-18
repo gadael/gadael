@@ -75,11 +75,19 @@ exports = module.exports = function(services, app) {
 
     function populateCollaborators(userAccounts) {
 
+        var jurassic = require('jurassic');
+
         userAccounts.forEach(function(user) {
             if (undefined === collaborators[user.id]) {
                 collaborators[user.id] = user.toObject();
+
+                collaborators[user.id].workscheduleEra = null;
                 collaborators[user.id].workingtimes = [];
+
+                collaborators[user.id].eventsEra = new jurassic.Era();
                 collaborators[user.id].events = [];
+
+                collaborators[user.id].freebusy = [];
             }
         });
 
@@ -89,7 +97,7 @@ exports = module.exports = function(services, app) {
 
 
     /**
-     * @return {Promise}
+     * @return {Array}
      */
     function addUid(events) {
 
@@ -107,7 +115,7 @@ exports = module.exports = function(services, app) {
             return event;
         }
 
-        return Q(events.map(fixEvent));
+        return events.map(fixEvent);
     }
 
 
@@ -127,6 +135,7 @@ exports = module.exports = function(services, app) {
                 throw new Error('Missing collaborator');
             }
 
+            collaborators[collaborator._id].eventsEra.addPeriod(event);
             collaborators[collaborator._id].events.push(event);
         });
 
@@ -140,6 +149,21 @@ exports = module.exports = function(services, app) {
         return Q(result);
     }
 
+
+
+
+    function createFreeBusy(collaborators) {
+
+        collaborators.forEach(function(collaborator) {
+            collaborator.workscheduleEra.subtractEra(collaborator.eventsEra);
+            collaborator.freebusy = collaborator.workscheduleEra.periods;
+
+            delete collaborator.workscheduleEra;
+            delete collaborator.eventsEra;
+        });
+
+        return Q(collaborators);
+    }
 
 
 
@@ -215,7 +239,7 @@ exports = module.exports = function(services, app) {
 
                 var getExpandedEra = require('../../../../modules/getExpandedEra');
                 var era = getExpandedEra(docs, params.dtstart, params.dtend);
-                deferred.resolve(era.periods);
+                deferred.resolve(addUid(era.periods));
             });
 
             return deferred.promise;
@@ -242,7 +266,8 @@ exports = module.exports = function(services, app) {
 
             Q.all(promisedWorkingTimes).then(function(workingTimes) {
                 for(var i=0; i< workingTimes.length; i++) {
-                    collaborators[users[i]].workingtimes = workingTimes[i].periods;
+                    collaborators[users[i]].workscheduleEra = workingTimes[i];
+                    collaborators[users[i]].workingtimes = addUid(workingTimes[i].periods);
                 }
 
                 deferred.resolve(userAccounts);
@@ -258,8 +283,8 @@ exports = module.exports = function(services, app) {
             .then(populateCollaborators)
             .then(getWorkingTimes)
             .then(getEvents)
-            .then(addUid)
             .then(groupByCollaborator)
+            .then(createFreeBusy)
             .then(function(objects) {
 
             service.deferred.resolve(objects);
