@@ -1,5 +1,4 @@
 <div class="jumbotron">
-    
 
     <div ng-if="!sessionUser.isAuthenticated">
         <h2 translate>Wellcome to your absence manager</h2>
@@ -18,8 +17,9 @@
 
 
         <div class="col-md-5">
-
-            <h3 class="text-center" translate>{{renewalChart.availableDays}} Days</h3>
+            <h3 class="text-center donutcharttitle">{{renewalChart.availableDays|number}}
+                <span translate translate-n="renewalChart.availableDays" translate-plural="days">day</span>
+            </h3>
 
             <nvd3-pie-chart
                 data="renewalChart.days"
@@ -34,17 +34,17 @@
                 tooltip="true"
                 donut="true"
                 showLabels="true"
-                donutLabelsOutside="true"
                 >
-                <svg></svg>
+                <svg height="250"></svg>
             </nvd3-pie-chart>
-
 
         </div>
 
         <div class="col-md-5">
 
-            <h3 class="text-center" translate>{{renewalChart.availableHours}} Hours</h3>
+            <h3 class="text-center donutcharttitle">{{renewalChart.availableHours|number}}
+                <span translate translate-n="renewalChart.availableHours" translate-plural="hours">hour</span>
+            </h3>
 
             <nvd3-pie-chart
                 data="renewalChart.hours"
@@ -59,7 +59,6 @@
                 tooltip="true"
                 donut="true"
                 showLabels="true"
-                donutLabelsOutside="true"
                 >
                 <svg></svg>
             </nvd3-pie-chart>
@@ -67,13 +66,13 @@
         </div>
 
     </div>
-    
+
     <div ng-if="sessionUser.isAdmin">
         <h2 translate>Administrator</h2>
 
         Get list of last actions
     </div>
-    
+
     <div ng-if="sessionUser.isManager">
         <h2 translate>Manager</h2>
 
@@ -81,7 +80,6 @@
     </div>
 
 </div>
-
 
 
 
