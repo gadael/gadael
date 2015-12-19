@@ -3,18 +3,116 @@ define([], function() {
     'use strict';
     
 	return ['$scope', 'Rest', '$q', function($scope, Rest, $q) {
+
+        var collaboratorsResource;
+        var calendareventsResource;
+
+
+
+        if ($scope.sessionUser.isAccount) {
+
+            var beneficiariesResource = Rest.account.beneficiaries.getResource();
+            collaboratorsResource = Rest.account.collaborators.getResource();
+            calendareventsResource = Rest.account.calendarevents.getResource();
+
+
+            $scope.renewalChart = {
+
+                availableHours: 0,
+                availableDays: 0,
+
+                hours: [],
+                days: [],
+                xFunction: function() {
+                    return function(d) {
+                        return d.right.name;
+                    };
+                },
+                yFunction: function() {
+                    return function(d) {
+                        return d.available_quantity;
+                    };
+                },
+                colorFunction: function() {
+                    return function(d) {
+                        return d.data.right.type.color;
+                    };
+                },
+
+            };
+
+            var beneficiariesQuery = beneficiariesResource.query({});
+
+            beneficiariesQuery.$promise.then(function(beneficiaries) {
+                var consumedHours = 0;
+                var consumedDays = 0;
+
+                var hours = [];
+                var days = [];
+
+
+                for(var i=0; i<beneficiaries.length; i++) {
+                    switch(beneficiaries[i].right.quantity_unit) {
+                        case 'H':
+                            $scope.renewalChart.availableHours += beneficiaries[i].available_quantity;
+                            consumedHours += beneficiaries[i].consumed_quantity;
+                            hours.push(beneficiaries[i]);
+                            break;
+
+                        case 'D':
+                            $scope.renewalChart.availableDays += beneficiaries[i].available_quantity;
+                            consumedDays += beneficiaries[i].consumed_quantity;
+                            days.push(beneficiaries[i]);
+                            break;
+                    }
+                }
+
+                if (consumedHours > 0) {
+                    hours.push({
+                        available_quantity: consumedHours,
+                        right: {
+                            name: 'Consumed',
+                            type: {
+                                color:'#ccc'
+                            }
+                        }
+                    });
+                }
+
+                if (consumedDays > 0) {
+                    days.push({
+                        available_quantity: consumedDays,
+                        right: {
+                            name: 'Consumed',
+                            type: {
+                                color:'#ccc'
+                            }
+                        }
+                    });
+                }
+
+                $scope.renewalChart.hours = hours;
+                $scope.renewalChart.days = days;
+            });
+
+
+        }
+
+
 		
         if ($scope.sessionUser.isManager) {
             // load waiting requests
 
             var waitingRequestResource = Rest.manager.waitingrequests.getResource();
-            $scope.waitingrequests = waitingRequestResource.query();
+            collaboratorsResource = Rest.manager.collaborators.getResource();
+            calendareventsResource = Rest.manager.calendarevents.getResource();
 
+            $scope.waitingrequests = waitingRequestResource.query();
         }
 
 
         if ($scope.sessionUser.department) {
-            var collaboratorsResource = Rest.account.collaborators.getResource();
+
 
             var startDate = new Date();
             startDate.setHours(0,0,0,0);
@@ -27,7 +125,7 @@ define([], function() {
                 dtend: endDate
             });
 
-            var calendareventsResource = Rest.account.calendarevents.getResource();
+
             var nonworkingdaysQuery = calendareventsResource.query({
                 type: 'nonworkingday',
                 dtstart: startDate,
@@ -39,8 +137,6 @@ define([], function() {
 
                 var collaborators = results[0];
                 var nonworkingdays = results[1];
-
-                console.log(nonworkingdays);
 
                 for(var c=0; c<collaborators.length; c++) {
 

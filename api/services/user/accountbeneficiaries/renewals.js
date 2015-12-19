@@ -56,9 +56,7 @@ exports = module.exports = function(user, account) {
                 beneficiary.consumed_quantity += stat.consumed;
                 beneficiary.available_quantity += stat.available;
 
-                beneficiary.initial_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.initial_quantity);
-                beneficiary.consumed_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.consumed_quantity);
-                beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.available_quantity);
+
 
                 renewalCallback();
 

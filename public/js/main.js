@@ -18,7 +18,7 @@ require.config({
         q:                      '../bower_components/q/q',
         async:                  '../bower_components/async/dist/async.min',
         d3:                     '../bower_components/d3/d3.min',
-        nvd3:                   '../bower_components/nvd3/build/nv.d3.min',
+        nvd3:                   '../bower_components/nvd3/nv.d3.min',
         angularnvd3:            '../bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min',
 
         teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',

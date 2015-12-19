@@ -106,7 +106,9 @@ exports = module.exports = function(services, app) {
                 /**
                  * Sum of quantities from the accessibles renewals
                  */
+                beneficiary.initial_quantity = 0;
                 beneficiary.available_quantity = 0;
+                beneficiary.consumed_quantity = 0;
 
                 processRenewals(rightDocument, beneficiary, renewals, function done(err) {
 
@@ -114,7 +116,10 @@ exports = module.exports = function(services, app) {
                         return cb(err);
                     }
 
-                    beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.available_quantity);
+                    beneficiary.initial_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.initial_quantity);
+                    beneficiary.consumed_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.consumed_quantity);
+                    beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.available_quantity);
+
                     output.push(beneficiary);
 
                     cb();

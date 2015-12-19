@@ -23,13 +23,12 @@
     "angular-teleperiod": "#d63492252a3843b487397774606635720cf0bc3f",
     "angular-bootstrap-colorpicker": "~3.0.18",
     "angular-image-crop": "https://github.com/demarchisd/angular-image-crop.git#master",
-    "nvd3": "~1.8.1",
+    "nvd3": "v1.1.15-beta",
     "angularjs-nvd3-directives": "0b50abef73acc104b03360c2a2c2fb64aa7a78df",
     "q": "~1.4.1",
     "async": "~1.4.2"
   },
   "resolutions": {
-    "nvd3": "~1.8.1",
     "d3": "~3.5.3",
     "q": "~1.4.1",
     "angular": "~1.4.8"

@@ -9,7 +9,63 @@
     <div ng-if="sessionUser.isAccount">
         <h2 translate>My account</h2>
 
-        View a planning
+
+        <div class="col-md-2">
+
+        </div>
+
+
+
+
+        <div class="col-md-5">
+
+            <h3 class="text-center" translate>{{renewalChart.availableDays}} Days</h3>
+
+            <nvd3-pie-chart
+                data="renewalChart.days"
+                id="daysChart"
+                width="400"
+                height="400"
+                x="renewalChart.xFunction()"
+                y="renewalChart.yFunction()"
+                color="renewalChart.colorFunction()"
+                showLabels="true"
+                noData="'No ongoing renewal with rights'"
+                tooltip="true"
+                donut="true"
+                showLabels="true"
+                donutLabelsOutside="true"
+                >
+                <svg></svg>
+            </nvd3-pie-chart>
+
+
+        </div>
+
+        <div class="col-md-5">
+
+            <h3 class="text-center" translate>{{renewalChart.availableHours}} Hours</h3>
+
+            <nvd3-pie-chart
+                data="renewalChart.hours"
+                id="hoursChart"
+                width="400"
+                height="400"
+                x="renewalChart.xFunction()"
+                y="renewalChart.yFunction()"
+                color="renewalChart.colorFunction()"
+                showLabels="true"
+                noData="'No ongoing renewal with rights'"
+                tooltip="true"
+                donut="true"
+                showLabels="true"
+                donutLabelsOutside="true"
+                >
+                <svg></svg>
+            </nvd3-pie-chart>
+
+        </div>
+
     </div>
     
     <div ng-if="sessionUser.isAdmin">
