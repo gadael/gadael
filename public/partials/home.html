@@ -9,8 +9,17 @@
         <h2 translate>My account</h2>
 
 
-        <div class="col-md-2">
+        <div class="col-md-2 inga-list-rows">
+            <div class="row" ng-repeat="renewal in renewals">
+                <strong translate>Up to {{renewal.finish|date}}</strong>
 
+                <div ng-repeat="beneficiary in renewal.beneficiaries">
+                    <small>{{right.name}}</small>
+                    <a ng-href="#/account/beneficiaries/{{beneficiary._id}}">
+                        <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}
+                    </a>
+                </div>
+            </div>
         </div>
 
 
@@ -29,7 +38,6 @@
                 x="renewalChart.xFunction()"
                 y="renewalChart.yFunction()"
                 color="renewalChart.colorFunction()"
-                showLabels="true"
                 noData="'No ongoing renewal with rights'"
                 tooltip="true"
                 donut="true"
@@ -54,7 +62,6 @@
                 x="renewalChart.xFunction()"
                 y="renewalChart.yFunction()"
                 color="renewalChart.colorFunction()"
-                showLabels="true"
                 noData="'No ongoing renewal with rights'"
                 tooltip="true"
                 donut="true"

@@ -50,8 +50,52 @@ define([], function() {
                 var hours = [];
                 var days = [];
 
+                /**
+                 * contain renewal finish date and list of beneficiaries
+                 * for reach different renewal finish date
+                 */
+                var renewals = {};
+
+                /**
+                 * Populate beneficiaries by current renewal finish date
+                 * into the renewals
+                 * @param {Object} beneficiary
+                 */
+                function addRenewalIndex(beneficiary) {
+                    var now = new Date();
+                    var flist = beneficiary.renewals.filter(function(r) {
+                        if (now >= r.start && now <= r.finish) {
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    if (1 !== flist.length) {
+                        return null;
+                    }
+
+                    var renewal = flist[0];
+
+                    var key = renewal.finish.toString();
+
+                    if (undefined === renewals[key]) {
+                        renewals[key] = {
+                            finish: renewal.finish,
+                            beneficiaries: []
+                        };
+                    }
+
+                    renewals[key].beneficiaries.push(beneficiary);
+                }
+
+
+
 
                 for(var i=0; i<beneficiaries.length; i++) {
+
+                    addRenewalIndex(beneficiaries[i]);
+
+
                     switch(beneficiaries[i].right.quantity_unit) {
                         case 'H':
                             $scope.renewalChart.availableHours += beneficiaries[i].available_quantity;
@@ -66,6 +110,31 @@ define([], function() {
                             break;
                     }
                 }
+
+
+                var sortedRenewals = [];
+                for(var k in renewals) {
+                    if (renewals.hasOwnProperty(k)) {
+                        sortedRenewals.push(renewals[k]);
+                    }
+                }
+
+                // list of active renewals, the first finishing first
+
+                sortedRenewals.sort(function(r1, r2) {
+                    if (r1.finish < r2.finish) {
+                        return -1;
+                    }
+
+                    if (r1.finish > r2.finish) {
+                        return 1;
+                    }
+
+                    return 0;
+                });
+
+                $scope.renewals = sortedRenewals;
+
 
                 if (consumedHours > 0) {
                     hours.push({
