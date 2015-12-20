@@ -216,23 +216,23 @@ module.exports = function(grunt) {
             token: '410b77f13f631686506a66173f61f835c13f50d53c033747c9b4e7146e892181'
           }
         }
-    }
+    },
 
     
-//    less: {
-//      options: {
-//        compress: true
-//      },
-//      layouts: {
-//        files: {
-//          'public/layouts/core.min.css': [
-//            'public/less/bootstrap-build.less',
-//            'public/less/font-awesome-build.less',
-//            'public/layouts/core.less'
-//          ],
-//          'public/layouts/admin.min.css': ['public/layouts/admin.less']
-//        }
-//      },
+    requirejs: {
+        compile: {
+            options: {
+                baseUrl: "./public/js",
+                mainConfigFile: "public/js/main.js",
+                name: 'app',
+                out: "public/js/build/app.js",
+                insertRequire: ['app'],
+                findNestedDependencies: true,
+                optimize: "none",
+                optimizeCss: "none"
+            }
+        }
+    },
 //      views: {
 //        files: [{
 //          expand: true,
@@ -281,9 +281,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-codeclimate-reporter');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   grunt.registerTask('default', [ 'jshint', 'nodemon']);
-  grunt.registerTask('build', [ 'copy:fonts', 'cssmin']);
+  grunt.registerTask('build', [ 'copy:fonts', 'cssmin', 'requirejs']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('testold', ['karma', 'jasmine_node']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);

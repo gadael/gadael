@@ -12,3 +12,4 @@ public/fonts/*.woff
 po/*.mo
 /doc/
 /coverage/
+/public/js/build/
