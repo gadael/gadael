@@ -224,10 +224,9 @@ module.exports = function(grunt) {
             options: {
                 baseUrl: "./public/js",
                 mainConfigFile: "public/js/main.js",
-                name: 'app',
-                out: "public/js/build/app.js",
-                insertRequire: ['app'],
-                findNestedDependencies: true,
+                name: 'main',
+                out: "public/js/optimized.js",
+                findNestedDependencies: false,
                 optimize: "none",
                 optimizeCss: "none"
             }
