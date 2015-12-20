@@ -35,7 +35,7 @@ require.config({
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
-		'app': ['angular'],
+		'app': ['angular', 'angularSanitize'],
 		'routes': ['angular'],
 		'angularMocks': {
 			deps:['angular'],
@@ -76,8 +76,6 @@ require( [
 	'routes',
 	'angularstraptpl',
 	'angular_frfr',
-//	'angularAnimate',
-	'angularSanitize',
     'angularTeleperiod'
 	], 
 	function(angular, app, Q) {
