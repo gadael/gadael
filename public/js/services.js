@@ -2,6 +2,7 @@ define([
     'angular', 
     'services/loadableResource', 
     'services/catchOutcome', 
+    'services/departmentDays',
     'services/rest',
     'services/absence-edit',
     'services/workperiod-recover-edit',
@@ -13,6 +14,7 @@ define([
        angular,
         loadableResource,
         catchOutcome,
+        departmentDays,
         rest,
         AbsenceEdit,
         WorkperiodRecoverEdit,
@@ -40,6 +42,16 @@ define([
     }])
     
     
+    /**
+     * Prepare scope for the department planning
+     *
+     */
+    .factory('departmentDays', ['$q', function($q) {
+
+        return departmentDays($q);
+    }])
+
+
     .factory('ResourceFactory', 
         ['$resource', function($resource) {
         
