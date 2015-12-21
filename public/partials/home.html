@@ -27,7 +27,8 @@
 
         <div class="col-md-5">
             <h3 class="text-center donutcharttitle">{{renewalChart.availableDays|number}}
-                <span translate translate-n="renewalChart.availableDays" translate-plural="days">day</span>
+                <span translate translate-n="renewalChart.availableDays" translate-plural="days">day</span><br />
+                <small>{{renewalChart.percentDays|number}}% consumed</small>
             </h3>
 
             <nvd3-pie-chart
@@ -39,7 +40,8 @@
                 y="renewalChart.yFunction()"
                 color="renewalChart.colorFunction()"
                 noData="'No ongoing renewal with rights'"
-                tooltip="true"
+                tooltips="true"
+                tooltipcontent="renewalChart.toolTipContentFunction()"
                 donut="true"
                 showLabels="true"
                 >
@@ -51,7 +53,8 @@
         <div class="col-md-5">
 
             <h3 class="text-center donutcharttitle">{{renewalChart.availableHours|number}}
-                <span translate translate-n="renewalChart.availableHours" translate-plural="hours">hour</span>
+                <span translate translate-n="renewalChart.availableHours" translate-plural="hours">hour</span><br />
+                <small>{{renewalChart.percentHours|number}}% consumed</small>
             </h3>
 
             <nvd3-pie-chart
@@ -63,7 +66,8 @@
                 y="renewalChart.yFunction()"
                 color="renewalChart.colorFunction()"
                 noData="'No ongoing renewal with rights'"
-                tooltip="true"
+                tooltips="true"
+                tooltipcontent="renewalChart.toolTipContentFunction()"
                 donut="true"
                 showLabels="true"
                 >

@@ -2,7 +2,7 @@ define([], function() {
         
     'use strict';
     
-	return ['$scope', 'Rest', '$q', function($scope, Rest, $q) {
+	return ['$scope', 'Rest', '$q', 'gettextCatalog', '$filter', function($scope, Rest, $q, gettextCatalog, $filter) {
 
         var collaboratorsResource;
         var calendareventsResource;
@@ -21,8 +21,12 @@ define([], function() {
                 availableHours: 0,
                 availableDays: 0,
 
+                percentDays: 0,
+                percentHours: 0,
+
                 hours: [],
                 days: [],
+
                 xFunction: function() {
                     return function(d) {
                         return d.right.name;
@@ -38,16 +42,33 @@ define([], function() {
                         return d.data.right.type.color;
                     };
                 },
-
+                toolTipContentFunction: function() {
+                    return function(key, quantity, obj) {
+                        return '<div>' + key + '</div>' +
+                            '<p>' +  $filter('number')(quantity) +
+                            ' '+obj.point.available_quantity_dispUnit + '</p>';
+                    };
+                }
             };
 
             var beneficiariesQuery = beneficiariesResource.query({});
 
             beneficiariesQuery.$promise.then(function(beneficiaries) {
+
+
+                var totalHours = 0;
+                var totalDays = 0;
                 var consumedHours = 0;
                 var consumedDays = 0;
 
+                /**
+                 * Items to display in hour chart
+                 */
                 var hours = [];
+
+                /**
+                 * Items to display in day charts
+                 */
                 var days = [];
 
                 /**
@@ -100,12 +121,14 @@ define([], function() {
                         case 'H':
                             $scope.renewalChart.availableHours += beneficiaries[i].available_quantity;
                             consumedHours += beneficiaries[i].consumed_quantity;
+                            totalHours += beneficiaries[i].initial_quantity;
                             hours.push(beneficiaries[i]);
                             break;
 
                         case 'D':
                             $scope.renewalChart.availableDays += beneficiaries[i].available_quantity;
                             consumedDays += beneficiaries[i].consumed_quantity;
+                            totalDays += beneficiaries[i].initial_quantity;
                             days.push(beneficiaries[i]);
                             break;
                     }
@@ -135,33 +158,35 @@ define([], function() {
 
                 $scope.renewals = sortedRenewals;
 
-
-                if (consumedHours > 0) {
-                    hours.push({
-                        available_quantity: consumedHours,
-                        right: {
+                var consumedRight = {
                             name: 'Consumed',
                             type: {
                                 color:'#ccc'
                             }
-                        }
+                        };
+
+
+                if (consumedHours > 0) {
+                    hours.push({
+                        available_quantity: consumedHours,
+                        available_quantity_dispUnit: gettextCatalog.getPlural(consumedHours, 'Hour', 'Hours'),
+                        right: consumedRight
                     });
                 }
 
                 if (consumedDays > 0) {
                     days.push({
                         available_quantity: consumedDays,
-                        right: {
-                            name: 'Consumed',
-                            type: {
-                                color:'#ccc'
-                            }
-                        }
+                        available_quantity_dispUnit: gettextCatalog.getPlural(consumedDays, 'Day', 'Days'),
+                        right: consumedRight
                     });
                 }
 
                 $scope.renewalChart.hours = hours;
+                $scope.renewalChart.percentHours = Math.round(consumedHours*100/totalHours);
+
                 $scope.renewalChart.days = days;
+                $scope.renewalChart.percentDays = Math.round(consumedDays*100/totalDays);
             });
 
 
