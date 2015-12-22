@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="_jumbotron">
 
     <div ng-if="!sessionUser.isAuthenticated">
         <h2 translate>Wellcome to your absence manager</h2>
@@ -9,7 +9,7 @@
         <h2 translate>My account</h2>
 
 
-        <div class="col-md-2 inga-list-rows">
+        <div class="col-sm-4 inga-list-rows">
             <div class="row" ng-repeat="renewal in renewals">
                 <strong translate>Up to {{renewal.finish|date}}</strong>
 
@@ -25,8 +25,8 @@
 
 
 
-        <div class="col-md-5">
-            <h3 class="text-center donutcharttitle">{{renewalChart.availableDays|number}}
+        <div class="col-sm-4 hidden-xs">
+            <h3 class="text-info text-center donutcharttitle">{{renewalChart.availableDays|number}}
                 <span translate translate-n="renewalChart.availableDays" translate-plural="days">day</span><br />
                 <small>{{renewalChart.percentDays|number}}% consumed</small>
             </h3>
@@ -50,9 +50,9 @@
 
         </div>
 
-        <div class="col-md-5">
+        <div class="col-sm-4 hidden-xs">
 
-            <h3 class="text-center donutcharttitle">{{renewalChart.availableHours|number}}
+            <h3 class="text-info text-center donutcharttitle">{{renewalChart.availableHours|number}}
                 <span translate translate-n="renewalChart.availableHours" translate-plural="hours">hour</span><br />
                 <small>{{renewalChart.percentHours|number}}% consumed</small>
             </h3>
@@ -78,23 +78,18 @@
 
     </div>
 
-    <div ng-if="sessionUser.isAdmin">
-        <h2 translate>Administrator</h2>
 
-        Get list of last actions
-    </div>
-
-    <div ng-if="sessionUser.isManager">
+    <div class="top30" ng-if="sessionUser.isManager">
         <h2 translate>Manager</h2>
 
-        Get managed services
+        Get managed services, number of waiting requests
     </div>
 
 </div>
 
 
 
-<div class="inga-department">
+<div class="top30 inga-department">
 
     <h2>{{sessionUser.department.name}}</h2>
 
