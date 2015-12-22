@@ -82,7 +82,8 @@ define(function() {
             
             manager: {
                 waitingrequests         : init('manager/waitingrequests/:id'),
-                collaborators           : init('manager/collaborators/:id')
+                collaborators           : init('manager/collaborators/:id'),
+                departments             : init('manager/departments/:id')
             },
 
             user: {

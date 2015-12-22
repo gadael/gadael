@@ -82,6 +82,7 @@ exports = module.exports = function(app, passport)
 
     controllers.add('./manager/waitingrequests');
     controllers.add('./manager/collaborators');
+    controllers.add('./manager/departments');
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountrights');

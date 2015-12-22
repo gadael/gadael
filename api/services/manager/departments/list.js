@@ -15,6 +15,11 @@ exports = module.exports = function(services, app) {
 
     var service = new services.list(app);
 
+    var userModel = service.app.db.models.User;
+    var departmentModel = service.app.db.models.Department;
+
+
+
     /**
      * Call the requests list service
      *
@@ -25,6 +30,21 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
+        var find = userModel.findOne({ _id: params.user });
+        find.populate('roles.manager');
+        find.exec(function(err, user) {
+            if (service.handleMongoError(err)) {
+                var departments = user.roles.manager.departments;
+
+                if (undefined === departments || null === departments || 0 === departments.length) {
+                    return service.error('No managed departments');
+                }
+
+                departmentModel.find().where('_id').in(departments).exec(function(err, docsObj) {
+                    service.mongOutcome(err, docsObj);
+                });
+            }
+        });
 
         return service.deferred.promise;
     };
