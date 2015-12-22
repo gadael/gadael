@@ -3,6 +3,7 @@ define([
     'services/loadableResource', 
     'services/catchOutcome', 
     'services/departmentDays',
+    'services/renewalChart',
     'services/rest',
     'services/absence-edit',
     'services/workperiod-recover-edit',
@@ -15,6 +16,7 @@ define([
         loadableResource,
         catchOutcome,
         departmentDays,
+        renewalChart,
         rest,
         AbsenceEdit,
         WorkperiodRecoverEdit,
@@ -49,6 +51,16 @@ define([
     .factory('departmentDays', ['$q', function($q) {
 
         return departmentDays($q);
+    }])
+
+
+    /**
+     * Prepare scope for the account renewal chart
+     *
+     */
+    .factory('renewalChart', ['gettextCatalog', '$filter', function(gettextCatalog, $filter) {
+
+        return renewalChart(gettextCatalog, $filter);
     }])
 
 
