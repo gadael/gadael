@@ -15,7 +15,7 @@ define([], function() {
         var personalEvents = Rest.account.personalevents.getResource();
         var users = Rest.user.user.getResource();
         var calendars = Rest.account.calendars.getResource();
-        var calendarEvents = Rest.account.calendarevents.getResource();
+        var calendarEvents = Rest.user.calendarevents.getResource();
         var recoverQuantities = Rest.account.recoverquantities.getResource();
 
 

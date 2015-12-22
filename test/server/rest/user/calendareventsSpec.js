@@ -11,7 +11,7 @@ describe('calendarevents accout rest service', function() {
 
         var helpers = require('../mockServer');
 
-        helpers.mockServer('accountCalendarEvents', function(_mockServer) {
+        helpers.mockServer('userCalendarEvents', function(_mockServer) {
             server = _mockServer;
             done();
         });
@@ -25,7 +25,7 @@ describe('calendarevents accout rest service', function() {
 
 
     it('request calendar events list as anonymous', function(done) {
-        server.get('/rest/account/calendarevents', {}, function(res) {
+        server.get('/rest/user/calendarevents', {}, function(res) {
             expect(res.statusCode).toEqual(401);
             done();
         });
@@ -46,7 +46,7 @@ describe('calendarevents accout rest service', function() {
 
 
     it('request calendar events list as account with missing parameters', function(done) {
-        server.get('/rest/account/calendarevents', {}, function(res, body) {
+        server.get('/rest/user/calendarevents', {}, function(res, body) {
             expect(res.statusCode).toEqual(403);
             expect(body.$outcome.success).toBeFalsy();
             done();
@@ -62,7 +62,7 @@ describe('calendarevents accout rest service', function() {
         dtstart = new Date(2015,1,1).toJSON();
         dtend = new Date(2015,2,1).toJSON();
 
-        server.get('/rest/account/calendarevents', { dtstart: dtstart, dtend: dtend, type: 'workschedule' }, function(res, body) {
+        server.get('/rest/user/calendarevents', { dtstart: dtstart, dtend: dtend, type: 'workschedule' }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBe(0); // no working period defined
             done();
@@ -126,7 +126,7 @@ describe('calendarevents accout rest service', function() {
         dtstart = new Date(2015,1,1).toJSON();
         dtend = new Date(2015,2,1).toJSON();
 
-        server.get('/rest/account/calendarevents', { dtstart: dtstart, dtend: dtend, type: 'workschedule' }, function(res, body) {
+        server.get('/rest/user/calendarevents', { dtstart: dtstart, dtend: dtend, type: 'workschedule' }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeGreaterThan(0); // at least for the working periods
 
@@ -148,7 +148,7 @@ describe('calendarevents accout rest service', function() {
         dtstart = new Date(2015,1,1).toJSON();
         dtend = new Date(2015,2,1).toJSON();
 
-        server.get('/rest/account/calendarevents', {
+        server.get('/rest/user/calendarevents', {
             dtstart: dtstart,
             dtend: dtend,
             type: 'workschedule',
@@ -178,7 +178,7 @@ describe('calendarevents accout rest service', function() {
         dtstart = new Date(2015,9,24,22).toJSON();
         dtend = new Date(2015,2,1).toJSON();
 
-        server.get('/rest/account/calendarevents', {
+        server.get('/rest/user/calendarevents', {
             dtstart: '2015-10-24T22:00:00.000Z',
             dtend: '2015-10-31T23:00:00.000Z',
             type: 'workschedule',

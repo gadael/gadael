@@ -6,7 +6,7 @@ define([], function() {
             function($scope, Rest, $q, departmentDays, renewalChart) {
 
         var collaboratorsResource;
-        var calendareventsResource;
+        var calendareventsResource = Rest.user.calendarevents.getResource();
 
 
 
@@ -14,7 +14,6 @@ define([], function() {
 
             var beneficiariesResource = Rest.account.beneficiaries.getResource();
             collaboratorsResource = Rest.account.collaborators.getResource();
-            calendareventsResource = Rest.account.calendarevents.getResource();
 
 
             renewalChart($scope, beneficiariesResource);
@@ -27,7 +26,6 @@ define([], function() {
 
             var waitingRequestResource = Rest.manager.waitingrequests.getResource();
             collaboratorsResource = Rest.manager.collaborators.getResource();
-            calendareventsResource = Rest.manager.calendarevents.getResource();
 
             $scope.waitingrequests = waitingRequestResource.query();
         }

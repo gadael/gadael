@@ -70,7 +70,6 @@ define(function() {
                 collection              : init('account/collection'),
                 accountrights           : init('account/accountrights/:id'),
                 calendars               : init('account/calendars/:id'),
-                calendarevents          : init('account/calendarevents/:id'),
                 personalevents          : init('account/personalevents/:id'),
                 unavailableevents       : init('account/unavailableevents/:id'),
                 requests                : init('account/requests/:id'),
@@ -82,12 +81,14 @@ define(function() {
             },
             
             manager: {
-                waitingrequests         : init('manager/waitingrequests/:id')
+                waitingrequests         : init('manager/waitingrequests/:id'),
+                collaborators           : init('manager/collaborators/:id')
             },
 
             user: {
                 user                    : init('user'),
-                settings                : init('user/settings')
+                settings                : init('user/settings'),
+                calendarevents          : init('user/calendarevents/:id')
             },
 
             anonymous: {

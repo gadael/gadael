@@ -4,10 +4,10 @@ var ctrlFactory = require('restitute').controller;
 
 
 function listController() {
-    ctrlFactory.list.call(this, '/rest/account/collaborators');
+    ctrlFactory.list.call(this, '/rest/user/calendarevents');
 
     this.controllerAction = function() {
-        this.jsonService(this.service('user/collaborators/list', { user: this.req.user.id, manager: false }));
+        this.jsonService(this.service('user/calendarevents/list', { user: this.req.user.id }));
     };
 }
 listController.prototype = new ctrlFactory.list();

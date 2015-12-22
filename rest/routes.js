@@ -66,11 +66,11 @@ exports = module.exports = function(app, passport)
     
     controllers.add('./user/user');
     controllers.add('./user/settings');
+    controllers.add('./user/calendarevents');
     
     controllers.add('./account/accountrights');
     controllers.add('./account/adjustments');
     controllers.add('./account/calendars');
-    controllers.add('./account/calendarevents');
     controllers.add('./account/personalevents');
     controllers.add('./account/collaborators');
     controllers.add('./account/unavailableevents');
@@ -81,6 +81,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./account/timesavingaccounts');
 
     controllers.add('./manager/waitingrequests');
+    controllers.add('./manager/collaborators');
 	
     controllers.add('./admin/users');
     controllers.add('./admin/accountrights');

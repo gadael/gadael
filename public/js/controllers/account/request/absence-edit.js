@@ -12,7 +12,7 @@ define(['q'], function(Q) {
         
         // resources 
         var calendars = Rest.account.calendars.getResource();
-        var calendarEvents = Rest.account.calendarevents.getResource();
+        var calendarEvents = Rest.user.calendarevents.getResource();
         var personalEvents = Rest.account.personalevents.getResource();
         var accountCollection = Rest.account.collection.getResource();
         var accountRights = Rest.account.accountrights.getResource();
