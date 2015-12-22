@@ -80,9 +80,21 @@
 
 
     <div class="top30" ng-if="sessionUser.isManager">
+
         <h2 translate>Manager</h2>
 
-        Get managed services, number of waiting requests
+        <div class="text-right">
+            <span ng-if="waitingrequests.length == 0"><span translate>Nothing to approve</span></span>
+            <a href="#/manager/waitingrequests" ng-if="waitingrequests.length > 0">
+              <span translate>Requests waiting for approval</span> <span class="badge">{{waitingrequests.length}}</span>
+            </a>
+        </div>
+
+
+        <div class="">
+            Get managed services
+        </div>
+
     </div>
 
 </div>

@@ -2,7 +2,7 @@
 
 
 /**
- * The Admin request list service
+ * The manager waiting request list service
  */
 
 
