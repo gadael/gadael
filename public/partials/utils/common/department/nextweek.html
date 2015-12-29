@@ -1,0 +1,30 @@
+<table class="table">
+    <thead>
+        <tr>
+            <td></td>
+            <th class="text-center" ng-repeat="col in collaborators[0].days" ng-class="{'hidden-xs': $index>7 }">
+                {{col.date|date:'d'}}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="collaborator in collaborators">
+            <th class="active">
+                <img class="img-rounded" ng-src="{{collaborator.image}}" title="{{collaborator.lastname}} {{collaborator.firstname}}" height="35" />
+                <i class="fa fa-user" ng-if="!collaborator.image" title="{{collaborator.lastname}} {{collaborator.firstname}}"></i>
+                <span class="hidden-sm hidden-xs">{{collaborator.lastname}} {{collaborator.firstname}}</span>
+            </th>
+
+            <td class="text-center"
+                ng-repeat="col in collaborator.days"
+                ng-class="{'danger': !col.free, 'success': col.free,'hidden-xs': $index>7 }"
+                >
+                <i class="text-muted fa fa-times nonworkingday" ng-if="col.nonworkingday" data-title="{{col.nonworkingday.summary}}" bs-tooltip></i>
+                <i ng-repeat="event in col.events"
+                   class="text-muted fa"
+                   ng-class="{ 'fa-calendar-check-o': event.status!='TENTATIVE', 'fa-calendar-times-o': event.status=='TENTATIVE' }"
+                   data-title="{{event.dtstart|date:'shortTime'}} - {{event.dtend|date:'shortTime'}}" bs-tooltip></i>
+            </td>
+        </tr>
+    </tbody>
+</table>
