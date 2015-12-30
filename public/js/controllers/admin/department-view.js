@@ -4,11 +4,13 @@ define([], function() {
 	return ['$scope',
 		'$location',
 		'Rest',
-        'departmentDays', function(
+        'departmentDays',
+        '$routeParams', function(
 			$scope,
 			$location,
 			Rest,
-            departmentDays
+            departmentDays,
+            $routeParams
 		) {
 
 		$scope.department = Rest.admin.departments.getFromUrl().loadRouteId();
@@ -16,7 +18,7 @@ define([], function() {
         var collaboratorsResource = Rest.admin.collaborators.getResource();
         var calendareventsResource = Rest.admin.calendarevents.getResource();
 
-        departmentDays($scope, collaboratorsResource, calendareventsResource, 14);
+        departmentDays($scope, collaboratorsResource, calendareventsResource, 14, $routeParams.id);
 
 
 		$scope.cancel = function() {

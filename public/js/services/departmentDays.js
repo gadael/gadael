@@ -9,7 +9,7 @@ define(function() {
      */
     return function createDepartmentDays($q) {
 
-        return function departmentDays($scope, collaboratorsResource, calendareventsResource, nbdays) {
+        return function departmentDays($scope, collaboratorsResource, calendareventsResource, nbdays, department) {
 
             var startDate = new Date();
             startDate.setHours(0,0,0,0);
@@ -17,10 +17,16 @@ define(function() {
 
             endDate.setDate(endDate.getDate() + nbdays);
 
-            $scope.collaborators = collaboratorsResource.query({
+            var collaboratorsParams = {
                 dtstart: startDate,
                 dtend: endDate
-            });
+            };
+
+            if (department !== undefined) {
+                collaboratorsParams.department = department;
+            }
+
+            $scope.collaborators = collaboratorsResource.query(collaboratorsParams);
 
 
             var nonworkingdaysQuery = calendareventsResource.query({
