@@ -167,6 +167,10 @@ define(['angular', 'services'], function (angular) {
 		.controller('AdminDepartments', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/departments', this, $scope, $injector);
 		}])
+
+        .controller('AdminDepartmentView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/department-view', this, $scope, $injector);
+		}])
 		
 		.controller('AdminDepartmentEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/department-edit', this, $scope, $injector);

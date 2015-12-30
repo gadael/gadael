@@ -240,14 +240,20 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/account-schedulecalendars-edit.html',
 			controller: 'AdminAccountScheduleCalendarsEdit'
 		});
+
 		
         
 		$routeProvider.when('/admin/departments', {
 			templateUrl: 'partials/admin/departments.html',
 			controller: 'AdminDepartments'
 		});
+
+        $routeProvider.when('/admin/departments/:id', {
+			templateUrl: 'partials/admin/department-view.html',
+			controller: 'AdminDepartmentView'
+		});
 		
-		$routeProvider.when('/admin/departments/:id', {
+		$routeProvider.when('/admin/department-edit/:id', {
 			templateUrl: 'partials/admin/department-edit.html',
 			controller: 'AdminDepartmentEdit'
 		});
@@ -256,6 +262,8 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/department-edit.html',
 			controller: 'AdminDepartmentEdit'
 		});
+
+
 		
 		$routeProvider.when('/admin/collections', {
 			templateUrl: 'partials/admin/collections.html',

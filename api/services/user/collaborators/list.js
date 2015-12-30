@@ -42,6 +42,28 @@ exports = module.exports = function(services, app) {
     }
 
 
+
+
+
+    function getDepartmentUsers(departmentId) {
+
+        var deferred = Q.defer();
+        var find = service.app.db.models.Department.findOne({ _id: departmentId });
+
+        find.exec(function(err, d) {
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            deferred.resolve(d.getUsers());
+        });
+
+        return deferred.promise;
+    }
+
+
+
+
     /**
      * @return {Promise}
      */
@@ -53,6 +75,11 @@ exports = module.exports = function(services, app) {
 
         return user.department.getUsers();
     }
+
+
+
+
+
 
     /**
      * @return {Promise}
@@ -193,8 +220,14 @@ exports = module.exports = function(services, app) {
             return service.deferred.promise;
         }
 
-        if (undefined === params.user || null === params.user) {
-            return service.error('user parameter is mandatory');
+        if (!params.manager && (undefined === params.user || null === params.user)) {
+            service.error('user parameter is mandatory');
+            return service.deferred.promise;
+        }
+
+        if (params.manager && (undefined === params.department || null === params.department)) {
+            service.error('department parameter is mandatory');
+            return service.deferred.promise;
         }
 
 
@@ -285,8 +318,18 @@ exports = module.exports = function(services, app) {
         }
 
 
-        getUser(params.user)
-            .then(getUsers)
+        var usersPromise;
+
+        if (params.user) {
+            usersPromise = getUser(params.user).then(getUsers);
+        }
+
+        if (params.manager && params.department) {
+            usersPromise = getDepartmentUsers(params.department);
+        }
+
+
+        usersPromise
             .then(filterAccounts)
             .then(populateCollaborators)
             .then(getWorkingTimes)

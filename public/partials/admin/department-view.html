@@ -1,0 +1,25 @@
+<div class="col-sm-9">
+
+    <div class="row panel panel-primary">
+
+        <div class="col-xs-10">
+            <h2>{{department.name}}</h2>
+
+        </div>
+
+        <div class="col-xs-2 text-right">
+            <br />
+            <a ng-href="#/admin/department-edit/{{department._id}}" class="btn btn-info hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
+        </div>
+    </div>
+
+    <div ng-include="'partials/utils/common/department/nextweek.html'"></div>
+
+
+</div>
+
+
+<div class="col-sm-2">
+
+
+</div>
