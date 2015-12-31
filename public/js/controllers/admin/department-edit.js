@@ -2,7 +2,7 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'Rest', function($scope, $location, Rest) {
+	return ['$scope', '$location', 'Rest', '$routeParams', function($scope, $location, Rest, $routeParams) {
 
 		$scope.department = Rest.admin.departments.getFromUrl().loadRouteId();
 
@@ -15,10 +15,11 @@ define([], function() {
 
 
 		$scope.back = function() {
-			$location.path('/admin/departments');
+			$location.path('/admin/departments/'+$routeParams.id);
 		};
 		
 		$scope.saveDepartment = function() {
+            delete $scope.department.managers;
 			$scope.department.ingaSave($scope.back);
 	    };
 	}];

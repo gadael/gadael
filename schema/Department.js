@@ -40,6 +40,7 @@ exports = module.exports = function(params) {
 	departmentSchema.methods.getManagers = function getManagers(callback) {
 		return this.model('Manager')
 			.find({ department: this._id })
+            .populate('user.id', 'lastname firstname email image department isActive timeCreated roles')
 			.exec(callback);
 	};
 

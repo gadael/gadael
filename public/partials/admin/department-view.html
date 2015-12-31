@@ -1,32 +1,37 @@
 
 <div class="row">
 
-    <div class="col-sm-3">
 
-        <div class="panel">
-            Hierarchy
-        </div>
+    <div class="col-xs-10">
+        <h2>{{department.name}}</h2>
 
     </div>
 
-
-    <div class="col-sm-9">
-
-
-        <div class="col-xs-10">
-            <h2>{{department.name}}</h2>
-
-        </div>
-
-        <div class="col-xs-2 text-right">
-            <br />
-            <a ng-href="#/admin/department-edit/{{department._id}}" class="btn btn-info hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
-        </div>
-
+    <div class="col-xs-2 text-right">
+        <br />
+        <a ng-href="#/admin/department-edit/{{department._id}}" class="btn btn-info hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
     </div>
 
+</div>
 
+<div class="row">
 
+    <h3>Managers</h3>
+
+    <div ng-repeat="user in department.managers" class="col-md-3 col-sm-6 col-xs-12">
+        <div class="thumbnail">
+            <img ng-src="{{user.image}}" ng-if="user.image" class="hidden-xs" />
+            <div class="caption">
+                <p>
+                    <strong>{{user.lastname}} {{user.firstname}}</strong><br />
+                    <small>{{user.email}}</small>
+                </p>
+                <div class="text-right">
+                    <a class="btn btn-primary btn-xs hidden-print" ng-href="#/admin/users/{{user._id}}" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
