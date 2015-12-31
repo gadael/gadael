@@ -53,13 +53,18 @@ define([
     inga.config(["$httpProvider", jsondates]);
 	
 
-	inga.run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {
+	inga.run(['$rootScope', '$location', '$http', '$q', function($rootScope, $location, $http, $q) {
 		
 		/**
 		 * Update accessibles items and user informations
 		 * on the main page
+         *
+         * @return {Promise}
 		 */  
 		$rootScope.reloadSession = function() {
+
+            var deferred = $q.defer();
+
 			$http.get('/rest/common').success(function(response) { 
 				
 				for(var prop in response) {
@@ -69,9 +74,11 @@ define([
 				}
 
 				$rootScope.sessionUser.intAuthenticated = response.sessionUser.isAuthenticated ? 1 : 0;
-			});
+
+                deferred.resolve(true);
+			}).error(deferred.reject);
 			
-			
+			return deferred.promise;
 		};
 		
 		// sync with serveur session on app start
@@ -80,8 +87,10 @@ define([
 		$rootScope.logout = function()
 		{
 			$http.get('/rest/logout').success(function() { 
-				$rootScope.reloadSession(); 
-				$location.path("/");
+				$rootScope.reloadSession().then(function() {
+                    $location.path("/");
+                });
+
 			});
 		};
 		

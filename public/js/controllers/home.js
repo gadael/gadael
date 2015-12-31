@@ -30,6 +30,7 @@ define([], function() {
             $scope.waitingrequests = waitingRequestResource.query();
         }
 
+        console.log('scope loaded');
 
         if ($scope.sessionUser.department) {
             departmentDays($scope, collaboratorsResource, calendareventsResource, 14);

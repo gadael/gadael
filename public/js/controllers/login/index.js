@@ -40,7 +40,7 @@ define(['angular'], function(angular) {
 				{
 					// change the sign in button to the user parameters menu
 					// update the main menu
-					$rootScope.reloadSession();
+					var promisedSession = $rootScope.reloadSession();
 
                     addMessages(data.$outcome);
 
@@ -49,7 +49,10 @@ define(['angular'], function(angular) {
 					if ('block' === displayAuthForm || '' === displayAuthForm)
 					{
 						// redirect
-						$location.path("/");
+                        promisedSession.then(function() {
+                            $location.path("/");
+                        });
+
 					} else {
 						
 						// re-send failed HTTP request on 401 status if authentication form displayed 
