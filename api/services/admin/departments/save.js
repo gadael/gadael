@@ -36,6 +36,11 @@ function saveDepartment(service, params) {
         operator: params.operator
     };
 
+    if (params.parent) {
+        fieldsToSet.parent = params.parent._id;
+    }
+
+
     if (params.id)
     {
         DepartmentModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {

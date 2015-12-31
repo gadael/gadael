@@ -12,10 +12,15 @@ define([], function() {
             $scope.department.operator = 'OR';
         }
 
-
+        var departmentsResource = Rest.admin.departments.getResource();
+        $scope.departments = departmentsResource.query();
 
 		$scope.back = function() {
-			$location.path('/admin/departments/'+$routeParams.id);
+            if (undefined !== $routeParams.id) {
+			    $location.path('/admin/departments/'+$routeParams.id);
+            } else {
+                $location.path('/admin/departments');
+            }
 		};
 		
 		$scope.saveDepartment = function() {

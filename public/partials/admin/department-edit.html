@@ -8,6 +8,11 @@
     <input type="text" class="form-control" id="department_name" ng-model="department.name" />
   </div>
     
+  <div class="form-group">
+    <label for="department_parent" translate>Parent department</label>
+      <select class="form-control" ng-model="department.parent" ng-options="dep.name for dep in departments track by dep._id"></select>
+  </div>
+
   <div class="radio top30">
       <label>
         <input type="radio" value="OR" ng-model="department.operator" />

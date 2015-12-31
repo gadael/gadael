@@ -24,6 +24,7 @@ exports = module.exports = function(services, app) {
         
         service.app.db.models.Department
         .findOne({ '_id' : params.id})
+        .populate('parent')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {
