@@ -18,28 +18,34 @@
 
 
 
-
-
-
 <div class="row" ng-if="department.managers.length > 0">
 
     <h3>Managers</h3>
 
-    <div ng-repeat="user in department.managers" class="col-md-3 col-sm-6 col-xs-12">
-        <div class="thumbnail">
-            <img ng-src="{{user.image}}" ng-if="user.image" class="hidden-xs" />
-            <div class="caption">
-                <p>
-                    <strong>{{user.lastname}} {{user.firstname}}</strong><br />
-                    <small>{{user.email}}</small>
-                </p>
-                <div class="text-right">
-                    <a class="btn btn-primary btn-xs hidden-print" ng-href="#/admin/users/{{user._id}}" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a>
+
+    <div class="col-md-12" ng-repeat="appdep in approval">
+        <h4>
+            <i class="text-primary fa fa-arrow-circle-o-down"></i>
+            <span>Approval step {{$index + 1}}</span><br />
+            <small>{{appdep.name}}</small></h4>
+        <div ng-repeat="user in appdep.managers" class="col-md-3 col-sm-6 col-xs-12">
+            <div class="thumbnail">
+                <img ng-src="{{user.image}}" ng-if="user.image" class="hidden-xs" />
+                <div class="caption">
+                    <p>
+                        <strong>{{user.lastname}} {{user.firstname}}</strong><br />
+                        <small>{{user.email}}</small>
+                    </p>
+                    <div class="text-right">
+                        <a class="btn btn-primary btn-xs hidden-print" ng-href="#/admin/users/{{user._id}}" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
+
 
 
 <div class="row top30 inga-department">
@@ -47,7 +53,8 @@
 </div>
 
 
-<div class="row" ng-if="department.subDepartments.length > 0">
+
+<div class="row" ng-if="department.children.length > 0">
 
     <h3>Sub-departments</h3>
 
@@ -60,6 +67,6 @@
 
 
     <ul>
-        <li ng-repeat="subdep in department.subDepartments" ng-include="'tree_item_renderer.html'"></li>
+        <li ng-repeat="subdep in department.children" ng-include="'tree_item_renderer.html'"></li>
     </ul>
 </div>

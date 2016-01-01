@@ -10,7 +10,9 @@
     
   <div class="form-group">
     <label for="department_parent" translate>Parent department</label>
-      <select class="form-control" ng-model="department.parent" ng-options="dep.name for dep in departments track by dep._id"></select>
+      <select class="form-control" ng-model="department.parent" ng-options="dep.name for dep in departments track by dep._id">
+        <option value=""></option>
+      </select>
   </div>
 
   <div class="radio top30">

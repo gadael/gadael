@@ -75,6 +75,21 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Get ancestors
+     * @return {Promise}
+     */
+    departmentSchema.methods.getAncestors = function()
+    {
+        var deferred = Q.defer();
+
+        this.getAncestors(deferred.makeNodeResolver());
+
+        return deferred.promise;
+    };
+
+
+
 
     departmentSchema.index({ 'name': 1 }, { unique: true });
 	departmentSchema.index({ 'parent': 1 });
