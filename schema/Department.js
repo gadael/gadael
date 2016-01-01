@@ -1,5 +1,7 @@
 'use strict';
 
+var Q = require('q');
+
 exports = module.exports = function(params) {
 
     // mongoose-path-tree add a parent field
@@ -46,17 +48,32 @@ exports = module.exports = function(params) {
 
 
     /**
+     * Get sub departments
      * @return {Promise}
      */
     departmentSchema.methods.getSubDepartments = function()
     {
-        var Q = require('q');
         var deferred = Q.defer();
 
         this.getChildren(true, deferred.makeNodeResolver());
 
         return deferred.promise;
     };
+
+
+    /**
+     * Get sub departments tree
+     * @return {Promise}
+     */
+    departmentSchema.methods.getSubTree = function()
+    {
+        var deferred = Q.defer();
+
+        this.getChildrenTree(deferred.makeNodeResolver());
+
+        return deferred.promise;
+    };
+
 
 
     departmentSchema.index({ 'name': 1 }, { unique: true });

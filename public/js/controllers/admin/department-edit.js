@@ -25,6 +25,7 @@ define([], function() {
 		
 		$scope.saveDepartment = function() {
             delete $scope.department.managers;
+            delete $scope.department.subDepartments;
 			$scope.department.ingaSave($scope.back);
 	    };
 	}];

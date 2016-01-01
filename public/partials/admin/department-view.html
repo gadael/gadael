@@ -14,7 +14,14 @@
 
 </div>
 
-<div class="row">
+
+
+
+
+
+
+
+<div class="row" ng-if="department.managers.length > 0">
 
     <h3>Managers</h3>
 
@@ -37,4 +44,22 @@
 
 <div class="row top30 inga-department">
     <div ng-include="'partials/utils/common/department/nextweek.html'"></div>
+</div>
+
+
+<div class="row" ng-if="department.subDepartments.length > 0">
+
+    <h3>Sub-departments</h3>
+
+    <script type="text/ng-template"  id="tree_item_renderer.html">
+        <a href="#/admin/departments/{{subdep._id}}">{{subdep.name}}</a>
+        <ul>
+            <li ng-repeat="subdep in subdep.children" ng-include="'tree_item_renderer.html'"></li>
+        </ul>
+    </script>
+
+
+    <ul>
+        <li ng-repeat="subdep in department.subDepartments" ng-include="'tree_item_renderer.html'"></li>
+    </ul>
 </div>

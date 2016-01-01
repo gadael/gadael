@@ -3,15 +3,12 @@
 
 exports = module.exports = function(services, app) {
     
+    var Q = require('q');
     var Gettext = require('node-gettext');
     var gt = new Gettext();
 
     var service = new services.get(app);
     
-
-
-
-
 
 
     /**
@@ -29,14 +26,25 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err))
             {
                 if (document) {
-                    document.getManagers().then(function(arr) {
+
+                    var managersPromise = document.getManagers();
+                    var subDepartmentsPromise = document.getSubTree();
+
+                    Q.all([managersPromise, subDepartmentsPromise]).then(function(arr) {
                         document = document.toObject();
                         document.managers = [];
-                        arr.forEach(function(manager) {
+                        document.subDepartments = [];
+
+                        arr[0].forEach(function(manager) {
                             if (manager.user.id.isActive) {
                                 document.managers.push(manager.user.id);
                             }
                         });
+
+                        arr[1].forEach(function(subdep) {
+                            document.subDepartments.push(subdep);
+                        });
+
                         service.deferred.resolve(document);
                     }, service.error);
 

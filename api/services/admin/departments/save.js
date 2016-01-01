@@ -43,20 +43,27 @@ function saveDepartment(service, params) {
 
     if (params.id)
     {
-        DepartmentModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
-            if (service.handleMongoError(err))
-            {
-                service.resolveSuccess(
-                    document, 
-                    gt.gettext('The department has been modified')
-                );
+        DepartmentModel.findOne({ _id: params.id }, function(err, document) {
+            if (service.handleMongoError(err)) {
+                document.set(fieldsToSet);
+                document.save(function(err, document) {
+                    if (service.handleMongoError(err)) {
+                        service.resolveSuccess(
+                            document,
+                            gt.gettext('The department has been modified')
+                        );
+                    }
+                });
+
+
             }
         });
 
     } else {
 
-        DepartmentModel.create(fieldsToSet, function(err, document) {
-
+        var document = new DepartmentModel();
+        document.set(fieldsToSet);
+        document.save(function(err, document) {
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
