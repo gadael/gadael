@@ -41,7 +41,7 @@ define([], function() {
         var collaboratorsResource = Rest.admin.collaborators.getResource();
         var calendareventsResource = Rest.admin.calendarevents.getResource();
 
-        departmentDays($scope, collaboratorsResource, calendareventsResource, 14, $routeParams.id);
+        departmentDays($scope, collaboratorsResource, calendareventsResource, 14, $routeParams.id, true);
 
 
 		$scope.cancel = function() {

@@ -7,9 +7,9 @@ define(function() {
     /**
      * Prepare scope variables for departments visualization
      */
-    return function createDepartmentDays($q) {
+    return function createDepartmentDays($q, $location) {
 
-        return function departmentDays($scope, collaboratorsResource, calendareventsResource, nbdays, department) {
+        return function departmentDays($scope, collaboratorsResource, calendareventsResource, nbdays, department, adminLink) {
 
             var startDate = new Date();
             startDate.setHours(0,0,0,0);
@@ -26,8 +26,20 @@ define(function() {
                 collaboratorsParams.department = department;
             }
 
+            if (adminLink === undefined) {
+                adminLink = false;
+            }
+
+            $scope.adminLink = adminLink;
             $scope.collaborators = collaboratorsResource.query(collaboratorsParams);
 
+            $scope.viewCollaborator = function(collaborator) {
+                if (!$scope.adminLink) {
+                    return;
+                }
+
+                $location.path('/admin/users/'+collaborator._id);
+            };
 
             var nonworkingdaysQuery = calendareventsResource.query({
                 type: 'nonworkingday',

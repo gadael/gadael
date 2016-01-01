@@ -48,9 +48,9 @@ define([
      * Prepare scope for the department planning
      *
      */
-    .factory('departmentDays', ['$q', function($q) {
+    .factory('departmentDays', ['$q', '$location', function($q, $location) {
 
-        return departmentDays($q);
+        return departmentDays($q, $location);
     }])
 
 
