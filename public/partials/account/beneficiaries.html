@@ -23,11 +23,16 @@
             </div>
 
 
-            <div class="col-md-4">
-                <dl class="top15">
+            <div class="col-md-4" ng-init="renewal = getCurrentPeriod(beneficiary.renewals)">
+                <dl class="top15" ng-if="renewal">
                     <dt translate>Period end</dt>
-                    <dd>{{getCurrentPeriod(beneficiary.renewals).finish|date}}</dd>
+                    <dd><i class="fa fa-long-arrow-right text-primary"></i> {{renewal.finish|date}}</dd>
                 </dl>
+
+                <div ng-if="!renewal">
+                    <i class="fa fa-times-circle text-danger"></i>
+                    <span translate>No open period</span>
+                </div>
             </div>
 
         </div>
