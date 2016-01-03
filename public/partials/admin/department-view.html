@@ -48,7 +48,9 @@
 
 
 
-<div class="row top30 inga-department">
+<div class="row top60 inga-department" ng-repeat="department in allDepartments">
+    <h4>{{department.name}}</h4>
+
     <div ng-include="'partials/utils/common/department/nextweek.html'"></div>
 </div>
 

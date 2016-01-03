@@ -9,7 +9,12 @@ define(function() {
      */
     return function createDepartmentDays($q, $location) {
 
-        return function departmentDays($scope, collaboratorsResource, calendareventsResource, nbdays, department, adminLink) {
+        /**
+         * @return {Object} scope variable
+         */
+        return function departmentDays(collaboratorsResource, calendareventsResource, nbdays, department, adminLink) {
+
+            var scopeOutput = {};
 
             var startDate = new Date();
             startDate.setHours(0,0,0,0);
@@ -30,11 +35,11 @@ define(function() {
                 adminLink = false;
             }
 
-            $scope.adminLink = adminLink;
-            $scope.collaborators = collaboratorsResource.query(collaboratorsParams);
+            scopeOutput.adminLink = adminLink;
+            scopeOutput.collaborators = collaboratorsResource.query(collaboratorsParams);
 
-            $scope.viewCollaborator = function(collaborator) {
-                if (!$scope.adminLink) {
+            scopeOutput.viewCollaborator = function(collaborator) {
+                if (!scopeOutput.adminLink) {
                     return;
                 }
 
@@ -48,7 +53,7 @@ define(function() {
             });
 
 
-            $q.all([$scope.collaborators.$promise, nonworkingdaysQuery.$promise]).then(function(results) {
+            $q.all([scopeOutput.collaborators.$promise, nonworkingdaysQuery.$promise]).then(function(results) {
 
                 var collaborators = results[0];
                 var nonworkingdays = results[1];
@@ -119,6 +124,8 @@ define(function() {
                 }
 
             });
+
+            return scopeOutput;
         };
     };
 });

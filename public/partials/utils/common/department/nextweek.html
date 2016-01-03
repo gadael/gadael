@@ -2,13 +2,13 @@
     <thead>
         <tr>
             <td></td>
-            <th style="min-width:5ex" class="text-center" ng-repeat="col in collaborators[0].days" ng-class="{'hidden-xs': $index>7 }">
+            <th style="min-width:5ex" class="text-center" ng-repeat="col in department.days.collaborators[0].days" ng-class="{'hidden-xs': $index>7 }">
                 <span data-title="{{col.date|date}}" bs-tooltip>{{col.date|date:'d'}}</span>
             </th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="collaborator in collaborators">
+        <tr ng-repeat="collaborator in department.days.collaborators">
             <th class="active" ng-class="{ 'btn-link': adminLink }" ng-click="viewCollaborator(collaborator)">
                 <img class="img-rounded" ng-src="{{collaborator.image}}" data-title="{{collaborator.lastname}} {{collaborator.firstname}}" height="35" bs-tooltip />
                 <i class="fa fa-user" ng-if="!collaborator.image" title="{{collaborator.lastname}} {{collaborator.firstname}}"></i>
