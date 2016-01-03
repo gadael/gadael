@@ -9,7 +9,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="collaborator in department.days.collaborators">
-            <th class="active" ng-class="{ 'btn-link': adminLink }" ng-click="viewCollaborator(collaborator)">
+            <th class="active" ng-class="{ 'btn-link': department.days.adminLink }" ng-click="department.days.viewCollaborator(collaborator)">
                 <img class="img-rounded" ng-src="{{collaborator.image}}" data-title="{{collaborator.lastname}} {{collaborator.firstname}}" height="35" bs-tooltip />
                 <i class="fa fa-user" ng-if="!collaborator.image" title="{{collaborator.lastname}} {{collaborator.firstname}}"></i>
                 <span class="hidden-sm hidden-xs">{{collaborator.lastname}} {{collaborator.firstname}}</span>

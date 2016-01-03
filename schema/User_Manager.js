@@ -46,6 +46,11 @@ exports = module.exports = function(params) {
             // for each department, get the sub-departments list
             for(var i =0; i<manager.department.length; i++) {
                 mainDep = manager.department[i];
+
+                if (!mainDep) {
+                    continue;
+                }
+
                 departments.push(mainDep);
                 subDepPromises.push(mainDep.getSubDepartments());
             }
