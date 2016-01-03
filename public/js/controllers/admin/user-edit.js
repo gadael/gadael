@@ -23,6 +23,11 @@ define([], function() {
                 $scope.user.isAdmin 	= ($scope.user.roles && $scope.user.roles.admin 	!== undefined && $scope.user.roles.admin 	!== null);
                 $scope.user.isManager 	= ($scope.user.roles && $scope.user.roles.manager 	!== undefined && $scope.user.roles.manager 	!== null);
 
+                if ($scope.user.isManager) {
+                    $scope.user.roles.manager.department = $scope.user.roles.manager.department.map(function(d) {
+                        return d._id;
+                    });
+                }
             });
         }
                 
