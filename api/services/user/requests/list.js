@@ -24,9 +24,16 @@ var query = function(service, params) {
         params['status.deleted'] = [params['status.deleted']];
     }
 
+
     var find = service.app.db.models.Request.find();
     find.where('status.deleted').in(params['status.deleted']);
 
+    if (params['status.created'] !== undefined) {
+        if (!(params['status.created'] instanceof Array)) {
+            params['status.created'] = [params['status.created']];
+        }
+        find.where('status.created').in(params['status.created']);
+    }
 
     if (undefined !== params['user.id']) {
         find.where({ 'user.id': params['user.id'] });
