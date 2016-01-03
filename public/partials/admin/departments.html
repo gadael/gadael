@@ -16,14 +16,24 @@
 				</begriffs.pagination>
 			</div>
 		</div>
-		
+
 		
 		<div class="inga-list-rows">
 			<div class="row" ng-repeat="department in departments">
-				<div class="col-md-12">
+				<div class="col-sm-10">
 					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/departments/{{department._id}}" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a>
 					 &nbsp; {{department.name}}
 				</div>
+
+                <div class="col-sm-2">
+                    <a ng-if="department.children.length > 0"
+                       title="{{'View sub-departments'|translate}}"
+                       data-content-template="partials/utils/common/department/listpopover.html"
+                       data-auto-close="1"
+                       bs-popover>
+                          <i class="fa fa-sitemap"></i>
+                    </a>
+                </div>
 			</div>
 		</div>
 

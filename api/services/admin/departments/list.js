@@ -34,6 +34,7 @@ var query = function(service, params) {
 exports = module.exports = function(services, app) {
     
     var service = new services.list(app);
+    var Q = require('q');
     
     /**
      * Call the departments list service
@@ -46,8 +47,25 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params, paginate) {
         
         service.resolveQuery(
-            query(service, params).select('name operator').sort('name'),
-            paginate
+            query(service, params).select('name operator path parent').sort('name'),
+            paginate,
+            function(err, docs) {
+
+                var subtreePromises = [];
+                var objects = docs.map(function(department) {
+                    var o = department.toObject();
+                    subtreePromises.push(department.getSubTree());
+                    return o;
+                });
+
+                Q.all(subtreePromises).then(function(resolvedTrees) {
+                    for (var i=0; i<objects.length; i++) {
+                        objects[i].children = resolvedTrees[i];
+                    }
+
+                    service.deferred.resolve(objects);
+                });
+            }
         );
 
         return service.deferred.promise;
