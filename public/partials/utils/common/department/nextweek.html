@@ -8,7 +8,7 @@
                     </a>
                 </strong>
             </td>
-            <th style="width:7ex" class="text-center" ng-repeat="col in department.days.collaborators[0].days" ng-class="{'hidden-xs': $index>7 }">
+            <th style="width:7ex" class="text-center vgradiant" ng-repeat="col in department.days.collaborators[0].days" ng-class="{'hidden-xs': $index>7 }">
                 <span data-title="{{col.date|date}}" bs-tooltip>{{col.date|date:'d'}}</span>
             </th>
         </tr>

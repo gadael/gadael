@@ -5,12 +5,11 @@ define([], function() {
 		'$location',
 		'Rest',
         'departmentDays',
-        '$routeParams', function(
+         function(
 			$scope,
 			$location,
 			Rest,
-            departmentDays,
-            $routeParams
+            departmentDays
 		) {
 
 		$scope.department = Rest.admin.departments.getFromUrl().loadRouteId();
