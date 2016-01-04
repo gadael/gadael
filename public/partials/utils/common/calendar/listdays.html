@@ -1,0 +1,18 @@
+<div class="col-md-2 hidden-sm hidden-xs">
+
+    <ul class="nav bs-sidenav" bs-scrollspy-list>
+      <li ng-repeat="year in listyears">
+        <a href="#year{{year.y}}">{{year.y}}</a>
+        <ul class="nav">
+          <li ng-repeat="month in year.months"><a href="#month{{year.y}}{{month.m}}">{{month.label}}</a></li>
+        </ul>
+      </li>
+    </ul>
+
+</div>
+
+
+<div class="col-md-10">
+
+    The calendar
+</div>

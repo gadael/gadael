@@ -10,6 +10,7 @@ define([
     'services/user-edit',
     'services/request-stat',
     'services/beneficiary',
+    'services/calendar',
     'angularResource'], 
     function (
        angular,
@@ -22,7 +23,8 @@ define([
         WorkperiodRecoverEdit,
         UserEdit,
         getRequestStat,
-        initBeneficiary) {
+        initBeneficiary,
+        getCalendar) {
     
 	'use strict';
     
@@ -341,11 +343,21 @@ define([
     })
 
     /**
-     * Load the collection of REST services
+     * Load the Beneficiary service
      */
     .factory('Beneficiary', ['decimalAdjust', 'gettext',
         function(decimalAdjust, gettext) {
             return initBeneficiary(decimalAdjust, gettext);
+        }
+    ])
+
+
+    /**
+     * Load the collection of REST services
+     */
+    .factory('Calendar', ['gettext',
+        function(gettext) {
+            return getCalendar(gettext);
         }
     ]);
 });

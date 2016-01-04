@@ -127,6 +127,20 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/account/beneficiary-view.html',
 			controller: 'AccountBeneficiaryView'
 		});
+
+
+
+        $routeProvider.when('/account/calendar/:year/:month', {
+			templateUrl: 'partials/account/calendar.html',
+			controller: 'AccountCalendarView'
+		});
+
+        $routeProvider.when('/account/calendar/:year/:month/:day', {
+			templateUrl: 'partials/account/calendar.html',
+			controller: 'AccountCalendarView'
+		});
+
+
 		
 		// department managers pages
 
