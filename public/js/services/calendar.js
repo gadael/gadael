@@ -5,7 +5,28 @@ define([], function() {
 
     return function loadCalendarService(gettext, $locale) {
 
+        /**
+         * Add weeks lines to calendar
+         */
+        function addToCalendar(calendar, loopDate, endDate)
+        {
+            while (loopDate < endDate) {
 
+                calendar.weeks.push({
+                    label: 'W',
+                    days: []
+                });
+
+                loopDate.setDate(loopDate.getDate()+7);
+            }
+        }
+
+
+
+
+        /**
+         * Add months lines to left navigation
+         */
         function addToNav(nav, loopDate, endDate)
         {
             while (loopDate < endDate) {
@@ -52,36 +73,44 @@ define([], function() {
         return {
 
 
+
             /**
              * @param {int} year
              * @param {int} month
              * @return {Object}
              */
-            createNavigation: function(year, month) {
+            createCalendar: function(year, month) {
 
                 var nbWeeks = 100;
-                var nav = {
-                    years: [],
-                    keys: {}
+                var cal = {
+                    calendar: {
+                        weeks: []
+                    },
+                    nav: {
+                        years: [],
+                        keys: {}
+                    }
                 };
 
                 var loopDate = new Date(year, month -6, 1);
                 var endDate = new Date(loopDate);
                 endDate.setDate(endDate.getDate()+(7*nbWeeks));
 
-                addToNav(nav, loopDate, endDate);
+                addToCalendar(cal.calendar, new Date(loopDate), endDate);
+                addToNav(cal.nav, new Date(loopDate), endDate);
 
-                console.log(nav);
-
-                return nav;
+                return cal;
             },
 
             /**
              * update nav object with number of weeks
-             * @param {Object} nav
+             * @param {Object} cal
              * @param {Integer} nbWeeks
              */
-            addNavigation: function(nav, nbWeeks) {
+            addWeeks: function(cal, nbWeeks) {
+
+                var calendar = cal.calendar;
+                var nav = cal.nav;
 
                 var ykey = nav.years.length - 1;
                 var lastyear = nav.years[ykey].y;
@@ -92,7 +121,8 @@ define([], function() {
                 var endDate = new Date(loopDate);
                 endDate.setDate(endDate.getDate()+(7*nbWeeks));
 
-                addToNav(nav, loopDate, endDate);
+                addToCalendar(calendar, new Date(loopDate), endDate);
+                addToNav(nav, new Date(loopDate), endDate);
             }
         };
     };
