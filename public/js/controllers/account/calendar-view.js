@@ -8,11 +8,21 @@ define([], function() {
         'Calendar',
         function($scope, $routeParams, Calendar) {
 
-            var year = parseInt($routeParams.year, 10);
-            var month = parseInt($routeParams.month, 10);
-            $scope.weeks = [];
+            var year, month, now = new Date();
 
-            $scope.listyears = Calendar.getNavigation(year, month);
+            if (undefined !== $routeParams.year) {
+                year = parseInt($routeParams.year, 10);
+            } else {
+                year = now.getFullYear();
+            }
+
+            if (undefined !== $routeParams.month) {
+                month = parseInt($routeParams.month, 10);
+            } else {
+                month = now.getMonth();
+            }
+
+            $scope.listyears = Calendar.createNavigation(year, month);
 	    }
     ];
 });

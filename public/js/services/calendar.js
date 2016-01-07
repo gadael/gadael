@@ -3,7 +3,7 @@ define([], function() {
     'use strict';
 
 
-    return function loadCalendarService(gettext) {
+    return function loadCalendarService(gettext, $locale) {
 
 
         return {
@@ -16,10 +16,10 @@ define([], function() {
              */
             createNavigation: function(year, month) {
 
-                var nbWeeks = 52;
+                var nbWeeks = 100;
                 var nav = {};
 
-                var loopDate = new Date(year, month, 1);
+                var loopDate = new Date(year, month -6, 1);
                 var endDate = new Date(loopDate);
                 endDate.setDate(endDate.getDate()+(7*nbWeeks));
 
@@ -40,7 +40,8 @@ define([], function() {
                         var label;
 
                         try {
-                            label = loopDate.toLocaleDateString('month');
+                            label = loopDate.toLocaleDateString($locale.id, { month: 'long' });
+                            console.log(label);
                         } catch (e) {
                             label = loopDate.getMonth()+1;
                         }

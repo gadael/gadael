@@ -129,6 +129,10 @@ define(['angular', 'app'], function(angular, app) {
 		});
 
 
+        $routeProvider.when('/account/calendar', {
+			templateUrl: 'partials/account/calendar.html',
+			controller: 'AccountCalendarView'
+		});
 
         $routeProvider.when('/account/calendar/:year/:month', {
 			templateUrl: 'partials/account/calendar.html',
