@@ -22,7 +22,7 @@ define([], function() {
                 month = now.getMonth();
             }
 
-            $scope.listyears = Calendar.createNavigation(year, month);
+            $scope.cal = Calendar.createCalendar(year, month);
 	    }
     ];
 });

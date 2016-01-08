@@ -1,4 +1,4 @@
-define([], function() {
+define(['moment'], function(moment) {
 
     'use strict';
 
@@ -12,12 +12,26 @@ define([], function() {
         {
             while (loopDate < endDate) {
 
-                calendar.weeks.push({
-                    label: 'W',
-                    days: []
+                var weekprop = moment(loopDate).format('GGGGW');
+
+                if (undefined === calendar.keys[weekprop]) {
+
+                    calendar.weeks.push({
+                        label: moment(loopDate).format('WW'),
+                        days: []
+                    });
+
+                    calendar.keys[weekprop] = calendar.weeks.length-1;
+                }
+
+                var weekkey = calendar.keys[weekprop];
+
+                calendar.weeks[weekkey].days.push({
+                    label: loopDate.getDate(),
+                    d: new Date(loopDate)
                 });
 
-                loopDate.setDate(loopDate.getDate()+7);
+                loopDate.setDate(loopDate.getDate()+1);
             }
         }
 
@@ -84,7 +98,8 @@ define([], function() {
                 var nbWeeks = 100;
                 var cal = {
                     calendar: {
-                        weeks: []
+                        weeks: [],
+                        keys: {}
                     },
                     nav: {
                         years: [],

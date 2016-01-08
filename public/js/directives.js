@@ -69,6 +69,19 @@ define(['angular', 'services'], function(angular) {
 		};
 	}])
 
+
+    .directive('scroll', function() {
+        console.log('scroll directive');
+        return function(scope, elm, attr) {
+            var raw = elm[0];
+            elm.bind('scroll', function() {
+                if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight - 20) {
+                    scope.$apply(attr.scroll);
+                }
+            });
+        };
+    })
+
     /**
      * For login/password fields, refresh data binding by timeout if necessary
      * because the auto-fill does not update the scope

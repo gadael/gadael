@@ -1,7 +1,7 @@
 <div class="col-md-2 hidden-sm hidden-xs">
 
     <ul class="nav bs-sidenav" bs-scrollspy-list>
-      <li ng-repeat="year in listyears.years">
+      <li ng-repeat="year in cal.nav.years">
         <a href="#year{{year.y}}">{{year.y}}</a>
         <ul class="nav">
           <li ng-repeat="month in year.months"><a href="#month{{year.y}}{{month.m}}">{{month.label}}</a></li>
@@ -12,7 +12,26 @@
 </div>
 
 
-<div class="col-md-10">
+<div class="col-md-10" scroll="onScroll()">
 
-    The calendar
+    <div class="header row">
+        <div class="col-sm-1 hidden-xs"></div>
+        <div class="col-sm-1 col-xs-3" translate>Monday</div>
+        <div class="col-sm-1 col-xs-3" translate>Thusday</div>
+        <div class="col-sm-1 col-xs-3" translate>Wednesday</div>
+        <div class="col-sm-1 col-xs-3" translate>Thursday</div>
+        <div class="col-sm-1 col-xs-3" translate>Friday</div>
+        <div class="col-sm-1 col-xs-3" translate>Saturday</div>
+        <div class="col-sm-1 col-xs-3" translate>Sunday</div>
+    </div>
+
+
+    <div class="week row" ng-repeat="week in cal.calendar.weeks">
+
+        <div class="weeknumber col-sm-1 text-primary hidden-xs">{{week.label}}</div>
+
+        <div class="day col-sm-1 col-xs-3 bg-info" ng-repeat="day in week.days">
+            {{day.label}}
+        </div>
+    </div>
 </div>

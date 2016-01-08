@@ -13,7 +13,7 @@ define([
     'services/calendar',
     'angularResource'], 
     function (
-       angular,
+        angular,
         loadableResource,
         catchOutcome,
         departmentDays,
