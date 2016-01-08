@@ -154,3 +154,75 @@
     padding:0;
     font-weight:bold;
 }
+
+
+/* Calendar navbar */
+
+
+.bs-sidebar .nav > .active > ul {
+    display: block;
+}
+.bs-sidebar .nav .nav {
+    display: none;
+    padding-bottom: 10px;
+}
+
+.bs-sidebar .nav > li > a:focus,
+.bs-sidebar .nav > li > a:hover {
+    padding-right: 14px;
+    color: #23527C;
+    text-decoration: none;
+    background-color: transparent;
+    border-right: 1px solid #23527C;
+}
+.bs-sidebar .nav > li > a {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+    padding: 4px 15px;
+    text-align: right;
+}
+
+.nav > li > a:focus,
+.nav > li > a:hover {
+    text-decoration: none;
+    background-color: #EEE;
+}
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
+.bs-sidebar .nav > .active:focus > a,
+.bs-sidebar .nav > .active:hover > a,
+.bs-sidebar .nav > .active > a {
+    padding-right: 13px;
+    font-weight: 700;
+    color: #23527C;
+    background-color: transparent;
+    border-right: 2px solid #23527C;
+}
+
+
+/* calendar */
+
+.calendar .weeknumber {
+    width: 2em;
+    float: left;
+}
+
+.calendar .day {
+    margin:2px;
+}
+
+.calendar .header .day {
+    border-left:#fff 1px solid;
+    border-right:#fff 1px solid;
+}
+
+.calendar .week .day {
+    border:#eee 1px solid;
+    height: 4em;
+}

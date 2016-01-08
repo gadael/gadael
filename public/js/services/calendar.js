@@ -10,15 +10,32 @@ define(['moment'], function(moment) {
          */
         function addToCalendar(calendar, loopDate, endDate)
         {
+            var weekprop, id, lastid, monthid;
+
             while (loopDate < endDate) {
 
-                var weekprop = moment(loopDate).format('GGGGW');
+                weekprop = moment(loopDate).format('GGGGW');
 
                 if (undefined === calendar.keys[weekprop]) {
 
+                    id = null;
+                    lastid = null;
+
+                    if (calendar.weeks.length > 0) {
+                        lastid = calendar.weeks[calendar.weeks.length -1].id;
+                    }
+
+                    monthid = 'month'+moment(loopDate).format('YYYYM');
+
+                    if (lastid !== monthid) {
+                        id = monthid;
+                    }
+
+
                     calendar.weeks.push({
                         label: moment(loopDate).format('WW'),
-                        days: []
+                        days: [],
+                        id: id
                     });
 
                     calendar.keys[weekprop] = calendar.weeks.length-1;
