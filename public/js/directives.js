@@ -71,16 +71,35 @@ define(['angular', 'services'], function(angular) {
 
 
     .directive('scroll', function() {
-        console.log('scroll directive');
+
+        function getScroll() {
+            if(window.pageYOffset !== undefined){
+                return [window.pageXOffset, window.pageYOffset];
+            }
+            else{
+                var sx, sy, d= document, r= d.documentElement, b= d.body;
+                sx= r.scrollLeft || b.scrollLeft || 0;
+                sy= r.scrollTop || b.scrollTop || 0;
+                return [sx, sy];
+            }
+        }
+
+
         return function(scope, elm, attr) {
+
             var raw = elm[0];
-            elm.bind('scroll', function() {
-                if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight - 20) {
+
+            angular.element(document).bind('scroll', function() {
+                var scrollTop = getScroll()[1];
+
+                if (scrollTop >= raw.scrollHeight - 500) {
                     scope.$apply(attr.scroll);
                 }
             });
         };
     })
+
+
 
     /**
      * For login/password fields, refresh data binding by timeout if necessary

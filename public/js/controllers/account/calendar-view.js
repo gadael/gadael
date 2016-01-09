@@ -30,6 +30,11 @@ define([], function() {
                 $location.hash(id);
                 $anchorScroll();
             };
+
+
+            $scope.loadMoreData = function() {
+                console.log(document.documentElement.scrollTop);
+            };
 	    }
     ];
 });
