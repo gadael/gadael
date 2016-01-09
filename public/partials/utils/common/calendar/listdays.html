@@ -2,10 +2,10 @@
 
     <ul class="nav bs-sidenav"  data-offset-top="-10" bs-affix>
       <li ng-repeat="year in cal.nav.years" data-target="#month{{year.y}}{{year.months[0].m}}" bs-scrollspy>
-        <a href="#month{{year.y}}{{year.months[0].m}}">{{year.y}}</a>
+        <a ng-click="scrollTo('month'+year.y+year.months[0].m)">{{year.y}}</a>
         <ul class="nav">
           <li ng-repeat="month in year.months" data-target="#month{{year.y}}{{month.m}}" bs-scrollspy>
-              <a href="#month{{year.y}}{{month.m}}">{{month.label}}</a>
+              <a ng-click="scrollTo('month'+year.y+month.m)">{{month.label}}</a>
             </li>
         </ul>
       </li>

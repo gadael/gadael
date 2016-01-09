@@ -6,7 +6,9 @@ define([], function() {
         '$scope',
         '$routeParams',
         'Calendar',
-        function($scope, $routeParams, Calendar) {
+        '$anchorScroll',
+        '$location',
+        function($scope, $routeParams, Calendar, $anchorScroll, $location) {
 
             var year, month, now = new Date();
 
@@ -23,6 +25,11 @@ define([], function() {
             }
 
             $scope.cal = Calendar.createCalendar(year, month);
+
+            $scope.scrollTo = function(id) {
+                $location.hash(id);
+                $anchorScroll();
+            };
 	    }
     ];
 });
