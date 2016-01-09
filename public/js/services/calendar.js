@@ -3,7 +3,7 @@ define(['moment'], function(moment) {
     'use strict';
 
 
-    return function loadCalendarService(gettext, $locale) {
+    return function loadCalendarService(gettext, $locale, $q) {
 
         /**
          * Add weeks lines to calendar
@@ -101,6 +101,25 @@ define(['moment'], function(moment) {
         }
 
 
+
+        function setMonday(mydate)
+        {
+            var d = mydate.getDay();
+            var daysToAdd = 0;
+
+            if (d === 0) { // sunday
+                daysToAdd = 1;
+            }
+
+            if (d > 1) {
+                daysToAdd = -1 * (d-1);
+            }
+
+            mydate.setDate(mydate.getDate() + daysToAdd);
+        }
+
+
+
         return {
 
 
@@ -112,7 +131,7 @@ define(['moment'], function(moment) {
              */
             createCalendar: function(year, month) {
 
-                var nbWeeks = 100;
+                var nbWeeks = 20;
                 var cal = {
                     calendar: {
                         weeks: [],
@@ -125,6 +144,9 @@ define(['moment'], function(moment) {
                 };
 
                 var loopDate = new Date(year, month -6, 1);
+                setMonday(loopDate);
+
+
                 var endDate = new Date(loopDate);
                 endDate.setDate(endDate.getDate()+(7*nbWeeks));
 
@@ -138,8 +160,12 @@ define(['moment'], function(moment) {
              * update nav object with number of weeks
              * @param {Object} cal
              * @param {Integer} nbWeeks
+             * @param {Object} calendarEventsResource
+             * @param {Object} personalEventsResource
+             *
+             * @return {Promise}
              */
-            addWeeks: function(cal, nbWeeks) {
+            addWeeks: function(cal, nbWeeks, calendarEventsResource, personalEventsResource) {
 
                 var calendar = cal.calendar;
                 var nav = cal.nav;
@@ -155,6 +181,38 @@ define(['moment'], function(moment) {
 
                 addToCalendar(calendar, new Date(loopDate), endDate);
                 addToNav(nav, new Date(loopDate), endDate);
+
+                // TODO: load data to calendar and return promise
+
+                var deferred = $q.defer();
+
+                var workscheduleEvents = calendarEventsResource.query({
+                    dtstart: loopDate,
+                    dtend: endDate,
+                    type: 'workschedule'
+                });
+
+                var nonworkingdaysEvents = calendarEventsResource.query({
+                    dtstart: loopDate,
+                    dtend: endDate,
+                    type: 'nonworkingdays'
+                });
+
+                var personalEvents = personalEventsResource.query({
+                    dtstart: loopDate,
+                    dtend: endDate
+                });
+
+                $q.all([
+                    workscheduleEvents.$promise,
+                    nonworkingdaysEvents.$promise,
+                    personalEvents.$promise
+                ]).then(function() {
+                    //TODO: add calendar events to nav.calendar
+                    deferred.resolve(true);
+                }, deferred.reject);
+
+                return deferred.promise;
             }
         };
     };

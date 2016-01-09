@@ -8,7 +8,8 @@ define([], function() {
         'Calendar',
         '$anchorScroll',
         '$location',
-        function($scope, $routeParams, Calendar, $anchorScroll, $location) {
+        'Rest',
+        function($scope, $routeParams, Calendar, $anchorScroll, $location, Rest) {
 
             var year, month, now = new Date();
 
@@ -24,6 +25,9 @@ define([], function() {
                 month = now.getMonth();
             }
 
+            var calendarEventsResource = Rest.user.calendarevents.getResource();
+            var personalEventsResource = Rest.account.personalevents.getResource();
+
             $scope.cal = Calendar.createCalendar(year, month);
 
             $scope.scrollTo = function(id) {
@@ -32,8 +36,17 @@ define([], function() {
             };
 
 
+            var isLoading = false;
             $scope.loadMoreData = function() {
-                console.log(document.documentElement.scrollTop);
+                if (!isLoading) {
+                    isLoading = true;
+                    Calendar.addWeeks($scope.cal, 6, calendarEventsResource, personalEventsResource).then(function() {
+                        isLoading = false;
+                    }, function(error) {
+                        isLoading = false;
+                        throw error;
+                    });
+                }
             };
 	    }
     ];
