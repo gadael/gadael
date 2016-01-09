@@ -25,7 +25,7 @@ define(['moment'], function(moment) {
                         lastid = calendar.weeks[calendar.weeks.length -1].id;
                     }
 
-                    monthid = 'month'+moment(loopDate).format('YYYYM');
+                    monthid = 'month'+loopDate.getFullYear()+loopDate.getMonth();
 
                     if (lastid !== monthid) {
                         id = monthid;
