@@ -1,4 +1,4 @@
-define([], function() {
+define(['angular'], function(angular) {
 
     'use strict';
 
@@ -9,7 +9,8 @@ define([], function() {
         '$anchorScroll',
         '$location',
         'Rest',
-        function($scope, $routeParams, Calendar, $anchorScroll, $location, Rest) {
+        '$scrollspy',
+        function($scope, $routeParams, Calendar, $anchorScroll, $location, Rest, $scrollspy) {
 
             var year, month, now = new Date();
 
@@ -48,6 +49,11 @@ define([], function() {
                     $scope.isLoading = true;
                     Calendar.addWeeks($scope.cal, 6, calendarEventsResource, personalEventsResource).then(function() {
                         $scope.isLoading = false;
+
+                        // refresh scrollSpy
+                        var scrollspy = $scrollspy(angular.element(document.getElementsByClassName('bs-sidenav')[0]), {});
+                        scrollspy.init();
+
                     }, function(error) {
                         $scope.isLoading = false;
                         throw error;

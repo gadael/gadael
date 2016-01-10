@@ -92,11 +92,10 @@ define(['angular', 'services'], function(angular) {
 
 
         return function(scope, elm, attr) {
-
             angular.element(document).bind('scroll', function() {
                 var scroll = getScroll();
 
-                if (scroll.top +scroll.height >= elm[0].offsetHeight - 20) {
+                if (scroll.top +scroll.height > elm[0].offsetHeight) {
                     scope.$apply(attr.scroll);
                 }
             });
