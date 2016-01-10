@@ -31,7 +31,7 @@ define(['angular'], function(angular) {
             var calendarEventsResource = Rest.user.calendarevents.getResource();
             var personalEventsResource = Rest.account.personalevents.getResource();
 
-            $scope.cal = Calendar.createCalendar(year, month);
+            $scope.cal = Calendar.createCalendar(year, month, calendarEventsResource, personalEventsResource);
             $scope.previousYear = $scope.cal.nav.years[0].y - 1;
 
             $scope.loadPreviousYear = function() {

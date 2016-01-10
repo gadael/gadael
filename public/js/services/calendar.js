@@ -155,6 +155,54 @@ define(['moment'], function(moment) {
 
 
 
+        /**
+         * @return {Promise}
+         */
+        function addEvents(cal, fromDate, toDate, calendarEventsResource, personalEventsResource)
+        {
+            var deferred = $q.defer();
+
+            var workscheduleEvents = calendarEventsResource.query({
+                dtstart: fromDate,
+                dtend: toDate,
+                type: 'workschedule'
+            });
+
+            /*
+            var nonworkingdaysEvents = calendarEventsResource.query({
+                dtstart: fromDate,
+                dtend: toDate,
+                type: 'nonworkingdays'
+            });
+            */
+
+            var personalEvents = personalEventsResource.query({
+                dtstart: fromDate,
+                dtend: toDate
+            });
+
+            $q.all([
+                workscheduleEvents.$promise,
+            //  nonworkingdaysEvents.$promise,
+                personalEvents.$promise
+            ]).then(function() {
+                //TODO: add calendar events to nav.calendar
+
+                workscheduleEvents.forEach(function(event) {
+                    addEvent(cal, event, 'workschedule');
+                });
+
+                deferred.resolve(true);
+            }, deferred.reject);
+
+            return deferred.promise;
+
+        }
+
+
+
+
+
         return {
 
 
@@ -164,7 +212,7 @@ define(['moment'], function(moment) {
              * @param {int} month
              * @return {Object}
              */
-            createCalendar: function(year, month) {
+            createCalendar: function(year, month, calendarEventsResource, personalEventsResource) {
 
                 var nbWeeks = 50;
                 var cal = {
@@ -187,6 +235,8 @@ define(['moment'], function(moment) {
 
                 addToCalendar(cal.calendar, new Date(loopDate), endDate);
                 addToNav(cal.nav, new Date(loopDate), endDate);
+
+                addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource);
 
                 return cal;
             },
@@ -216,42 +266,7 @@ define(['moment'], function(moment) {
                 addToCalendar(calendar, new Date(loopDate), endDate);
                 addToNav(nav, new Date(loopDate), endDate);
 
-                var deferred = $q.defer();
-
-                var workscheduleEvents = calendarEventsResource.query({
-                    dtstart: loopDate,
-                    dtend: endDate,
-                    type: 'workschedule'
-                });
-
-                /*
-                var nonworkingdaysEvents = calendarEventsResource.query({
-                    dtstart: loopDate,
-                    dtend: endDate,
-                    type: 'nonworkingdays'
-                });
-                */
-
-                var personalEvents = personalEventsResource.query({
-                    dtstart: loopDate,
-                    dtend: endDate
-                });
-
-                $q.all([
-                    workscheduleEvents.$promise,
-                //    nonworkingdaysEvents.$promise,
-                    personalEvents.$promise
-                ]).then(function() {
-                    //TODO: add calendar events to nav.calendar
-
-                    workscheduleEvents.forEach(function(event) {
-                        addEvent(cal, event, 'workschedule');
-                    });
-
-                    deferred.resolve(true);
-                }, deferred.reject);
-
-                return deferred.promise;
+                return addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource);
             }
         };
     };
