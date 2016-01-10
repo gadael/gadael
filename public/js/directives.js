@@ -74,24 +74,29 @@ define(['angular', 'services'], function(angular) {
 
         function getScroll() {
             if(window.pageYOffset !== undefined){
-                return [window.pageXOffset, window.pageYOffset];
+                return {
+                    height: window.innerHeight,
+                    top: window.pageYOffset
+                };
             }
             else{
                 var sx, sy, d= document, r= d.documentElement, b= d.body;
-                sx= r.scrollLeft || b.scrollLeft || 0;
+                sx= r.scrollHeight || b.scrollHeight || 0;
                 sy= r.scrollTop || b.scrollTop || 0;
-                return [sx, sy];
+                return {
+                    height: sx,
+                    top: sy
+                };
             }
         }
 
 
         return function(scope, elm, attr) {
 
-            var raw = elm[0];
-
             angular.element(document).bind('scroll', function() {
-                var scrollTop = getScroll()[1];
-                if (scrollTop >= raw.scrollHeight - 500) {
+                var scroll = getScroll();
+
+                if (scroll.top +scroll.height >= elm[0].offsetHeight - 20) {
                     scope.$apply(attr.scroll);
                 }
             });
