@@ -209,20 +209,31 @@
 /* calendar */
 
 .calendar .weeknumber {
-    width: 2em;
+    width: 2%;
     float: left;
+    padding-top:5px;
+    visibility:hidden;
+    font-weight:bold;
+}
+
+.calendar .week:hover .weeknumber {
+    visibility:visible;
+
 }
 
 .calendar .day {
-    margin:2px;
+    float: left;
+    width: 14%;
 }
+
 
 .calendar .header .day {
-    border-left:#fff 1px solid;
-    border-right:#fff 1px solid;
+    text-align:center;
 }
 
-.calendar .week .day {
-    border:#eee 1px solid;
+.calendar .week .day .cell {
     height: 4em;
+    border:#eee 1px solid;
+    margin:2px;
+    padding:2px 5px;
 }

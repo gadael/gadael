@@ -131,7 +131,7 @@ define(['moment'], function(moment) {
              */
             createCalendar: function(year, month) {
 
-                var nbWeeks = 20;
+                var nbWeeks = 50;
                 var cal = {
                     calendar: {
                         weeks: [],
@@ -181,8 +181,6 @@ define(['moment'], function(moment) {
 
                 addToCalendar(calendar, new Date(loopDate), endDate);
                 addToNav(nav, new Date(loopDate), endDate);
-
-                // TODO: load data to calendar and return promise
 
                 var deferred = $q.defer();
 

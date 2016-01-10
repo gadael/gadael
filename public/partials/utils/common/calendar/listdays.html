@@ -18,22 +18,27 @@
 
     <div class="header row hidden-xs">
         <div class="weeknumber hidden-xs">&nbsp;</div>
-        <div class="day col-sm-1 col-xs-3" translate>Monday</div>
-        <div class="day col-sm-1 col-xs-3" translate>Thusday</div>
-        <div class="day col-sm-1 col-xs-3" translate>Wednesday</div>
-        <div class="day col-sm-1 col-xs-3" translate>Thursday</div>
-        <div class="day col-sm-1 col-xs-3" translate>Friday</div>
-        <div class="day col-sm-1 col-xs-3" translate>Saturday</div>
-        <div class="day col-sm-1 col-xs-3" translate>Sunday</div>
+        <div class="day" translate>Monday</div>
+        <div class="day" translate>Thusday</div>
+        <div class="day" translate>Wednesday</div>
+        <div class="day" translate>Thursday</div>
+        <div class="day" translate>Friday</div>
+        <div class="day" translate>Saturday</div>
+        <div class="day" translate>Sunday</div>
     </div>
 
 
     <div class="week row" ng-repeat="week in cal.calendar.weeks">
 
         <div class="weeknumber text-muted hidden-xs" id="{{week.id}}">{{week.label}}</div>
-
-        <div class="day col-sm-1 col-xs-3" ng-repeat="day in week.days">
-            {{day.label}}
+        <div class="day" ng-repeat="day in week.days">
+            <div class="cell">
+                {{day.label}}
+            </div>
         </div>
     </div>
+
+    <p ng-if="isLoading" class="text-center">
+        <span translate>Loading...</span>
+    </p>
 </div>

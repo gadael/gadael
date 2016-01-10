@@ -91,7 +91,6 @@ define(['angular', 'services'], function(angular) {
 
             angular.element(document).bind('scroll', function() {
                 var scrollTop = getScroll()[1];
-
                 if (scrollTop >= raw.scrollHeight - 500) {
                     scope.$apply(attr.scroll);
                 }

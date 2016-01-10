@@ -31,19 +31,18 @@ define([], function() {
             $scope.cal = Calendar.createCalendar(year, month);
 
             $scope.scrollTo = function(id) {
-                $location.hash(id);
-                $anchorScroll();
+                $anchorScroll(id);
             };
 
 
-            var isLoading = false;
+            $scope.isLoading = false;
             $scope.loadMoreData = function() {
-                if (!isLoading) {
-                    isLoading = true;
+                if (!$scope.isLoading) {
+                    $scope.isLoading = true;
                     Calendar.addWeeks($scope.cal, 6, calendarEventsResource, personalEventsResource).then(function() {
-                        isLoading = false;
+                        $scope.isLoading = false;
                     }, function(error) {
-                        isLoading = false;
+                        $scope.isLoading = false;
                         throw error;
                     });
                 }
