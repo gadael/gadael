@@ -19,6 +19,8 @@ define([], function() {
                 year = now.getFullYear();
             }
 
+
+
             if (undefined !== $routeParams.month) {
                 month = parseInt($routeParams.month, 10);
             } else {
@@ -29,6 +31,11 @@ define([], function() {
             var personalEventsResource = Rest.account.personalevents.getResource();
 
             $scope.cal = Calendar.createCalendar(year, month);
+            $scope.previousYear = $scope.cal.nav.years[0].y - 1;
+
+            $scope.loadPreviousYear = function() {
+                $location.path('/account/calendar/'+$scope.previousYear+'/0');
+            };
 
             $scope.scrollTo = function(id) {
                 $anchorScroll(id);
