@@ -170,12 +170,11 @@ define(['moment'], function(moment) {
                 var calendar = cal.calendar;
                 var nav = cal.nav;
 
-                var ykey = nav.years.length - 1;
-                var lastyear = nav.years[ykey].y;
-                var mkey = nav.years[ykey].months.length - 1;
-                var lastmonth = nav.years[ykey].months[mkey].m;
+                var lastweek = calendar.weeks[calendar.weeks.length-1].days;
 
-                var loopDate = new Date(lastyear, lastmonth +1, 1);
+                var loopDate = new Date(lastweek[lastweek.length-1].d);
+                loopDate.setDate(loopDate.getDate()+1);
+
                 var endDate = new Date(loopDate);
                 endDate.setDate(endDate.getDate()+(7*nbWeeks));
 
@@ -190,11 +189,13 @@ define(['moment'], function(moment) {
                     type: 'workschedule'
                 });
 
+                /*
                 var nonworkingdaysEvents = calendarEventsResource.query({
                     dtstart: loopDate,
                     dtend: endDate,
                     type: 'nonworkingdays'
                 });
+                */
 
                 var personalEvents = personalEventsResource.query({
                     dtstart: loopDate,
@@ -203,7 +204,7 @@ define(['moment'], function(moment) {
 
                 $q.all([
                     workscheduleEvents.$promise,
-                    nonworkingdaysEvents.$promise,
+                //    nonworkingdaysEvents.$promise,
                     personalEvents.$promise
                 ]).then(function() {
                     //TODO: add calendar events to nav.calendar
