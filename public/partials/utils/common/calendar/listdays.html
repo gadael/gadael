@@ -34,7 +34,7 @@
 
         <div class="weeknumber text-muted hidden-xs" id="{{week.id}}">{{week.label}}</div>
         <div class="day" ng-repeat="day in week.days">
-            <div class="cell">
+            <div class="cell" ng-class="{ 'bg-success': day.workschedule.length>0, 'bg-danger': day.workschedule.length===0 }">
                 {{day.label}}
             </div>
         </div>

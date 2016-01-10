@@ -35,7 +35,8 @@ define(['moment'], function(moment) {
                     calendar.weeks.push({
                         label: moment(loopDate).format('WW'),
                         days: [],
-                        id: id
+                        id: id,
+                        keys: {}
                     });
 
                     calendar.keys[weekprop] = calendar.weeks.length-1;
@@ -45,8 +46,12 @@ define(['moment'], function(moment) {
 
                 calendar.weeks[weekkey].days.push({
                     label: loopDate.getDate(),
-                    d: new Date(loopDate)
+                    d: new Date(loopDate),
+                    workschedule: []
                 });
+
+                var dayprop = 'day'+loopDate.getDate();
+                calendar.weeks[weekkey].keys[dayprop] = calendar.weeks[weekkey].days.length -1;
 
                 loopDate.setDate(loopDate.getDate()+1);
             }
@@ -116,6 +121,36 @@ define(['moment'], function(moment) {
             }
 
             mydate.setDate(mydate.getDate() + daysToAdd);
+        }
+
+
+
+        /**
+         * Add event to nav
+         * @param {Object} cal
+         * @param {Object} event
+         * @param {String} typeProperty     A property of the day object
+         */
+        function addEvent(cal, event, typeProperty)
+        {
+            var loopDate = new Date(event.dtstart);
+            var endDate = new Date(event.dtend);
+            var weekprop, weekkey, dayprop, daykey, day, events;
+
+            while (loopDate <= endDate) {
+                weekprop = moment(loopDate).format('GGGGW');
+                dayprop = 'day'+loopDate.getDate();
+                weekkey = cal.calendar.keys[weekprop];
+                daykey = cal.calendar.weeks[weekkey].keys[dayprop];
+                day  = cal.calendar.weeks[weekkey].days[daykey];
+                events = day[typeProperty];
+
+                events.push(event);
+
+                loopDate.setDate(loopDate.getDate()+1);
+            }
+
+
         }
 
 
@@ -208,6 +243,11 @@ define(['moment'], function(moment) {
                     personalEvents.$promise
                 ]).then(function() {
                     //TODO: add calendar events to nav.calendar
+
+                    workscheduleEvents.forEach(function(event) {
+                        addEvent(cal, event, 'workschedule');
+                    });
+
                     deferred.resolve(true);
                 }, deferred.reject);
 
