@@ -168,13 +168,13 @@ define(['moment'], function(moment) {
                 type: 'workschedule'
             });
 
-            /*
+
             var nonworkingdaysEvents = calendarEventsResource.query({
                 dtstart: fromDate,
                 dtend: toDate,
-                type: 'nonworkingdays'
+                type: 'nonworkingday'
             });
-            */
+
 
             var personalEvents = personalEventsResource.query({
                 dtstart: fromDate,
@@ -183,7 +183,7 @@ define(['moment'], function(moment) {
 
             $q.all([
                 workscheduleEvents.$promise,
-            //  nonworkingdaysEvents.$promise,
+                nonworkingdaysEvents.$promise,
                 personalEvents.$promise
             ]).then(function() {
                 //TODO: add calendar events to nav.calendar

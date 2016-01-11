@@ -183,7 +183,6 @@ exports = module.exports = function(services, app) {
          */
         function getEraFromType(account, dtstart, dtend, type)
         {
-
             switch(type) {
 
                 case 'workschedule':
@@ -192,9 +191,12 @@ exports = module.exports = function(services, app) {
                 case 'holiday':
                 case 'nonworkingday':
                     return getEventsTypeEra(type, dtstart, dtend);
+
             }
 
-            throw new Error('Unexpected type');
+            return Q.fcall(function () {
+                throw new Error('Unexpected type');
+            });
         }
 
 
@@ -257,11 +259,6 @@ exports = module.exports = function(services, app) {
                 return false;
             }
 
-            var CalendarModel = service.app.db.models.Calendar;
-            if (-1 === CalendarModel.schema.path('type').enumValues.indexOf(params.type)) {
-                return false;
-            }
-
             return true;
         }
 
@@ -271,8 +268,8 @@ exports = module.exports = function(services, app) {
         }
 
 
-
         getAccount(service, params.user).then(function(account) {
+
 
             getEraFromType(account, params.dtstart, params.dtend, params.type)
                 .then(substractNonWorkingDays)

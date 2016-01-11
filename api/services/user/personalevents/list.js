@@ -90,6 +90,11 @@ exports = module.exports = function(services, app) {
         }
 
         getEventsQuery(service, params).exec(function(err, docs) {
+
+            if (err) {
+                return service.error(err);
+            }
+
             var objects = docs.map(function(event) {
                 event = event.toObject();
                 if (undefined === event.uid || null === event.uid || '' === event.uid) {
