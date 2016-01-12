@@ -12,6 +12,9 @@ define(['moment'], function(moment) {
         function Day(loopDate)
         {
             this.label = loopDate.getDate();
+            if (1 === this.label) {
+                this.label = loopDate.toLocaleDateString($locale.id, {month: 'short', day: 'numeric'});
+            }
             this.d = new Date(loopDate);
             this.workschedule = [];
             this.events = [];
@@ -57,7 +60,7 @@ define(['moment'], function(moment) {
         Day.prototype.isStart = function(event)
         {
             return (event.dtstart >= this.boundaries.start &&
-                    event.dtstart <= this.boundaries.end);
+                    event.dtstart < this.boundaries.end);
         };
 
         /**
@@ -67,7 +70,7 @@ define(['moment'], function(moment) {
          */
         Day.prototype.isEnd = function(event)
         {
-            return (event.dtend >= this.boundaries.start &&
+            return (event.dtend > this.boundaries.start &&
                     event.dtend <= this.boundaries.end);
         };
 

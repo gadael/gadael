@@ -35,13 +35,16 @@
         <div class="weeknumber text-muted hidden-xs" id="{{week.id}}">{{week.label}}</div>
         <div class="day" ng-repeat="day in week.days">
             <div class="cell" ng-class="{ 'bg-success': !isLoading && day.isScheduled(), 'bg-danger': !isLoading && day.isNotScheduled(), 'bg-primary': day.isAbsence(), 'bg-warning': day.isNonWorkingDay() }">
-                {{day.label}}
+                <small>{{day.label}}</small>
 
                 <div ng-repeat="event in day.events">
                     <span ng-if="day.isStart(event)">{{event.dtstart|date:'shortTime'}}</span>
                     <i class="fa fa-long-arrow-right"></i>
                     <span ng-if="day.isEnd(event)">{{event.dtend|date:'shortTime'}}</span>
+                </div>
 
+                <div ng-repeat="event in day.nonworkingday">
+                    <small class="summary">{{event.summary}}</small>
                 </div>
 
             </div>
