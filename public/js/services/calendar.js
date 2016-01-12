@@ -5,6 +5,74 @@ define(['moment'], function(moment) {
 
     return function loadCalendarService(gettext, $locale, $q) {
 
+
+
+
+
+        function Day(loopDate)
+        {
+            this.label = loopDate.getDate();
+            this.d = new Date(loopDate);
+            this.workschedule = [];
+            this.events = [];
+            this.nonworkingday = [];
+
+            var s = new Date(loopDate); s.setHours(0,0,0,0);
+            var e = new Date(s);        e.setDate(e.getDate()+1);
+
+            this.boundaries = {
+                start: s,
+                end: e
+            };
+        }
+
+
+
+        Day.prototype.isAbsence = function()
+        {
+            return (this.events.length > 0);
+        };
+
+        Day.prototype.isScheduled = function()
+        {
+            return (this.workschedule.length > 0 && this.events.length === 0 && this.nonworkingday.length === 0);
+            // TODO: check overlapping
+        };
+
+        Day.prototype.isNotScheduled = function()
+        {
+            return (this.workschedule.length === 0 && this.events.length === 0 && this.nonworkingday.length === 0);
+        };
+
+        Day.prototype.isNonWorkingDay = function()
+        {
+            return (this.nonworkingday.length > 0);
+        };
+
+        /**
+         * Test if start date of the event is in day
+         * @param {object} event
+         * @return {boolean}
+         */
+        Day.prototype.isStart = function(event)
+        {
+            return (event.dtstart >= this.boundaries.start &&
+                    event.dtstart <= this.boundaries.end);
+        };
+
+        /**
+         * Test if end date of the event is in day
+         * @param {object} event
+         * @return {boolean}
+         */
+        Day.prototype.isEnd = function(event)
+        {
+            return (event.dtend >= this.boundaries.start &&
+                    event.dtend <= this.boundaries.end);
+        };
+
+
+
         /**
          * Add weeks lines to calendar
          */
@@ -44,11 +112,7 @@ define(['moment'], function(moment) {
 
                 var weekkey = calendar.keys[weekprop];
 
-                calendar.weeks[weekkey].days.push({
-                    label: loopDate.getDate(),
-                    d: new Date(loopDate),
-                    workschedule: []
-                });
+                calendar.weeks[weekkey].days.push(new Day(loopDate));
 
                 var dayprop = 'day'+loopDate.getDate();
                 calendar.weeks[weekkey].keys[dayprop] = calendar.weeks[weekkey].days.length -1;
@@ -190,6 +254,14 @@ define(['moment'], function(moment) {
 
                 workscheduleEvents.forEach(function(event) {
                     addEvent(cal, event, 'workschedule');
+                });
+
+                nonworkingdaysEvents.forEach(function(event) {
+                    addEvent(cal, event, 'nonworkingday');
+                });
+
+                personalEvents.forEach(function(event) {
+                    addEvent(cal, event, 'events');
                 });
 
                 deferred.resolve(true);
