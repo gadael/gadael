@@ -204,7 +204,7 @@ define(['moment'], function(moment) {
             var endDate = new Date(event.dtend);
             var weekprop, weekkey, dayprop, daykey, day, events;
 
-            while (loopDate <= endDate) {
+            while (loopDate < endDate) {
                 weekprop = moment(loopDate).format('GGGGW');
                 dayprop = 'day'+loopDate.getDate();
 
