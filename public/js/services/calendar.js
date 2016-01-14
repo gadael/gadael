@@ -207,7 +207,20 @@ define(['moment'], function(moment) {
             while (loopDate <= endDate) {
                 weekprop = moment(loopDate).format('GGGGW');
                 dayprop = 'day'+loopDate.getDate();
+
+                if (undefined === cal.calendar.keys[weekprop]) {
+                    console.log(event);
+                    console.log('Failed to add event to date because week is not loaded '+weekprop);
+                    loopDate.setDate(loopDate.getDate()+1);
+                    continue;
+                }
+
                 weekkey = cal.calendar.keys[weekprop];
+
+                if (undefined === cal.calendar.weeks[weekkey]) {
+                    throw new Error('Failed to get week from weekprop: '+weekprop+', weekkey='+weekkey+', number of weeks='+cal.calendar.weeks.length);
+                }
+
                 daykey = cal.calendar.weeks[weekkey].keys[dayprop];
                 day  = cal.calendar.weeks[weekkey].days[daykey];
                 events = day[typeProperty];
