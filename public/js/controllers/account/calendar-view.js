@@ -30,6 +30,7 @@ define(['angular'], function(angular) {
 
             var calendarEventsResource = Rest.user.calendarevents.getResource();
             var personalEventsResource = Rest.account.personalevents.getResource();
+            var requestsResource = Rest.account.requests.getResource();
 
             $scope.cal = Calendar.createCalendar(year, month, calendarEventsResource, personalEventsResource);
             $scope.previousYear = $scope.cal.nav.years[0].y - 1;
@@ -59,6 +60,16 @@ define(['angular'], function(angular) {
                         throw error;
                     });
                 }
+            };
+
+
+            $scope.getRequest = function(request) {
+
+                if (undefined === request || null === request) {
+                    return null;
+                }
+
+                return requestsResource.get({ id: request._id });
             };
 	    }
     ];

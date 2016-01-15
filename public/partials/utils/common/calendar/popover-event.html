@@ -1,14 +1,28 @@
-<div class="">
+<div ng-init="request = getRequest(event.request)">
+
+    <p>
+        <img ng-src="{{request.user.id.image}}" ng-if="request.user.id.image" height="28" class="img-rounded" align="left" style="margin-right:.8em;" />
+        {{event.request.user.name}}
+    </p>
+
+    <p class="text-right">
+        <span class="label label-primary">{{request.status.title}}</span>
+    </p>
 
     <dl>
-        <dt translate>From</dt> <dd>{{event.dtstart|date}}</dd>
-        <dt translate>To</dt> <dd>{{event.dtend|date}}</dd>
+        <dt translate>From</dt> <dd>{{request.events[0].dtstart|date:'medium'}}</dd>
+        <dt translate>To</dt> <dd>{{request.events[request.events.length-1].dtend|date:'medium'}}</dd>
     </dl>
 
-    <p>Consumed quantity: {{event.absenceElem.consumedQuantity}}</p>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="elem in request.absence.distribution">
+            <span class="badge">{{elem.consumedQuantity}} {{elem.right.dispUnit}}</span>
+            <i class="fa fa-asterisk" style="color:{{elem.right.type.color}}" title="{{elem.right.type.name}}"></i> {{elem.right.name}}&nbsp;
+        </li>
+    </ul>
 
-    <p>{{event.status}}</p>
+    <p><small>Created the {{event.timeCreated|date}}<br />
+    by {{event.request.createdBy.name}}</small></p>
 
-    <p>Created the: {{event.timeCreated|date}}</p>
-    <p>Created by: {{event.request.createdBy.name}}</p>
+
 </div>
