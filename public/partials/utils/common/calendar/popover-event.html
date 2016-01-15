@@ -1,15 +1,13 @@
 <div ng-init="request = getRequest(event.request)">
 
     <p>
-        <img ng-src="{{request.user.id.image}}" ng-if="request.user.id.image" height="28" class="img-rounded" align="left" style="margin-right:.8em;" />
-        {{event.request.user.name}}
+            <img ng-src="{{request.user.id.image}}" ng-if="request.user.id.image" height="28" class="img-rounded" align="left" style="margin-right:.8em;" />
+            <strong>{{event.request.user.name}}</strong>
     </p>
 
-    <p class="text-right">
-        <span class="label label-primary">{{request.status.title}}</span>
-    </p>
 
-    <dl>
+
+    <dl class="top30">
         <dt translate>From</dt> <dd>{{request.events[0].dtstart|date:'medium'}}</dd>
         <dt translate>To</dt> <dd>{{request.events[request.events.length-1].dtend|date:'medium'}}</dd>
     </dl>
@@ -21,8 +19,19 @@
         </li>
     </ul>
 
-    <p><small>Created the {{event.timeCreated|date}}<br />
-    by {{event.request.createdBy.name}}</small></p>
+    <p class="text-right">
+        <span class="label label-primary">{{request.status.title}}</span>
+    </p>
 
+    <p class="top20">
+            <small>Created the {{event.timeCreated|date}}<br />
+            by {{event.request.createdBy.name}}</small>
+    </p>
+
+    <p class="text-center">
+        <a class="btn btn-info hidden-print" ng-href="#/account/requests/absences/{{event.request._id}}">
+            <i class="fa fa-plus-circle"></i> <span translate>View more</span>
+        </a>
+    </p>
 
 </div>
