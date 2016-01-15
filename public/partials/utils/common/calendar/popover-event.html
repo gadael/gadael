@@ -1,0 +1,14 @@
+<div class="">
+
+    <dl>
+        <dt translate>From</dt> <dd>{{event.dtstart|date}}</dd>
+        <dt translate>To</dt> <dd>{{event.dtend|date}}</dd>
+    </dl>
+
+    <p>Consumed quantity: {{event.absenceElem.consumedQuantity}}</p>
+
+    <p>{{event.status}}</p>
+
+    <p>Created the: {{event.timeCreated|date}}</p>
+    <p>Created by: {{event.request.createdBy.name}}</p>
+</div>
