@@ -1,7 +1,23 @@
 {
   "name": "inga-server",
   "version": "0.0.1",
-  "private": true,
+  "author": "Paul de Rosanbo <paul@rosanbo.com>",
+  "description": "Vacations management application for  smart teams, nodejs server, angularjs frontend",
+  "keywords": [
+    "icalendar",
+    "ldap",
+    "vacations",
+    "holidays",
+    "node",
+    "angular",
+    "bootstrap",
+    "time saving account",
+    "Compte épargne temps",
+    "Congé",
+    "Absence",
+    "récupération des jours travaillés",
+    "working time recovery"
+  ],
   "scripts": {
     "test": "npm rebuild && grunt travis"
   },
