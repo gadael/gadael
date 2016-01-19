@@ -29,7 +29,7 @@
     "node-gettext": "~0.2.14",
     "marked": "~0.3.2",
     "ical": "~0.2.0",
-    "rrule": "~2.1.0",
+    "rrule": "git://github.com/jkbrzt/rrule.git#9a540ad5193a5df9542d569c44cb8400b3575cb8",
     "node-paginate-anything": "~0.0.5",
     "restitute": "~0.0.7",
     "q": "~1.4.1",

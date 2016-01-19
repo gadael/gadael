@@ -193,10 +193,11 @@ describe('Collaborators', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(3); // 3 members in d3
 
-
-            expect(body[0].events.length).toEqual(1);
-            expect(body[1].events.length).toEqual(1);
-            expect(body[2].events.length).toEqual(1);
+            if (body.length === 3) {
+                expect(body[0].events.length).toEqual(1);
+                expect(body[1].events.length).toEqual(1);
+                expect(body[2].events.length).toEqual(1);
+            }
             done();
         });
     });

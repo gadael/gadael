@@ -35,16 +35,9 @@ function getEventsQuery(service, params)
 
     find.where('status').in(params.status);
 
-    find.or([
-        { rrule: { $exists: true } },
-        { $and:
-            [
-                { rrule: { $exists: false } },
-                { dtend: { $gt: params.dtstart } },
-                { dtstart: { $lt: params.dtend } }
-            ]
-        }
-    ]);
+    var periodCriterion = require('../../../../modules/periodcriterion');
+    periodCriterion(find, params.dtstart, params.dtend);
+
 
     find.populate('absenceElem');
     find.populate('request');

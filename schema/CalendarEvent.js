@@ -21,6 +21,7 @@ exports = module.exports = function(params) {
 		summary: String,
 		description: String,
 		rrule: String,
+        rdate: [Date],
 		transp: String,
         status: { type: String, enum:['TENTATIVE', 'CONFIRMED', 'CANCELLED'], default: 'CONFIRMED' },
 		
@@ -81,7 +82,8 @@ exports = module.exports = function(params) {
         }
 		
 		var document = this;
-		var rrule = require('rrule').RRule;
+		var RRule = require('rrule').RRule;
+        var RRuleSet = require('rrule').RRuleSet;
 
 		if (document.rrule === undefined || document.rrule === null)
 		{
@@ -90,11 +92,17 @@ exports = module.exports = function(params) {
 		
 		var duration = document.getDuration();
 		
-		var options = rrule.parseString(document.rrule);
+		var options = RRule.parseString(document.rrule);
 		options.dtstart = document.dtstart;
-		var rule = new rrule(options);
+		var rule = new RRule(options);
+
+        var rruleSet = new RRuleSet();
+        rruleSet.rrule(rule);
+
+        // add rdate
+        document.rdate.forEach(rruleSet.rdate);
 		
-		var list = rule.between(span_start, span_end, true);
+		var list = rruleSet.between(span_start, span_end, true);
         var result = [];
 		
 		for(var i=0; i<list.length; i++)

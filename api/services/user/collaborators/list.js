@@ -240,16 +240,9 @@ exports = module.exports = function(services, app) {
             find.where('user.id').in(users);
             find.where('status').in(['TENTATIVE', 'CONFIRMED']);
 
-            find.or([
-                { rrule: { $exists: true } },
-                { $and:
-                    [
-                        { rrule: { $exists: false } },
-                        { dtend: { $gt: params.dtstart } },
-                        { dtstart: { $lt: params.dtend } }
-                    ]
-                }
-            ]);
+            var periodCriterion = require('../../../../modules/periodcriterion');
+            periodCriterion(find, params.dtstart, params.dtend);
+
 
             find.populate('user.id');
 

@@ -92,6 +92,7 @@ exports = module.exports = function(params) {
 							{
 								event.rrule = entry.rrule.toString();
 							}
+                            event.rdate = entry.radte;
 							event.calendar = calendar._id;
 
 							eventPromises.push(event.save());

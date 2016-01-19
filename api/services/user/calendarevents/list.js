@@ -8,16 +8,9 @@
 
 function addDatesCriterion(find, params)
 {
-     find.or([
-        { rrule: { $exists: true } },
-        { $and:
-            [
-                { rrule: { $exists: false } },
-                { dtend: { $gt: params.dtstart } },
-                { dtstart: { $lt: params.dtend } }
-            ]
-        }
-    ]);
+    var periodCriterion = require('../../../../modules/periodcriterion');
+    periodCriterion(find, params.dtstart, params.dtend);
+
 }
 
 
