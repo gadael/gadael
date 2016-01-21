@@ -360,7 +360,6 @@ exports = module.exports = {
         app.use(require('compression')());
         app.use(require('serve-static')(config.staticPath));
         app.use(bodyParser.json());
-        app.use(require('method-override')());
         app.use(require('cookie-parser')());
 
 
