@@ -84,23 +84,40 @@ exports = module.exports = function(params) {
 		var document = this;
 		var RRule = require('rrule').RRule;
         var RRuleSet = require('rrule').RRuleSet;
-
-		if (document.rrule === undefined || document.rrule === null)
-		{
-			return [document.toObject()];
-		}
 		
 		var duration = document.getDuration();
-		
-		var options = RRule.parseString(document.rrule);
-		options.dtstart = document.dtstart;
-		var rule = new RRule(options);
-
         var rruleSet = new RRuleSet();
-        rruleSet.rrule(rule);
 
-        // add rdate
-        document.rdate.forEach(rruleSet.rdate);
+        var setRRULE = false;
+        var setRDATE = false;
+
+
+        if (undefined !== document.rrule && null !== document.rrule) {
+
+            var options = RRule.parseString(document.rrule);
+            options.dtstart = document.dtstart;
+            var rule = new RRule(options);
+
+            rruleSet.rrule(rule);
+            setRRULE = true;
+        }
+
+
+        if (undefined !== document.rdate && null !== document.rdate && document.rdate.length > 0) {
+            // add rdate
+            document.rdate.forEach(function(d) {
+                if (d instanceof Date) {
+                    rruleSet.rdate(d);
+                }
+            });
+            setRDATE = true;
+        }
+
+        if (!setRRULE && !setRDATE) {
+            return [document.toObject()];
+        }
+
+
 		
 		var list = rruleSet.between(span_start, span_end, true);
         var result = [];

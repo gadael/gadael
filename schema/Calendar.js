@@ -74,7 +74,7 @@ exports = module.exports = function(params) {
 				var entry = null;
                 var eventPromises = [];
 				
-				for (var k in data){
+				for (var k in data) {
 					if (data.hasOwnProperty(k)) {
 						
 						entry = data[k];
@@ -88,11 +88,12 @@ exports = module.exports = function(params) {
 							event.summary = entry.summary;
 							event.description = entry.description;
 							event.transp = entry.transparency;
-							if (entry.rrule)
-							{
+							if (entry.rrule) {
 								event.rrule = entry.rrule.toString();
 							}
-                            event.rdate = entry.radte;
+                            if (entry.rdate) {
+                                event.rdate = entry.rdate;
+                            }
 							event.calendar = calendar._id;
 
 							eventPromises.push(event.save());
