@@ -64,28 +64,20 @@ exports = module.exports = function(params) {
 
         return this._id;
 	};
-	
-	
-	
-	/**
-	 * Expand event to a list of events according to the rrule (synchronous)
-     *
-	 * @param	{Date}		span_start		Search span start
-	 * @param	{Date}		span_end		Search span end
-	 *                                 
-	 * @return {Array} an array of objects
-	 */ 
-	eventSchema.methods.expand = function(span_start, span_end) {
+
+
+    /**
+     * Get RRuleSet object if possible
+     * @returns {RRuleSet}
+     */
+    eventSchema.methods.getRruleSet = function() {
         
-        if (!(span_start instanceof Date) || !(span_end instanceof Date)) {
-            throw new Error('parameters must be dates');
-        }
-		
-		var document = this;
-		var RRule = require('rrule').RRule;
+        var document = this;
+
+        var RRule = require('rrule').RRule;
         var RRuleSet = require('rrule').RRuleSet;
-		
-		var duration = document.getDuration();
+
+
         var rruleSet = new RRuleSet();
 
         var setRRULE = false;
@@ -114,10 +106,37 @@ exports = module.exports = function(params) {
         }
 
         if (!setRRULE && !setRDATE) {
-            return [document.toObject()];
+            return null;
         }
 
+        return rruleSet;
+    };
 
+
+
+	/**
+	 * Expand event to a list of events according to the rrule (synchronous)
+     *
+	 * @param	{Date}		span_start		Search span start
+	 * @param	{Date}		span_end		Search span end
+	 *
+	 * @return {Array} an array of objects
+	 */
+	eventSchema.methods.expand = function(span_start, span_end) {
+
+        if (!(span_start instanceof Date) || !(span_end instanceof Date)) {
+            throw new Error('parameters must be dates');
+        }
+
+		var document = this;
+
+
+		var duration = document.getDuration();
+        var rruleSet = document.getRruleSet();
+
+        if (null === rruleSet) {
+            return [document.toObject()];
+        }
 		
 		var list = rruleSet.between(span_start, span_end, true);
         var result = [];
