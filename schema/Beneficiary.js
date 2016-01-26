@@ -20,7 +20,11 @@ exports = module.exports = function(params) {
      */
     beneficiarySchema.methods.getUsers = function() {
         
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
         var ref = this.ref;
         
         this.model(this.ref).findOne(this.document, function(err, document) {

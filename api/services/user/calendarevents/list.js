@@ -74,7 +74,6 @@ function getTypeCalendar(service, type)
  */
 exports = module.exports = function(services, app) {
 
-    var Q = require('q');
     var service = new services.list(app);
     
     /**
@@ -102,7 +101,11 @@ exports = module.exports = function(services, app) {
          */
         function getPersonalEvents()
         {
-            var deferred = Q.defer();
+            var deferred = {};
+            deferred.promise = new Promise(function(resolve, reject) {
+                deferred.resolve = resolve;
+                deferred.reject = reject;
+            });
 
             if (undefined === params.user) {
                 deferred.reject('the user param is mandatory if substractPersonalEvents is used');
@@ -154,7 +157,11 @@ exports = module.exports = function(services, app) {
          */
         function getEventsTypeEra(type, dtstart, dtend)
         {
-            var deferred = Q.defer();
+            var deferred = {};
+            deferred.promise = new Promise(function(resolve, reject) {
+                deferred.resolve = resolve;
+                deferred.reject = reject;
+            });
 
             getTypeCalendar(service, type).then(function(calendars) {
                 var calId = calendars.map(function(cal) {
@@ -187,9 +194,7 @@ exports = module.exports = function(services, app) {
 
             }
 
-            return Q.fcall(function () {
-                throw new Error('Unexpected type');
-            });
+            return Promise.reject(new Error('Unexpected type'));
         }
 
 
@@ -198,7 +203,11 @@ exports = module.exports = function(services, app) {
          */
         function substractNonWorkingDays(era)
         {
-            var deferred = Q.defer();
+            var deferred = {};
+            deferred.promise = new Promise(function(resolve, reject) {
+                deferred.resolve = resolve;
+                deferred.reject = reject;
+            });
 
 
             if (undefined === params.substractNonWorkingDays || false === params.substractNonWorkingDays) {
@@ -217,7 +226,11 @@ exports = module.exports = function(services, app) {
 
         function substractPersonalEvents(era)
         {
-            var deferred = Q.defer();
+            var deferred = {};
+            deferred.promise = new Promise(function(resolve, reject) {
+                deferred.resolve = resolve;
+                deferred.reject = reject;
+            });
 
 
             if (undefined === params.substractPersonalEvents || false === params.substractPersonalEvents) {

@@ -6,7 +6,6 @@ exports = module.exports = function createConfiguration() {
 
     'use strict';
 
-    require('q').longStackSupport = true;
     // require('longjohn');
 
     var config = {};
