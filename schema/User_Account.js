@@ -424,7 +424,7 @@ exports = module.exports = function(params) {
     accountSchema.methods.getScheduleCalendar = function(moment) {
 
         var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
+        deferred.promise = new Promise((resolve, reject) => {
             deferred.resolve = resolve;
             deferred.reject = reject;
         });
