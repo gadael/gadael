@@ -12,6 +12,7 @@ exports = module.exports = function createConfiguration() {
     var config = {};
 
     config.loghttp = false;
+    config.csrfProtection = true;
 
     config.port = process.argv[2] || 3000;
     config.mongodb = {

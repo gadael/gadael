@@ -43,6 +43,7 @@ function mockServer(dbname, port, readyCallback) {
             config.port = company.port;
             config.companyName = company.name;
             config.mongodb.dbname = serverInst.dbname;
+            config.csrfProtection = false;
 
             var app = api.getExpress(config, models);
             

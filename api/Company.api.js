@@ -322,8 +322,10 @@ exports = module.exports = {
         mongoStore = require('connect-mongodb-session')(session),
         passport = require('passport');
 
-        var csrf = require('csurf');
-        var csrfProtection = csrf({ cookie: true });
+        if (config.csrfProtection) {
+            var csrf = require('csurf');
+            var csrfProtection = csrf({ cookie: true });
+        }
 
         //create express app
         var app = express();
@@ -381,17 +383,21 @@ exports = module.exports = {
         var helmet = require('helmet');
         helmet.defaults(app);
 
-        app.use(csrfProtection);
+        if (undefined !== csrfProtection) {
+            app.use(csrfProtection);
+        }
 
 
         //response locals
         app.use(function(req, res, next) {
-          // XSRF-TOKEN is the cookie used by angularjs to forward the X-SRF-TOKEN header with a $http request
-          res.cookie('XSRF-TOKEN', req.csrfToken());
-          res.locals.user = {};
-          res.locals.user.defaultReturnUrl = req.user && req.user.defaultReturnUrl();
-          res.locals.user.username = req.user && req.user.username;
-          next();
+            if (undefined !== csrfProtection) {
+                // XSRF-TOKEN is the cookie used by angularjs to forward the X-SRF-TOKEN header with a $http request
+                res.cookie('XSRF-TOKEN', req.csrfToken());
+            }
+            res.locals.user = {};
+            res.locals.user.defaultReturnUrl = req.user && req.user.defaultReturnUrl();
+            res.locals.user.username = req.user && req.user.username;
+            next();
         });
 
         //global locals
