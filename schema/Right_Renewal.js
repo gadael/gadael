@@ -41,7 +41,12 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.checkOverlap = function()
     {
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var model = params.db.models.RightRenewal;
 
         model.find({ right: this.right })
@@ -71,7 +76,12 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.updateMonthlyAdjustment = function()
     {
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var renewal = this;
 
         renewal.getRightPromise().then(function(right) {
@@ -193,7 +203,12 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserAdjustmentQuantity = function(user) {
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var model = params.db.models.Adjustment;
         var renewal = this;
 
@@ -223,8 +238,11 @@ exports = module.exports = function(params) {
      * @return {Promise}
      */
     rightRenewalSchema.methods.getRightPromise = function() {
-        var Q = require('q');
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
         var renewal = this;
         
         if (renewal.right && renewal.right._id) {
@@ -267,10 +285,13 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getUserQuantity = function(user) {
         
         var renewal = this;
-        var Q = require('q');
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
         
-        Q.all([renewal.getRightPromise(), renewal.getUserAdjustmentQuantity(user)])
+        Promise.all([renewal.getRightPromise(), renewal.getUserAdjustmentQuantity(user)])
             .then(function(arr) {
 
                 /**
@@ -331,7 +352,12 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserSavedQuantity = function(user) {
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var model = this.model('Request');
         model.find({
             'time_saving_deposit.from.renewal.id': this._id,
@@ -364,7 +390,12 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserConsumedQuantity = function(user) {
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var model = this.model('AbsenceElem');
         var renewal = this;
         model.find({ 'right.renewal.id': renewal._id, 'user.id': user._id }, 'quantity', function(err, docs) {
@@ -395,7 +426,12 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserTimeSavingDepositsQuantity = function(user) {
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var model = this.model('Request');
         model.find({
             'time_saving_deposit.to.renewal.id': this._id,
@@ -429,9 +465,13 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getUserAvailableQuantity = function(user) {
         
-        var Q = require('q');
-        var deferred = Q.defer();
-        Q.all([
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
+        Promise.all([
             this.getUserQuantity(user),
             this.getUserConsumedQuantity(user),
             this.getUserTimeSavingDepositsQuantity(user)
@@ -450,9 +490,13 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to an object
      */
     rightRenewalSchema.methods.getUserQuantityStats = function(user) {
-         var Q = require('q');
-        var deferred = Q.defer();
-        Q.all([
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
+        Promise.all([
             this.getUserQuantity(user),
             this.getUserConsumedQuantity(user),
             this.getUserTimeSavingDepositsQuantity(user)

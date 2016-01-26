@@ -199,8 +199,11 @@ exports = module.exports = function(params) {
      */
     rightSchema.methods.getPeriodRenewal = function(dtstart, dtend) {
         
-        var Q = require('q');
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
         
 
         this.getRenewalsQuery()
@@ -241,8 +244,11 @@ exports = module.exports = function(params) {
      */
     rightSchema.methods.getLastRenewal = function() {
         
-        var Q = require('q');
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
         
         this.getRenewalsQuery()
             .limit(1)

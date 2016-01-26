@@ -33,8 +33,11 @@ exports = module.exports = function(params) {
      */
     managerSchema.methods.getManagedDepartments = function() {
 
-        var Q = require('q');
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
 
         this.populate('department', function(err, manager) {
             if (err) {
@@ -55,7 +58,7 @@ exports = module.exports = function(params) {
                 subDepPromises.push(mainDep.getSubDepartments());
             }
 
-            Q.all(subDepPromises).then(function(list) {
+            Promise.all(subDepPromises).then(function(list) {
                 list.map(function(arr) {
                     Array.prototype.push.apply(departments, arr);
                 });

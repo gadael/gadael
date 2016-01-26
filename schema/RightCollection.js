@@ -37,7 +37,11 @@ exports = module.exports = function(params) {
      */
     collectionSchema.methods.getUsers = function getUsers(moment) {
         
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
         
         if (null === moment) {
             moment = new Date();
