@@ -83,8 +83,11 @@ exports = module.exports = function(params) {
 
         query.populate('rightCollection');
 
-        var Q = require('q');
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
 
         query.exec(function(err, arr) {
             if (err) {
@@ -253,8 +256,12 @@ exports = module.exports = function(params) {
       */
      accountSchema.methods.getPeriodScheduleCalendars = function(dtstart, dtend) {
 
-         var Q = require('q');
-         var deferred = Q.defer();
+         var deferred = {};
+         deferred.promise = new Promise(function(resolve, reject) {
+             deferred.resolve = resolve;
+             deferred.reject = reject;
+         });
+
          var account = this;
 
          account.getScheduleCalendarOverlapQuery(dtstart, dtend)
@@ -292,10 +299,15 @@ exports = module.exports = function(params) {
     accountSchema.methods.getPeriodScheduleEvents = function(dtstart, dtend) {
 
         var jurassic = require('jurassic');
-        var Q = require('q');
+
         var async = require('async');
 
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var account = this;
 
         account.getPeriodScheduleCalendars(dtstart, dtend).then(function(ascList) {
@@ -342,8 +354,12 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getPeriodUnavailableEvents = function(dtstart, dtend) {
         var jurassic = require('jurassic');
-        var Q = require('q');
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var acSchema = this;
 
         this.getPeriodScheduleEvents(dtstart, dtend).then(function(scheduleEvents) {
@@ -407,8 +423,12 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getScheduleCalendar = function(moment) {
 
-        var Q = require('q');
-        var deferred = Q.defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+
         var account = this;
         
         account.getScheduleCalendarOverlapQuery(moment, moment)
@@ -476,7 +496,11 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getRightBeneficiaries = function(moment) {
         
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
         
         if (!moment) {
             moment = new Date();
@@ -499,11 +523,13 @@ exports = module.exports = function(params) {
                 userDocuments.push(rightCollection._id);
             }
 
-            account.model('Beneficiary')
-            .where('document').in(userDocuments)
-            .populate('right')
-            .populate('right.type')
-            .exec(deferred.makeNodeResolver());
+            deferred.resolve(
+                account.model('Beneficiary')
+                .where('document').in(userDocuments)
+                .populate('right')
+                .populate('right.type')
+                .exec()
+            );
             
         }).catch(deferred.reject);
         
@@ -517,7 +543,11 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getRights = function(moment) {
 
-        var deferred = require('q').defer();
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject) {
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
         
         this.getRightBeneficiaries(moment).then(function(beneficiaries) {
             var rights = [];
