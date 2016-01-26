@@ -83,6 +83,7 @@
 	"describe"   : false,	  	// jasmine
     "it"         : false,		// jasmine
     "expect"     : false,		// jasmine
-    "beforeEach" : false        // jasmine
+    "beforeEach" : false,       // jasmine
+    "Promise"    : false        // ES6
   }
 }
