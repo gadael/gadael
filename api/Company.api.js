@@ -313,18 +313,21 @@ exports = module.exports = {
     },
 
     /**
-     * @return app
+     *Get Express Application
+     * @return {Object}
      */
     getExpress: function getExpress(config, models) {
 
-        var express = require('express'),
+        let express = require('express'),
         session = require('express-session'),
         mongoStore = require('connect-mongodb-session')(session),
         passport = require('passport');
 
+        let csrfProtection = null;
+
         if (config.csrfProtection) {
-            var csrf = require('csurf');
-            var csrfProtection = csrf({ cookie: true });
+            let csrf = require('csurf');
+            csrfProtection = csrf({ cookie: true });
         }
 
         //create express app
@@ -352,7 +355,7 @@ exports = module.exports = {
 
         //middleware
 
-        var bodyParser = require('body-parser');
+        let bodyParser = require('body-parser');
 
         if (config.loghttp) {
             // logging HTTP requests
@@ -380,17 +383,17 @@ exports = module.exports = {
         app.use(passport.initialize());
         app.use(passport.session());
 
-        var helmet = require('helmet');
+        let helmet = require('helmet');
         helmet.defaults(app);
 
-        if (undefined !== csrfProtection) {
+        if (null !== csrfProtection) {
             app.use(csrfProtection);
         }
 
 
         //response locals
         app.use(function(req, res, next) {
-            if (undefined !== csrfProtection) {
+            if (null !== csrfProtection) {
                 // XSRF-TOKEN is the cookie used by angularjs to forward the X-SRF-TOKEN header with a $http request
                 res.cookie('XSRF-TOKEN', req.csrfToken());
             }
