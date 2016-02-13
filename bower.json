@@ -20,7 +20,7 @@
     "rrule": "~2.1.0",
     "moment": "~2.8.4",
     "moment-duration-format": "https://github.com/ricwa230/moment-duration-format.git#e7b0b15a9c3709103017438b1c2b2929d95f8f6e",
-    "angular-teleperiod": "#d63492252a3843b487397774606635720cf0bc3f",
+    "angular-teleperiod": "#8698001d08ce4837da368d487e5b4967a1435ae7",
     "angular-bootstrap-colorpicker": "~3.0.18",
     "angular-image-crop": "https://github.com/demarchisd/angular-image-crop.git#master",
     "nvd3": "v1.1.15-beta",
