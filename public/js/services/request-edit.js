@@ -113,7 +113,7 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
             $scope.selection.begin = events[0].dtstart;
             $scope.selection.end = events[events.length-1].dtend;
             $scope.selection.periods = $scope.request.events;
-            $scope.selection.businessDays =0;
+            $scope.selection.businessDays = 0;
 
             var us = 0;
 
@@ -179,8 +179,6 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                         return setDuration($scope, duration);
                     }
 
-
-
                     calendarEvents.query({
                         type: 'workschedule',
                         dtstart: begin,
@@ -190,6 +188,10 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
                         var p;
 
                         for(var i=0; i<periods.length; i++) {
+
+                            if (undefined === periods[i].businessDays) {
+                                throw new Error('businessDays is not defined on period from '+periods[i].dtstart+' to '+periods[i].dtend+' (onUpdateInterval)');
+                            }
 
                             p = {
                                 dtstart: new Date(periods[i].dtstart),
