@@ -4,7 +4,7 @@
 describe('calendarevents accout rest service', function() {
 
 
-    var server, userAccount;
+    var server, userAccount, event1;
 
 
     beforeEach(function(done) {
@@ -130,11 +130,23 @@ describe('calendarevents accout rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeGreaterThan(0); // at least for the working periods
 
+            event1 = body[0];
+
             for(var i=0; i<body.length; i++) {
                 event = body[i];
                 expect(event.dtstart).toBeDefined();
                 expect(event.dtend).toBeDefined();
             }
+
+            done();
+        });
+    });
+
+    it('get workingtime event if requested with same period', function(done) {
+
+        server.get('/rest/user/calendarevents', { dtstart: event1.dtstart, dtend: event1.dtend, type: 'workschedule' }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
 
             done();
         });
