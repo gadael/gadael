@@ -35,15 +35,14 @@ define(['angular'], function(angular) {
 			.success(function(data) {
 
 				$rootScope.pageAlerts = data.alert;
+
+                addMessages(data.$outcome);
 				
 				if (data.$outcome.success)
 				{
 					// change the sign in button to the user parameters menu
 					// update the main menu
 					var promisedSession = $rootScope.reloadSession();
-
-                    addMessages(data.$outcome);
-
                     var displayAuthForm = angular.element(document.querySelector('[inga-auth]')).css('display');
 
 					if ('block' === displayAuthForm || '' === displayAuthForm)
