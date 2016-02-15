@@ -237,3 +237,16 @@
     margin:2px;
     padding: 0 2px;
 }
+
+
+/* nextweek calendar preview */
+
+.user-35 {
+    min-width:35px;
+    min-height:35px;
+    text-align:center;
+    background:#fff;
+    border-radius: 6px;
+    color:#ccc;
+    padding-top:3px;
+}

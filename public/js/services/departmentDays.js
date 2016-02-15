@@ -28,6 +28,8 @@ define(function() {
             };
 
             if (department !== undefined) {
+                // department parameter is mandatory for managers
+                // because manangers can display collaborators for their departments and the managed departments
                 collaboratorsParams.department = department;
             }
 

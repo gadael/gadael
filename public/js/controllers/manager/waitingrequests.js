@@ -11,23 +11,23 @@ define([], function() {
 
 
             var waitingRequestResource = Rest.manager.waitingrequests.getResource();
-            var waitingrequests = waitingRequestResource.query();
+            $scope.waitingrequests = waitingRequestResource.query();
 
             // group requests by user account
 
             $scope.users = {};
 
-            waitingrequests.$promise.then(function() {
+            $scope.waitingrequests.$promise.then(function() {
 
-                for(var i=0; i<waitingrequests.length; i++) {
-                    var uid = waitingrequests[i].user.id._id;
+                for(var i=0; i<$scope.waitingrequests.length; i++) {
+                    var uid = $scope.waitingrequests[i].user.id._id;
                     if (undefined === $scope.users[uid]) {
-                        $scope.users[uid] = waitingrequests[i].user;
+                        $scope.users[uid] = $scope.waitingrequests[i].user;
                         $scope.users[uid].requests = [];
                     }
 
-                    delete waitingrequests[i].user;
-                    $scope.users[uid].requests.push(waitingrequests[i]);
+                    delete $scope.waitingrequests[i].user;
+                    $scope.users[uid].requests.push($scope.waitingrequests[i]);
                 }
 
 

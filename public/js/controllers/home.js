@@ -32,7 +32,7 @@ define([], function() {
 
         if ($scope.sessionUser.department) {
             $scope.department = $scope.sessionUser.department;
-            $scope.department.days = departmentDays(collaboratorsResource, calendareventsResource, 14);
+            $scope.department.days = departmentDays(collaboratorsResource, calendareventsResource, 14, $scope.department._id);
         }
 
 	}];
