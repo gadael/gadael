@@ -7,7 +7,7 @@
  * @param	object	app 	the headless mock app
  * @param	object	db		Mongoose connexion
  */  
-function inga_loadMockModels(app, db)
+function gadael_loadMockModels(app, db)
 {
 	//config data models
 	var models = require('../models');
@@ -147,7 +147,7 @@ exports = module.exports = {
 
         db.once('open', function() {
 
-            inga_loadMockModels(app, db);
+            gadael_loadMockModels(app, db);
 
             // create the company entry
 
@@ -239,7 +239,7 @@ exports = module.exports = {
 
         db.once('open', function() {
 
-            inga_loadMockModels(app, db);
+            gadael_loadMockModels(app, db);
 
             db.models.Company.find().exec(function (err, docs) {
                 if (err) {

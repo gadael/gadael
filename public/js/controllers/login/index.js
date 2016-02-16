@@ -43,7 +43,7 @@ define(['angular'], function(angular) {
 					// change the sign in button to the user parameters menu
 					// update the main menu
 					var promisedSession = $rootScope.reloadSession();
-                    var displayAuthForm = angular.element(document.querySelector('[inga-auth]')).css('display');
+                    var displayAuthForm = angular.element(document.querySelector('[gadael-auth]')).css('display');
 
 					if ('block' === displayAuthForm || '' === displayAuthForm)
 					{
@@ -59,8 +59,8 @@ define(['angular'], function(angular) {
 						authService.loginConfirmed();
 						
 						// hide the login form if displayed because of a 401 status on HTTP request
-						angular.element(document.querySelector('[inga-auth]')).css('display', 'block');
-						angular.element(document.querySelector('.inga-auth-form')).css('display', 'none');
+						angular.element(document.querySelector('[gadael-auth]')).css('display', 'block');
+						angular.element(document.querySelector('.gadael-auth-form')).css('display', 'none');
 					}
 				}
 			})

@@ -26,7 +26,7 @@ define(['angular', 'services'], function(angular) {
 			}
 			
 			elm.attr('lang', lang);
-			elm.removeAttr('inga-lang');
+			elm.removeAttr('gadael-lang');
 		};
 	})
 
@@ -43,13 +43,13 @@ define(['angular', 'services'], function(angular) {
 			//elem.removeClass('waiting-for-angular');
 			
 			var main = angular.element(elem);
-			var login = angular.element(document.querySelector('.inga-auth-form'));
+			var login = angular.element(document.querySelector('.gadael-auth-form'));
 			
 			var unregister = scope.$on('event:auth-loginRequired', function() {
 
 				if (login.length === 0)
 				{
-					login = angular.element('<div><div class="inga-auth-form container" ng-include="\'partials/login/login.html\'"></div></div>');
+					login = angular.element('<div><div class="gadael-auth-form container" ng-include="\'partials/login/login.html\'"></div></div>');
 					$compile(login.contents())(scope);
 					login = angular.element(login[0]);
 					login.css('display', 'none');

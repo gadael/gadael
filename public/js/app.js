@@ -117,8 +117,8 @@ define([
 
 			// hide the login form and display the loaded page, 
 			// usefull if the user exit from an autorization required page
-			angular.element(document.querySelector('[inga-auth]')).css('display', 'block');
-			angular.element(document.querySelector('.inga-auth-form')).css('display', 'none');
+			angular.element(document.querySelector('[gadael-auth]')).css('display', 'block');
+			angular.element(document.querySelector('.gadael-auth-form')).css('display', 'none');
 
 			// select active menu item according to the current path
 			angular.element(document.querySelectorAll('.navbar-default li')).removeClass('active');

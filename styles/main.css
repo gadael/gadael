@@ -1,12 +1,12 @@
 
 
-.inga-list-rows > .row:first-child,
-.inga-row:first-child {
+.gadael-list-rows > .row:first-child,
+.gadael-row:first-child {
 	border-top:#ccc 1px dotted;
 }
 
-.inga-list-rows > .row,
-.inga-row {
+.gadael-list-rows > .row,
+.gadael-row {
 	padding:.8em 0;
 	border-bottom:#ccc 1px dotted;
 }
@@ -42,7 +42,7 @@
 .bottom60 { margin-bottom:60px; }
 
 
-.inga-list-header {
+.gadael-list-header {
 	background-image: linear-gradient(to bottom, #eee 0px, #f8f8f8 100%);
     background-repeat: repeat-x;
     border-radius: 6px 6px 0 0;
@@ -50,7 +50,7 @@
     padding:0;
 }
 
-.inga-list-header>* {
+.gadael-list-header>* {
 	margin:.8em 0;
 }
 
@@ -132,19 +132,19 @@
 }
 
 
-.inga-department .table {
+.gadael-department .table {
     border-spacing: 6px;
     border-collapse: separate;
 }
 
-.inga-department .table th,
-.inga-department .table td {
+.gadael-department .table th,
+.gadael-department .table td {
     border:none;
     vertical-align:middle;
 }
 
 
-.inga-department .table .nonworkingday {
+.gadael-department .table .nonworkingday {
     opacity:.5;
 }
 

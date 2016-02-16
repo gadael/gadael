@@ -20,7 +20,7 @@ exports = module.exports = function createConfiguration() {
     };
 
     config.companyName = 'Default company';
-    config.projectName = 'Inga';
+    config.projectName = 'Gadael';
     config.systemEmail = 'your@email.addy';
     config.cryptoKey = 'k8yb0brda2t';
     config.loginAttempts = {

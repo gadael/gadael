@@ -37,7 +37,7 @@
 
 <div class="row top30" ng-if="request.absence.distribution.length>1">
     <h4 class="text-info"><i class="fa fa-book"></i> <span translate>Rights distribution</span></h4>
-    <div class="inga-list-rows">
+    <div class="gadael-list-rows">
         <div class="row" ng-repeat="element in request.absence.distribution">
             <div class="col-md-1">{{element.quantity| number}} {{element.right.dispUnit}}</div>
             <div class="col-md-5"><i class="fa fa-asterisk" style="color:{{element.right.type.color}}" title="{{element.right.type.name}}"></i> {{element.right.name}}</div>
