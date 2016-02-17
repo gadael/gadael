@@ -10,7 +10,7 @@ define([], function() {
 		};
 		
 		$scope.saveType = function() {
-			$scope.type.ingaSave($scope.back);
+			$scope.type.gadaSave($scope.back);
 	    };
 	}];
 });

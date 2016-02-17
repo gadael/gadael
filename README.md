@@ -1,8 +1,8 @@
-inga-server
+Gadael
 ===========
 
-[![Build Status](https://travis-ci.org/polo2ro/inga-server.svg)](https://travis-ci.org/polo2ro/inga-server)
-[![Code Climate](https://codeclimate.com/github/polo2ro/inga-server/badges/gpa.svg)](https://codeclimate.com/github/polo2ro/inga-server)
-[![Test Coverage](https://codeclimate.com/github/polo2ro/inga-server/badges/coverage.svg)](https://codeclimate.com/github/polo2ro/inga-server/coverage)
+[![Build Status](https://travis-ci.org/gadael/gadael.svg)](https://travis-ci.org/gadael/gadael)
+[![Code Climate](https://codeclimate.com/github/gadael/gadael/badges/gpa.svg)](https://codeclimate.com/github/gadael/gadael)
+[![Test Coverage](https://codeclimate.com/github/gadael/gadael/badges/coverage.svg)](https://codeclimate.com/github/gadael/gadael/coverage)
 
 nodejs absences management application

@@ -45,7 +45,7 @@ define([], function() {
                 $scope.rightrenewal.right = $scope.right._id;
             }
             
-			$scope.rightrenewal.ingaSave($scope.back);
+			$scope.rightrenewal.gadaSave($scope.back);
 	    };
 	}];
 });

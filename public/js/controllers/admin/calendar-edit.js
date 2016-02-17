@@ -21,7 +21,7 @@ define([], function() {
 		};
 		
 		$scope.saveCalendar = function() {
-			$scope.calendar.ingaSave($scope.back);
+			$scope.calendar.gadaSave($scope.back);
 	    };
 	    
 	}];

@@ -5,7 +5,7 @@ define(['app'], function(app) {
         'use strict';
 
         it('got a name', function() {
-            expect(app['name']).toBe('inga');
+            expect(app['name']).toBe('gadael');
         });
     });
 

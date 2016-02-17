@@ -5,12 +5,12 @@ define(['angular', 'services'], function(angular) {
 	 *  Directives 
 	 */
 
-	angular.module('inga.directives', ['inga.services'])
+	angular.module('gadael.directives', ['gadael.services'])
 	
 	/**
 	 * set the html lang attribute
 	 */ 
-	.directive('ingaLang', function() {
+	.directive('gadaelLang', function() {
 		return function(scope, elm) {
 			
 			var lang = navigator.language || navigator.userLanguage;
@@ -34,7 +34,7 @@ define(['angular', 'services'], function(angular) {
 	 * This scope in page will be replaced by the partial/login/login.html if a http 401 is encountred
 	 * 
 	 */
-	.directive('ingaAuth', ['$compile', function($compile) {
+	.directive('gadaelAuth', ['$compile', function($compile) {
 
 		
 		return function(scope, elem) {

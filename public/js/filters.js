@@ -3,7 +3,7 @@ define(['angular', 'services'], function (angular) {
 
 	/* Filters */
   
-	angular.module('inga.filters', ['inga.services'])
+	angular.module('gadael.filters', ['gadael.services'])
 		.filter('interpolate', ['version', function(version) {
 			return function(text) {
 				return String(text).replace(/\%VERSION\%/mg, version);

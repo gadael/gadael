@@ -5,7 +5,7 @@ define([], function() {
 	return ['$scope', '$location', 'Rest', 'UserEdit',
         function($scope, $location, Rest, UserEdit) {
 		
-        $scope.user = Rest.user.settings.getFromUrl().ingaGet();
+        $scope.user = Rest.user.settings.getFromUrl().gadaGet();
 
         /**
          * setImage modal popup
@@ -17,7 +17,7 @@ define([], function() {
 		};
 		
 		$scope.saveUser = function() {
-			$scope.user.ingaSave($scope.back);
+			$scope.user.gadaSave($scope.back);
 	    };
 	}];
 });

@@ -14,7 +14,7 @@ define([
 
         beforeEach(function(done) {
             
-            angular.mock.module('inga');
+            angular.mock.module('gadael');
             angular.mock.module('partials/utils/paginate-anything.html');
             angular.mock.module('partials/admin/users.html');
             

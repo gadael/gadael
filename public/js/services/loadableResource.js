@@ -1,5 +1,5 @@
-define(['services/ingaSave', 'services/ingaDelete'],
-    function(ingaSave, ingaDelete) {
+define(['services/gadaSave', 'services/gadaDelete'],
+    function(gadaSave, gadaDelete) {
 
     'use strict';
     
@@ -31,8 +31,8 @@ define(['services/ingaSave', 'services/ingaDelete'],
             item.loadRouteId = function() {
 
                 var resource = this.get(function(inst) {
-                    inst.ingaSave = ingaSave(inst, catchOutcome);
-                    inst.ingaDelete = ingaDelete(inst, catchOutcome);
+                    inst.gadaSave = gadaSave(inst, catchOutcome);
+                    inst.gadaDelete = gadaDelete(inst, catchOutcome);
                 });
 
                 catchOutcome(resource.$promise);
@@ -53,11 +53,11 @@ define(['services/ingaSave', 'services/ingaDelete'],
             var collection = ResourceFactory(collectionPath);
 
             // if the path lead to one item only
-            collection.ingaGet = function() {
+            collection.gadaGet = function() {
 
                 var resource = this.get(function(inst) {
-                    inst.ingaSave = ingaSave(inst, catchOutcome);
-                    inst.ingaDelete = ingaDelete(inst, catchOutcome);
+                    inst.gadaSave = gadaSave(inst, catchOutcome);
+                    inst.gadaDelete = gadaDelete(inst, catchOutcome);
                 });
 
                 catchOutcome(resource.$promise);
@@ -73,10 +73,10 @@ define(['services/ingaSave', 'services/ingaDelete'],
                 // scope will be loaded with an empty instance
 
                 var inst = new collection();
-                inst.ingaSave = ingaSave(inst, catchOutcome);
+                inst.gadaSave = gadaSave(inst, catchOutcome);
 
                 // new record created, no need to delete
-                //inst.ingaDelete = ingaDelete(inst, catchOutcome);
+                //inst.gadaDelete = gadaDelete(inst, catchOutcome);
 
                 return inst;
             };

@@ -8,7 +8,7 @@ define(['controllers/home'], function() {
 
         beforeEach(function(done) {
             
-            angular.mock.module('inga');
+            angular.mock.module('gadael');
             
             angular.mock.inject(function($injector) {
                 

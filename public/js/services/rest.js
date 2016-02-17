@@ -22,12 +22,12 @@ define(function() {
                  */
                 getFromUrl: function() {
                     
-                    var ingaPath = path;
+                    var restUrlPath = path;
                     if ('/:id' === path.substr(path.length-4,4)) {
-                        ingaPath = path.substr(0, path.length-4);
+                        restUrlPath = path.substr(0, path.length-4);
                     }
 
-                    return IngaResource(ingaPath);
+                    return IngaResource(restUrlPath);
                 },
                 
 

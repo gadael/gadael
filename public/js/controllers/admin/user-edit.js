@@ -53,7 +53,7 @@ define([], function() {
          */
 		$scope.saveUser = function() {
 
-			$scope.user.ingaSave()
+			$scope.user.gadaSave()
             .then($scope.cancel);
 	    };
 

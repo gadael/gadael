@@ -122,7 +122,7 @@ define([], function() {
 
 
             try {
-                $scope.request.ingaSave($scope.back);
+                $scope.request.gadaSave($scope.back);
             } catch(e) {
 
                 if (undefined === $rootScope.pageAlerts) {

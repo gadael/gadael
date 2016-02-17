@@ -27,7 +27,7 @@ define([], function() {
 		};
 
 		$scope.saveRecoverQuantity = function() {
-			$scope.recoverquantity.ingaSave($scope.back);
+			$scope.recoverquantity.gadaSave($scope.back);
 	    };
 	}];
 });

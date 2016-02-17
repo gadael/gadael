@@ -52,7 +52,7 @@ define([], function() {
 		};
 		
 		$scope.saveCollection = function() {
-			$scope.collection.ingaSave(function(collection) {
+			$scope.collection.gadaSave(function(collection) {
                 saveBeneficiaries($scope, collection._id).then($scope.back);
             });
 	    };

@@ -22,13 +22,13 @@ define([
 
 	// Declare app level module which depends on filters, and services
 	
-	var inga = angular.module('inga', [
+	var gadael = angular.module('gadael', [
 		'ngRoute',
-		'inga.controllers',
-		'inga.filters',
-		'inga.services',
-		'inga.directives',
-		'inga.gettext',
+		'gadael.controllers',
+		'gadael.filters',
+		'gadael.services',
+		'gadael.directives',
+		'gadael.gettext',
 		'http-auth-interceptor',
 		'begriffs.paginate-anything',
 		'vr.directives.passwordStrength.width',
@@ -43,17 +43,17 @@ define([
     
     
     
-    inga.config(function($dropdownProvider) {
+    gadael.config(function($dropdownProvider) {
         angular.extend($dropdownProvider.defaults, {
             animation: 'am-flip-x',
             html: true
         });
     });
 
-    inga.config(["$httpProvider", jsondates]);
+    gadael.config(["$httpProvider", jsondates]);
 	
 
-	inga.run(['$rootScope', '$location', '$http', '$q', function($rootScope, $location, $http, $q) {
+	gadael.run(['$rootScope', '$location', '$http', '$q', function($rootScope, $location, $http, $q) {
 		
 		/**
 		 * Update accessibles items and user informations
@@ -126,7 +126,7 @@ define([
 		});
 	}]);
 		
-	return inga;
+	return gadael;
 });
 
 

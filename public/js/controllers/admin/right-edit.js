@@ -21,7 +21,7 @@ define([], function() {
 		};
 		
 		$scope.saveRight = function() {
-			$scope.right.ingaSave($scope.back);
+			$scope.right.gadaSave($scope.back);
 	    };
 	}];
 });

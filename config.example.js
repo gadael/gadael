@@ -16,7 +16,7 @@ exports = module.exports = function createConfiguration() {
     config.port = process.argv[2] || 3000;
     config.mongodb = {
         prefix: 'localhost/',
-        dbname: 'inga'
+        dbname: 'gadael'
     };
 
     config.companyName = 'Default company';

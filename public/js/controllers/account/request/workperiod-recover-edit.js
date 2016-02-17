@@ -86,7 +86,7 @@ define([], function() {
 
             try {
                 $scope.request.events = $scope.selection.periods;
-                $scope.request.ingaSave($scope.back);
+                $scope.request.gadaSave($scope.back);
             } catch(e) {
                 $rootScope.pageAlerts.push({
                     message: e.message,

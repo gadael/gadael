@@ -31,7 +31,7 @@ define([
 	
 	/* Services */
 	
-	angular.module('inga.services', ['ngResource'])
+	angular.module('gadael.services', ['ngResource'])
 	
     
     
