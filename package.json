@@ -23,7 +23,7 @@
     "working time recovery"
   ],
   "scripts": {
-    "test": "npm rebuild && grunt travis"
+    "test": "grunt travis"
   },
   "dependencies": {
     "async": "^0.8.0",
