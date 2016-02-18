@@ -5,7 +5,7 @@ define(['services/gadaSave', 'services/gadaDelete'],
     
     /**
      * Get a list of function to use in resource creation
-     * this is for the IngaResource service
+     * this is for the RestResource service
      *
      * @param   {function} ResourceFactory The service
      * @param   {Object}   $routeParams    Angular route parameters

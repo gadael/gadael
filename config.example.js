@@ -6,8 +6,6 @@ exports = module.exports = function createConfiguration() {
 
     'use strict';
 
-    // require('longjohn');
-
     var config = {};
 
     config.loghttp = false;
@@ -22,6 +20,8 @@ exports = module.exports = function createConfiguration() {
     config.companyName = 'Default company';
     config.projectName = 'Gadael';
     config.systemEmail = 'your@email.addy';
+
+    // used for sessions
     config.cryptoKey = 'k8yb0brda2t';
     config.loginAttempts = {
       forIp: 50,

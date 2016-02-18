@@ -99,7 +99,7 @@ define([
 	 * Create a resource to an object or to a collection
 	 * the object resource is created only if the angular route contain a :id
 	 */ 
-	.factory('IngaResource', 
+	.factory('RestResource',
         ['ResourceFactory', '$routeParams', 'catchOutcome', 
         function(ResourceFactory, $routeParams, catchOutcome) {
             
@@ -124,9 +124,9 @@ define([
     /**
      * Load the collection of REST services
      */
-    .factory('Rest', ['ResourceFactory', 'IngaResource', 
-        function(ResourceFactory, IngaResource) {
-            return rest(ResourceFactory, IngaResource);
+    .factory('Rest', ['ResourceFactory', 'RestResource',
+        function(ResourceFactory, RestResource) {
+            return rest(ResourceFactory, RestResource);
         }
     ])
     

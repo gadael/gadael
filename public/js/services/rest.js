@@ -2,7 +2,7 @@ define(function() {
 
     'use strict';
 
-    return function LoadRestListService(ResourceFactory, IngaResource) {
+    return function LoadRestListService(ResourceFactory, RestResource) {
         
         /**
          * the returned object will be the one used in controller
@@ -17,7 +17,7 @@ define(function() {
 
                 /**
                  * Create resource using the path in URL
-                 * using the IngaResource service
+                 * using the RestResource service
                  * @return {$resource}
                  */
                 getFromUrl: function() {
@@ -27,7 +27,7 @@ define(function() {
                         restUrlPath = path.substr(0, path.length-4);
                     }
 
-                    return IngaResource(restUrlPath);
+                    return RestResource(restUrlPath);
                 },
                 
 

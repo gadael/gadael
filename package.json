@@ -86,7 +86,6 @@
     "karma-ng-html2js-preprocessor": "~0.1",
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-requirejs": "~0.2.2",
-    "longjohn": "~0.2.4",
     "protractor": "~0.20.1",
     "shelljs": "^0.2.6"
   }

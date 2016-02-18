@@ -80,6 +80,7 @@
 
   // Custom Globals
   "globals"        : {		  	// additional predefined global variables
+    "define"     : false,	  	// jasmine
 	"describe"   : false,	  	// jasmine
     "it"         : false,		// jasmine
     "expect"     : false,		// jasmine

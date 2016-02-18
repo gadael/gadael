@@ -1,11 +1,11 @@
+'use strict';
 
 define(['app'], function(app) {
 
-    describe('Inga application', function () {
-        'use strict';
+    describe('Gadael application', function () {
 
         it('got a name', function() {
-            expect(app['name']).toBe('gadael');
+            expect(app.name).toBe('gadael');
         });
     });
 
