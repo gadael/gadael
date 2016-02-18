@@ -1,5 +1,4 @@
-Gadael
-===========
+# ![Gadael](public/images/logoText256.png)
 
 [![Build Status](https://travis-ci.org/gadael/gadael.svg)](https://travis-ci.org/gadael/gadael)
 [![Code Climate](https://codeclimate.com/github/gadael/gadael/badges/gpa.svg)](https://codeclimate.com/github/gadael/gadael)
@@ -8,7 +7,7 @@ Gadael
 nodejs absences management application
 
 
-![logo](public/images/logoText256.png)
+
 
 
 
