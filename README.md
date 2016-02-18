@@ -6,3 +6,6 @@ Gadael
 [![Test Coverage](https://codeclimate.com/github/gadael/gadael/badges/coverage.svg)](https://codeclimate.com/github/gadael/gadael/coverage)
 
 nodejs absences management application
+
+
+![logo](public/images/logoText256.png)
