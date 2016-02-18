@@ -61,7 +61,7 @@
     "charlatan": "~1.0.0",
     "grunt": "^0.4.4",
     "grunt-angular-gettext": "~0.2.13",
-    "grunt-codeclimate-reporter": "^1.1.2",
+    "grunt-codeclimate-reporter": "git://github.com/polo2ro/grunt-codeclimate-reporter.git#0b29333e55b4357b4d3b4280cefa9654e1f25624",
     "grunt-concurrent": "^0.5.0",
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-copy": "^0.5.0",
