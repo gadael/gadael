@@ -213,7 +213,7 @@ module.exports = function(grunt) {
         main: {
           options: {
             file: 'coverage/lcov.info',
-            token: '410b77f13f631686506a66173f61f835c13f50d53c033747c9b4e7146e892181'
+            token: '4e96740bf6bcf7478dff8d7c59dea0888b794dd414cd4e3b934b4c1fcfc27fea'
           }
         }
     },
