@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "author": "Paul de Rosanbo <paul@rosanbo.com>",
   "description": "Vacations management application for  smart teams, nodejs server, angularjs frontend",
+  "license" : "MIT License",
   "repository" :{
     "type" : "git"
   , "url" : "https://github.com/gadael/gadael.git"
@@ -24,6 +25,9 @@
   ],
   "scripts": {
     "test": "grunt travis"
+  },
+  "engines" : {
+    "node" : ">=4.3.0"
   },
   "dependencies": {
     "async": "^0.8.0",
