@@ -2,9 +2,10 @@ define(['angular'], function(angular) {
     
     'use strict';
     
-	return ['$scope', '$http', 'authService', '$rootScope', '$location',
-    function($scope, $http, authService, $rootScope, $location) {
+	return ['$scope', '$http', 'authService', '$rootScope', '$location', 'gettext',
+    function($scope, $http, authService, $rootScope, $location, gettext) {
 
+        $scope.setPageTitle(gettext('Login'));
 
 
         /**

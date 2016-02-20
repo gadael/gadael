@@ -3,7 +3,7 @@ define(['moment'], function(moment) {
     'use strict';
 
 
-    return function loadCalendarService(gettext, $locale, $q) {
+    return function loadCalendarService($locale, $q) {
 
 
 

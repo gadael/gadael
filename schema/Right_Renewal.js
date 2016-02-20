@@ -185,7 +185,7 @@ exports = module.exports = function(params) {
             quantity += adjustment.quantity;
         });
 
-        if (quantity > right.getMonthlyMaxQuantity()) {
+        if (quantity>right.getMonthlyMaxQuantity()) {
             quantity = right.getMonthlyMaxQuantity();
         }
 

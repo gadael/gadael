@@ -371,7 +371,7 @@ exports = module.exports = function(params) {
             throw new Error('Nothing to accept');
         }
 
-        if (false === nextStep || approvalStep._id === nextStep._id) {
+        if (false === nextStep || approvalStep._id === nextStep._id) {
             this.addLog('wf_end', user);
 
             if ('waiting' === this.status.created) {

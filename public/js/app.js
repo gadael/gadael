@@ -53,7 +53,11 @@ define([
     gadael.config(["$httpProvider", jsondates]);
 	
 
-	gadael.run(['$rootScope', '$location', '$http', '$q', function($rootScope, $location, $http, $q) {
+	gadael.run(['$rootScope', '$location', '$http', '$q', 'gettext', function($rootScope, $location, $http, $q, gettext) {
+
+        $rootScope.setPageTitle = function(title) {
+            $rootScope.pageTitle = gettext('Gadael - %s').replace(/%s/, title);
+        };
 		
 		/**
 		 * Update accessibles items and user informations
@@ -100,6 +104,12 @@ define([
 		
 		
 		$rootScope.$on('$routeChangeStart', function() { 
+
+            /**
+             * Default page title
+             */
+            $rootScope.setPageTitle(gettext('Absence managment'));
+
 			// reset alert messages on page change
 			
 			setTimeout(function() {

@@ -209,7 +209,7 @@ exports = module.exports = function(params) {
      */
     rightRuleSchema.methods.validateRequestDate = function(dtstart, dtend, renewal) {
 
-        if (!dtstart || !dtend) {
+        if (!dtstart||!dtend) {
             return false;
         }
 

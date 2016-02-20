@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the gadael package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-11 08:41+0200\n"
+"POT-Creation-Date: 2016-02-20 19:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: modules/apputil.js:39 modules/passport.js:113
+#: modules/apputil.js:45 modules/passport.js:128
 msgid "Access denied for non administrators"
 msgstr ""
 
-#: modules/apputil.js:44
+#: modules/apputil.js:50
 msgid "Access denied for users without vacation account"
 msgstr ""
 
-#: modules/apputil.js:49
-msgid "Access denied for annonymous users"
+#: modules/apputil.js:55
+msgid "Access denied for non managers"
 msgstr ""
 
-#: modules/passport.js:91
+#: modules/apputil.js:60 modules/passport.js:106
 msgid "Access denied for anonymous users"
 msgstr ""
 
-#: modules/passport.js:129
+#: modules/dispunits.js:19
+msgid "Day"
+msgid_plural "Days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: modules/dispunits.js:21
+msgid "Hour"
+msgid_plural "Hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: modules/passport.js:144
 msgid "Access denied"
 msgstr ""
 
@@ -42,64 +54,72 @@ msgstr ""
 msgid "dtstart, dtend are mandatory parameters"
 msgstr ""
 
-#: modules/requestdateparams.js:29
+#: modules/requestdateparams.js:33
 msgid "dtend must be greater than dtstart"
 msgstr ""
 
-#: modules/requestdateparams.js:34
+#: modules/requestdateparams.js:38
 msgid "Dates interval must be less than 2 years"
 msgstr ""
 
-#: rest/Common.js:39
+#: rest/Common.js:42
 msgid "Logout"
 msgstr ""
 
-#: rest/Common.js:43
+#: rest/Common.js:46
 msgid "Settings"
 msgstr ""
 
-#: rest/Common.js:53
+#: rest/Common.js:56
 msgid "Calendar"
 msgstr ""
 
-#: rest/Common.js:57
+#: rest/Common.js:60
 msgid "My requests"
 msgstr ""
 
-#: rest/Common.js:61
-msgid "Request a vacation period"
+#: rest/Common.js:64
+msgid "My rights"
 msgstr ""
 
-#: rest/Common.js:72
+#: rest/Common.js:73
+msgid "Waiting requests"
+msgstr ""
+
+#: rest/Common.js:84
 msgid "Admin summary"
 msgstr ""
 
-#: rest/Common.js:76
+#: rest/Common.js:88
 msgid "Requests"
 msgstr ""
 
-#: rest/Common.js:83
+#: rest/Common.js:95
 msgid "Users list"
 msgstr ""
 
-#: rest/Common.js:87
+#: rest/Common.js:99
 msgid "Departments list"
 msgstr ""
 
-#: rest/Common.js:91
+#: rest/Common.js:103
 msgid "Collections list"
 msgstr ""
 
-#: rest/Common.js:95
+#: rest/Common.js:107
 msgid "Calendars list"
 msgstr ""
 
-#: rest/Common.js:102
+#: rest/Common.js:114
 msgid "Right types"
 msgstr ""
 
-#: rest/Common.js:106
+#: rest/Common.js:118
 msgid "Rights configuration"
+msgstr ""
+
+#: rest/Common.js:122
+msgid "Recover quantities"
 msgstr ""
 
 #: rest/anonymous/createfirstadmin.js:59
@@ -168,35 +188,99 @@ msgstr ""
 msgid "The password has been modified"
 msgstr ""
 
-#: rest/user/settings.js:36
-msgid "Your settings has been modified"
-msgstr ""
-
 #: rest/user/user.js:15
 msgid "You must be logged in"
 msgstr ""
 
-#: schema/Right.js:136
-msgid "Day"
-msgid_plural "Days"
-msgstr[0] ""
-msgstr[1] ""
+#: schema/ApprovalStep.js:56 schema/ApprovalStep.js:57
+msgid "Waiting"
+msgstr ""
 
-#: schema/Right.js:138
-msgid "Hour"
-msgid_plural "Hours"
-msgstr[0] ""
-msgstr[1] ""
+#: schema/ApprovalStep.js:58 schema/Request.js:70
+msgid "Rejected"
+msgstr ""
 
-#: schema/RightCollection.js:76
+#: schema/RecoverQuantity.js:27
+msgid "Half-day"
+msgstr ""
+
+#: schema/RecoverQuantity.js:32
+msgid "A day"
+msgstr ""
+
+#: schema/RecoverQuantity.js:37
+msgid "One hour"
+msgstr ""
+
+#: schema/RecoverQuantity.js:42
+msgid "A week-end"
+msgstr ""
+
+#: schema/Request.js:66
+msgid "Waiting approval"
+msgstr ""
+
+#: schema/Request.js:68
+msgid "Accepted"
+msgstr ""
+
+#: schema/Request.js:78
+msgid "Waiting deletion approval"
+msgstr ""
+
+#: schema/Request.js:80
+msgid "Deleted"
+msgstr ""
+
+#: schema/Request.js:82
+msgid "Deletion rejected"
+msgstr ""
+
+#: schema/Request.js:86
+msgid "Undefined"
+msgstr ""
+
+#: schema/RequestLog.js:39
+msgid "Create request"
+msgstr ""
+
+#: schema/RequestLog.js:41
+msgid "Send request to approval"
+msgstr ""
+
+#: schema/RequestLog.js:43
+msgid "Approval step accepted"
+msgstr ""
+
+#: schema/RequestLog.js:45
+msgid "Approval step rejected"
+msgstr ""
+
+#: schema/RequestLog.js:47
+msgid "Approval workflow end"
+msgstr ""
+
+#: schema/RequestLog.js:49
+msgid "Modify request"
+msgstr ""
+
+#: schema/RequestLog.js:51
+msgid "Delete request"
+msgstr ""
+
+#: schema/RequestLog.js:54
+msgid "Unknown action"
+msgstr ""
+
+#: schema/RightCollection.js:109
 msgid "General regime 100%"
 msgstr ""
 
-#: schema/RightCollection.js:77
+#: schema/RightCollection.js:110
 msgid "Part-time 80%"
 msgstr ""
 
-#: schema/RightCollection.js:78
+#: schema/RightCollection.js:111
 msgid "Part-time 50%"
 msgstr ""
 
@@ -204,12 +288,8 @@ msgstr ""
 msgid "Interval values must be numbers of years"
 msgstr ""
 
-#: schema/Right_Rule.js:77 schema/Right_Rule.js:91
+#: schema/Right_Rule.js:77
 msgid "Interval values must be set in a correct order"
-msgstr ""
-
-#: schema/Right_Rule.js:86
-msgid "Interval values must be dates"
 msgstr ""
 
 #: schema/Type.js:26

@@ -355,7 +355,7 @@ define([
     /**
      * Load the collection of REST services
      */
-    .factory('Calendar', ['gettext', '$locale', '$q',
+    .factory('Calendar', ['$locale', '$q',
         function(gettext, $locale, $q) {
             return getCalendar(gettext, $locale, $q);
         }
