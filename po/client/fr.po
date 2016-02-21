@@ -408,7 +408,6 @@ msgid "Default quantity on start renewal:"
 msgstr "Quantité par défaut au début du renouvellement :"
 
 #: public/partials/admin/rightrule-edit.html
-#, fuzzy
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -462,7 +461,7 @@ msgstr "Ne pas notifier en cas d'approbation"
 
 #: public/partials/admin/user-view-account.html
 msgid "Do not notify on new rights allocations"
-msgstr ""
+msgstr "Ne pas notifier lors de l'attribution de nouveaux droits"
 
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
@@ -633,9 +632,8 @@ msgid "Initial quantity:"
 msgstr "Quantité initiale :"
 
 #: public/partials/admin/beneficiary-edit.html
-#, fuzzy
 msgid "Initial:"
-msgstr "Quantité initiale"
+msgstr "Initiale :"
 
 #: public/partials/utils/common/request/request-view-embed.html
 msgid "Interventions history"
@@ -643,7 +641,7 @@ msgstr "Historique des interventions"
 
 #: public/partials/admin/adjustment-edit.html
 msgid "Justification, write about this manual adjustment"
-msgstr ""
+msgstr "Justificatif à propos de cet ajustement manuel"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Last renewal:"
@@ -814,7 +812,7 @@ msgstr "Options"
 
 #: public/partials/admin/adjustment-edit.html
 msgid "Or set the available quantity"
-msgstr ""
+msgstr "Ou définir la quantité disponible"
 
 #: public/partials/admin/request/absence-view.html
 #: public/partials/admin/request/workperiod-recover-view.html
@@ -845,7 +843,7 @@ msgstr "Agenda personnel"
 
 #: public/partials/login/createfirstadmin.html
 msgid "Please create the first admin account to continue."
-msgstr ""
+msgstr "Veuillez créer le premier administrateur pour continuer."
 
 #: public/partials/home.html
 msgid "Please log into the application to see your account informations"
@@ -853,7 +851,7 @@ msgstr ""
 
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid "Proceed to the request creation with one of the following:"
-msgstr ""
+msgstr "Procéder à la création de la demande avec un des éléments suivants :"
 
 #: public/partials/admin/right-edit.html
 msgid "Quantity provided on each renewals"
@@ -929,11 +927,14 @@ msgstr "Nom du droit :"
 #: public/partials/admin/rightrule-edit.html
 msgid "Right is visible when request period is in the renewal period"
 msgstr ""
+"Le droit est visible quand la demande est dans la période du renouvellement"
 
 #: public/partials/admin/rightrule-edit.html
 msgid ""
 "Right is visible when the request creation date is in the renewal period"
 msgstr ""
+"Le droit est visible quand la date de création de la demande est dans la "
+"période du renouvellement"
 
 #: public/partials/admin/rightrule-edit.html
 msgid ""
@@ -975,7 +976,7 @@ msgstr "Rôles :"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Rule title, this will be visible from users"
-msgstr ""
+msgstr "Titre de la règle, ceci sera visible par les utilisateurs"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Rule type:"
@@ -1138,7 +1139,7 @@ msgstr "Supérieur hiérarchique"
 #: public/partials/admin/request/absence-view.html
 #: public/partials/admin/request/workperiod-recover-view.html
 msgid "Supervisors"
-msgstr ""
+msgstr "Chefs de service"
 
 #: public/partials/admin/calendar-edit.html
 msgid ""
@@ -1372,12 +1373,12 @@ msgid "Wednesday"
 msgstr "Mercredi"
 
 #: public/partials/login/createfirstadmin.html
-msgid "Welcome"
-msgstr ""
+msgid "Wellcome"
+msgstr "Bienvenue"
 
 #: public/partials/home.html
 msgid "Wellcome to your absence manager"
-msgstr ""
+msgstr "Bienvenue dans votre gestionnaire d'absences"
 
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/calendars.html
@@ -1437,6 +1438,8 @@ msgid ""
 "Your period selection of {{selection.days}} (or {{selection.hours}}) must be "
 "distribued into the following vacation rights"
 msgstr ""
+"Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
+"doit être répartie parmis les droits de congés suivants"
 
 #~ msgid "Montly additions:"
 #~ msgstr "Ajouts mensuels :"

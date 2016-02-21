@@ -1310,7 +1310,7 @@ msgid "Wednesday"
 msgstr ""
 
 #: public/partials/login/createfirstadmin.html
-msgid "Welcome"
+msgid "Wellcome"
 msgstr ""
 
 #: public/partials/home.html
