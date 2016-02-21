@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-20 22:38+0100\n"
-"PO-Revision-Date: 2016-02-20 22:48+0100\n"
+"PO-Revision-Date: 2016-02-21 20:28+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -52,11 +52,11 @@ msgstr "Accès refusé"
 
 #: modules/requestdateparams.js:22
 msgid "dtstart, dtend are mandatory parameters"
-msgstr ""
+msgstr "dtstart, dtend sont des paramètres obligatoires"
 
 #: modules/requestdateparams.js:33
 msgid "dtend must be greater than dtstart"
-msgstr ""
+msgstr "dtend doit être supérieur à dtstart"
 
 #: modules/requestdateparams.js:38
 msgid "Dates interval must be less than 2 years"
@@ -88,7 +88,7 @@ msgstr "Demandes en attente"
 
 #: rest/Common.js:84
 msgid "Admin summary"
-msgstr ""
+msgstr "Sommaire de l'administrateur"
 
 #: rest/Common.js:88
 msgid "Requests"
@@ -165,6 +165,19 @@ msgid ""
 "Thanks,\n"
 "%s"
 msgstr ""
+"Mot de passe oublié?\n"
+"---------------------\n"
+"\n"
+"Nous avons reçu une demande de réinitialisation de mot de passe pour votre "
+"compte (%s).\n"
+"\n"
+"Pour réinitialiser votre mot de passe, veuillez cliquer sur ce [lien][1] "
+"(ou copier coller l'url dans votre navigateur):\n"
+"\n"
+"[1]: %s\n"
+"\n"
+"Merci,\n"
+"%s"
 
 #: rest/login.js:213
 #, javascript-format

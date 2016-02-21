@@ -4,15 +4,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: public/partials/admin/adjustment-edit.html
-#: public/partials/admin/rightrule-edit.html
-msgid "<i class=\"fa fa-save\"></i> Save"
-msgstr ""
-
-#: public/partials/admin/rightrule-edit.html
-msgid "<i class=\"fa fa-times\"></i> Delete"
-msgstr ""
-
 #: public/partials/utils/common/request/request-list-type.html
 msgid "1 day"
 msgid_plural "{{deposit.quantity| number}} days"
@@ -400,6 +391,10 @@ msgstr ""
 msgid "Default quantity on start renewal:"
 msgstr ""
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Delete"
+msgstr ""
+
 #: public/partials/admin/request/absence-view.html
 #: public/partials/admin/request/workperiod-recover-view.html
 #: public/partials/admin/user-edit.html
@@ -665,13 +660,10 @@ msgstr ""
 msgid "Monday"
 msgstr ""
 
-#: public/partials/admin/right-view.html
-msgid "Monthly additions:"
-msgstr ""
-
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
-msgid "Montly additions:"
+#: public/partials/admin/right-view.html
+msgid "Monthly additions:"
 msgstr ""
 
 #: public/partials/utils/common/request/request-create-select-type.html
@@ -961,12 +953,14 @@ msgstr ""
 
 #: public/partials/admin/account-collections-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
+#: public/partials/admin/adjustment-edit.html
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
 #: public/partials/admin/recoverquantity-edit.html
 #: public/partials/admin/right-edit.html
 #: public/partials/admin/rightrenewal-edit.html
+#: public/partials/admin/rightrule-edit.html
 #: public/partials/admin/type-edit.html
 #: public/partials/admin/user-edit.html
 #: public/partials/login/createfirstadmin.html

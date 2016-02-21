@@ -12,15 +12,6 @@ msgstr ""
 "X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: public/partials/admin/adjustment-edit.html
-#: public/partials/admin/rightrule-edit.html
-msgid "<i class=\"fa fa-save\"></i> Save"
-msgstr ""
-
-#: public/partials/admin/rightrule-edit.html
-msgid "<i class=\"fa fa-times\"></i> Delete"
-msgstr ""
-
 #: public/partials/utils/common/request/request-list-type.html
 msgid "1 day"
 msgid_plural "{{deposit.quantity| number}} days"
@@ -200,11 +191,13 @@ msgstr "Au moins un approbateur doit approuver l'étape"
 
 #: public/partials/admin/collection-edit.html
 msgid "Attendance"
-msgstr ""
+msgstr "Présence"
 
 #: public/partials/admin/right-edit.html
 msgid "Automatic distribution of this right when creating a request"
 msgstr ""
+"Répartition automatique de la quantité sur ce droit lors de la création "
+"d'une demande"
 
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
@@ -287,11 +280,11 @@ msgstr "Modifier la quantité initiale"
 
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 msgid "Choose from your remnant quantity"
-msgstr ""
+msgstr "Choisir à partir de votre quantité restante"
 
 #: public/partials/admin/user-view-manager.html
 msgid "Collaborators to supervise with request approvals"
-msgstr ""
+msgstr "Collaborateurs à superviser lors des demandes d'approbation"
 
 #: public/partials/admin/collection-edit.html
 msgid "Collection name"
@@ -299,7 +292,7 @@ msgstr "Nom du régime"
 
 #: public/partials/utils/common/request/absence-edit.html
 msgid "Collection on the selected period: {{collection.name}}"
-msgstr ""
+msgstr "Régime sur la période sélectionnée : {{collection.name}}"
 
 #: public/partials/admin/request/spoof-user-modal.html
 msgid "Collection:"
@@ -335,6 +328,8 @@ msgstr "Consommé :"
 msgid ""
 "Consumption on the selected period: {{selection.days}} or {{selection.hours}}"
 msgstr ""
+"Consommation sur la période sélectionnée : {{selection.days}} ou {{selection."
+"hours}}"
 
 #: public/partials/utils/common/request/absence-edit.html
 msgid "Continue"
@@ -350,21 +345,24 @@ msgstr "Créer un nouveau dépôt sur le Compte Épargne Temps"
 
 #: public/partials/account/request/absence-edit.html
 msgid "Create a new vacation request"
-msgstr ""
+msgstr "Créer une nouvelle demande d'absence"
 
 #: public/partials/account/request/workperiod-recover-edit.html
 msgid "Create a new workperiod recover request"
 msgstr ""
+"Créer une nouvelle déclaration de jour travaillé donnant droit à récupération"
 
 #: public/partials/admin/recoverquantity-edit.html
 msgid "Create a recover quantity"
-msgstr ""
+msgstr "Créer une quantité à récupérer"
 
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid ""
 "Create absence request between two dates, the request will be sent to your "
 "supervisor for approval"
 msgstr ""
+"Créer une demande d'absence entre deux dates, la demande sera envoyée à "
+"votre supérieur hiérarchique pour approbation."
 
 #: public/partials/account/request/requests.html
 #: public/partials/manager/waitingrequests.html
@@ -409,6 +407,11 @@ msgstr "Quantité par défaut"
 msgid "Default quantity on start renewal:"
 msgstr "Quantité par défaut au début du renouvellement :"
 
+#: public/partials/admin/rightrule-edit.html
+#, fuzzy
+msgid "Delete"
+msgstr "Supprimer"
+
 #: public/partials/admin/request/absence-view.html
 #: public/partials/admin/request/workperiod-recover-view.html
 #: public/partials/admin/user-edit.html
@@ -437,11 +440,11 @@ msgstr "Supervision des services"
 
 #: public/partials/admin/user-edit-manager.html
 msgid "Departments to supervise with request approvals"
-msgstr ""
+msgstr "Services à superviser lors des demandes d'approbation"
 
 #: public/partials/admin/right-edit.html
 msgid "Deposits limit per renewals"
-msgstr ""
+msgstr "Limite de dépôts par renouvellements"
 
 #: public/partials/admin/right-edit.html
 msgid "Description"
@@ -450,10 +453,12 @@ msgstr "Description"
 #: public/partials/admin/right-edit.html
 msgid "Do not add monthly quantity if renewal quantity greater than"
 msgstr ""
+"Ne pas ajouter la quantité mensuelle si le quantité du renouvellement est "
+"supérieure à"
 
 #: public/partials/admin/user-view-account.html
 msgid "Do not notify on approvals"
-msgstr ""
+msgstr "Ne pas notifier en cas d'approbation"
 
 #: public/partials/admin/user-view-account.html
 msgid "Do not notify on new rights allocations"
@@ -630,7 +635,7 @@ msgstr "Quantité initiale :"
 #: public/partials/admin/beneficiary-edit.html
 #, fuzzy
 msgid "Initial:"
-msgstr "Quantité initiale + mises à jour mensuelles"
+msgstr "Quantité initiale"
 
 #: public/partials/utils/common/request/request-view-embed.html
 msgid "Interventions history"
@@ -686,13 +691,10 @@ msgstr "Modifier une quantité récupérée"
 msgid "Monday"
 msgstr "Lundi"
 
-#: public/partials/admin/right-view.html
-msgid "Monthly additions:"
-msgstr "Ajouts mensuels :"
-
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
-msgid "Montly additions:"
+#: public/partials/admin/right-view.html
+msgid "Monthly additions:"
 msgstr "Ajouts mensuels :"
 
 #: public/partials/utils/common/request/request-create-select-type.html
@@ -793,6 +795,8 @@ msgstr "Notifier lors de l'attribution de droits de congés"
 #: public/partials/admin/rightrule-edit.html
 msgid "Number of years before the entry start date to set the period end:"
 msgstr ""
+"Nombre d'années avant la date de début de la demande pour définir la fin de "
+"la période :"
 
 #: public/partials/admin/user-view-account.html
 msgid "One year seniority"
@@ -853,15 +857,15 @@ msgstr ""
 
 #: public/partials/admin/right-edit.html
 msgid "Quantity provided on each renewals"
-msgstr ""
+msgstr "Quantité fournie à chaque renouvellements"
 
 #: public/partials/admin/right-edit.html
 msgid "Quantity to add every month"
-msgstr ""
+msgstr "Quantité à ajouter tout les mois"
 
 #: public/partials/admin/recoverquantity-edit.html
 msgid "Quantity to recover from the event"
-msgstr ""
+msgstr "Quantité à récupérer pour l'événement"
 
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 #, fuzzy
@@ -870,11 +874,11 @@ msgstr "Quantité"
 
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Recovery claimed"
-msgstr ""
+msgstr "Récupération revendiquée"
 
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Recovery request summary"
-msgstr ""
+msgstr "Résumé de la demande de récupération"
 
 #: public/partials/manager/waitingrequest.html
 #: public/partials/manager/waitingrequests.html
@@ -898,7 +902,7 @@ msgstr "Renouvellements"
 
 #: public/partials/admin/user-view-account.html
 msgid "Renewals with remaining quantity"
-msgstr ""
+msgstr "Renouvellements avec une quantité restante"
 
 #: public/partials/manager/waitingrequest.html
 msgid "Request approval"
@@ -987,12 +991,14 @@ msgstr "Samedi"
 
 #: public/partials/admin/account-collections-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
+#: public/partials/admin/adjustment-edit.html
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
 #: public/partials/admin/recoverquantity-edit.html
 #: public/partials/admin/right-edit.html
 #: public/partials/admin/rightrenewal-edit.html
+#: public/partials/admin/rightrule-edit.html
 #: public/partials/admin/type-edit.html public/partials/admin/user-edit.html
 #: public/partials/login/createfirstadmin.html
 #: public/partials/user/settings.html
@@ -1020,12 +1026,13 @@ msgstr "Agenda des horaires travaillés"
 
 #: public/partials/admin/calendar-edit.html
 msgid "School holidays"
-msgstr ""
+msgstr "Vacances scolaires"
 
 #: public/partials/admin/calendar-edit.html
 msgid ""
 "School holidays will be displayed on the bottom of the reservation calendar"
 msgstr ""
+"Les vacances scolaires serons affichées en bas de l'agenda de réservation"
 
 #: public/partials/admin/calendars.html
 msgid "Search in calendars"
@@ -1170,24 +1177,30 @@ msgstr ""
 
 #: public/partials/admin/user-view-manager.html
 msgid "This manager has no departments configured for approval"
-msgstr ""
+msgstr "Ce gestionnaire n'a aucun régime configuré pour l'approbation"
 
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
 msgid "This user has no configured vacation rights for the current period"
 msgstr ""
+"Cet utilisateur n'a pas de droits de congés configuré pour la période en "
+"cours"
 
 #: public/partials/admin/user-view-account.html
 msgid ""
 "This user has no ongoing right collection, check the vacations collections "
 "planning to fix it"
 msgstr ""
+"Cet utilisateur n'a pas de régime de congés, vérifiez le planning des "
+"régimes pour corriger cela"
 
 #: public/partials/admin/user-view-account.html
 msgid ""
 "This user has no ongoing workschedule calendar, check the workschedule "
 "calendar planning to fix it"
 msgstr ""
+"Cet utilisateur n'a pas de d'horaires de travail, vérifiez le planning des "
+"horaires de travail pour corriger cela."
 
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Thursday"
@@ -1243,7 +1256,7 @@ msgstr "Consommation totale :"
 
 #: public/partials/utils/common/request/absence-view.html
 msgid "Total duration:"
-msgstr ""
+msgstr "Durée totale :"
 
 #: public/partials/admin/right-edit.html
 msgid "Type"
@@ -1271,15 +1284,17 @@ msgstr "Période d'utilisation"
 
 #: public/partials/admin/right-edit.html
 msgid "Use default active span"
-msgstr ""
+msgstr "Utiliser la période d'ouverture par défaut"
 
 #: public/partials/admin/right-edit.html
 msgid "Use default saving interval (renewal interval)"
-msgstr ""
+msgstr "Utiliser la période d'épargne par défaut (période du renouvellement)"
 
 #: public/partials/admin/right-edit.html
 msgid "Use this right as a deposit target for time saving deposits requests"
 msgstr ""
+"Utiliser ce droit comme la cible du dépôt des versements sur le compte "
+"épargne temps"
 
 #: public/partials/admin/user-view.html
 msgid "User requests"
@@ -1297,6 +1312,8 @@ msgstr "Liste des utilisateurs"
 msgid ""
 "Using this feature, you save the vacation right entitlement for future use"
 msgstr ""
+"En utilisant cette fonctionnalité, vous épargnez vos droits de congés pour "
+"une utilisation ultérieure."
 
 #: public/partials/account/request/absence-view.html
 #: public/partials/admin/request/absence-view.html
@@ -1369,7 +1386,7 @@ msgstr "Rythme de travail"
 
 #: public/partials/utils/common/request/workperiod-recover-view.html
 msgid "Worked duration:"
-msgstr ""
+msgstr "Durée travaillée :"
 
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid "Working time recover request"
@@ -1399,15 +1416,17 @@ msgstr "ans"
 
 #: public/partials/admin/right-edit.html
 msgid "Years before renewal end date"
-msgstr ""
+msgstr "Années avant la date de fin du renouvellement"
 
 #: public/partials/admin/right-edit.html
 msgid "Years before renewal start date"
-msgstr ""
+msgstr "Années avant la date de début du renouvellement"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Years before the entry start date to set the period start:"
 msgstr ""
+"Années avant la date de début de la demande pour définir le début de la "
+"période :"
 
 #: public/partials/user/settings.html
 msgid "Your account parameters"
@@ -1418,6 +1437,9 @@ msgid ""
 "Your period selection of {{selection.days}} (or {{selection.hours}}) must be "
 "distribued into the following vacation rights"
 msgstr ""
+
+#~ msgid "Montly additions:"
+#~ msgstr "Ajouts mensuels :"
 
 #~ msgid ""
 #~ "This is a template for a simple marketing or informational website. It "
