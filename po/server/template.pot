@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the gadael package.
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gadael 0.0.1\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-20 19:25+0100\n"
+"POT-Creation-Date: 2016-02-22 22:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/dispunits.js:19
+msgid "Day"
+msgid_plural "Days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: modules/dispunits.js:21
+msgid "Hour"
+msgid_plural "Hours"
+msgstr[0] ""
+msgstr[1] ""
 
 #: modules/apputil.js:45 modules/passport.js:128
 msgid "Access denied for non administrators"
@@ -34,22 +46,6 @@ msgstr ""
 msgid "Access denied for anonymous users"
 msgstr ""
 
-#: modules/dispunits.js:19
-msgid "Day"
-msgid_plural "Days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: modules/dispunits.js:21
-msgid "Hour"
-msgid_plural "Hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: modules/passport.js:144
-msgid "Access denied"
-msgstr ""
-
 #: modules/requestdateparams.js:22
 msgid "dtstart, dtend are mandatory parameters"
 msgstr ""
@@ -60,6 +56,10 @@ msgstr ""
 
 #: modules/requestdateparams.js:38
 msgid "Dates interval must be less than 2 years"
+msgstr ""
+
+#: modules/passport.js:144
+msgid "Access denied"
 msgstr ""
 
 #: rest/Common.js:42
@@ -94,31 +94,35 @@ msgstr ""
 msgid "Requests"
 msgstr ""
 
-#: rest/Common.js:95
-msgid "Users list"
+#: rest/Common.js:92
+msgid "Exports"
 msgstr ""
 
 #: rest/Common.js:99
-msgid "Departments list"
+msgid "Users list"
 msgstr ""
 
 #: rest/Common.js:103
-msgid "Collections list"
+msgid "Departments list"
 msgstr ""
 
 #: rest/Common.js:107
+msgid "Collections list"
+msgstr ""
+
+#: rest/Common.js:111
 msgid "Calendars list"
 msgstr ""
 
-#: rest/Common.js:114
+#: rest/Common.js:118
 msgid "Right types"
 msgstr ""
 
-#: rest/Common.js:118
+#: rest/Common.js:122
 msgid "Rights configuration"
 msgstr ""
 
-#: rest/Common.js:122
+#: rest/Common.js:126
 msgid "Recover quantities"
 msgstr ""
 
@@ -192,36 +196,16 @@ msgstr ""
 msgid "You must be logged in"
 msgstr ""
 
-#: schema/ApprovalStep.js:56 schema/ApprovalStep.js:57
-msgid "Waiting"
-msgstr ""
-
-#: schema/ApprovalStep.js:58 schema/Request.js:70
-msgid "Rejected"
-msgstr ""
-
-#: schema/RecoverQuantity.js:27
-msgid "Half-day"
-msgstr ""
-
-#: schema/RecoverQuantity.js:32
-msgid "A day"
-msgstr ""
-
-#: schema/RecoverQuantity.js:37
-msgid "One hour"
-msgstr ""
-
-#: schema/RecoverQuantity.js:42
-msgid "A week-end"
-msgstr ""
-
 #: schema/Request.js:66
 msgid "Waiting approval"
 msgstr ""
 
 #: schema/Request.js:68
 msgid "Accepted"
+msgstr ""
+
+#: schema/Request.js:70 schema/ApprovalStep.js:58
+msgid "Rejected"
 msgstr ""
 
 #: schema/Request.js:78
@@ -238,58 +222,6 @@ msgstr ""
 
 #: schema/Request.js:86
 msgid "Undefined"
-msgstr ""
-
-#: schema/RequestLog.js:39
-msgid "Create request"
-msgstr ""
-
-#: schema/RequestLog.js:41
-msgid "Send request to approval"
-msgstr ""
-
-#: schema/RequestLog.js:43
-msgid "Approval step accepted"
-msgstr ""
-
-#: schema/RequestLog.js:45
-msgid "Approval step rejected"
-msgstr ""
-
-#: schema/RequestLog.js:47
-msgid "Approval workflow end"
-msgstr ""
-
-#: schema/RequestLog.js:49
-msgid "Modify request"
-msgstr ""
-
-#: schema/RequestLog.js:51
-msgid "Delete request"
-msgstr ""
-
-#: schema/RequestLog.js:54
-msgid "Unknown action"
-msgstr ""
-
-#: schema/RightCollection.js:109
-msgid "General regime 100%"
-msgstr ""
-
-#: schema/RightCollection.js:110
-msgid "Part-time 80%"
-msgstr ""
-
-#: schema/RightCollection.js:111
-msgid "Part-time 50%"
-msgstr ""
-
-#: schema/Right_Rule.js:72
-msgid "Interval values must be numbers of years"
-msgstr ""
-
-#: schema/Right_Rule.js:77
-msgid "Interval values must be set in a correct order"
 msgstr ""
 
 #: schema/Type.js:26
@@ -382,4 +314,76 @@ msgstr ""
 
 #: schema/Type.js:48
 msgid "Fractionating leave"
+msgstr ""
+
+#: schema/RightCollection.js:109
+msgid "General regime 100%"
+msgstr ""
+
+#: schema/RightCollection.js:110
+msgid "Part-time 80%"
+msgstr ""
+
+#: schema/RightCollection.js:111
+msgid "Part-time 50%"
+msgstr ""
+
+#: schema/RequestLog.js:39
+msgid "Create request"
+msgstr ""
+
+#: schema/RequestLog.js:41
+msgid "Send request to approval"
+msgstr ""
+
+#: schema/RequestLog.js:43
+msgid "Approval step accepted"
+msgstr ""
+
+#: schema/RequestLog.js:45
+msgid "Approval step rejected"
+msgstr ""
+
+#: schema/RequestLog.js:47
+msgid "Approval workflow end"
+msgstr ""
+
+#: schema/RequestLog.js:49
+msgid "Modify request"
+msgstr ""
+
+#: schema/RequestLog.js:51
+msgid "Delete request"
+msgstr ""
+
+#: schema/RequestLog.js:54
+msgid "Unknown action"
+msgstr ""
+
+#: schema/Right_Rule.js:72
+msgid "Interval values must be numbers of years"
+msgstr ""
+
+#: schema/Right_Rule.js:77
+msgid "Interval values must be set in a correct order"
+msgstr ""
+
+#: schema/ApprovalStep.js:56 schema/ApprovalStep.js:57
+msgid "Waiting"
+msgstr ""
+
+#: schema/RecoverQuantity.js:27
+msgid "Half-day"
+msgstr ""
+
+#: schema/RecoverQuantity.js:32
+msgid "A day"
+msgstr ""
+
+#: schema/RecoverQuantity.js:37
+msgid "One hour"
+msgstr ""
+
+#: schema/RecoverQuantity.js:42
+msgid "A week-end"
 msgstr ""

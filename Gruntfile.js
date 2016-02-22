@@ -118,28 +118,12 @@ module.exports = function(grunt) {
     },
     
 
-	pot: {
-		options: {
-			text_domain: 'template', 	//Your text domain. Produces my-text-domain.pot
-			dest: 'po/server/', 		//directory to place the pot file
-			keywords: [ 'gettext', '__', 'dgettext:2', 'ngettext:1,2' ]
-		},
-		files: {
-			// Specify files to scan
-			src:  [ 
-				'modules/**/*.js',
-				'rest/**/*.js',
-				'schema/**/*.js'    
-			], 
-			expand: true,
-		},
-	},
 
     
     nggettext_extract: {
     	pot: {
     		files: {
-    			'po/client/template.pot' : ['public/**/*.html']
+    			'po/client/html/template.pot' : ['public/**/*.html']
     		}
     	}
     },
@@ -147,19 +131,20 @@ module.exports = function(grunt) {
     nggettext_compile: {
     	all: {
     		files: {
-    			'public/js/translation.js': ['po/client/*.po']
+    			'public/js/translation.js': ['po/client/html/*.po']
     		}
     	}
     },
     
     // test public angular pages with karma
-    
+    /*
     karma: {
       unit: {
         configFile: 'test/public/karma.conf.js'
       }
     },
-    
+    */
+
     // test REST services with jasmine node
     
     jasmine_node: {
@@ -205,6 +190,12 @@ module.exports = function(grunt) {
     shell: {
         jasmine_theseus: {
             command: 'node-theseus node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server/'
+        },
+        pot_server: {
+            command: 'find modules/ rest/ schema/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/server/template.pot'
+        },
+        pot_client: {
+            command: 'find public/js/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/client/js/template.pot'
         }
     },
 
@@ -274,18 +265,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-angular-gettext');
-  grunt.loadNpmTasks('grunt-pot');
   //grunt.loadNpmTasks('grunt-jasmine-node-new');
   grunt.loadNpmTasks('grunt-jasmine-node-coverage');
-  grunt.loadNpmTasks('grunt-karma');
+  //grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-codeclimate-reporter');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   grunt.registerTask('default', [ 'jshint', 'nodemon']);
   grunt.registerTask('build', [ 'copy:fonts', 'cssmin', 'requirejs']);
+  grunt.registerTask('allpot', ['shell:pot_server', 'shell:pot_client', 'nggettext_extract']);
   grunt.registerTask('lint', ['jshint']);
-  grunt.registerTask('testold', ['karma', 'jasmine_node']);
+  //grunt.registerTask('testold', ['karma', 'jasmine_node']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);
   grunt.registerTask('coverage', ['jasmine_node:jasmine_coverage']);
   grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage', 'codeclimate:main']);

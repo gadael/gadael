@@ -80,7 +80,6 @@
     "grunt-karma": "~0.8.0",
     "grunt-newer": "^0.7.0",
     "grunt-nodemon": "^0.2.1",
-    "grunt-pot": "~0.1.2",
     "grunt-shell": "~1.1.2",
     "grunt-contrib-requirejs": "~0.4.4",
     "jasmine-node": "~1.14.3",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-20 22:38+0100\n"
-"PO-Revision-Date: 2016-02-21 20:28+0100\n"
+"POT-Creation-Date: 2016-02-22 20:43+0100\n"
+"PO-Revision-Date: 2016-02-22 20:43+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -94,31 +94,35 @@ msgstr "Sommaire de l'administrateur"
 msgid "Requests"
 msgstr "Demandes"
 
-#: rest/Common.js:95
+#: rest/Common.js:92
+msgid "Exports"
+msgstr "Exports"
+
+#: rest/Common.js:99
 msgid "Users list"
 msgstr "Liste des utilisateurs"
 
-#: rest/Common.js:99
+#: rest/Common.js:103
 msgid "Departments list"
 msgstr "Liste des services"
 
-#: rest/Common.js:103
+#: rest/Common.js:107
 msgid "Collections list"
 msgstr "Liste des régimes"
 
-#: rest/Common.js:107
+#: rest/Common.js:111
 msgid "Calendars list"
 msgstr "Liste des agendas"
 
-#: rest/Common.js:114
+#: rest/Common.js:118
 msgid "Right types"
 msgstr "Types de droit"
 
-#: rest/Common.js:118
+#: rest/Common.js:122
 msgid "Rights configuration"
 msgstr "Configuration des droits"
 
-#: rest/Common.js:122
+#: rest/Common.js:126
 msgid "Recover quantities"
 msgstr "Récupérations"
 
@@ -171,8 +175,8 @@ msgstr ""
 "Nous avons reçu une demande de réinitialisation de mot de passe pour votre "
 "compte (%s).\n"
 "\n"
-"Pour réinitialiser votre mot de passe, veuillez cliquer sur ce [lien][1] "
-"(ou copier coller l'url dans votre navigateur):\n"
+"Pour réinitialiser votre mot de passe, veuillez cliquer sur ce [lien][1] (ou "
+"copier coller l'url dans votre navigateur):\n"
 "\n"
 "[1]: %s\n"
 "\n"

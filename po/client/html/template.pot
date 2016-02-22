@@ -204,6 +204,7 @@ msgstr ""
 msgid "Back to Login"
 msgstr ""
 
+#: public/partials/utils/common/exports/export-edit.html
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Begin date"
@@ -258,6 +259,8 @@ msgstr ""
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
+#: public/partials/admin/export/export-edit-sage.html
+#: public/partials/admin/export/export-edit-xlsx.html
 #: public/partials/admin/recoverquantity-edit.html
 #: public/partials/admin/right-edit.html
 #: public/partials/admin/rightrenewal-edit.html
@@ -451,6 +454,11 @@ msgstr ""
 msgid "Do not require approval"
 msgstr ""
 
+#: public/partials/admin/export/export-edit-sage.html
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Download"
+msgstr ""
+
 #: public/partials/admin/calendars.html
 #: public/partials/admin/collections.html
 #: public/partials/admin/department-view.html
@@ -488,6 +496,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+#: public/partials/utils/common/exports/export-edit.html
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "End date"
@@ -499,6 +508,14 @@ msgstr ""
 
 #: public/partials/utils/common/request/workperiod-recover-view.html
 msgid "Entitlement quantity:"
+msgstr ""
+
+#: public/partials/admin/export/export-edit-sage.html
+msgid "Export for Sage"
+msgstr ""
+
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Export in XLSX spreadsheet"
 msgstr ""
 
 #: public/partials/admin/rightrenewal-edit.html
