@@ -236,5 +236,9 @@ define(['angular', 'services'], function (angular) {
 
 		.controller('AdminRecoverQuantityEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/recoverquantity-edit', this, $scope, $injector);
+		}])
+
+        .controller('AdminExports', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/exports', this, $scope, $injector);
 		}]);
 });

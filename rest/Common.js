@@ -89,6 +89,10 @@ exports.getInfos = function(req, res) {
                     'href': '#/admin/requests'
                 },
                 {
+                    'text': '<i class="fa fa-cloud-download"></i>&nbsp;'+gt.gettext('Exports'),
+                    'href': '#/admin/exports'
+                },
+                {
                     "divider": true
                 },
                 {

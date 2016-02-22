@@ -385,6 +385,11 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/recoverquantity-edit.html',
 			controller: 'AdminRecoverQuantityEdit'
 		});
+
+        $routeProvider.when('/admin/exports', {
+			templateUrl: 'partials/admin/exports.html',
+			controller: 'AdminExports'
+		});
 		
 		$routeProvider.otherwise({redirectTo: '/home'});
 	}]);
