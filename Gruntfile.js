@@ -273,7 +273,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   grunt.registerTask('default', [ 'jshint', 'nodemon']);
-  grunt.registerTask('build', [ 'copy:fonts', 'cssmin', 'requirejs']);
+  grunt.registerTask('build', [ 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
   grunt.registerTask('allpot', ['shell:pot_server', 'shell:pot_client', 'nggettext_extract']);
   grunt.registerTask('lint', ['jshint']);
   //grunt.registerTask('testold', ['karma', 'jasmine_node']);
