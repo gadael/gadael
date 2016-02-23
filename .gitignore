@@ -13,4 +13,4 @@ po/*.mo
 /doc/
 /coverage/
 /public/js/optimized.js
-/public/js/translations.js
+/public/js/translation.js

@@ -196,6 +196,9 @@ module.exports = function(grunt) {
         },
         pot_client: {
             command: 'find public/js/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/client/js/template.pot'
+        },
+        translation: {
+            command: 'touch public/js/translation.js'
         }
     },
 
@@ -273,7 +276,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   grunt.registerTask('default', [ 'jshint', 'nodemon']);
-  grunt.registerTask('build', [ 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
+  grunt.registerTask('build', ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
   grunt.registerTask('allpot', ['shell:pot_server', 'shell:pot_client', 'nggettext_extract']);
   grunt.registerTask('lint', ['jshint']);
   //grunt.registerTask('testold', ['karma', 'jasmine_node']);
