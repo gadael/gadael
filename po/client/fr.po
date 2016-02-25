@@ -213,6 +213,7 @@ msgstr "Disponible :"
 msgid "Back to Login"
 msgstr "Retour à l'authentification"
 
+#: public/partials/utils/common/exports/export-edit.html
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Begin date"
@@ -264,6 +265,8 @@ msgstr "Type d'agenda :"
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/department-edit.html
+#: public/partials/admin/export/export-edit-sage.html
+#: public/partials/admin/export/export-edit-xlsx.html
 #: public/partials/admin/recoverquantity-edit.html
 #: public/partials/admin/right-edit.html
 #: public/partials/admin/rightrenewal-edit.html
@@ -468,6 +471,11 @@ msgstr "Ne pas notifier lors de l'attribution de nouveaux droits"
 msgid "Do not require approval"
 msgstr "Ne requiert pas d'approbation"
 
+#: public/partials/admin/export/export-edit-sage.html
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Download"
+msgstr "Téléchargement"
+
 #: public/partials/admin/calendars.html public/partials/admin/collections.html
 #: public/partials/admin/department-view.html
 #: public/partials/admin/recoverquantities.html
@@ -505,6 +513,7 @@ msgstr ""
 msgid "Email"
 msgstr "Email"
 
+#: public/partials/utils/common/exports/export-edit.html
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "End date"
@@ -516,6 +525,14 @@ msgstr "Entrez votre email :"
 
 #: public/partials/utils/common/request/workperiod-recover-view.html
 msgid "Entitlement quantity:"
+msgstr ""
+
+#: public/partials/admin/export/export-edit-sage.html
+msgid "Export for Sage"
+msgstr "Export pour Sage"
+
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Export in XLSX spreadsheet"
 msgstr ""
 
 #: public/partials/admin/rightrenewal-edit.html
@@ -1441,6 +1458,62 @@ msgstr ""
 "Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
 "doit être répartie parmis les droits de congés suivants"
 
+#: public/js/optimized.js:34186 public/js/services/beneficiary.js:222
+msgid "Auto monthly update"
+msgstr "Mise à jour mensuelles automatiques"
+
+#: public/js/optimized.js:38588 public/js/app.js:59
+#, javascript-format
+msgid "Gadael - %s"
+msgstr "Gadael - %s"
+
+#: public/js/optimized.js:38640 public/js/app.js:111
+msgid "Absence managment"
+msgstr "Gestion des absences"
+
+#: public/js/controllers/home.js:11
+msgid "Home"
+msgstr "Accueil"
+
+#: public/js/controllers/login/index.js:8
+msgid "Login"
+msgstr "Connexion"
+
+#: public/js/controllers/admin/calendars.js:8
+msgid "Calendars"
+msgstr "Agendas"
+
+#: public/js/controllers/admin/users.js:11
+#: public/js/controllers/admin/request/requests.js:14
+#: public/js/controllers/account/request/requests.js:14
+msgid "Requests"
+msgstr "Demandes"
+
+#: public/js/controllers/admin/rights.js:9
+#: public/js/controllers/account/beneficiaries.js:11
+msgid "Absence rights"
+msgstr "Droit d'absences"
+
+#: public/js/controllers/admin/recoverquantities.js:7
+msgid "Recover quantities"
+msgstr "Quantités à récupérer"
+
+#: public/js/controllers/admin/types.js:6
+msgid "Rights types"
+msgstr "Types de droits"
+
+#: public/js/controllers/admin/collections.js:8
+msgid "Right collections"
+msgstr "Régimes de congés"
+
+#: public/js/controllers/admin/exports.js:7
+msgid "Exports"
+msgstr "Exports"
+
+#: public/js/controllers/admin/departments.js:7
+msgid "Departments"
+msgstr "Services"
+
 #~ msgid "Montly additions:"
 #~ msgstr "Ajouts mensuels :"
 
@@ -1452,9 +1525,6 @@ msgstr ""
 
 #~ msgid "Admin summary"
 #~ msgstr "Résumé des fonctions d'administration"
-
-#~ msgid "Calendar"
-#~ msgstr "Agenda"
 
 #~ msgid "Calendars list"
 #~ msgstr "Liste des agendas"
@@ -1474,12 +1544,6 @@ msgstr ""
 #~ msgid "Request a vacation period"
 #~ msgstr "Demander une période de congés"
 
-#~ msgid "Requests"
-#~ msgstr "Demandes"
-
-#~ msgid "Right types"
-#~ msgstr "Types de droits"
-
 #~ msgid "Rights configuration"
 #~ msgstr "Configuration des droits"
 
@@ -1491,6 +1555,3 @@ msgstr ""
 
 #~ msgid "Users"
 #~ msgstr "Utilisateurs"
-
-#~ msgid "Home"
-#~ msgstr "Accueil"
