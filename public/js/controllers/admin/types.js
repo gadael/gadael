@@ -1,9 +1,9 @@
 define([], function() {
     'use strict';
     
-	return [function() {
+	return ['$scope', 'gettext', function($scope, gettext) {
 
-		
+		$scope.setPageTitle(gettext('Rights types'));
 		
 	}];
 });

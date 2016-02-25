@@ -10,7 +10,10 @@ define(['angular'], function(angular) {
         '$location',
         'Rest',
         '$scrollspy',
-        function($scope, $routeParams, Calendar, $anchorScroll, $location, Rest, $scrollspy) {
+        'gettext',
+        function($scope, $routeParams, Calendar, $anchorScroll, $location, Rest, $scrollspy, gettext) {
+
+            $scope.setPageTitle(gettext('Personal calendar'));
 
             var year, month, now = new Date();
 

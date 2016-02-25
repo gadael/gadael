@@ -5,7 +5,10 @@ define([], function() {
 	return [
         '$scope',
         'Rest',
-        function($scope, Rest) {
+        'gettext',
+        function($scope, Rest, gettext) {
+
+            $scope.setPageTitle(gettext('Absence rights'));
 
             var beneficiaries = Rest.account.beneficiaries.getResource();
             $scope.beneficiaries = beneficiaries.query();

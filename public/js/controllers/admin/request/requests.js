@@ -8,7 +8,10 @@ define([], function() {
         'Rest', 
         '$modal',
         'getRequestStat',
-        function($scope, $location, Rest, $modal, getRequestStat) {
+        'gettext',
+        function($scope, $location, Rest, $modal, getRequestStat, gettext) {
+
+        $scope.setPageTitle(gettext('Requests'));
 
         var users = Rest.admin.users.getResource();
         
