@@ -123,7 +123,7 @@ module.exports = function(grunt) {
     nggettext_extract: {
     	pot: {
     		files: {
-    			'po/client/html.tmp.pot' : ['public/**/*.html']
+    			'po/client/template.pot' : ['public/**/*.html', 'public/js/**/*.js']
     		}
     	}
     },
@@ -193,12 +193,6 @@ module.exports = function(grunt) {
         },
         pot_server: {
             command: 'find modules/ rest/ schema/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/server/template.pot'
-        },
-        pot_client: {
-            command: 'find public/js/ -iname "*.js" ! -path "public/js/optimized.js" | xargs xgettext --from-code=UTF-8 -o po/client/js.tmp.pot'
-        },
-        merge_client_pot: {
-            command: 'msgcat --use-first po/client/*.tmp.pot > po/client/template.pot && rm -f po/client/*.tmp.pot'
         },
         translation: {
             command: 'touch public/js/translation.js'
@@ -280,7 +274,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', [ 'jshint', 'nodemon']);
   grunt.registerTask('build', ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
-  grunt.registerTask('allpot', ['shell:pot_server', 'shell:pot_client', 'nggettext_extract', 'shell:merge_client_pot']);
+  grunt.registerTask('allpot', ['shell:pot_server', 'nggettext_extract']);
   grunt.registerTask('lint', ['jshint']);
   //grunt.registerTask('testold', ['karma', 'jasmine_node']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);

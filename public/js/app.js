@@ -53,10 +53,11 @@ define([
     gadael.config(["$httpProvider", jsondates]);
 	
 
-	gadael.run(['$rootScope', '$location', '$http', '$q', 'gettext', function($rootScope, $location, $http, $q, gettext) {
+	gadael.run(['$rootScope', '$location', '$http', '$q', 'gettext', 'gettextCatalog',
+                function($rootScope, $location, $http, $q, gettext, gettextCatalog) {
 
         $rootScope.setPageTitle = function(title) {
-            $rootScope.pageTitle = gettext('Gadael - %s').replace(/%s/, title);
+            $rootScope.pageTitle = gettextCatalog.getString('Gadael - %s').replace(/%s/, gettextCatalog.getString(title));
         };
 		
 		/**
