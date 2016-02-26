@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 20:43+0100\n"
-"PO-Revision-Date: 2016-02-22 20:43+0100\n"
+"POT-Creation-Date: 2016-02-26 08:54+0100\n"
+"PO-Revision-Date: 2016-02-26 08:55+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -17,6 +17,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: modules/dispunits.js:19
+msgid "Day"
+msgid_plural "Days"
+msgstr[0] "Jour"
+msgstr[1] "Jours"
+
+#: modules/dispunits.js:21
+msgid "Hour"
+msgid_plural "Hours"
+msgstr[0] "Heure"
+msgstr[1] "Heures"
 
 #: modules/apputil.js:45 modules/passport.js:128
 msgid "Access denied for non administrators"
@@ -34,22 +46,6 @@ msgstr "Accès refusé pour les non gestionnaires"
 msgid "Access denied for anonymous users"
 msgstr "Accès refusé pour les utilisateurs anonymes"
 
-#: modules/dispunits.js:19
-msgid "Day"
-msgid_plural "Days"
-msgstr[0] "Jour"
-msgstr[1] "Jours"
-
-#: modules/dispunits.js:21
-msgid "Hour"
-msgid_plural "Hours"
-msgstr[0] "Heure"
-msgstr[1] "Heures"
-
-#: modules/passport.js:144
-msgid "Access denied"
-msgstr "Accès refusé"
-
 #: modules/requestdateparams.js:22
 msgid "dtstart, dtend are mandatory parameters"
 msgstr "dtstart, dtend sont des paramètres obligatoires"
@@ -61,6 +57,10 @@ msgstr "dtend doit être supérieur à dtstart"
 #: modules/requestdateparams.js:38
 msgid "Dates interval must be less than 2 years"
 msgstr "L'intervalle de dates doit être inférieur à 2 ans"
+
+#: modules/passport.js:144
+msgid "Access denied"
+msgstr "Accès refusé"
 
 #: rest/Common.js:42
 msgid "Logout"
@@ -214,30 +214,6 @@ msgstr "Le mot de passe à été modifié"
 msgid "You must be logged in"
 msgstr "Vous devez être connecté"
 
-#: schema/ApprovalStep.js:56 schema/ApprovalStep.js:57
-msgid "Waiting"
-msgstr "En attente"
-
-#: schema/ApprovalStep.js:58 schema/Request.js:70
-msgid "Rejected"
-msgstr "Refusée"
-
-#: schema/RecoverQuantity.js:27
-msgid "Half-day"
-msgstr "Demie-journée"
-
-#: schema/RecoverQuantity.js:32
-msgid "A day"
-msgstr "Un jour"
-
-#: schema/RecoverQuantity.js:37
-msgid "One hour"
-msgstr "Une heure"
-
-#: schema/RecoverQuantity.js:42
-msgid "A week-end"
-msgstr "Un week-end"
-
 #: schema/Request.js:66
 msgid "Waiting approval"
 msgstr "En attente d'approbation"
@@ -245,6 +221,10 @@ msgstr "En attente d'approbation"
 #: schema/Request.js:68
 msgid "Accepted"
 msgstr "Accepté"
+
+#: schema/Request.js:70 schema/ApprovalStep.js:58
+msgid "Rejected"
+msgstr "Refusée"
 
 #: schema/Request.js:78
 msgid "Waiting deletion approval"
@@ -261,58 +241,6 @@ msgstr "Suppression rejectée"
 #: schema/Request.js:86
 msgid "Undefined"
 msgstr "Non défini"
-
-#: schema/RequestLog.js:39
-msgid "Create request"
-msgstr "Créer la demande"
-
-#: schema/RequestLog.js:41
-msgid "Send request to approval"
-msgstr "Envoyer la demande en approbation"
-
-#: schema/RequestLog.js:43
-msgid "Approval step accepted"
-msgstr "Étape de l'approbation acceptée"
-
-#: schema/RequestLog.js:45
-msgid "Approval step rejected"
-msgstr "Étape de l'approbation rejetée"
-
-#: schema/RequestLog.js:47
-msgid "Approval workflow end"
-msgstr "Fin du workflow d'approbation"
-
-#: schema/RequestLog.js:49
-msgid "Modify request"
-msgstr "Modifier la demande"
-
-#: schema/RequestLog.js:51
-msgid "Delete request"
-msgstr "Supprimer la demande"
-
-#: schema/RequestLog.js:54
-msgid "Unknown action"
-msgstr "Action inconnue"
-
-#: schema/RightCollection.js:109
-msgid "General regime 100%"
-msgstr "Régime générale 100%"
-
-#: schema/RightCollection.js:110
-msgid "Part-time 80%"
-msgstr "Temps-partiel 80%"
-
-#: schema/RightCollection.js:111
-msgid "Part-time 50%"
-msgstr "Temps-partiel 50%"
-
-#: schema/Right_Rule.js:72
-msgid "Interval values must be numbers of years"
-msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
-
-#: schema/Right_Rule.js:77
-msgid "Interval values must be set in a correct order"
-msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 
 #: schema/Type.js:26
 msgid "Paid annual leave"
@@ -405,6 +333,78 @@ msgstr "Absence réserviste"
 #: schema/Type.js:48
 msgid "Fractionating leave"
 msgstr "Congés de fractionnement"
+
+#: schema/RightCollection.js:109
+msgid "General regime 100%"
+msgstr "Régime générale 100%"
+
+#: schema/RightCollection.js:110
+msgid "Part-time 80%"
+msgstr "Temps-partiel 80%"
+
+#: schema/RightCollection.js:111
+msgid "Part-time 50%"
+msgstr "Temps-partiel 50%"
+
+#: schema/RequestLog.js:39
+msgid "Create request"
+msgstr "Créer la demande"
+
+#: schema/RequestLog.js:41
+msgid "Send request to approval"
+msgstr "Envoyer la demande en approbation"
+
+#: schema/RequestLog.js:43
+msgid "Approval step accepted"
+msgstr "Étape de l'approbation acceptée"
+
+#: schema/RequestLog.js:45
+msgid "Approval step rejected"
+msgstr "Étape de l'approbation rejetée"
+
+#: schema/RequestLog.js:47
+msgid "Approval workflow end"
+msgstr "Fin du workflow d'approbation"
+
+#: schema/RequestLog.js:49
+msgid "Modify request"
+msgstr "Modifier la demande"
+
+#: schema/RequestLog.js:51
+msgid "Delete request"
+msgstr "Supprimer la demande"
+
+#: schema/RequestLog.js:54
+msgid "Unknown action"
+msgstr "Action inconnue"
+
+#: schema/Right_Rule.js:72
+msgid "Interval values must be numbers of years"
+msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
+
+#: schema/Right_Rule.js:77
+msgid "Interval values must be set in a correct order"
+msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
+
+#: schema/ApprovalStep.js:56 schema/ApprovalStep.js:57
+msgid "Waiting"
+msgstr "En attente"
+
+#: schema/RecoverQuantity.js:27
+msgid "Half-day"
+msgstr "Demie-journée"
+
+#: schema/RecoverQuantity.js:32
+msgid "A day"
+msgstr "Un jour"
+
+#: schema/RecoverQuantity.js:37
+msgid "One hour"
+msgstr "Une heure"
+
+#: schema/RecoverQuantity.js:42
+msgid "A week-end"
+msgstr "Un week-end"
 
 #~ msgid "Your settings has been modified"
 #~ msgstr "Vos paramètres ont été enregistrés"

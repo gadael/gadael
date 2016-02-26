@@ -1408,16 +1408,12 @@ msgid ""
 "distribued into the following vacation rights"
 msgstr ""
 
-#: public/js/optimized.js:34186 public/js/services/beneficiary.js:222
-msgid "Auto monthly update"
-msgstr ""
-
-#: public/js/optimized.js:38588 public/js/app.js:59
+#: public/js/app.js:59
 #, javascript-format
 msgid "Gadael - %s"
 msgstr ""
 
-#: public/js/optimized.js:38640 public/js/app.js:111
+#: public/js/app.js:111
 msgid "Absence managment"
 msgstr ""
 
@@ -1462,4 +1458,8 @@ msgstr ""
 
 #: public/js/controllers/admin/departments.js:7
 msgid "Departments"
+msgstr ""
+
+#: public/js/services/beneficiary.js:222
+msgid "Auto monthly update"
 msgstr ""

@@ -487,7 +487,7 @@ msgstr "Modifier"
 
 #: public/partials/admin/request/absence-edit.html
 msgid "Edit a request from {{request.user.name}}"
-msgstr ""
+msgstr "Modifier une demande de {{request.user.name}}"
 
 #: public/partials/account/request/time-saving-deposit-edit.html
 msgid "Edit a time saving deposit request"
@@ -533,7 +533,7 @@ msgstr "Export pour Sage"
 
 #: public/partials/admin/export/export-edit-xlsx.html
 msgid "Export in XLSX spreadsheet"
-msgstr ""
+msgstr "Exporter dans une feuille de calcul XLSX"
 
 #: public/partials/admin/rightrenewal-edit.html
 msgid "Finish"
@@ -551,6 +551,9 @@ msgid ""
 "beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will "
 "be available."
 msgstr ""
+"Pour une absence démarrant aujourd'hui, si la date d'anciennetée est entre "
+"le {{estimated.min|date}} et le {{estimated.max|date}}, le droit sera "
+"disponible."
 
 #: public/partials/login/login.html
 msgid "Forget your password?"
@@ -601,7 +604,7 @@ msgstr "De :"
 
 #: public/partials/admin/type-edit.html
 msgid "Group rights in a foldable subtree"
-msgstr ""
+msgstr "Droits du groupe dans un arbre repliable"
 
 #: public/partials/admin/types.html
 msgid "Grouped rights"
@@ -631,18 +634,25 @@ msgid ""
 "If this rule is not verified, the right will not be available in the second "
 "step of a request, once the request dates are set."
 msgstr ""
+"Si la règle n'est pas vérifiée, le droit ne sera pas disponible lors de la "
+"deuxième étape de la demande, après avoir défini les dates de la période "
+"demandée."
 
 #: public/partials/admin/rightrule-edit.html
 msgid ""
 "If this rule is not verified, the right will not be visible by the user in "
 "the rights list and when allocating"
 msgstr ""
+"Si la règle n'est pas vérifiée, le droit ne sera pas visible par "
+"l'utilisateur dans la liste de ces droits et lors de la répartition."
 
 #: public/partials/admin/rightrule-edit.html
 msgid ""
 "If this rule is not verified, the right will not be visible by the user in "
 "the rights list and when allocating:"
 msgstr ""
+"Si la règle n'est pas vérifiée, le droit ne sera pas visible par "
+"l'utilisateur dans la liste de ces droits et lors de la répartition :"
 
 #: public/partials/account/beneficiary-view.html
 msgid "Initial quantity:"
@@ -680,7 +690,7 @@ msgstr "Gestionnaire"
 
 #: public/partials/admin/right-edit.html
 msgid "Manager, substituting one of his subordinates"
-msgstr ""
+msgstr "Chef de service, se substituant à l'un de ces subordonnés"
 
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 msgid "Max quantity:"
@@ -689,10 +699,14 @@ msgstr "Quantité maximale :"
 #: public/partials/admin/right-edit.html
 msgid "Maximal number of days between entry date and request end date"
 msgstr ""
+"Nombre maximal de jours entre la date de la demande et la date de fin de la "
+"période demandée"
 
 #: public/partials/admin/right-edit.html
 msgid "Minimal number of days between entry date and request start date"
 msgstr ""
+"Nombre minimal de jours entre la date de la demande et la date de début de "
+"la période demandée"
 
 #: public/partials/admin/department-edit.html
 msgid "Modify a department"
@@ -717,6 +731,8 @@ msgid ""
 "Move some of your vacation rights to your time saving account, the request "
 "will be sent to your supervisor for approval"
 msgstr ""
+"Déplacer une partie de vos droits de congés vers votre compte épargne temps, "
+"la demande sera envoyée à votre chef de service pour approbation"
 
 #: public/partials/home.html
 msgid "My account"
@@ -724,7 +740,7 @@ msgstr "Mon compte"
 
 #: public/partials/home.html
 msgid "My department: {{sessionUser.department.name}}"
-msgstr ""
+msgstr "Mon service : {{sessionUser.department.name}}"
 
 #: public/index.html
 msgid "My vacations"
@@ -748,7 +764,7 @@ msgstr "Nouveau mot de passe :"
 
 #: public/partials/admin/request/absence-edit.html
 msgid "New request for {{request.user.name}}"
-msgstr ""
+msgstr "Nouvelle demande pour {{request.user.name}}"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Next"
@@ -865,6 +881,8 @@ msgstr "Veuillez créer le premier administrateur pour continuer."
 #: public/partials/home.html
 msgid "Please log into the application to see your account informations"
 msgstr ""
+"Veuillez vous connecter à l'application pour voir les informations de votre "
+"compte"
 
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid "Proceed to the request creation with one of the following:"
@@ -1124,7 +1142,7 @@ msgstr "Définir le mot de passe"
 
 #: public/partials/admin/adjustment-edit.html
 msgid "Set the adjustment quantity"
-msgstr ""
+msgstr "Définir la quantité de l'ajustement"
 
 #: public/index.html public/partials/login/login.html
 msgid "Sign In"
@@ -1290,7 +1308,7 @@ msgstr "Type :"
 
 #: public/partials/home.html
 msgid "Up to {{renewal.finish|date}}"
-msgstr ""
+msgstr "Jusqu'au {{renewal.finish|date}}"
 
 #: public/partials/admin/calendar-edit.html
 msgid "Url of the calendar ICS file"
@@ -1408,7 +1426,7 @@ msgstr "Durée travaillée :"
 
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid "Working time recover request"
-msgstr ""
+msgstr "Demande de récupération pour une période travaillée"
 
 #: public/partials/account/request/requests.html
 #: public/partials/admin/request/requests.html
@@ -1458,16 +1476,12 @@ msgstr ""
 "Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
 "doit être répartie parmis les droits de congés suivants"
 
-#: public/js/optimized.js:34186 public/js/services/beneficiary.js:222
-msgid "Auto monthly update"
-msgstr "Mise à jour mensuelles automatiques"
-
-#: public/js/optimized.js:38588 public/js/app.js:59
+#: public/js/app.js:59
 #, javascript-format
 msgid "Gadael - %s"
 msgstr "Gadael - %s"
 
-#: public/js/optimized.js:38640 public/js/app.js:111
+#: public/js/app.js:111
 msgid "Absence managment"
 msgstr "Gestion des absences"
 
@@ -1513,6 +1527,10 @@ msgstr "Exports"
 #: public/js/controllers/admin/departments.js:7
 msgid "Departments"
 msgstr "Services"
+
+#: public/js/services/beneficiary.js:222
+msgid "Auto monthly update"
+msgstr "Mise à jour mensuelles automatiques"
 
 #~ msgid "Montly additions:"
 #~ msgstr "Ajouts mensuels :"
