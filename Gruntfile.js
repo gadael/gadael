@@ -195,7 +195,7 @@ module.exports = function(grunt) {
             command: 'find modules/ rest/ schema/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/server/template.pot'
         },
         pot_client: {
-            command: 'find public/js/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/client/js.tmp.pot'
+            command: 'find public/js/ -iname "*.js" ! -path "public/js/optimized.js" | xargs xgettext --from-code=UTF-8 -o po/client/js.tmp.pot'
         },
         merge_client_pot: {
             command: 'msgcat --use-first po/client/*.tmp.pot > po/client/template.pot && rm -f po/client/*.tmp.pot'
