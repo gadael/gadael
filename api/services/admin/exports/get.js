@@ -6,46 +6,6 @@ let gt = new Gettext();
 let tmp = require('tmp');
 
 
-/**
- * Get data for each export type
- */
-let exportTypes = {
-
-    /**
-     * Get balance on date
-     * @param {Object} params
-     * @returns {Promise}
-     */
-    balance: function(params) {
-
-        return new Promise(function(resolve, reject) {
-            if (undefined === params.moment) {
-                return reject(gt.gettext('moment is a mandatory parameter'));
-            }
-
-            resolve([]);
-        });
-
-
-    },
-
-    /**
-     * All requests between two dates
-     * @param {Object} params
-     * @returns {Promise}
-     */
-    requests: function(params) {
-
-        return new Promise(function(resolve, reject) {
-
-            if (undefined === params.from || undefined === params.to) {
-                return reject(gt.gettext('from and to are mandatory parameters'));
-            }
-
-            resolve([]);
-        });
-    }
-};
 
 
 
@@ -53,6 +13,54 @@ let exportTypes = {
 exports = module.exports = function(services, app) {
 
     var service = new services.get(app);
+
+
+
+    /**
+     * Get data for each export type
+     */
+    let exportTypes = {
+
+        /**
+         * Get balance on date
+         * @param {Object} params
+         * @returns {Promise}
+         */
+        balance: function(params) {
+
+            return new Promise(function(resolve, reject) {
+                if (undefined === params.moment) {
+                    return reject(gt.gettext('moment is a mandatory parameter'));
+                }
+
+                resolve(require('./balance')(service, params.moment));
+            });
+
+
+        },
+
+        /**
+         * All requests between two dates
+         * @param {Object} params
+         * @returns {Promise}
+         */
+        requests: function(params) {
+
+            return new Promise(function(resolve, reject) {
+
+                if (undefined === params.from || undefined === params.to) {
+                    return reject(gt.gettext('from and to are mandatory parameters'));
+                }
+
+                resolve(require('./requests')(service, params.from, params.to));
+            });
+        }
+    };
+
+
+
+
+
 
     /**
      * Call the export get service
