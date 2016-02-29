@@ -49,8 +49,8 @@ module.exports = function(grunt) {
         config: {
             nonull: true,
             src: 'config.example.js',
-            dest: 'config.js',
-        },
+            dest: 'config.js'
+        }
       },
     
     cssmin: {
@@ -222,7 +222,7 @@ module.exports = function(grunt) {
                 optimizeCss: "none"
             }
         }
-    },
+    }
 //      views: {
 //        files: [{
 //          expand: true,
