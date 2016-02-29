@@ -77,6 +77,7 @@ describe('Right model', function() {
 
             renewal.right = right1._id;
             renewal.start = new Date();
+            renewal.start.setHours(0,0,0,0);
             renewal.finish = new Date(renewal.start);
             renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
 
