@@ -53,6 +53,35 @@ exports = module.exports = function(params) {
 
 
     /**
+     * For absence request get the total quantity according to dates only
+     * @return {Number}
+     */
+    requestSchema.methods.getQuantity = function() {
+        let quantity = 0;
+        this.absence.distribution.forEach(elem => {
+            quantity += elem.quantity;
+        });
+
+        return quantity;
+    };
+
+
+    /**
+     * For absence request get the total consumed quantity
+     * @return {Number}
+     */
+    requestSchema.methods.getConsumedQuantity = function() {
+        let consumed = 0;
+        this.absence.distribution.forEach(elem => {
+            consumed += elem.consumedQuantity;
+        });
+
+        return consumed;
+    };
+
+
+
+    /**
      * Get a displayable status, internationalized
      * @return {String}
      */
