@@ -7,7 +7,7 @@ let gt = new Gettext();
 
 
 /**
- * Export requests attached to events between two dates
+ * Export leave requests attached to events between two dates
  * @param {apiService} service
  * @param {Date}       from    Interval selected before extraction
  * @param {Date}       to      Interval selected before extraction

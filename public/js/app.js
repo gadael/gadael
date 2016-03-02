@@ -109,7 +109,7 @@ define([
             /**
              * Default page title
              */
-            $rootScope.setPageTitle(gettext('Absence managment'));
+            $rootScope.setPageTitle(gettext('Leaves managment'));
 
 			// reset alert messages on page change
 			

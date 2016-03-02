@@ -13,7 +13,7 @@ nodejs absences management application
 
 This application help you manage presence of your employees in your company. The staff can do requests, access to their planning, the department planning, the remaining vacation rights...
 
-* Absences request
+* Leave requests
 * Time saving deposits requests
 * Workperiod recovery requests
 
