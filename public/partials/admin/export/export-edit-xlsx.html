@@ -2,7 +2,25 @@
 
 <form role="form">
 
-    <ng-include src="'partials/utils/common/export/export-edit.html'"></ng-include>
+    <ng-include ng-if="type=='requests'" src="'partials/utils/common/export/export-edit.html'"></ng-include>
+
+    <div ng-if="type=='balance'" class="form-group">
+        <div class="input-group">
+            <label class="sr-only" for="exportMoment" translate>Balance state the:</label>
+            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+            <input id="exportMoment" class="form-control" ng-model="moment" bs-datepicker type="text" data-autoclose="1" />
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="radio">
+            <label><input type="radio" ng-model="type" value="requests"> <span translate>Export requests</span></label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" ng-model="type" value="balance"> <span translate>Export balance</span></label>
+        </div>
+    </div>
 
     <button class="btn btn-primary" ng-click="save()"><i class="fa fa-download"></i> <span translate>Download</span></button>
     <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
