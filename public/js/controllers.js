@@ -240,5 +240,14 @@ define(['angular', 'services'], function (angular) {
 
         .controller('AdminExports', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/exports', this, $scope, $injector);
-		}]);
+		}])
+
+        .controller('AdminExportEditXlsx', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/export/export-edit-xlsx', this, $scope, $injector);
+		}])
+
+        .controller('AdminExportEditSage', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/export/export-edit-sage', this, $scope, $injector);
+		}])
+    ;
 });

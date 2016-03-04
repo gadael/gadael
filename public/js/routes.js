@@ -390,6 +390,11 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/exports.html',
 			controller: 'AdminExports'
 		});
+
+        $routeProvider.when('/admin/export-edit-xlsx', {
+			templateUrl: 'partials/admin/export/export-edit-xlsx.html',
+			controller: 'AdminExportEditXlsx'
+		});
 		
 		$routeProvider.otherwise({redirectTo: '/home'});
 	}]);
