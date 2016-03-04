@@ -64,7 +64,8 @@ define(function() {
                 requests                : init('admin/requests/:id'),
                 recoverquantities       : init('admin/recoverquantities/:id'),
                 timesavingaccounts      : init('admin/timesavingaccounts/:id'),
-                collaborators           : init('admin/collaborators/:id')
+                collaborators           : init('admin/collaborators/:id'),
+                export                  : init('admin/export')
             },
             
             account: {
