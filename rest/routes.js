@@ -106,6 +106,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/adjustments');
     controllers.add('./admin/recoverquantities');
     controllers.add('./admin/timesavingaccounts');
+    controllers.add('./admin/export');
 
     controllers.add('./anonymous/createfirstadmin');
 	
