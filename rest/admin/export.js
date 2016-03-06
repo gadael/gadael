@@ -17,7 +17,7 @@ function getController() {
     var ctrl = this;
 
     ctrl.controllerAction = function() {
-        ctrl.jsonService(ctrl.service('admin/export/get'));
+        ctrl.jsonService(ctrl.service('admin/exports/get'));
     };
 }
 getController.prototype = new ctrlFactory.get();

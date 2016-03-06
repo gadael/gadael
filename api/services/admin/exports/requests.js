@@ -41,6 +41,7 @@ exports = module.exports = function(service, from, to) {
             find.where('status.deleted').in([null, 'waiting']);
             find.where('events').in(events);
             find.populate('events');
+            find.populate('absence.distribution');
 
             find.exec((err, requests) => {
 

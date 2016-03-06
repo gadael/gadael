@@ -9,6 +9,12 @@ define([], function() {
         // default type
 
         $scope.type = 'requests';
+        $scope.period = {
+            from: null,
+            to: null
+        };
+
+
 
         $scope.download = function() {
 
@@ -16,6 +22,15 @@ define([], function() {
                 format: 'xlsx',
                 type: $scope.type
             };
+
+            if ('requests' === $scope.type) {
+                parameters.from = $scope.period.from;
+                parameters.to = $scope.period.to;
+            }
+
+            if ('balance' === $scope.type) {
+                parameters.moment = $scope.moment;
+            }
 
             var exportResource = Rest.admin.export.getResource();
             exportResource.get(parameters);
