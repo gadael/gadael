@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       dev: {
         script: 'app.js',
         options: {
-          exec: '/home/paul/git/node-theseus/bin/node-theseus', // node-theseus
+          exec: 'node', // node-theseus
 		  args: ['3000', 'gadael'],
           ignore: [
             'node_modules/**',

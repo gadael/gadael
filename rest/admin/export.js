@@ -22,18 +22,13 @@ function getController() {
         let promise = service.getResultPromise(params);
 
         promise.then(tmpname => {
-            console.log(tmpname);
             ctrl.res.download(tmpname, 'export.xlsx', function() {
                 const fs = require('fs');
-
-                console.log('download done');
 
                 fs.unlink(tmpname, (err) => {
                     if (err) {
                         throw err;
                     }
-
-                    console.log('unlinked');
                 });
             });
         });

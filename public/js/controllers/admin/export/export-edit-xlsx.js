@@ -2,19 +2,19 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', 'gettext', 'Rest', function($scope, gettext, Rest) {
+	return ['$scope', 'gettext', 'Rest', '$timeout', function($scope, gettext, Rest, $timeout) {
 
 		$scope.setPageTitle(gettext('Export in XLSX file'));
 
         // default type
 
-        $scope.type = 'requests';
-        $scope.period = {
-            from: null,
-            to: null
-        };
-
-
+        $timeout(function() {
+            $scope.type = 'requests';
+            $scope.period = {
+                from: null,
+                to: null
+            };
+        });
 
         $scope.download = function() {
 
