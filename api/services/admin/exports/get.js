@@ -1,9 +1,9 @@
 'use strict';
 
-let xlsx = require('xlsx-writestream');
-let Gettext = require('node-gettext');
-let gt = new Gettext();
-let tmp = require('tmp');
+const xlsx = require('xlsx-writestream');
+const Gettext = require('node-gettext');
+const gt = new Gettext();
+const tmp = require('tmp');
 
 
 
@@ -12,7 +12,7 @@ let tmp = require('tmp');
 
 exports = module.exports = function(services, app) {
 
-    var service = new services.get(app);
+    let service = new services.get(app);
 
 
 
@@ -66,7 +66,7 @@ exports = module.exports = function(services, app) {
      * Call the export get service
      *
      * @param {Object} params
-     * @return {Promise}
+     * @return {Promise}    Resolve to a temporary file
      */
     service.getResultPromise = function(params) {
 
@@ -86,22 +86,12 @@ exports = module.exports = function(services, app) {
         exportTypes[type](params).then(function(data) {
 
             let tmpname = tmp.tmpNameSync();
-            xlsx.write(tmpname, data, function (err) {
+            xlsx.write(tmpname, data, err => {
                 if (err) {
                     return service.deferred.reject(err);
                 }
 
-                service.res.download(tmpname, 'export.xlsx', function(err){
-                    if (err) {
-                        // Handle error, but keep in mind the response may be partially-sent
-                        // so check res.headersSent
-                        service.deferred.reject(err);
-
-                    } else {
-                        // do not return json after download
-                        service.deferred.resolve(null);
-                    }
-                });
+                service.deferred.resolve(tmpname);
             });
 
         }).catch(service.error);
