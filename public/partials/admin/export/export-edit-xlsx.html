@@ -27,6 +27,9 @@
 
 
 
-    <button class="btn btn-primary" ng-click="download()"><i class="fa fa-download"></i> <span translate>Download</span></button>
+    <button class="btn btn-primary" ng-click="download()">
+        <i class="fa fa-download"></i> <span translate>Download</span>
+    </button>
+    <a id="downloadLink" href="{{downloadUrl}}"></a>
     <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
 </form>

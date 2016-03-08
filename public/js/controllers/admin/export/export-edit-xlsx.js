@@ -14,26 +14,30 @@ define([], function() {
                 from: null,
                 to: null
             };
+
+            $scope.downloadUrl = null;
         });
 
         $scope.download = function() {
 
-            var parameters = {
-                format: 'xlsx',
-                type: $scope.type
-            };
+            var parameters = [];
+
+            parameters.push('format=xlsx');
+            parameters.push('type='+$scope.type);
 
             if ('requests' === $scope.type) {
-                parameters.from = $scope.period.from;
-                parameters.to = $scope.period.to;
+                parameters.push('from='+$scope.period.from.toJSON());
+                parameters.push('to='+$scope.period.to.toJSON());
             }
 
             if ('balance' === $scope.type) {
-                parameters.moment = $scope.moment;
+                parameters.push('moment='+$scope.moment);
             }
 
-            var exportResource = Rest.admin.export.getResource();
-            exportResource.get(parameters);
+            $scope.downloadUrl = '/rest/admin/export?'+parameters.join('&');
+            $timeout(function() {
+                document.getElementById('downloadLink').click();
+            });
         };
 	}];
 });
