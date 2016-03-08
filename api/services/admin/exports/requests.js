@@ -43,6 +43,8 @@ exports = module.exports = function(service, from, to) {
             find.populate('events');
             find.populate('absence.distribution');
 
+            find.sort("user.name events.dtstart");
+
             find.exec((err, requests) => {
 
                 if (err) {
@@ -50,6 +52,8 @@ exports = module.exports = function(service, from, to) {
                 }
 
                 let data = [];
+                let allRights = [];
+
                 requests.forEach(request => {
                     let row = {};
                     row[NAME]       = request.user.name;
@@ -65,10 +69,25 @@ exports = module.exports = function(service, from, to) {
 
                     request.absence.distribution.forEach(elem => {
                         row[elem.right.name] = elem.consumedQuantity;
+                        if (-1 === allRights.indexOf(elem.right.name)) {
+                            allRights.push(elem.right.name);
+                        }
                     });
 
                     data.push(row);
                 });
+
+
+                // add all rights in all rows
+
+                data.map(row => {
+                    allRights.forEach(name => {
+                        if (undefined === row[name]) {
+                            row[name] = 0;
+                        }
+                    });
+                });
+
                 resolve(data);
             });
         });
