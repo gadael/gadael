@@ -132,6 +132,48 @@ describe('users admin rest service', function() {
     
     
     
+    it('Disable a user', function(done) {
+
+        expect(restAdmin).toBeDefined();
+        restAdmin.isActive = false;
+
+        server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
+
+            expect(res.statusCode).toEqual(200);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            expect(body.validInterval.length).toEqual(1);
+
+            let last = body.validInterval.length -1;
+            expect(body.validInterval[last].start).toBeDefined();
+            expect(body.validInterval[last].finish).toBeDefined();
+            done();
+        });
+    });
+
+
+
+    it('Enable a user must create a new validInterval', function(done) {
+
+        expect(restAdmin).toBeDefined();
+        restAdmin.isActive = true;
+
+        server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
+
+            expect(res.statusCode).toEqual(200);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            expect(body.validInterval.length).toEqual(2);
+
+            done();
+        });
+    });
+
+
+
+
     it('create new user', function(done) {
         server.post('/rest/admin/users', {
             firstname: 'create',

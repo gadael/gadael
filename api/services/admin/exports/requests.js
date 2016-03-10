@@ -15,14 +15,14 @@ let gt = new Gettext();
  */
 exports = module.exports = function(service, from, to) {
 
-    const NAME      = gt.gettext('Name');
-    const DEPARTMENT = gt.gettext('Department');
-    const CREATEDON = gt.gettext('Created on');
-    const DTSTART   = gt.gettext('From');
-    const DTEND     = gt.gettext('To');
-    const CONSUMED  = gt.gettext('Consumed');
-    const QUANTITY  = gt.gettext('Duration');
-    const STATUS    = gt.gettext('Status');
+    const NAME          = gt.gettext('Name');
+    const DEPARTMENT    = gt.gettext('Department');
+    const CREATEDON     = gt.gettext('Created on');
+    const DTSTART       = gt.gettext('From');
+    const DTEND         = gt.gettext('To');
+    const CONSUMED      = gt.gettext('Consumed');
+    const QUANTITY      = gt.gettext('Duration');
+    const STATUS        = gt.gettext('Status');
 
 
 

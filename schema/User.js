@@ -21,6 +21,9 @@ exports = module.exports = function(params) {
 		department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department' },
 		isActive: { type:Boolean, default:true },
 		timeCreated: { type: Date, default: Date.now },
+
+        validInterval: [params.embeddedSchemas.ValidInterval],   // list of dates interval where the user is active
+
 		resetPasswordToken: String,
 		resetPasswordExpires: Date,
 		twitter: {},
@@ -30,6 +33,31 @@ exports = module.exports = function(params) {
 		tumblr: {}
 	});
   
+
+    userSchema.pre('save', function(next) {
+        // if isActive is modified, create or close a validInterval
+
+        let user = this;
+
+        if (!user.isSelected('isActive')) {
+            return next();
+        }
+
+        if (user.isModified('isActive')) {
+            if (user.isActive) {
+                user.validInterval.push({ start: new Date() });
+                return next();
+            }
+
+            let last = user.validInterval.length -1;
+            if (undefined !== user.validInterval[last]) {
+                user.validInterval[last].finish = new Date();
+            }
+        }
+
+        next();
+    });
+
   
     userSchema.path('email').validate(function (value) {
 	   var emailRegex = /^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/;
@@ -354,13 +382,6 @@ exports = module.exports = function(params) {
                 name: user.lastname+' '+user.firstname
             };
 
-            /*
-            for(var prop in accountProperties) {
-                if (accountProperties.isOwnProperty(prop)) {
-                    account[prop] = accountProperties[prop];
-                }
-            }
-            */
 
             if (undefined !== accountProperties) {
                 account.set(accountProperties);
