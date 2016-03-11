@@ -13,7 +13,7 @@ let gt = new Gettext();
  */
 exports = module.exports = function(service, moment) {
 
-
+    /*
     const NAME              = gt.gettext('Name');
     const DEPARTMENT        = gt.gettext('Department');
     const RIGHT             = gt.gettext('Right');
@@ -23,8 +23,10 @@ exports = module.exports = function(service, moment) {
     const CONSUMED          = gt.gettext('Consumed quantity');
     const BALANCE           = gt.gettext('Remaining quantity');
 
+    */
+
     return new Promise((resolve, reject) => {
 
-
+        reject(gt.gettext('TODO'));
     });
 };

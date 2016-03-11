@@ -135,19 +135,27 @@ describe('users admin rest service', function() {
     it('Disable a user', function(done) {
 
         expect(restAdmin).toBeDefined();
+        restAdmin.lastname = 'admin';
+        restAdmin.email = 'email@example.com';
         restAdmin.isActive = false;
 
         server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
 
             expect(res.statusCode).toEqual(200);
             expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
 
-            expect(body.validInterval.length).toEqual(1);
+            if (body.$outcome !== undefined) {
+                expect(body.$outcome.success).toBeTruthy();
+                expect(body.validInterval).toBeDefined();
 
-            let last = body.validInterval.length -1;
-            expect(body.validInterval[last].start).toBeDefined();
-            expect(body.validInterval[last].finish).toBeDefined();
+
+                expect(body.validInterval.length).toEqual(1);
+
+                let last = body.validInterval.length -1;
+                expect(body.validInterval[last].start).toBeDefined();
+                expect(body.validInterval[last].finish).toBeDefined();
+
+            }
             done();
         });
     });
@@ -163,10 +171,11 @@ describe('users admin rest service', function() {
 
             expect(res.statusCode).toEqual(200);
             expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
 
-            expect(body.validInterval.length).toEqual(2);
-
+            if (undefined !== body.$outcome) {
+                expect(body.$outcome.success).toBeTruthy();
+                expect(body.validInterval.length).toEqual(2);
+            }
             done();
         });
     });

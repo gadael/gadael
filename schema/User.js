@@ -43,17 +43,25 @@ exports = module.exports = function(params) {
             return next();
         }
 
-        if (user.isModified('isActive')) {
-            if (user.isActive) {
-                user.validInterval.push({ start: new Date() });
-                return next();
-            }
 
-            let last = user.validInterval.length -1;
-            if (undefined !== user.validInterval[last]) {
-                user.validInterval[last].finish = new Date();
-            }
+        if (undefined === user.validInterval) {
+            user.validInterval = [];
         }
+
+        let last = user.validInterval.length -1;
+        let active = (undefined === user.isActive || user.isActive);
+        let lastClosed = (undefined === user.validInterval[last] || user.validInterval[last].finish instanceof Date);
+
+        if (active && lastClosed) {
+            user.validInterval.push({ start: new Date() });
+            return next();
+        }
+
+
+        if (false === user.isActive && !lastClosed) {
+            user.validInterval[last].finish = new Date();
+        }
+
 
         next();
     });
