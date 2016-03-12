@@ -195,7 +195,7 @@ exports = module.exports = function(params) {
      *
      * @param {Date} dtstart
      * @param {Date} dtend
-     * @returns {Promise} q
+     * @returns {Promise}
      */
     rightSchema.methods.getPeriodRenewal = function(dtstart, dtend) {
         
@@ -231,7 +231,7 @@ exports = module.exports = function(params) {
 
     /**
      * Get current renewal or null if no renewal
-     * @returns {Promise} q
+     * @returns {Promise}
      */
     rightSchema.methods.getCurrentRenewal = function() {
         return this.getPeriodRenewal(new Date(), new Date());
@@ -240,7 +240,7 @@ exports = module.exports = function(params) {
 
     /**
      * Get last renewal
-     * @returns {Promise} q
+     * @returns {Promise}
      */
     rightSchema.methods.getLastRenewal = function() {
         
