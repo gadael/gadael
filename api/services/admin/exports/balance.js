@@ -14,6 +14,7 @@ let gt = new Gettext();
 exports = module.exports = function(service, moment) {
 
 
+
     const NAME              = gt.gettext('Name');
     const DEPARTMENT        = gt.gettext('Department');
     const RIGHT             = gt.gettext('Right');
@@ -27,6 +28,13 @@ exports = module.exports = function(service, moment) {
 
 
     return new Promise((resolve, reject) => {
+
+        if (!moment || 'undefined' === moment) {
+            return reject('missing moment parameter');
+        }
+
+        moment = new Date(moment);
+
 
         let findUsers = service.app.db.models.Users.getMomentUsersFind(moment);
         findUsers.where('roles.account').exists();

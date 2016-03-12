@@ -70,7 +70,6 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
-
         let format = 'xlsx';
 
         if (undefined !== params.format && -1 !== ['xlsx', 'csv'].indexOf(params.format)) {
@@ -83,7 +82,7 @@ exports = module.exports = function(services, app) {
         }
 
 
-        exportTypes[type](params).then(function(data) {
+        exportTypes[type](params).then(data => {
 
             let tmpname = tmp.tmpNameSync();
             xlsx.write(tmpname, data, err => {
