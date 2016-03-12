@@ -53,7 +53,10 @@ exports = module.exports = function(params) {
         let lastClosed = (undefined === user.validInterval[last] || user.validInterval[last].finish instanceof Date);
 
         if (active && lastClosed) {
-            user.validInterval.push({ start: new Date() });
+            user.validInterval.push({
+                start: new Date(),
+                finish: null
+            });
             return next();
         }
 
@@ -477,6 +480,26 @@ exports = module.exports = function(params) {
 
 
 
+    /**
+     * Find users on a specific moment
+     * @param {Date} moment
+     * @return {Query}
+     */
+    userSchema.statics.getMomentUsersFind = function(moment) {
+        let findUsers = this.find();
+
+        findUsers.where('validInterval.start').lt(moment);
+        findUsers.or([
+            {
+            'validInterval.finish': { gt: moment }
+            },
+            {
+                'validInterval.finish': null
+            }
+        ]);
+
+        return findUsers;
+    };
 
 
 
