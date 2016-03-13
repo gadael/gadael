@@ -26,7 +26,6 @@ exports = module.exports = function(service, moment) {
     const BALANCE           = gt.gettext('Remaining quantity');
 
 
-
     return new Promise((resolve, reject) => {
 
         if (!moment || 'undefined' === moment) {
@@ -34,7 +33,6 @@ exports = module.exports = function(service, moment) {
         }
 
         moment = new Date(moment);
-
 
         let findUsers = service.app.db.models.Users.getMomentUsersFind(moment);
         findUsers.where('roles.account').exists();
@@ -48,6 +46,7 @@ exports = module.exports = function(service, moment) {
             if (err) {
                 return reject(err);
             }
+
 
             users.forEach(user => {
                 let account = user.roles.account;

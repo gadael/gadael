@@ -17,6 +17,7 @@ function getController() {
     var ctrl = this;
 
     ctrl.controllerAction = function() {
+
         let service = ctrl.service('admin/exports/get');
         let params = ctrl.getServiceParameters(ctrl.req);
         let promise = service.getResultPromise(params);
@@ -31,6 +32,11 @@ function getController() {
                     }
                 });
             });
+        });
+
+        // if service fail errors are reported in json
+        promise.catch(err => {
+            ctrl.jsonService(service);
         });
     };
 }
