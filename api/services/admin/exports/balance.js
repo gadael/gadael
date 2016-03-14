@@ -34,7 +34,7 @@ exports = module.exports = function(service, moment) {
 
         moment = new Date(moment);
 
-        let findUsers = service.app.db.models.Users.getMomentUsersFind(moment);
+        let findUsers = service.app.db.models.User.getMomentUsersFind(moment);
         findUsers.where('roles.account').exists();
 
         findUsers.populate('department');
