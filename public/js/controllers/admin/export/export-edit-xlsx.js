@@ -31,7 +31,7 @@ define([], function() {
             }
 
             if ('balance' === $scope.type) {
-                parameters.push('moment='+$scope.moment);
+                parameters.push('moment='+$scope.period.moment.toJSON());
             }
 
             $scope.downloadUrl = '/rest/admin/export?'+parameters.join('&');

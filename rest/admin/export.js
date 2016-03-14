@@ -35,7 +35,7 @@ function getController() {
         });
 
         // if service fail errors are reported in json
-        promise.catch(err => {
+        promise.catch(() => {
             ctrl.jsonService(service);
         });
     };
