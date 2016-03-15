@@ -100,7 +100,8 @@ exports = module.exports = function(service, moment) {
                 }
 
                 resolve(data);
-            });
+            })
+            .catch(reject);
 
         });
     });
