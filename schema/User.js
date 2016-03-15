@@ -491,7 +491,7 @@ exports = module.exports = function(params) {
         findUsers.where('validInterval.start').lt(moment);
         findUsers.or([
             {
-            'validInterval.finish': { gt: moment }
+                'validInterval.finish': { $gt: moment }
             },
             {
                 'validInterval.finish': null

@@ -12,7 +12,8 @@ define([], function() {
             $scope.type = 'requests';
             $scope.period = {
                 from: null,
-                to: null
+                to: null,
+                moment: new Date()
             };
 
             $scope.downloadUrl = null;
