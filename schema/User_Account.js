@@ -543,19 +543,19 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getRights = function(moment) {
 
-        var deferred = {};
+        let deferred = {};
         deferred.promise = new Promise(function(resolve, reject) {
             deferred.resolve = resolve;
             deferred.reject = reject;
         });
         
         this.getRightBeneficiaries(moment).then(function(beneficiaries) {
-            var rights = [];
+            let rights = [];
             
             for(var i=0; i< beneficiaries.length; i++) {
                 rights.push(beneficiaries[i].right);
             }
-            
+
             deferred.resolve(rights);
         }).catch(deferred.reject);
         
