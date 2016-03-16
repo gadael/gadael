@@ -40,13 +40,14 @@ exports = module.exports = function(service, moment) {
         findUsers.populate('department');
         findUsers.populate('roles.account');
 
-        let userPromises = [];
+
 
         findUsers.exec((err, users) => {
             if (err) {
                 return reject(err);
             }
 
+            let userPromises = [];
 
             users.forEach(user => {
                 let account = user.roles.account;
@@ -66,20 +67,24 @@ exports = module.exports = function(service, moment) {
 
             Promise.all(userPromises).then(p => {
                 let allCollections = p[0];
-                let allRights = p[0];
+                let allRights = p[1];
                 let data = [];
 
-                let user;
-                let collection;
+
+                console.log(allRights[0].constructor.name);
+                console.log(allRights[1].constructor.name);
+
+
+                let i;
 
                 function addRowToData(right)
                 {
                     let row = {};
 
-                    row[NAME]           = user.getName();
-                    row[DEPARTMENT]     = user.department.name;
+                    row[NAME]           = users[i].getName();
+                    row[DEPARTMENT]     = users[i].department.name;
                     row[RIGHT]          = right.name;
-                    row[COLLECTION]     = collection.name;
+                    row[COLLECTION]     = allCollections[i].name;
                     row[RENEWAL_START]  = 0;
                     row[RENEWAL_FINISH] = 0;
                     row[QUANTITY]       = 0;
@@ -90,13 +95,9 @@ exports = module.exports = function(service, moment) {
                 }
 
 
-                for (let i=0; i<users.length; i++) {
+                for (i=0; i<users.length; i++) {
+                    allRights[i].forEach(addRowToData);
 
-                    user = users[i];
-                    collection = allCollections[i];
-                    let rights = allRights[i];
-
-                    rights.forEach(addRowToData);
                 }
 
                 resolve(data);
