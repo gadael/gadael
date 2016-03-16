@@ -81,7 +81,6 @@ exports = module.exports = function(services, app) {
             type = params.type;
         }
 
-
         exportTypes[type](params).then(data => {
 
             let tmpname = tmp.tmpNameSync();
