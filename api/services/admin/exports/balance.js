@@ -65,16 +65,9 @@ exports = module.exports = function(service, moment) {
 
             // build rows
 
-            Promise.all(userPromises).then(p => {
-                let allCollections = p[0];
-                let allRights = p[1];
+            Promise.all(userPromises).then(userAttributes => {
+
                 let data = [];
-
-
-                console.log(allRights[0].constructor.name);
-                console.log(allRights[1].constructor.name);
-
-
                 let i;
 
                 function addRowToData(right)
@@ -84,7 +77,7 @@ exports = module.exports = function(service, moment) {
                     row[NAME]           = users[i].getName();
                     row[DEPARTMENT]     = users[i].department.name;
                     row[RIGHT]          = right.name;
-                    row[COLLECTION]     = allCollections[i].name;
+                    row[COLLECTION]     = userAttributes[i][0].name;
                     row[RENEWAL_START]  = 0;
                     row[RENEWAL_FINISH] = 0;
                     row[QUANTITY]       = 0;
@@ -96,8 +89,7 @@ exports = module.exports = function(service, moment) {
 
 
                 for (i=0; i<users.length; i++) {
-                    allRights[i].forEach(addRowToData);
-
+                    userAttributes[i][1].forEach(addRowToData);
                 }
 
                 resolve(data);
