@@ -5,6 +5,42 @@ let Gettext = require('node-gettext');
 let gt = new Gettext();
 
 
+
+/**
+ * Get a two level promises list for right renewals
+ * level 1: users
+ * level 2: rights
+ *
+ * @param {Array} users
+ * @param {Array} userAttributes    rights and collection for each users
+ * @param {Date}  moment
+ *
+ * @return {Array}
+ */
+function getUserRenewalsPromises(users, userAttributes, moment) {
+
+    let i, j;
+    let userRenewalsPromises = [];
+
+    for (i=0; i<users.length; i++) {
+
+        let userPromises = [];
+        let rights = userAttributes[i][1];
+
+        for (j=0; j<rights.length; j++) {
+            userPromises.push(rights[j].getMomentRenewal(moment));
+        }
+
+        userRenewalsPromises.push(Promise.all(userPromises));
+    }
+
+    return userRenewalsPromises;
+}
+
+
+
+
+
 /**
  * Export leave rights on a date
  * @param {apiService} service
@@ -99,31 +135,11 @@ exports = module.exports = function(service, moment) {
                     data.push(row);
                 }
 
-                let momentRenewalPromises = {};
-                let userRenewalsPromises = [];
 
-                // loop 1 to create a list of promised renewals per user
-
-                for (i=0; i<users.length; i++) {
-
-                    if (undefined === momentRenewalPromises[users[i].id]) {
-                        momentRenewalPromises[users[i].id] = [];
-                    }
-
-                    let rights = userAttributes[i][1];
-
-                    for (j=0; j<rights.length; j++) {
-                        momentRenewalPromises[users[i].id].push(rights[j].getMomentRenewal(moment));
-                    }
-
-                    userRenewalsPromises.push(Promise.all(momentRenewalPromises[users[i].id]));
+                let userRenewalsPromises = getUserRenewalsPromises(users, userAttributes, moment);
 
 
-                }
-
-                // loop to create rows once renwals are resolved
-
-
+                // loop to create rows once renewals are resolved
                 Promise.all(userRenewalsPromises).then(usersRenewals => {
 
                     for (i=0; i<users.length; i++) {
