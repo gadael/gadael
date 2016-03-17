@@ -237,6 +237,15 @@ exports = module.exports = function(params) {
         return this.getPeriodRenewal(new Date(), new Date());
     };
 
+    /**
+     * Get renewal on date or null if no renewal
+     * @param {Date} moment
+     * @returns {Promise}
+     */
+    rightSchema.methods.getMomentRenewal = function(moment) {
+        return this.getPeriodRenewal(moment, moment);
+    };
+
 
     /**
      * Get last renewal

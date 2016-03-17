@@ -68,9 +68,15 @@ exports = module.exports = function(service, moment) {
             Promise.all(userPromises).then(userAttributes => {
 
                 let data = [];
-                let i;
+                let i, j;
 
-                function addRowToData(right)
+
+                /**
+                 * Add one row
+                 * @param {Model} right   Right for row, mandatory
+                 * @param {Model} renewal Active renewal on moment date if exists
+                 */
+                function addRowToData(right, renewal)
                 {
                     let row = {};
 
@@ -78,8 +84,14 @@ exports = module.exports = function(service, moment) {
                     row[DEPARTMENT]     = users[i].department.name;
                     row[RIGHT]          = right.name;
                     row[COLLECTION]     = userAttributes[i][0].name;
-                    row[RENEWAL_START]  = 0;
-                    row[RENEWAL_FINISH] = 0;
+                    if (renewal) {
+                        row[RENEWAL_START]  = renewal.start;
+                        row[RENEWAL_FINISH] = renewal.finish;
+                    } else {
+                        row[RENEWAL_START]  = '';
+                        row[RENEWAL_FINISH] = '';
+                    }
+
                     row[QUANTITY]       = 0;
                     row[CONSUMED]       = 0;
                     row[BALANCE]        = 0;
@@ -87,12 +99,47 @@ exports = module.exports = function(service, moment) {
                     data.push(row);
                 }
 
+                let momentRenewalPromises = {};
+                let userRenewalsPromises = [];
+
+                // loop 1 to create a list of promised renewals per user
 
                 for (i=0; i<users.length; i++) {
-                    userAttributes[i][1].forEach(addRowToData);
+
+                    if (undefined === momentRenewalPromises[users[i].id]) {
+                        momentRenewalPromises[users[i].id] = [];
+                    }
+
+                    let rights = userAttributes[i][1];
+
+                    for (j=0; j<rights.length; j++) {
+                        momentRenewalPromises[users[i].id].push(rights[j].getMomentRenewal(moment));
+                    }
+
+                    userRenewalsPromises.push(Promise.all(momentRenewalPromises[users[i].id]));
+
+
                 }
 
-                resolve(data);
+                // loop to create rows once renwals are resolved
+
+
+                Promise.all(userRenewalsPromises).then(usersRenewals => {
+
+                    for (i=0; i<users.length; i++) {
+                        let rights = userAttributes[i][1];
+                        for(j=0; j<rights.length; j++) {
+                            addRowToData(rights[j], usersRenewals[i][j]);
+                        }
+                    }
+
+                    resolve(data);
+                }).catch(reject);
+
+
+
+
+
             })
             .catch(reject);
 
