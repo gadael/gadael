@@ -2,7 +2,8 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', 'gettext', 'Rest', '$timeout', function($scope, gettext, Rest, $timeout) {
+	return ['$scope', 'gettext', 'Rest', '$timeout', '$location',
+            function($scope, gettext, Rest, $timeout, $location) {
 
 		$scope.setPageTitle(gettext('Export in XLSX file'));
 
@@ -39,6 +40,11 @@ define([], function() {
             $timeout(function() {
                 document.getElementById('downloadLink').click();
             });
+        };
+
+
+        $scope.cancel = function() {
+            $location.path('/admin/exports');
         };
 	}];
 });

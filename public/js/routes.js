@@ -387,7 +387,7 @@ define(['angular', 'app'], function(angular, app) {
 		});
 
         $routeProvider.when('/admin/exports', {
-			templateUrl: 'partials/admin/exports.html',
+			templateUrl: 'partials/admin/export/exports.html',
 			controller: 'AdminExports'
 		});
 
