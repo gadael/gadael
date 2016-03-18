@@ -47,6 +47,7 @@ function saveRenewal(service, params) {
         RightRenewalModel.findOne({ _id: params.id }, function(err, document) {
             if (service.handleMongoError(err))
             {
+                document.set(fieldsToSet);
                 document.adjustments = document.adjustments.filter(function(a) {
                     return (null !== a.quantity);
                 });
