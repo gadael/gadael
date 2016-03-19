@@ -22,7 +22,7 @@ exports = module.exports = function(services, app) {
     let exportTypes = {
 
         /**
-         * Get balance on date
+         * Get balance on date in XLSX
          * @param {Object} params
          * @returns {Promise}
          */
@@ -40,7 +40,7 @@ exports = module.exports = function(services, app) {
         },
 
         /**
-         * All requests between two dates
+         * All requests between two dates in XLSX
          * @param {Object} params
          * @returns {Promise}
          */
@@ -53,6 +53,26 @@ exports = module.exports = function(services, app) {
                 }
 
                 resolve(require('./requests')(service, params.from, params.to));
+            });
+        },
+
+
+        /**
+         * Get requests for all users between 2 dates in sage text format
+         * one line per user
+         *
+         * @param {Object} params
+         *
+         * @returns {Promise}
+         */
+        sage: function(params) {
+            return new Promise(function(resolve, reject) {
+
+                if (undefined === params.from || undefined === params.to) {
+                    return reject(gt.gettext('from and to are mandatory parameters'));
+                }
+
+                resolve(require('./sage')(service, params.from, params.to));
             });
         }
     };
@@ -70,14 +90,8 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
-        let format = 'xlsx';
-
-        if (undefined !== params.format && -1 !== ['xlsx', 'csv'].indexOf(params.format)) {
-            format = params.format;
-        }
-
         let type = 'balance';
-        if (undefined !== params.type && -1 !== ['balance', 'requests'].indexOf(params.type)) {
+        if (undefined !== params.type && -1 !== ['balance', 'requests', 'sage'].indexOf(params.type)) {
             type = params.type;
         }
 
