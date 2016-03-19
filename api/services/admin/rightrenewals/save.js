@@ -1,6 +1,9 @@
 'use strict';
 
 
+var Gettext = require('node-gettext');
+var gt = new Gettext();
+
 
 /**
  * Validate params fields
@@ -11,6 +14,10 @@ function validate(service, params) {
 
     if (service.needRequiredFields(params, ['right', 'start', 'finish'])) {
         return;
+    }
+
+    if (params.start >= params.finish) {
+        return service.error(gt.gettext('Finish date must be greater than start date'));
     }
 
     saveRenewal(service, params);
@@ -24,9 +31,7 @@ function validate(service, params) {
  * @param {Object} params
  */  
 function saveRenewal(service, params) {
-    
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+
 
     var RightRenewalModel = service.app.db.models.RightRenewal;
     
