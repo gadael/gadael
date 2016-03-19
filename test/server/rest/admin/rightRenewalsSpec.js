@@ -9,7 +9,12 @@ describe('vacations right renewals admin rest service', function() {
     /**
      * A right ID created during the tests
      */
-    var right;
+    let right;
+
+    /**
+     * A renewal ID created during the tests
+     */
+    let renewal;
 
 
     beforeEach(function(done) {
@@ -119,6 +124,9 @@ describe('vacations right renewals admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
+
+            renewal = body._id;
+
             done();
         });
     });
@@ -159,6 +167,23 @@ describe('vacations right renewals admin rest service', function() {
             done();
         });
     });
+
+
+
+    it('Update the second renewal period', function(done) {
+        server.put('/rest/admin/rightrenewals/'+renewal, {
+            start: new Date(2016,0,1,0,0,0,0),
+            finish: new Date(2016,11,30,23,59,59,0),
+            right: right
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            expect(body.finish).toEqual('2016-12-30T22:59:59.000Z');
+            done();
+        });
+    });
+
 
 
     it('logout', function(done) {
