@@ -182,7 +182,7 @@ describe('vacations right renewals admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
-            expect(body.finish).toEqual(newFinishDate.toJson());
+            expect(body.finish).toEqual(newFinishDate.toJSON());
             done();
         });
     });
