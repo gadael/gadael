@@ -24,7 +24,6 @@ define([], function() {
 
             var parameters = [];
 
-            parameters.push('format=xlsx');
             parameters.push('type='+$scope.type);
 
             if ('requests' === $scope.type) {
