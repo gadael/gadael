@@ -47,8 +47,7 @@ api.populate = function(app, department, nbUsers, password) {
 
         let promises = [];
 
-        let managerPromise = userApi.createRandomManager(app, Charlatan.Internet.safeEmail(), password);
-        promises.push(managerPromise);
+        promises.push(userApi.createRandomManager(app, Charlatan.Internet.safeEmail(), password));
 
         for (let u=0; u<nbUsers; u++) {
             promises.push(userApi.createRandomAccount(app, Charlatan.Internet.safeEmail(), password));
@@ -61,9 +60,13 @@ api.populate = function(app, department, nbUsers, password) {
             randomUsers.forEach(randomUser => {
                 randomUser.user.department = department._id;
                 promises.push(randomUser.user.save());
+
             });
 
-            resolve(Promise.all(promises));
+            Promise.all(promises).then(() => {
+                resolve(randomUsers);
+            }).catch(reject);
+
 
         }).catch(reject);
 
@@ -78,14 +81,21 @@ api.populate = function(app, department, nbUsers, password) {
  * @param {Int}     nbUsers  Number of members in department (other than manager)
  * @param {String}  password Password for all random users in department
  *
- * @return {Promise}    Resolve to the department object
+ * @return {Promise}    Resolve to the randomDepartment object
  */
 api.createRandom = function(app, parent, nbUsers, password) {
     return new Promise((resolve, reject) => {
         api.create(app, parent).then(department => {
             api.populate(app, department, nbUsers, password)
-            .then(() => {
-                resolve(department);
+            .then(randomUsers => {
+
+                let randomDepartment = {
+                    department: department,
+                    manager: randomUsers.pop(),
+                    members: randomUsers
+                };
+
+                resolve(randomDepartment);
             }).catch(reject);
         }).catch(reject);
     });
