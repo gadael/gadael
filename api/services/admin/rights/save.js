@@ -55,6 +55,14 @@ function saveRight(service, params) {
         timeSaving: params.timeSaving
     };
     
+    if (undefined !== params.consuption) {
+        fieldsToSet.consuption = params.consuption;
+    }
+
+    if (undefined !== params.consuptionBusinessDaysLimit) {
+        fieldsToSet.consuptionBusinessDaysLimit = params.consuptionBusinessDaysLimit;
+    }
+
     if(undefined !== params.description) {
         fieldsToSet.description = params.description;
     }
