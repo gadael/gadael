@@ -13,9 +13,23 @@ exports = module.exports = function(params) {
 		timeCreated: { type: Date, default: Date.now },
 
         // initialisation for approval steps
-        operator: { type: String, enum: ['OR', 'AND'], default: 'OR' }
+        operator: { type: String, enum: ['OR', 'AND'], default: 'OR' },
 
         // we have parent and path mananged by the tree plugin
+
+
+        // list of business days for the department
+        // they will be used to set the consumed quantity  for
+        // the part-times users
+        businessDays: {
+            SU: { type: Boolean, default: false },
+            MO: { type: Boolean, default: true },
+            TU: { type: Boolean, default: true },
+            WE: { type: Boolean, default: true },
+            TH: { type: Boolean, default: true },
+            FR: { type: Boolean, default: true },
+            SA: { type: Boolean, default: false }
+        }
 	});
 
 

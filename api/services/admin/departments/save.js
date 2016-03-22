@@ -2,6 +2,11 @@
 
 
 
+var Gettext = require('node-gettext');
+var gt = new Gettext();
+
+
+
 /**
  * Validate params fields
  * @param {apiService} service
@@ -9,8 +14,29 @@
  */
 function validate(service, params) {
 
+    function hasOneBusinessDay() {
+        for (let d in params.businessDays) {
+            if (params.businessDays.hasOwnProperty(d)) {
+                if (params.businessDays[d]) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
     if (service.needRequiredFields(params, ['name'])) {
         return;
+    }
+
+    if (undefined !== params.businessDays) {
+        // ensure at least one business day in week
+
+        if (!hasOneBusinessDay()) {
+            service.error(gt.gettext('At least one business day is required'));
+        }
     }
 
     saveDepartment(service, params);
@@ -25,8 +51,7 @@ function validate(service, params) {
  */  
 function saveDepartment(service, params) {
     
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+
 
 
     var DepartmentModel = service.app.db.models.Department;
@@ -35,6 +60,10 @@ function saveDepartment(service, params) {
         name: params.name,
         operator: params.operator
     };
+
+    if (params.businessDays) {
+        fieldsToSet.businessDays = params.businessDays;
+    }
 
     if (params.parent) {
         fieldsToSet.parent = params.parent._id;
