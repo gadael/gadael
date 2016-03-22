@@ -131,6 +131,25 @@
                         <input type="number"  class="form-control" id="timeSaving_savingInterval_max" ng-model="right.timeSaving.savingInterval.max" />
                       </div>
                     </div>
+
+
+                    <div class="form-group col-md-6">
+                        <label for="consuption" translate>Quantity consuption for part-time right collections</label>
+                        <select class="form-control" id="consuption" ng-model="right.consuption">
+                            <option value="proportion" translate>Proportional to attendance</option>
+                            <option value="businessDays" translate>Consume next business days</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6" ng-if="right.consuption=='businessDays'">
+                        <label for="consuptionBusinessDaysLimit" translate>Limit in additional business days consuption in one renewal</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="consuptionBusinessDaysLimit" ng-model="right.consuptionBusinessDaysLimit" step="any" />
+                            <span class="input-group-addon"><span translate>Days</span></span>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

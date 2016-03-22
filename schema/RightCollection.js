@@ -6,8 +6,10 @@ exports = module.exports = function(params) {
         timeCreated: { type: Date, default: Date.now },
         attendance: { type: Number, min: 0, max: 100, default: 100 }    // attendance percentage
                                                                         // vacation right consuption will be recorded according to this percentage
+                                                                        // only if consuption=proportion (right property)
                                                                         // ex: for one day of absence,
                                                                         // the consumed quantity will be 0.5 day if the attendance is 50%
+
     });
   
     collectionSchema.set('autoIndex', params.autoIndex);

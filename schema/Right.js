@@ -12,6 +12,15 @@ exports = module.exports = function(params) {
         require_approval: { type: Boolean, default:true },
         sortkey: Number,
         
+        consuption: {                             // consuption type
+            type: String,
+            enum:['proportion', 'businessDays'],  // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
+            required: true,                       // proportion: user the attendance percentage defined in user right collection
+            default: 'businessDays'
+        },
+
+        consuptionBusinessDaysLimit: { type: Number, default: 5 }, // Used if consuption=businessDays
+
         // automatic distribution on this right on request creation
         autoDistribution: { type: Boolean, default:true },
         
