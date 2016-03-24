@@ -31,7 +31,8 @@ require.config({
         */
         angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod',
         angularColorpicker:     '../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min',
-        angularImageCrop:       '../bower_components/angular-image-crop/image-crop'
+        angularImageCrop:       '../bower_components/angular-image-crop/image-crop',
+        ngSortable:             '../bower_components/ng-sortable/dist/ng-sortable'
 	},
 	shim: {
 		'angular' : {'exports' : 'angular'},
@@ -57,7 +58,8 @@ require.config({
      //     'teleperiod': ['q', 'd3', 'tp_mousedrag', 'tp_selection', 'tp_timeline', 'tp_timespanboundary'],
         'angularTeleperiod': ['q', 'angular', 'teleperiod'],
         'angularImageCrop': ['angular'],
-        'angularnvd3': ['angular', 'd3', 'nvd3']
+        'angularnvd3': ['angular', 'd3', 'nvd3'],
+        'ngSortable': ['angular']
 	},
 	priority: ["angular"]
 });

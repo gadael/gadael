@@ -64,6 +64,8 @@ module.exports = function(grunt) {
             'public/bower_components/angular-bootstrap-colorpicker/css/colorpicker.css',
             'public/bower_components/angular-image-crop/image-crop-styles.css',
             'public/bower_components/nvd3/nv.d3.css',
+            'public/bower_components/ng-sortable/dist/ng-sortable.css',
+            'public/bower_components/ng-sortable/dist/ng-sortable.style.css',
             'styles/main.css'
             
           ],

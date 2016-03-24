@@ -213,6 +213,10 @@ define(['angular', 'services'], function (angular) {
         .controller('AdminRightView', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/right-view', this, $scope, $injector);
 		}])
+
+        .controller('AdminRightsSort', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/rights-sort', this, $scope, $injector);
+		}])
         
         .controller('AdminRightRenewalEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/rightrenewal-edit', this, $scope, $injector);

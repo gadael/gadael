@@ -26,7 +26,8 @@
     "nvd3": "v1.1.15-beta",
     "angularjs-nvd3-directives": "0b50abef73acc104b03360c2a2c2fb64aa7a78df",
     "q": "~1.4.1",
-    "async": "~1.4.2"
+    "async": "~1.4.2",
+    "ng-sortable": "~1.3.4"
   },
   "resolutions": {
     "d3": "~3.5.3",

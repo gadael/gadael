@@ -350,6 +350,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminRightView'
 		});
         
+        $routeProvider.when('/admin/rights-sort', {
+			templateUrl: 'partials/admin/rights-sort.html',
+			controller: 'AdminRightsSort'
+		});
+
         $routeProvider.when('/admin/rightrenewals/:id', {
 			templateUrl: 'partials/admin/rightrenewal-edit.html',
 			controller: 'AdminRightRenewalEdit'

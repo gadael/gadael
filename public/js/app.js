@@ -14,7 +14,8 @@ define([
 	'passwordStrength',
     'angularColorpicker',
     'angularImageCrop',
-    'angularnvd3'
+    'angularnvd3',
+    'ngSortable'
 	], 
 	
 	function (angular, jsondates) {
@@ -38,7 +39,8 @@ define([
         'tpTeleperiod',
         'colorpicker.module',
         'ImageCropper',
-        'nvd3ChartDirectives'
+        'nvd3ChartDirectives',
+        'as.sortable'
 	]);
     
     
