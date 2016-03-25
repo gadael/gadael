@@ -14,14 +14,9 @@
 
     <div class="col-xs-12 col-sm-9" as-sortable="dragControlListeners" ng-model="rights">
 
-        <div class="row" ng-repeat="right in rights" as-sortable-item>
-            <div data-as-sortable-item-handle>
-            <div class="col-md-9 col-xs-12">
-                <i class="fa fa-asterisk" style="color:{{right.type.color}}" title="{{right.type.name}}"></i> <strong>{{right.name}}</strong><br />
-            </div>
-
-            <div class="col-md-3 hidden-xs hidden-sm">{{right.type.name}}</div>
-
+        <div class="row" ng-repeat="item in sortableItems" as-sortable-item>
+            <div class="col-sm-12 btn-lg" data-as-sortable-item-handle>
+                <i class="fa fa-sort text-primary"></i> &nbsp; {{item.name}}
             </div>
         </div>
     </div>

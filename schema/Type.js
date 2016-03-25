@@ -7,12 +7,25 @@ exports = module.exports = function(params) {
 		name: { type: String, unique: true },		
 		color: { type: String },					// color in calendar
 		group: { type: Boolean, default: false }, 	// group rights in a foldable sub-tree
+        groupTitle: String,
 		timeCreated: { type: Date, default: Date.now }
 	});
     
     
+
     /**
-     * initialize default types
+     * Get group title, the manager probably configured a plural version of the name
+     * in the groupTitle field but the field is optional
+     * @returns {String}
+     */
+    typeSchema.methods.getGroupTitle = function() {
+        return this.groupTitle || this.name;
+    };
+
+
+    /**
+     * initialize default types on database creation
+     * @param {function} done   Callback
      */  
     typeSchema.statics.createFrenchDefaults = function(done) {
 		

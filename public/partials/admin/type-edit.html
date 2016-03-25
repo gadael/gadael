@@ -14,6 +14,11 @@
     <input type="checkbox" id="type_group" ng-model="type.group" />
     <label for="type_group" translate>Group rights in a foldable subtree</label>
   </div>
+
+  <div class="form-group col-md-12" ng-if="type.group">
+    <label for="type_groupTitle" translate>Group title</label>
+    <input type="text" class="form-control" id="type_groupTitle" ng-model="type.groupTitle" />
+  </div>
   
   <div class="col-md-12">
     <button class="btn btn-primary" ng-click="saveType()" translate>Save</button>
