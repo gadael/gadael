@@ -84,7 +84,7 @@ exports = module.exports = function(services, app) {
           
 
         service.resolveQuery(
-            query(service, params).select('name description type quantity quantity_unit rules').sort('sortkey'),
+            query(service, params).select('name description type quantity quantity_unit rules sortkey').sort('name'),
             paginate,
             function(err, docs) {
                 getResultSet(docs, service.mongOutcome);

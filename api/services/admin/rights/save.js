@@ -39,7 +39,10 @@ function saveRight(service, params) {
 
     var type;
     if (undefined !== params.type) {
-        type = params.type._id;
+        type = params.type;
+        if (undefined !== params.type._id) {
+            type = params.type._id;
+        }
     }
 
     
@@ -52,7 +55,8 @@ function saveRight(service, params) {
         activeFor: params.activeFor,
         rules: params.rules,
         addMonthly: params.addMonthly,
-        timeSaving: params.timeSaving
+        timeSaving: params.timeSaving,
+        sortkey: params.sortkey
     };
     
     if (undefined !== params.consuption) {

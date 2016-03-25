@@ -42,6 +42,11 @@ define([], function() {
                         });
                     }
                 });
+
+                $scope.sortableItems.sort(function(s1, s2) {
+                    return s1.object.sortkey > s2.object.sortkey;
+                });
+
             });
 
             $scope.dragControlOptions = {
@@ -49,8 +54,9 @@ define([], function() {
                     var pos = 1;
                     $scope.sortableItems.forEach(function(item) {
                         item.object.sortkey = pos++;
-                        //item.object.ingaSave();
+                        item.object.$save();
                     });
+
                 }
             };
 		}
