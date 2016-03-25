@@ -44,8 +44,14 @@ define([], function() {
                 });
             });
 
-            $scope.dragControlListeners = {
-
+            $scope.dragControlOptions = {
+                orderChanged: function() {
+                    var pos = 1;
+                    $scope.sortableItems.forEach(function(item) {
+                        item.object.sortkey = pos++;
+                        //item.object.ingaSave();
+                    });
+                }
             };
 		}
 	];

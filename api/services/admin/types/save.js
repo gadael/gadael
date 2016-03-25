@@ -32,6 +32,7 @@ function saveRightType(service, params) {
         name: params.name,
         group: params.group,
         groupTitle: params.groupTitle,
+        sortkey: params.sortkey,
         color: params.color
     };
     

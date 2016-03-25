@@ -12,10 +12,10 @@
 
     </div>
 
-    <div class="col-xs-12 col-sm-9" as-sortable="dragControlListeners" ng-model="rights">
+    <div class="col-xs-12 col-sm-9" as-sortable="dragControlOptions" data-ng-model="sortableItems">
 
         <div class="row" ng-repeat="item in sortableItems" as-sortable-item>
-            <div class="col-sm-12 btn-lg" data-as-sortable-item-handle>
+            <div class="col-sm-12 btn-lg" as-sortable-item-handle>
                 <i class="fa fa-sort text-primary"></i> &nbsp; {{item.name}}
             </div>
         </div>

@@ -8,6 +8,7 @@ exports = module.exports = function(params) {
 		color: { type: String },					// color in calendar
 		group: { type: Boolean, default: false }, 	// group rights in a foldable sub-tree
         groupTitle: String,
+        sortkey: Number,
 		timeCreated: { type: Date, default: Date.now }
 	});
     
