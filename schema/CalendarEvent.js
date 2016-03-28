@@ -46,6 +46,11 @@ exports = module.exports = function(params) {
 	 * @return int
 	 */ 
 	eventSchema.methods.getDuration = function() {
+
+        if (undefined === this.dtend) {
+            return 0;
+        }
+
 		var start = this.dtstart.getTime();
 		var end = this.dtend.getTime();
 		

@@ -36,8 +36,16 @@ function getExpandedEra(docs, dtstart, dtend)
         // expand event if RRULE
         for(var e =0; e<expanded.length; e++) {
 
-            // copy properties of expanded event to the jurassic period
-            events.addPeriod(expanded[e]);
+            try {
+
+                // copy properties of expanded event to the jurassic period
+                events.addPeriod(expanded[e]);
+
+            } catch(e) {
+                // ignore invalid period
+                console.log(expanded[e]);
+                console.trace(e);
+            }
         }
     }
     return events;
