@@ -238,8 +238,8 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
 
                     // Group by types
 
-
-                    $scope.types = {};
+                    var typesIndex = {};
+                    $scope.types = [];
                     var accountRightRenewal;
 
                     for (var i=0; i<ar.length; i++) {
@@ -248,15 +248,14 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
 
                         if (ar[i].renewals.length > 0) {
 
-                            if (undefined === $scope.types[type._id]) {
-                                $scope.types[type._id] = [];
+                            if (undefined === typesIndex[type._id]) {
+                                $scope.types.push([]);
+                                typesIndex[type._id] = $scope.types.length-1;
                             }
-
-                            $scope.types[type._id].push(ar[i]);
 
                             for(var j=0; j<ar[i].renewals.length; j++) {
                                 accountRightRenewal = createAccountRenewal(ar[i], j);
-                                $scope.types[type._id].push(accountRightRenewal);
+                                $scope.types[typesIndex[type._id]].push(accountRightRenewal);
                                 updateTotal(ar[i], accountRightRenewal);
                             }
                         }
