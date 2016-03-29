@@ -527,7 +527,6 @@ exports = module.exports = function(params) {
                 account.model('Beneficiary')
                 .where('document').in(userDocuments)
                 .populate('right')
-                .populate('right.type')
                 .exec()
             );
             
