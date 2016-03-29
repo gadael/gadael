@@ -198,7 +198,17 @@ exports = module.exports = function(services, app)
 
                 account.getRights().then(function(rights) {
 
-                    resolveAccountRights(users[0], rights, params.dtstart, params.dtend);
+                    let promisedPopulate = [];
+
+                    // populate right.type
+                    rights.forEach(right => {
+                        promisedPopulate.push(right.populate('type').execPopulate());
+                    });
+
+                    Promise.all(promisedPopulate).then(() => {
+                        resolveAccountRights(users[0], rights, params.dtstart, params.dtend);
+                    });
+
                 }).catch(service.notFound);
                 
             } else {
