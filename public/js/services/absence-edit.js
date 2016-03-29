@@ -201,38 +201,63 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
 
                 $scope.accountRightsRenewals = [];
 
+
+                function createAccountRenewal(item, renewalIndex)
+                {
+                    var accountRightRenewal = Object.create(item);
+                    accountRightRenewal.renewal = item.renewals[renewalIndex];
+
+                    $scope.distribution.renewal[accountRightRenewal.renewal._id] = {
+                        quantity: null,
+                        right: item._id
+                    };
+
+                    return accountRightRenewal;
+                }
+
+
+
+
+
                 $scope.accountRights.$promise.then(function(ar) {
                     // loaded
 
                     var days=0, hours=0;
 
-                    function createAccountRenewal(item, renewalIndex)
-                    {
-                        var accountRightRenewal = Object.create(item);
-                        accountRightRenewal.renewal = item.renewals[renewalIndex];
 
-                        $scope.distribution.renewal[accountRightRenewal.renewal._id] = {
-                            quantity: null,
-                            right: item._id
-                        };
+                    function updateTotal(right, accountRightRenewal) {
+                        available[accountRightRenewal.renewal._id] = ar[i].available_quantity;
+                        quantity_unit[accountRightRenewal._id] = ar[i].quantity_unit;
 
-                        return accountRightRenewal;
+                        switch (accountRightRenewal.quantity_unit) {
+                            case 'D': days  += accountRightRenewal.renewal.available_quantity; break;
+                            case 'H': hours += accountRightRenewal.renewal.available_quantity; break;
+                        }
                     }
 
 
+                    // Group by types
+
+
+                    $scope.types = {};
                     var accountRightRenewal;
 
                     for (var i=0; i<ar.length; i++) {
-                        for(var j=0; j<ar[i].renewals.length; j++) {
-                            accountRightRenewal = createAccountRenewal(ar[i], j);
-                            $scope.accountRightsRenewals.push(accountRightRenewal);
 
-                            available[accountRightRenewal.renewal._id] = ar[i].available_quantity;
-                            quantity_unit[accountRightRenewal._id] = ar[i].quantity_unit;
+                        var type = ar[i].type;
 
-                            switch (accountRightRenewal.quantity_unit) {
-                                case 'D': days  += accountRightRenewal.renewal.available_quantity; break;
-                                case 'H': hours += accountRightRenewal.renewal.available_quantity; break;
+                        if (ar[i].renewals.length > 0) {
+
+                            if (undefined === $scope.types[type._id]) {
+                                $scope.types[type._id] = [];
+                            }
+
+                            $scope.types[type._id].push(ar[i]);
+
+                            for(var j=0; j<ar[i].renewals.length; j++) {
+                                accountRightRenewal = createAccountRenewal(ar[i], j);
+                                $scope.types[type._id].push(accountRightRenewal);
+                                updateTotal(ar[i], accountRightRenewal);
                             }
                         }
                     }

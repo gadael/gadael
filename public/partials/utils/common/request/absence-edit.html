@@ -72,7 +72,12 @@
         <table class="table absence-edit-distribution">
         
 
-            <tbody>
+            <tbody ng-repeat="accountRightsRenewals in types"  ng-init="type = accountRightsRenewals[0].type">
+                <tr class="info">
+                    <th colspan="2">{{type.name}}</th>
+                    <td class="hidden-xs">
+                    </td>
+                </tr>
                 <tr class="form-group" ng-repeat="accountRight in accountRightsRenewals track by accountRight.renewal._id">
 
                     <td ng-class="distribution.class[accountRight.renewal._id]" class="input-group">
@@ -87,6 +92,7 @@
 
                     <td class="hidden-xs">
                         {{accountRight.renewal.available_quantity | number}} {{accountRight.available_quantity_dispUnit}}
+
                     </td>
                 </tr>
             </tbody>
