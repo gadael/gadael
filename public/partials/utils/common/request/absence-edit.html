@@ -74,9 +74,9 @@
 
             <tbody ng-repeat="listItem in types">
                 <tr class="active">
-                    <th colspan="2"><i role="button" class="btn btn-default fa" ng-class="getIcon(listItem)" ng-click="listItem.fold = !listItem.fold"></i> &nbsp; {{listItem.type.name}}</th>
+                    <th colspan="2"><i role="button" class="btn btn-default fa" ng-class="getIcon(listItem)" ng-click="listItem.fold = !listItem.fold"></i> &nbsp; <i class="fa fa-asterisk" style="color:{{listItem.type.color}}"></i> {{listItem.type.groupTitle}}</th>
                     <td class="hidden-xs">
-                        TODO: Total
+                        <span ng-show="!listItem.fold" class="badge">{{listItem.available.display}}</span>
                     </td>
                 </tr>
                 <tr class="form-group" ng-show="listItem.fold" ng-repeat="accountRight in listItem.accountRightsRenewals track by accountRight.renewal._id">

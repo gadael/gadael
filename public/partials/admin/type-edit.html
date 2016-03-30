@@ -11,12 +11,12 @@
   </div>
 
   <div class="form-group col-md-12">
-    <input type="checkbox" id="type_group" ng-model="type.group" />
-    <label for="type_group" translate>Group rights in a foldable subtree</label>
+    <input type="checkbox" id="type_groupFolded" ng-model="type.groupFolded" />
+    <label for="type_groupFolded" translate>Display type folded in the request creation page</label>
   </div>
 
   <div class="form-group col-md-12" ng-if="type.group">
-    <label for="type_groupTitle" translate>Group title</label>
+    <label for="type_groupTitle" translate>Group title for rights (plural form)</label>
     <input type="text" class="form-control" id="type_groupTitle" ng-model="type.groupTitle" />
   </div>
   

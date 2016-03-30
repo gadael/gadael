@@ -28,7 +28,9 @@ exports = module.exports = function(services, app)
     /**
      * 
      * @param {Document} user
-     * @param {Array} rights array of mongoose documents
+     * @param {Array}    rights array of mongoose documents
+     * @param {Date}     dtstart
+     * @param {Date}     dtend
      */
     function resolveAccountRights(user, rights, dtstart, dtend)
     {
@@ -144,10 +146,33 @@ exports = module.exports = function(services, app)
     
     
     
+    /**
+     * Populate type in all rights
+     * @param {Array} rights
+     * @return {Promise}
+     */
+    function populateTypes(rights) {
+        let promisedPopulate = [];
+
+        // populate right.type
+        rights.forEach(right => {
+            promisedPopulate.push(right.populate('type').execPopulate());
+        });
+
+        return Promise.all(promisedPopulate);
+    }
     
     
     
-    
+    /**
+     * Update groupTitle property with name if not set in type document
+     * @param {Array} rights
+     */
+    function addTypesGroupTitle(rights) {
+        rights.forEach(right => {
+            right.type.groupTitle = right.type.getGroupTitle();
+        });
+    }
     
     
     
@@ -197,17 +222,10 @@ exports = module.exports = function(services, app)
                 }
 
                 account.getRights().then(function(rights) {
-
-                    let promisedPopulate = [];
-
-                    // populate right.type
-                    rights.forEach(right => {
-                        promisedPopulate.push(right.populate('type').execPopulate());
-                    });
-
-                    Promise.all(promisedPopulate).then(() => {
+                    populateTypes(rights).then(() => {
+                        addTypesGroupTitle(rights);
                         resolveAccountRights(users[0], rights, params.dtstart, params.dtend);
-                    });
+                    }).catch(service.error);
 
                 }).catch(service.notFound);
                 

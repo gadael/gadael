@@ -30,7 +30,7 @@ function saveRightType(service, params) {
     
     var fieldsToSet = { 
         name: params.name,
-        group: params.group,
+        groupFolded: params.groupFolded,
         groupTitle: params.groupTitle,
         sortkey: params.sortkey,
         color: params.color

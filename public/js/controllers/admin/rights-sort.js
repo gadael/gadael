@@ -21,10 +21,10 @@ define([], function() {
                 var rights = a[0];
                 var types = a[1];
 
-                // collect types acting as groups
+                // collect types acting as folded groups
 
                 types.forEach(function(type) {
-                    if (type.group) {
+                    if (type.group.groupFolded) {
                         $scope.sortableItems.push({
                             name: type.groupTitle || type.name,
                             object: type
@@ -32,10 +32,10 @@ define([], function() {
                     }
                 });
 
-                // collect rights ignoring rights in groups
+                // collect rights ignoring folded
 
                 rights.forEach(function(right) {
-                    if (!right.type.group) {
+                    if (!right.type.groupFolded) {
                         $scope.sortableItems.push({
                             name: right.name,
                             object: right

@@ -234,13 +234,20 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
                     var days=0, hours=0;
 
 
-                    function updateTotal(right, accountRightRenewal) {
+                    function updateTotal(right, accountRightRenewal, groupAvailable) {
                         available[accountRightRenewal.renewal._id] = ar[i].available_quantity;
                         quantity_unit[accountRightRenewal._id] = ar[i].quantity_unit;
 
                         switch (accountRightRenewal.quantity_unit) {
-                            case 'D': days  += accountRightRenewal.renewal.available_quantity; break;
-                            case 'H': hours += accountRightRenewal.renewal.available_quantity; break;
+                            case 'D':
+                                groupAvailable.days  += accountRightRenewal.renewal.available_quantity;
+                                days                 += accountRightRenewal.renewal.available_quantity;
+                                break;
+
+                            case 'H':
+                                groupAvailable.hours += accountRightRenewal.renewal.available_quantity;
+                                hours                += accountRightRenewal.renewal.available_quantity;
+                                break;
                         }
                     }
 
@@ -261,7 +268,11 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
                                 $scope.types.push({
                                     fold: !type.group,
                                     type: type,
-                                    accountRightsRenewals: []
+                                    accountRightsRenewals: [],
+                                    available: {
+                                        days: 0,
+                                        hours: 0
+                                    }
                                 });
                                 typesIndex[type._id] = $scope.types.length-1;
                             }
@@ -269,10 +280,19 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
                             for(var j=0; j<ar[i].renewals.length; j++) {
                                 accountRightRenewal = createAccountRenewal(ar[i], j);
                                 $scope.types[typesIndex[type._id]].accountRightsRenewals.push(accountRightRenewal);
-                                updateTotal(ar[i], accountRightRenewal);
+                                updateTotal(ar[i], accountRightRenewal, $scope.types[typesIndex[type._id]].available);
                             }
                         }
                     }
+
+                    // total on each type group
+
+                    $scope.types.forEach(function(item) {
+                        item.available.display = RequestEdit.getDuration(item.available.days, item.available.hours);
+                    });
+
+
+                    // grand total
 
                     $scope.available = {
                         total: RequestEdit.getDuration(days, hours)
