@@ -61,13 +61,13 @@
 
 <div ng-if="assignments">
     
-    <div class="row">
+    <div class="top30">
         <p translate>From to {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}</p>
         <p translate>Collection on the selected period: {{collection.name}}</p>
         <p class="text-primary" translate>Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights</p>
     </div>
 
-    <form class="form-horizontal" role="form">
+    <form class="top30 form-horizontal" role="form">
         
         <table class="table absence-edit-distribution">
         
@@ -100,9 +100,9 @@
 
             <thead>
                 <tr>
-                    <th class="col-sm-2">Distribution</th>
-                    <th>My rights</th>
-                    <th class="hidden-xs">Available quantity</th>
+                    <th class="col-sm-2" translate>Distribution</th>
+                    <th translate>My rights</th>
+                    <th class="hidden-xs" translate>Available quantity</th>
                 </tr>
             </thead>
             
