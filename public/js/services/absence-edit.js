@@ -199,7 +199,6 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
                     dtend: $scope.selection.end
                 });
 
-                $scope.accountRightsRenewals = [];
 
 
                 function createAccountRenewal(item, renewalIndex)
@@ -215,6 +214,16 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
                     return accountRightRenewal;
                 }
 
+
+
+
+                $scope.getIcon = function(listItem) {
+                    if (listItem.fold) {
+                        return 'fa-minus-square';
+                    } else {
+                        return 'fa-plus-square';
+                    }
+                };
 
 
 
@@ -249,13 +258,17 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
                         if (ar[i].renewals.length > 0) {
 
                             if (undefined === typesIndex[type._id]) {
-                                $scope.types.push([]);
+                                $scope.types.push({
+                                    fold: !type.group,
+                                    type: type,
+                                    accountRightsRenewals: []
+                                });
                                 typesIndex[type._id] = $scope.types.length-1;
                             }
 
                             for(var j=0; j<ar[i].renewals.length; j++) {
                                 accountRightRenewal = createAccountRenewal(ar[i], j);
-                                $scope.types[typesIndex[type._id]].push(accountRightRenewal);
+                                $scope.types[typesIndex[type._id]].accountRightsRenewals.push(accountRightRenewal);
                                 updateTotal(ar[i], accountRightRenewal);
                             }
                         }

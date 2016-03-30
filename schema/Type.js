@@ -5,8 +5,8 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var typeSchema = new mongoose.Schema({
 		name: { type: String, unique: true },		
-		color: { type: String },					// color in calendar
-		group: { type: Boolean, default: false }, 	// group rights in a foldable sub-tree
+		color: { type: String },
+		groupFolded: { type: Boolean, default: false }, 	// folding status in the request creation page
         groupTitle: String,
         sortkey: Number,
 		timeCreated: { type: Date, default: Date.now }
