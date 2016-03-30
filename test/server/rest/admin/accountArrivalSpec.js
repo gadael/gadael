@@ -225,9 +225,11 @@ describe('account arrival', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            var renewal = body[0].renewals[0];
-            expect(body[0].available_quantity).toBe(6);
-            expect(renewal.available_quantity).toBe(6);
+            if (1 === body.length) {
+                var renewal = body[0].renewals[0];
+                expect(body[0].available_quantity).toBe(6);
+                expect(renewal.available_quantity).toBe(6);
+            }
             done();
         });
     });

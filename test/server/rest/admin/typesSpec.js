@@ -53,7 +53,7 @@ describe('vacations types admin rest service', function() {
     it('create new type', function(done) {
         server.post('/rest/admin/types', {
             name: 'Rest type test',
-            group: true
+            groupFolded: true
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
@@ -74,7 +74,7 @@ describe('vacations types admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.name).toEqual('Rest type test');
             expect(body._id).toEqual(type);
-            expect(body.group).toBeTruthy();
+            expect(body.groupFolded).toBeTruthy();
             done();
         });
     });

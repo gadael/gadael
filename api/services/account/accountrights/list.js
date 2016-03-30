@@ -170,7 +170,9 @@ exports = module.exports = function(services, app)
      */
     function addTypesGroupTitle(rights) {
         rights.forEach(right => {
-            right.type.groupTitle = right.type.getGroupTitle();
+            if (undefined !== right.type) {
+                right.type.groupTitle = right.type.getGroupTitle();
+            }
         });
     }
     
