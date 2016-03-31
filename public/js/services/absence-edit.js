@@ -1,4 +1,4 @@
-define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, Q, RequestEdit) {
+define(['angular', 'momentDurationFormat', 'q', 'services/request-edit'], function(angular, moment, Q, RequestEdit) {
 
     'use strict';
 
@@ -347,6 +347,7 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
          * Get Period picker callback for working times
          * @param {Resource} calendarEvents
          * @param {Array} personalEventList personal events list, the list of events curently modified
+         *
          * @return function
          */
         getLoadWorkingTimes: function(calendarEvents, personalEventList) {
@@ -365,7 +366,7 @@ define(['momentDurationFormat', 'q', 'services/request-edit'], function(moment, 
                     substractPersonalEvents: true
                 };
 
-                if (personalEventList.length > 0) {
+                if (angular.isArray(personalEventList) && personalEventList.length > 0) {
                     queryParams.subtractException = [];
                     personalEventList.forEach(function(personalEvent) {
                         queryParams.subtractException.push(personalEvent._id);
