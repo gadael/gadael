@@ -265,6 +265,11 @@ exports = module.exports = function(services, app) {
                 return false;
             }
 
+            if (undefined === params.user) {
+                service.forbidden('The user parameter is mandatory');
+                return false;
+            }
+
             return true;
         }
 
