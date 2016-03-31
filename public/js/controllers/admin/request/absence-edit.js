@@ -75,14 +75,11 @@ define(['q'], function(Q) {
         }
 
 
-        var userPromise = loadRequestAndUserPromise();
-
-        
         /**
          * Period picker callbacks
          */
         $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events);
-        $scope.loadEvents = AbsenceEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
+        $scope.loadEvents = AbsenceEdit.getLoadEvents(loadRequestAndUserPromise(), personalEvents, calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
 
