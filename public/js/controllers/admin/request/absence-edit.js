@@ -22,6 +22,11 @@ define(['q'], function(Q) {
         var userId, userPromise;
         
 
+        /**
+         * Load request and get user promise
+         * @throws {Error} if the user parameter is missing on request creation
+         * @returns {Promise} [[Description]]
+         */
         function loadRequestAndUserPromise()
         {
             var deferred = Q.defer();
@@ -69,11 +74,14 @@ define(['q'], function(Q) {
 
         }
 
+
+        var userPromise = loadRequestAndUserPromise();
+
         
         /**
          * Period picker callbacks
          */
-        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(loadRequestAndUserPromise(), calendarEvents);
+        $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events);
         $scope.loadEvents = AbsenceEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
