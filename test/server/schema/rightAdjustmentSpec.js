@@ -77,7 +77,6 @@ describe('Right model', function() {
 
             renewal.right = right1._id;
             renewal.start = new Date();
-            renewal.start.setHours(0,0,0,0);
             renewal.finish = new Date(renewal.start);
             renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
 
@@ -90,6 +89,47 @@ describe('Right model', function() {
             });
         });
     });
+
+
+
+
+
+    it('create a right with monthly adjustment the first day of a month', function(done) {
+        var right = new rightModel();
+
+        right.name = 'Test right 2';
+        right.quantity = 10;
+        right.quantity_unit = 'D';
+        right.addMonthly = {
+            quantity: 1
+        };
+
+        right.save(function(err, right) {
+            expect(err).toBeNull();
+            if (err) {
+                return done();
+            }
+
+            var renewal = new rightRenewalModel();
+
+            renewal.right = right._id;
+            renewal.start = new Date(2016,3,1,0,0,0,0);
+            renewal.finish = new Date(renewal.start);
+            renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
+
+            renewal.save(function(err, renewal) {
+                expect(err).toBeNull();
+                expect(renewal.adjustments).toBeDefined();
+                expect(renewal.adjustments.length).toEqual(12);
+                done();
+            });
+        });
+    });
+
+
+
+
+
 
 
     it('update adjustments if renewal is modified with less months', function(done) {
