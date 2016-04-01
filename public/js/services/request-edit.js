@@ -7,37 +7,6 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
 
 
-    /**
-     * Duration in milliseconds updated on every period changes
-     * @var {int}
-     */
-    var duration = 0;
-
-
-
-
-
-
-
-
-    /**
-     * Set a duration visible to the final user
-     *
-     * @param {object} $scope
-     * @param {Int} duration        Number of milliseconds
-     *
-     */
-    function setDuration($scope, duration)
-    {
-        var momentMs = moment.duration(duration, "milliseconds");
-        var momentDays = moment.duration($scope.selection.businessDays, "days");
-
-        $scope.selection.duration = duration;
-        $scope.selection.days = momentDays.format("d [days]", 1);
-        $scope.selection.hours = momentMs.format("h [hours]", 2);
-
-        $scope.selection.isValid = duration > 0;
-    }
 
 
 
@@ -47,262 +16,321 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
 
 
-    // Service to edit an absence,
-    // shared by account/request/absence-edit and admin/request/absence-edit
+    return function requestEdit(gettextCatalog) {
 
-    return {
+
 
         /**
-         * Get duration as string
-         * @param {Number} days
-         * @param {Number} hours
-         * @return {String}
+         * Duration in milliseconds updated on every period changes
+         * @var {int}
          */
-        getDuration: function getDuration(days, hours)
+        var duration = 0;
+
+
+
+
+        function getMomentPaterns(momentDays, momentHours)
         {
-            var disp = [];
+            var days = momentDays.format('d');
+            var hours = momentHours.format('h');
 
-            if (days !== 0) {
-                var momentDays = moment.duration(days, "days");
-                disp.push(momentDays.format("d [days]", 1));
-            }
 
-            if (hours !== 0) {
-                var momentHours = moment.duration(hours, "hours");
-                disp.push(momentHours.format("h [hours]", 2));
-            }
-
-            return disp.join(', ');
-        },
-
-        /**
-         * Set scope delfault values
-         * @param {Object} $scope
-         */
-        initScope: function initScope($scope) {
-            // default values
-            $scope.periodSelection = true;
-            $scope.assignments = false;
-            $scope.newRequest = false;
-            $scope.editRequest = false;
-
-            // list of beneficiaries objects, populated once period set
-            $scope.accountRights = [];
-
-            $scope.selection = {
-                begin: undefined,
-                end: undefined,
-                isValid: false,
-                duration: undefined,
-                days: undefined,
-                hours: undefined
+            return {
+                day: 'd ['+gettextCatalog.getPlural(days, 'day', 'days')+']',
+                hour: 'h ['+gettextCatalog.getPlural(hours, 'hour', 'hours')+']'
             };
+        }
 
-
-        },
 
 
         /**
-         * Set a selection object from request data
+         * Set a duration visible to the final user
+         *
+         * @param {object} $scope
+         * @param {Int} duration        Number of milliseconds
          *
          */
-        setSelectionFromRequest: function setSelectionFromRequest($scope) {
+        function setDuration($scope, duration)
+        {
+            var momentMs = moment.duration(duration, 'milliseconds');
+            var momentDays = moment.duration($scope.selection.businessDays, 'days');
 
-            var events = $scope.request.events;
+            var p = getMomentPaterns(momentDays, momentMs);
 
-            $scope.selection.begin = events[0].dtstart;
-            $scope.selection.end = events[events.length-1].dtend;
-            $scope.selection.periods = $scope.request.events;
-            $scope.selection.businessDays = 0;
+            $scope.selection.duration = duration;
+            $scope.selection.days = momentDays.format(p.day, 1);
+            $scope.selection.hours = momentMs.format(p.hour, 2);
 
-            var us = 0;
+            $scope.selection.isValid = duration > 0;
+        }
 
-            events.forEach(function(evt) {
-                if (undefined === evt.businessDays) {
-                    throw new Error('events in selection must contain the businessDays property');
+
+
+
+
+
+        // Service to edit an absence,
+        // shared by account/request/absence-edit and admin/request/absence-edit
+
+        return {
+
+            /**
+             * Get duration as string
+             * @param {Number} days
+             * @param {Number} hours
+             * @return {String}
+             */
+            getDuration: function getDuration(days, hours)
+            {
+                var disp = [];
+
+                var momentDays = moment.duration(days, "days");
+                var momentHours = moment.duration(hours, "hours");
+
+                var p = getMomentPaterns(momentDays, momentHours);
+
+                if (days !== 0) {
+
+                    disp.push(momentDays.format(p.day, 1));
                 }
 
-                us += evt.dtend.getTime() - evt.dtstart.getTime();
-                $scope.selection.businessDays += evt.businessDays;
+                if (hours !== 0) {
 
-            });
+                    disp.push(momentHours.format(p.hour, 2));
+                }
+
+                return disp.join(', ');
+            },
+
+            /**
+             * Set scope delfault values
+             * @param {Object} $scope
+             */
+            initScope: function initScope($scope) {
+                // default values
+                $scope.periodSelection = true;
+                $scope.assignments = false;
+                $scope.newRequest = false;
+                $scope.editRequest = false;
+
+                // list of beneficiaries objects, populated once period set
+                $scope.accountRights = [];
+
+                $scope.selection = {
+                    begin: undefined,
+                    end: undefined,
+                    isValid: false,
+                    duration: undefined,
+                    days: undefined,
+                    hours: undefined
+                };
 
 
-            setDuration($scope, us, $scope.selection.businessDays);
-
-        },
+            },
 
 
+            /**
+             * Set a selection object from request data
+             *
+             */
+            setSelectionFromRequest: function setSelectionFromRequest($scope) {
+
+                var events = $scope.request.events;
+
+                $scope.selection.begin = events[0].dtstart;
+                $scope.selection.end = events[events.length-1].dtend;
+                $scope.selection.periods = $scope.request.events;
+                $scope.selection.businessDays = 0;
+
+                var us = 0;
+
+                events.forEach(function(evt) {
+                    if (undefined === evt.businessDays) {
+                        throw new Error('events in selection must contain the businessDays property');
+                    }
+
+                    us += evt.dtend.getTime() - evt.dtstart.getTime();
+                    $scope.selection.businessDays += evt.businessDays;
+
+                });
+
+
+                setDuration($scope, us, $scope.selection.businessDays);
+
+            },
 
 
 
-
-        /**
-         * Process scope once the user document is available
-         * @param   {Object}   $scope
-         * @param   {Object}   user           user document as object
-         * @param   {Resource} calendarEvents
-         *
-         */
-        onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents)
-        {
 
 
 
             /**
-             * get the onUpdateInterval function
+             * Process scope once the user document is available
              * @param   {Object}   $scope
-             * @param   {Object}   account        object from the Account schema (vacation account)
-             * @param   {Resource} calendarEvents Resource for the REST service (user and admin will have differents resources)
-             * @returns {function}
+             * @param   {Object}   user           user document as object
+             * @param   {Resource} calendarEvents
+             *
              */
-            function getOnUpdateInterval($scope, account, calendarEvents) {
+            onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents)
+            {
 
 
 
                 /**
-                 * Get notified if interval is modified
-                 * @param {Date} begin
-                 * @param {Date} end
+                 * get the onUpdateInterval function
+                 * @param   {Object}   $scope
+                 * @param   {Object}   account        object from the Account schema (vacation account)
+                 * @param   {Resource} calendarEvents Resource for the REST service (user and admin will have differents resources)
+                 * @returns {function}
                  */
-                return function onUpdateInterval(begin, end)
-                {
-                    duration = 0;
-                    $scope.selection.businessDays = 0;
+                function getOnUpdateInterval($scope, account, calendarEvents) {
 
 
-                    if (!begin || !end) {
-                        return setDuration($scope, duration);
-                    }
 
-                    if (begin >= end) {
-                        return setDuration($scope, duration);
-                    }
+                    /**
+                     * Get notified if interval is modified
+                     * @param {Date} begin
+                     * @param {Date} end
+                     */
+                    return function onUpdateInterval(begin, end)
+                    {
+                        duration = 0;
+                        $scope.selection.businessDays = 0;
 
-                    calendarEvents.query({
-                        type: 'workschedule',
-                        dtstart: begin,
-                        dtend: end
-                    }).$promise.then(function(periods) {
 
-                        var p;
-
-                        for(var i=0; i<periods.length; i++) {
-
-                            if (undefined === periods[i].businessDays) {
-                                throw new Error('businessDays is not defined on period from '+periods[i].dtstart+' to '+periods[i].dtend+' (onUpdateInterval)');
-                            }
-
-                            p = {
-                                dtstart: new Date(periods[i].dtstart),
-                                dtend: new Date(periods[i].dtend)
-                            };
-
-                            duration += p.dtend.getTime() - p.dtstart.getTime();
-
-                            $scope.selection.businessDays += periods[i].businessDays;
+                        if (!begin || !end) {
+                            return setDuration($scope, duration);
                         }
 
-                        return setDuration($scope, duration);
-                    });
-                };
-            }
+                        if (begin >= end) {
+                            return setDuration($scope, duration);
+                        }
+
+                        calendarEvents.query({
+                            type: 'workschedule',
+                            dtstart: begin,
+                            dtend: end
+                        }).$promise.then(function(periods) {
+
+                            var p;
+
+                            for(var i=0; i<periods.length; i++) {
+
+                                if (undefined === periods[i].businessDays) {
+                                    throw new Error('businessDays is not defined on period from '+periods[i].dtstart+' to '+periods[i].dtend+' (onUpdateInterval)');
+                                }
+
+                                p = {
+                                    dtstart: new Date(periods[i].dtstart),
+                                    dtend: new Date(periods[i].dtend)
+                                };
+
+                                duration += p.dtend.getTime() - p.dtstart.getTime();
+
+                                $scope.selection.businessDays += periods[i].businessDays;
+                            }
+
+                            return setDuration($scope, duration);
+                        });
+                    };
+                }
 
 
-            var onUpdateInterval = getOnUpdateInterval($scope, user.roles.account, calendarEvents);
+                var onUpdateInterval = getOnUpdateInterval($scope, user.roles.account, calendarEvents);
 
-            $scope.$watch(function() { return $scope.selection.begin; }, function(begin) {
-                onUpdateInterval(begin, $scope.selection.end);
-            });
-
-            $scope.$watch(function() { return $scope.selection.end; }, function(end) {
-                onUpdateInterval($scope.selection.begin, end);
-            });
-
-        },
-
-
-
-
-
-
-        getLoadPersonalEvents: function(userPromise, personalEvents) {
-            return function(interval) {
-
-                var deferred = Q.defer();
-
-                userPromise.then(function(user) {
-
-                    personalEvents.query({
-                        user: user._id,
-                        dtstart: interval.from,
-                        dtend: interval.to
-                    }).$promise.then(deferred.resolve);
+                $scope.$watch(function() { return $scope.selection.begin; }, function(begin) {
+                    onUpdateInterval(begin, $scope.selection.end);
                 });
 
-                return deferred.promise;
-            };
-        },
+                $scope.$watch(function() { return $scope.selection.end; }, function(end) {
+                    onUpdateInterval($scope.selection.begin, end);
+                });
 
-
-
-        /**
-         * Get period picker callback for non working days
-         * @param {Resource} calendars
-         * @param {Resource} calendarEvents
-         * @return function
-         */
-        getLoadNonWorkingDaysEvents: function(calendars, calendarEvents) {
-            return function(interval) {
-
-                return calendarEvents.query({
-                    type: 'nonworkingday',
-                    dtstart: interval.from,
-                    dtend: interval.to
-                }).$promise;
-            };
-        },
-
-
-        getLoadEvents: function(userPromise, personalEvents, calendars, calendarEvents) {
-
-            var loadPersonalEvents = this.getLoadPersonalEvents(userPromise, personalEvents);
-            var loadNonWorkingDaysEvents = this.getLoadNonWorkingDaysEvents(calendars, calendarEvents);
-
-
-
-            return  function getLoadEvents(interval) {
-                var deferred = Q.defer();
-                var promises = [];
-
-                promises.push(loadPersonalEvents(interval));
-                promises.push(loadNonWorkingDaysEvents(interval));
-
-                Q.all(promises).then(function(arr) {
-                    deferred.resolve(arr[0].concat(arr[1]));
-                }, deferred.reject);
-
-                return deferred.promise;
-            };
-        },
-
-
-        /**
-         * Get period picker callback for scholar holidays
-         */
-        getLoadScholarHolidays: function(calendars, calendarEvents) {
-            return function(interval) {
-
-                return calendarEvents.query({
-                    type: 'holiday',
-                    dtstart: interval.from,
-                    dtend: interval.to
-                }).$promise;
-            };
-        },
+            },
 
 
 
 
-    };
+
+
+            getLoadPersonalEvents: function(userPromise, personalEvents) {
+                return function(interval) {
+
+                    var deferred = Q.defer();
+
+                    userPromise.then(function(user) {
+
+                        personalEvents.query({
+                            user: user._id,
+                            dtstart: interval.from,
+                            dtend: interval.to
+                        }).$promise.then(deferred.resolve);
+                    });
+
+                    return deferred.promise;
+                };
+            },
+
+
+
+            /**
+             * Get period picker callback for non working days
+             * @param {Resource} calendars
+             * @param {Resource} calendarEvents
+             * @return function
+             */
+            getLoadNonWorkingDaysEvents: function(calendars, calendarEvents) {
+                return function(interval) {
+
+                    return calendarEvents.query({
+                        type: 'nonworkingday',
+                        dtstart: interval.from,
+                        dtend: interval.to
+                    }).$promise;
+                };
+            },
+
+
+            getLoadEvents: function(userPromise, personalEvents, calendars, calendarEvents) {
+
+                var loadPersonalEvents = this.getLoadPersonalEvents(userPromise, personalEvents);
+                var loadNonWorkingDaysEvents = this.getLoadNonWorkingDaysEvents(calendars, calendarEvents);
+
+
+
+                return  function getLoadEvents(interval) {
+                    var deferred = Q.defer();
+                    var promises = [];
+
+                    promises.push(loadPersonalEvents(interval));
+                    promises.push(loadNonWorkingDaysEvents(interval));
+
+                    Q.all(promises).then(function(arr) {
+                        deferred.resolve(arr[0].concat(arr[1]));
+                    }, deferred.reject);
+
+                    return deferred.promise;
+                };
+            },
+
+
+            /**
+             * Get period picker callback for scholar holidays
+             */
+            getLoadScholarHolidays: function(calendars, calendarEvents) {
+                return function(interval) {
+
+                    return calendarEvents.query({
+                        type: 'holiday',
+                        dtstart: interval.from,
+                        dtend: interval.to
+                    }).$promise;
+                };
+            },
+
+
+
+
+        };
+    }
 });

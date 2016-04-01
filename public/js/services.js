@@ -148,8 +148,8 @@ define([
      */
 
     .factory('AbsenceEdit',  
-        function() {
-            return AbsenceEdit;
+        function(gettextCatalog) {
+            return AbsenceEdit(gettextCatalog);
         }
     )
     
