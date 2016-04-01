@@ -5,7 +5,7 @@ exports = module.exports = function(services, app) {
     
     var dispunits = require('../../../../modules/dispunits');
 
-    var gt = require('./../../../../modules/gettext');
+    const gt = require('./../../../../modules/gettext');
 
     var jurassic = require('jurassic');
     var service = new services.get(app);

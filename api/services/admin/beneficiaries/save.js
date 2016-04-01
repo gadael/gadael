@@ -28,7 +28,7 @@ function validate(service, params) {
  */
 function saveBeneficiary(service, params) {
 
-    var gt = require('./../../../../modules/gettext');
+    const gt = require('./../../../../modules/gettext');
 
 
     var Beneficiary = service.app.db.models.Beneficiary;

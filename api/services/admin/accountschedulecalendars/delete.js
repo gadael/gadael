@@ -11,7 +11,7 @@ exports = module.exports = function(services, app) {
     
     var service = new services.delete(app);
 
-    var gt = require('./../../../../modules/gettext');
+    const gt = require('./../../../../modules/gettext');
     
     /**
      * Validate before delete

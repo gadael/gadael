@@ -21,7 +21,7 @@ function validate(service, params)
 
 function resolve(service, user, account)
 {
-    var gt = require('./../../../../modules/gettext');
+    const gt = require('./../../../../modules/gettext');
 
     // do not return the full user document for security reasons
 

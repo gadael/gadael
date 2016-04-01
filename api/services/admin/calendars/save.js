@@ -25,7 +25,7 @@ function validate(service, params) {
  */  
 function saveCalendar(service, params) {
 
-    var gt = require('./../../../../modules/gettext');
+    const gt = require('./../../../../modules/gettext');
 
     
     var CalendarModel = service.app.db.models.Calendar;

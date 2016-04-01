@@ -165,7 +165,7 @@ function prepareRequestFields(service, params, user)
  */  
 function saveRequest(service, params) {
 
-    var gt = require('./../../../../modules/gettext');
+    const gt = require('./../../../../modules/gettext');
 
     
     var RequestModel = service.app.db.models.Request;

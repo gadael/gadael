@@ -28,7 +28,7 @@ function validate(service, params) {
  */
 function saveAdjustment(service, params) {
 
-    var gt = require('./../../../../modules/gettext');
+    const gt = require('./../../../../modules/gettext');
 
 
     var Adjustment = service.app.db.models.Adjustment;

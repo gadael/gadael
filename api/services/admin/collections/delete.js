@@ -3,7 +3,7 @@
 
 exports = module.exports = function(services, app) {
     
-    var gt = require('./../../../../modules/gettext');
+    const gt = require('./../../../../modules/gettext');
 
 
     var service = new services.delete(app);
