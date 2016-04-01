@@ -11,14 +11,13 @@ exports = module.exports = function(unit, quantity) {
         quantity = 10;
     }
 
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+    var gt = require('./gettext');
 
     switch(unit) {
         case 'D':
-            return gt.ngettext('Day', 'Days', quantity);
+            return gt.ngettext('day', 'days', quantity);
         case 'H':
-            return gt.ngettext('Hour', 'Hours', quantity);
+            return gt.ngettext('hour', 'hours', quantity);
     }
 
 };

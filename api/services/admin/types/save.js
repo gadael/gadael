@@ -36,8 +36,7 @@ function saveRightType(service, params) {
         color: params.color
     };
     
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+    const gt = require('./../../../../modules/gettext');
 
     if (params.id)
     {

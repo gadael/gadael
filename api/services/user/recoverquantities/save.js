@@ -25,8 +25,7 @@ function validate(service, params) {
  */
 function saveRecoverQuantity(service, params) {
 
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+    var gt = require('./../../../../modules/gettext');
 
 
     var QuantityModel = service.app.db.models.RecoverQuantity;

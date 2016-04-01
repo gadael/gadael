@@ -14,8 +14,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
         
 
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
+        var gt = require('./../../../../modules/gettext');
 
         service.app.db.models.AccountScheduleCalendar
         .findOne({ '_id' : params.id }, 'account calendar from to')

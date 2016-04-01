@@ -16,7 +16,7 @@ msgid_plural "{{deposit.quantity| number}} hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/partials/admin/request/requests.html
+#: public/partials/admin/popover-users.html
 msgid "A user account is required to continue"
 msgstr ""
 
@@ -25,11 +25,6 @@ msgstr ""
 #: public/partials/manager/waitingrequests.html
 #: public/partials/utils/common/request/request-list-type.html
 msgid "Absence"
-msgstr ""
-
-#: public/js/app.js
-#: public/js/optimized.js
-msgid "Absence managment"
 msgstr ""
 
 #: public/partials/utils/common/request/request-create-select-type.html
@@ -43,10 +38,6 @@ msgstr ""
 
 #: public/partials/admin/users.html
 msgid "Absences account"
-msgstr ""
-
-#: public/partials/admin/calendar-edit.html
-msgid "Absences or vacations requests can not be reserved over these periods"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
@@ -109,10 +100,6 @@ msgstr ""
 msgid "Add a request..."
 msgstr ""
 
-#: public/partials/admin/rights.html
-msgid "Add absences right"
-msgstr ""
-
 #: public/partials/admin/collections.html
 msgid "Add Collection"
 msgstr ""
@@ -123,6 +110,10 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Add quantity to the right according to the seniority"
+msgstr ""
+
+#: public/partials/admin/rights.html
+msgid "Add right"
 msgstr ""
 
 #: public/partials/admin/account-collections-edit.html
@@ -206,6 +197,7 @@ msgstr ""
 
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
+#: public/partials/utils/common/request/absence-edit.html
 msgid "Available quantity"
 msgstr ""
 
@@ -219,7 +211,10 @@ msgstr ""
 msgid "Back to Login"
 msgstr ""
 
-#: public/partials/utils/common/exports/export-edit.html
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Balance state the:"
+msgstr ""
+
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Begin date"
@@ -299,6 +294,10 @@ msgstr ""
 msgid "Choose from your remnant quantity"
 msgstr ""
 
+#: public/partials/admin/rights-sort.html
+msgid "Classification used for the creation of leave requests"
+msgstr ""
+
 #: public/partials/admin/user-view-manager.html
 msgid "Collaborators to supervise with request approvals"
 msgstr ""
@@ -336,6 +335,10 @@ msgstr ""
 msgid "Confirmed"
 msgstr ""
 
+#: public/partials/admin/right-edit.html
+msgid "Consume next business days"
+msgstr ""
+
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
 msgid "Consumed:"
@@ -370,6 +373,10 @@ msgstr ""
 msgid "Create a recover quantity"
 msgstr ""
 
+#: public/partials/admin/request/spoof-user-modal.html
+msgid "Create a request on behalf of a user"
+msgstr ""
+
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid "Create absence request between two dates, the request will be sent to your supervisor for approval"
 msgstr ""
@@ -389,6 +396,8 @@ msgstr ""
 
 #: public/partials/admin/recoverquantities.html
 #: public/partials/home.html
+#: public/js/optimized.js
+#: public/js/services/request-edit.js
 msgid "day"
 msgid_plural "days"
 msgstr[0] ""
@@ -467,6 +476,14 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
+#: public/partials/admin/type-edit.html
+msgid "Display type folded in the request creation page"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Distribution"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Do not add monthly quantity if renewal quantity greater than"
 msgstr ""
@@ -526,7 +543,6 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: public/partials/utils/common/exports/export-edit.html
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "End date"
@@ -540,12 +556,32 @@ msgstr ""
 msgid "Entitlement quantity:"
 msgstr ""
 
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Export balance"
+msgstr ""
+
 #: public/partials/admin/export/export-edit-sage.html
 msgid "Export for Sage"
 msgstr ""
 
+#: public/js/controllers/admin/export/export-edit-sage.js
+msgid "Export in sage format"
+msgstr ""
+
+#: public/js/controllers/admin/export/export-edit-xlsx.js
+msgid "Export in XLSX file"
+msgstr ""
+
 #: public/partials/admin/export/export-edit-xlsx.html
 msgid "Export in XLSX spreadsheet"
+msgstr ""
+
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Export requests"
+msgstr ""
+
+#: public/partials/admin/export/exports.html
+msgid "Export requests between two dates for all your users or a balance status of all your users rights on a specific date. The output format is a spreadsheet in the Office Open XML format (.xlsx)"
 msgstr ""
 
 #: public/js/controllers/admin/exports.js
@@ -562,6 +598,10 @@ msgstr ""
 msgid "Firstname"
 msgstr ""
 
+#: public/partials/admin/types.html
+msgid "Folded"
+msgstr ""
+
 #: public/partials/admin/rightrule-edit.html
 msgid "For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available."
 msgstr ""
@@ -574,6 +614,7 @@ msgstr ""
 msgid "Forgot Your Password?"
 msgstr ""
 
+#: public/partials/admin/department-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Friday"
 msgstr ""
@@ -615,11 +656,7 @@ msgid "Gadael - %s"
 msgstr ""
 
 #: public/partials/admin/type-edit.html
-msgid "Group rights in a foldable subtree"
-msgstr ""
-
-#: public/partials/admin/types.html
-msgid "Grouped rights"
+msgid "Group title for rights (plural form)"
 msgstr ""
 
 #: public/partials/admin/calendar-edit.html
@@ -632,6 +669,8 @@ msgstr ""
 
 #: public/partials/admin/recoverquantities.html
 #: public/partials/home.html
+#: public/js/optimized.js
+#: public/js/services/request-edit.js
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] ""
@@ -688,6 +727,19 @@ msgstr ""
 msgid "Lastname"
 msgstr ""
 
+#: public/js/app.js
+#: public/js/optimized.js
+msgid "Leaves managment"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "Leaves requests can not be reserved over these periods"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Limit in additional business days consuption in one renewal"
+msgstr ""
+
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Loading..."
 msgstr ""
@@ -724,6 +776,7 @@ msgstr ""
 msgid "Modify a recover quantity"
 msgstr ""
 
+#: public/partials/admin/department-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Monday"
 msgstr ""
@@ -744,6 +797,10 @@ msgstr ""
 
 #: public/partials/home.html
 msgid "My department: {{sessionUser.department.name}}"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "My rights"
 msgstr ""
 
 #: public/index.html
@@ -887,7 +944,38 @@ msgid "Please log into the application to see your account informations"
 msgstr ""
 
 #: public/partials/utils/common/request/request-create-select-type.html
-msgid "Proceed to the request creation with one of the following:"
+msgid ""
+"Proceed to the request creation with one of the following:\n"
+"\n"
+"\n"
+"    <div class=\"top30\">\n"
+"\n"
+"        <p translate=\"\">Create absence request between two dates, the request will be sent to your supervisor for approval</p>\n"
+"\n"
+"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click=\"$hide(); goto('absence')\" translate=\"\">Absence request</button>\n"
+"    </div>\n"
+"\n"
+"    <div class=\"top30\">\n"
+"\n"
+"        <p translate=\"\">Move some of your vacation rights to your time saving account, the request will be sent to your supervisor for approval</p>\n"
+"\n"
+"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click=\"$hide(); goto('time-saving-deposit')\" translate=\"\">Time saving account deposit</button>\n"
+"    </div>\n"
+"\n"
+"    <div class=\"top30\">\n"
+"\n"
+"        <p translate=\"\">Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights</p>\n"
+"\n"
+"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click=\"$hide(); goto('workperiod-recover')\" translate=\"\">Working time recover request</button>\n"
+"    </div>"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Proportional to attendance"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Quantity consuption for part-time right collections"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
@@ -948,7 +1036,6 @@ msgstr ""
 
 #: public/js/controllers/account/request/requests.js
 #: public/js/controllers/admin/request/requests.js
-#: public/js/controllers/admin/users.js
 msgid "Requests"
 msgstr ""
 
@@ -1007,9 +1094,11 @@ msgid "Rights distribution"
 msgstr ""
 
 #: public/partials/admin/right-view.html
+#: public/partials/admin/rights-sort.html
 msgid "Rights list"
 msgstr ""
 
+#: public/partials/admin/rights-sort.html
 #: public/js/controllers/admin/types.js
 msgid "Rights types"
 msgstr ""
@@ -1034,6 +1123,7 @@ msgstr ""
 msgid "Rules"
 msgstr ""
 
+#: public/partials/admin/department-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Saturday"
 msgstr ""
@@ -1162,6 +1252,18 @@ msgstr ""
 msgid "Sign In"
 msgstr ""
 
+#: public/js/controllers/admin/rights-sort.js
+msgid "Sort absence rights"
+msgstr ""
+
+#: public/partials/admin/rights.html
+msgid "Sort right"
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "Sort rights"
+msgstr ""
+
 #: public/partials/admin/rightrenewal-edit.html
 msgid "Start"
 msgstr ""
@@ -1176,6 +1278,7 @@ msgstr ""
 msgid "Status:"
 msgstr ""
 
+#: public/partials/admin/department-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Sunday"
 msgstr ""
@@ -1230,12 +1333,9 @@ msgstr ""
 msgid "This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it"
 msgstr ""
 
+#: public/partials/admin/department-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Thursday"
-msgstr ""
-
-#: public/partials/utils/common/calendar/listdays.html
-msgid "Thusday"
 msgstr ""
 
 #: public/partials/utils/common/request/request-create-select-type.html
@@ -1287,6 +1387,11 @@ msgstr ""
 msgid "Total duration:"
 msgstr ""
 
+#: public/partials/admin/department-edit.html
+#: public/partials/utils/common/calendar/listdays.html
+msgid "Tuesday"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Type"
 msgstr ""
@@ -1329,6 +1434,10 @@ msgstr ""
 
 #: public/partials/login/login.html
 msgid "Username or Email:"
+msgstr ""
+
+#: public/js/controllers/admin/users.js
+msgid "Users"
 msgstr ""
 
 #: public/partials/admin/user-view.html
@@ -1392,6 +1501,7 @@ msgstr ""
 msgid "Waiting approval"
 msgstr ""
 
+#: public/partials/admin/department-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Wednesday"
 msgstr ""

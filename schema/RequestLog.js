@@ -31,8 +31,7 @@ exports = module.exports = function(params) {
      * @return {String}
      */
     requestLogSchema.methods.getActionSummary = function getActionSummary() {
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
+        var gt = require('./../modules/gettext');
 
         switch(this.action) {
             case 'create':

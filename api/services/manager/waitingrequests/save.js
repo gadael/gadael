@@ -33,8 +33,7 @@ function validate(service, params)
  */
 function saveRequest(service, params) {
 
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+    var gt = require('./../../../../modules/gettext');
 
     var RequestModel = service.app.db.models.Request;
     var UserModel = service.app.db.models.User;

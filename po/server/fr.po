@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-26 08:54+0100\n"
-"PO-Revision-Date: 2016-02-26 08:55+0100\n"
+"POT-Creation-Date: 2016-04-01 23:09+0200\n"
+"PO-Revision-Date: 2016-04-01 23:10+0200\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -19,16 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: modules/dispunits.js:19
-msgid "Day"
-msgid_plural "Days"
-msgstr[0] "Jour"
-msgstr[1] "Jours"
+msgid "day"
+msgid_plural "days"
+msgstr[0] "jour"
+msgstr[1] "jours"
 
 #: modules/dispunits.js:21
-msgid "Hour"
-msgid_plural "Hours"
-msgstr[0] "Heure"
-msgstr[1] "Heures"
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "heure"
+msgstr[1] "heures"
 
 #: modules/apputil.js:45 modules/passport.js:128
 msgid "Access denied for non administrators"
@@ -214,135 +214,135 @@ msgstr "Le mot de passe à été modifié"
 msgid "You must be logged in"
 msgstr "Vous devez être connecté"
 
-#: schema/Request.js:66
+#: schema/Request.js:95
 msgid "Waiting approval"
 msgstr "En attente d'approbation"
 
-#: schema/Request.js:68
+#: schema/Request.js:97
 msgid "Accepted"
 msgstr "Accepté"
 
-#: schema/Request.js:70 schema/ApprovalStep.js:58
+#: schema/Request.js:99 schema/ApprovalStep.js:58
 msgid "Rejected"
 msgstr "Refusée"
 
-#: schema/Request.js:78
+#: schema/Request.js:107
 msgid "Waiting deletion approval"
 msgstr "En attente de l'approbation de la suppression"
 
-#: schema/Request.js:80
+#: schema/Request.js:109
 msgid "Deleted"
 msgstr "Supprimé"
 
-#: schema/Request.js:82
+#: schema/Request.js:111
 msgid "Deletion rejected"
 msgstr "Suppression rejectée"
 
-#: schema/Request.js:86
+#: schema/Request.js:115
 msgid "Undefined"
 msgstr "Non défini"
 
-#: schema/Type.js:26
+#: schema/Type.js:40
 msgid "Paid annual leave"
 msgstr "Congé payé annuel"
 
-#: schema/Type.js:27
+#: schema/Type.js:41
 msgid "Seniority leave"
 msgstr "Absence pour anciennetée"
 
-#: schema/Type.js:28
+#: schema/Type.js:42
 msgid "RTT"
 msgstr "RTT"
 
-#: schema/Type.js:29
+#: schema/Type.js:43
 msgid "Recovery"
 msgstr "Récupération"
 
-#: schema/Type.js:30
+#: schema/Type.js:44
 msgid "Time savings account"
 msgstr "Compte Épargne Temps"
 
-#: schema/Type.js:31
+#: schema/Type.js:45
 msgid "sickness absence"
 msgstr "Arrêt maladie"
 
-#: schema/Type.js:32
+#: schema/Type.js:46
 msgid "Work accident"
 msgstr "Accident du travail"
 
-#: schema/Type.js:33
+#: schema/Type.js:47
 msgid "Parental leave"
 msgstr "Congé parental"
 
-#: schema/Type.js:34
+#: schema/Type.js:48
 msgid "Maternity"
 msgstr "Maternité"
 
-#: schema/Type.js:35
+#: schema/Type.js:49
 msgid "Paternity"
 msgstr "Paternité"
 
-#: schema/Type.js:36
+#: schema/Type.js:50
 msgid "Sick child"
 msgstr "Enfant malade"
 
-#: schema/Type.js:37
+#: schema/Type.js:51
 msgid "Wedding"
 msgstr "Marriage"
 
-#: schema/Type.js:38
+#: schema/Type.js:52
 msgid "Birth"
 msgstr "Naissance"
 
-#: schema/Type.js:39
+#: schema/Type.js:53
 msgid "Decease"
 msgstr "Décès"
 
-#: schema/Type.js:40
+#: schema/Type.js:54
 msgid "Training"
 msgstr "Formation"
 
-#: schema/Type.js:41
+#: schema/Type.js:55
 msgid "Relocation"
 msgstr "Déménagement"
 
-#: schema/Type.js:42
+#: schema/Type.js:56
 msgid "Unpaid leave"
 msgstr "Congés sans solde"
 
-#: schema/Type.js:43
+#: schema/Type.js:57
 msgid "Strike"
 msgstr "Grève"
 
-#: schema/Type.js:44
+#: schema/Type.js:58
 msgid "Leave for results"
 msgstr "Absence pour résultat"
 
-#: schema/Type.js:45
+#: schema/Type.js:59
 msgid "Union representation"
 msgstr "Représentation syndicale"
 
-#: schema/Type.js:46
+#: schema/Type.js:60
 msgid "Absence as an elected official"
 msgstr "Absence en tant qu'élu"
 
-#: schema/Type.js:47
+#: schema/Type.js:61
 msgid "Reservist leave"
 msgstr "Absence réserviste"
 
-#: schema/Type.js:48
+#: schema/Type.js:62
 msgid "Fractionating leave"
 msgstr "Congés de fractionnement"
 
-#: schema/RightCollection.js:109
+#: schema/RightCollection.js:111
 msgid "General regime 100%"
 msgstr "Régime générale 100%"
 
-#: schema/RightCollection.js:110
+#: schema/RightCollection.js:112
 msgid "Part-time 80%"
 msgstr "Temps-partiel 80%"
 
-#: schema/RightCollection.js:111
+#: schema/RightCollection.js:113
 msgid "Part-time 50%"
 msgstr "Temps-partiel 50%"
 
@@ -405,6 +405,16 @@ msgstr "Une heure"
 #: schema/RecoverQuantity.js:42
 msgid "A week-end"
 msgstr "Un week-end"
+
+#~ msgid "Day"
+#~ msgid_plural "Days"
+#~ msgstr[0] "Jour"
+#~ msgstr[1] "Jours"
+
+#~ msgid "Hour"
+#~ msgid_plural "Hours"
+#~ msgstr[0] "Heure"
+#~ msgstr[1] "Heures"
 
 #~ msgid "Your settings has been modified"
 #~ msgstr "Vos paramètres ont été enregistrés"

@@ -1,8 +1,7 @@
 'use strict';
 
 var ctrlFactory = require('restitute').controller;
-var Gettext = require('node-gettext');
-var gt = new Gettext();
+var gt = require('./../../modules/gettext');
 
 
 

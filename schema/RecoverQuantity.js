@@ -19,8 +19,7 @@ exports = module.exports = function(params) {
 
 		var model = this;
         var async = require('async');
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
+        var gt = require('./../modules/gettext');
 
 		async.each([
             {

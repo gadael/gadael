@@ -1,8 +1,7 @@
 'use strict';
 
 
-let Gettext = require('node-gettext');
-let gt = new Gettext();
+var gt = require('./../../../../modules/gettext');
 
 
 

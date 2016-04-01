@@ -15,8 +15,8 @@
  * @returns {Boolean}      
  */
 exports = module.exports = function checkParams(service, params) {
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+
+    var gt = require('./gettext');
 
     if (!params.dtstart || !params.dtend) {
         service.forbidden(gt.gettext('dtstart, dtend are mandatory parameters'));

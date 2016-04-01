@@ -86,8 +86,7 @@ exports = module.exports = function(params) {
      * @return {String}
      */
     requestSchema.methods.getDispStatus = function getDispStatus() {
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
+        var gt = require('./../modules/gettext');
 
         if (null !== this.status.created) {
             switch(this.status.created) {

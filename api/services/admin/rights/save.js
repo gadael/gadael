@@ -31,8 +31,7 @@ function validate(service, params) {
  */  
 function saveRight(service, params) {
 
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+    const gt = require('./../../../../modules/gettext');
     
     var RightModel = service.app.db.models.Right;
     

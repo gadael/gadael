@@ -1,8 +1,7 @@
 'use strict';
 
 const xlsx = require('xlsx-writestream');
-const Gettext = require('node-gettext');
-const gt = new Gettext();
+const gt = require('./../../../../modules/gettext');
 const tmp = require('tmp');
 
 

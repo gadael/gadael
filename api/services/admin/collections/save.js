@@ -25,8 +25,7 @@ function validate(service, params) {
  */  
 function saveCollection(service, params) {
 
-    var Gettext = require('node-gettext');
-    var gt = new Gettext();
+    var gt = require('./../../../../modules/gettext');
 
     
     var RightCollection = service.app.db.models.RightCollection;

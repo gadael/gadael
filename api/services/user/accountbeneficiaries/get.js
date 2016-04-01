@@ -28,8 +28,7 @@ exports = module.exports = function(services, app) {
         }
 
 
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
+        var gt = require('./../../../../modules/gettext');
 
 
         service.app.db.models.Account

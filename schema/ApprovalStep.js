@@ -49,8 +49,7 @@ exports = module.exports = function(params) {
      * @return {string}
      */
     approvalStepSchema.methods.getDispStatus = function() {
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
+        var gt = require('./../modules/gettext');
 
         switch(this.status) {
             case 'waiting':     return gt.gettext('Waiting');

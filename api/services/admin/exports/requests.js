@@ -2,8 +2,7 @@
 
 
 let periodCriterion = require('../../../../modules/periodcriterion');
-let Gettext = require('node-gettext');
-let gt = new Gettext();
+const gt = require('./../../../../modules/gettext');
 
 
 /**

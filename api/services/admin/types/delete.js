@@ -13,8 +13,7 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
+        const gt = require('./../../../../modules/gettext');
 
         
         service.app.db.models.Type.findById(params.id, function (err, document) {

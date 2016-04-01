@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-26 09:05+0100\n"
+"POT-Creation-Date: 2016-04-01 23:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,14 +19,14 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: modules/dispunits.js:19
-msgid "Day"
-msgid_plural "Days"
+msgid "day"
+msgid_plural "days"
 msgstr[0] ""
 msgstr[1] ""
 
 #: modules/dispunits.js:21
-msgid "Hour"
-msgid_plural "Hours"
+msgid "hour"
+msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -196,135 +196,135 @@ msgstr ""
 msgid "You must be logged in"
 msgstr ""
 
-#: schema/Request.js:66
+#: schema/Request.js:95
 msgid "Waiting approval"
 msgstr ""
 
-#: schema/Request.js:68
+#: schema/Request.js:97
 msgid "Accepted"
 msgstr ""
 
-#: schema/Request.js:70 schema/ApprovalStep.js:58
+#: schema/Request.js:99 schema/ApprovalStep.js:58
 msgid "Rejected"
 msgstr ""
 
-#: schema/Request.js:78
+#: schema/Request.js:107
 msgid "Waiting deletion approval"
 msgstr ""
 
-#: schema/Request.js:80
+#: schema/Request.js:109
 msgid "Deleted"
 msgstr ""
 
-#: schema/Request.js:82
+#: schema/Request.js:111
 msgid "Deletion rejected"
 msgstr ""
 
-#: schema/Request.js:86
+#: schema/Request.js:115
 msgid "Undefined"
 msgstr ""
 
-#: schema/Type.js:26
+#: schema/Type.js:40
 msgid "Paid annual leave"
 msgstr ""
 
-#: schema/Type.js:27
+#: schema/Type.js:41
 msgid "Seniority leave"
 msgstr ""
 
-#: schema/Type.js:28
+#: schema/Type.js:42
 msgid "RTT"
 msgstr ""
 
-#: schema/Type.js:29
+#: schema/Type.js:43
 msgid "Recovery"
 msgstr ""
 
-#: schema/Type.js:30
+#: schema/Type.js:44
 msgid "Time savings account"
 msgstr ""
 
-#: schema/Type.js:31
+#: schema/Type.js:45
 msgid "sickness absence"
 msgstr ""
 
-#: schema/Type.js:32
+#: schema/Type.js:46
 msgid "Work accident"
 msgstr ""
 
-#: schema/Type.js:33
+#: schema/Type.js:47
 msgid "Parental leave"
 msgstr ""
 
-#: schema/Type.js:34
+#: schema/Type.js:48
 msgid "Maternity"
 msgstr ""
 
-#: schema/Type.js:35
+#: schema/Type.js:49
 msgid "Paternity"
 msgstr ""
 
-#: schema/Type.js:36
+#: schema/Type.js:50
 msgid "Sick child"
 msgstr ""
 
-#: schema/Type.js:37
+#: schema/Type.js:51
 msgid "Wedding"
 msgstr ""
 
-#: schema/Type.js:38
+#: schema/Type.js:52
 msgid "Birth"
 msgstr ""
 
-#: schema/Type.js:39
+#: schema/Type.js:53
 msgid "Decease"
 msgstr ""
 
-#: schema/Type.js:40
+#: schema/Type.js:54
 msgid "Training"
 msgstr ""
 
-#: schema/Type.js:41
+#: schema/Type.js:55
 msgid "Relocation"
 msgstr ""
 
-#: schema/Type.js:42
+#: schema/Type.js:56
 msgid "Unpaid leave"
 msgstr ""
 
-#: schema/Type.js:43
+#: schema/Type.js:57
 msgid "Strike"
 msgstr ""
 
-#: schema/Type.js:44
+#: schema/Type.js:58
 msgid "Leave for results"
 msgstr ""
 
-#: schema/Type.js:45
+#: schema/Type.js:59
 msgid "Union representation"
 msgstr ""
 
-#: schema/Type.js:46
+#: schema/Type.js:60
 msgid "Absence as an elected official"
 msgstr ""
 
-#: schema/Type.js:47
+#: schema/Type.js:61
 msgid "Reservist leave"
 msgstr ""
 
-#: schema/Type.js:48
+#: schema/Type.js:62
 msgid "Fractionating leave"
 msgstr ""
 
-#: schema/RightCollection.js:109
+#: schema/RightCollection.js:111
 msgid "General regime 100%"
 msgstr ""
 
-#: schema/RightCollection.js:110
+#: schema/RightCollection.js:112
 msgid "Part-time 80%"
 msgstr ""
 
-#: schema/RightCollection.js:111
+#: schema/RightCollection.js:113
 msgid "Part-time 50%"
 msgstr ""
 

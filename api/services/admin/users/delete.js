@@ -13,8 +13,7 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
-        var Gettext = require('node-gettext');
-        var gt = new Gettext();
+        var gt = require('./../../../../modules/gettext');
 
         service.app.db.models.User.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
