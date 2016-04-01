@@ -1,5 +1,7 @@
 define([], function() {
     
+    'use strict';
+
     /**
      * Save one row
      * @param   {$resource}   resource

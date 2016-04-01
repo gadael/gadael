@@ -96,6 +96,7 @@ module.exports = function(grunt) {
         },
         src: [
             'public/js/controllers/**/*.js',
+            'public/js/services/**/*.js',
             'public/js/app.js',
             'public/js/controllers.js',
             'public/js/directives.js',
@@ -137,15 +138,6 @@ module.exports = function(grunt) {
     		}
     	}
     },
-    
-    // test public angular pages with karma
-    /*
-    karma: {
-      unit: {
-        configFile: 'test/public/karma.conf.js'
-      }
-    },
-    */
 
     // test REST services with jasmine node
     
@@ -225,41 +217,11 @@ module.exports = function(grunt) {
             }
         }
     }
-//      views: {
-//        files: [{
-//          expand: true,
-//          cwd: 'public/views/',
-//          src: ['**/*.less'],
-//          dest: 'public/views/',
-//          ext: '.min.css'
-//        }]
-//      }
-//    },
-//    clean: {
-//      js: {
-//        src: [
-//          'public/layouts/**/*.min.js',
-//          'public/layouts/**/*.min.js.map',
-//          'public/views/**/*.min.js',
-//          'public/views/**/*.min.js.map'
-//        ]
-//      },
-//      css: {
-//        src: [
-//          'public/layouts/**/*.min.css',
-//          'public/views/**/*.min.css'
-//        ]
-//      },
-//      vendor: {
-//        src: ['public/vendor/**']
-//      }
-//    }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-//  grunt.loadNpmTasks('grunt-contrib-less');
-//  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-jsdoc');
@@ -267,9 +229,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-angular-gettext');
-  //grunt.loadNpmTasks('grunt-jasmine-node-new');
   grunt.loadNpmTasks('grunt-jasmine-node-coverage');
-  //grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-codeclimate-reporter');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
@@ -278,7 +238,6 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
   grunt.registerTask('allpot', ['shell:pot_server', 'nggettext_extract']);
   grunt.registerTask('lint', ['jshint']);
-  //grunt.registerTask('testold', ['karma', 'jasmine_node']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);
   grunt.registerTask('coverage', ['jasmine_node:jasmine_coverage']);
   grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage', 'codeclimate:main']);
