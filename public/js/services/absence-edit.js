@@ -566,5 +566,5 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             }
 
         };
-    }
+    };
 });

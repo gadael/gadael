@@ -332,5 +332,5 @@ define(['momentDurationFormat', 'q'], function(moment, Q) {
 
 
         };
-    }
+    };
 });
