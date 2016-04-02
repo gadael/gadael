@@ -94,7 +94,7 @@ describe('Right model', function() {
 
 
 
-    it('create a right with monthly adjustment the first day of a month', function(done) {
+    it('create a right with monthly adjustment the first day of a month (last adjustement date = renewal finish date)', function(done) {
         var right = new rightModel();
 
         right.name = 'Test right 2';

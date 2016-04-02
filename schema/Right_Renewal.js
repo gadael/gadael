@@ -156,7 +156,7 @@ exports = module.exports = function(params) {
 
         var inserted = 0;
 
-        while(loop < renewal.finish && renewal.getMonthlyAdjustmentsQuantity(right) <= max) {
+        while(loop <= renewal.finish && renewal.getMonthlyAdjustmentsQuantity(right) <= max) {
             renewal.adjustments.push({
                 from: new Date(loop),
                 quantity: right.addMonthly.quantity
