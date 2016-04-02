@@ -42,7 +42,7 @@ module.exports = function(grunt) {
           cwd: 'public/bower_components/',
           src: [
               '*/fonts/*.ttf',
-              '*/fonts/*.woff'
+              '*/fonts/*.woff*'
               ],
           dest: 'public/fonts'
         },
@@ -54,6 +54,31 @@ module.exports = function(grunt) {
       },
     
     cssmin: {
+      options: {
+      },
+      target: {
+        files: {
+          'public/css/merged.min.css': [
+            'public/bower_components/font-awesome/css/font-awesome.css',
+            'public/bower_components/bootstrap/dist/css/bootstrap.css',
+            'public/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+            'public/bower_components/angular-motion/dist/angular-motion.css',
+            'public/bower_components/teleperiod/styles/teleperiod.css',
+            'public/bower_components/angular-bootstrap-colorpicker/css/colorpicker.css',
+            'public/bower_components/angular-image-crop/image-crop-styles.css',
+            'public/bower_components/nvd3/nv.d3.css',
+            'public/bower_components/ng-sortable/dist/ng-sortable.css',
+            'styles/main.css'
+
+          ]
+        }
+      }
+    },
+      /*
+    cssmin: {
+        options: {
+            rebase: false
+        },
         compress: {
           src: [
             'public/bower_components/font-awesome/css/font-awesome.css',
@@ -65,13 +90,12 @@ module.exports = function(grunt) {
             'public/bower_components/angular-image-crop/image-crop-styles.css',
             'public/bower_components/nvd3/nv.d3.css',
             'public/bower_components/ng-sortable/dist/ng-sortable.css',
-            'public/bower_components/ng-sortable/dist/ng-sortable.style.css',
             'styles/main.css'
             
           ],
           dest: 'public/css/merged.min.css'
         }
-      },
+      },*/
     jsdoc : {
         dist : {
             src: [
