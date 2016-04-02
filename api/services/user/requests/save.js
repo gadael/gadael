@@ -176,6 +176,10 @@ function saveRequest(service, params) {
     }).populate('roles.account').populate('department')
     .exec(function(err, user) {
 
+        if (err) {
+            return service.error(err);
+        }
+
         if (!user) {
             return service.error('User not found');
         }
@@ -187,7 +191,6 @@ function saveRequest(service, params) {
             };
 
             filter['user.id'] = params.user;
-
 
             function end(document, message)
             {

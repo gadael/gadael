@@ -154,8 +154,8 @@ define([
     )
     
     .factory('WorkperiodRecoverEdit',
-        function() {
-            return WorkperiodRecoverEdit;
+        function(gettextCatalog) {
+            return WorkperiodRecoverEdit(gettextCatalog);
         }
     )
 

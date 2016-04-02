@@ -1,37 +1,41 @@
-define(['services/request-edit'], function(RequestEdit) {
+define(['services/request-edit'], function(loadRequestEdit) {
 
     'use strict';
 
-    // Service to edit a workperiod recover request,
-    // shared by account/request/worperiod-recover-edit and admin/request/worperiod-recover-edit
+    return function(gettextCatalog) {
 
-    return {
+        var RequestEdit = loadRequestEdit(gettextCatalog);
 
-        initScope: RequestEdit.initScope,
+        // Service to edit a workperiod recover request,
+        // shared by account/request/worperiod-recover-edit and admin/request/worperiod-recover-edit
 
-        setSelectionFromRequest: RequestEdit.setSelectionFromRequest,
+        return {
 
-        getLoadPersonalEvents: RequestEdit.getLoadPersonalEvents,
-        getLoadNonWorkingDaysEvents: RequestEdit.getLoadNonWorkingDaysEvents,
-        getLoadEvents: RequestEdit.getLoadEvents,
-        getLoadScholarHolidays: RequestEdit.getLoadScholarHolidays,
+            initScope: RequestEdit.initScope,
+
+            setSelectionFromRequest: RequestEdit.setSelectionFromRequest,
+
+            getLoadPersonalEvents: RequestEdit.getLoadPersonalEvents,
+            getLoadNonWorkingDaysEvents: RequestEdit.getLoadNonWorkingDaysEvents,
+            getLoadEvents: RequestEdit.getLoadEvents,
+            getLoadScholarHolidays: RequestEdit.getLoadScholarHolidays,
 
 
-        getLoadNonWorkingTimes: function(unavailableEvents) {
+            getLoadNonWorkingTimes: function(unavailableEvents) {
 
-            return function(interval) {
+                return function(interval) {
 
-                var queryParams = {
-                    dtstart: interval.from,
-                    dtend: interval.to
+                    var queryParams = {
+                        dtstart: interval.from,
+                        dtend: interval.to
+                    };
+
+                    return unavailableEvents.query(queryParams).$promise;
                 };
-
-                return unavailableEvents.query(queryParams).$promise;
-            };
-        },
+            },
 
 
-        onceUserLoaded: RequestEdit.onceUserLoaded
+            onceUserLoaded: RequestEdit.onceUserLoaded
+        };
     };
-
 });
