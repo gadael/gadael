@@ -12,7 +12,7 @@
 
     </div>
 
-    <div class="col-xs-12 col-sm-9" as-sortable="dragControlOptions" data-ng-model="sortableItems">
+    <div class="col-xs-12 col-sm-9">
 
         <h2>
             <i class="fa fa-list text-info"></i>
@@ -21,11 +21,28 @@
 
         <div class="top30">
 
-            <div class="row" ng-repeat="item in sortableItems" as-sortable-item>
-                <div class="col-sm-12 btn-lg" as-sortable-item-handle>
-                    <i class="fa fa-sort text-primary"></i> &nbsp; {{item.name}}
+            <div class="col-xs-6" as-sortable="dragTypes" data-ng-model="types" >
+
+                <div class="row" ng-repeat="_type in types" ng-class="getClass(_type)" as-sortable-item>
+                    <div class="col-xs-11" as-sortable-item-handle>
+                        <i class="fa fa-sort" style="color:{{_type.color}}"></i> &nbsp; {{_type.name}}
+                    </div>
+
+                    <i ng-if="canSort(_type)" class="col-xs-1 fa fa-arrow-circle-o-right btn" ng-click="setRights(_type)" title="{{'Sort rights in type'|translate}}" bs-tooltip></i>
+                </div>
+
+            </div>
+
+
+            <div class="col-xs-6" as-sortable="dragRights" data-ng-model="rights">
+                <div class="row" ng-repeat="right in rights" as-sortable-item>
+                    <div class="col-sm-12" as-sortable-item-handle>
+                        <i class="fa fa-sort" style="color:{{right.type.color}}"></i> &nbsp; {{right.name}}
+                    </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 

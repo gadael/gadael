@@ -258,3 +258,18 @@
     color:#ccc;
     padding-top:3px;
 }
+
+
+
+
+/* Sortable items */
+
+.as-sortable-item {
+    margin:.2em 0;
+    padding:.2em;
+    border:#ddd 1px solid;
+}
+
+.as-sortable-item .as-sortable-item-handle {
+    padding:.4em;
+}
