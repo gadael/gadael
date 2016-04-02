@@ -123,6 +123,10 @@ exports.getInfos = function(req, res) {
                     'href': '#/admin/rights'
                 },
                 {
+                    'text': '<i class="fa fa-sort"></i>&nbsp;'+gt.gettext('Sort rights and types'),
+                    'href': '#/admin/rights-sort'
+                },
+                {
                     'text': '<i class="fa fa-calendar-check-o"></i>&nbsp;'+gt.gettext('Recover quantities'),
                     'href': '#/admin/recoverquantities'
                 }
