@@ -226,21 +226,23 @@ describe('request workperiod recover account rest service', function() {
 
     it('Create workperiod recover request', function(done) {
 
-        var quantity = 'H' === recoverQuantity.quantity_unit ? 3 : 0.5;
+        const quantity = 'H' === recoverQuantity.quantity_unit ? 3 : 0.5;
 
-        server.post('/rest/account/requests', {
-                events: [{
-                    dtstart: new Date(2015,1,1, 19).toJSON(),
-                    dtend: new Date(2015,1,1, 22).toJSON()
-                }],
-                workperiod_recover: [{
-                    quantity: quantity,
-                    right: {
-                        name: 'User input for recovery'
-                    },
-                    recoverQuantity: recoverQuantity
-                }]
-            },
+        const params = {
+            events: [{
+                dtstart: new Date(2015,1,1, 19).toJSON(),
+                dtend: new Date(2015,1,1, 22).toJSON()
+            }],
+            workperiod_recover: [{
+                quantity: quantity,
+                right: {
+                    name: 'User input for recovery'
+                },
+                recoverQuantity: recoverQuantity
+            }]
+        };
+
+        server.post('/rest/account/requests', params,
             function(res, body) {
             expect(res.statusCode).toEqual(200);
 
@@ -265,7 +267,6 @@ describe('request workperiod recover account rest service', function() {
             done();
         });
     });
-
 
     it('request list of current requests as account', function(done) {
         server.get('/rest/account/requests', {}, function(res, body) {

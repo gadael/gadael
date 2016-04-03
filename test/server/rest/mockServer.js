@@ -196,9 +196,11 @@ mockServer.prototype.send = function(method, path, data, done) {
 
     var postStr = JSON.stringify(data);
     
+    // Content-Length is wrong with UTF-8 strings
+
     var headers = {
-        'Content-Type': 'application/json',
-        'Content-Length': postStr.length
+        'Content-Type': 'application/json'
+    //   , 'Content-Length': postStr.length
     };
     
     var req = this.request(method, headers, {}, path, done);
