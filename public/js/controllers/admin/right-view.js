@@ -11,11 +11,14 @@ define([], function() {
 		) {
                 
 
-        var rightRenewal = Rest.admin.rightrenewals.getResource();
+        var rightRenewalsResource = Rest.admin.rightrenewals.getResource();
+        var collectionsResource = Rest.admin.collections.getResource();
+
 		$scope.right = Rest.admin.rights.getFromUrl().loadRouteId();
         
         $scope.right.$promise.then(function() {
-            $scope.rightRenewals = rightRenewal.query({ right: $scope.right._id });
+            $scope.rightRenewals = rightRenewalsResource.query({ right: $scope.right._id });
+            $scope.collections = collectionsResource.query({ right: $scope.right._id });
         });
         
         

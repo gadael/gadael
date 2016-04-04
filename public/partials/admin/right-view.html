@@ -103,6 +103,35 @@
             </div>
         </div>
         
+
+        <div class="row">
+
+            <h3  class="col-xs-10" translate>Right collections</h3>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Attendance</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="collection in collections">
+                    <td>
+                        <a class="hidden-print" role="button" ng-href="#/admin/collections/{{collection._id}}">
+                            <i class="fa fa-edit"></i> Edit
+                        </a>
+                    </td>
+                    <td>{{collection.name}}</td>
+                    <td>{{collection.attendance|number}}%</td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
         
     

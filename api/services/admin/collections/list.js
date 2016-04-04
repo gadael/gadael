@@ -13,17 +13,39 @@
  * 
  * @param {listItemsService} service
  * @param {array} params      query parameters if called by controller
+ *
+ *
  */
-var query = function(service, params) {
+var query = function(service, params, next) {
+
 
     var find = service.app.db.models.RightCollection.find();
 
-    if (params && params.name)
-    {
+    if (params && params.name) {
         find.where({ name: new RegExp('^'+params.name, 'i') });
     }
 
-    return find;
+    if (params && params.right) {
+        var beneficiaryFind = service.app.db.models.Beneficiary.find();
+        beneficiaryFind.where('right', params.right);
+        beneficiaryFind.where('ref', 'RightCollection');
+        beneficiaryFind.exec((err, beneficiaries) => {
+
+            if (err) {
+                return next(err);
+            }
+
+            var collectionIds = beneficiaries.map(b => { return b.document; });
+
+            find.where({ _id: { $in: collectionIds } });
+            next(null, find);
+        });
+
+        return;
+    }
+
+
+    next(null, find);
 };
 
 
@@ -39,52 +61,56 @@ exports = module.exports = function(services, app) {
      * @param {Object} params
      * @param {function} [paginate]  Optional parameter to paginate the results
      *
-     * @return {Query}
+     * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
 
-        service.resolveQuery(
-            query(service, params).select('name attendance').sort('name'),
-            paginate,
-            function(err, docs) {
-                if (service.handleMongoError(err)) {
+        query(service, params, (err, find) => {
 
-                    var async = require('async');
-                    var collObj;
-                    var collectionObjects = [];
+            service.resolveQuery(
+                find.select('name attendance').sort('name'),
+                paginate,
+                function(err, docs) {
+                    if (service.handleMongoError(err)) {
 
-                    async.eachSeries(docs,
-                        function(collection, callback) {
-                            collObj = collection.toObject();
+                        var async = require('async');
+                        var collObj;
+                        var collectionObjects = [];
 
-                            collection.getRights().then(function(beneficiaries) {
+                        async.eachSeries(docs,
+                            function(collection, callback) {
+                                collObj = collection.toObject();
 
-                                collObj.rights = [];
-                                beneficiaries.forEach(function(b) {
-                                    collObj.rights.push(b.right);
+                                collection.getRights().then(function(beneficiaries) {
+
+                                    collObj.rights = [];
+                                    beneficiaries.forEach(function(b) {
+                                        collObj.rights.push(b.right);
+                                    });
+
+                                    collectionObjects.push(collObj);
+                                    callback();
                                 });
 
-                                collectionObjects.push(collObj);
-                                callback();
-                            });
+                            },
+                            function(err) {
 
-                        },
-                        function(err) {
+                                if (err) {
+                                    service.outcome.success = false;
+                                    service.deferred.reject(err);
+                                    return;
+                                }
 
-                            if (err) {
-                                service.outcome.success = false;
-                                service.deferred.reject(err);
-                                return;
+
+                                service.outcome.success = true;
+                                service.deferred.resolve(collectionObjects);
                             }
-
-
-                            service.outcome.success = true;
-                            service.deferred.resolve(collectionObjects);
-                        }
-                    );
+                        );
+                    }
                 }
-            }
-        );
+            );
+
+        });
 
         return service.deferred.promise;
     };
