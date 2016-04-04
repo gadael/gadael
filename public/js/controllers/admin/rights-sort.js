@@ -17,6 +17,12 @@ define([], function() {
 
             var selectedType = null;
 
+            $scope.types.$promise.then(function() {
+                $scope.types.sort(function(t1, t2) {
+                    return t1.sortkey - t2.sortkey;
+                });
+            });
+
 
             /**
              * Get the class for the type sortable item
@@ -42,7 +48,9 @@ define([], function() {
                 $scope.rights = allrights.filter(function(r) {
                     return type._id === r.type._id;
                 });
-
+                $scope.rights.sort(function(r1, r2) {
+                    return r1.sortkey - r2.sortkey;
+                });
             };
 
 
@@ -70,25 +78,21 @@ define([], function() {
 
             $scope.dragTypes = {
                 orderChanged: function() {
-                    /*
                     var pos = 1;
-                    $scope.sortableItems.forEach(function(item) {
-                        item.object.sortkey = pos++;
-                        item.object.$save();
+                    $scope.types.forEach(function(item) {
+                        item.sortkey = pos++;
+                        item.$save();
                     });
-                    */
                 }
             };
 
             $scope.dragRights = {
                 orderChanged: function() {
-                    /*
                     var pos = 1;
-                    $scope.sortableItems.forEach(function(item) {
-                        item.object.sortkey = pos++;
-                        item.object.$save();
+                    $scope.rights.forEach(function(item) {
+                        item.sortkey = pos++;
+                        item.$save();
                     });
-                    */
                 }
             };
 		}

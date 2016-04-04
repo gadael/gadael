@@ -112,10 +112,18 @@ function saveRight(service, params) {
                 document.save(function(err, document) {
 
                     if (service.handleMongoError(err)) {
-                        service.resolveSuccess(
-                            document,
-                            gt.gettext('The vacation right has been modified')
-                        );
+
+                        // for compatibility with the list service
+                        document.populate('type', function(err, document) {
+
+                            if (service.handleMongoError(err)) {
+
+                                service.resolveSuccess(
+                                    document,
+                                    gt.gettext('The vacation right has been modified')
+                                );
+                            }
+                        });
                     }
                 });
             }
