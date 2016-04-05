@@ -265,8 +265,8 @@ exports = module.exports = function(services, app) {
                 return false;
             }
 
-            if (undefined === params.user) {
-                service.forbidden('The user parameter is mandatory');
+            if (undefined === params.user && 'workschedule' === params.type) {
+                service.forbidden('The user parameter is mandatory for the workschedule type');
                 return false;
             }
 
