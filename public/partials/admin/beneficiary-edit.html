@@ -62,7 +62,7 @@
         <div ng-model="activePanel" class="panel-group row panel panel-{{renewal.paneltype}}" ng-repeat="renewal in beneficiary.renewals" role="tablist" aria-multiselectable="true" bs-collapse>
 
             <div class="panel-heading pointer" role="tab" bs-collapse-toggle>
-                <i class="glyphicon glyphicon-retweet"></i> &nbsp; From <strong>{{renewal.start|date}}</strong> to <strong>{{renewal.finish|date}}</strong>
+                <i class="fa fa-retweet"></i> &nbsp; From <strong>{{renewal.start|date}}</strong> to <strong>{{renewal.finish|date}}</strong>
             </div>
 
             <div class="panel-collapse" role="tabpanel" bs-collapse-target>

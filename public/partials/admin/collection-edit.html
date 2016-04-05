@@ -1,5 +1,8 @@
+<h1 ng-if="undefined === collection._id"><i class="fa fa-edit text-muted"></i> <span translate>Create a right collection</span></h1>
+<h1 ng-if="undefined !== collection._id"><i class="fa fa-edit text-muted"></i> <span translate>Modify a right collection</span></h1>
 
-<form role="form">
+
+<form role="form" class="top30">
     <div class="form-group">
         <label for="right_collection_name" translate>Collection name</label>
         <input type="text" class="form-control" id="right_collection_name" ng-model="collection.name" />

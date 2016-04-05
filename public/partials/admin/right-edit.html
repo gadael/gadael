@@ -1,5 +1,8 @@
+<h1 ng-if="undefined === right._id"><i class="fa fa-edit text-muted"></i> <span translate>Create a leave right</span></h1>
+<h1 ng-if="undefined !== right._id"><i class="fa fa-edit text-muted"></i> <span translate>Modify a leave right</span></h1>
 
-<form role="form">
+
+<form role="form" class="top30">
     <div class="form-group">
         <label for="right_name" translate>Name</label>
         <input type="text" class="form-control" id="right_name" ng-model="right.name" />

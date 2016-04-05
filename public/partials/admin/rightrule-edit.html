@@ -1,6 +1,15 @@
+
+
+
 <div class="row">
 	<div class="col-xs-12 col-sm-9">
-        <form role="form">
+
+
+        <h1 ng-if="undefined === rightrule._id"><i class="fa fa-edit text-muted"></i> <span translate>Create a right rule</span></h1>
+        <h1 ng-if="undefined !== rightrule._id"><i class="fa fa-edit text-muted"></i> <span translate>Modify a right rule</span></h1>
+
+
+        <form role="form" class="top30">
             <div class="form-group">
                 <label for="rightrule_title" translate>Rule title, this will be visible from users</label>
                 <input type="text" id="rightrule_title" class="form-control" ng-model="rightrule.title" ng-required />

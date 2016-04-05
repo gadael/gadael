@@ -1,6 +1,13 @@
+
+
 <div class="row">
 	<div class="col-xs-12 col-sm-9">
-        <form role="form">
+
+        <h1 ng-if="undefined === rightrenewal._id"><i class="fa fa-edit text-muted"></i> <span translate>Create a right renewal</span></h1>
+        <h1 ng-if="undefined !== rightrenewal._id"><i class="fa fa-edit text-muted"></i> <span translate>Modify a right renewal</span></h1>
+
+
+        <form role="form" class="top30">
             <div class="form-group">
                 <label for="rightrenewal_start" translate>Start</label>
                 <input type="text" id="rightrenewal_start" class="form-control" ng-model="rightrenewal.start" data-max-date="{{rightrenewal.finish}}" data-autoclose="1" container="body" ng-required bs-datepicker />

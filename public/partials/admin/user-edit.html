@@ -1,5 +1,8 @@
+<h1 ng-if="undefined === user._id"><i class="fa fa-edit text-muted"></i> <span translate>Create a user</span></h1>
+<h1 ng-if="undefined !== user._id"><i class="fa fa-edit text-muted"></i> <span translate>Modify a user</span></h1>
 
-<form role="form" name="userEdit">
+
+<form role="form" class="top30" name="userEdit">
 	
 	
 	<div class="col-xs-12 col-sm-3">

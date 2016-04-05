@@ -3,7 +3,7 @@
 
 
     <div class="col-xs-10">
-        <h2>{{department.name}}</h2>
+        <h2><i class="fa fa-building-o text-muted"></i> {{department.name}}</h2>
 
     </div>
 
@@ -56,7 +56,7 @@
 
 <div class="row" ng-if="department.children.length > 0">
 
-    <h3>Sub-departments</h3>
+    <h3><i class="fa fa-building-o text-muted"></i> <span translate>Sub-departments</span></h3>
 
     <script type="text/ng-template"  id="tree_item_renderer.html">
         <a href="#/admin/departments/{{subdep._id}}">{{subdep.name}}</a>

@@ -1,5 +1,8 @@
+<h1 ng-if="undefined === type._id"><i class="fa fa-edit text-muted"></i> <span translate>Create a right type</span></h1>
+<h1 ng-if="undefined !== type._id"><i class="fa fa-edit text-muted"></i> <span translate>Modify a right type</span></h1>
 
-<form role="form">
+
+<form role="form" class="top30">
   <div class="form-group col-md-10">
     <label for="type_name" translate>Right type name</label>
     <input type="text" class="form-control" id="type_name" ng-model="type.name" />
