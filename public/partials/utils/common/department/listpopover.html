@@ -1,12 +1,15 @@
+<div>
+    <h4 translate>Sub-departments</h4>
 
-<script type="text/ng-template"  id="tree_item_renderer.html">
-    <a href="#/admin/departments/{{subdep._id}}">{{subdep.name}}</a>
+    <script type="text/ng-template"  id="tree_item_renderer.html">
+        <a href="#/admin/departments/{{subdep._id}}">{{subdep.name}}</a>
+        <ul>
+            <li ng-repeat="subdep in subdep.children" ng-include="'tree_item_renderer.html'"></li>
+        </ul>
+    </script>
+
+
     <ul>
-        <li ng-repeat="subdep in subdep.children" ng-include="'tree_item_renderer.html'"></li>
+        <li ng-repeat="subdep in department.children" ng-include="'tree_item_renderer.html'"></li>
     </ul>
-</script>
-
-
-<ul>
-    <li ng-repeat="subdep in department.children" ng-include="'tree_item_renderer.html'"></li>
-</ul>
+</div>

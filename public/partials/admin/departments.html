@@ -26,12 +26,13 @@
 				</div>
 
                 <div class="col-sm-2">
-                    <a ng-if="department.children.length > 0"
-                       title="{{'View sub-departments'|translate}}"
+                    <a
+                       role="button"
+                       ng-if="department.children.length > 0"
                        data-content-template="partials/utils/common/department/listpopover.html"
                        data-auto-close="1"
                        bs-popover>
-                          <i class="fa fa-sitemap"></i>
+                          <i class="fa fa-sitemap" title="{{'View sub-departments'|translate}}"></i>
                     </a>
                 </div>
 			</div>
