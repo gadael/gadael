@@ -56,9 +56,12 @@ function saveDepartment(service, params) {
     var DepartmentModel = service.app.db.models.Department;
     
     var fieldsToSet = { 
-        name: params.name,
-        operator: params.operator
+        name: params.name
     };
+
+    if (params.operator) {
+        fieldsToSet.operator = params.operator;
+    }
 
     if (params.businessDays) {
         fieldsToSet.businessDays = params.businessDays;
