@@ -1,0 +1,19 @@
+<div class="panel panel-info">
+
+    <div class="panel-heading">{{right.name}}</div>
+    <div class="panel-body">
+        <p><strong translate>Type:</strong><br />
+            <i class="fa fa-asterisk" style="color:{{right.type.color}}"></i> {{right.type.name}}
+        </p>
+        <p>{{right.description}}</p>
+        <p>
+            <strong translate>Last renewal:</strong><br />
+            <span translate>from</span> {{renewal.start|date}}
+            <span translate>to</span> {{renewal.finish|date}}
+        </p>
+        <br />
+        <div class="text-right">
+            <a ng-href="#/admin/rights/{{right._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a>
+        </div>
+    </div>
+</div>

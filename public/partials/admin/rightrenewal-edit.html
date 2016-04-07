@@ -23,15 +23,6 @@
         </form>
     </div>
     
-    <div class="col-xs-12 col-sm-3">
-		
-        <div class="panel panel-info">
-
-            <div class="panel-heading">{{right.name}}</div>
-            <div class="panel-body">
-                <p><strong translate>Type:</strong> {{right.type.name}}</p>
-                <p>{{right.description}}</p>
-            </div>
-        </div>
+    <div class="col-xs-12 col-sm-3"  ng-include="'partials/utils/common/right/right-panel.html'">
 	</div>
 </div>
