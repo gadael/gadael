@@ -47,7 +47,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params, paginate) {
         
         service.resolveQuery(
-            query(service, params).select('name operator path parent businessDays').sort('name'),
+            query(service, params).select('name operator path parent').sort('name'),
             paginate,
             function(err, docs) {
 

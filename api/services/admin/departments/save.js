@@ -13,30 +13,12 @@ const gt = require('./../../../../modules/gettext');
  */
 function validate(service, params) {
 
-    function hasOneBusinessDay() {
-        for (let d in params.businessDays) {
-            if (params.businessDays.hasOwnProperty(d)) {
-                if (params.businessDays[d]) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 
 
     if (service.needRequiredFields(params, ['name'])) {
         return;
     }
 
-    if (undefined !== params.businessDays) {
-        // ensure at least one business day in week
-
-        if (!hasOneBusinessDay()) {
-            service.error(gt.gettext('At least one business day is required'));
-        }
-    }
 
     saveDepartment(service, params);
 }
@@ -61,10 +43,6 @@ function saveDepartment(service, params) {
 
     if (params.operator) {
         fieldsToSet.operator = params.operator;
-    }
-
-    if (params.businessDays) {
-        fieldsToSet.businessDays = params.businessDays;
     }
 
     if (params.parent) {

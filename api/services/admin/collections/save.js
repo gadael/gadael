@@ -1,6 +1,9 @@
 'use strict';
 
 
+const gt = require('./../../../../modules/gettext');
+
+
 
 /**
  * Validate params fields
@@ -8,6 +11,28 @@
  * @param {Object} params
  */
 function validate(service, params) {
+
+
+    function hasOneBusinessDay() {
+        for (let d in params.businessDays) {
+            if (params.businessDays.hasOwnProperty(d)) {
+                if (params.businessDays[d]) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    if (undefined !== params.businessDays) {
+        // ensure at least one business day in week
+
+        if (!hasOneBusinessDay()) {
+            service.error(gt.gettext('At least one business day is required'));
+        }
+    }
+
 
     if (service.needRequiredFields(params, ['name'])) {
         return;
@@ -41,6 +66,10 @@ function saveCollection(service, params) {
                     document.attendance = params.attendance;
                 }
                 
+                if (params.businessDays !== undefined) {
+                    document.businessDays = params.businessDays;
+                }
+
                 document.save(function (err) {
                     if (service.handleMongoError(err)) {
                         

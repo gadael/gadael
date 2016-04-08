@@ -4,12 +4,21 @@ exports = module.exports = function(params) {
     var collectionSchema = new params.mongoose.Schema({
         name: { type: String, required: true, unique: true  },
         timeCreated: { type: Date, default: Date.now },
-        attendance: { type: Number, min: 0, max: 100, default: 100 }    // attendance percentage
+        attendance: { type: Number, min: 0, max: 100, default: 100 },   // attendance percentage
                                                                         // vacation right consuption will be recorded according to this percentage
                                                                         // only if consuption=proportion (right property)
                                                                         // ex: for one day of absence,
                                                                         // the consumed quantity will be 0.5 day if the attendance is 50%
 
+        businessDays: {                                                 // list of business days for the department
+            SU: { type: Boolean, default: false },                      // they will be used to set the consumed quantity  for
+            MO: { type: Boolean, default: true },                       // the part-times users
+            TU: { type: Boolean, default: true },                       // only if consuption=businessDays (right property)
+            WE: { type: Boolean, default: true },
+            TH: { type: Boolean, default: true },
+            FR: { type: Boolean, default: true },
+            SA: { type: Boolean, default: false }
+        }
     });
   
     collectionSchema.set('autoIndex', params.autoIndex);

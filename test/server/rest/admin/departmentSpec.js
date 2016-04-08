@@ -87,20 +87,10 @@ describe('departments admin rest service', function() {
     it('update the business days', function(done) {
 
         server.put('/rest/admin/departments/'+department, {
-            name: 'Test department',
-            businessDays: {
-                SU: true,
-                MO: false,
-                TU: true,
-                WE: false,
-                TH: true,
-                FR: false,
-                SA: true
-            }
+            name: 'Test department 2'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.name).toEqual('Test department');
-            expect(body.businessDays.WE).toBeFalsy();
+            expect(body.name).toEqual('Test department 2');
             done();
         });
     });
@@ -112,10 +102,7 @@ describe('departments admin rest service', function() {
 
         server.get('/rest/admin/departments/'+department, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.businessDays.SU).toBeTruthy();
-            expect(body.businessDays.TU).toBeTruthy();
-            expect(body.businessDays.WE).toBeFalsy();
-            expect(body.businessDays.SA).toBeTruthy();
+            expect(body.name).toEqual('Test department 2');
             done();
         });
     });
