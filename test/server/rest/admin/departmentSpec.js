@@ -59,9 +59,6 @@ describe('departments admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
             expect(body.operator).toBeDefined();
-            expect(body.businessDays).toBeDefined();
-            expect(body.businessDays.MO).toBeTruthy();
-            expect(body.businessDays.SU).toBeFalsy();
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
 
@@ -112,7 +109,7 @@ describe('departments admin rest service', function() {
         server.delete('/rest/admin/departments/'+department, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toEqual(department);
-            expect(body.name).toEqual('Test department');
+            expect(body.name).toEqual('Test department 2');
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
             done();
