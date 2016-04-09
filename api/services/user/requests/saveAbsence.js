@@ -375,40 +375,37 @@ function checkElement(service, user, elem)
  */
 function saveAbsence(service, user, params, collection) {
 
-    var Q = require('q');
-    var deferred = Q.defer();
+    return new Promise((resolve, reject) => {
 
-    if (params.distribution === undefined || params.distribution.length === 0) {
-        return Q.fcall(function () {
+        if (params.distribution === undefined || params.distribution.length === 0) {
             throw new Error('right distribution is mandatory to save an absence request');
-        });
-    }
+        }
 
-    var i, elem,
-        chekedElementsPromises = [],
-        savedElementsPromises = [];
+        let i, elem,
+            chekedElementsPromises = [],
+            savedElementsPromises = [];
 
-    // check available quantity
-
-    for(i=0; i<params.distribution.length; i++) {
-        elem = params.distribution[i];
-        chekedElementsPromises.push(checkElement(service, user, elem));
-    }
-
-    Q.all(chekedElementsPromises).then(function() {
-
-        // save the events and create the elements documents
+        // check available quantity
 
         for(i=0; i<params.distribution.length; i++) {
             elem = params.distribution[i];
-            savedElementsPromises.push(saveElement(service, user, elem));
+            chekedElementsPromises.push(checkElement(service, user, elem));
         }
 
-        deferred.resolve(Q.all(savedElementsPromises));
+        Promise.all(chekedElementsPromises).then(function() {
 
-    }, deferred.reject);
+            // save the events and create the elements documents
 
-    return deferred.promise;
+            for(i=0; i<params.distribution.length; i++) {
+                elem = params.distribution[i];
+                savedElementsPromises.push(saveElement(service, user, elem));
+            }
+
+            resolve(Promise.all(savedElementsPromises));
+
+        }, reject);
+
+    });
 }
 
 
