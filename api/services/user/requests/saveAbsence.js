@@ -14,11 +14,14 @@
  */
 function saveEvents(service, user, elem, events)
 {
-    var async = require('async');
-    var Q = require('q');
-    var deferred = Q.defer();
-    var EventModel = service.app.db.models.CalendarEvent;
+    let async = require('async');
+    let EventModel = service.app.db.models.CalendarEvent;
 
+    let deferred = {};
+    deferred.promise = new Promise(function(resolve, reject) {
+        deferred.resolve = resolve;
+        deferred.reject = reject;
+    });
 
 
 
@@ -149,12 +152,16 @@ function getElemPeriod(elem)
  */
 function saveElement(service, user, elem)
 {
-    var Q = require('q');
-    var deferred = Q.defer();
-    var ElementModel = service.app.db.models.AbsenceElem;
-    var RightModel = service.app.db.models.Right;
+    let deferred = {};
+    deferred.promise = new Promise(function(resolve, reject) {
+        deferred.resolve = resolve;
+        deferred.reject = reject;
+    });
 
-    var elemPeriod = getElemPeriod(elem);
+    let ElementModel = service.app.db.models.AbsenceElem;
+    let RightModel = service.app.db.models.Right;
+
+    let elemPeriod = getElemPeriod(elem);
 
     function setProperties(element)
     {
@@ -258,11 +265,17 @@ function saveElement(service, user, elem)
  */
 function checkElement(service, user, elem)
 {
-    var util = require('util');
-    var Q = require('q');
-    var deferred = Q.defer();
-    var RightModel = service.app.db.models.Right;
-    var RenewalModel = service.app.db.models.RightRenewal;
+    const util = require('util');
+    const RightModel = service.app.db.models.Right;
+    const RenewalModel = service.app.db.models.RightRenewal;
+
+    let deferred = {};
+    deferred.promise = new Promise(function(resolve, reject) {
+        deferred.resolve = resolve;
+        deferred.reject = reject;
+    });
+
+
 
 
     if (undefined === elem.right) {
