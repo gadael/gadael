@@ -26,6 +26,32 @@ exports = module.exports = function(params) {
     collectionSchema.index({ name: 1 });
     
     
+
+    /**
+     * Get the list of business days in an array according to Date.getDay format
+     * 0 = sunday
+     * 1 = monday
+     *
+     * @return {Array}
+     */
+    collectionSchema.methods.getDays = function() {
+
+        let days = [];
+        let d = 0;
+        for (var abbr in this.businessDays) {
+            if (this.businessDays.hasOwnProperty(abbr)) {
+                if (this.businessDays[abbr]) {
+                    days.push(d);
+                }
+
+                d++;
+            }
+        }
+
+        return days;
+    };
+
+
     /**
      * Get the list of rights in collection
      * @return {Promise} resolve to an array of beneficiaries
@@ -80,29 +106,7 @@ exports = module.exports = function(params) {
         return deferred.promise;
     };
     
-    
-    /**
-     * Get the consumed quantity to store in absence request
-     * according to the attendance percentage
-     * @param {Number} periodQuantity
-     * @return {Number}
-     */
-    collectionSchema.methods.getConsumedQuantity = function getConsumedQuantity(periodQuantity)
-    {
 
-        if (100 === this.attendance || undefined === this.attendance) {
-            return periodQuantity;
-        }
-
-        // 50% -> x2
-        // 75% -> x1.333
-        // 25% -> x4
-        // 100% -> x1
-
-        var m = 100*(1/this.attendance);
-
-        return (m*periodQuantity);
-    };
 
     
     /**

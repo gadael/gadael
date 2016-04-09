@@ -329,12 +329,35 @@ exports = module.exports = function(params) {
      *
      * @param {RightCollection} collection collection associated to the request appliquant
      *                                     must be the collection in effect on the absence element period
-     * @param {Number}          quantity   Absence element duration quantity
+     * @param {AbsenceElem}     elem       Absence element
      *
      * @return {Number}
      */
-    rightSchema.methods.getConsumedQuantity = function(collection, quantity) {
+    rightSchema.methods.getConsumedQuantity = function(collection, elem) {
 
+        let right = this;
+
+        if ('proportion' === right.consuption) {
+
+            const quantity = elem.quantity;
+
+            if (100 === collection.attendance || undefined === collection.attendance) {
+                return quantity;
+            }
+
+            // 50% -> x2
+            // 75% -> x1.333
+            // 25% -> x4
+            // 100% -> x1
+
+            const m = 100*(1/collection.attendance);
+            return (m*quantity);
+        }
+
+        if ('businessDays' === right.consuption) {
+
+            return 0;
+        }
     };
 
 

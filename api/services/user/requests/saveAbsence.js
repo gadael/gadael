@@ -160,7 +160,7 @@ function saveElement(service, user, elem)
     {
         element.quantity = elem.quantity;
 
-        // consumedQuantity from request is ignored for security reasons, the consumed quantity
+        // TODO: the consumed quantity
         // will be computed from right and collection parameters
 
         element.consumedQuantity = elem.quantity;
@@ -388,7 +388,6 @@ function saveAbsence(service, user, params, collection) {
 
         for(i=0; i<params.distribution.length; i++) {
             elem = params.distribution[i];
-            elem.consumedQuantity = collection.getConsumedQuantity(elem.quantity);
             savedElementsPromises.push(saveElement(service, user, elem));
         }
 
