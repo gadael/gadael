@@ -322,6 +322,23 @@ exports = module.exports = function(params) {
         return true;
     };
     
+
+
+    /**
+     * Get the consumed quantity on right from the duration quantity in an absence element
+     *
+     * @param {RightCollection} collection collection associated to the request appliquant
+     *                                     must be the collection in effect on the absence element period
+     * @param {Number}          quantity   Absence element duration quantity
+     *
+     * @return {Number}
+     */
+    rightSchema.methods.getConsumedQuantity = function(collection, quantity) {
+
+    };
+
+
+
 	
 	params.db.model('Right', rightSchema);
 };

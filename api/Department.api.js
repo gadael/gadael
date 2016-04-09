@@ -16,17 +16,44 @@ exports = module.exports = api;
 api.create = function(app, parent, name, operator) {
 
     const Charlatan = require('charlatan');
-    let DepartmentModel = app.db.models.Department;
-    let department = new DepartmentModel();
+    const DepartmentModel = app.db.models.Department;
 
-    department.name = name || Charlatan.Commerce.department();
-    department.parent = parent;
+    return new Promise((resolve, reject) => {
 
-    if (undefined !== operator) {
-        department.operator = operator;
-    }
+        DepartmentModel.find({}, (err, list) => {
 
-    return department.save();
+            const allNames = list.map(d => {
+                return d.name;
+            });
+
+            let maxTry = 30;
+
+            if (!name) {
+                do {
+                    name = Charlatan.Commerce.department();
+                    maxTry--;
+
+                    if (maxTry <= 0) {
+                        return reject('Failed to create random department name from Charlatan.Commerce.department (30 retry excedeed)');
+                    }
+
+                } while(-1 !== allNames.indexOf(name));
+            }
+
+            let department = new DepartmentModel();
+
+            department.name = name;
+            department.parent = parent;
+
+            if (undefined !== operator) {
+                department.operator = operator;
+            }
+
+            resolve(department.save());
+        });
+    });
+
+
 };
 
 

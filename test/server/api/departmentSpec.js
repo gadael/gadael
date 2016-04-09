@@ -5,46 +5,28 @@ let api = {
     department: require('../../../api/Department.api.js')
 };
 
-let app = require('../../../api/Headless.api.js');
-
-let company = {
-			name: 'The Fake Company',
-			port: 3001
-		};
-
 
 
 describe("Department API", function CompanyTestSuite() {
 
     let randomDepartment;
 
-
-	it("should connect to the database", function(done) {
-		app.connect(function() {
-			done();
-		});
-	});
+    let server;
 
 
-	let testDbName = 'DepartmentSpecTestDatabase';
+    beforeEach(function(done) {
 
-	it("check the absence of the test database", function(done) {
-		api.company.isDbNameValid(app, testDbName, function(status) {
-			expect(status).toBeTruthy();
-            if (!status) {
-                return done();
-            }
+        var helpers = require('../rest/mockServer');
 
-            api.company.createDb(app, testDbName, company, function() {
-                done();
-            });
-
-		});
-	});
+        helpers.mockServer('DepartmentSpecTestDatabase', function(_mockServer) {
+            server = _mockServer;
+            done();
+        });
+    });
 
 
     it("create random department", function(done) {
-		api.department.createRandom(app, null, 6, 'secret').then(function(d) {
+		api.department.createRandom(server.app, null, 6, 'secret').then(function(d) {
             expect(d.department.name).toBeDefined();
             expect(d.manager).toBeDefined();
             expect(d.members).toBeDefined();
@@ -56,19 +38,9 @@ describe("Department API", function CompanyTestSuite() {
 
 
 
-	it("drop the test database", function(done) {
-		api.company.dropDb(app, testDbName, function() {
-			done();
-		});
-	});
-
-
-
-	it("should disconnect from the database", function(done) {
-		app.disconnect(function() {
-			done();
-		});
-	});
+    it('close the mock server', function(done) {
+        server.close(done);
+    });
 
 });
 
