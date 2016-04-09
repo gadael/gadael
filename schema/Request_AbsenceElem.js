@@ -8,7 +8,9 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var absenceElemSchema = new mongoose.Schema({
         quantity: { type: Number, required: true },         // quantity equal du duration of period in the planning
-        consumedQuantity: { type: Number, required: true }, // quantity removed from vacation right according to attendance percentage from RightCollection
+        consumedQuantity: { type: Number, required: true }, // quantity removed from vacation right according to Right.consuption
+                                                            // consuption=proportion: attendance percentage from RightCollection
+                                                            // consuption=businessDays: businessDays from RightCollection
         events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],
         
         user: {                                     // absence owner
@@ -34,13 +36,36 @@ exports = module.exports = function(params) {
 	});
 
 
+    /**
+     * Pre-save hook
+     *
+     */
+    absenceElemSchema.pre('validate', function(next) {
+
+        if (!this.events || this.events.length === 0) {
+            const err = new Error('Invalid event list on absence element');
+            return next(err);
+        }
+
+        if (this.quantity <= 0) {
+            const err = new Error('Invalid duration quantity on absence element');
+            return next(err);
+        }
+
+        if (this.consumedQuantity <= 0) {
+            const err = new Error('Invalid consuption on absence element');
+            return next(err);
+        }
+
+        next();
+    });
 
 
 	/**
 	 * Find next absence element in same request or null if this element is the last
 	 * @return {Promise} Mongoose promise
 	 */ 
-	absenceElemSchema.methods.next = function (callback) {
+	absenceElemSchema.methods.next = function(callback) {
 		// TODO
 	};
 

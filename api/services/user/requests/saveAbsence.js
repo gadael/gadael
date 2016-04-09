@@ -159,7 +159,11 @@ function saveElement(service, user, elem)
     function setProperties(element)
     {
         element.quantity = elem.quantity;
-        element.consumedQuantity = elem.consumedQuantity;
+
+        // consumedQuantity from request is ignored for security reasons, the consumed quantity
+        // will be computed from right and collection parameters
+
+        element.consumedQuantity = elem.quantity;
 
         RightModel.findOne({ _id: elem.right.id })
         .populate('type')
@@ -353,6 +357,7 @@ function checkElement(service, user, elem)
  * @param {User} user             absence owner object
  * @param {Object} params
  * @param {RightCollection} collection
+ *
  * @return {Promise} promised distribution array
  */
 function saveAbsence(service, user, params, collection) {
@@ -397,32 +402,40 @@ function saveAbsence(service, user, params, collection) {
 
 /**
  * Get the appliquable right collection of the user on the distribution period
+ * Multiple collection in the same request period is not allowed
  *
  * @param {Array} distribution posted parameter
  * @return {Promise} promise the rightCollection or null if the user has no right collection on the period
  *
  */
 function getCollectionFromDistribution(distribution, account) {
-    var dtstart, dtend;
-    var Q = require('q');
 
-    if (undefined === distribution[0]) {
-        return Q.reject('Invalid request, no distribution');
-    }
 
-    if (undefined === distribution[0].events) {
-        return Q.reject('Invalid request, events are not available in first right of distribution');
-    }
+    return new Promise((resolve, reject) => {
 
-    if (undefined === distribution[distribution.length -1].events) {
-        return Q.reject('Invalid request, events are not available in last right of distribution');
-    }
+        if (undefined === distribution[0]) {
+            return reject('Invalid request, no distribution');
+        }
 
-    dtstart = distribution[0].events[0].dtstart;
-    var lastElemEvents = distribution[distribution.length -1].events;
-    dtend = lastElemEvents[lastElemEvents.length -1].dtend;
+        if (undefined === distribution[0].events) {
+            return reject('Invalid request, events are not available in first right of distribution');
+        }
 
-    return account.getValidCollectionForPeriod(dtstart, dtend, new Date());
+        if (undefined === distribution[distribution.length -1].events) {
+            return reject('Invalid request, events are not available in last right of distribution');
+        }
+
+        const dtstart = distribution[0].events[0].dtstart;
+        const lastElemEvents = distribution[distribution.length -1].events;
+        const dtend = lastElemEvents[lastElemEvents.length -1].dtend;
+
+        resolve(
+            account.getValidCollectionForPeriod(dtstart, dtend, new Date())
+        );
+
+    });
+
+
 }
 
 
