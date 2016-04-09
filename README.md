@@ -6,7 +6,7 @@
 
 nodejs absences management application
 
-
+In developpement, not ready for production
 
 
 
@@ -20,6 +20,16 @@ This application help you manage presence of your employees in your company. The
 Approval by managers is following hierachical departments structure.
 
 
+## Technical features
+
 * [Express JS](http://expressjs.com/) application
 * [Angular JS](https://angularjs.org/) front-end
 * [Bootstrap CSS](http://getbootstrap.com/) Look and feel
+
+
+
+## Licence
+
+MIT
+
+FSF approved, OSI approved and GPL compatible...
