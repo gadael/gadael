@@ -42,18 +42,20 @@ exports = module.exports = function(params) {
      */
     absenceElemSchema.pre('validate', function(next) {
 
+        let err;
+
         if (!this.events || this.events.length === 0) {
-            const err = new Error('Invalid event list on absence element');
+            err = new Error('Invalid event list on absence element');
             return next(err);
         }
 
         if (this.quantity <= 0) {
-            const err = new Error('Invalid duration quantity on absence element');
+            err = new Error('Invalid duration quantity on absence element');
             return next(err);
         }
 
         if (this.consumedQuantity <= 0) {
-            const err = new Error('Invalid consuption on absence element');
+            err = new Error('Invalid consuption on absence element');
             return next(err);
         }
 
