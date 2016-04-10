@@ -14,9 +14,9 @@ exports = module.exports = function(params) {
         
         consuption: {                             // consuption type
             type: String,
-            enum:['proportion', 'businessDays'],  // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
-            required: true,                       // proportion: user the attendance percentage defined in user right collection
-            default: 'businessDays'
+            enum:['proportion', 'businessDays', 'workingDays'],  // proportion: user the attendance percentage defined in user right collection
+            required: true,                                      // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
+            default: 'businessDays'                              // workingDays: full working days are consumed
         },
 
         consuptionBusinessDaysLimit: { type: Number, default: 5 }, // Used if consuption=businessDays
@@ -325,39 +325,73 @@ exports = module.exports = function(params) {
 
 
     /**
+     * Get the consumed quantity proportionally to attendance
+     * @param   {Number} attendance Attendance percentage
+     * @param   {Number} quantity   Period duration quantity
+     * @returns {Number}
+     */
+    rightSchema.methods.getConsumedQuantityByAttendance = function(attendance, quantity) {
+
+        if (100 === attendance || undefined === attendance) {
+            return quantity;
+        }
+
+        // 50% -> x2
+        // 75% -> x1.333
+        // 25% -> x4
+        // 100% -> x1
+
+        const m = 100*(1/attendance);
+        return (m*quantity);
+    };
+
+
+
+    /**
+     * [[Description]]
+     * @throws {Error} [[Description]]
+     *
+     * @param {RightCollection} collection collection associated to the request appliquant
+     *                                     must be the collection in effect on the absence element period
+     * @param {AbsenceElem}     elem       Absence element
+     *
+     * @returns {Promise}
+     */
+    rightSchema.methods.getConsumedQuantityByBusinessDays = function(collection, elem) {
+
+        let right = this;
+
+        if ('D' !== right.quantity_unit) {
+            throw new Error('Consuption by business days must be used on a right with days as quantity unit');
+        }
+    };
+
+
+
+
+
+    /**
      * Get the consumed quantity on right from the duration quantity in an absence element
      *
      * @param {RightCollection} collection collection associated to the request appliquant
      *                                     must be the collection in effect on the absence element period
      * @param {AbsenceElem}     elem       Absence element
      *
-     * @return {Number}
+     * @return {Promise}
      */
     rightSchema.methods.getConsumedQuantity = function(collection, elem) {
 
         let right = this;
 
-        if ('proportion' === right.consuption) {
-
-            const quantity = elem.quantity;
-
-            if (100 === collection.attendance || undefined === collection.attendance) {
-                return quantity;
+        return new Promise((resolve, reject) => {
+            if ('proportion' === right.consuption) {
+                return resolve(right.getConsumedQuantityByAttendance(collection.attendance, elem.quantity));
             }
 
-            // 50% -> x2
-            // 75% -> x1.333
-            // 25% -> x4
-            // 100% -> x1
-
-            const m = 100*(1/collection.attendance);
-            return (m*quantity);
-        }
-
-        if ('businessDays' === right.consuption) {
-
-            return 0;
-        }
+            if ('businessDays' === right.consuption) {
+                return resolve(right.getConsumedQuantityByBusinessDays(collection, elem));
+            }
+        });
     };
 
 

@@ -199,7 +199,9 @@ function saveElement(service, user, elem)
                         id: renewal._id,
                         start: renewal.start,
                         finish: renewal.finish
-                    }
+                    },
+                    consuption: rightDocument.consuption,
+                    consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
                 };
 
                 if (undefined !== rightDocument.type) {

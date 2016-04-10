@@ -14,10 +14,10 @@ exports = module.exports = function(params) {
             SU: { type: Boolean, default: false },                      // they will be used to set the consumed quantity  for
             MO: { type: Boolean, default: true },                       // the part-times users
             TU: { type: Boolean, default: true },                       // only if consuption=businessDays (right property)
-            WE: { type: Boolean, default: true },
+            WE: { type: Boolean, default: true },                       // FR: jours ouvrables
             TH: { type: Boolean, default: true },
             FR: { type: Boolean, default: true },
-            SA: { type: Boolean, default: false }
+            SA: { type: Boolean, default: true }
         }
     });
   

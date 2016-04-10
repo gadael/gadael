@@ -31,7 +31,15 @@ exports = module.exports = function(params) {
                 id: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' , required: true },
                 start: { type: Date, required: true },
                 finish: { type: Date, required: true }
-            }
+            },
+            consuption: {                             // consuption type
+                type: String,
+                enum:['proportion', 'businessDays', 'workingDays'],  // proportion: use the attendance percentage defined in user right collection
+                required: true                                       // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
+                                                                     // workingDays: full working days are consumed
+            },
+
+            consuptionBusinessDaysLimit: { type: Number, default: 5 } // Used if consuption=businessDays
 		}
 	});
 
@@ -73,7 +81,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Get an array with one date per leave day
+     * Get an array with one date per leave day, incuding week-ends
      * @return {array}
      */
     absenceElemSchema.methods.getLeaveDays = function() {
@@ -95,30 +103,88 @@ exports = module.exports = function(params) {
 	};
 
 
+
+
+    /**
+     * Get leave days until back to work, incuding week-end
+     *
+     * @param {Array}  appliquantWorkingDays List of working days of the request appliquant
+     *
+     * @returns {[[Type]]} [[Description]]
+     */
+    absenceElemSchema.methods.getLeaveDaysUntilBack = function(appliquantWorkingDays) {
+
+        let days = this.getLeaveDays();
+
+        let dtend = this.events[this.events.length-1].dtend;
+
+        let loop = new Date(dtend);
+        loop.setHours(0,0,0,0);
+
+        let d;
+
+        do {
+            loop.setDate(loop.getDate()+1);
+            d = loop.getDay();
+
+        } while(-1 === appliquantWorkingDays.indexOf(d));
+
+        return days;
+    };
+
+
+
     /**
      * Get additional deducted quantity for part-time collections
-     * this method get the number of days in base business days witch are not in applicant business days
+     * this method get the number of days in base business days witch are not in applicant working days
+     * this method is used for consuption method : businessDays or WorkingDays
      *
-     * @param {Array}  baseBusinessDays       List of business days for a 100% attendance
-     * @param {Array}  appliquantBusinessDays List of business days of the request appliquant
+     * @param {Array}  baseAttendanceDays    List of business days or working days for a 100% attendance
+     *
+     * @param {Array}  appliquantWorkingDays    List of working days of the request appliquant
+     *                                          full days based on the applicant working times calendar
      *
      * @return {Number} Number of days
      */
-    absenceElemSchema.methods.getAdditionalDeductedQuantity = function(baseBusinessDays, appliquantBusinessDays) {
+    absenceElemSchema.methods.getAdditionalDeductedQuantity = function(baseAttendanceDays, appliquantWorkingDays) {
 
-        let days = this.getLeaveDays();
+        if ('D' !== this.right.quantity_unit) {
+            throw new Error('This methods is not appropriate with this quantity unit');
+        }
+
+        let days = this.getLeaveDaysUntilBack(appliquantWorkingDays);
         let d, total = 0;
 
         for (var i=0; i<days.length; i++) {
             d = days[i].getDay();
-            if (-1 !== baseBusinessDays.indexOf(d)) {
-                if (-1 === appliquantBusinessDays.indexOf(d)) {
+            if (-1 !== baseAttendanceDays.indexOf(d)) { // ignore week-end
+                if (-1 === appliquantWorkingDays.indexOf(d)) { // ignore days allready in quantity
                     total += 1;
                 }
             }
         }
 
         return total;
+    };
+
+
+
+    /**
+     * Get list of working days using the working times calendar associated to applicant in the absence element period
+     * according to Date.getDay format
+     * 0 = sunday
+     * 1 = monday
+     *
+     * @return {Promise}
+     */
+    absenceElemSchema.methods.getWorkingDays = function() {
+
+        let elem = this;
+
+        return new Promise((resolve, reject) => {
+            elem.model('AccountScheduleCalendar').find();
+            //TODO
+        });
     };
 
 
