@@ -198,12 +198,21 @@ exports = module.exports = function(params) {
             .then(era => {
                 // filter out the dates after the back to work date
 
-                //let last = false;
-                era.periods.forEach(period => {
-                    // TODO: need a method in Era to get the period from dtstart
-                    // then get the next period
-                    // then delete other periods
-                });
+                let events = [];
+
+                let i=0, last = false;
+
+                while (!last && undefined !== era.periods[i]) {
+                    let period = era.periods[i];
+                    if (period.dtstart > elem.dtend) {
+                        last = true;
+                    }
+
+                    events.push(period);
+                    i++;
+                }
+
+                resolve(events);
             })
             .catch(reject);
 
