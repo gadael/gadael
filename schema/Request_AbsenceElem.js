@@ -184,9 +184,9 @@ exports = module.exports = function(params) {
         let accountModel = elem.model('Account');
 
         // we add one week to the end date to get the back to work day
-
         let endSearch = new Date(elem.dtend);
         endSearch.setDate(endSearch.getDate()+7);
+
 
         return new Promise((resolve, reject) => {
 
@@ -215,8 +215,49 @@ exports = module.exports = function(params) {
                 resolve(events);
             })
             .catch(reject);
+        });
+    };
 
-            //TODO
+
+    /**
+     * Get the date where the user can be back to work
+     * hours are ignored
+     *
+     * @return {Promise}
+     */
+    absenceElemSchema.methods.getBackDate = function() {
+        return new Promise((resolve, reject) => {
+            this.getWorkingDaysUntilBack().then(events => {
+
+                if (events.length === 0) {
+                    throw new Error('Invalid back to work date from the getWorkingDaysUntilBack method');
+                }
+
+                let backDate = new Date(events[events.length-1].dtstart);
+                backDate.setHours(0,0,0,0);
+                resolve(backDate);
+            })
+            .catch(reject);
+        });
+    };
+
+
+    /**
+     * Get the working days in the absence element period
+     * @returns {Promise}   Number
+     */
+    absenceElemSchema.methods.getWorkingDays = function() {
+        return new Promise((resolve, reject) => {
+            this.getWorkingDaysUntilBack().then(events => {
+
+                if (events.length === 0) {
+                    throw new Error('Invalid back to work date from the getWorkingDaysUntilBack method');
+                }
+
+                events.pop();
+                resolve(events);
+            })
+            .catch(reject);
         });
     };
 

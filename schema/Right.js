@@ -348,8 +348,8 @@ exports = module.exports = function(params) {
 
 
     /**
-     * [[Description]]
-     * @throws {Error} [[Description]]
+     * Count the number of business days up to the back to work date
+     * @throws {Error} Right must be in days
      *
      * @param {RightCollection} collection collection associated to the request appliquant
      *                                     must be the collection in effect on the absence element period
@@ -364,7 +364,30 @@ exports = module.exports = function(params) {
         if ('D' !== right.quantity_unit) {
             throw new Error('Consuption by business days must be used on a right with days as quantity unit');
         }
+
+        let businessDays = collection.getDays();
+        let loop = new Date(elem.events[0].dtstart);
+        loop.setHours(0,0,0,0);
+
+        let count = 0;
+
+        return new Promise((resolve, reject) => {
+
+            elem.getBackDate().then(backDate => {
+                while(loop < backDate) {
+                    if (-1 !== businessDays.indexOf(loop.getDay())) {
+                        count++;
+                    }
+
+                    loop.setDate(loop.getDate()+1);
+                }
+
+                resolve(count);
+            });
+        });
     };
+
+
 
 
 
@@ -385,11 +408,18 @@ exports = module.exports = function(params) {
 
         return new Promise((resolve, reject) => {
             if ('proportion' === right.consuption) {
+                // consume more than duration quantity if attendance percentage lower than 100
                 return resolve(right.getConsumedQuantityByAttendance(collection.attendance, elem.quantity));
             }
 
             if ('businessDays' === right.consuption) {
+                // consume number of business days up to back to work date
                 return resolve(right.getConsumedQuantityByBusinessDays(collection, elem));
+            }
+
+            if ('workingDays' === right.consuption) {
+                // consume exact number of working days (no half-days)
+                return resolve(elem.getWorkingDays());
             }
         });
     };
