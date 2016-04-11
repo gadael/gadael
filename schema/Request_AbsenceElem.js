@@ -171,18 +171,42 @@ exports = module.exports = function(params) {
 
     /**
      * Get list of working days using the working times calendar associated to applicant in the absence element period
-     * according to Date.getDay format
-     * 0 = sunday
-     * 1 = monday
+     * Return an array with dates where the applicant should work but is not, excepted from the last worked date ,
+     * this is the date where the applicant is back to work
+     * Non working days are ignored in this methods because they are also ignored in the consumption total
+     *
      *
      * @return {Promise}
      */
-    absenceElemSchema.methods.getWorkingDays = function() {
+    absenceElemSchema.methods.getWorkingDaysUntilBack = function() {
 
         let elem = this;
+        let accountModel = elem.model('Account');
+
+        // we add one week to the end date to get the back to work day
+
+        let endSearch = new Date(elem.dtend);
+        endSearch.setDate(endSearch.getDate()+7);
 
         return new Promise((resolve, reject) => {
-            elem.model('AccountScheduleCalendar').find();
+
+            let find = accountModel.find().where('user.id', elem.user.id);
+
+            find.exec().then((account) => {
+                return account.getPeriodScheduleEvents(elem.dtstart, endSearch);
+            })
+            .then(era => {
+                // filter out the dates after the back to work date
+
+                //let last = false;
+                era.periods.forEach(period => {
+                    // TODO: need a method in Era to get the period from dtstart
+                    // then get the next period
+                    // then delete other periods
+                });
+            })
+            .catch(reject);
+
             //TODO
         });
     };
