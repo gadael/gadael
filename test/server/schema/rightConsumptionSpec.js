@@ -3,14 +3,15 @@
 let helpers = require('./mockDatabase');
 let api = {
     user: require('../../../api/User.api'),
-    request: require('../../../api/Request.api')
+    request: require('../../../api/Request.api'),
+    right: require('../../../api/Right.api')
 };
 
 describe('Right consumption', function() {
 
     let app;
     let userModel, rightModel;
-    let userDocument;
+    let userDocument, collectionDocument;
 
     beforeEach(function(done) {
         helpers.mockDatabase('rightConsumptionSpec', function(mockapp) {
@@ -24,31 +25,44 @@ describe('Right consumption', function() {
     });
 
     it('create a random test account', function(done) {
-        api.user.createRandomAccount(app).then(user => {
-            userDocument = user;
+        api.user.createRandomAccount(app).then(randomUser => {
+            userDocument = randomUser.user;
+            api.right.addTestRight(app, userDocument).then(collection => {
+                collectionDocument = collection;
+                done();
+            }).catch(err => {
+                console.log(err);
+                expect(err).toBeNull();
+                done();
+            });
+
+        }).catch(err => {
+            console.log(err);
+            expect(err).toBeNull();
             done();
         });
 
     });
 
 
-    it('create a right without monthly adjustment', function(done) {
-        var right = new rightModel();
+    it('create a random request', function(done) {
+        userDocument.populate('roles.account', (err) => {
 
-        right.name = 'Preliminary test right';
-        right.quantity = 10;
-        right.quantity_unit = 'D';
-        right.addMonthly = {
-            quantity: null
-        };
-
-        right.save(function(err, right) {
-            expect(err).toBeNull();
             if (err) {
+                console.log(err);
                 return done();
             }
 
+            api.request.createRandomAbsence(app, userDocument).then(o => {
+                console.log(o);
+                done();
+            }).catch(err => {
+                console.log(err);
+                expect(err).toBeNull();
+                done();
+            });
         });
+
     });
 
 

@@ -20,7 +20,27 @@ api.createRight = function(app) {
         quantity: null
     };
 
-    return right.save();
+    return new Promise((resolve, reject) => {
+        right.save().then(right => {
+            api.createRenewal(app, right).then(renewal => {
+                resolve(right);
+            }).catch(reject);
+        }).catch(reject);
+    });
+};
+
+
+api.createRenewal = function(app, right) {
+    let rightRenewalModel = app.db.models.RightRenewal;
+    let renewal = new rightRenewalModel();
+
+    renewal.right = right._id;
+    renewal.start = new Date();
+    renewal.start.setHours(0,0,0,0);
+    renewal.finish = new Date(renewal.start);
+    renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
+
+    return renewal.save();
 };
 
 
@@ -31,6 +51,7 @@ api.createRight = function(app) {
  */
 api.createCollection = function(app) {
 
+
     return new Promise((resolve, reject) => {
 
         let collectionModel = app.db.models.RightCollection;
@@ -40,13 +61,15 @@ api.createCollection = function(app) {
 
         collection.name = 'Test';
 
+
+
         collection.save().then(collection => {
 
-            api.createRight().then(right => {
+            api.createRight(app).then(right => {
 
                 let beneficiary = new beneficiaryModel();
                 beneficiary.right = right._id;
-                beneficiary.ref = 'Collection';
+                beneficiary.ref = 'RightCollection';
                 beneficiary.document = collection._id;
 
                 beneficiary.save().then(() => {
@@ -64,7 +87,28 @@ api.createCollection = function(app) {
 /**
  * Add a test right to the user
  * @param {User} user account
+ * @return {Promise} collection
  */
 api.addTestRight = function(app, user) {
 
+
+
+    return new Promise((resolve, reject) => {
+
+        let accountCollectionModel = app.db.models.AccountCollection;
+        let start = new Date();
+        start.setHours(0,0,0,0);
+
+        api.createCollection(app).then(collection => {
+            let ac = new accountCollectionModel();
+            ac.rightCollection = collection._id;
+            ac.from = start;
+            ac.account = user.roles.account;
+
+            ac.save().then(() => {
+                resolve(collection);
+            }).catch(reject);
+        }).catch(reject);
+
+    });
 };
