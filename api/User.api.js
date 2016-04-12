@@ -3,8 +3,6 @@
 var api = {};
 exports = module.exports = api;
 
-var Q = require('q');
-
 
 /**
  * Generate "count" random users in the app
@@ -47,7 +45,11 @@ api.populate = function(app, count, callback) {
  */
 api.createRandomUser = function(app, email, password) {
 
-    var deferred = Q.defer();
+    let deferred = {};
+    deferred.promise = new Promise(function(resolve, reject) {
+        deferred.resolve = resolve;
+        deferred.reject = reject;
+    });
 
     var Charlatan = require('charlatan');
     var userModel = app.db.models.User;
@@ -85,18 +87,17 @@ api.createRandomUser = function(app, email, password) {
  * @param {Express} app
  * @param {string} [email]
  * @param {string} [password]
+ * @return {Promise}
  */
 api.createRandomAdmin = function(app, email, password) {
 
-    var deferred = Q.defer();
-
-    api.createRandomUser(app, email, password).then(function(randomUser) {
-        randomUser.user.saveAdmin().then(function() {
-            deferred.resolve(randomUser);
+    return new Promise(function(resolve, reject) {
+         api.createRandomUser(app, email, password).then(function(randomUser) {
+            randomUser.user.saveAdmin().then(function() {
+                resolve(randomUser);
+            }).catch(reject);
         });
     });
-
-    return deferred.promise;
 };
 
 
@@ -106,19 +107,17 @@ api.createRandomAdmin = function(app, email, password) {
  * @param {Express} app
  * @param {string} [email]
  * @param {string} [password]
+ * @return {Promise}
  */
 api.createRandomAccount = function(app, email, password) {
 
-    var deferred = Q.defer();
-
-    api.createRandomUser(app, email, password).then(function(randomUser) {
-        randomUser.user.saveAccount().then(function() {
-            deferred.resolve(randomUser);
+    return new Promise(function(resolve, reject) {
+        api.createRandomUser(app, email, password).then(function(randomUser) {
+            randomUser.user.saveAccount().then(function() {
+                resolve(randomUser);
+            }).catch(reject);
         });
-
     });
-
-    return deferred.promise;
 };
 
 
@@ -131,17 +130,16 @@ api.createRandomAccount = function(app, email, password) {
  * @param {Express} app
  * @param {string} [email]
  * @param {string} [password]
+ *
+ * @return {Promise}
  */
 api.createRandomManager = function(app, email, password) {
 
-    var deferred = Q.defer();
-
-    api.createRandomUser(app, email, password).then(function(randomUser) {
-        randomUser.user.saveManager().then(function() {
-             deferred.resolve(randomUser);
+    return new Promise(function(resolve, reject) {
+        api.createRandomUser(app, email, password).then(function(randomUser) {
+            randomUser.user.saveManager().then(function() {
+                 resolve(randomUser);
+            }).catch(reject);
         });
-
     });
-
-    return deferred.promise;
 };
