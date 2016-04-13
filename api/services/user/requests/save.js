@@ -34,33 +34,34 @@ function prepareRequestFields(service, params, user)
 {
     var Q = require('q');
     var deferred = Q.defer();
-    var getApprovalSteps = require('../../../../modules/getApprovalSteps');
+    let getApprovalSteps = require('../../../../modules/getApprovalSteps');
 
 
 
 
+    getApprovalSteps(user).then(approvalSteps => {
+
+        let account = user.roles.account;
 
 
-    getApprovalSteps(user).then(function(approvalSteps) {
-
-        var account = user.roles.account;
-
-
-        var fieldsToSet = {
+        let fieldsToSet = {
             user: {
                 id: params.user,
-                name: account.user.name,
-                department: user.department.name
+                name: account.user.name
             },
             approvalSteps: approvalSteps
         };
+
+        if (user.department) {
+            fieldsToSet.user.department = user.department.name;
+        }
 
 
         // Set the request status
 
         if (0 === approvalSteps.length) {
             fieldsToSet.status = {
-                created: 'approved'
+                created: 'accepted'
             };
         } else {
 
@@ -72,13 +73,14 @@ function prepareRequestFields(service, params, user)
 
 
         if (undefined !== params.absence) {
-            var saveAbsence = require('./saveAbsence');
+
+            let saveAbsence = require('./saveAbsence');
 
             saveAbsence.getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
 
-                var promisedDistribution = saveAbsence.saveAbsence(service, user, params.absence, collection);
+                let promisedDistribution = saveAbsence.saveAbsence(service, user, params.absence, collection);
 
-                promisedDistribution.then(function(distribution) {
+                promisedDistribution.then(distribution => {
 
                         fieldsToSet.events = [];
 
@@ -148,8 +150,8 @@ function prepareRequestFields(service, params, user)
 
             }, deferred.reject);
         }
-    });
 
+    }).catch(deferred.reject);
 
 
     return deferred.promise;
@@ -194,6 +196,7 @@ function saveRequest(service, params) {
 
             function end(document, message)
             {
+
                 document.save(function(err, document) {
                     if (service.handleMongoError(err)) {
 

@@ -1,9 +1,8 @@
 'use strict';
 
-var api = {};
+let api = {};
 exports = module.exports = api;
 
-var Q = require('q');
 
 
 /**
@@ -14,70 +13,72 @@ var Q = require('q');
  */
 api.createRandomAbsence = function(app, user) {
 
-    if (!user.roles.account) {
-        return Q.fcall(function () {
-            throw new Error('This user is not an account');
-        });
-    }
-
-    if (!user.roles.account._id) {
-        return Q.fcall(function () {
-            throw new Error('Account must be populated');
-        });
-    }
-
-    var account = user.roles.account;
-
-    var deferred = Q.defer();
-	var save = app.getService('user/requests/save');
+    return new Promise((resolve, reject) => {
 
 
-    account.getRights().then(function(rights) {
 
-        if (rights.length < 1) {
-            return deferred.reject(new Error('No rights associated to the user'));
+        if (!user.roles.account) {
+            return reject('This user is not an account');
         }
 
-        var today = new Date();
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate()+1);
+        if (!user.roles.account._id) {
+            return reject('Account must be populated');
+        }
 
-        rights[0].getPeriodRenewal(today, tomorrow).then(function(renewal) {
+        let account = user.roles.account;
 
-            if (!renewal) {
-                return deferred.reject('No renewal on this period');
+
+        let save = app.getService('user/requests/save');
+
+
+        account.getRights().then(rights => {
+
+            if (rights.length < 1) {
+                return reject(new Error('No rights associated to the user'));
             }
 
+            let today = new Date();
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate()+1);
 
-            var params = { // parameters given to the service
-                user: user._id,
-                createdBy: user,
-                absence: {
-                    distribution: [
-                        {
-                            events: [{
-                                dtstart: today,
-                                dtend: tomorrow
-                            }],
-                            quantity: 1,
-                            right: {
-                                id: rights[0]._id,
-                                renewal:renewal._id
-                            }
-                        }
-                    ]
+
+
+            rights[0].getPeriodRenewal(today, tomorrow).then(function(renewal) {
+
+                if (!renewal) {
+                    return reject('No renewal on this period');
                 }
-            };
-
-            deferred.resolve(save.getResultPromise(params));
-
-        }, deferred.reject);
 
 
+                let params = { // parameters given to the service
+                    user: user._id,
+                    createdBy: user,
+                    absence: {
+                        distribution: [
+                            {
+                                events: [{
+                                    dtstart: today,
+                                    dtend: tomorrow
+                                }],
+                                quantity: 1,
+                                right: {
+                                    id: rights[0]._id,
+                                    renewal:renewal._id
+                                }
+                            }
+                        ]
+                    }
+                };
+
+                resolve(save.getResultPromise(params));
+
+            }).catch(reject);
 
 
-    }, deferred.reject);
 
-    return deferred.promise;
+
+        }).catch(reject);
+
+    });
 };
 

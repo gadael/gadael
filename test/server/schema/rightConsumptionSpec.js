@@ -11,7 +11,7 @@ describe('Right consumption', function() {
 
     let app;
     let userModel, rightModel;
-    let userDocument, collectionDocument;
+    let userDocument, collectionDocument, requestDocument;
 
     beforeEach(function(done) {
         helpers.mockDatabase('rightConsumptionSpec', function(mockapp) {
@@ -31,13 +31,13 @@ describe('Right consumption', function() {
                 collectionDocument = collection;
                 done();
             }).catch(err => {
-                console.log(err);
+                console.log(err.stack);
                 expect(err).toBeNull();
                 done();
             });
 
         }).catch(err => {
-            console.log(err);
+            console.log(err.stack);
             expect(err).toBeNull();
             done();
         });
@@ -49,20 +49,23 @@ describe('Right consumption', function() {
         userDocument.populate('roles.account', (err) => {
 
             if (err) {
-                console.log(err);
+                console.log(err.stack);
+                expect(err).toBeNull();
                 return done();
             }
 
-            api.request.createRandomAbsence(app, userDocument).then(o => {
-                console.log(o);
+            api.request.createRandomAbsence(app, userDocument).then(request => {
+                requestDocument = request;
+                let elem = request.absence.distribution[0];
+                expect(elem.quantity).toBeDefined();
+                expect(elem.consumedQuantity).toEqual(elem.quantity);
                 done();
             }).catch(err => {
-                console.log(err);
+                console.log(err.stack);
                 expect(err).toBeNull();
                 done();
             });
         });
-
     });
 
 
