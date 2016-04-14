@@ -16,7 +16,7 @@ exports = module.exports = function(params) {
             type: String,
             enum:['proportion', 'businessDays', 'workingDays'],  // proportion: user the attendance percentage defined in user right collection
             required: true,                                      // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
-            default: 'businessDays'                              // workingDays: full working days are consumed
+            default: 'proportion'                                // workingDays: full working days are consumed
         },
 
         consuptionBusinessDaysLimit: { type: Number, default: 5 }, // Used if consuption=businessDays

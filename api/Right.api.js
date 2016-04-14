@@ -7,18 +7,35 @@ exports = module.exports = api;
 
 /**
  * Create a random right
+ * @param {Express} app
+ * @param {object} props
  * @returns {Promise}
  */
-api.createRight = function(app) {
+api.createRight = function(app, props) {
     let rightModel = app.db.models.Right;
     let right = new rightModel();
 
-    right.name = 'Test right';
-    right.quantity = 10;
-    right.quantity_unit = 'D';
-    right.addMonthly = {
-        quantity: null
-    };
+    if (undefined !== props) {
+        right.set(props);
+    }
+
+    if (!right.name) {
+        right.name = 'Test right';
+    }
+
+    if (!right.quantity) {
+        right.quantity = 10;
+    }
+
+    if (!right.quantity_unit) {
+        right.quantity_unit = 'D';
+    }
+
+    if (undefined === right.addMonthly.quantity) {
+        right.addMonthly = {
+            quantity: null
+        };
+    }
 
     return new Promise((resolve, reject) => {
         right.save().then(right => {
@@ -45,12 +62,12 @@ api.createRenewal = function(app, right) {
 
 
 /**
- * create collection with random right
+ * create collection with one right
  * @param   {Express} app
  * @param   {object}  props Collection properties
  * @returns {Promise} Beneficiary
  */
-api.createCollection = function(app, props) {
+api.createCollection = function(app, collectionProps, rightProps) {
 
 
     return new Promise((resolve, reject) => {
@@ -60,8 +77,8 @@ api.createCollection = function(app, props) {
 
         let collection = new collectionModel();
 
-        if (undefined !== props) {
-            collection.set(props);
+        if (undefined !== collectionProps) {
+            collection.set(collectionProps);
         }
 
         if (!collection.name) {
@@ -71,7 +88,7 @@ api.createCollection = function(app, props) {
 
         collection.save().then(collection => {
 
-            api.createRight(app).then(right => {
+            api.createRight(app, rightProps).then(right => {
 
                 let beneficiary = new beneficiaryModel();
                 beneficiary.right = right._id;
@@ -97,7 +114,7 @@ api.createCollection = function(app, props) {
  * @param {Object}  collection  Collection properties
  * @return {Promise} collection
  */
-api.addTestRight = function(app, user, collection) {
+api.addTestRight = function(app, user, collection, right) {
 
 
 
@@ -107,7 +124,7 @@ api.addTestRight = function(app, user, collection) {
         let start = new Date();
         start.setHours(0,0,0,0);
 
-        api.createCollection(app, collection).then(collection => {
+        api.createCollection(app, collection, right).then(collection => {
             let ac = new accountCollectionModel();
             ac.rightCollection = collection._id;
             ac.from = start;

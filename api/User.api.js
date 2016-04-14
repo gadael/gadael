@@ -150,16 +150,17 @@ api.createRandomManager = function(app, email, password) {
  * create random account, one test right and a one day request
  * @param   {Express} app
  * @param   {Object} collectionProps
+ * @param   {Object} rightProps
  * @returns {Promise} Resolve to absence element
  */
-api.createRandomAccountRequest = function(app, collectionProps) {
+api.createRandomAccountRequest = function(app, collectionProps, rightProps) {
 
     let rightApi = require('./Right.api');
     let requestApi = require('./Request.api');
 
     return new Promise(function(resolve, reject) {
         api.createRandomAccount(app).then(function(randomUser) {
-            rightApi.addTestRight(app, randomUser.user, collectionProps).then(collection => {
+            rightApi.addTestRight(app, randomUser.user, collectionProps, rightProps).then(collection => {
                 randomUser.user.populate('roles.account', (err) => {
                     if (err) {
                         return reject(err);
