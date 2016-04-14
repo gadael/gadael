@@ -143,3 +143,33 @@ api.createRandomManager = function(app, email, password) {
         });
     });
 };
+
+
+
+/**
+ * create random account, one test right and a one day request
+ * @param   {Express} app
+ * @param   {Object} collectionProps
+ * @returns {Promise} Resolve to absence element
+ */
+api.createRandomAccountRequest = function(app, collectionProps) {
+
+    let rightApi = require('./Right.api');
+    let requestApi = require('./Request.api');
+
+    return new Promise(function(resolve, reject) {
+        api.createRandomAccount(app).then(function(randomUser) {
+            rightApi.addTestRight(app, randomUser.user, collectionProps).then(collection => {
+                randomUser.user.populate('roles.account', (err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    requestApi.createRandomAbsence(app, randomUser.user).then(request => {
+                        resolve(request.absence.distribution[0]);
+                    }).catch(reject);
+                });
+            }).catch(reject);
+        }).catch(reject);
+    });
+};

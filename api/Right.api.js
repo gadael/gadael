@@ -46,10 +46,11 @@ api.createRenewal = function(app, right) {
 
 /**
  * create collection with random right
- * @param   {object}   app [[Description]]
+ * @param   {Express} app
+ * @param   {object}  props Collection properties
  * @returns {Promise} Beneficiary
  */
-api.createCollection = function(app) {
+api.createCollection = function(app, props) {
 
 
     return new Promise((resolve, reject) => {
@@ -59,8 +60,13 @@ api.createCollection = function(app) {
 
         let collection = new collectionModel();
 
-        collection.name = 'Test';
+        if (undefined !== props) {
+            collection.set(props);
+        }
 
+        if (!collection.name) {
+            collection.name = 'Test';
+        }
 
 
         collection.save().then(collection => {
@@ -86,10 +92,12 @@ api.createCollection = function(app) {
 
 /**
  * Add a test right to the user
- * @param {User} user account
+ * @param {Express} app
+ * @param {User}    user        Account
+ * @param {Object}  collection  Collection properties
  * @return {Promise} collection
  */
-api.addTestRight = function(app, user) {
+api.addTestRight = function(app, user, collection) {
 
 
 
@@ -99,7 +107,7 @@ api.addTestRight = function(app, user) {
         let start = new Date();
         start.setHours(0,0,0,0);
 
-        api.createCollection(app).then(collection => {
+        api.createCollection(app, collection).then(collection => {
             let ac = new accountCollectionModel();
             ac.rightCollection = collection._id;
             ac.from = start;
@@ -112,3 +120,4 @@ api.addTestRight = function(app, user) {
 
     });
 };
+

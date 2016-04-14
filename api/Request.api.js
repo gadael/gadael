@@ -6,10 +6,11 @@ exports = module.exports = api;
 
 
 /**
- * Create random absence request for one user
+ * Create random absence request for one user on the first right found
  * using the user/requests service
  *
- * @param 	object		app			Express app or headless mock app
+ * @param 	{Express}	app   App or headless mock app
+ * @param   {User}      user  Appliquant
  */
 api.createRandomAbsence = function(app, user) {
 
@@ -81,4 +82,5 @@ api.createRandomAbsence = function(app, user) {
 
     });
 };
+
 
