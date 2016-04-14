@@ -146,11 +146,11 @@ function getElemPeriod(elem)
  * @param {apiService}                  service
  * @param {User} user                   The user document
  * @param {object} elem                 elem object from params
- *
+ * @param {RightCollection} collection
  *
  * @return {Promise}        Promise the AbsenceElem document
  */
-function saveElement(service, user, elem)
+function saveElement(service, user, elem, collection)
 {
     let deferred = {};
     deferred.promise = new Promise(function(resolve, reject) {
@@ -167,11 +167,6 @@ function saveElement(service, user, elem)
     {
         element.quantity = elem.quantity;
 
-        // TODO: the consumed quantity
-        // will be computed from right and collection parameters
-
-        element.consumedQuantity = elem.quantity;
-
         RightModel.findOne({ _id: elem.right.id })
         .populate('type')
         .exec(function(err, rightDocument) {
@@ -180,59 +175,65 @@ function saveElement(service, user, elem)
                 return deferred.reject(err);
             }
 
-            //TODO: the renewal ID tu use must be in params
-            // a right can have multiples usable renewals at the same time
+            // The consumed quantity
+            // will be computed from collection and elem parameters
+            rightDocument.getConsumedQuantity(collection, elem).then(consumed => {
+                element.consumedQuantity = consumed;
 
-            // get renewal to save in element
-            rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
+                //TODO: the renewal ID tu use must be in params
+                // a right can have multiples usable renewals at the same time
 
-                if (null === renewal) {
-                    return deferred.reject('No available renewal for the element');
-                }
+                // get renewal to save in element
+                rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
+
+                    if (null === renewal) {
+                        return deferred.reject('No available renewal for the element');
+                    }
 
 
-                element.right = {
-                    id: elem.right.id,
-                    name: rightDocument.name,
-                    quantity_unit: rightDocument.quantity_unit,
-                    renewal: {
-                        id: renewal._id,
-                        start: renewal.start,
-                        finish: renewal.finish
-                    },
-                    consuption: rightDocument.consuption,
-                    consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
-                };
-
-                if (undefined !== rightDocument.type) {
-                    element.right.type = {
-                        id: rightDocument.type._id,
-                        name: rightDocument.type.name,
-                        color: rightDocument.type.color
+                    element.right = {
+                        id: elem.right.id,
+                        name: rightDocument.name,
+                        quantity_unit: rightDocument.quantity_unit,
+                        renewal: {
+                            id: renewal._id,
+                            start: renewal.start,
+                            finish: renewal.finish
+                        },
+                        consuption: rightDocument.consuption,
+                        consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
                     };
-                }
+
+                    if (undefined !== rightDocument.type) {
+                        element.right.type = {
+                            id: rightDocument.type._id,
+                            name: rightDocument.type.name,
+                            color: rightDocument.type.color
+                        };
+                    }
 
 
-                element.user = {
-                    id: user._id,
-                    name: user.getName()
-                };
+                    element.user = {
+                        id: user._id,
+                        name: user.getName()
+                    };
 
 
 
-                saveEvents(service, user, element, elem.events).then(function() {
+                    saveEvents(service, user, element, elem.events).then(function() {
 
 
-                    element.save(function(err, element) {
-                        if (err) {
-                            return deferred.reject(err);
-                        }
-                        deferred.resolve(element);
-                    });
-                }, deferred.reject);
+                        element.save(function(err, element) {
+                            if (err) {
+                                return deferred.reject(err);
+                            }
+                            deferred.resolve(element);
+                        });
+                    }).catch(deferred.reject);
 
+                }).catch(deferred.reject);
 
-            });
+            }).catch(deferred.reject);
         });
     }
 
@@ -400,7 +401,7 @@ function saveAbsence(service, user, params, collection) {
 
             for(i=0; i<params.distribution.length; i++) {
                 elem = params.distribution[i];
-                savedElementsPromises.push(saveElement(service, user, elem));
+                savedElementsPromises.push(saveElement(service, user, elem, collection));
             }
 
             resolve(Promise.all(savedElementsPromises));
