@@ -67,6 +67,25 @@ describe('Right consumption', function() {
     });
 
 
+    it('verify proportion consuption type with 75% attendance', function(done) {
+        api.user.createRandomAccountRequest(app, {
+            name: 'proportion 75',
+            attendance: 75
+        }, {
+            name: 'proportion 75',
+            consuption: 'proportion'
+        }).then(elem => {
+            expect(elem.quantity).toEqual(1);
+            expect(elem.consumedQuantity).toBeCloseTo(1.333);
+            done();
+        }).catch(err => {
+            done(err);
+            console.log(err.stack);
+            console.log(err.errors);
+        });
+    });
+
+
 
     it("should disconnect from the database", function(done) {
         app.disconnect(function() {
