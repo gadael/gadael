@@ -65,7 +65,7 @@ function saveEvents(service, user, elem, events)
     if (elem.events) {
         async.each(events, function(postedEvent, callback) {
 
-            if (undefined === postedEvent._id || null === postedEvent._id) {
+            if (undefined === postedEvent._id || null === postedEvent._id) {
                 return setProperties(new EventModel(), postedEvent, callback);
             }
 
@@ -380,7 +380,7 @@ function saveAbsence(service, user, params, collection) {
 
     return new Promise((resolve, reject) => {
 
-        if (params.distribution === undefined || params.distribution.length === 0) {
+        if (params.distribution === undefined || params.distribution.length === 0) {
             throw new Error('right distribution is mandatory to save an absence request');
         }
 
