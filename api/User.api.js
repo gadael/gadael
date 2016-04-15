@@ -111,10 +111,30 @@ api.createRandomAdmin = function(app, email, password) {
  */
 api.createRandomAccount = function(app, email, password) {
 
+
+
+
     return new Promise(function(resolve, reject) {
         api.createRandomUser(app, email, password).then(function(randomUser) {
             randomUser.user.saveAccount().then(function() {
-                resolve(randomUser);
+
+                let find = app.db.models.Calendar.find();
+                find.where('type', 'workschedule');
+
+                find.exec().then(calendars => {
+
+                    if (calendars.length === 0) {
+                        return reject('No schedule calendar');
+                    }
+
+                    let scheduleCalendar = new app.db.models.AccountScheduleCalendar();
+                    scheduleCalendar.account = randomUser.user.roles.account;
+                    scheduleCalendar.calendar = calendars[0]._id;
+                    scheduleCalendar.from = new Date(2000,0,1,0,0,0,0);
+                    scheduleCalendar.save().then(() => {
+                        resolve(randomUser);
+                    }).catch(reject);
+                }).catch(reject);
             }).catch(reject);
         });
     });
@@ -147,13 +167,13 @@ api.createRandomManager = function(app, email, password) {
 
 
 /**
- * create random account, one test right and a one day request
+ * create random account, one test right and a request
  * @param   {Express} app
  * @param   {Object} collectionProps
  * @param   {Object} rightProps
  * @returns {Promise} Resolve to absence element
  */
-api.createRandomAccountRequest = function(app, collectionProps, rightProps) {
+api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtstart, nbdays) {
 
     let rightApi = require('./Right.api');
     let requestApi = require('./Request.api');
@@ -166,11 +186,36 @@ api.createRandomAccountRequest = function(app, collectionProps, rightProps) {
                         return reject(err);
                     }
 
-                    requestApi.createRandomAbsence(app, randomUser.user).then(request => {
+                    requestApi.createRandomAbsence(app, randomUser.user, dtstart, nbdays).then(request => {
                         resolve(request.absence.distribution[0]);
                     }).catch(reject);
                 });
             }).catch(reject);
         }).catch(reject);
     });
+};
+
+
+/**
+ * Create random account, one test right and a request on a proportion consuption type
+ * @param   {[[Type]]} app        [[Description]]
+ * @param   {[[Type]]} attendance [[Description]]
+ * @param   {[[Type]]} dtstart    [[Description]]
+ * @param   {[[Type]]} nbdays     [[Description]]
+ * @returns {[[Type]]} [[Description]]
+ */
+api.createProportionConsRequest = function(app, attendance, dtstart, nbdays) {
+
+    let uniqueName = 'proportion '+attendance+' '+dtstart+' '+nbdays;
+
+    return api.createRandomAccountRequest(app, {
+        name: uniqueName,
+        attendance: attendance
+    }, {
+        name: uniqueName,
+        consuption: 'proportion'
+    },
+    dtstart,
+    nbdays
+    );
 };

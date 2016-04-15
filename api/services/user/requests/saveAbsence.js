@@ -152,107 +152,107 @@ function getElemPeriod(elem)
  */
 function saveElement(service, user, elem, collection)
 {
-    let deferred = {};
-    deferred.promise = new Promise(function(resolve, reject) {
-        deferred.resolve = resolve;
-        deferred.reject = reject;
-    });
+    return new Promise(function(resolve, reject) {
 
-    let ElementModel = service.app.db.models.AbsenceElem;
-    let RightModel = service.app.db.models.Right;
+        if (!collection) {
+            return reject('The collection is missing');
+        }
 
-    let elemPeriod = getElemPeriod(elem);
+        let ElementModel = service.app.db.models.AbsenceElem;
+        let RightModel = service.app.db.models.Right;
 
-    function setProperties(element)
-    {
-        element.quantity = elem.quantity;
+        let elemPeriod = getElemPeriod(elem);
 
-        RightModel.findOne({ _id: elem.right.id })
-        .populate('type')
-        .exec(function(err, rightDocument) {
+        function setProperties(element)
+        {
+            element.quantity = elem.quantity;
 
-            if (err) {
-                return deferred.reject(err);
-            }
+            RightModel.findOne({ _id: elem.right.id })
+            .populate('type')
+            .exec(function(err, rightDocument) {
 
-            // The consumed quantity
-            // will be computed from collection and elem parameters
-            rightDocument.getConsumedQuantity(collection, elem).then(consumed => {
-                element.consumedQuantity = consumed;
+                if (err) {
+                    return reject(err);
+                }
 
-                //TODO: the renewal ID tu use must be in params
-                // a right can have multiples usable renewals at the same time
+                // The consumed quantity
+                // will be computed from collection and elem parameters
+                rightDocument.getConsumedQuantity(collection, elem).then(consumed => {
+                    element.consumedQuantity = consumed;
 
-                // get renewal to save in element
-                rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
+                    //TODO: the renewal ID tu use must be in params
+                    // a right can have multiples usable renewals at the same time
 
-                    if (null === renewal) {
-                        return deferred.reject('No available renewal for the element');
-                    }
+                    // get renewal to save in element
+                    rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
+
+                        if (null === renewal) {
+                            return reject('No available renewal for the element');
+                        }
 
 
-                    element.right = {
-                        id: elem.right.id,
-                        name: rightDocument.name,
-                        quantity_unit: rightDocument.quantity_unit,
-                        renewal: {
-                            id: renewal._id,
-                            start: renewal.start,
-                            finish: renewal.finish
-                        },
-                        consuption: rightDocument.consuption,
-                        consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
-                    };
-
-                    if (undefined !== rightDocument.type) {
-                        element.right.type = {
-                            id: rightDocument.type._id,
-                            name: rightDocument.type.name,
-                            color: rightDocument.type.color
+                        element.right = {
+                            id: elem.right.id,
+                            name: rightDocument.name,
+                            quantity_unit: rightDocument.quantity_unit,
+                            renewal: {
+                                id: renewal._id,
+                                start: renewal.start,
+                                finish: renewal.finish
+                            },
+                            consuption: rightDocument.consuption,
+                            consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
                         };
-                    }
+
+                        if (undefined !== rightDocument.type) {
+                            element.right.type = {
+                                id: rightDocument.type._id,
+                                name: rightDocument.type.name,
+                                color: rightDocument.type.color
+                            };
+                        }
 
 
-                    element.user = {
-                        id: user._id,
-                        name: user.getName()
-                    };
+                        element.user = {
+                            id: user._id,
+                            name: user.getName()
+                        };
 
 
 
-                    saveEvents(service, user, element, elem.events).then(function() {
+                        saveEvents(service, user, element, elem.events).then(function() {
 
 
-                        element.save(function(err, element) {
-                            if (err) {
-                                return deferred.reject(err);
-                            }
-                            deferred.resolve(element);
-                        });
-                    }).catch(deferred.reject);
+                            element.save(function(err, element) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(element);
+                            });
+                        }).catch(reject);
 
-                }).catch(deferred.reject);
+                    }).catch(reject);
 
-            }).catch(deferred.reject);
-        });
-    }
+                }).catch(reject);
+            });
+        }
 
 
-    if (elem._id) {
-        // updated existing element
-        ElementModel.findById(elem._id, function(err, existingElement) {
-            if (elem) {
-                setProperties(existingElement);
-            } else {
-                setProperties(new ElementModel());
-            }
-        });
-        return deferred.promise;
-    }
+        if (elem._id) {
+            // updated existing element
+            ElementModel.findById(elem._id, function(err, existingElement) {
+                if (elem) {
+                    setProperties(existingElement);
+                } else {
+                    setProperties(new ElementModel());
+                }
+            });
+            return;
+        }
 
-    // create new element
-    setProperties(new ElementModel());
-    return deferred.promise;
+        // create new element
+        setProperties(new ElementModel());
+    });
 }
 
 

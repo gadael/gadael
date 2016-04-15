@@ -47,13 +47,18 @@ api.createRight = function(app, props) {
 };
 
 
+/**
+ * Create a renwal for the year 2016
+ * @param   {Express} app
+ * @param   {Right}   right
+ * @returns {Promise}
+ */
 api.createRenewal = function(app, right) {
     let rightRenewalModel = app.db.models.RightRenewal;
     let renewal = new rightRenewalModel();
 
     renewal.right = right._id;
-    renewal.start = new Date();
-    renewal.start.setHours(0,0,0,0);
+    renewal.start = new Date(2016,0,1,0,0,0,0);
     renewal.finish = new Date(renewal.start);
     renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
 
@@ -117,12 +122,10 @@ api.createCollection = function(app, collectionProps, rightProps) {
 api.addTestRight = function(app, user, collection, right) {
 
 
-
     return new Promise((resolve, reject) => {
 
         let accountCollectionModel = app.db.models.AccountCollection;
-        let start = new Date();
-        start.setHours(0,0,0,0);
+        let start = new Date(2000,0,1,0,0,0,0);
 
         api.createCollection(app, collection, right).then(collection => {
             let ac = new accountCollectionModel();
