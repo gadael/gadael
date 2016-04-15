@@ -383,7 +383,7 @@ exports = module.exports = function(params) {
                 }
 
                 resolve(count);
-            });
+            }).catch(reject);
         });
     };
 

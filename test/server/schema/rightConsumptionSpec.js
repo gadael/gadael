@@ -13,6 +13,7 @@ describe('Right consumption', function() {
 
     let monday = new Date(2016,3,11,0,0,0,0);
     let sunday = new Date(2016,3,10,0,0,0,0);
+    let friday = new Date(2016,3,15,0,0,0,0);
 
     beforeEach(function(done) {
         helpers.mockDatabase('rightConsumptionSpec', function(mockapp) {
@@ -77,6 +78,15 @@ describe('Right consumption', function() {
             expect(elem.quantity).toEqual(1);
             expect(elem.consumedQuantity).toBeCloseTo(1.333);
             done();
+        }).catch(done);
+    });
+
+
+    it('verify businessDays consuption type on a monday', function(done) {
+        api.user.createBusinessDaysConsRequest(app, monday, 1).then(elem => {
+            expect(elem.quantity).toEqual(1);
+            expect(elem.consumedQuantity).toEqual(1);
+            done();
         }).catch(err => {
             done(err);
             console.log(err.stack);
@@ -84,6 +94,14 @@ describe('Right consumption', function() {
         });
     });
 
+
+    it('verify businessDays consuption type on a friday', function(done) {
+        api.user.createBusinessDaysConsRequest(app, friday, 1).then(elem => {
+            expect(elem.quantity).toEqual(1);
+            expect(elem.consumedQuantity).toEqual(2);
+            done();
+        }).catch(done);
+    });
 
 
     it("should disconnect from the database", function(done) {

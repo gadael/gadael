@@ -198,11 +198,11 @@ api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtst
 
 /**
  * Create random account, one test right and a request on a proportion consuption type
- * @param   {[[Type]]} app        [[Description]]
- * @param   {[[Type]]} attendance [[Description]]
- * @param   {[[Type]]} dtstart    [[Description]]
- * @param   {[[Type]]} nbdays     [[Description]]
- * @returns {[[Type]]} [[Description]]
+ * @param   {Express} app
+ * @param   {Number} attendance percentage
+ * @param   {Date}    dtstart
+ * @param   {Number}  nbdays
+ * @returns {Promise} Resolve to absence element
  */
 api.createProportionConsRequest = function(app, attendance, dtstart, nbdays) {
 
@@ -214,6 +214,29 @@ api.createProportionConsRequest = function(app, attendance, dtstart, nbdays) {
     }, {
         name: uniqueName,
         consuption: 'proportion'
+    },
+    dtstart,
+    nbdays
+    );
+};
+
+
+
+/**
+ * Create random account, one test right and a request on a business days consuption type
+ * @param   {Express} app
+ * @param   {Date}    dtstart
+ * @param   {Number}  nbdays
+ * @returns {Promise} Resolve to absence element
+ */
+api.createBusinessDaysConsRequest = function(app, dtstart, nbdays) {
+    let uniqueName = 'BusinessDays '+dtstart+' '+nbdays;
+
+    return api.createRandomAccountRequest(app, {
+        name: uniqueName
+    }, {
+        name: uniqueName,
+        consuption: 'businessDays'
     },
     dtstart,
     nbdays

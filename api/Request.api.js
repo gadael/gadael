@@ -56,7 +56,6 @@ api.createRandomAbsence = function(app, user, dtstart, nbdays) {
                     return reject('No renewal on this period');
                 }
 
-
                 let params = { // parameters given to the service
                     user: user._id,
                     createdBy: user,
@@ -80,9 +79,6 @@ api.createRandomAbsence = function(app, user, dtstart, nbdays) {
                 resolve(save.getResultPromise(params));
 
             }).catch(reject);
-
-
-
 
         }).catch(reject);
 

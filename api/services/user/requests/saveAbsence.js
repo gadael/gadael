@@ -180,53 +180,54 @@ function saveElement(service, user, elem, collection)
                     return reject(err);
                 }
 
-                // The consumed quantity
-                // will be computed from collection and elem parameters
-                rightDocument.getConsumedQuantity(collection, elem).then(consumed => {
-                    element.consumedQuantity = consumed;
 
-                    //TODO: the renewal ID tu use must be in params
-                    // a right can have multiples usable renewals at the same time
+                //TODO: the renewal ID tu use must be in params
+                // a right can have multiples usable renewals at the same time
 
-                    // get renewal to save in element
-                    rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
+                // get renewal to save in element
+                rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
 
-                        if (null === renewal) {
-                            return reject('No available renewal for the element');
-                        }
+                    if (null === renewal) {
+                        return reject('No available renewal for the element');
+                    }
 
 
-                        element.right = {
-                            id: elem.right.id,
-                            name: rightDocument.name,
-                            quantity_unit: rightDocument.quantity_unit,
-                            renewal: {
-                                id: renewal._id,
-                                start: renewal.start,
-                                finish: renewal.finish
-                            },
-                            consuption: rightDocument.consuption,
-                            consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
+                    element.right = {
+                        id: elem.right.id,
+                        name: rightDocument.name,
+                        quantity_unit: rightDocument.quantity_unit,
+                        renewal: {
+                            id: renewal._id,
+                            start: renewal.start,
+                            finish: renewal.finish
+                        },
+                        consuption: rightDocument.consuption,
+                        consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
+                    };
+
+                    if (undefined !== rightDocument.type) {
+                        element.right.type = {
+                            id: rightDocument.type._id,
+                            name: rightDocument.type.name,
+                            color: rightDocument.type.color
                         };
-
-                        if (undefined !== rightDocument.type) {
-                            element.right.type = {
-                                id: rightDocument.type._id,
-                                name: rightDocument.type.name,
-                                color: rightDocument.type.color
-                            };
-                        }
+                    }
 
 
-                        element.user = {
-                            id: user._id,
-                            name: user.getName()
-                        };
+                    element.user = {
+                        id: user._id,
+                        name: user.getName()
+                    };
 
 
 
-                        saveEvents(service, user, element, elem.events).then(function() {
+                    saveEvents(service, user, element, elem.events).then(function() {
 
+
+                        // The consumed quantity
+                        // will be computed from collection and elem parameters
+                        rightDocument.getConsumedQuantity(collection, element).then(consumed => {
+                            element.consumedQuantity = consumed;
 
                             element.save(function(err, element) {
                                 if (err) {
@@ -234,11 +235,14 @@ function saveElement(service, user, elem, collection)
                                 }
                                 resolve(element);
                             });
+
                         }).catch(reject);
 
                     }).catch(reject);
 
                 }).catch(reject);
+
+
             });
         }
 
