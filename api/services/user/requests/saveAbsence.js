@@ -70,6 +70,11 @@ function saveEvents(service, user, elem, events)
             }
 
             EventModel.findById(postedEvent._id, function(err, existingEvent) {
+
+                if (err) {
+                    return deferred.reject(err);
+                }
+
                 if (existingEvent) {
                     setProperties(existingEvent, postedEvent, callback);
                 } else {
@@ -241,6 +246,11 @@ function saveElement(service, user, elem, collection)
         if (elem._id) {
             // updated existing element
             ElementModel.findById(elem._id, function(err, existingElement) {
+
+                if (err) {
+                    return reject(err);
+                }
+
                 if (elem) {
                     setProperties(existingElement);
                 } else {
@@ -306,6 +316,10 @@ function checkElement(service, user, elem)
 
     RightModel.findOne({ _id: elem.right.id })
         .exec(function(err, rightDocument) {
+
+        if (err) {
+            return deferred.reject(err);
+        }
 
         if (!rightDocument) {
             return deferred.reject('failed to get right document from id '+elem.right.id);
