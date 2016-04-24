@@ -192,8 +192,13 @@ exports = module.exports = function(params) {
 
             let find = accountModel.find().where('user.id', elem.user.id);
 
-            find.exec().then((account) => {
-                return account.getPeriodScheduleEvents(elem.dtstart, endSearch);
+            find.exec().then((accounts) => {
+
+                if (0 === accounts.length) {
+                    throw new Error('No account found for user '+elem.user.id);
+                }
+
+                return accounts[0].getPeriodScheduleEvents(elem.dtstart, endSearch);
             })
             .then(era => {
                 // filter out the dates after the back to work date
