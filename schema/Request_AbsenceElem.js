@@ -63,21 +63,13 @@ exports = module.exports = function(params) {
         }
 
         if (this.consumedQuantity <= 0) {
-            err = new Error('Invalid consuption on absence element');
+            err = new Error('Invalid consuption on absence element, quantity='+this.quantity+' consumedQuantity='+this.consumedQuantity);
             return next(err);
         }
 
         next();
     });
 
-
-	/**
-	 * Find next absence element in same request or null if this element is the last
-	 * @return {Promise} Mongoose promise
-	 */ 
-	absenceElemSchema.methods.next = function(callback) {
-		// TODO
-	};
 
 
     /**
@@ -182,36 +174,6 @@ exports = module.exports = function(params) {
 
         let elem = this;
         let accountModel = elem.model('Account');
-        let eventModel = elem.model('CalendarEvent');
-
-
-        /**
-         * get event promise
-         * @param {Mixed} evt id or object
-         * @return {Promise}
-         */
-        function getEvent(evt) {
-
-            return new Promise((resolve, reject) => {
-                if (evt instanceof eventModel) {
-                    return resolve(evt);
-                }
-
-                if (evt.constructor.name === 'ObjectID') {
-                    return resolve(eventModel.findOne({ _id: evt }).exec());
-                }
-
-                reject('not en event or object id');
-            });
-        }
-
-
-        let eventsPromises = [
-            getEvent(elem.events[0]),
-            getEvent(elem.events[elem.events.length-1])
-        ];
-
-
 
 
 
@@ -225,17 +187,20 @@ exports = module.exports = function(params) {
                     throw new Error('No account found for user '+elem.user.id);
                 }
 
-                Promise.all(eventsPromises).then(events => {
+                // populate events
 
-                    let dtstart = events[0].dtstart;
-                    let dtend = events[1].dtend;
+                elem.populate('events', (err) => {
+
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    let dtstart = elem.events[0].dtstart;
+                    let dtend = elem.events[elem.events.length-1].dtend;
 
                     // we add one week to the end date to get the back to work day
                     let endSearch = new Date(dtend);
                     endSearch.setDate(endSearch.getDate()+7);
-
-                    console.log(dtstart);
-                    console.log(endSearch);
 
                     accounts[0].getPeriodScheduleEvents(dtstart, endSearch).then(era => {
 
@@ -257,7 +222,7 @@ exports = module.exports = function(params) {
 
                         resolve(events);
                     });
-                }).catch(reject);
+                });
             }).catch(reject);
         });
     };

@@ -366,20 +366,29 @@ exports = module.exports = function(params) {
         }
 
         let businessDays = collection.getDays();
-        let loop = new Date(elem.events[0].dtstart);
-        loop.setHours(0,0,0,0);
+        console.log(businessDays);
 
         let count = 0;
 
         return new Promise((resolve, reject) => {
 
+
             elem.getBackDate().then(backDate => {
+
+                let loop = new Date(elem.events[0].dtstart);
+                loop.setHours(0,0,0,0);
+
                 while(loop < backDate) {
+
                     if (-1 !== businessDays.indexOf(loop.getDay())) {
                         count++;
                     }
 
                     loop.setDate(loop.getDate()+1);
+                }
+
+                if (count <= 0) {
+                    return reject('getConsumedQuantityByBusinessDays failed to get the consumption');
                 }
 
                 resolve(count);
