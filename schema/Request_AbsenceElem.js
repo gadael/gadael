@@ -195,12 +195,15 @@ exports = module.exports = function(params) {
                         return reject(err);
                     }
 
-                    let dtstart = elem.events[0].dtstart;
+                    let dtstart = new Date(elem.events[0].dtstart);
+                    dtstart.setHours(0,0,0,0);
+
                     let dtend = elem.events[elem.events.length-1].dtend;
 
                     // we add one week to the end date to get the back to work day
                     let endSearch = new Date(dtend);
-                    endSearch.setDate(endSearch.getDate()+7);
+                    endSearch.setDate(endSearch.getDate()+8);
+                    endSearch.setHours(0,0,0,0);
 
                     accounts[0].getPeriodScheduleEvents(dtstart, endSearch).then(era => {
 
@@ -212,7 +215,7 @@ exports = module.exports = function(params) {
 
                         while (!last && undefined !== era.periods[i]) {
                             let period = era.periods[i];
-                            if (period.dtstart > elem.dtend) {
+                            if (period.dtstart > dtend) {
                                 last = true;
                             }
 

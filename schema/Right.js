@@ -366,12 +366,10 @@ exports = module.exports = function(params) {
         }
 
         let businessDays = collection.getDays();
-        console.log(businessDays);
 
         let count = 0;
 
         return new Promise((resolve, reject) => {
-
 
             elem.getBackDate().then(backDate => {
 

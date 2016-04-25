@@ -38,9 +38,10 @@ exports = module.exports = function(params) {
 
         let days = [];
         let d = 0;
-        for (var abbr in this.businessDays) {
-            if (this.businessDays.hasOwnProperty(abbr)) {
-                if (this.businessDays[abbr]) {
+        let businessDays = this.businessDays.toObject();
+        for (var abbr in businessDays) {
+            if (businessDays.hasOwnProperty(abbr)) {
+                if (businessDays[abbr]) {
                     days.push(d);
                 }
 
