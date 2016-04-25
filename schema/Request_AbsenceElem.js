@@ -182,10 +182,37 @@ exports = module.exports = function(params) {
 
         let elem = this;
         let accountModel = elem.model('Account');
+        let eventModel = elem.model('CalendarEvent');
 
-        // we add one week to the end date to get the back to work day
-        let endSearch = new Date(elem.dtend);
-        endSearch.setDate(endSearch.getDate()+7);
+
+        /**
+         * get event promise
+         * @param {Mixed} evt id or object
+         * @return {Promise}
+         */
+        function getEvent(evt) {
+
+            return new Promise((resolve, reject) => {
+                if (evt instanceof eventModel) {
+                    return resolve(evt);
+                }
+
+                if (evt.constructor.name === 'ObjectID') {
+                    return resolve(eventModel.findOne({ _id: evt }).exec());
+                }
+
+                reject('not en event or object id');
+            });
+        }
+
+
+        let eventsPromises = [
+            getEvent(elem.events[0]),
+            getEvent(elem.events[elem.events.length-1])
+        ];
+
+
+
 
 
         return new Promise((resolve, reject) => {
@@ -198,28 +225,40 @@ exports = module.exports = function(params) {
                     throw new Error('No account found for user '+elem.user.id);
                 }
 
-                return accounts[0].getPeriodScheduleEvents(elem.dtstart, endSearch);
-            })
-            .then(era => {
-                // filter out the dates after the back to work date
+                Promise.all(eventsPromises).then(events => {
 
-                let events = [];
+                    let dtstart = events[0].dtstart;
+                    let dtend = events[1].dtend;
 
-                let i=0, last = false;
+                    // we add one week to the end date to get the back to work day
+                    let endSearch = new Date(dtend);
+                    endSearch.setDate(endSearch.getDate()+7);
 
-                while (!last && undefined !== era.periods[i]) {
-                    let period = era.periods[i];
-                    if (period.dtstart > elem.dtend) {
-                        last = true;
-                    }
+                    console.log(dtstart);
+                    console.log(endSearch);
 
-                    events.push(period);
-                    i++;
-                }
+                    accounts[0].getPeriodScheduleEvents(dtstart, endSearch).then(era => {
 
-                resolve(events);
-            })
-            .catch(reject);
+                        // filter out the dates after the back to work date
+
+                        let events = [];
+
+                        let i=0, last = false;
+
+                        while (!last && undefined !== era.periods[i]) {
+                            let period = era.periods[i];
+                            if (period.dtstart > elem.dtend) {
+                                last = true;
+                            }
+
+                            events.push(period);
+                            i++;
+                        }
+
+                        resolve(events);
+                    });
+                }).catch(reject);
+            }).catch(reject);
         });
     };
 

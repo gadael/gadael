@@ -302,6 +302,18 @@ exports = module.exports = function(params) {
 
         var async = require('async');
 
+        function isValidDate(d) {
+            if ( Object.prototype.toString.call(d) !== "[object Date]" ) {
+                return false;
+            }
+            return !isNaN(d.getTime());
+        }
+
+        if (!isValidDate(dtstart) || !isValidDate(dtend)) {
+            throw new Error('Missing date interval');
+        }
+
+
         var deferred = {};
         deferred.promise = new Promise(function(resolve, reject) {
             deferred.resolve = resolve;
