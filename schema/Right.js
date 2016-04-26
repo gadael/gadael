@@ -376,6 +376,7 @@ exports = module.exports = function(params) {
                 let loop = new Date(elem.events[0].dtstart);
                 loop.setHours(0,0,0,0);
 
+
                 while(loop < backDate) {
 
                     if (-1 !== businessDays.indexOf(loop.getDay())) {

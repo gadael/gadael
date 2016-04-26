@@ -169,11 +169,14 @@ api.createRandomManager = function(app, email, password) {
 /**
  * create random account, one test right and a request
  * @param   {Express} app
- * @param   {Object} collectionProps
- * @param   {Object} rightProps
+ * @param   {Object}  collectionProps
+ * @param   {Object}  rightProps
+ * @param   {Date}    dtstart         Start date of the request
+ * @param   {Date}    dtend           end date of the request
+ * @param   {Number}  nbdays          Duration in worked days
  * @returns {Promise} Resolve to absence element
  */
-api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtstart, nbdays) {
+api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtstart, dtend, nbdays) {
 
     let rightApi = require('./Right.api');
     let requestApi = require('./Request.api');
@@ -186,7 +189,7 @@ api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtst
                         return reject(err);
                     }
 
-                    requestApi.createRandomAbsence(app, randomUser.user, dtstart, nbdays).then(request => {
+                    requestApi.createRandomAbsence(app, randomUser.user, dtstart, dtend, nbdays).then(request => {
                         resolve(request.absence.distribution[0]);
                     }).catch(reject);
                 });
@@ -199,12 +202,13 @@ api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtst
 /**
  * Create random account, one test right and a request on a proportion consuption type
  * @param   {Express} app
- * @param   {Number} attendance percentage
- * @param   {Date}    dtstart
- * @param   {Number}  nbdays
+ * @param   {Number}  attendance percentage
+ * @param   {Date}    dtstart    Start date of the request
+ * @param   {Date}    dtend      End date of the request
+ * @param   {Number}  nbdays     Duration in worked days
  * @returns {Promise} Resolve to absence element
  */
-api.createProportionConsRequest = function(app, attendance, dtstart, nbdays) {
+api.createProportionConsRequest = function(app, attendance, dtstart, dtend, nbdays) {
 
     let uniqueName = 'proportion '+attendance+' '+dtstart+' '+nbdays;
 
@@ -216,6 +220,7 @@ api.createProportionConsRequest = function(app, attendance, dtstart, nbdays) {
         consuption: 'proportion'
     },
     dtstart,
+    dtend,
     nbdays
     );
 };
@@ -226,10 +231,11 @@ api.createProportionConsRequest = function(app, attendance, dtstart, nbdays) {
  * Create random account, one test right and a request on a business days consuption type
  * @param   {Express} app
  * @param   {Date}    dtstart
+ * @param   {Date}    dtend
  * @param   {Number}  nbdays
  * @returns {Promise} Resolve to absence element
  */
-api.createBusinessDaysConsRequest = function(app, dtstart, nbdays) {
+api.createBusinessDaysConsRequest = function(app, dtstart, dtend, nbdays) {
     let uniqueName = 'BusinessDays '+dtstart+' '+nbdays;
 
     return api.createRandomAccountRequest(app, {
@@ -239,6 +245,7 @@ api.createBusinessDaysConsRequest = function(app, dtstart, nbdays) {
         consuption: 'businessDays'
     },
     dtstart,
+    dtend,
     nbdays
     );
 };

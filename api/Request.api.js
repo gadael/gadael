@@ -12,7 +12,7 @@ exports = module.exports = api;
  * @param 	{Express}	app   App or headless mock app
  * @param   {User}      user  Appliquant
  */
-api.createRandomAbsence = function(app, user, dtstart, nbdays) {
+api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
 
     if (!nbdays) {
         nbdays = 1;
@@ -45,12 +45,16 @@ api.createRandomAbsence = function(app, user, dtstart, nbdays) {
             if (!dtstart) {
                 dtstart = new Date();
             }
-            let tomorrow = new Date(dtstart);
-            tomorrow.setDate(tomorrow.getDate()+nbdays);
+
+            if (!dtend) {
+                dtend = new Date(dtstart);
+                dtend.setDate(dtend.getDate()+nbdays);
+            }
 
 
 
-            rights[0].getPeriodRenewal(dtstart, tomorrow).then(function(renewal) {
+
+            rights[0].getPeriodRenewal(dtstart, dtend).then(function(renewal) {
 
                 if (!renewal) {
                     return reject('No renewal on this period');
@@ -64,7 +68,7 @@ api.createRandomAbsence = function(app, user, dtstart, nbdays) {
                             {
                                 events: [{
                                     dtstart: dtstart,
-                                    dtend: tomorrow
+                                    dtend: dtend
                                 }],
                                 quantity: nbdays,
                                 right: {

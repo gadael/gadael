@@ -12,6 +12,7 @@ describe('Right consumption', function() {
     let app;
 
     let monday = new Date(2016,3,11,0,0,0,0);
+    let tuesday = new Date(2016,3,12,0,0,0,0);
     let sunday = new Date(2016,3,10,0,0,0,0);
     let friday = new Date(2016,3,15,0,0,0,0);
 
@@ -65,7 +66,11 @@ describe('Right consumption', function() {
     });
 
     it('verify proportion consuption type with 50% attendance on a monday and thusday', function(done) {
-        api.user.createProportionConsRequest(app, 50, monday, 2).then(elem => {
+
+        let tuesdayEnd = new Date(tuesday);
+        tuesdayEnd.setHours(23);
+
+        api.user.createProportionConsRequest(app, 50, monday, tuesdayEnd, 2).then(elem => {
             expect(elem.quantity).toEqual(2);
             expect(elem.consumedQuantity).toEqual(4);
             done();
@@ -83,7 +88,11 @@ describe('Right consumption', function() {
 
 
     it('verify businessDays consuption type on a monday', function(done) {
-        api.user.createBusinessDaysConsRequest(app, monday, 1).then(elem => {
+
+        let mondayEnd = new Date(monday);
+        mondayEnd.setHours(23);
+
+        api.user.createBusinessDaysConsRequest(app, monday, mondayEnd, 1).then(elem => {
             expect(elem.quantity).toEqual(1);
             expect(elem.consumedQuantity).toEqual(1);
             done();
@@ -96,9 +105,30 @@ describe('Right consumption', function() {
 
 
     it('verify businessDays consuption type on a friday', function(done) {
-        api.user.createBusinessDaysConsRequest(app, friday, 1).then(elem => {
+
+        let fridayEnd = new Date(friday);
+        fridayEnd.setHours(23);
+
+        api.user.createBusinessDaysConsRequest(app, friday, fridayEnd, 1).then(elem => {
             expect(elem.quantity).toEqual(1);
             expect(elem.consumedQuantity).toEqual(2);
+            done();
+        }).catch(done);
+    });
+
+    it('verify businessDays consuption type on more than one week (monday to monday)', function(done) {
+
+        let nextMonday = new Date(monday);
+        nextMonday.setDate(nextMonday.getDate()+7);
+        nextMonday.setHours(23);
+
+        api.user.createBusinessDaysConsRequest(app, monday, nextMonday, 6).then(elem => {
+
+            let event = elem.events[0];
+
+            expect(elem.quantity).toEqual(6);
+            expect(event.dtend.getDate()).toEqual(18); // The next monday
+            expect(elem.consumedQuantity).toEqual(7);  // The saturday
             done();
         }).catch(done);
     });
