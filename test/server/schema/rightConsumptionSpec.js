@@ -134,6 +134,32 @@ describe('Right consumption', function() {
     });
 
 
+    it('verify workingDays consuption type on more than one week (monday to monday)', function(done) {
+
+        let nextMonday = new Date(monday);
+        nextMonday.setDate(nextMonday.getDate()+7);
+        nextMonday.setHours(23);
+
+        api.user.createWorkingDaysConsRequest(app, monday, nextMonday, 6).then(elem => {
+            expect(elem.quantity).toEqual(6);
+            expect(elem.consumedQuantity).toEqual(6);
+            done();
+        }).catch(done);
+    });
+
+    it('verify workingDays consuption type on a friday, rounded to days', function(done) {
+
+        let fridayEnd = new Date(friday);
+        fridayEnd.setHours(23);
+
+        api.user.createBusinessDaysConsRequest(app, friday, fridayEnd, 1).then(elem => {
+            expect(elem.quantity).toEqual(0.75);
+            expect(elem.consumedQuantity).toEqual(1);
+            done();
+        }).catch(done);
+    });
+
+
     it("should disconnect from the database", function(done) {
         app.disconnect(function() {
             // and delete the test db

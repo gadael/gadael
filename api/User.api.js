@@ -249,3 +249,27 @@ api.createBusinessDaysConsRequest = function(app, dtstart, dtend, nbdays) {
     nbdays
     );
 };
+
+
+/**
+ * Create random account, one test right and a request on a working days consuption type
+ * @param   {Express} app
+ * @param   {Date}    dtstart
+ * @param   {Date}    dtend
+ * @param   {Number}  nbdays
+ * @returns {Promise} Resolve to absence element
+ */
+api.createWorkingDaysConsRequest = function(app, dtstart, dtend, nbdays) {
+    let uniqueName = 'workingDays '+dtstart+' '+nbdays;
+
+    return api.createRandomAccountRequest(app, {
+        name: uniqueName
+    }, {
+        name: uniqueName,
+        consuption: 'workingDays'
+    },
+    dtstart,
+    dtend,
+    nbdays
+    );
+};
