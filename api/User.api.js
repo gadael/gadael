@@ -136,7 +136,7 @@ api.createRandomAccount = function(app, email, password) {
                     }).catch(reject);
                 }).catch(reject);
             }).catch(reject);
-        });
+        }).catch(reject);
     });
 };
 
