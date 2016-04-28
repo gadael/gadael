@@ -159,6 +159,18 @@ describe('Right consumption', function() {
         }).catch(done);
     });
 
+    it('verify workingDays consuption type is based on dates only', function(done) {
+
+        let mondayEnd = new Date(monday);
+        mondayEnd.setHours(23);
+
+        api.user.createWorkingDaysConsRequest(app, monday, mondayEnd, 1.15).then(elem => {
+            expect(elem.quantity).toEqual(1.15);
+            expect(elem.consumedQuantity).toEqual(1);
+            done();
+        }).catch(done);
+    });
+
 
     it("should disconnect from the database", function(done) {
         app.disconnect(function() {
