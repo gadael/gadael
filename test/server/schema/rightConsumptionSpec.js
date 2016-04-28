@@ -152,7 +152,7 @@ describe('Right consumption', function() {
         let fridayEnd = new Date(friday);
         fridayEnd.setHours(23);
 
-        api.user.createBusinessDaysConsRequest(app, friday, fridayEnd, 1).then(elem => {
+        api.user.createWorkingDaysConsRequest(app, friday, fridayEnd, 0.75).then(elem => {
             expect(elem.quantity).toEqual(0.75);
             expect(elem.consumedQuantity).toEqual(1);
             done();

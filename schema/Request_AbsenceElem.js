@@ -235,7 +235,7 @@ exports = module.exports = function(params) {
      * Get the date where the user can be back to work
      * hours are ignored
      *
-     * @return {Promise}
+     * @return {Promise}    Date
      */
     absenceElemSchema.methods.getBackDate = function() {
         return new Promise((resolve, reject) => {
@@ -267,7 +267,7 @@ exports = module.exports = function(params) {
                 }
 
                 events.pop();
-                resolve(events);
+                resolve(events.length);
             })
             .catch(reject);
         });
