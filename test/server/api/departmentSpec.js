@@ -7,7 +7,7 @@ let api = {
 
 
 
-describe("Department API", function CompanyTestSuite() {
+describe("Department API", function DepartmentTestSuite() {
 
     let randomDepartment;
 

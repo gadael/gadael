@@ -5,43 +5,26 @@ var api = {
     user: require('../../../api/User.api.js')
 };
 
-var app = require('../../../api/Headless.api.js');
-
-var company = {
-			name: 'The Fake Company',
-			port: 3001
-		};
 
 
+describe("User API", function UserTestSuite() {
 
-describe("User API", function CompanyTestSuite() {
+    let server;
 
-	it("should connect to the database", function(done) {
-		app.connect(function() {
-			done();
-		});
-	});
+    beforeEach(function(done) {
 
+        var helpers = require('../rest/mockServer');
 
-	var testDbName = 'UserSpecTestDatabase';
+        helpers.mockServer('UserSpecTestDatabase', function(_mockServer) {
+            server = _mockServer;
+            done();
+        });
+    });
 
-	it("check the absence of the test database", function(done) {
-		api.company.isDbNameValid(app, testDbName, function(status) {
-			expect(status).toBeTruthy();
-            if (!status) {
-                return done();
-            }
-
-            api.company.createDb(app, testDbName, company, function() {
-                done();
-            });
-
-		});
-	});
 
 
     it("create random admin", function(done) {
-		api.user.createRandomAdmin(app).then(function(randomAdmin) {
+		api.user.createRandomAdmin(server.app).then(function(randomAdmin) {
             expect(randomAdmin.user.email).toBeDefined();
             expect(randomAdmin.user.roles.admin).toBeDefined();
 			done();
@@ -50,7 +33,7 @@ describe("User API", function CompanyTestSuite() {
 
 
     it("create random account", function(done) {
-		api.user.createRandomAccount(app).then(function(randomAccount) {
+		api.user.createRandomAccount(server.app).then(function(randomAccount) {
             expect(randomAccount.user.email).toBeDefined();
             expect(randomAccount.user.roles.account).toBeDefined();
 			done();
@@ -58,7 +41,7 @@ describe("User API", function CompanyTestSuite() {
 	});
 
     it("create random manager", function(done) {
-		api.user.createRandomManager(app).then(function(randomManager) {
+		api.user.createRandomManager(server.app).then(function(randomManager) {
             expect(randomManager.user.email).toBeDefined();
             expect(randomManager.user.roles.manager).toBeDefined();
 			done();
@@ -66,19 +49,9 @@ describe("User API", function CompanyTestSuite() {
 	});
 
 
-	it("drop the test database", function(done) {
-		api.company.dropDb(app, testDbName, function() {
-			done();
-		});
-	});
-
-
-
-	it("should disconnect from the database", function(done) {
-		app.disconnect(function() {
-			done();
-		});
-	});
+	it('close the mock server', function(done) {
+        server.close(done);
+    });
 
 });
 
