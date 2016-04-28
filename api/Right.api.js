@@ -39,7 +39,7 @@ api.createRight = function(app, props) {
 
     return new Promise((resolve, reject) => {
         right.save().then(right => {
-            api.createRenewal(app, right).then(renewal => {
+            api.createRenewal(app, right).then(() => {
                 resolve(right);
             }).catch(reject);
         }).catch(reject);

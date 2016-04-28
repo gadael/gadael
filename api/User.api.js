@@ -183,7 +183,7 @@ api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtst
 
     return new Promise(function(resolve, reject) {
         api.createRandomAccount(app).then(function(randomUser) {
-            rightApi.addTestRight(app, randomUser.user, collectionProps, rightProps).then(collection => {
+            rightApi.addTestRight(app, randomUser.user, collectionProps, rightProps).then(() => {
                 randomUser.user.populate('roles.account', (err) => {
                     if (err) {
                         return reject(err);
