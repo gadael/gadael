@@ -70,6 +70,11 @@ function saveCalendar(service, params) {
 
                 calendar.set(fieldsToSet);
 
+                if ('workschedule' !== calendar.type) {
+                    calendar.halfDayHour = undefined;
+                    calendar.hoursPerDay = undefined;
+                }
+
                 calendar.save(function(err, calendar) {
                     if (service.handleMongoError(err)) {
                         downloadEvents(calendar, gt.gettext('The calendar has been modified'));

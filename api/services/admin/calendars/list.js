@@ -52,7 +52,7 @@ exports = module.exports = function(services, app) {
           
 
         service.resolveQuery(
-            query(service, params).select('name url type halfDayHour lastUpdate').sort('name'),
+            query(service, params).sort('name'),
             paginate
         );
 
