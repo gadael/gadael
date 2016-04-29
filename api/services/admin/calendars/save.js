@@ -35,10 +35,14 @@ function saveCalendar(service, params) {
         name: params.name, 
         url: params.url,
         type: params.type,
-        halfDayHour: params.halfDayHour,
         lastUpdate: new Date()  
     };
     
+    if ('workschedule' === params.type) {
+        fieldsToSet.halfDayHour = params.halfDayHour;
+        fieldsToSet.hoursPerDay = params.hoursPerDay;
+    }
+
     
     function downloadEvents(calendar, message)
     {
@@ -64,11 +68,7 @@ function saveCalendar(service, params) {
                     return service.forbidden(gt.gettext('The calendar is locked'));
                 }
 
-                calendar.name = params.name;
-                calendar.url = params.url;
-                calendar.type = params.type;
-                calendar.halfDayHour = params.halfDayHour;
-                calendar.lastUpdate = new Date();
+                calendar.set(fieldsToSet);
 
                 calendar.save(function(err, calendar) {
                     if (service.handleMongoError(err)) {
@@ -80,7 +80,10 @@ function saveCalendar(service, params) {
 
     } else {
 
-        CalendarModel.create(fieldsToSet, function(err, calendar) {
+        let calendar = new CalendarModel();
+        calendar.set(fieldsToSet);
+
+        calendar.save((err, calendar) => {
 
             if (service.handleMongoError(err)) {
                 downloadEvents(calendar, gt.gettext('The calendar has been created'));

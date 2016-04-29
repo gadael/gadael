@@ -27,7 +27,9 @@ exports = module.exports = function(params) {
 		// used for the default ics embeded in the app
 		locked: { type: Boolean, default: false },
 
-        halfDayHour: { type: Date, default: defaultHalfDay },
+        halfDayHour: { type: Date, default: defaultHalfDay }, // for workschedule
+
+        hoursPerDay: Number, // average hours per day for a workschedule
 
 		userCreated: { // admin who create the entry
 			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

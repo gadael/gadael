@@ -10,7 +10,7 @@
 		<input type="text" class="form-control" id="calendar_url" ng-model="calendar.url" />
 	</div>
 	
-	<div class="form-group">
+	<div class="form-group col-lg-6">
 		<p><strong translate>Calendar type:</strong></p>
 		<p>
 			<label><input type="radio" ng-model="calendar.type" value="workschedule" />
@@ -34,16 +34,23 @@
 		</p>
 	</div>
 
-    <div class="row">
-        <div class="form-group col-xs-4">
+    <div class="top30 col-lg-6" ng-if="calendar.type=='workschedule'">
+        <div class="form-group col-xs-6 col-lg-12">
             <label for="calendar_halfDayHour" translate>Half day hour</label>
             <input type="text" class="form-control" id="calendar_halfDayHour" bs-timepicker data-timeType="'string'" ng-model="calendar.halfDayHour" />
-        </div>
-
-        <div class="col-xs-8">
             <p translate>The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained.</p>
         </div>
+
+        <div class="form-group col-xs-6 col-lg-12">
+            <label for="calendar_hoursPerDay" translate>Average hours per day</label>
+            <input type="number" class="form-control" id="calendar_hoursPerDay" ng-model="calendar.hoursPerDay" step="any" />
+            <p translate>This value is used to establish a proportionality beetween rights in days and rights in hours</p>
+        </div>
     </div>
+
+
+
+
 
 	<button class="btn btn-primary" ng-click="saveCalendar()" translate>Save</button> 
 	<button class="btn btn-link" ng-click="back()" translate>Cancel</button>
