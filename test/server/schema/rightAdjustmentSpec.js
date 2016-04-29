@@ -76,7 +76,7 @@ describe('Right model', function() {
             var renewal = new rightRenewalModel();
 
             renewal.right = right1._id;
-            renewal.start = new Date();
+            renewal.start = new Date(2016,3,15,0,0,0,0);
             renewal.finish = new Date(renewal.start);
             renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
 
@@ -134,6 +134,7 @@ describe('Right model', function() {
 
     it('update adjustments if renewal is modified with less months', function(done) {
         renewal1.finish.setMonth(renewal1.finish.getMonth()-2);
+        console.log(renewal1.finish);
         renewal1.markModified('finish');
         renewal1.save(function(err, renewal) {
             expect(err).toEqual(null);
