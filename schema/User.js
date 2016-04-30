@@ -1,6 +1,8 @@
 'use strict';
 
 let Q = require('q');
+let bcrypt = require('bcrypt');
+let Charlatan = require('charlatan');
 
 /**
  * a user can be an account, a manager or an administrator
@@ -513,7 +515,7 @@ exports = module.exports = function(params) {
      * @param {function} done       callback function, receive error and hash as parameter
      */ 
     userSchema.statics.encryptPassword = function(password, done) {
-        var bcrypt = require('bcrypt');
+
         bcrypt.genSalt(10, function(err, salt) {
             if (err) {
                 return done(err);
@@ -531,7 +533,6 @@ exports = module.exports = function(params) {
      * @param {function} done       callback function
      */  
     userSchema.statics.validatePassword = function(password, hash, done) {
-        var bcrypt = require('bcrypt');
         bcrypt.compare(password, hash, done);
     };
   
@@ -545,7 +546,7 @@ exports = module.exports = function(params) {
      */  
     userSchema.statics.createRandom = function(password, done) {
 		
-		var Charlatan = require('charlatan');
+
 		var model = this;
 
 		this.encryptPassword(password, function(err, hash) {
