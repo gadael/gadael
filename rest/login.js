@@ -1,5 +1,9 @@
 'use strict';
 
+let async = require('async');
+let crypto = require('crypto');
+var util = require('util');
+var marked = require('marked');
 
 /**
  * Authenticate with a post and fields
@@ -60,7 +64,7 @@ exports.authenticate = function(req, res) {
 		  }
 		};
 
-		require('async').parallel({ 
+		async.parallel({
             ip: getIpCount,
             ipUser: getIpUserCount
         }, asyncFinally);
@@ -126,7 +130,7 @@ exports.forgotPassword = function(req, res, next) {
   });
 
   workflow.on('generateToken', function() {
-    var crypto = require('crypto');
+
     crypto.randomBytes(21, function(err, buf) {
       if (err) {
         return next(err);
@@ -159,7 +163,7 @@ exports.forgotPassword = function(req, res, next) {
 
       if (!user) {
 		var gt = req.app.utility.gettext;
-		var util = require('util');
+
 		workflow.outcome.alert.push({
 			type: 'danger',
 			message: util.format(gt.gettext('No user found with email %s'), req.body.email.toLowerCase())
@@ -176,8 +180,7 @@ exports.forgotPassword = function(req, res, next) {
   workflow.on('sendEmail', function(token, user) {
 	  
 	var gt = req.app.utility.gettext;  
-	var marked = require('marked');
-	var util = require('util');
+
 	
 	var email = {
         username: user.username,
@@ -214,8 +217,6 @@ Thanks,\n\
       text: textBody,
       html: htmlBody,
       success: function(message) {
-		  
-			var util = require('util');
 			var gt = req.app.utility.gettext;
 		  
 			workflow.outcome.alert.push({
@@ -348,175 +349,201 @@ exports.resetPassword = function(req, res) {
 
 
 exports.loginTwitter = function(req, res, next){
-  req._passport.instance.authenticate('twitter', function(err, user, info) {
-    if (!info || !info.profile) {
-      return res.redirect('/login/');
-    }
+    req._passport.instance.authenticate('twitter', function(err, user, info) {
 
-    req.app.db.models.User.findOne({ 'twitter.id': info.profile.id }, function(err, user) {
-      if (err) {
-        return next(err);
-      }
+        if (err) {
+            return next(err);
+        }
 
-      if (!user) {
-        res.render('login/index', {
-          oauthMessage: 'No users found linked to your Twitter account. You may need to create an account first.',
-          oauthTwitter: !!req.app.config.oauth.twitter.key,
-          oauthGitHub: !!req.app.config.oauth.github.key,
-          oauthFacebook: !!req.app.config.oauth.facebook.key,
-          oauthGoogle: !!req.app.config.oauth.google.key,
-          oauthTumblr: !!req.app.config.oauth.tumblr.key
-        });
-      }
-      else {
-        req.login(user, function(err) {
+        if (!info || !info.profile) {
+          return res.redirect('/login/');
+        }
+
+        req.app.db.models.User.findOne({ 'twitter.id': info.profile.id }, function(err, user) {
           if (err) {
             return next(err);
           }
 
-          //res.redirect(getReturnUrl(req));
+          if (!user) {
+            res.render('login/index', {
+              oauthMessage: 'No users found linked to your Twitter account. You may need to create an account first.',
+              oauthTwitter: !!req.app.config.oauth.twitter.key,
+              oauthGitHub: !!req.app.config.oauth.github.key,
+              oauthFacebook: !!req.app.config.oauth.facebook.key,
+              oauthGoogle: !!req.app.config.oauth.google.key,
+              oauthTumblr: !!req.app.config.oauth.tumblr.key
+            });
+          }
+          else {
+            req.login(user, function(err) {
+              if (err) {
+                return next(err);
+              }
+
+              //res.redirect(getReturnUrl(req));
+            });
+          }
         });
-      }
-    });
-  })(req, res, next);
+    })(req, res, next);
 };
 
 exports.loginGitHub = function(req, res, next){
-  req._passport.instance.authenticate('github', function(err, user, info) {
-    if (!info || !info.profile) {
-      return res.redirect('/login/');
-    }
+    req._passport.instance.authenticate('github', function(err, user, info) {
 
-    req.app.db.models.User.findOne({ 'github.id': info.profile.id }, function(err, user) {
-      if (err) {
-        return next(err);
-      }
+        if (!err) {
+          return next(err);
+        }
 
-      if (!user) {
-        res.render('login/index', {
-          oauthMessage: 'No users found linked to your GitHub account. You may need to create an account first.',
-          oauthTwitter: !!req.app.config.oauth.twitter.key,
-          oauthGitHub: !!req.app.config.oauth.github.key,
-          oauthFacebook: !!req.app.config.oauth.facebook.key,
-          oauthGoogle: !!req.app.config.oauth.google.key,
-          oauthTumblr: !!req.app.config.oauth.tumblr.key
-        });
-      }
-      else {
-        req.login(user, function(err) {
+        if (!info || !info.profile) {
+          return res.redirect('/login/');
+        }
+
+        req.app.db.models.User.findOne({ 'github.id': info.profile.id }, function(err, user) {
           if (err) {
             return next(err);
           }
 
-          //res.redirect(getReturnUrl(req));
+          if (!user) {
+            res.render('login/index', {
+              oauthMessage: 'No users found linked to your GitHub account. You may need to create an account first.',
+              oauthTwitter: !!req.app.config.oauth.twitter.key,
+              oauthGitHub: !!req.app.config.oauth.github.key,
+              oauthFacebook: !!req.app.config.oauth.facebook.key,
+              oauthGoogle: !!req.app.config.oauth.google.key,
+              oauthTumblr: !!req.app.config.oauth.tumblr.key
+            });
+          }
+          else {
+            req.login(user, function(err) {
+              if (err) {
+                return next(err);
+              }
+
+              //res.redirect(getReturnUrl(req));
+            });
+          }
         });
-      }
-    });
-  })(req, res, next);
+    })(req, res, next);
 };
 
 exports.loginFacebook = function(req, res, next){
-  req._passport.instance.authenticate('facebook', { callbackURL: '/login/facebook/callback/' }, function(err, user, info) {
-    if (!info || !info.profile) {
-      return res.redirect('/login/');
-    }
+    req._passport.instance.authenticate('facebook', { callbackURL: '/login/facebook/callback/' }, function(err, user, info) {
 
-    req.app.db.models.User.findOne({ 'facebook.id': info.profile.id }, function(err, user) {
-      if (err) {
-        return next(err);
-      }
+        if (err) {
+          return next(err);
+        }
 
-      if (!user) {
-        res.render('login/index', {
-          oauthMessage: 'No users found linked to your Facebook account. You may need to create an account first.',
-          oauthTwitter: !!req.app.config.oauth.twitter.key,
-          oauthGitHub: !!req.app.config.oauth.github.key,
-          oauthFacebook: !!req.app.config.oauth.facebook.key,
-          oauthGoogle: !!req.app.config.oauth.google.key,
-          oauthTumblr: !!req.app.config.oauth.tumblr.key
-        });
-      }
-      else {
-        req.login(user, function(err) {
+        if (!info || !info.profile) {
+          return res.redirect('/login/');
+        }
+
+        req.app.db.models.User.findOne({ 'facebook.id': info.profile.id }, function(err, user) {
           if (err) {
             return next(err);
           }
 
-          //res.redirect(getReturnUrl(req));
+          if (!user) {
+            res.render('login/index', {
+              oauthMessage: 'No users found linked to your Facebook account. You may need to create an account first.',
+              oauthTwitter: !!req.app.config.oauth.twitter.key,
+              oauthGitHub: !!req.app.config.oauth.github.key,
+              oauthFacebook: !!req.app.config.oauth.facebook.key,
+              oauthGoogle: !!req.app.config.oauth.google.key,
+              oauthTumblr: !!req.app.config.oauth.tumblr.key
+            });
+          }
+          else {
+            req.login(user, function(err) {
+              if (err) {
+                return next(err);
+              }
+
+              //res.redirect(getReturnUrl(req));
+            });
+          }
         });
-      }
-    });
-  })(req, res, next);
+    })(req, res, next);
 };
 
 exports.loginGoogle = function(req, res, next){
-  req._passport.instance.authenticate('google', { callbackURL: '/login/google/callback/' }, function(err, user, info) {
-    if (!info || !info.profile) {
-      return res.redirect('/login/');
-    }
+    req._passport.instance.authenticate('google', { callbackURL: '/login/google/callback/' }, function(err, user, info) {
 
-    req.app.db.models.User.findOne({ 'google.id': info.profile.id }, function(err, user) {
-      if (err) {
-        return next(err);
-      }
+        if (err) {
+          return next(err);
+        }
 
-      if (!user) {
-        res.render('login/index', {
-          oauthMessage: 'No users found linked to your Google account. You may need to create an account first.',
-          oauthTwitter: !!req.app.config.oauth.twitter.key,
-          oauthGitHub: !!req.app.config.oauth.github.key,
-          oauthFacebook: !!req.app.config.oauth.facebook.key,
-          oauthGoogle: !!req.app.config.oauth.google.key,
-          oauthTumblr: !!req.app.config.oauth.tumblr.key
-        });
-      }
-      else {
-        req.login(user, function(err) {
+        if (!info || !info.profile) {
+          return res.redirect('/login/');
+        }
+
+        req.app.db.models.User.findOne({ 'google.id': info.profile.id }, function(err, user) {
           if (err) {
             return next(err);
           }
 
-          //res.redirect(getReturnUrl(req));
+          if (!user) {
+            res.render('login/index', {
+              oauthMessage: 'No users found linked to your Google account. You may need to create an account first.',
+              oauthTwitter: !!req.app.config.oauth.twitter.key,
+              oauthGitHub: !!req.app.config.oauth.github.key,
+              oauthFacebook: !!req.app.config.oauth.facebook.key,
+              oauthGoogle: !!req.app.config.oauth.google.key,
+              oauthTumblr: !!req.app.config.oauth.tumblr.key
+            });
+          }
+          else {
+            req.login(user, function(err) {
+              if (err) {
+                return next(err);
+              }
+
+              //res.redirect(getReturnUrl(req));
+            });
+          }
         });
-      }
-    });
-  })(req, res, next);
+    })(req, res, next);
 };
 
+
 exports.loginTumblr = function(req, res, next){
-  req._passport.instance.authenticate('tumblr', { callbackURL: '/login/tumblr/callback/' }, function(err, user, info) {
-    if (!info || !info.profile) {
-      return res.redirect('/login/');
-    }
+    req._passport.instance.authenticate('tumblr', { callbackURL: '/login/tumblr/callback/' }, function(err, user, info) {
 
-    if (!info.profile.hasOwnProperty('id')) {
-      info.profile.id = info.profile.username;
-    }
+        if (err) {
+            return next(err);
+        }
 
-    req.app.db.models.User.findOne({ 'tumblr.id': info.profile.id }, function(err, user) {
-      if (err) {
-        return next(err);
-      }
+        if (!info || !info.profile) {
+            return res.redirect('/login/');
+        }
 
-      if (!user) {
-        res.render('login/index', {
-          oauthMessage: 'No users found linked to your Tumblr account. You may need to create an account first.',
-          oauthTwitter: !!req.app.config.oauth.twitter.key,
-          oauthGitHub: !!req.app.config.oauth.github.key,
-          oauthFacebook: !!req.app.config.oauth.facebook.key,
-          oauthGoogle: !!req.app.config.oauth.google.key,
-          oauthTumblr: !!req.app.config.oauth.tumblr.key
-        });
-      }
-      else {
-        req.login(user, function(err) {
+        if (!info.profile.hasOwnProperty('id')) {
+          info.profile.id = info.profile.username;
+        }
+
+        req.app.db.models.User.findOne({ 'tumblr.id': info.profile.id }, function(err, user) {
           if (err) {
             return next(err);
           }
 
-          //res.redirect(getReturnUrl(req));
+          if (!user) {
+            res.render('login/index', {
+              oauthMessage: 'No users found linked to your Tumblr account. You may need to create an account first.',
+              oauthTwitter: !!req.app.config.oauth.twitter.key,
+              oauthGitHub: !!req.app.config.oauth.github.key,
+              oauthFacebook: !!req.app.config.oauth.facebook.key,
+              oauthGoogle: !!req.app.config.oauth.google.key,
+              oauthTumblr: !!req.app.config.oauth.tumblr.key
+            });
+          }
+          else {
+            req.login(user, function(err) {
+              if (err) {
+                return next(err);
+              }
+
+              //res.redirect(getReturnUrl(req));
+            });
+          }
         });
-      }
-    });
-  })(req, res, next);
+    })(req, res, next);
 };
