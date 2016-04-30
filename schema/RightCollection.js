@@ -1,5 +1,9 @@
 'use strict';
 
+var async = require('async');
+var gt = require('./../modules/gettext');
+
+
 exports = module.exports = function(params) {
     var collectionSchema = new params.mongoose.Schema({
         name: { type: String, required: true, unique: true  },
@@ -117,8 +121,7 @@ exports = module.exports = function(params) {
 		
 		
 		var model = this;
-        var async = require('async');
-        var gt = require('./../modules/gettext');
+
 		
 		async.each([
             { name: gt.gettext('General regime 100%'), attendance: 100 },

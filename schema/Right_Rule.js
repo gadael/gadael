@@ -1,5 +1,7 @@
 'use strict';
 
+var gt = require('./../modules/gettext');
+
 
 /**
  * Right rules embeded into right document
@@ -52,7 +54,7 @@ exports = module.exports = function(params) {
      */
     rightRuleSchema.pre('save', function (next) {
 		
-        var gt = require('./../modules/gettext');
+
 		var rule = this;
         
         if (undefined === rule.interval || (undefined === rule.interval.min && undefined === rule.interval.max)) {

@@ -1,5 +1,8 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+const renewals = require('./renewals');
+
 
 exports = module.exports = function(services, app) {
 
@@ -28,7 +31,6 @@ exports = module.exports = function(services, app) {
         }
 
 
-        const gt = require('./../../../../modules/gettext');
 
 
         service.app.db.models.Account
@@ -48,7 +50,7 @@ exports = module.exports = function(services, app) {
 
                             document.right.populate('type', function() {
 
-                                var processRenewals = require('./renewals')(account.user.id, account);
+                                var processRenewals = renewals(account.user.id, account);
 
 
                                 var rightDocument = document.right;

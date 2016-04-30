@@ -1,5 +1,6 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
 
 
 /**
@@ -36,7 +37,6 @@ function saveRightType(service, params) {
         color: params.color
     };
     
-    const gt = require('./../../../../modules/gettext');
 
     if (params.id)
     {

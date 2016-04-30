@@ -50,9 +50,7 @@ function validate(service, params) {
  */  
 function saveCollection(service, params) {
 
-    const gt = require('./../../../../modules/gettext');
 
-    
     var RightCollection = service.app.db.models.RightCollection;
 
     if (params.id)

@@ -1,5 +1,8 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+const getApprovalSteps = require('../../../../modules/getApprovalSteps');
+
 
 exports = module.exports = function(services, app) {
     
@@ -13,7 +16,6 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
-        const gt = require('./../../../../modules/gettext');
 
         var filter = {
             _id: params.id,
@@ -74,8 +76,6 @@ exports = module.exports = function(services, app) {
                     gt.gettext('Start workflow to delete a confirmed absence')
                 );
 
-
-                var getApprovalSteps = require('../../../../modules/getApprovalSteps');
 
                 getApprovalSteps(document.user.id).then(function(approvalSteps) {
                     document.approvalSteps = approvalSteps;

@@ -1,5 +1,7 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+
 
 
 /**
@@ -24,8 +26,6 @@ function validate(service, params) {
  * @param {Object} params
  */  
 function saveCalendar(service, params) {
-
-    const gt = require('./../../../../modules/gettext');
 
     
     var CalendarModel = service.app.db.models.Calendar;

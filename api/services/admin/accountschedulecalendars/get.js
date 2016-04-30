@@ -1,5 +1,7 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+
 
 exports = module.exports = function(services, app) {
     
@@ -14,7 +16,6 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
         
 
-        const gt = require('./../../../../modules/gettext');
 
         service.app.db.models.AccountScheduleCalendar
         .findOne({ '_id' : params.id }, 'account calendar from to')

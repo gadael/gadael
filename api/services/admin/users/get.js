@@ -1,10 +1,11 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+const userComplete = require('../../../../modules/userComplete');
 
 
 exports = module.exports = function(services, app) {
 
-    const gt = require('./../../../../modules/gettext');
 
     
     var service = new services.get(app);
@@ -27,7 +28,7 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err))
             {
                 if (user) {
-                    require('../../../../modules/userComplete')(user).then(function(userObj) {
+                    userComplete(user).then(function(userObj) {
                         service.outcome.success = true;
                         service.deferred.resolve(userObj);
                     });

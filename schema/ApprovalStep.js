@@ -1,5 +1,8 @@
 'use strict';
 
+var gt = require('./../modules/gettext');
+
+
 exports = module.exports = function(params) {
 	
 	var mongoose = params.mongoose;
@@ -49,7 +52,7 @@ exports = module.exports = function(params) {
      * @return {string}
      */
     approvalStepSchema.methods.getDispStatus = function() {
-        var gt = require('./../modules/gettext');
+
 
         switch(this.status) {
             case 'waiting':     return gt.gettext('Waiting');

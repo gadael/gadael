@@ -1,5 +1,6 @@
 'use strict';
 
+var gt = require('./../modules/gettext');
 var Q = require('q');
 
 exports = module.exports = function(params) {
@@ -86,7 +87,7 @@ exports = module.exports = function(params) {
      * @return {String}
      */
     requestSchema.methods.getDispStatus = function getDispStatus() {
-        var gt = require('./../modules/gettext');
+
 
         if (null !== this.status.created) {
             switch(this.status.created) {

@@ -1,5 +1,8 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+
+
 
 exports = module.exports = function(services, app) {
 
@@ -21,11 +24,6 @@ exports = module.exports = function(services, app) {
             service.error('The id parameter is mandatory');
             return service.deferred.promise;
         }
-
-
-
-        const gt = require('./../../../../modules/gettext');
-
 
 
 

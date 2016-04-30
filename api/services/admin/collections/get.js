@@ -1,9 +1,12 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+
+
 
 exports = module.exports = function(services, app) {
     
-    const gt = require('./../../../../modules/gettext');
+
 
     var service = new services.get(app);
     

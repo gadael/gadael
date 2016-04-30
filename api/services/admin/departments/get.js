@@ -1,10 +1,11 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+
+
 
 exports = module.exports = function(services, app) {
     
-    var Q = require('q');
-    const gt = require('./../../../../modules/gettext');
 
     var service = new services.get(app);
     
@@ -45,7 +46,7 @@ exports = module.exports = function(services, app) {
                     var managersPromise = document.getManagers();
                     var subDepartmentsPromise = document.getSubTree();
 
-                    Q.all([managersPromise, subDepartmentsPromise, ancestorsPromise]).then(function(arr) {
+                    Promise.all([managersPromise, subDepartmentsPromise, ancestorsPromise]).then(function(arr) {
                         document = document.toObject();
                         document.ancestors = [];
                         document.children = [];
@@ -66,7 +67,7 @@ exports = module.exports = function(services, app) {
 
                         // get managers for each ancestors
 
-                        Q.all(ancestorsManagersPromises).then(function(ancestorsManagers) {
+                        Promise.all(ancestorsManagersPromises).then(function(ancestorsManagers) {
                             for (var i=0; i<ancestorsManagers.length; i++) {
                                 addManagers(document.ancestors[i], ancestorsManagers[i]);
                             }

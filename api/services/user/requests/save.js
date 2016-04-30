@@ -1,5 +1,11 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+let Q = require('q');
+let getApprovalSteps = require('../../../../modules/getApprovalSteps');
+let saveAbsence = require('./saveAbsence');
+var saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
+var saveWorkperiodRecover = require('./saveWorkperiodRecover');
 
 
 /**
@@ -32,9 +38,9 @@ function validate(service, params)
  */
 function prepareRequestFields(service, params, user)
 {
-    var Q = require('q');
+
     var deferred = Q.defer();
-    let getApprovalSteps = require('../../../../modules/getApprovalSteps');
+
 
 
 
@@ -74,7 +80,7 @@ function prepareRequestFields(service, params, user)
 
         if (undefined !== params.absence) {
 
-            let saveAbsence = require('./saveAbsence');
+
 
             saveAbsence.getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
 
@@ -120,7 +126,7 @@ function prepareRequestFields(service, params, user)
                 return deferred.reject('Unsupported parameter for time_saving_deposit');
             }
 
-            var saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
+
 
             saveTimeSavingDeposit.getFieldsToSet(service, params.time_saving_deposit[0]).then(function(tsdFields) {
                 fieldsToSet.time_saving_deposit = [tsdFields];
@@ -138,7 +144,7 @@ function prepareRequestFields(service, params, user)
                 return deferred.reject('Unsupported parameter for workperiod_recover');
             }
 
-            var saveWorkperiodRecover = require('./saveWorkperiodRecover');
+
 
             saveWorkperiodRecover.getEventsPromise(service, params.events).then(function(events) {
                 fieldsToSet.events = events;
@@ -166,8 +172,6 @@ function prepareRequestFields(service, params, user)
  * @param {Object} params
  */  
 function saveRequest(service, params) {
-
-    const gt = require('./../../../../modules/gettext');
 
     
     var RequestModel = service.app.db.models.Request;
@@ -202,12 +206,12 @@ function saveRequest(service, params) {
 
 
                         if (document.absence !== undefined) {
-                            require('./saveAbsence').saveEmbedEvents(service, document);
+                            saveAbsence.saveEmbedEvents(service, document);
                         }
 
                         if (document.workperiod_recover !== undefined) {
                             // create right if no approval
-                            require('./saveWorkperiodRecover').createRight(user, document);
+                            saveWorkperiodRecover.createRight(user, document);
                         }
 
                         // Absence: Do not wait for event update?

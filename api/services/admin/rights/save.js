@@ -1,5 +1,7 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
+
 
 
 /**
@@ -31,7 +33,6 @@ function validate(service, params) {
  */  
 function saveRight(service, params) {
 
-    const gt = require('./../../../../modules/gettext');
     
     var RightModel = service.app.db.models.Right;
     

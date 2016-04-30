@@ -1,5 +1,6 @@
 'use strict';
 
+const gt = require('./../../../../modules/gettext');
 
 
 /**
@@ -21,7 +22,6 @@ function validate(service, params)
 
 function resolve(service, user, account)
 {
-    const gt = require('./../../../../modules/gettext');
 
     // do not return the full user document for security reasons
 
@@ -60,9 +60,6 @@ function resolve(service, user, account)
  * @param {Object} params
  */
 function saveUser(service, params) {
-
-
-
 
 
     var UserModel = service.app.db.models.User;
