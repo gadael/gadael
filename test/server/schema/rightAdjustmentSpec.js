@@ -134,7 +134,6 @@ describe('Right model', function() {
 
     it('update adjustments if renewal is modified with less months', function(done) {
         renewal1.finish.setMonth(renewal1.finish.getMonth()-2);
-        console.log(renewal1.finish);
         renewal1.markModified('finish');
         renewal1.save(function(err, renewal) {
             expect(err).toEqual(null);
