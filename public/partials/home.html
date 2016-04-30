@@ -30,8 +30,16 @@
 
 
         <div class="col-lg-4 col-sm-6 hidden-xs">
-            <h3 class="text-info text-center donutcharttitle">{{renewalChart.availableDays|number}}
-                <span translate translate-n="renewalChart.availableDays" translate-plural="days">day</span><br />
+            <h3 class="text-info text-center donutcharttitle">
+                <span ng-if="renewalChart.availableDays!=0">
+                    {{renewalChart.availableDays|number}}
+                    <span translate translate-n="renewalChart.availableDays" translate-plural="days">day</span>,
+                </span>
+                <span ng-if="renewalChart.availableHours!=0">
+                    {{renewalChart.availableHours|number}}
+                    <span translate translate-n="renewalChart.availableHours" translate-plural="hours">hour</span>
+                </span>
+                <br />
                 <small>{{renewalChart.percentDays|number}}% consumed</small>
             </h3>
 
