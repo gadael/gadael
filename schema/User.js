@@ -219,6 +219,10 @@ exports = module.exports = function(params) {
 
         this.populate('roles.manager', function(err, populatedUserDoc) {
 
+            if (err) {
+                return deferred.reject(err);
+            }
+
             populatedUserDoc.isManagerOf(user).then(function(status) {
                 if (!status) {
                     return deferred.resolve(false);
