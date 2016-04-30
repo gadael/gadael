@@ -1,6 +1,9 @@
 'use strict';
 
-var api = {
+const helpers = require('../rest/mockServer');
+
+
+const api = {
     company: require('../../../api/Company.api.js'),
     user: require('../../../api/User.api.js')
 };
@@ -12,9 +15,6 @@ describe("User API", function UserTestSuite() {
     let server;
 
     beforeEach(function(done) {
-
-        var helpers = require('../rest/mockServer');
-
         helpers.mockServer('UserSpecTestDatabase', function(_mockServer) {
             server = _mockServer;
             done();

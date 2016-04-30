@@ -1,5 +1,28 @@
 'use strict';
 
+
+let models = require('../models');
+let helmet = require('helmet');
+let routes = require('../rest/routes');
+let apputil = require('../modules/apputil');
+let passportHelper = require('../modules/passport');
+let connectMongodbSession = require('connect-mongodb-session');
+let passport = require('passport');
+let express = require('express');
+let session = require('express-session');
+let async = require('async');
+var mongoose = require('mongoose');
+let csrf = require('csurf');
+let bodyParser = require('body-parser');
+let morgan = require('morgan');
+let compression = require('compression');
+let serveStatic = require('serve-static');
+let cookieParser = require('cookie-parser');
+let http = require('http');
+
+
+
+
 /**
  * Load models into an external mongo connexion
  * for actions on databases
@@ -9,8 +32,7 @@
  */  
 function gadael_loadMockModels(app, db)
 {
-	//config data models
-	var models = require('../models');
+
 	
 	models.requirements = {
 		mongoose: app.mongoose,
@@ -151,7 +173,7 @@ exports = module.exports = {
 
             // create the company entry
 
-            var async = require('async');
+
 
             var companyDoc = new db.models.Company(company);
             var typeModel = db.models.Type;
@@ -217,7 +239,7 @@ exports = module.exports = {
      */
     bindToDb: function bindToDb(app, dbName, callback) {
 
-        var mongoose = require('mongoose');
+
         app.mongoose = mongoose;
 
         //setup mongoose
@@ -264,7 +286,6 @@ exports = module.exports = {
         var api = this;
         this.listDatabases(app, function(databases) {
 
-            var async = require('async');
 
             var asyncTasks = [];
             for(var i=0; i<databases.length; i++) {
@@ -318,15 +339,13 @@ exports = module.exports = {
      */
     getExpress: function getExpress(config, models) {
 
-        let express = require('express'),
-        session = require('express-session'),
-        mongoStore = require('connect-mongodb-session')(session),
-        passport = require('passport');
+        let mongoStore = connectMongodbSession(session);
+
 
         let csrfProtection = null;
 
         if (config.csrfProtection) {
-            let csrf = require('csurf');
+
             csrfProtection = csrf({ cookie: true });
         }
 
@@ -355,17 +374,15 @@ exports = module.exports = {
 
         //middleware
 
-        let bodyParser = require('body-parser');
-
         if (config.loghttp) {
             // logging HTTP requests
-            app.use(require('morgan')('dev'));
+            app.use(morgan('dev'));
         }
 
-        app.use(require('compression')());
-        app.use(require('serve-static')(config.staticPath));
+        app.use(compression());
+        app.use(serveStatic(config.staticPath));
         app.use(bodyParser.json());
-        app.use(require('cookie-parser')());
+        app.use(cookieParser());
 
 
         // the mongostore lock the gracefull stop of the app
@@ -383,7 +400,7 @@ exports = module.exports = {
         app.use(passport.initialize());
         app.use(passport.session());
 
-        let helmet = require('helmet');
+
         helmet.defaults(app);
 
         if (null !== csrfProtection) {
@@ -411,12 +428,12 @@ exports = module.exports = {
 
 
         //setup passport
-        require('../modules/passport')(app, passport);
+        passportHelper(app, passport);
 
         //setup routes
-        require('../rest/routes')(app, passport);
+        routes(app, passport);
 
-        require('../modules/apputil')(app);
+        apputil(app);
 
 
         return app;
@@ -433,7 +450,7 @@ exports = module.exports = {
      */
     startServer: function startServer(app, callback) {
 
-        var http = require('http');
+
         var server = http.createServer(app);
 
         server.listen(app.config.port);

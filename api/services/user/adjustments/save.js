@@ -1,7 +1,7 @@
 'use strict';
 
 const gt = require('./../../../../modules/gettext');
-
+const util = require('util');
 
 
 /**
@@ -33,7 +33,7 @@ function saveAdjustment(service, params) {
 
 
     var Adjustment = service.app.db.models.Adjustment;
-    var util = require('util');
+
 
 
     if (params._id) {
