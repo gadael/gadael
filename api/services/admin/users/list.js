@@ -1,6 +1,5 @@
 'use strict';
 
-let Q = require('q');
 
 
 /**

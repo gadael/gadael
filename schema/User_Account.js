@@ -431,6 +431,7 @@ exports = module.exports = function(params) {
 
     /**
      * Get the schedule calendar for a specific date
+     * @param {Date} moment
      * @return {Promise} resolve to a calendar document or null
      */
     accountSchema.methods.getScheduleCalendar = function(moment) {

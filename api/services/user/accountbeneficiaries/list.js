@@ -1,6 +1,9 @@
 'use strict';
 
 let Q = require('q');
+let async = require('async');
+let renewalsMod = require('./renewals');
+
 
 /**
  * The user account beneficiaries list service
@@ -82,11 +85,11 @@ exports = module.exports = function(services, app) {
      */
     function resolveAccountRights(account, user, beneficiaries)
     {
-        var async = require('async');
+
 
         var output = [];
 
-        var processRenewals = require('./renewals')(user, account);
+        var processRenewals = renewalsMod(user, account);
 
 
         async.each(beneficiaries, function(beneficiaryDocument, cb) {

@@ -452,6 +452,56 @@ exports = module.exports = function(params) {
         return deferred.promise;
     };
 
+
+    /**
+     * A ratio to convert quantities in day
+     * if the associated right is in days, this will always be 1
+     * if the associated right is in hour, the ratio will be the one from the working times calendar associated to the user
+     * on the current date if current date is in the renewal period or else the finish date of the renewal period
+     *
+     * @param {User} user
+     *
+     * @returns {Promise} Number
+     */
+    rightRenewalSchema.methods.getDaysRatio = function(user) {
+
+        let renewal = this;
+        let now = new Date();
+        let workingTimesDate;
+
+        if (renewal.start <= now && renewal.finish >= now) {
+            workingTimesDate = now;
+        } else {
+            workingTimesDate = renewal.finish;
+        }
+
+        return new Promise((resolve, reject) => {
+
+            if (!renewal.populated('right')) {
+                throw new Error('right must be populated');
+            }
+
+            if (!user.populated('roles.account')) {
+                throw new Error('roles.account must be populated');
+            }
+
+            if ('D' === renewal.right.quantity_unit) {
+                return resolve(1);
+            }
+
+            user.roles.account.getScheduleCalendar(workingTimesDate).then(calendar => {
+
+                if (null === calendar) {
+                    // no schedule calendar on period
+                    return resolve(0);
+                }
+
+                resolve(1/calendar.hoursPerDay);
+
+            }).catch(reject);
+        });
+    };
+
         
     
     /**
@@ -496,18 +546,31 @@ exports = module.exports = function(params) {
             deferred.reject = reject;
         });
 
-        Promise.all([
-            this.getUserQuantity(user),
-            this.getUserConsumedQuantity(user),
-            this.getUserTimeSavingDepositsQuantity(user)
-        ]).then(function(arr) {
-            deferred.resolve({
-                initial: arr[0],
-                consumed: arr[1],
-                deposits: arr[2],
-                available: (arr[0] - arr[1] + arr[2])
-            });
-        }).catch(deferred.reject);
+        let renewal = this;
+
+        user.populate('roles.account', (err) => {
+
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            Promise.all([
+                renewal.getUserQuantity(user),
+                renewal.getUserConsumedQuantity(user),
+                renewal.getUserTimeSavingDepositsQuantity(user),
+                renewal.getDaysRatio(user)
+            ]).then(function(arr) {
+                deferred.resolve({
+                    initial: arr[0],
+                    consumed: arr[1],
+                    deposits: arr[2],
+                    available: (arr[0] - arr[1] + arr[2]),
+                    daysratio: arr[3]
+                });
+            }).catch(deferred.reject);
+        });
+
+
 
         return deferred.promise;
     };

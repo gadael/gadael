@@ -1,8 +1,10 @@
+'use strict';
+
+let async = require('async');
+
 exports = module.exports = function(user, account) {
 
-    'use strict';
 
-    var async = require('async');
 
     /**
      * Get the promise for the available quantity
@@ -45,6 +47,7 @@ exports = module.exports = function(user, account) {
                 renewalObj.initial_quantity = stat.initial;
                 renewalObj.consumed_quantity = stat.consumed;
                 renewalObj.available_quantity = stat.available;
+                renewalObj.daysRatio = stat.daysratio;
 
                 renewalObj.initial_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.initial_quantity);
                 renewalObj.consumed_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.consumed_quantity);
