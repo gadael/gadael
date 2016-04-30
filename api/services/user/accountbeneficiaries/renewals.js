@@ -33,6 +33,8 @@ exports = module.exports = function(user, account) {
      */
     function processRenewals(rightDocument, beneficiary, renewals, callback)
     {
+        beneficiary.daysRatio = 1;
+
         async.each(renewals, function(renewalDocument, renewalCallback) {
             var p = getRenewalQuantity(rightDocument, renewalDocument);
 
@@ -59,6 +61,9 @@ exports = module.exports = function(user, account) {
                 beneficiary.consumed_quantity += stat.consumed;
                 beneficiary.available_quantity += stat.available;
 
+                if (stat.daysratio && (!beneficiary.daysRatio || renewalObj.finish > new Date())) {
+                    beneficiary.daysRatio = stat.daysratio;
+                }
 
 
                 renewalCallback();

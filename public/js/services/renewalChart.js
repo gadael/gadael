@@ -29,7 +29,7 @@ define(function() {
                 },
                 yFunction: function() {
                     return function(d) {
-                        return d.available_quantity;
+                        return (d.available_quantity);
                     };
                 },
                 colorFunction: function() {
@@ -56,10 +56,7 @@ define(function() {
                 var consumedHours = 0;
                 var consumedDays = 0;
 
-                /**
-                 * Items to display in hour chart
-                 */
-                var hours = [];
+
 
                 /**
                  * Items to display in day charts
@@ -105,26 +102,28 @@ define(function() {
                 }
 
 
+                var i, b;
 
+                for(i=0; i<beneficiaries.length; i++) {
 
-                for(var i=0; i<beneficiaries.length; i++) {
+                    b= beneficiaries[i];
 
-                    addRenewalIndex(beneficiaries[i]);
+                    addRenewalIndex(b);
 
 
                     switch(beneficiaries[i].right.quantity_unit) {
                         case 'H':
-                            $scope.renewalChart.availableHours += beneficiaries[i].available_quantity;
-                            consumedHours += beneficiaries[i].consumed_quantity;
-                            totalHours += beneficiaries[i].initial_quantity;
-                            hours.push(beneficiaries[i]);
+                            $scope.renewalChart.availableHours += b.available_quantity;
+                            consumedHours += b.consumed_quantity;
+                            totalHours += b.initial_quantity;
+                            days.push(b);
                             break;
 
                         case 'D':
-                            $scope.renewalChart.availableDays += beneficiaries[i].available_quantity;
-                            consumedDays += beneficiaries[i].consumed_quantity;
-                            totalDays += beneficiaries[i].initial_quantity;
-                            days.push(beneficiaries[i]);
+                            $scope.renewalChart.availableDays += b.available_quantity;
+                            consumedDays += b.consumed_quantity;
+                            totalDays += b.initial_quantity;
+                            days.push(b);
                             break;
                     }
                 }
@@ -161,14 +160,6 @@ define(function() {
                         };
 
 
-                if (consumedHours > 0) {
-                    hours.push({
-                        available_quantity: consumedHours,
-                        available_quantity_dispUnit: gettextCatalog.getPlural(consumedHours, 'Hour', 'Hours'),
-                        right: consumedRight
-                    });
-                }
-
                 if (consumedDays > 0) {
                     days.push({
                         available_quantity: consumedDays,
@@ -176,9 +167,6 @@ define(function() {
                         right: consumedRight
                     });
                 }
-
-                $scope.renewalChart.hours = hours;
-                $scope.renewalChart.percentHours = Math.round(consumedHours*100/totalHours);
 
                 $scope.renewalChart.days = days;
                 $scope.renewalChart.percentDays = Math.round(consumedDays*100/totalDays);

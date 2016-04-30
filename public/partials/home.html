@@ -9,16 +9,18 @@
         <h2 translate>My account</h2>
 
 
-        <div class="col-sm-4 gadael-list-rows">
-            <div class="row" ng-repeat="renewal in renewals">
-                <strong translate>Up to {{renewal.finish|date}}</strong>
+        <div class="col-lg-8 col-sm-6 col-xs-12">
+            <div class="gadael-list-rows">
+                <div class="row" ng-repeat="renewal in renewals">
+                    <strong translate>Up to {{renewal.finish|date}}</strong>
 
-                <div ng-repeat="beneficiary in renewal.beneficiaries" class="row">
-                    <div class="col-xs-3">{{beneficiary.available_quantity|number}} {{beneficiary.available_quantity_dispUnit}}</div>
-                    <div class="col-xs-9">
-                        <a ng-href="#/account/beneficiaries/{{beneficiary._id}}">
-                            <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}
-                        </a>
+                    <div ng-repeat="beneficiary in renewal.beneficiaries" class="row">
+                        <div class="col-xs-3">{{beneficiary.available_quantity|number}} {{beneficiary.available_quantity_dispUnit}}</div>
+                        <div class="col-xs-9">
+                            <a ng-href="#/account/beneficiaries/{{beneficiary._id}}">
+                                <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -27,7 +29,7 @@
 
 
 
-        <div class="col-sm-4 hidden-xs">
+        <div class="col-lg-4 col-sm-6 hidden-xs">
             <h3 class="text-info text-center donutcharttitle">{{renewalChart.availableDays|number}}
                 <span translate translate-n="renewalChart.availableDays" translate-plural="days">day</span><br />
                 <small>{{renewalChart.percentDays|number}}% consumed</small>
@@ -52,31 +54,7 @@
 
         </div>
 
-        <div class="col-sm-4 hidden-xs">
 
-            <h3 class="text-info text-center donutcharttitle">{{renewalChart.availableHours|number}}
-                <span translate translate-n="renewalChart.availableHours" translate-plural="hours">hour</span><br />
-                <small>{{renewalChart.percentHours|number}}% consumed</small>
-            </h3>
-
-            <nvd3-pie-chart
-                data="renewalChart.hours"
-                id="hoursChart"
-                width="400"
-                height="400"
-                x="renewalChart.xFunction()"
-                y="renewalChart.yFunction()"
-                color="renewalChart.colorFunction()"
-                noData="'No ongoing renewal with rights'"
-                tooltips="true"
-                tooltipcontent="renewalChart.toolTipContentFunction()"
-                donut="true"
-                showLabels="true"
-                >
-                <svg></svg>
-            </nvd3-pie-chart>
-
-        </div>
 
     </div>
 
@@ -101,7 +79,7 @@
 
 </div>
 
-<div class="top30 gadael-department" ng-if="sessionUser.department">
+<div class="top30 col-xs-12 gadael-department" ng-if="sessionUser.department">
 
     <h3><i class="fa fa-calendar text-info"></i> <span translate>My department: {{sessionUser.department.name}}</span></h3>
 
