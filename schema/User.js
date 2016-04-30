@@ -1,5 +1,7 @@
 'use strict';
 
+let Q = require('q');
+
 /**
  * a user can be an account, a manager or an administrator
  * 
@@ -92,7 +94,7 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.getDepartmentsAncestors = function() {
 
-        var Q = require('q');
+
 
         if (!this.department) {
             return Q.fcall(function () {
@@ -146,7 +148,6 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.isManagerOf = function(user) {
 
-        var Q = require('q');
         var manager = this.roles.manager;
 
         if (!manager) {
@@ -201,7 +202,6 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.canSpoofUser = function(user) {
 
-        var Q = require('q');
         var deferred = Q.defer();
 
         if (this.roles.admin) {
@@ -311,7 +311,6 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.saveAdmin = function(adminProperties) {
 
-        var Q = require('q');
         var deferred = Q.defer();
 
         this.save(function(err, user) {
@@ -370,7 +369,6 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.saveAccount = function(accountProperties) {
 
-        var Q = require('q');
         var deferred = Q.defer();
 
         this.save(function(err, user) {
@@ -425,7 +423,6 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.saveManager = function(managerProperties) {
 
-        var Q = require('q');
         var deferred = Q.defer();
 
         this.save(function(err, user) {
@@ -585,7 +582,6 @@ exports = module.exports = function(params) {
             moment = new Date();
         }
 
-        var Q = require('q');
         var deferred = Q.defer();
 
         params.db.models.AccountCollection.findOne()

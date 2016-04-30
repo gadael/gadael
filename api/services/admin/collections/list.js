@@ -1,5 +1,7 @@
 'use strict';
 
+let async = require('async');
+
 
 /**
  * The Admin collections list service
@@ -67,13 +69,17 @@ exports = module.exports = function(services, app) {
 
         query(service, params, (err, find) => {
 
+            if (err) {
+                return service.deferred.reject(err);
+            }
+
             service.resolveQuery(
                 find.select('name attendance businessDays').sort('name'),
                 paginate,
                 function(err, docs) {
                     if (service.handleMongoError(err)) {
 
-                        var async = require('async');
+
                         var collObj;
                         var collectionObjects = [];
 

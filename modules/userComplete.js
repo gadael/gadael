@@ -1,5 +1,7 @@
 'use strict';
 
+let Q = require('q');
+
 /**
  * Add informations to the user object
  * module used by the admin users service, for get and list
@@ -12,7 +14,6 @@
 exports = module.exports = function userComplete(userDoc)
 {
     var user = userDoc.toObject();
-    var Q = require('q');
     var deferred = Q.defer();
 
     if (!userDoc.roles.account && !userDoc.roles.manager) {
@@ -37,7 +38,7 @@ exports = module.exports = function userComplete(userDoc)
 
 
 
-    Q.all([
+    Promise.all([
         collectionPromise,
         calendarPromise,
         departmentsPromise
@@ -64,7 +65,7 @@ exports = module.exports = function userComplete(userDoc)
 
             user.roles.manager.department = [];
 
-            Q.all(usersPromises).then(function(usersResults) {
+            Promise.all(usersPromises).then(function(usersResults) {
                 for (var i=0; i<departments.length; i++) {
                     department = departments[i].toObject();
                     department.members = usersResults[i].length;

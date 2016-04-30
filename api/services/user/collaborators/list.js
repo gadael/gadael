@@ -7,7 +7,7 @@
  * a property on each collaborator contain the list of events between the two dates given in parameter
  */
 
-var Q = require('q');
+let Q = require('q');
 
 
 
@@ -295,7 +295,7 @@ exports = module.exports = function(services, app) {
                 );
             });
 
-            Q.all(promisedWorkingTimes).then(function(workingTimes) {
+            Promise.all(promisedWorkingTimes).then(function(workingTimes) {
 
 
 

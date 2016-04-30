@@ -1,6 +1,6 @@
 'use strict';
 
-var Q = require('q');
+let Q = require('q');
 
 /**
  * @throws Error
@@ -140,7 +140,7 @@ function getEventsPromise(service, param)
 
     var eventIds = [];
 
-    Q.all(eventPromises).then(function(events) {
+    Promise.all(eventPromises).then(function(events) {
         events.forEach(function(event) {
             eventIds.push(event);
         });

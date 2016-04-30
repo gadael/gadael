@@ -1,5 +1,6 @@
 'use strict';
 
+let Q = require('q');
 
 /**
  * The Admin beneficiaries list service
@@ -21,7 +22,7 @@
 exports = module.exports = function(services, app) {
 
     var service = new services.list(app);
-    var Q = require('q');
+
 
 
 
@@ -135,7 +136,7 @@ exports = module.exports = function(services, app) {
                             populatedTypePromises.push(deferred.promise);
                         }
 
-                        Q.all(populatedTypePromises).then(function() {
+                        Promise.all(populatedTypePromises).then(function() {
 
                             resolveBeneficiaries(docs);
 

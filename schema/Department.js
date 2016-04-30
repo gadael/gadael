@@ -1,6 +1,6 @@
 'use strict';
 
-var Q = require('q');
+let Q = require('q');
 
 exports = module.exports = function(params) {
 

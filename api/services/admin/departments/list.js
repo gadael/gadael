@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * The Admin department list service
  */
@@ -34,7 +33,7 @@ var query = function(service, params) {
 exports = module.exports = function(services, app) {
     
     var service = new services.list(app);
-    var Q = require('q');
+
     
     /**
      * Call the departments list service
@@ -58,7 +57,7 @@ exports = module.exports = function(services, app) {
                     return o;
                 });
 
-                Q.all(subtreePromises).then(function(resolvedTrees) {
+                Promise.all(subtreePromises).then(function(resolvedTrees) {
                     for (var i=0; i<objects.length; i++) {
                         objects[i].children = resolvedTrees[i];
                     }

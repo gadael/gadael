@@ -1,7 +1,7 @@
 'use strict';
 
-var gt = require('./../modules/gettext');
-var Q = require('q');
+const gt = require('./../modules/gettext');
+let Q = require('q');
 
 exports = module.exports = function(params) {
 	
@@ -478,7 +478,7 @@ exports = module.exports = function(params) {
             promises.push(this.events[i].save());
         }
 
-        return Q.all(promises);
+        return Promise.all(promises);
     };
 
 

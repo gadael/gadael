@@ -1,5 +1,8 @@
 'use strict';
 
+let Q = require('q');
+
+
 /**
  * Get approvaSteps to init a workflow
  * @param {User} user       Request owner
@@ -7,7 +10,6 @@
  */
 exports = module.exports = function getApprovalStepsModule(user) {
 
-    var Q = require('q');
 
 
     function getStepPromise(department)

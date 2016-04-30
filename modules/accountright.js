@@ -4,7 +4,7 @@
  */
 
 
-var Q = require('q');
+let Q = require('q');
 
 /**
  * This object represent one right associated to one user account

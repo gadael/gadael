@@ -1,5 +1,7 @@
 'use strict';
 
+let Q = require('q');
+
 
 
 /**
@@ -270,8 +272,6 @@ mockServer.prototype.close = function(doneExit) {
  */
 mockServer.prototype.deleteAdminAccountIfExists = function() {
 
-    var Q = require('q');
-
     var userModel = this.app.db.models.User;
 
     return Q(userModel.remove({ email: 'admin@example.com' }).exec());
@@ -285,9 +285,7 @@ mockServer.prototype.deleteAdminAccountIfExists = function() {
  * @return {Promise}
  */
 mockServer.prototype.createAdminSession = function() {
-    
-    var Q = require('q');
-    
+
     var deferred = Q.defer();
     var userModel = this.app.db.models.User;
     var server = this;
@@ -363,7 +361,7 @@ mockServer.prototype.createAdminSession = function() {
 
 mockServer.prototype.createUserAccountRole = function(department, nickname, serverProperty) {
 
-    var Q = require('q');
+
 
     var deferred = Q.defer();
     var userModel = this.app.db.models.User;
@@ -454,7 +452,7 @@ mockServer.prototype.createUserStranger = function(department) {
 mockServer.prototype.createUserManager = function(memberDepartment, managerDepartment) {
 
 
-    var Q = require('q');
+
 
     var deferred = Q.defer();
     var userModel = this.app.db.models.User;
@@ -563,14 +561,8 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
  */
 mockServer.prototype.authenticateAccount = function(account) {
 
-
-
-    var Q = require('q');
     var deferred = Q.defer();
     var server = this;
-
-
-
 
     server.post('/rest/login', {
         'username': account.user.email,
@@ -597,7 +589,6 @@ mockServer.prototype.authenticateAccount = function(account) {
  */
 mockServer.prototype.createAccountSession = function() {
 
-    var Q = require('q');
     var deferred = Q.defer();
     var server = this;
 

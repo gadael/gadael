@@ -1,5 +1,7 @@
 'use strict';
 
+let Q = require('q');
+
 
 /**
  * The Admin users list service
@@ -103,10 +105,9 @@ exports = module.exports = function(services, app) {
                     for(var i=0; i<docs.length; i++) {
                         promises.push(userComplete(docs[i]));
                     }
+
                     
-                    var Q = require('q');
-                    
-                    Q.all(promises).then(function(objects) {
+                    Promise.all(promises).then(function(objects) {
                         service.outcome.success = true;
                         service.deferred.resolve(objects);
                     }).catch(function(err) {

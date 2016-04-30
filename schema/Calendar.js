@@ -1,3 +1,7 @@
+'use strict';
+
+let Q = require('q');
+let ical = require('ical');
 
 
 /**
@@ -10,8 +14,6 @@
  */  
 exports = module.exports = function(params) {
 
-    'use strict';
-	
 	var mongoose = params.mongoose;
 
     var defaultHalfDay = new Date();
@@ -49,8 +51,7 @@ exports = module.exports = function(params) {
 	 */ 
 	calendarSchema.methods.downloadEvents = function() {
 
-        var Q = require('q');
-		var ical = require('ical');
+
 		var calendar = this;
         
         var deferred = Q.defer();

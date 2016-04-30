@@ -1,5 +1,6 @@
 'use strict';
 
+let Q = require('q');
 
 /**
  * The user available time saving accounts for the current date
@@ -21,7 +22,7 @@
 exports = module.exports = function(services, app) {
 
     var service = new services.list(app);
-    var Q = require('q');
+
 
 
     function getAccount(accountId)
