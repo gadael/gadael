@@ -45,7 +45,7 @@
 
                 <p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
 
-                <p><span translate>Department:</span> {{user.department.name}}</p>
+                <p ng-if="user.department"><span translate>Department:</span> <a href="#/admin/departments/{{user.department._id}}">{{user.department.name}}</a></p>
             </div>
 
             <div class="col-xs-2 text-right">
