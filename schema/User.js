@@ -3,6 +3,8 @@
 let Q = require('q');
 let bcrypt = require('bcrypt');
 let Charlatan = require('charlatan');
+let gt = require('./../modules/gettext');
+let util = require('util');
 
 /**
  * a user can be an account, a manager or an administrator
@@ -38,13 +40,83 @@ exports = module.exports = function(params) {
 	});
   
 
+    /**
+     * Pre-save hook
+     * @param {function} next   Callback
+     */
     userSchema.pre('save', function(next) {
-        // if isActive is modified, create or close a validInterval
+
+        this.fixValidIntervalOnSave();
+
+        if (this.isActive) {
+            return this.checkMaxActiveUsers(next);
+        }
+
+        next();
+    });
+
+
+    userSchema.path('email').validate(function (value) {
+	   var emailRegex = /^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/;
+	   return emailRegex.test(value);
+	}, 'The e-mail field cannot be empty.');
+
+
+    /**
+     * Get user name
+     * @return {String}
+     */
+    userSchema.methods.getName = function getName() {
+        return this.lastname+' '+this.firstname;
+    };
+
+
+    /**
+     * Pre save hook to check if the max number of users equal to the number of active users
+     * @param {function} next
+     */
+    userSchema.methods.checkMaxActiveUsers = function(next) {
+
+        let companyModel = params.db.models.Company;
+        let userModel = params.db.models.User;
+
+        companyModel.findOne().select('max_users').exec(function(err, company) {
+
+            if (err) {
+                return next(err);
+            }
+
+            if (undefined === company.max_users || null === company.max_users) {
+                return next();
+            }
+
+            userModel.count().where('isActive', true).exec(function(err, existingUsers) {
+
+                if (err) {
+                    return next(err);
+                }
+
+                if (company.max_users <= existingUsers) {
+                    return next(util.format(gt.gettext('The total number of active users cannot exceed %d'), company.max_users));
+                }
+
+                return next();
+            });
+
+        });
+    };
+
+
+    /**
+     * Pre-save hook, do not call directly
+     * if isActive is modified, create or close a validInterval
+     */
+    userSchema.methods.fixValidIntervalOnSave = function() {
 
         let user = this;
 
         if (!user.isSelected('isActive')) {
-            return next();
+            return;
         }
 
 
@@ -61,30 +133,13 @@ exports = module.exports = function(params) {
                 start: new Date(),
                 finish: null
             });
-            return next();
+            return;
         }
 
 
         if (false === user.isActive && !lastClosed) {
             user.validInterval[last].finish = new Date();
         }
-
-
-        next();
-    });
-
-  
-    userSchema.path('email').validate(function (value) {
-	   var emailRegex = /^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/;
-	   return emailRegex.test(value);
-	}, 'The e-mail field cannot be empty.');
-  
-    /**
-     * Get user name
-     * @return {String}
-     */
-    userSchema.methods.getName = function getName() {
-        return this.lastname+' '+this.firstname;
     };
 
 

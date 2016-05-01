@@ -4,16 +4,18 @@ exports = module.exports = function(params) {
 	var companySchema = new params.mongoose.Schema({
 		name: { type: String, required: true, unique: true },			// company name, site title
 		port: { type: Number, required: true },							// server port
+
 		workperiod_recover_request: { type: Boolean, default: false },	// allow creation of workperiod recover requests
 		maintenance:  { type: Boolean, default: false },				// maintenance mode, the app is read only
 		approb_alert: { type: Number },									// number of days after no action on request approbation
 
-        // TODO: remove renewal, use predefined renewal periods
-        //       for compatibility with the RightRenewal schema
 		renewal: {														// default renewal date for each year
 			day: { type: Number, default: 1 },
 			month: { type: Number, default: 1 }
 		},
+
+        max_users: Number,                                              // max number of active users
+
         manager_options: {
             edit_request: { type: Boolean, default: true }              // spoof the users members of departments below him
         },
