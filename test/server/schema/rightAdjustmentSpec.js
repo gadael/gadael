@@ -76,7 +76,9 @@ describe('Right model', function() {
             var renewal = new rightRenewalModel();
 
             renewal.right = right1._id;
-            renewal.start = new Date(2016,3,15,0,0,0,0);
+            renewal.start = new Date();
+            renewal.start.setDate(15);
+            renewal.start.setHours(0,0,0,0);
             renewal.finish = new Date(renewal.start);
             renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
 
@@ -113,7 +115,9 @@ describe('Right model', function() {
             var renewal = new rightRenewalModel();
 
             renewal.right = right._id;
-            renewal.start = new Date(2016,3,1,0,0,0,0);
+            renewal.start = new Date();
+            renewal.start.setDate(1);
+            renewal.start.setHours(0,0,0,0);
             renewal.finish = new Date(renewal.start);
             renewal.finish.setFullYear(renewal.finish.getFullYear()+1);
 
