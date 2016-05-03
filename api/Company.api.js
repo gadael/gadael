@@ -268,6 +268,10 @@ exports = module.exports = {
                     throw err;
                 }
 
+                if (docs.length === 0) {
+                    throw new Error('The company document is missing in base '+dbName);
+                }
+
                 callback(docs[0]);
                 db.close();
             });
