@@ -57,7 +57,7 @@ describe("Company API", function CompanyTestSuite() {
 	
 	it("create a test company", function(done) {
 		api.createDb(app, testDbName, company, function() {
-			api.getCompany(app, testDbName, function(companyDoc) {
+			api.getCompany(app, testDbName, function(err, companyDoc) {
 				expect(companyDoc.name).toEqual(company.name);
 				expect(companyDoc.port).toEqual(company.port);
 				done();
