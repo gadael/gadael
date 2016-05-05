@@ -157,7 +157,8 @@ exports = module.exports = {
     createDb: function createDb(app, dbName, company, callback) {
 
         // createConnection
-        var db = app.mongoose.createConnection();
+        let db = app.mongoose.createConnection();
+
 
 
         db.open(app.config.mongodb.prefix+dbName);
@@ -171,31 +172,40 @@ exports = module.exports = {
 
             gadael_loadMockModels(app, db);
 
-            // create the company entry
+            let companyModel = db.models.Company;
+            let typeModel = db.models.Type;
+            let calendarModel = db.models.Calendar;
+            let collectionModel = db.models.RightCollection;
+            let recoverQuantityModel = db.models.RecoverQuantity;
 
+            companyModel.count({}, (err, count) => {
 
-
-            var companyDoc = new db.models.Company(company);
-            var typeModel = db.models.Type;
-            var calendarModel = db.models.Calendar;
-            var collectionModel = db.models.RightCollection;
-            var recoverQuantityModel = db.models.RecoverQuantity;
-
-            async.parallel([
-                companyDoc.save.bind(companyDoc),
-                typeModel.createFrenchDefaults.bind(typeModel),
-                calendarModel.createFrenchDefaults.bind(calendarModel),
-                collectionModel.createFrenchDefaults.bind(collectionModel),
-                recoverQuantityModel.createFrenchDefaults.bind(recoverQuantityModel)
-            ],
-            function(err) {
-                if (err) {
-                    console.error('api.createDb '+err);
-                } else {
-                    callback();
+                if (0 !== count) {
+                    console.error('Database allready initialized');
+                    return db.close();
                 }
 
-                db.close();
+                // create the company entry
+
+                var companyDoc = new companyModel(company);
+
+                async.parallel([
+                    companyDoc.save.bind(companyDoc),
+                    typeModel.createFrenchDefaults.bind(typeModel),
+                    calendarModel.createFrenchDefaults.bind(calendarModel),
+                    collectionModel.createFrenchDefaults.bind(collectionModel),
+                    recoverQuantityModel.createFrenchDefaults.bind(recoverQuantityModel)
+                ],
+                function(err) {
+                    if (err) {
+                        console.error('api.createDb '+err);
+                    } else {
+                        callback();
+                    }
+
+                    db.close();
+                });
+
             });
         });
 
