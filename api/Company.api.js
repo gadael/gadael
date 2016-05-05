@@ -269,10 +269,11 @@ exports = module.exports = {
                 }
 
                 if (docs.length === 0) {
-                    throw new Error('The company document is missing in base '+dbName);
+                    // new Error('The company document is missing in base '+dbName),
+                    return callback(null, null);
                 }
 
-                callback(docs[0]);
+                callback(null, docs[0]);
                 db.close();
             });
 
@@ -308,9 +309,22 @@ exports = module.exports = {
             }
 
             async.parallel(asyncTasks, function(err, results) {
+
+                console.log(results);
+
+                /*
                 if (err) {
                     throw err;
                 }
+                */
+
+                // databases without the company document are ignored
+
+                results = results.filter(companyDocument => {
+                    return (null !== companyDocument);
+                });
+
+
 
                 callback(results);
             });
@@ -325,6 +339,7 @@ exports = module.exports = {
      */
     getHighestPort: function getHighestPort(app, callback) {
         this.getCompanies(app, function(arr) {
+
             var max = 0;
             for(var i=0; i<arr.length; i++) {
                 if (max < arr[i].port)
