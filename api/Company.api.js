@@ -267,7 +267,9 @@ exports = module.exports = {
     getCompany: function getCompany(app, dbName, callback) {
 
         var db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
-        db.on('error', console.error.bind(console, 'CompanyApi.getCompany mongoose connection error: '));
+        db.on('error', err => {
+            return callback('CompanyApi.getCompany mongoose connection error: '+err, null);
+        });
 
         db.once('open', function() {
 
