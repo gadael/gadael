@@ -182,6 +182,7 @@ exports = module.exports = {
 
                 if (0 !== count) {
                     console.error('Database allready initialized');
+                    callback(null);
                     return db.close();
                 }
 
@@ -321,8 +322,6 @@ exports = module.exports = {
             }
 
             async.parallel(asyncTasks, function(err, results) {
-
-                console.log(results);
 
                 /*
                 if (err) {
