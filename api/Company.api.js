@@ -299,45 +299,53 @@ exports = module.exports = {
 
     /**
      * Get all company documents from all the databases
+     * @param {Object} app
+     * @return {Promise}
      */
-    getCompanies: function getCompanies(app, callback) {
-        var api = this;
-        this.listDatabases(app, function(databases) {
+    getCompanies: function getCompanies(app) {
 
+        let api = this;
 
-            var asyncTasks = [];
-            for(var i=0; i<databases.length; i++) {
+        return new Promise((resolve, reject) => {
 
-                if (databases[i]) {
+            api.listDatabases(app, function(databases) {
 
-                    var task = {
-                        db: databases[i].name,
-                        getCompany: function(async_done) {
-                            api.getCompany(app, this.db, async_done);
+                let tasks = [];
+                let asyncTasks = [];
+                for(var i=0; i<databases.length; i++) {
+
+                    if (databases[i]) {
+
+                        var task = {
+                            db: databases[i].name,
+                            getCompany: function(async_done) {
+                                api.getCompany(app, this.db, async_done);
+                            }
+                        };
+
+                        tasks.push(task);
+                        asyncTasks.push(task.getCompany.bind(task));
+                    }
+                }
+
+                async.parallel(asyncTasks, function(err, results) {
+
+                    let companies = {};
+
+                    // databases without the company document are ignored
+                    // add database name to resultset
+
+                    for (var i=0; i<results.length; i++) {
+
+                        if (null === results[i]) {
+                            continue;
                         }
-                    };
 
-                    asyncTasks.push(task.getCompany.bind(task));
-                }
-            }
+                        companies[tasks[i].db] = results[i];
+                    }
 
-            async.parallel(asyncTasks, function(err, results) {
-
-                /*
-                if (err) {
-                    throw err;
-                }
-                */
-
-                // databases without the company document are ignored
-
-                results = results.filter(companyDocument => {
-                    return (null !== companyDocument);
+                    resolve(companies);
                 });
-
-
-
-                callback(results);
             });
         });
     },
@@ -349,7 +357,7 @@ exports = module.exports = {
      *
      */
     getHighestPort: function getHighestPort(app, callback) {
-        this.getCompanies(app, function(arr) {
+        this.getCompanies(app).then(arr => {
 
             var max = 0;
             for(var i=0; i<arr.length; i++) {
