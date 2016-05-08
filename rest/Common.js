@@ -141,21 +141,27 @@ exports.getInfos = function(req, res) {
             isManager: false,
             isAdmin: false
 		};
-		
-		
 	}
 
-	res.json({ 
-		lang: lang[0].lang,
-		sessionUser: sessionUser,
-		menu: menu,
-		date: {
-			short: 'dd-MM-yyyy',
-			long: 'EEEE d MMMM yyyy',
-			shortTime: 'dd-MM-yyyy HH:mm Z',
-			longTime: 'EEEE d MMMM yyyy HH:mm Z'
-		}
-	});
+    let companyModel = req.app.db.models.Company;
+
+    companyModel.find({}, 'name maintenance public_text private_text', (err, companies) => {
+
+        res.json({
+            company: companies[0],
+            lang: lang[0].lang,
+            sessionUser: sessionUser,
+            menu: menu,
+            date: {
+                short: 'dd-MM-yyyy',
+                long: 'EEEE d MMMM yyyy',
+                shortTime: 'dd-MM-yyyy HH:mm Z',
+                longTime: 'EEEE d MMMM yyyy HH:mm Z'
+            }
+        });
+    });
+
+
 };
 
 

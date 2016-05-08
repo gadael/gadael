@@ -4,6 +4,8 @@ exports = module.exports = function(params) {
 	var companySchema = new params.mongoose.Schema({
 		name: { type: String, required: true, unique: true },			// company name, site title
 		port: { type: Number, required: true },							// server port
+        public_text: String,                                            // Text to display one homepage for annonymous
+        private_text: String,                                           // Text to display one homepage for users logged in
 
 		workperiod_recover_request: { type: Boolean, default: false },	// allow creation of workperiod recover requests
 		maintenance:  { type: Boolean, default: false },				// maintenance mode, the app is read only
