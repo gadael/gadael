@@ -37,8 +37,11 @@ cd gadael
 npm install
 bower install
 grunt build
+
+node app.js
 ```
 
+open http://localhost:3000
 
 
 ## Technical features
