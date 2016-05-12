@@ -20,6 +20,27 @@ This application help you manage presence of your employees in your company. The
 Approval by managers is following hierachical departments structure.
 
 
+## Install on a debian system
+
+As root
+
+```bash
+apt-get install mongodb nodejs git
+npm install -g grunt
+```
+
+As user
+
+```bash
+git clone https://github.com/gadael/gadael
+cd gadael
+npm install
+bower install
+grunt build
+```
+
+
+
 ## Technical features
 
 * [Express JS](http://expressjs.com/) application
