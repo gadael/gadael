@@ -25,7 +25,7 @@ Approval by managers is following hierachical departments structure.
 As root
 
 ```bash
-apt-get install mongodb nodejs git
+apt-get install mongodb nodejs git g++ gyp
 npm install -g grunt
 ```
 
