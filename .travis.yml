@@ -15,3 +15,4 @@ node_js:
   - "6"
 before_install: npm install -g grunt-cli
 install: npm install && bower install
+after_script: grunt codeclimate

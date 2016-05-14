@@ -264,5 +264,5 @@ module.exports = function(grunt) {
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('test', ['shell:jasmine_theseus']);
   grunt.registerTask('coverage', ['jasmine_node:jasmine_coverage']);
-  grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage', 'codeclimate:main']);
+  grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage']);
 };
