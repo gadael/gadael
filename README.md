@@ -26,7 +26,7 @@ As root
 
 ```bash
 apt-get install mongodb nodejs git g++ gyp
-npm install -g grunt
+npm install -g grunt-cli
 ```
 
 As user

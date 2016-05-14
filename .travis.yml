@@ -11,5 +11,6 @@ addons:
     - g++-4.8
 node_js:
   - "4.4"
+  - "6.0.x"
 before_install: npm install -g grunt-cli
 install: npm install && bower install
