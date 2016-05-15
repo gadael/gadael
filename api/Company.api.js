@@ -357,13 +357,14 @@ exports = module.exports = {
      *
      */
     getHighestPort: function getHighestPort(app, callback) {
-        this.getCompanies(app).then(arr => {
+        this.getCompanies(app).then(companies => {
 
             var max = 0;
-            for(var i=0; i<arr.length; i++) {
-                if (max < arr[i].port)
-                {
-                    max = arr[i].port;
+            for (let dbName in companies) {
+                if (companies.hasOwnProperty(dbName)) {
+                    if (max < companies[dbName].port) {
+                        max = companies[dbName].port;
+                    }
                 }
             }
 
