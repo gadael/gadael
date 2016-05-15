@@ -503,6 +503,8 @@ exports = module.exports = {
 
 
     /**
+     * Start server on localhost
+     *
      * @param app   Express app
      *
      * @return server
@@ -512,7 +514,7 @@ exports = module.exports = {
 
         var server = http.createServer(app);
 
-        server.listen(app.config.port);
+        server.listen(app.config.port, 'localhost');
 
         if (callback) {
             server.on('listening', callback);

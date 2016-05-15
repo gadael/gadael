@@ -43,6 +43,7 @@ node app.js
 
 open http://localhost:3000
 
+Application listen on localhost only, an https reverse proxy will be necessary to open access to users.
 
 ## Technical features
 
