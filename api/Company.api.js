@@ -260,37 +260,57 @@ exports = module.exports = {
     },
 
 
+
+    /**
+     * Open the company document in a spcific database object
+     * @returns {Promise} database object and company document
+     */
+    openCompany: function openCompany(app, dbName) {
+
+        let output = {
+            db: null,
+            company: null
+        };
+
+        return new Promise((resolve, reject) => {
+            output.db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
+            output.db.on('error', err => {
+                return reject('CompanyApi.getCompany mongoose connection error: '+err, null);
+            });
+
+            output.db.once('open', () => {
+                gadael_loadMockModels(app, output.db);
+
+                output.db.models.Company.find().exec(function (err, docs) {
+                    if (err) {
+                        output.db.close();
+                        return reject(err);
+                    }
+
+                    if (docs.length === 0) {
+                        return resolve(output);
+                    }
+
+                    output.company = docs[0];
+                    resolve(output);
+                });
+            });
+        });
+    },
+
+
     /**
      * get company document from a database using an external connexion
-     *
+     * Read only api, database connexion is closed afterward
      *
      */
     getCompany: function getCompany(app, dbName, callback) {
 
-        var db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
-        db.on('error', err => {
-            return callback('CompanyApi.getCompany mongoose connection error: '+err, null);
-        });
-
-        db.once('open', function() {
-
-            gadael_loadMockModels(app, db);
-
-            db.models.Company.find().exec(function (err, docs) {
-                if (err) {
-                    throw err;
-                }
-
-                if (docs.length === 0) {
-                    // new Error('The company document is missing in base '+dbName),
-                    return callback(null, null);
-                }
-
-                callback(null, docs[0]);
-                db.close();
-            });
-
-
+        this.openCompany(app, dbName).then(o => {
+            callback(null, o.company);
+            o.db.close();
+        }).catch(err => {
+            callback(err);
         });
     },
 
