@@ -42,7 +42,7 @@
     "csurf": "~1.8.3",
     "morgan": "^1.0.1",
     "mongoose": "^4.4.17",
-    "mongoose-path-tree": "^1.3.5",
+    "mongoose-path-tree": "git://github.com/velichkov/mongoose-path-tree.git#139629ceca7ec19e394ae27c0ca01ad442fbb8d5",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "passport-oauth": "^1.0.0",
