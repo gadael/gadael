@@ -101,6 +101,26 @@ api.createRandomAdmin = function(app, email, password) {
 };
 
 
+/**
+ * Create an admin user
+ * @param {Express} app
+ * @param {string} [email]
+ * @param {string} [password]
+ * @return {Promise}
+ */
+api.createRandomDisabledAdmin = function(app, email, password) {
+
+    return new Promise(function(resolve, reject) {
+         api.createRandomUser(app, email, password).then(function(randomUser) {
+            randomUser.user.isActive = false;
+            randomUser.user.saveAdmin().then(function() {
+                resolve(randomUser);
+            }).catch(reject);
+        });
+    });
+};
+
+
 
 /**
  * Create an account user
@@ -110,9 +130,6 @@ api.createRandomAdmin = function(app, email, password) {
  * @return {Promise}
  */
 api.createRandomAccount = function(app, email, password) {
-
-
-
 
     return new Promise(function(resolve, reject) {
         api.createRandomUser(app, email, password).then(function(randomUser) {
@@ -139,6 +156,10 @@ api.createRandomAccount = function(app, email, password) {
         }).catch(reject);
     });
 };
+
+
+
+
 
 
 

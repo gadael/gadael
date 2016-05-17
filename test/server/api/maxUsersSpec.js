@@ -70,6 +70,28 @@ describe("Test max users limit", function MaxUserTestSuite() {
 	});
 
 
+    let disabledUser = null;
+
+
+    it("create a disabled user beyond the limit", function(done) {
+        api.user.createRandomDisabledAdmin(server.app).then(function(randomAdmin) {
+            expect(randomAdmin.user.isActive).toBeFalsy();
+            expect(randomAdmin.user.email).toBeDefined();
+            expect(randomAdmin.user.roles.admin).toBeDefined();
+            disabledUser = randomAdmin.user;
+			done();
+		});
+    });
+
+    it('activate the user must fail', function(done) {
+        disabledUser.isActive = true;
+        disabledUser.save((err, user) => {
+            expect(err).toBeDefined();
+            done();
+        });
+    });
+
+
 	it('close the mock server', function(done) {
         server.close(done);
     });
