@@ -86,6 +86,7 @@ exports = module.exports = function(params) {
                 return next(err);
             }
 
+
             if (undefined === company.max_users || null === company.max_users) {
                 return next();
             }
@@ -96,8 +97,10 @@ exports = module.exports = function(params) {
                     return next(err);
                 }
 
+
                 if (company.max_users <= existingUsers) {
-                    return next(util.format(gt.gettext('The total number of active users cannot exceed %d'), company.max_users));
+                    let message = util.format(gt.gettext('The total number of active users cannot exceed %d'), company.max_users);
+                    return next(new Error(message));
                 }
 
                 return next();
@@ -430,47 +433,46 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.saveAccount = function(accountProperties) {
 
-        var deferred = Q.defer();
+        let userDocument = this;
 
-        this.save(function(err, user) {
+        return new Promise((resolve, reject) => {
 
-            if (err) {
-                deferred.reject(err);
-                return;
-            }
-
-            if (user.roles.account) {
-                deferred.reject('Account allready exists');
-                return;
-            }
-
-            var accountModel = params.db.models.Account;
-
-            var account = new accountModel();
-            account.user = {
-                id: user._id,
-                name: user.lastname+' '+user.firstname
-            };
-
-
-            if (undefined !== accountProperties) {
-                account.set(accountProperties);
-            }
-
-            account.save(function(err, role) {
+            userDocument.save((err, user) => {
 
                 if (err) {
-                    deferred.reject(err);
-                    return;
+                    return reject(err);
                 }
 
-                user.roles.account = role._id;
-                deferred.resolve(user.save());
+                if (user.roles.account) {
+                    return reject(new Error('Account allready exists on user document'));
+                }
+
+                let accountModel = params.db.models.Account;
+
+                let account = new accountModel();
+                account.user = {
+                    id: user._id,
+                    name: user.lastname+' '+user.firstname
+                };
+
+
+                if (undefined !== accountProperties) {
+                    account.set(accountProperties);
+                }
+
+                account.save(function(err, role) {
+
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    user.roles.account = role._id;
+                    resolve(user.save());
+                });
+
             });
 
         });
-
-        return deferred.promise;
     };
 
 

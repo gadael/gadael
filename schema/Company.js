@@ -27,6 +27,48 @@ exports = module.exports = function(params) {
 	companySchema.index({ name: 1 });
 	
 	companySchema.set('autoIndex', params.autoIndex);
+
+
+    /**
+     * Pre-save hook
+     * @param {function} next   Callback
+     */
+    companySchema.pre('save', function(next) {
+
+        if (undefined !== this.max_users) {
+            return this.disableForbiddenUsers(next);
+        }
+
+        next();
+    });
+
+
+
+
+    companySchema.methods.disableForbiddenUsers = function(next) {
+
+        let company = this;
+        let userModel = params.db.models.User;
+
+        userModel.find()
+            .where('isActive', true)
+            .sort('-timeCreated')
+            .exec()
+            .then(users => {
+
+            let limit = users.length - company.max_users;
+
+            for (let i=0; i<limit; i++) {
+                users[i].isActive = false;
+                users[i].save();
+            }
+
+            next();
+
+        }).catch(next);
+    };
+
+
   
 	params.db.model('Company', companySchema);
 };
