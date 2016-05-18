@@ -15,6 +15,7 @@
 					collection="users" 
 					url="'/rest/admin/users'" 
 					url-params="search" 
+                    num-items="totalCount"
 					template-url="partials/utils/paginate-anything.html">
 				</begriffs.pagination>
 			</div>
@@ -46,7 +47,14 @@
 	</div>
 	
 	<div role="search" class="col-xs-12 col-sm-3">
-		
+
+
+        <div class="bg-warning pad15 text-warning" ng-if="company.max_users" title="{{'The number of active users is limited by your plan level'|translate}}" bs-tooltip>
+            <i class="fa fa-dashboard fa-2x"></i> {{totalCount}} users / {{company.max_users}} Max
+        </div>
+
+
+
 		<h2><i class="fa fa-search"></i> <span translate>Search in users</span></h2>
 		
 		<div class="form-group">
@@ -67,5 +75,8 @@
 				<option></option>
 			</select>
 		</div>
+
+
+
 	</div>
 </div>

@@ -1,6 +1,5 @@
 'use strict';
 
-let Q = require('q');
 let bcrypt = require('bcrypt');
 let Charlatan = require('charlatan');
 let gt = require('./../modules/gettext');
@@ -154,45 +153,40 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.getDepartmentsAncestors = function() {
 
+        let userDocument = this;
 
+        return new Promise((resolve, reject) => {
 
-        if (!this.department) {
-            return Q.fcall(function () {
-                return [];
-            });
-        }
-
-        var deferred = Q.defer();
-
-        this.populate('department', function(err, user) {
-
-            if (err) {
-                return deferred.reject(err);
+            if (!userDocument.department) {
+                return resolve([]);
             }
 
-
-            var department = user.department;
-
-            if (!department) {
-                return deferred.resolve([]);
-            }
-
-            department.getAncestors(function(err, ancestors) {
-
-
+            userDocument.populate('department', function(err, user) {
 
                 if (err) {
-                    return deferred.reject(err);
+                    return reject(err);
                 }
 
-                ancestors.push(department);
-                deferred.resolve(ancestors);
+
+                var department = user.department;
+
+                if (!department) {
+                    return resolve([]);
+                }
+
+                department.getAncestors(function(err, ancestors) {
+
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    ancestors.push(department);
+                    resolve(ancestors);
+                });
+
             });
 
         });
-
-
-        return deferred.promise;
     };
     
     
@@ -208,43 +202,36 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.isManagerOf = function(user) {
 
-        var manager = this.roles.manager;
+        let manager = this.roles.manager;
 
-        if (!manager) {
-            return Q.fcall(function () {
-                return false;
-            });
-        }
+        return new Promise((resolve, reject) => {
 
-        if (manager.constructor.name !== 'model') {
-            return Q.fcall(function () {
-                throw new Error("Missing a populated manager document");
-            });
-        }
-
-        if (!manager.department) {
-            return Q.fcall(function () {
-                return false;
-            });
-        }
-
-        var deferred = Q.defer();
-        var i, j;
-
-        user.getDepartmentsAncestors().then(function(arr) {
-            for(i=0; i<manager.department.length; i++) {
-                for(j=0; j<arr.length; j++) {
-                    if (manager.department[i].toString() === arr[j]._id.toString()) {
-                        deferred.resolve(true);
-                    }
-                }
+            if (!manager) {
+                return resolve(false);
             }
 
-            deferred.resolve(false);
-        }).catch(deferred.reject);
+            if (manager.constructor.name !== 'model') {
+                return reject(new Error("Missing a populated manager document"));
+            }
 
+            if (!manager.department) {
+                return resolve(false);
+            }
 
-        return deferred.promise;
+            let i, j;
+
+            user.getDepartmentsAncestors().then(function(arr) {
+                for(i=0; i<manager.department.length; i++) {
+                    for(j=0; j<arr.length; j++) {
+                        if (manager.department[i].toString() === arr[j]._id.toString()) {
+                            return resolve(true);
+                        }
+                    }
+                }
+
+                resolve(false);
+            }).catch(reject);
+        });
     };
 
 
@@ -262,56 +249,56 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.canSpoofUser = function(user) {
 
-        var deferred = Q.defer();
+        let userDocument = this;
 
-        if (this.roles.admin) {
-            deferred.resolve(true);
-            return deferred.promise;
-        }
+        return new Promise((resolve, reject) => {
 
-        if (!this.roles.manager) {
-            // User is not manager
-            deferred.resolve(false);
-            return deferred.promise;
-        }
-
-        this.populate('roles.manager', function(err, populatedUserDoc) {
-
-            if (err) {
-                return deferred.reject(err);
+            if (this.roles.admin) {
+                return resolve(true);
             }
 
-            populatedUserDoc.isManagerOf(user).then(function(status) {
-                if (!status) {
-                    return deferred.resolve(false);
+            if (!this.roles.manager) {
+                // User is not manager
+                return resolve(false);
+            }
+
+            userDocument.populate('roles.manager', function(err, populatedUserDoc) {
+
+                if (err) {
+                    return reject(err);
                 }
 
-                params.db.models.Company.findOne().select('manager_options').exec(function(err, company) {
-
-                    if (err) {
-                        return deferred.reject(err);
+                populatedUserDoc.isManagerOf(user).then(function(status) {
+                    if (!status) {
+                        return resolve(false);
                     }
 
-                    if (null === company) {
-                        return deferred.reject('No company found!');
-                    }
+                    params.db.models.Company.findOne().select('manager_options').exec(function(err, company) {
 
-                    if (null === company.manager_options) {
-                        // if not set get the default value on the schema
-                        var fields = params.db.models.Company.schema.paths;
-                        return deferred.resolve(fields['manager_options.edit_request'].options.default);
-                    }
+                        if (err) {
+                            return reject(err);
+                        }
 
-                    deferred.resolve(company.manager_options.edit_request);
-                });
+                        if (null === company) {
+                            return reject(new Error('No company found!'));
+                        }
 
-            }).catch(deferred.reject);
+                        if (null === company.manager_options) {
+                            // if not set get the default value on the schema
+                            var fields = params.db.models.Company.schema.paths;
+                            return resolve(fields['manager_options.edit_request'].options.default);
+                        }
+
+                        resolve(company.manager_options.edit_request);
+                    });
+
+                }).catch(reject);
+            });
+
+
+
+
         });
-
-
-
-
-        return deferred.promise;
     };
 
 
@@ -375,54 +362,46 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.saveAdmin = function(adminProperties) {
 
-        var deferred = Q.defer();
+        let userDocument = this;
 
-        this.save(function(err, user) {
+        return new Promise((resolve, reject) => {
 
-            if (err) {
-                deferred.reject(err);
-                return;
-            }
-
-            if (user.roles.admin) {
-                deferred.reject('Admin allready exists');
-                return;
-            }
-
-            var adminModel = params.db.models.Admin;
-
-            var admin = new adminModel();
-            admin.user = {
-                id: user._id,
-                name: user.lastname+' '+user.firstname
-            };
-
-            /*
-            for(var prop in accountProperties) {
-                if (accountProperties.isOwnProperty(prop)) {
-                    account[prop] = accountProperties[prop];
-                }
-            }
-            */
-            
-            if (undefined !== adminProperties) {
-                admin.set(adminProperties);
-            }
-
-            admin.save(function(err, role) {
+            userDocument.save(function(err, user) {
 
                 if (err) {
-                    deferred.reject(err);
-                    return;
+                    return reject(err);
                 }
 
-                user.roles.admin = role._id;
-                deferred.resolve(user.save());
+                if (user.roles.admin) {
+                    return reject(new Error('Admin allready exists'));
+                }
+
+                var adminModel = params.db.models.Admin;
+
+                var admin = new adminModel();
+                admin.user = {
+                    id: user._id,
+                    name: user.lastname+' '+user.firstname
+                };
+
+
+                if (undefined !== adminProperties) {
+                    admin.set(adminProperties);
+                }
+
+                admin.save(function(err, role) {
+
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    user.roles.admin = role._id;
+                    resolve(user.save());
+                });
+
             });
 
         });
-
-        return deferred.promise;
     };
     
     
@@ -486,54 +465,46 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.saveManager = function(managerProperties) {
 
-        var deferred = Q.defer();
+        let userDocument = this;
 
-        this.save(function(err, user) {
+        return new Promise((resolve, reject) => {
 
-            if (err) {
-                deferred.reject(err);
-                return;
-            }
-
-            if (user.roles.manager) {
-                deferred.reject('Manager allready exists');
-                return;
-            }
-
-            var managerModel = params.db.models.Manager;
-
-            var manager = new managerModel();
-            manager.user = {
-                id: user._id,
-                name: user.lastname+' '+user.firstname
-            };
-
-            /*
-            for(var prop in managerProperties) {
-                if (managerProperties.isOwnProperty(prop)) {
-                    manager[prop] = managerProperties[prop];
-                }
-            }
-            */
-
-            if (undefined !== managerProperties) {
-                manager.set(managerProperties);
-            }
-
-            manager.save(function(err, role) {
+            userDocument.save(function(err, user) {
 
                 if (err) {
-                    deferred.reject(err);
-                    return;
+                    return reject(err);
                 }
 
-                user.roles.manager = role._id;
-                deferred.resolve(user.save());
+                if (user.roles.manager) {
+                    return reject(new Error('Manager allready exists'));
+                }
+
+                var managerModel = params.db.models.Manager;
+
+                var manager = new managerModel();
+                manager.user = {
+                    id: user._id,
+                    name: user.lastname+' '+user.firstname
+                };
+
+
+                if (undefined !== managerProperties) {
+                    manager.set(managerProperties);
+                }
+
+                manager.save(function(err, role) {
+
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    user.roles.manager = role._id;
+                    resolve(user.save());
+                });
+
             });
 
         });
-
-        return deferred.promise;
     };
 
 
@@ -644,23 +615,25 @@ exports = module.exports = function(params) {
             moment = new Date();
         }
 
-        var deferred = Q.defer();
+        let userDocument = this;
 
-        params.db.models.AccountCollection.findOne()
-        .where('account', this.roles.account)
-        .where('from').lte(moment)
-        .or([{ to: null }, { to: { $gte: moment } }])
-        .populate('rightCollection')
-        .exec(function (err, accountCollection) {
+        return new Promise((resolve, reject) => {
 
-            if (err) {
-                return deferred.reject(err);
-            }
+            params.db.models.AccountCollection.findOne()
+            .where('account', userDocument.roles.account)
+            .where('from').lte(moment)
+            .or([{ to: null }, { to: { $gte: moment } }])
+            .populate('rightCollection')
+            .exec(function (err, accountCollection) {
 
-            deferred.resolve(accountCollection);
+                if (err) {
+                    return reject(err);
+                }
+
+                resolve(accountCollection);
+            });
+
         });
-
-        return deferred.promise;
     };
 
 

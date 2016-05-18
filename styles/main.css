@@ -17,6 +17,11 @@
 }
 
 
+.pad5 { padding:5px; }
+.pad7 { padding:7px; }
+.pad10 { padding:10px; }
+.pad15 { padding:15px; }
+
 .left5 { margin-left:5px; }
 .left7 { margin-left:7px; }
 .left10 { margin-left:10px; }

@@ -145,7 +145,7 @@ exports.getInfos = function(req, res) {
 
     let companyModel = req.app.db.models.Company;
 
-    companyModel.find({}, 'name maintenance public_text private_text', (err, companies) => {
+    companyModel.find({}, 'name maintenance public_text private_text max_users', (err, companies) => {
 
         res.json({
             company: companies[0],
