@@ -4,11 +4,14 @@ define([], function() {
 	return ['$scope',
 		'$location',
 		'Rest',
-        'getRequestStat', function(
+        'getRequestStat',
+        'gettext',
+            function(
 			$scope,
 			$location,
 			Rest,
-            getRequestStat
+            getRequestStat,
+            gettext
 		) {
 
 
@@ -30,8 +33,7 @@ define([], function() {
          * Delete the absence request
          */
 		$scope.delete = function() {
-            if (confirm('Are you sure you whant to delete the absence request?')) {
-
+            if (confirm(gettext('Are you sure you whant to delete the absence request?'))) {
                 $scope.request.gadaDelete($scope.backToList);
             }
 

@@ -3,10 +3,13 @@ define([], function() {
     
 	return ['$scope', 
 		'$location', 
-		'Rest', function(
+		'Rest',
+        'gettext',
+            function(
 			$scope, 
 			$location, 
-			Rest
+			Rest,
+            gettext
 		) {
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
@@ -58,7 +61,11 @@ define([], function() {
 			$location.path('/admin/users');
 		};
         
-        
+        $scope.delete = function() {
+            if (confirm(gettext('Are you sure you whant to delete this user?'))) {
+                $scope.user.gadaDelete($location.path('/admin/users'));
+            }
+        };
 	    
 	    
 		
