@@ -41,9 +41,28 @@ grunt build
 node app.js
 ```
 
-open http://localhost:3000
+open http://localhost:3000 in your browser
 
 Application listen on localhost only, an https reverse proxy will be necessary to open access to users.
+
+
+## Tests
+
+```bash
+grunt test
+```
+
+## TODO
+
+- [ ] Sage Export
+- [ ] Delete requests (the button does not work)
+- [ ] Decrease depending on the illness leaves
+- [ ] Display homepage text for public/private
+- [ ] Display company name from the common rest service on homepage
+- [ ] ICSDB integration for non working days calendars
+- [ ] Rights initialization by country and language
+- [ ] Create data for a demo company 
+
 
 ## Technical features
 

@@ -79,19 +79,11 @@
     "grunt-jasmine-node-coverage": "^0.4.1",
     "grunt-jasmine-node-new": "~0.3.2",
     "grunt-jsdoc": "^0.6.7",
-    "grunt-karma": "~0.8.0",
     "grunt-newer": "^0.7.0",
     "grunt-nodemon": "^0.2.1",
     "grunt-shell": "~1.1.2",
     "grunt-contrib-requirejs": "~0.4.4",
     "jasmine-node": "~1.14.3",
-    "karma": "~0.12.23",
-    "karma-jasmine": "~0.2.0",
-    "karma-junit-reporter": "^0.2.2",
-    "karma-ng-html2js-preprocessor": "~0.1",
-    "karma-phantomjs-launcher": "~0.1.4",
-    "karma-requirejs": "~0.2.2",
-    "protractor": "~0.20.1",
     "shelljs": "^0.2.6"
   }
 }
