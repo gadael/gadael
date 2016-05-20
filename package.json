@@ -60,7 +60,8 @@
     "bcrypt": "~0.8.1",
     "jurassic": "git://github.com/polo2ro/jurassic.git#b82c3ca188e7d3fbc8278d620cbd6aeb5ad60d65",
     "xlsx-writestream": "~0.4.0",
-    "tmp": "~0.0.28"
+    "tmp": "~0.0.28",
+    "latinize": "~0.2.0"
   },
   "devDependencies": {
     "bower": "^1.3.1",

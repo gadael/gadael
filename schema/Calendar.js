@@ -1,8 +1,10 @@
 'use strict';
 
-let ical = require('ical');
-var gt = require('./../modules/gettext');
-
+const ical = require('ical');
+const gt = require('./../modules/gettext');
+const async = require('async');
+const util = require('util');
+const latinize = require('latinize');
 
 /**
  * Source URL for non-working day ICS file or workshedules ICS file
@@ -176,54 +178,283 @@ exports = module.exports = function(params) {
 	};
     
     
-    
-    
-    
-    /**
-     * initialize default calendars
-     */  
-    calendarSchema.statics.createFrenchDefaults = function(done) {
+    calendarSchema.statics.getInitTask = function(company) {
 
-		var model = this;
-        var async = require('async');
+        let model = this;
 
-		async.each([
-            {
-                name: gt.gettext('French non working days'),
-                url: 'http://www.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics',
-                type: 'nonworkingday'
-            },
-            {
+        /**
+         * initialize default calendars
+         */
+        function createDefaults(done) {
+
+            let allCalendars = [{
                 name: gt.gettext('35H full time work schedule'),
                 url: 'calendars/01.ics',
                 type: 'workschedule',
                 locked: true
-            }
-        ], function( type, callback) {
-            
-          model.create(type, function(err, calendar) {
-              if (err) {
-                  callback(err);
-                  return;
-              }
+            }];
 
-              calendar.downloadEvents().then(function() { 
-                  callback();
-              }, callback);
-              
-          });
-        }, function(err){
-            // if any of the file processing produced an error, err would equal that error
-            if(err) {
-                console.trace(err);
-                return;
+
+
+            if ('FR' === company.country) {
+
+                let icsdbBaseUrl = 'https://raw.githubusercontent.com/gadael/icsdb/master/build/fr-FR/';
+
+                allCalendars.push({
+                    name: gt.gettext('Guadeloupe non working days'),
+                    url: icsdbBaseUrl+'france-guadeloupe-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('Guyane non working days'),
+                    url: icsdbBaseUrl+'france-guyane-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('Martinique non working days'),
+                    url: icsdbBaseUrl+'france-martinique-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('Moselle, Bas-Rhin, Haut-Rhin non working days'),
+                    url: icsdbBaseUrl+'france-moselle-rhin-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('French non working days (metropolis)'),
+                    url: icsdbBaseUrl+'france-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('French polynesia non working days'),
+                    url: icsdbBaseUrl+'france-polynesia-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('Reunion island non working days'),
+                    url: icsdbBaseUrl+'france-reunion-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('Wallis and Futuna non working days'),
+                    url: icsdbBaseUrl+'france-wallis-futuna-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+            }
+
+
+
+
+
+            if ('BE' === company.country) {
+
+                let icsdbBaseUrl = 'https://raw.githubusercontent.com/gadael/icsdb/master/build/fr-FR/';
+
+                allCalendars.push({
+                    name: gt.gettext('Belgium non working days'),
+                    url: icsdbBaseUrl+'belgium-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+            }
+
+
+
+
+            if ('IE' === company.country) {
+                allCalendars.push({
+                    name: gt.gettext('Ireland non working days'),
+                    url: 'https://raw.githubusercontent.com/gadael/icsdb/master/build/en-US/ireland-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
             }
             
-            if (done) {
-                done();
+
+            if ('CH' === company.country) {
+
+                let cantons = [
+                    'Aargau',
+                    'Appenzell Ausserrhoden',
+                    'Appenzell Innerrhoden',
+                    'Basel-Landschaft',
+                    'Basel-Stadt',
+                    'Bern',
+                    'Fribourg',
+                    'Geneva',
+                    'Glarus',
+                    'Graubünden',
+                    'Jura',
+                    'Luzern',
+                    'Neuchâtel',
+                    'Nidwalden',
+                    'Obwalden',
+                    'Schaffhausen',
+                    'Schwyz',
+                    'Solothurn',
+                    'St Gallen',
+                    'Thurgau',
+                    'Ticino',
+                    'Uri',
+                    'Valais',
+                    'Vaud',
+                    'Zug',
+                    'Zürich'
+                ];
+
+                cantons.forEach(canton => {
+                    allCalendars.push({
+                        name: util.format(gt.gettext('%s non working days'), canton),
+                        url: 'https://raw.githubusercontent.com/gadael/icsdb/master/build/en-US/switzerland-'+latinize(canton.toLowerCase())+'-nonworkingdays.ics',
+                        type: 'nonworkingday'
+                    });
+                });
             }
-        });
+
+
+
+
+
+
+
+            if ('UK' === company.country) {
+
+                let icsdbBaseUrl = 'https://raw.githubusercontent.com/gadael/icsdb/master/build/en-US/';
+
+                allCalendars.push({
+                    name: gt.gettext('England and Wales legal holidays'),
+                    url: icsdbBaseUrl+'uk-england-wales-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('North Ireland legal holidays'),
+                    url: icsdbBaseUrl+'uk-north-ireland-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+                allCalendars.push({
+                    name: gt.gettext('Scotland legal holidays'),
+                    url: icsdbBaseUrl+'uk-scotland-nonworkingdays.ics',
+                    type: 'nonworkingday'
+                });
+
+            }
+
+
+
+
+
+
+
+            if ('US' === company.country) {
+
+                let states = [
+                    'Alabama',
+                    'Alaska',
+                    'Arizona',
+                    'Arkansas',
+                    'California',
+                    'North Carolina',
+                    'South Carolina',
+                    'Colorado',
+                    'Connecticut',
+                    'North Dakota',
+                    'South Dakota',
+                    'Delaware',
+                    'Florida',
+                    'Georgia',
+                    'Hawaii',
+                    'Idaho',
+                    'Illinois',
+                    'Indiana',
+                    'Iowa',
+                    'Kansas',
+                    'Kentucky',
+                    'Louisiana',
+                    'Maine',
+                    'Maryland',
+                    'Massachusetts',
+                    'Michigan',
+                    'Minnesota',
+                    'Mississippi',
+                    'Missouri',
+                    'Montana',
+                    'Nebraska',
+                    'Nevada',
+                    'New Hampshire',
+                    'New Jersey',
+                    'New York',
+                    'New Mexico',
+                    'Ohio',
+                    'Oklahoma',
+                    'Oregon',
+                    'Pennsylvania',
+                    'Rhode Island',
+                    'Tennessee',
+                    'Texas',
+                    'Utah',
+                    'Vermont',
+                    'Virginia',
+                    'West Virginia',
+                    'Washington',
+                    'Wisconsin',
+                    'Wyoming'
+                ];
+
+                states.forEach(state => {
+                    allCalendars.push({
+                        name: util.format(gt.gettext('%s non working days'), state),
+                        url: 'https://raw.githubusercontent.com/gadael/icsdb/master/build/en-US/switzerland-'+latinize(state.toLowerCase())+'-nonworkingdays.ics',
+                        type: 'nonworkingday'
+                    });
+                });
+            }
+
+
+
+
+
+            async.each(allCalendars, function( type, callback) {
+
+              model.create(type, function(err, calendar) {
+                  if (err) {
+                      callback(err);
+                      return;
+                  }
+
+                  calendar.downloadEvents().then(function() {
+                      callback();
+                  }, callback);
+
+              });
+            }, function(err){
+                // if any of the file processing produced an error, err would equal that error
+                if(err) {
+                    console.trace(err);
+                    return;
+                }
+
+                if (done) {
+                    done();
+                }
+            });
+        }
+
+
+
+        return createDefaults;
     };
+
+
+
 	
 	
   

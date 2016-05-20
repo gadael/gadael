@@ -42,7 +42,7 @@ exports = module.exports = function(params) {
          * initialize default types on database creation
          * @param {function} done   Callback
          */
-        function createFrenchDefaults(done) {
+        function createDefaults(done) {
 
             
             let allTypes = [
@@ -99,7 +99,7 @@ exports = module.exports = function(params) {
         }
 
 
-        return createFrenchDefaults;
+        return createDefaults;
     };
     
 

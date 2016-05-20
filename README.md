@@ -59,9 +59,11 @@ grunt test
 - [ ] Decrease depending on the illness leaves
 - [ ] Display homepage text for public/private
 - [ ] Display company name from the common rest service on homepage
+- [x] ICSDB integration database initialisation
 - [ ] ICSDB integration for non working days calendars
 - [ ] Rights initialization by country
-- [ ] Create data for a demo company 
+- [ ] Create data for a demo company
+- [ ] Test calendar initialization by country
 
 
 ## Technical features
