@@ -192,7 +192,7 @@ exports = module.exports = {
 
                 async.parallel([
                     companyDoc.save.bind(companyDoc),
-                    typeModel.createFrenchDefaults.bind(typeModel),
+                    typeModel.getInitTask(companyDoc).bind(typeModel),
                     calendarModel.createFrenchDefaults.bind(calendarModel),
                     collectionModel.createFrenchDefaults.bind(collectionModel),
                     recoverQuantityModel.createFrenchDefaults.bind(recoverQuantityModel)
