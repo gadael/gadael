@@ -22,7 +22,7 @@ describe('collections admin API service', function UsersTestSuite() {
     
     it("Fail on create a collection with a missing mandatory name", function(done) {
         var save = app.getService('admin/collections/save');
-        save.getResultPromise({}).fail(function(err) {
+        save.getResultPromise({}).catch(function(err) {
             expect(save.httpstatus).toEqual(400);
             done();
         });

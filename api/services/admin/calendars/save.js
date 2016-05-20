@@ -51,7 +51,7 @@ function saveCalendar(service, params) {
                 calendar,
                 message
             );
-        }).fail(function(err) {
+        }).catch(function(err) {
 
             service.forbidden(err);
         });

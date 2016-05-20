@@ -60,7 +60,7 @@ grunt test
 - [ ] Display homepage text for public/private
 - [ ] Display company name from the common rest service on homepage
 - [ ] ICSDB integration for non working days calendars
-- [ ] Rights initialization by country and language
+- [ ] Rights initialization by country
 - [ ] Create data for a demo company 
 
 

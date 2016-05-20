@@ -1,7 +1,7 @@
 'use strict';
 
-let Q = require('q');
 let ical = require('ical');
+var gt = require('./../modules/gettext');
 
 
 /**
@@ -45,7 +45,7 @@ exports = module.exports = function(params) {
   
 	/**
 	 * Download events from url
-     * promise resolve the number of copied events
+     * promise resolve the number of copied events, do not stop on error
      *
      * @return promise
 	 */ 
@@ -54,80 +54,78 @@ exports = module.exports = function(params) {
 
 		var calendar = this;
         
-        var deferred = Q.defer();
+        return new Promise((resolve, reject) => {
 
 
-        function processEventsData(err, data) {
+
+            function processEventsData(err, data) {
+                if (err) {
+                    return reject(err);
+                }
+
+                var EventModel = params.db.models.CalendarEvent;
+
+                EventModel.remove({ calendar: calendar._id }, (err) => {
+
+                    if (err)
+                    {
+                        return reject(err);
+                    }
+
+                    var entry = null;
+                    var eventPromises = [];
+
+                    for (var k in data) {
+                        if (data.hasOwnProperty(k)) {
+
+                            entry = data[k];
 
 
-			
-			if (err) {
-                return deferred.reject(err.message);
-			}
+                            if (entry.type === 'VEVENT') {
+                                var event = new EventModel();
+                                event.uid = entry.uid;
+                                event.dtstart = entry.start;
+                                event.dtend = entry.end;
+                                event.summary = entry.summary;
+                                event.description = entry.description;
+                                event.transp = entry.transparency;
+                                if (entry.rrule) {
+                                    event.rrule = entry.rrule.toString();
+                                }
+                                if (entry.rdate) {
+                                    event.rdate = entry.rdate;
+                                }
+                                event.calendar = calendar._id;
 
-			var EventModel = params.db.models.CalendarEvent;
-			
-			EventModel.remove({ calendar: calendar._id }, function(err) {
-				
-				if (err)
-				{
-					return deferred.reject(err);
-				}
-
-				var entry = null;
-                var eventPromises = [];
-				
-				for (var k in data) {
-					if (data.hasOwnProperty(k)) {
-						
-						entry = data[k];
-
-
-						if (entry.type === 'VEVENT') {
-							var event = new EventModel();
-							event.uid = entry.uid;
-							event.dtstart = entry.start;
-							event.dtend = entry.end;
-							event.summary = entry.summary;
-							event.description = entry.description;
-							event.transp = entry.transparency;
-							if (entry.rrule) {
-								event.rrule = entry.rrule.toString();
-							}
-                            if (entry.rdate) {
-                                event.rdate = entry.rdate;
+                                eventPromises.push(event.save().catch(e => e));
                             }
-							event.calendar = calendar._id;
-
-							eventPromises.push(event.save());
-						}
-					}
-				}
-			
-                Q.allSettled(eventPromises)
-                .then(function(results) {
-                    
-                    for(var i=0; i<results.length; i++) {
-                        if (results[i].state !== "fulfilled") {
-                            return deferred.reject(results[i].reason);
                         }
                     }
 
-                    deferred.resolve(results.length);
-                });
-			});
-		}
+                    Promise.all(eventPromises)
+                    .then(results => {
+                        for(var i=0; i<results.length; i++) {
+                            if (results[i] instanceof Error) {
+                                return reject(results[i]);
+                            }
+                        }
 
-		if (0 === this.url.indexOf('http://') || 0 === this.url.indexOf('https://')) {
-            ical.fromURL(this.url, {}, processEventsData);
-        } else {
-            // relative address, use the local file instead because the http server is not allways present
-            // ex: on database creation
-            var data = ical.parseFile('public/'+this.url);
-            processEventsData(null, data);
-        }
-        
-        return deferred.promise;
+                        resolve(results.length);
+                    });
+                });
+            }
+
+            if (0 === this.url.indexOf('http://') || 0 === this.url.indexOf('https://')) {
+                ical.fromURL(this.url, {}, processEventsData);
+            } else {
+                // relative address, use the local file instead because the http server is not allways present
+                // ex: on database creation
+                var data = ical.parseFile('public/'+this.url);
+                processEventsData(null, data);
+            }
+
+
+        });
 	};
 	
 	
@@ -191,12 +189,12 @@ exports = module.exports = function(params) {
 
 		async.each([
             {
-                name: 'French non working days',
+                name: gt.gettext('French non working days'),
                 url: 'http://www.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics',
                 type: 'nonworkingday'
             },
             {
-                name: '35H full time work schedule',
+                name: gt.gettext('35H full time work schedule'),
                 url: 'calendars/01.ics',
                 type: 'workschedule',
                 locked: true

@@ -21,7 +21,7 @@ describe('users admin API service', function UsersTestSuite() {
     
     it("Fail on create a user with a missing mandatory field", function(done) {
         var save = app.getService('admin/users/save');
-        save.getResultPromise({}).fail(function(err) {
+        save.getResultPromise({}).catch(function(err) {
             expect(save.httpstatus).toEqual(400);
             done();
         });
