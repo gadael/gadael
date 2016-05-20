@@ -65,7 +65,7 @@ describe("Company API", function CompanyTestSuite() {
 		});
 	});
 
-	
+
 	
 	it("drop the test database", function(done) {
 		api.dropDb(app, testDbName, function() {

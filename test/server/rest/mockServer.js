@@ -1,7 +1,8 @@
 'use strict';
 
 let Q = require('q');
-
+let api = require('../../../api/Company.api.js');
+let headless = require('../../../api/Headless.api.js');
 
 
 /**
@@ -12,8 +13,7 @@ let Q = require('q');
  */
 function mockServer(dbname, port, readyCallback) {
 
-    var api = require('../../../api/Company.api.js');
-    var headless = require('../../../api/Headless.api.js');
+
 
     var mockServerDbName = dbname+port;
     
@@ -39,15 +39,15 @@ function mockServer(dbname, port, readyCallback) {
         
         api.createDb(headless, serverInst.dbname, company, function() {
 
-            var config = require('../../../config')();
-            var models = require('../../../models');
+            let config = require('../../../config')();
+            let models = require('../../../models');
             
             config.port = company.port;
             config.companyName = company.name;
             config.mongodb.dbname = serverInst.dbname;
             config.csrfProtection = false;
 
-            var app = api.getExpress(config, models);
+            let app = api.getExpress(config, models);
             
             Object.defineProperty(serverInst, 'app', { 
                 value: app
