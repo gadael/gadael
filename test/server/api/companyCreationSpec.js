@@ -111,9 +111,9 @@ describe("Test company creation", function companyCreation() {
 
     it("verify initialization with UK", function(done) {
 
-        countRows('companyCreationFr', {
+        countRows('companyCreationUk', {
             port: 2800,
-            name: 'FR',
+            name: 'UK',
             country: 'UK'
         }).then(count => {
             expect(count[0]).toEqual(4); // Calendar
@@ -124,6 +124,8 @@ describe("Test company creation", function companyCreation() {
             done();
         }).catch(done);
     });
+
+
 });
 
 
