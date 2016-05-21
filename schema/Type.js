@@ -46,33 +46,33 @@ exports = module.exports = function(params) {
 
             
             let allTypes = [
-                { name: gt.gettext('Paid annual leave')         , sortkey: 1 },
-                { name: gt.gettext('Seniority leave')           , sortkey: 2 },
-                { name: gt.gettext('Recovery')                  , sortkey: 4, groupFolded: true },
-                { name: gt.gettext('sickness absence')          , sortkey: 6 },
-                { name: gt.gettext('Work accident')             , sortkey: 7 },
-                { name: gt.gettext('Parental leave')            , sortkey: 8 },
-                { name: gt.gettext('Maternity')                 , sortkey: 9 },
-                { name: gt.gettext('Paternity')                 , sortkey: 10 },
-                { name: gt.gettext('Sick child')                , sortkey: 11 },
-                { name: gt.gettext('Wedding')                   , sortkey: 12 },
-                { name: gt.gettext('Birth')                     , sortkey: 13 },
-                { name: gt.gettext('Decease')                   , sortkey: 14 },
-                { name: gt.gettext('Training')                  , sortkey: 15 },
-                { name: gt.gettext('Relocation')                , sortkey: 16 },
-                { name: gt.gettext('Unpaid leave')              , sortkey: 17 },
-                { name: gt.gettext('Strike')                    , sortkey: 18 },
-                { name: gt.gettext('Leave for results')         , sortkey: 19 },
-                { name: gt.gettext('Union representation')      , sortkey: 20 }, // representation syndicale
-                { name: gt.gettext('Absence as an elected official'), sortkey: 21 },
-                { name: gt.gettext('Reservist leave')           , sortkey: 22 },
-                { name: gt.gettext('Presence in court')         , sortkey: 24 }
+                { _id: '5740adf51cf1a569643cc508' ,  name: gt.gettext('Paid annual leave')                , sortkey: 1 },
+                { _id: '5740adf51cf1a569643cc509' ,  name: gt.gettext('Seniority leave')                  , sortkey: 2 },
+                { _id: '5740adf51cf1a569643cc50a' ,  name: gt.gettext('Recovery')                         , sortkey: 4, groupFolded: true },
+                { _id: '5740adf51cf1a569643cc50b' ,  name: gt.gettext('sickness absence')                 , sortkey: 6 },
+                { _id: '5740adf51cf1a569643cc50c' ,  name: gt.gettext('Work accident')                    , sortkey: 7 },
+                { _id: '5740adf51cf1a569643cc50d' ,  name: gt.gettext('Parental leave')                   , sortkey: 8 },
+                { _id: '5740adf51cf1a569643cc50e' ,  name: gt.gettext('Maternity')                        , sortkey: 9 },
+                { _id: '5740adf51cf1a569643cc50f' ,  name: gt.gettext('Paternity')                        , sortkey: 10 },
+                { _id: '5740adf51cf1a569643cc510' ,  name: gt.gettext('Sick child')                       , sortkey: 11 },
+                { _id: '5740adf51cf1a569643cc511' ,  name: gt.gettext('Wedding')                          , sortkey: 12 },
+                { _id: '5740adf51cf1a569643cc512' ,  name: gt.gettext('Birth')                            , sortkey: 13 },
+                { _id: '5740adf51cf1a569643cc513' ,  name: gt.gettext('Decease')                          , sortkey: 14 },
+                { _id: '5740adf51cf1a569643cc514' ,  name: gt.gettext('Training')                         , sortkey: 15 },
+                { _id: '5740adf51cf1a569643cc515' ,  name: gt.gettext('Relocation')                       , sortkey: 16 },
+                { _id: '5740adf51cf1a569643cc516' ,  name: gt.gettext('Unpaid leave')                     , sortkey: 17 },
+                { _id: '5740adf51cf1a569643cc517' ,  name: gt.gettext('Strike')                           , sortkey: 18 },
+                { _id: '5740adf51cf1a569643cc518' ,  name: gt.gettext('Leave for results')                , sortkey: 19 },
+                { _id: '5740adf51cf1a569643cc519' ,  name: gt.gettext('Union representation')             , sortkey: 20 }, // representation syndicale
+                { _id: '5740adf51cf1a569643cc51a' ,  name: gt.gettext('Absence as an elected official')   , sortkey: 21 },
+                { _id: '5740adf51cf1a569643cc51b' ,  name: gt.gettext('Reservist leave')                  , sortkey: 22 },
+                { _id: '5740adf51cf1a569643cc51c' ,  name: gt.gettext('Presence in court')                , sortkey: 24 }
             ];
 
             if ('FR' === company.country) {
-                allTypes.push({ name: gt.gettext('RTT')                       , sortkey: 3 });
-                allTypes.push({ name: gt.gettext('Time savings account')      , sortkey: 5 });
-                allTypes.push({ name: gt.gettext('Fractionating leave')       , sortkey: 23, groupFolded: true });
+                allTypes.push({ _id: '5740adf51cf1a569643cc51d' , name: gt.gettext('RTT')                       , sortkey: 3 });
+                allTypes.push({ _id: '5740adf51cf1a569643cc51e' , name: gt.gettext('Time savings account')      , sortkey: 5 });
+                allTypes.push({ _id: '5740adf51cf1a569643cc51f' , name: gt.gettext('Fractionating leave')       , sortkey: 23, groupFolded: true });
             }
 
             async.each(allTypes, function( type, callback) {
