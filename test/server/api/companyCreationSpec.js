@@ -107,6 +107,23 @@ describe("Test company creation", function companyCreation() {
             done();
         }).catch(done);
     });
+
+
+    it("verify initialization with UK", function(done) {
+
+        countRows('companyCreationFr', {
+            port: 2800,
+            name: 'FR',
+            country: 'UK'
+        }).then(count => {
+            expect(count[0]).toEqual(4); // Calendar
+            expect(count[1]).toEqual(21); // Type
+            expect(count[2]).toEqual(4); // RecoverQuantity
+            expect(count[3]).toEqual(3); // RightCollection
+
+            done();
+        }).catch(done);
+    });
 });
 
 
