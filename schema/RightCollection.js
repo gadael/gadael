@@ -112,43 +112,55 @@ exports = module.exports = function(params) {
     };
     
 
+    collectionSchema.statics.getInitTask = function(company) {
+
+        let model = this;
+
+
+        function createDefaults(done) {
+
+
+            let collections = [
+                { _id: '5740adf51cf1a569643cc520', name: gt.gettext('General regime 100%'), attendance: 100 },
+                { _id: '5740adf51cf1a569643cc521', name: gt.gettext('Part-time 90%'), attendance: 90 },
+                { _id: '5740adf51cf1a569643cc522', name: gt.gettext('Part-time 80%'), attendance: 80 },
+                { _id: '5740adf51cf1a569643cc523', name: gt.gettext('Part-time 70%'), attendance: 70 },
+                { _id: '5740adf51cf1a569643cc524', name: gt.gettext('Part-time 50%'), attendance: 50 }
+            ];
+
+
+            async.each(collections, function( type, callback) {
+
+              model.create(type, function(err) {
+                  if (err) {
+                      callback(err);
+                      return;
+                  }
+
+                  callback();
+              });
+            }, function(err){
+                // if any of the file processing produced an error, err would equal that error
+                if(err) {
+                    console.trace(err);
+                    return;
+                }
+
+                if (done) {
+                    done();
+                }
+            });
+        }
+
+
+        return createDefaults;
+    };
 
     
     /**
      * initialize default collections
      */  
-    collectionSchema.statics.createFrenchDefaults = function(done) {
-		
-		
-		var model = this;
-
-		
-		async.each([
-            { name: gt.gettext('General regime 100%'), attendance: 100 },
-            { name: gt.gettext('Part-time 80%'), attendance: 80 },
-            { name: gt.gettext('Part-time 50%'), attendance: 50 }
-        ], function( type, callback) {
-            
-          model.create(type, function(err) {
-              if (err) {
-                  callback(err);
-                  return;
-              }
-              
-              callback();
-          });
-        }, function(err){
-            // if any of the file processing produced an error, err would equal that error
-            if(err) {
-                console.trace(err);
-                return;
-            }
-            
-            if (done) {
-                done();
-            }
-        });
-    };
+    collectionSchema.statics.
     
   
     params.db.model('RightCollection', collectionSchema);
