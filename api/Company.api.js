@@ -172,13 +172,11 @@ exports = module.exports = {
 
             gadael_loadMockModels(app, db);
 
-            let companyModel = db.models.Company;
-            let typeModel = db.models.Type;
-            let calendarModel = db.models.Calendar;
-            let collectionModel = db.models.RightCollection;
-            let recoverQuantityModel = db.models.RecoverQuantity;
+            let m = db.models;
 
-            companyModel.count({}, (err, count) => {
+
+
+            m.Company.count({}, (err, count) => {
 
                 if (0 !== count) {
                     console.error('Database allready initialized');
@@ -188,14 +186,15 @@ exports = module.exports = {
 
                 // create the company entry
 
-                var companyDoc = new companyModel(company);
+                var companyDoc = new m.Company(company);
 
                 async.parallel([
                     companyDoc.save.bind(companyDoc),
-                    typeModel.getInitTask(companyDoc).bind(typeModel),
-                    calendarModel.getInitTask(companyDoc).bind(calendarModel),
-                    collectionModel.getInitTask(companyDoc).bind(collectionModel),
-                    recoverQuantityModel.getInitTask(companyDoc).bind(recoverQuantityModel)
+                    m.Type.getInitTask(companyDoc).bind(m.Type),
+                    m.Calendar.getInitTask(companyDoc).bind(m.Calendar),
+                    m.RightCollection.getInitTask(companyDoc).bind(m.RightCollection),
+                    m.RecoverQuantity.getInitTask(companyDoc).bind(m.RecoverQuantity),
+                    m.Right.getInitTask(companyDoc).bind(m.Right)
                 ],
                 function(err) {
                     if (err) {

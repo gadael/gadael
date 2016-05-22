@@ -1,5 +1,7 @@
 'use strict';
 
+var gt = require('./../modules/gettext');
+
 exports = module.exports = function(params) {
     
     var mongoose = params.mongoose;
@@ -432,6 +434,90 @@ exports = module.exports = function(params) {
         });
     };
 
+
+
+    /**
+     * Get a task to initialize rights when the database is created
+     * @param   {Company}  company Company document not yet saved
+     * @returns {Function} async task function for parallels initialization of tables
+     */
+    rightSchema.statics.getInitTask = function(company) {
+
+        let model = this;
+
+
+        /**
+         * [[Description]]
+         * @returns {Number} In days
+         */
+        function getPaidLeaveQuantity() {
+            switch(company.country) {
+                case 'FR':
+                case 'AT': // Autriche
+                case 'BO': // Bolivie
+                case 'GR': // Grece
+                case 'SE': // Suede
+                case 'FI': // Finlande
+                case 'LU': // Luxembourg
+                    return 25;
+
+                case 'UK':
+                    return 28;
+
+                case 'VE': // Venezuela
+                case 'MT': // Malte
+                    return 24;
+
+                case 'HU': // Hongrie
+                    return 23;
+
+                case 'ES': // Espagne
+                case 'PT': // Portugal
+                case 'PE': // Perou
+                case 'BR': // Bresil
+                    return 22;
+
+                case 'NO': // Norvege
+                    return 21;
+
+                case 'CY': // Chypre
+                case 'JP': // Japon
+                case 'PL': // Pologne
+                case 'HR': // Croatie
+                case 'AR': // Argentine
+                case 'IT': // Italie
+                case 'AU': // Australie
+                case 'BE': // Belgique
+                    return 20;
+
+            }
+
+            return 20;
+        }
+
+
+        /**
+         * initialize default rights on database creation
+         * @param {function} done   Callback
+         */
+        function createDefaults(done) {
+
+            let promises = [];
+
+            let annualPaidLeave = new model();
+            annualPaidLeave.name = gt.gettext('Paid annual leave');
+            annualPaidLeave.quantity_unit = 'D';
+            annualPaidLeave.quantity = getPaidLeaveQuantity();
+            annualPaidLeave.type = '5740adf51cf1a569643cc508';
+            promises.push(annualPaidLeave.save());
+
+            Promise.all(promises)
+                .then(() => { done(); })
+                .catch(done);
+        }
+
+        return createDefaults;
+    };
 
 
 	
