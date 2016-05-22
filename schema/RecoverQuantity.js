@@ -15,59 +15,66 @@ exports = module.exports = function(params) {
 	});
 
 
-    /**
-     * initialize default
-     */
-    recoverQuantitySchema.statics.createFrenchDefaults = function(done) {
+
+    recoverQuantitySchema.statics.getInitTask = function(companyDoc) {
 
 
-		var model = this;
+        let model = this;
 
+        function createDefaults(done) {
 
-		async.each([
-            {
-                name: gt.gettext('Half-day'),
-                quantity: 0.5,
-                quantity_unit: 'D'
-            },
-            {
-                name: gt.gettext('A day'),
-                quantity: 1,
-                quantity_unit: 'D'
-            },
-            {
-                name: gt.gettext('One hour'),
-                quantity: 1,
-                quantity_unit: 'H'
-            },
-            {
-                name: gt.gettext('A week-end'),
-                quantity: 2,
-                quantity_unit: 'D'
-            }
+            async.each([
+                {
+                    _id: '5740adf51cf1a569643cc530',
+                    name: gt.gettext('Half-day'),
+                    quantity: 0.5,
+                    quantity_unit: 'D'
+                },
+                {
+                    _id: '5740adf51cf1a569643cc531',
+                    name: gt.gettext('A day'),
+                    quantity: 1,
+                    quantity_unit: 'D'
+                },
+                {
+                    _id: '5740adf51cf1a569643cc532',
+                    name: gt.gettext('One hour'),
+                    quantity: 1,
+                    quantity_unit: 'H'
+                },
+                {
+                    _id: '5740adf51cf1a569643cc533',
+                    name: gt.gettext('A week-end'),
+                    quantity: 2,
+                    quantity_unit: 'D'
+                }
 
-        ], function( type, callback) {
+            ], function( type, callback) {
 
-          model.create(type, function(err) {
-              if (err) {
-                  callback(err);
-                  return;
-              }
+              model.create(type, function(err) {
+                  if (err) {
+                      callback(err);
+                      return;
+                  }
 
-              callback();
-          });
-        }, function(err){
-            // if any of the file processing produced an error, err would equal that error
-            if(err) {
-                console.trace(err);
-                return;
-            }
+                  callback();
+              });
+            }, function(err){
+                // if any of the file processing produced an error, err would equal that error
+                if(err) {
+                    console.trace(err);
+                    return;
+                }
 
-            if (done) {
-                done();
-            }
-        });
+                if (done) {
+                    done();
+                }
+            });
+        }
+
+        return createDefaults;
     };
+
 
 
 	recoverQuantitySchema.index({ 'name': 1 }, { unique: true });

@@ -194,8 +194,8 @@ exports = module.exports = {
                     companyDoc.save.bind(companyDoc),
                     typeModel.getInitTask(companyDoc).bind(typeModel),
                     calendarModel.getInitTask(companyDoc).bind(calendarModel),
-                    collectionModel.createFrenchDefaults.bind(collectionModel),
-                    recoverQuantityModel.createFrenchDefaults.bind(recoverQuantityModel)
+                    collectionModel.getInitTask(companyDoc).bind(collectionModel),
+                    recoverQuantityModel.getInitTask(companyDoc).bind(recoverQuantityModel)
                 ],
                 function(err) {
                     if (err) {
