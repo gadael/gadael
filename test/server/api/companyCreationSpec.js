@@ -84,7 +84,7 @@ describe("Test company creation", function companyCreation() {
             expect(count[0]).toEqual(1); // Calendar
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
-            expect(count[3]).toEqual(3); // RightCollection
+            expect(count[3]).toEqual(5); // RightCollection
 
             done();
         }).catch(done);
@@ -102,7 +102,7 @@ describe("Test company creation", function companyCreation() {
             expect(count[0]).toBeGreaterThan(1); // Calendar
             expect(count[1]).toBeGreaterThan(23); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
-            expect(count[3]).toEqual(3); // RightCollection
+            expect(count[3]).toEqual(5); // RightCollection
 
             done();
         }).catch(done);
@@ -119,7 +119,7 @@ describe("Test company creation", function companyCreation() {
             expect(count[0]).toEqual(4); // Calendar
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
-            expect(count[3]).toEqual(3); // RightCollection
+            expect(count[3]).toEqual(5); // RightCollection
 
             done();
         }).catch(done);

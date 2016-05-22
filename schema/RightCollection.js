@@ -156,11 +156,7 @@ exports = module.exports = function(params) {
         return createDefaults;
     };
 
-    
-    /**
-     * initialize default collections
-     */  
-    collectionSchema.statics.
+
     
   
     params.db.model('RightCollection', collectionSchema);
