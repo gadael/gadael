@@ -15,6 +15,7 @@
     <p ng-if="user.roles.account.birth">
         <span translate>Birth date:</span>
         {{user.roles.account.birth|date}}
+        (<span translate translate-n="age" translate-plural="{{$count}} years old">One year old</span>)
     </p>
     
     <p ng-if="user.roles.account.arrival">

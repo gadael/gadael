@@ -44,11 +44,19 @@ define([], function() {
                 }
 
                 
-                if (undefined !== $scope.user.roles && undefined !== $scope.user.roles.account && undefined !== $scope.user.roles.account.seniority) {
+                if (undefined !== $scope.user.roles && undefined !== $scope.user.roles.account) {
 
-                    var seniority = new Date($scope.user.roles.account.seniority);
                     var today = new Date();
-                    $scope.seniority_years = today.getFullYear() - seniority.getFullYear();
+
+                    if (undefined !== $scope.user.roles.account.seniority) {
+                        var seniority = new Date($scope.user.roles.account.seniority);
+                        $scope.seniority_years = today.getFullYear() - seniority.getFullYear();
+                    }
+
+                    if (undefined !== $scope.user.roles.account.birth) {
+                        var birth = new Date($scope.user.roles.account.birth);
+                        $scope.age = today.getFullYear() - birth.getFullYear();
+                    }
                 }
 
 
