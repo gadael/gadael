@@ -63,7 +63,9 @@ grunt test
 - [ ] ICSDB integration for non working days calendars
 - [ ] Rights initialization by country
 - [ ] Create data for a demo company
-- [ ] Test calendar initialization by country
+- [x] Test calendar initialization by country
+- [ ] Test rights initialization by country
+- [ ] Test age rule type (Swiss)
 
 
 ## Technical features
