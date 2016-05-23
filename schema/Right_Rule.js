@@ -20,9 +20,12 @@ exports = module.exports = function(params) {
                             // min in days before the renewal start date
                             // max in days after the renewal end date
 
-        'seniority'         // Right si visible if the user account seniority date
+        'seniority',        // Right si visible if the user account seniority date
                             // is in the interval, min and max are in years before
                             // the entry date
+
+        'age'               // Right is visible if the user age is in the interval
+                            // min and max are in years after the birth date
     ];
 
 	
@@ -55,19 +58,21 @@ exports = module.exports = function(params) {
     rightRuleSchema.pre('save', function (next) {
 		
 
-		var rule = this;
+		let rule = this;
         
         if (undefined === rule.interval || (undefined === rule.interval.min && undefined === rule.interval.max)) {
             next(new Error('At least one value must be set in interval to save the rule'));
             return;
         }
         
-        var min = (undefined === rule.interval.min) ? null : rule.interval.min;
-        var max = (undefined === rule.interval.max) ? null : rule.interval.max;
+        let min = (undefined === rule.interval.min) ? null : rule.interval.min;
+        let max = (undefined === rule.interval.max) ? null : rule.interval.max;
         
         
 		
 		switch(rule.type) {
+
+            case 'age':
             case 'seniority':
                 if (isNaN(min) || isNaN(max)) {
                     next(new Error(gt.gettext('Interval values must be numbers of years')));
@@ -133,10 +138,69 @@ exports = module.exports = function(params) {
             case 'seniority':       return this.validateSeniority(dtstart, dtend, user);
             case 'entry_date':      return this.validateEntryDate(timeCreated, renewal);
             case 'request_period':  return this.validateRequestDate(dtstart, dtend, renewal);
+            case 'age':             return this.validateAge(dtstart, dtend, user);
         }
 
         return false;
     };
+
+
+
+
+
+
+
+    /**
+     * test validity from the birth date
+     *
+     * @param {Date}         dtstart        Request start date
+     * @param {Date}         dtend          Request end date
+     * @param {User}         user
+     *
+     * @return {boolean}
+     */
+    rightRuleSchema.methods.validateAge = function(dtstart, dtend, user) {
+
+        if (undefined === user.populated('roles.account')) {
+            throw new Error('The roles.account field need to be populated');
+        }
+
+        if (undefined === dtstart || null === dtstart) {
+            return false;
+        }
+
+        let birth = user.roles.account.birth;
+
+        if (undefined === birth || null === birth) {
+            return false;
+        }
+
+
+
+        var min, max;
+
+        min = new Date(birth);
+        max = new Date(birth);
+
+
+        min.setFullYear(min.getFullYear() + this.interval.min);
+        max.setFullYear(max.getFullYear() + this.interval.max);
+
+        if (dtstart < min || dtend > max) {
+            return false;
+        }
+
+
+        return true;
+    };
+
+
+
+
+
+
+
+
 
 
     /**
