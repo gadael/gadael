@@ -12,6 +12,10 @@
         <span translate>This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it</span>
     </div>
     
+    <p ng-if="user.roles.account.birth">
+        <span translate>Birth date:</span>
+        {{user.roles.account.birth|date}}
+    </p>
     
     <p ng-if="user.roles.account.arrival">
         <span translate>Arrival date:</span>

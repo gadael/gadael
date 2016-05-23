@@ -505,6 +505,7 @@ exports = module.exports = function(params) {
             let promises = [];
 
             let annualPaidLeave = new model();
+            annualPaidLeave._id = '5740adf51cf1a569643cc600';
             annualPaidLeave.name = gt.gettext('Paid annual leave');
             annualPaidLeave.quantity_unit = 'D';
             annualPaidLeave.quantity = getPaidLeaveQuantity();

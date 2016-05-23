@@ -27,6 +27,9 @@ exports = module.exports = function(params) {
         },
         statusLog: [params.embeddedSchemas.StatusLog],
 
+        // date used to compte age
+        birth: Date,
+
         // date used to compute quantity on the first renewal (if this date is in the renewal interval)
         arrival: Date,
 
