@@ -524,7 +524,7 @@ exports = module.exports = function(params) {
 
 
         /**
-         * [[Description]]
+         * Save one right, add one renewal, add right in a collection
          * @return {Promise}
          */
         function saveRight(rightData) {
@@ -557,6 +557,16 @@ exports = module.exports = function(params) {
 
                 right.save().then(right => {
 
+                    // put right in collection
+
+                    let beneficiaryModel = right.model('Beneficiary');
+                    let beneficiary = new beneficiaryModel();
+
+                    beneficiary.right = right._id;
+                    beneficiary.ref = 'RightCollection';
+                    beneficiary.document = rightData.collection || '5740adf51cf1a569643cc520';
+
+
                     // create renewal
                     let renewalModel = right.model('RightRenewal');
                     let renewal = new renewalModel();
@@ -565,7 +575,12 @@ exports = module.exports = function(params) {
                     renewal.start = start;
                     renewal.finish = finish;
 
-                    resolve(renewal.save());
+                    resolve(
+                        Promise.all([
+                            beneficiary.save(),
+                            renewal.save()
+                        ])
+                    );
                 });
 
             });
