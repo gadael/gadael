@@ -104,7 +104,7 @@ describe("Test company creation", function companyCreation() {
             expect(count[1]).toBeGreaterThan(23); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
-            expect(count[4]).toEqual(1); // Right
+            expect(count[4]).toEqual(2); // Right
 
             done();
         }).catch(done);
@@ -122,6 +122,45 @@ describe("Test company creation", function companyCreation() {
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
+            expect(count[4]).toEqual(1); // Right
+
+            done();
+        }).catch(done);
+    });
+
+
+
+    it("verify initialization with BE", function(done) {
+
+        countRows('companyCreationBe', {
+            port: 2800,
+            name: 'BE',
+            country: 'BE'
+        }).then(count => {
+            expect(count[0]).toEqual(2); // Calendar
+            expect(count[1]).toEqual(21); // Type
+            expect(count[2]).toEqual(4); // RecoverQuantity
+            expect(count[3]).toEqual(5); // RightCollection
+            expect(count[4]).toEqual(1); // Right
+
+            done();
+        }).catch(done);
+    });
+
+
+
+    it("verify initialization with CH", function(done) {
+
+        countRows('companyCreationCh', {
+            port: 2800,
+            name: 'CH',
+            country: 'CH'
+        }).then(count => {
+            expect(count[0]).toEqual(27); // Calendar (one per canton + working times)
+            expect(count[1]).toEqual(21); // Type
+            expect(count[2]).toEqual(4); // RecoverQuantity
+            expect(count[3]).toEqual(5); // RightCollection
+            expect(count[4]).toEqual(2); // Right
 
             done();
         }).catch(done);
