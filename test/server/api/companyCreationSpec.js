@@ -85,6 +85,7 @@ describe("Test company creation", function companyCreation() {
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
+            expect(count[4]).toEqual(0); // Right
 
             done();
         }).catch(done);
@@ -103,6 +104,7 @@ describe("Test company creation", function companyCreation() {
             expect(count[1]).toBeGreaterThan(23); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
+            expect(count[4]).toEqual(1); // Right
 
             done();
         }).catch(done);

@@ -1,12 +1,12 @@
 'use strict';
 
-var gt = require('./../modules/gettext');
+const gt = require('./../modules/gettext');
 
 exports = module.exports = function(params) {
     
-    var mongoose = params.mongoose;
+    let mongoose = params.mongoose;
     
-	var rightSchema = new params.mongoose.Schema({
+	let rightSchema = new params.mongoose.Schema({
 		name: { type: String, unique: true, required: true },
         description: String,
 		timeCreated: { type: Date, default: Date.now },
@@ -91,12 +91,12 @@ exports = module.exports = function(params) {
      */
     rightSchema.methods.updateAdjustments = function(next) {
 
-        var right = this;
-        var async = require('async');
+        let right = this;
+        let async = require('async');
 
         this.getAllRenewals().then(function(arr) {
 
-            var rightRenewalSchema = params.db.models.RightRenewal;
+            let rightRenewalSchema = params.db.models.RightRenewal;
 
             async.each(arr,function(renewal, renewalDone) {
 
@@ -447,9 +447,34 @@ exports = module.exports = function(params) {
 
 
         /**
+         * get rights data
+         * warning, security risk, company.country must be clean
+         * @returns {object}
+         */
+        function getData() {
+
+            if (undefined === company.country || null === company.country) {
+                return null;
+            }
+
+            if (!company.country.match(/^[A-Z]{2}$/)) {
+                return null;
+            }
+
+            try {
+
+                return require('./data/'+company.country.toLowerCase());
+
+            } catch(e) {
+                return null;
+            }
+        }
+
+
+        /**
          * [[Description]]
          * @returns {Number} In days
-         */
+         *//*
         function getPaidLeaveQuantity() {
             switch(company.country) {
                 case 'FR':
@@ -494,6 +519,60 @@ exports = module.exports = function(params) {
 
             return 20;
         }
+        */
+
+
+
+        /**
+         * [[Description]]
+         * @return {Promise}
+         */
+        function saveRight(rightData) {
+
+            let now = new Date();
+            let start = new Date();
+            start.setHours(0,0,0,0);
+
+            start.setMonth(rightData.renewal.month);
+            start.setDate(rightData.renewal.day);
+
+            if (start > now) {
+                start.setFullYear(start.getFullYear()-1);
+            }
+
+            let finish = new Date(start);
+            finish.setFullYear(finish.getFullYear()+1);
+            finish.setDate(finish.getDate()-1);
+
+
+            return new Promise((resolve, reject) => {
+
+                let right = new model();
+
+                right.name = rightData.name || gt.gettext('Paid annual leave');
+                right.quantity_unit = rightData.quantity_unit || 'D';
+                right.quantity = rightData.quantity || 20;
+                right.type = rightData.type || '5740adf51cf1a569643cc508';
+                right.rules = rightData.rules;
+
+                right.save().then(right => {
+
+                    // create renewal
+                    let renewalModel = right.model('RightRenewal');
+                    let renewal = new renewalModel();
+
+                    renewal.right = right._id;
+                    renewal.start = start;
+                    renewal.finish = finish;
+
+                    resolve(renewal.save());
+                });
+
+            });
+        }
+
+
+
 
 
         /**
@@ -504,13 +583,14 @@ exports = module.exports = function(params) {
 
             let promises = [];
 
-            let annualPaidLeave = new model();
-            annualPaidLeave._id = '5740adf51cf1a569643cc600';
-            annualPaidLeave.name = gt.gettext('Paid annual leave');
-            annualPaidLeave.quantity_unit = 'D';
-            annualPaidLeave.quantity = getPaidLeaveQuantity();
-            annualPaidLeave.type = '5740adf51cf1a569643cc508';
-            promises.push(annualPaidLeave.save());
+            let data = getData();
+            if (null === data) {
+                return done();
+            }
+
+            data.rights.forEach(rightData => {
+                promises.push(saveRight(rightData));
+            });
 
             Promise.all(promises)
                 .then(() => { done(); })
