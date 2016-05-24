@@ -1,0 +1,28 @@
+{
+    rights: [
+        {
+            "_id": "5740adf51cf1a569643cc600",
+            "quantity": 25,
+            "rules": [
+                {
+                    type: "entry_date",
+                    title: "La création de la demande peut être effectée entre le %s et le %s",
+                    min: 30,
+                    max: 30
+                },
+                {
+                    type: "request_period",
+                    title: "La période d'absence doit être comprise entre le %s et le %s",
+                    min: 0,
+                    max: 0
+                }
+            ],
+            renewal: {
+                start: {
+                    month:5,
+                    day:1
+                }
+            }
+        }
+    ]
+}

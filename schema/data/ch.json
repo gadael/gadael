@@ -1,0 +1,45 @@
+{
+    rights: [
+        {
+            quantity: 20,
+            rules: [
+                {
+                    type: "request_period",
+                    title: "La période d'absence doit être comprise entre le %s et le %s",
+                    min: 0,
+                    max: 1825 // 5 ans
+                }
+            ],
+            renewal: {
+                start: {
+                    month:0,
+                    day:1
+                }
+            }
+        },
+        {
+            quantity: 5,
+            name: "Congés payés annuels jusqu’à l’âge de 20 ans révolus",
+            rules: [
+                {
+                    type: "request_period",
+                    title: "La période d'absence doit être comprise entre le %s et le %s",
+                    min: 0,
+                    max: 1825
+                },
+                {
+                    type: "age",
+                    title: "Moins de 21 ans au moment de l'absence",
+                    min: 0,
+                    max: 21
+                }
+            ],
+            renewal: {
+                start: {
+                    month:0,
+                    day:1
+                }
+            }
+        }
+    ]
+}
