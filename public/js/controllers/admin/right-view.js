@@ -4,10 +4,12 @@ define([], function() {
 	return ['$scope', 
 		'$location', 
 		'Rest',
+        'getRightRuleType',
         function(
 			$scope, 
 			$location, 
-			Rest
+			Rest,
+            getRightRuleType
 		) {
                 
 
@@ -21,7 +23,7 @@ define([], function() {
             $scope.collections = collectionsResource.query({ right: $scope.right._id });
         });
         
-        
+        $scope.getRightRuleType = getRightRuleType;
         
 		
 		$scope.cancel = function() {

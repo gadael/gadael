@@ -18,6 +18,7 @@
         <div class="row panel panel-primary">
             <div class="col-xs-10">
                 <h2><i class="fa fa-asterisk" style="color:{{right.type.color}}" title="{{right.type.name}}"></i> {{right.name}}</h2>
+                <p class="lead">{{right.description}}</p>
                 <p><span translate>Type:</span> {{right.type.name}}</p>
                 <p><span translate>Default quantity on start renewal:</span> {{right.quantity | number}} {{right.disp_unit}}</p>
                 <p ng-if="right.addMonthly.quantity>0"><span translate>Monthly additions:</span> {{right.addMonthly.quantity | number}} {{right.disp_unit}}</p>
@@ -54,7 +55,7 @@
                             <i class="fa fa-edit"></i> Edit
                         </a>
                     </td>
-                    <td>{{rule.type}}</td>
+                    <td>{{getRightRuleType(rule.type)}}</td>
                     <td>{{rule.title}}</td>
                 </tr>
                 </tbody>

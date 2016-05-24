@@ -342,6 +342,25 @@ define([
         };
     })
 
+
+    /**
+     * Load the Beneficiary service
+     */
+    .factory('getRightRuleType', ['gettext',
+        function(gettext) {
+            return function getRightRuleType(type) {
+                switch(type) {
+                    case 'entry_date':      return gettext('Entry date');
+                    case 'request_period':  return gettext('Request period');
+                    case 'seniority':       return gettext('Seniority');
+                    case 'age':             return gettext('Age');
+                }
+            };
+        }
+    ])
+
+
+
     /**
      * Load the Beneficiary service
      */

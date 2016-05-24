@@ -79,7 +79,7 @@ exports = module.exports = function(params) {
                     return;
                 }
 
-                if (min < max) {
+                if (('seniority' === rule.type && min < max) || ('age' === rule.type && min > max)) {
                     next(new Error(gt.gettext('Interval values must be set in a correct order')));
                     return;
                 }
