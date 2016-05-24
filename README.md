@@ -65,8 +65,8 @@ grunt test
 - [ ] Create data for a demo company
 - [x] Test calendar initialization by country
 - [ ] Test rights initialization by country
-- [ ] Test age rule type (Swiss)
-
+- [x] Test age rule type (Swiss)
+- [ ] In the request_period rule type, allow interval duration in years (5 years for swiss annual leaves)
 
 ## Technical features
 

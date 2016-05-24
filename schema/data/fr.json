@@ -6,13 +6,13 @@
             "rules": [
                 {
                     type: "entry_date",
-                    title: "La création de la demande peut être effectée entre le %s et le %s",
+                    title: "La création de la demande peut être effectée dans la période du renouvellement, avec 30 jours de tolérance",
                     min: 30,
                     max: 30
                 },
                 {
                     type: "request_period",
-                    title: "La période d'absence doit être comprise entre le %s et le %s",
+                    title: "La période d'absence doit être comprise dans la période du renouvellement",
                     min: 0,
                     max: 0
                 }

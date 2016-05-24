@@ -5,9 +5,9 @@
             rules: [
                 {
                     type: "request_period",
-                    title: "La période d'absence doit être comprise entre le %s et le %s",
+                    title: "La période d'absence doit être prise après la date de début du renouvellement, et dans les 5 années qui suivent la fin de période",
                     min: 0,
-                    max: 1825 // 5 ans
+                    max: 1825
                 }
             ],
             renewal: {
@@ -23,7 +23,7 @@
             rules: [
                 {
                     type: "request_period",
-                    title: "La période d'absence doit être comprise entre le %s et le %s",
+                    title: "La période d'absence doit être prise après la date de début du renouvellement, et dans les 5 années qui suivent la fin de période",
                     min: 0,
                     max: 1825
                 },
