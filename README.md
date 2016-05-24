@@ -68,6 +68,7 @@ grunt test
 - [x] Test age rule type (Swiss)
 - [ ] In the request_period rule type, allow interval duration in years (5 years for swiss annual leaves)
 
+
 ## Technical features
 
 * [Express JS](http://expressjs.com/) application

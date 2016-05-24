@@ -1,18 +1,21 @@
-{
+'use strict';
+
+const gt = require('./../../modules/gettext');
+
+module.exports = exports = {
     rights: [
         {
-            "_id": "5740adf51cf1a569643cc600",
-            "quantity": 25,
-            "rules": [
+            quantity: 25,
+            rules: [
                 {
                     type: "entry_date",
-                    title: "La création de la demande peut être effectée dans la période du renouvellement, avec 30 jours de tolérance",
+                    title: gt.gettext("The creation of the request can be made in the period of renewal, with 30 days of tolerance"),
                     min: 30,
                     max: 30
                 },
                 {
                     type: "request_period",
-                    title: "La période d'absence doit être comprise dans la période du renouvellement",
+                    title: gt.gettext("The absence must be within the renewal period"),
                     min: 0,
                     max: 0
                 }
@@ -25,4 +28,4 @@
             }
         }
     ]
-}
+};

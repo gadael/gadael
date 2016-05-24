@@ -1,11 +1,15 @@
-{
+'use strict';
+
+const gt = require('./../../modules/gettext');
+
+module.exports = exports = {
     rights: [
         {
             quantity: 20,
             rules: [
                 {
                     type: "request_period",
-                    title: "La période d'absence doit être prise après la date de début du renouvellement, et dans les 5 années qui suivent la fin de période",
+                    title: gt.gettext("The absence must be made after the renewal start date, and within 5 years following the end of the renewal period"),
                     min: 0,
                     max: 1825
                 }
@@ -19,17 +23,17 @@
         },
         {
             quantity: 5,
-            name: "Congés payés annuels jusqu’à l’âge de 20 ans révolus",
+            name: gt.gettext("Paid annual leave until the age of 20 years old"),
             rules: [
                 {
                     type: "request_period",
-                    title: "La période d'absence doit être prise après la date de début du renouvellement, et dans les 5 années qui suivent la fin de période",
+                    title: gt.gettext("The absence must be made after the renewal start date, and within 5 years following the end of the renewal period"),
                     min: 0,
                     max: 1825
                 },
                 {
                     type: "age",
-                    title: "Moins de 21 ans au moment de l'absence",
+                    title: gt.gettext("Under 21 at the time of the absence"),
                     min: 0,
                     max: 21
                 }
@@ -42,4 +46,4 @@
             }
         }
     ]
-}
+};
