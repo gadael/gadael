@@ -1,7 +1,7 @@
 <div class="row panel panel-primary">
 
-    <h2 class="col-sm-12"><i class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}" title="{{beneficiary.right.type.name}}"></i> <a href="#/admin/rights/{{beneficiary.right._id}}">{{beneficiary.right.name}}</a></h2>
-
+    <h2 class="col-sm-12"><i class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}" title="{{beneficiary.right.type.name}}"></i> {{beneficiary.right.name}}</h2>
+    <div class="col-sm-12"><p class="lead">{{beneficiary.right.description}}</p></div>
     <div class="col-sm-6">
         <p>
             <span translate>Type:</span> {{beneficiary.right.type.name}}
