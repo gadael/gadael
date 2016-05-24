@@ -20,26 +20,41 @@
                 <h3>Select rule type</h3>
                 
                 <div class="form-group">
-                    <label><input type="radio" ng-model="rightrule.type" value="entry_date" /> 
-                        <strong translate>Activate the right according to the entry creation date</strong></label>
-                        <p translate>Right is visible when the request creation date is in the renewal period</p>
+                    <label>
+                        <input type="radio" ng-model="rightrule.type" value="entry_date" />
+                        <strong translate>Activate the right according to the entry creation date</strong>
+                    </label>
+                    <p translate>Right is visible when the request creation date is in the renewal period</p>
                 </div>    
 
                 <div class="form-group">
-                    <label><input type="radio" ng-model="rightrule.type" value="request_period" />
-                        <strong translate>Activate the right according to the request period</strong></label>
-                        <p translate>Right is visible when request period is in the renewal period</p>
+                    <label>
+                        <input type="radio" ng-model="rightrule.type" value="request_period" />
+                        <strong translate>Activate the right according to the request period</strong>
+                    </label>
+                    <p translate>Right is visible when request period is in the renewal period</p>
                 </div> 
 
                 <div class="form-group">
-                    <label><input type="radio" ng-model="rightrule.type" value="seniority" /> 
-                        <strong translate>Add quantity to the right according to the seniority</strong></label>
-                        <p translate>Right is visible when the request period is in a period relative to the user seniority date</p>
+                    <label>
+                        <input type="radio" ng-model="rightrule.type" value="seniority" />
+                        <strong translate>Activate the right according to the seniority</strong>
+                    </label>
+                    <p translate>Right is visible when the request period is in a period relative to the user seniority date</p>
                 </div>
                 
+                <div class="form-group">
+                    <label>
+                        <input type="radio" ng-model="rightrule.type" value="age" />
+                        <strong translate>Activate the right according to the age</strong>
+                    </label>
+                    <p translate>Right is visible when the request period is in a period relative to the user birth date</p>
+                </div>
                 
-                <button class="btn btn-primary" ng-click="next()" translate>Next</button>
-                <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+                <div class="top30">
+                    <button class="btn btn-primary" ng-click="next()"><i class="fa fa-arrow-circle-right"></i> <translate>Next</translate></button>
+                    <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+                </div>
             </div>
 
             <div ng-if="step===2">
@@ -115,6 +130,35 @@
 
                         <em class="text-info" translate>For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.</em>
                     </div>
+
+
+
+
+
+                    <div ng-switch-when="age">
+                        <strong translate>Rule type:</strong>
+                        <p translate>Activate the right according to the user age</p>
+                        <p translate>If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:</p>
+
+                        <div class="form-group">
+                            <label for="age_min" translate>Years after the birth date to set the period start:</label>
+                            <div class="input-group">
+                                <input type="number" id="age_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                                <div class="input-group-addon" translate>Years</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="age_max" translate>Years after the birth date to set the period end:</label>
+                            <div class="input-group">
+                                <input type="number" id="age_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+                                <div class="input-group-addon" translate>Years</div>
+                            </div>
+                        </div>
+
+                        <em class="text-info" translate>The right will be available only if the user is beetween {{rightrule.interval.min}} years old and {{rightrule.interval.max}} years old on the first day of the requested leave.</em>
+                    </div>
+
                 </div>
 
                 <br />
