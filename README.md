@@ -68,6 +68,8 @@ grunt test
 - [x] Test age rule type (Swiss)
 - [ ] In the request_period rule type, allow interval duration in years (5 years for swiss annual leaves)
 - [ ] Dynamic intial quantity computed from the number of worked days in the previous renewal period (french RTT, belgium annual leaves ...)
+- [ ] Set right duration in weeks
+- [ ] ICS Export
 
 
 ## Technical features

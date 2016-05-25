@@ -5,6 +5,7 @@ const gt = require('./../../modules/gettext');
 module.exports = exports = {
     rights: [
         {
+            name: gt.gettext("Paid annual leave"),
             quantity: 28,
             rules: [
                 {
@@ -26,6 +27,16 @@ module.exports = exports = {
                     day:1
                 }
             }
+        },
+        {
+            name: gt.gettext("Ordinary Maternity Leave"),
+            quantity: 130, // 26 weeks
+            activeFor: {  account: false }
+        },
+        {
+            name: gt.gettext("Additional Maternity Leave"),
+            quantity: 130, // 26 weeks
+            activeFor: {  account: false }
         }
     ]
 };

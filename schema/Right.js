@@ -529,21 +529,31 @@ exports = module.exports = function(params) {
          */
         function saveRight(rightData) {
 
-            let now = new Date();
-            let start = new Date();
-            start.setHours(0,0,0,0);
+            function getRenewal() {
 
-            start.setMonth(rightData.renewal.month);
-            start.setDate(rightData.renewal.day);
+                if (undefined === rightData.renewal) {
+                    return null;
+                }
 
-            if (start > now) {
-                start.setFullYear(start.getFullYear()-1);
+                let period = {};
+
+                let now = new Date();
+                period.start = new Date();
+                period.start.setHours(0,0,0,0);
+
+                period.start.setMonth(rightData.renewal.month);
+                period.start.setDate(rightData.renewal.day);
+
+                if (period.start > now) {
+                    period.start.setFullYear(period.start.getFullYear()-1);
+                }
+
+                period.finish = new Date(period.start);
+                period.finish.setFullYear(period.finish.getFullYear()+1);
+                period.finish.setDate(period.finish.getDate()-1);
+
+                return period;
             }
-
-            let finish = new Date(start);
-            finish.setFullYear(finish.getFullYear()+1);
-            finish.setDate(finish.getDate()-1);
-
 
             return new Promise((resolve, reject) => {
 
@@ -557,6 +567,8 @@ exports = module.exports = function(params) {
 
                 right.save().then(right => {
 
+                    let promises = [];
+
                     // put right in collection
 
                     let beneficiaryModel = right.model('Beneficiary');
@@ -565,22 +577,21 @@ exports = module.exports = function(params) {
                     beneficiary.right = right._id;
                     beneficiary.ref = 'RightCollection';
                     beneficiary.document = rightData.collection || '5740adf51cf1a569643cc520';
-
+                    promises.push(beneficiary.save());
 
                     // create renewal
-                    let renewalModel = right.model('RightRenewal');
-                    let renewal = new renewalModel();
 
-                    renewal.right = right._id;
-                    renewal.start = start;
-                    renewal.finish = finish;
+                    let period = getRenewal();
+                    if (null !== period) {
+                        let renewalModel = right.model('RightRenewal');
+                        let renewal = new renewalModel();
 
-                    resolve(
-                        Promise.all([
-                            beneficiary.save(),
-                            renewal.save()
-                        ])
-                    );
+                        renewal.right = right._id;
+                        renewal.set(period);
+                        promises.push(renewal.save());
+                    }
+
+                    resolve(Promise.all(promises));
                 });
 
             });
