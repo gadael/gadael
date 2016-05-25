@@ -73,6 +73,16 @@ function saveAccountCollection(service, params) {
     var AccountCollection = service.app.db.models.AccountCollection;
     var util = require('util');
     
+    if (params.from) {
+        params.from = new Date(params.from);
+        params.from.setHours(0,0,0,0);
+    }
+
+    if (params.to) {
+        params.to = new Date(params.to);
+        params.to.setHours(23,59,59,999);
+    }
+
 
     if (params._id) {
 
@@ -83,6 +93,8 @@ function saveAccountCollection(service, params) {
                     return;
                 }
                 
+
+
                 document.rightCollection 	= params.rightCollection._id;
                 document.from 				= params.from;
                 document.to 				= params.to;
