@@ -102,8 +102,7 @@ exports = module.exports = function(services, app) {
                             function(err) {
 
                                 if (err) {
-                                    service.outcome.success = false;
-                                    service.deferred.reject(err);
+                                    service.error(err);
                                     return;
                                 }
 

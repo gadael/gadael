@@ -109,10 +109,7 @@ exports = module.exports = function(services, app) {
                     Promise.all(promises).then(function(objects) {
                         service.outcome.success = true;
                         service.deferred.resolve(objects);
-                    }).catch(function(err) {
-                        service.outcome.success = false;
-                        service.deferred.reject(err);
-                    });
+                    }).catch(service.error);
                 }
             });
         });

@@ -48,15 +48,15 @@ exports = module.exports = function userComplete(userDoc)
         var calendar = results[1];
         var departments = results[2];
 
-        if (null !== collection) {
+        if (null !== collection && undefined !== collection) {
             user.roles.account.currentCollection = collection.toObject();
         }
 
-        if (null !== calendar) {
+        if (null !== calendar && undefined !== calendar) {
             user.roles.account.currentScheduleCalendar = calendar.toObject();
         }
 
-        if (null !== departments) {
+        if (null !== departments && undefined !== departments) {
             var usersPromises = [], department;
 
             departments.forEach(function(d) {
