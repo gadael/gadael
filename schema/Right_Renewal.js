@@ -1,5 +1,8 @@
 'use strict';
 
+const jurassic = require('jurassic');
+
+
 exports = module.exports = function(params) {
 	
 	var mongoose = params.mongoose;
@@ -621,6 +624,106 @@ exports = module.exports = function(params) {
 
         return savingPeriod;
     };
+
+
+
+
+    /**
+     * get number of week-end days in the renewal for one user
+     * @throws {Error} [[Description]]
+     * @param   {Account}   user [[Description]]
+     * @returns {Promise} Int
+     */
+    rightRenewalSchema.methods.getWeekEndDays = function(account) {
+
+        let renewal = this;
+
+        return new Promise((resolve, reject) => {
+            account.getPeriodScheduleEvents(renewal.start, renewal.finish).then(ScheduleEra => {
+
+                let RenewalEra = new jurassic.Era();
+                let RenewalPeriod = new jurassic.Period();
+                RenewalEra.addPeriod(RenewalPeriod);
+
+                RenewalEra.subtractEra(ScheduleEra);
+                resolve(RenewalEra.getDays());
+
+            }).catch(reject);
+        });
+    };
+
+
+
+    /**
+     * Get number of days in renewal period
+     * @returns {Number} Integer
+     */
+    rightRenewalSchema.methods.getDays = function() {
+
+        function treatAsUTC(date) {
+            var result = new Date(date);
+            result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+            return result;
+        }
+
+        var millisecondsPerDay = 24 * 60 * 60 * 1000;
+        return (treatAsUTC(this.start) - treatAsUTC(this.finish)) / millisecondsPerDay;
+    };
+
+
+
+
+    /**
+     * Get number of worked days on the period
+     * This method should be called on the renewal associated to the annual paid leave because
+     * the associated right will be excluded from computed quantity
+     *
+     * @exemple 365 - 104 week-ends days - 25 days of annual paid leaves - 8 non working days = 228
+     *
+     * @param {User} user
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.getWorkedDays = function(user) {
+
+        let renewal = this;
+
+        if (!user.populated('roles.account') || !user.roles.account) {
+            throw new Error('Missing account');
+        }
+
+        let account = user.roles.account;
+
+        return new Promise((resolve, reject) => {
+            Promise.all([
+                renewal.getWeekEndDays(account),
+                account.getPeriodNonWorkingDaysEvents(renewal.start, renewal.finish),
+                renewal.getRightPromise()
+            ]).then(r => {
+
+                let weekEnds = r[0];
+                let nonWorkingDays = r[1].getDays();
+
+                /*
+                let right = r[2];
+                */
+
+
+                //
+                // TODO ici on a besoin de trouver la liste des regimes de conges utilises peandant la periode du renouvellement
+                // pour chaque regime, compter le nombre de jours qui ont ete attribues a l'utilisateur
+                // tenir compte uniquement des regimes associes au droit
+                // dans ce genre de situation, a cheval sur 2 regimes, la quantites initiale a ete modifie specifiquement pour cet utilisateur
+                // potentiellement sur les 2 regimes il faut cette quantite pour terminer cette fonction
+
+
+                resolve(renewal.getDays() - weekEnds - 0 - nonWorkingDays);
+
+
+            }).catch(reject);
+        });
+
+    };
+
 
 
 

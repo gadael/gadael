@@ -1,5 +1,8 @@
 'use strict';
 
+const jurassic = require('jurassic');
+const async = require('async');
+
 /**
  * Account is a user with a collection or rights
  * registrations on site create accounts
@@ -301,9 +304,7 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getPeriodScheduleEvents = function(dtstart, dtend) {
 
-        var jurassic = require('jurassic');
 
-        var async = require('async');
 
         function isValidDate(d) {
             if ( Object.prototype.toString.call(d) !== "[object Date]" ) {
@@ -362,13 +363,13 @@ exports = module.exports = function(params) {
 
 
     /**
-     * get non working periods in a period
+     * get non working days in a period
      * @param {Date} dtstart
      * @param {Date} dtend
      * @return {Promise} resolve to an Era object
      */
-    accountSchema.methods.getPeriodUnavailableEvents = function(dtstart, dtend) {
-        var jurassic = require('jurassic');
+    accountSchema.methods.getPeriodNonWorkingDaysEvents = function(dtstart, dtend) {
+
         var deferred = {};
         deferred.promise = new Promise(function(resolve, reject) {
             deferred.resolve = resolve;
@@ -395,7 +396,6 @@ exports = module.exports = function(params) {
                     return deferred.reject(err);
                 }
 
-                var async = require('async');
                 var nonWorkingDays = new jurassic.Era();
 
                 async.each(calendars, function(calendar, endCal) {
@@ -417,9 +417,6 @@ exports = module.exports = function(params) {
 
                     unavailableEvents.addEra(nonWorkingDays);
 
-                    // TODO: add absence events
-
-
                     var era = unavailableEvents.getFlattenedEra();
 
                     deferred.resolve(era);
@@ -429,6 +426,19 @@ exports = module.exports = function(params) {
 
 
         return deferred.promise;
+    };
+
+
+
+    /**
+     * get non working periods in a period
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise} resolve to an Era object
+     */
+    accountSchema.methods.getPeriodUnavailableEvents = function(dtstart, dtend) {
+        // TODO add leaves periods
+        return this.getPeriodNonWorkingDaysEvents(dtstart, dtend);
     };
 
 
