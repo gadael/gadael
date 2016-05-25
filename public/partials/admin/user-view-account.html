@@ -119,9 +119,9 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Calendar name</th>
-            <th class="col-sm-3">From</th>
-            <th class="col-sm-3">To</th>
+            <th translate>Calendar name</th>
+            <th class="col-sm-3" translate>From</th>
+            <th class="col-sm-3" translate>To</th>
         </tr>
         </thead>
         <tbody>
@@ -142,3 +142,43 @@
         <span>This user has no configured work schedule</span>
     </div>
 </div>
+
+
+
+<div class="row">
+    <h3  class="col-xs-10" translate>Exceptional quantity modifications</h3>
+    <div class="col-xs-2 text-right">
+        <br />
+        <a ng-href="#/admin/users/{{user._id}}/account-renewalquantity" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th translate>Right name</th>
+            <th class="col-sm-3" translate>From</th>
+            <th class="col-sm-3" translate>To</th>
+            <th translate>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="renewalQuantity in user.roles.account.renewalQuantity">
+            <td>
+                <a ng-href="#/admin/right/{{renewalQuantity.right._id}}">
+                    {{renewalQuantity.right.name}}
+                </a>
+            </td>
+            <td>{{renewalQuantity.renewal.start|date}}</td>
+            <td>{{renewalQuantity.renewal.finish|date}}</td>
+            <td>{{renewalQuantity.quantity}} {{renewalQuantity.right_DispUnit}}</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <div class="alert alert-success" role="alert" ng-if="!user.roles.account.renewalQuantity">
+        <span>This user has no configured specific quantity, rights are set by collection only</span>
+    </div>
+</div>
+
+

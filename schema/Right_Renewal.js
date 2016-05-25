@@ -674,16 +674,16 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Get number of worked days on the period
+     * Get number of planned working days on the period
      * This method should be called on the renewal associated to the annual paid leave because
-     * the associated right will be excluded from computed quantity
+     * the associated right will be excluded from computed quantity and only this right will be taken into account
      *
      * @exemple 365 - 104 week-ends days - 25 days of annual paid leaves - 8 non working days = 228
      *
      * @param {User} user
      * @return {Promise}
      */
-    rightRenewalSchema.methods.getWorkedDays = function(user) {
+    rightRenewalSchema.methods.getPlannedWorkDayNumber = function(user) {
 
         let renewal = this;
 

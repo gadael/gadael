@@ -278,3 +278,14 @@
 .as-sortable-item .as-sortable-item-handle {
     padding:.4em;
 }
+
+
+/* vertical alignement for bootstrap blocks
+http://stackoverflow.com/questions/20547819/vertical-align-with-bootstrap-3 */
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    margin-right: -4px;
+}

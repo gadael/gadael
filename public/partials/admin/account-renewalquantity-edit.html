@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-sm-3">
+
+        <img class="img-rounded" ng-if="user.image" ng-src="{{user.image}}" />
+        <i class="top15 glyphicon glyphicon-user text-muted fa-5x" ng-if="!user.image"></i>
+
+        <h3><a ng-href="#/admin/users/{{user._id}}">{{user.lastname}} {{user.firstname}}</a></h3>
+
+        <p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
+
+        <p ng-if="user.department.name"><span translate>Department:</span> {{user.department.name}}</p>
+        <p ng-if="user.roles.account.arrival"><span translate>Arrival date:</span> {{user.roles.account.arrival|date}}</p>
+    </div>
+
+
+    <div class="col-xs-12 col-sm-9">
+
+
+        <div class="row panel panel-primary">
+
+            <div class="col-md-1 hidden-xs vcenter">
+                <button class="btn btn-primary" ng-click="prev()" title="{{'Previous collection'|translate}}" bs-tooltip>
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+            </div>
+            <div class="col-md-9 col-xs-12 vcenter">
+                <h2>{{collection.name}}</h2>
+                <p><span translate>Start:</span> {{collection.start|date}}</p>
+                <p><span translate>Finish:</span> {{collection.finish|date}}</p>
+            </div>
+            <div class="col-md-2 hidden-xs vcenter text-right">
+                <button class="btn btn-primary" ng-click="next()" title="{{'Next collection'|translate}}" bs-tooltip>
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+
+
+        <form role="form" name="accountRenewalQuantityEdit">
+
+
+
+
+
+
+
+
+
+
+
+            <div class="col-sm-12 text-center top30">
+                <button class="btn btn-primary" ng-click="save()" translate>Save</button>
+                <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
+            </div>
+
+        </form>
+    </div>
+</div>
