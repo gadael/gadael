@@ -58,7 +58,8 @@ define([], function() {
         var today = new Date();
 
         for(var r = renewals.length; r--;) {
-            if (renewals[r].start > collection.to || renewals[r].finish < collection.from) {
+            var rightTest = collection.to ? renewals[r].start > collection.to : false;
+            if (rightTest || renewals[r].finish < collection.from) {
                 // filter out renewals out of collection period
                 renewals.splice(r, 1);
                 continue;
@@ -108,9 +109,10 @@ define([], function() {
         function setAccountCollection(accountCollections, refDate) {
             $scope.accountCollections = getCollections(accountCollections, refDate);
             var collection = $scope.accountCollections.current;
-            var accoutBeneficiaries = accoutBeneficiariesResource.query({ account: account._id });
+            var accoutBeneficiaries = accoutBeneficiariesResource.query({ account: account._id, date: collection.from });
 
             accoutBeneficiaries.$promise.then(function() {
+
                 $scope.beneficiaries = [];
 
                 accoutBeneficiaries.forEach(function(b) {

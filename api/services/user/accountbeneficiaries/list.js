@@ -33,8 +33,9 @@ exports = module.exports = function(services, app) {
     /**
      * Create the query with filters
      *
-     * @param {array} params      query parameters if called by controller
-     *                            params.account     mandatory parameter to get the account beneficaries
+     * @param {array}    params query parameters if called by controller
+     *                          params.account     Mandatory parameter to get the account beneficaries
+     *                          [params.date]      Optional moment for collection selection
      * @param {function} next
      *
      */
@@ -47,7 +48,7 @@ exports = module.exports = function(services, app) {
         service.app.db.models.Account
             .findOne({ _id: params.account})
             .populate('user.id')
-            .exec(function(err, account) {
+            .exec((err, account) => {
 
             if (service.handleMongoError(err)) {
 
@@ -56,9 +57,16 @@ exports = module.exports = function(services, app) {
                     return next(find, account);
                 }
 
-                var docs = [account.user.id._id];
+                let docs = [account.user.id._id];
+                let collectionPromise;
 
-                account.getCurrentCollection().then(function(rightCollection) {
+                if (undefined !== params.date) {
+                    collectionPromise = account.getCollection(new Date(params.date));
+                } else {
+                    collectionPromise = account.getCurrentCollection();
+                }
+
+                collectionPromise.then(rightCollection => {
 
                     if (rightCollection) {
                         docs.push(rightCollection._id);
