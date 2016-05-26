@@ -47,6 +47,48 @@ define([], function() {
 
 
 
+
+    /**
+     * Remove renewals if they must not appear in the view
+     * @param {Array} renewals list of the renewal in a right object
+     * @param {Object} collection
+     */
+    function filterInvalidRenewals(renewals, collection)
+    {
+        var today = new Date();
+
+        for(var r = renewals.length; r--;) {
+            if (renewals[r].start > collection.to || renewals[r].finish < collection.from) {
+                // filter out renewals out of collection period
+                renewals.splice(r, 1);
+                continue;
+            }
+
+            renewals[r].position = 0;
+
+            if (renewals[r].finish < today) {
+                // filter out finished renewals with no remaining quantity
+
+                if (renewals[r].available_quantity <= 0) {
+                    renewals.splice(r, 1);
+                    continue;
+                } else {
+                    renewals[r].position = -1;
+                }
+            }
+
+
+            if (renewals[r].start > today) {
+                renewals[r].position = 1;
+            }
+        }
+
+    }
+
+
+
+
+
 	return [
         '$scope',
         '$location',
@@ -70,25 +112,19 @@ define([], function() {
 
             accoutBeneficiaries.$promise.then(function() {
                 $scope.beneficiaries = [];
-                var today = new Date();
+
                 accoutBeneficiaries.forEach(function(b) {
 
-                    for(var r = b.renewals.length; r--;) {
-                        if (b.renewals[r].start > collection.to || b.renewals[r].finish < collection.from) {
-                            // filter out renewals out of collection period
-                            b.renewals.splice(r, 1);
-                        }
-
-                        if (b.renewals[r].finish < today && b.renewals[r].available_quantity <= 0) {
-                            // filter out finished renewals with no remaining quantity
-                            b.renewals.splice(r, 1);
-                        }
-                    }
+                    filterInvalidRenewals(b.renewals, collection);
 
                     if (0 === b.renewals.length) {
                         // do not display rights with no renewals
                         return;
                     }
+
+                    b.renewals.sort(function(r1, r2) {
+                        return r1.start < r2.start;
+                    });
 
                     $scope.beneficiaries.push(b);
                 });

@@ -1,6 +1,5 @@
 'use strict';
 
-let Q = require('q');
 
 /**
  * Add informations to the user object
@@ -14,74 +13,77 @@ let Q = require('q');
 exports = module.exports = function userComplete(userDoc)
 {
     var user = userDoc.toObject();
-    var deferred = Q.defer();
 
-    if (!userDoc.roles.account && !userDoc.roles.manager) {
-        deferred.resolve(user);
-    }
-
-    var collectionPromise, calendarPromise, departmentsPromise;
-
-    if (userDoc.roles.account) {
-        collectionPromise = userDoc.roles.account.getCurrentCollection();
-        calendarPromise = userDoc.roles.account.getCurrentScheduleCalendar();
-    } else {
-        collectionPromise = Q(null);
-        calendarPromise = Q(null);
-    }
-
-    if (userDoc.roles.manager) {
-        departmentsPromise = userDoc.roles.manager.getManagedDepartments();
-    } else {
-        departmentsPromise = Q(null);
-    }
+    return new Promise((resolve, reject) => {
 
 
 
-    Promise.all([
-        collectionPromise,
-        calendarPromise,
-        departmentsPromise
-    ]).then(function(results) {
-
-        var collection = results[0];
-        var calendar = results[1];
-        var departments = results[2];
-
-        if (null !== collection && undefined !== collection) {
-            user.roles.account.currentCollection = collection.toObject();
+        if (!userDoc.roles.account && !userDoc.roles.manager) {
+            resolve(user);
         }
 
-        if (null !== calendar && undefined !== calendar) {
-            user.roles.account.currentScheduleCalendar = calendar.toObject();
-        }
+        var collectionPromise, calendarPromise, departmentsPromise;
 
-        if (null !== departments && undefined !== departments) {
-            var usersPromises = [], department;
-
-            departments.forEach(function(d) {
-                usersPromises.push(d.getUsers());
-            });
-
-            user.roles.manager.department = [];
-
-            Promise.all(usersPromises).then(function(usersResults) {
-                for (var i=0; i<departments.length; i++) {
-                    department = departments[i].toObject();
-                    department.members = usersResults[i].length;
-                    user.roles.manager.department.push(department);
-                }
-
-                deferred.resolve(user);
-            });
-
+        if (userDoc.roles.account) {
+            collectionPromise = userDoc.roles.account.getCurrentCollection();
+            calendarPromise = userDoc.roles.account.getCurrentScheduleCalendar();
         } else {
-
-            deferred.resolve(user);
+            collectionPromise = Promise.resolve(null);
+            calendarPromise = Promise.resolve(null);
         }
-    })
-    .catch(deferred.reject);
+
+        if (userDoc.roles.manager) {
+            departmentsPromise = userDoc.roles.manager.getManagedDepartments();
+        } else {
+            departmentsPromise = Promise.resolve(null);
+        }
 
 
-    return deferred.promise;
+
+        Promise.all([
+            collectionPromise,
+            calendarPromise,
+            departmentsPromise
+        ]).then(function(results) {
+
+            var collection = results[0];
+            var calendar = results[1];
+            var departments = results[2];
+
+            if (null !== collection && undefined !== collection) {
+                user.roles.account.currentCollection = collection.toObject();
+            }
+
+            if (null !== calendar && undefined !== calendar) {
+                user.roles.account.currentScheduleCalendar = calendar.toObject();
+            }
+
+            if (null !== departments && undefined !== departments) {
+                var usersPromises = [], department;
+
+                departments.forEach(function(d) {
+                    usersPromises.push(d.getUsers());
+                });
+
+                user.roles.manager.department = [];
+
+                Promise.all(usersPromises).then(function(usersResults) {
+                    for (var i=0; i<departments.length; i++) {
+                        department = departments[i].toObject();
+                        department.members = usersResults[i].length;
+                        user.roles.manager.department.push(department);
+                    }
+
+                    resolve(user);
+                });
+
+            } else {
+
+                resolve(user);
+            }
+        })
+        .catch(reject);
+
+
+    });
 };

@@ -44,7 +44,7 @@
             <div ng-repeat="beneficiary in beneficiaries">
                 <h3 class="top30">{{beneficiary.right.name}}</h3>
                 <div class="gadael-list-rows">
-                    <div ng-repeat="renewal in beneficiary.renewals" class="row vpad10">
+                    <div ng-repeat="renewal in beneficiary.renewals" class="row vpad10" ng-class="{'-1':'text-muted','0':'text-success'}[renewal.position]">
 
                         <div class="col-md-6 vcenter">
                             <i class="hidden-xs fa fa-retweet"></i>

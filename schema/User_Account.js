@@ -173,6 +173,7 @@ exports = module.exports = function(params) {
             .where('from').lte(moment)
             .where('to').gte(moment)
         ).then(function(collection) {
+
             if (null === collection) {
                 return account.collectionPromise(
                     account.getAccountCollectionQuery()
@@ -180,6 +181,8 @@ exports = module.exports = function(params) {
                     .where('to').equals(null)
                 );
             }
+
+            return collection;
         });
     };
     
