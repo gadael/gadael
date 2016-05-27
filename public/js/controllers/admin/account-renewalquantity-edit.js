@@ -104,8 +104,22 @@ define([], function() {
         var accoutBeneficiariesResource = Rest.admin.accountbeneficiaries.getResource();
         var account, accountCollections;
 
+        /**
+         * store renewal quantity without account modification
+         * Used to check differences
+         */
+        var collectionRenewalQuantity = {};
+
+
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
 
+
+        /**
+         * On collection change, when arrow are used if any
+         * @param   {object}   accountCollections List of all account collections periods
+         * @param   {Date}     refDate            A date in the collection period used to match the collection
+         *
+         */
         function setAccountCollection(accountCollections, refDate) {
             $scope.accountCollections = getCollections(accountCollections, refDate);
             var collection = $scope.accountCollections.current;
@@ -128,10 +142,22 @@ define([], function() {
                         return r1.start < r2.start;
                     });
 
+                    b.renewals.forEach(function(r) {
+                        collectionRenewalQuantity[r._id] = r.initial_quantity;
+
+                        if (undefined !== account.renewalQuantity[r._id]) {
+                            r.initial_quantity = account.renewalQuantity[r._id];
+                        }
+                    });
+
+
                     $scope.beneficiaries.push(b);
                 });
             });
         }
+
+
+
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
@@ -140,6 +166,10 @@ define([], function() {
                     account = $scope.user.roles.account;
                     accountCollections = accountCollectionResource.query({ account: account._id });
 
+                    if (undefined === account.renewalQuantity) {
+                        account.renewalQuantity = {};
+                    }
+
                     accountCollections.$promise.then(function() {
                         setAccountCollection(accountCollections);
                     });
@@ -147,6 +177,36 @@ define([], function() {
 
             });
         }
+
+
+
+
+        /**
+         * When initial quantity is modified, update the renewalQuantity object in account
+         */
+        $scope.$watch('beneficiaries', function(beneficiaries) {
+            if (!beneficiaries) {
+                return;
+            }
+
+            beneficiaries.forEach(function(beneficiary) {
+                beneficiary.renewals.forEach(function(renewal) {
+                    if (collectionRenewalQuantity[renewal._id] !== renewal.initial_quantity) {
+                        account.renewalQuantity[renewal._id] = renewal.initial_quantity;
+                        return;
+                    }
+
+                    if (undefined !== account.renewalQuantity[renewal._id]) {
+                        delete account.renewalQuantity[renewal._id];
+                    }
+                });
+            });
+        }, true);
+
+
+        $scope.isModified = function(renewal) {
+            return (undefined !== account.renewalQuantity[renewal._id]);
+        };
 
 
         /**

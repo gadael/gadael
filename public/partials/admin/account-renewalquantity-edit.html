@@ -55,7 +55,7 @@
 
                         <div class="col-md-6 text-right vcenter">
                             <span class="hidden-xs hidden-sm">{{renewal.consumed_quantity}} / </span>
-                            <div class="input-group">
+                            <div class="input-group" ng-class="isModified(renewal)? 'has-warning' : 'has-success'">
                                 <input class="form-control" type="number" ng-model="renewal.initial_quantity" step="any" />
                                 <div class="input-group-addon">{{beneficiary.disp_unit}}</div>
                             </div>
