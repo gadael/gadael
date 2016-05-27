@@ -238,7 +238,7 @@ define([], function() {
          * Save button
          */
 		$scope.save = function() {
-            $scope.user.ingaSave().then($scope.cancel);
+            $scope.user.gadaSave().then($scope.cancel);
 	    };
 
 	}];

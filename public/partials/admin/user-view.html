@@ -42,10 +42,9 @@
             </div>
             <div class="col-xs-8">
                 <h2>{{user.lastname}} {{user.firstname}}</h2>
-
                 <p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
-
                 <p ng-if="user.department"><span translate>Department:</span> <a href="#/admin/departments/{{user.department._id}}">{{user.department.name}}</a></p>
+                <p class="text-danger" ng-if="!user.isActive"><i class="fa fa-ban"></i> <strong translate>This user can not connect to the application</strong></p>
             </div>
 
             <div class="col-xs-2 text-right">
