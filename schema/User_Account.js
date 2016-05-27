@@ -50,6 +50,8 @@ exports = module.exports = function(params) {
         },
 
         renewalQuantity: mongoose.Schema.Types.Mixed            // specific quantity for renewals
+                                                                // This is an object with renewal id for property name
+                                                                // and the new initial quantity as value
     });
 
     accountSchema.index({ user: 1 });

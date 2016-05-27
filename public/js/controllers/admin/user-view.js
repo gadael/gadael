@@ -30,39 +30,49 @@ define([], function() {
                 if (undefined !== $scope.user.roles && $scope.user.roles.account && $scope.user.roles.account._id) {
                     
                     var account = $scope.user.roles.account;
-                    
-
 
                     $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: account._id });
                     $scope.accountCollections = accountCollection.query({ account: account._id });
                     $scope.beneficiaries = accountBeneficiaries.query({ account: account._id });
-                   
+
+                    var today = new Date();
+
+                    if (undefined !== account.seniority) {
+                        var seniority = new Date(account.seniority);
+                        $scope.seniority_years = today.getFullYear() - seniority.getFullYear();
+                    }
+
+                    if (undefined !== account.birth) {
+                        var birth = new Date(account.birth);
+                        $scope.age = today.getFullYear() - birth.getFullYear();
+                    }
+
+                    $scope.beneficiaries.$promise.then(function() {
+                        $scope.customQuantities = [];
+                        for (var i=0; i< $scope.beneficiaries.length; i++) {
+                            var renewals = $scope.beneficiaries[i].renewals;
+
+                            for (var j=0; j<renewals.length; j++) {
+                                if (account.renewalQuantity[renewals[j]._id] !== undefined) {
+                                    renewals[j].right = $scope.beneficiaries[i].right;
+                                    renewals[j].customQuantity = account.renewalQuantity[renewals[j]._id];
+                                    $scope.customQuantities.push(renewals[j]);
+                                }
+                            }
+                        }
+
+                        console.log($scope.customQuantities);
+                    });
+
                 } else {
                     $scope.beneficiaries = [];
                     $scope.accountCollections = [];
                     $scope.seniority_years = 0;
                 }
 
-                
-                if (undefined !== $scope.user.roles && undefined !== $scope.user.roles.account) {
-
-                    var today = new Date();
-
-                    if (undefined !== $scope.user.roles.account.seniority) {
-                        var seniority = new Date($scope.user.roles.account.seniority);
-                        $scope.seniority_years = today.getFullYear() - seniority.getFullYear();
-                    }
-
-                    if (undefined !== $scope.user.roles.account.birth) {
-                        var birth = new Date($scope.user.roles.account.birth);
-                        $scope.age = today.getFullYear() - birth.getFullYear();
-                    }
-                }
-
-
             });
         }
-		
+
 		
 		
 		$scope.cancel = function() {

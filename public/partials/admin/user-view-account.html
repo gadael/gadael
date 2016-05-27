@@ -162,15 +162,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="renewalQuantity in user.roles.account.renewalQuantity">
+        <tr ng-repeat="renewal in customQuantities">
             <td>
-                <a ng-href="#/admin/right/{{renewalQuantity.right._id}}">
-                    {{renewalQuantity.right.name}}
-                </a>
+                <i title="{{renewal.right.type.name}}" class="fa fa-asterisk" style="color:{{renewal.right.type.color}}"></i> {{renewal.right.name}}
             </td>
-            <td>{{renewalQuantity.renewal.start|date}}</td>
-            <td>{{renewalQuantity.renewal.finish|date}}</td>
-            <td>{{renewalQuantity.quantity}} {{renewalQuantity.right_DispUnit}}</td>
+            <td>{{renewal.start|date}}</td>
+            <td>{{renewal.finish|date}}</td>
+            <td>{{renewal.customQuantity}} {{renewal.right_DispUnit}}</td>
         </tr>
         </tbody>
 

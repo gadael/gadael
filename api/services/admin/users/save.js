@@ -121,16 +121,26 @@ function saveUserRoles(service, params, userDocument) {
 
     var account = null;
 
-    if (params.isAccount && params.roles !== undefined && params.roles.account !== undefined) {
+    if (params.roles !== undefined && params.roles.account !== undefined) {
         account = params.roles.account;
     }
+
+    if (undefined !== params.isAccount && !params.isAccount) {
+        // account was unchecked
+        account = null;
+    }
+
 
     var admin = params.isAdmin ? {} : null;
     
     var manager = null;
 
-    if (params.isManager && params.roles !== undefined && params.roles.manager !== undefined) {
+    if (params.roles !== undefined && params.roles.manager !== undefined) {
         manager = params.roles.manager;
+    }
+
+    if (undefined !== params.isManager && !params.isManager) {
+        manager = null;
     }
                         
 
