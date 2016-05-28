@@ -102,16 +102,78 @@ define([], function() {
 
         var accountCollectionResource = Rest.admin.accountcollections.getResource();
         var accoutBeneficiariesResource = Rest.admin.accountbeneficiaries.getResource();
-        var account, accountCollections;
+        var adjustmentsResource = Rest.admin.adjustments.getResource();
+
+        var account, accountCollections, adjustments, newAdjustments = [];
 
         /**
-         * store renewal quantity without account modification
-         * Used to check differences
+         * store a copy of renewal initial quantity on service loaded
+         * Used to check differences and build adjustments
          */
         var collectionRenewalQuantity = {};
 
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
+
+        /**
+         * Test if renewal is in saved adjustment from server
+         * @param   {object}  renewal [[Description]]
+         * @returns {boolean} [[Description]]
+         */
+        function inAdjustments(renewal) {
+            for (var i=0; i<adjustments.length; i++) {
+                if (adjustments[i].rightRenewal._id === renewal._id) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * Test if a renwal is in the adjustments to save
+         * @param   {object}  renewal [[Description]]
+         * @returns {boolean} [[Description]]
+         */
+        function inNewAdjustments(renewal) {
+            for (var i=0; i<newAdjustments.length; i++) {
+                if (newAdjustments[i].rightRenewal._id === renewal._id) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * If an input is set to the unmodified value, the adjustment is removed from the new adjustment list
+         * @param   {object}   renewal [[Description]]
+         * @returns {[[Type]]} [[Description]]
+         */
+        function removeFromNewAdjustments(renewal) {
+            newAdjustments = newAdjustments.filter(function(a) {
+                return (a.rightRenewal._id !== renewal._id);
+            });
+        }
+
+
+        /**
+         * If an input contain a value different from the value loaded from the server
+         *
+         * @param {object} renewal  [[Description]]
+         * @param {Number} quantity [[Description]]
+         */
+        function setNewAdjustment(renewal, quantity) {
+            newAdjustments.push({
+                user: $scope.user._id,
+                rightRenewal: renewal,
+                quantity: quantity,
+                comment: null // must be set on save
+            });
+        }
+
+
+
 
 
         /**
@@ -144,10 +206,6 @@ define([], function() {
 
                     b.renewals.forEach(function(r) {
                         collectionRenewalQuantity[r._id] = r.initial_quantity;
-
-                        if (undefined !== account.renewalQuantity[r._id]) {
-                            r.initial_quantity = account.renewalQuantity[r._id];
-                        }
                     });
 
 
@@ -165,10 +223,7 @@ define([], function() {
 
                     account = $scope.user.roles.account;
                     accountCollections = accountCollectionResource.query({ account: account._id });
-
-                    if (undefined === account.renewalQuantity) {
-                        account.renewalQuantity = {};
-                    }
+                    adjustments = adjustmentsResource.query({ user: $scope.user._id });
 
                     accountCollections.$promise.then(function() {
                         setAccountCollection(accountCollections);
@@ -182,7 +237,7 @@ define([], function() {
 
 
         /**
-         * When initial quantity is modified, update the renewalQuantity object in account
+         * When initial quantity is modified, create a list of adjustments to save
          */
         $scope.$watch('beneficiaries', function(beneficiaries) {
             if (!beneficiaries) {
@@ -192,20 +247,19 @@ define([], function() {
             beneficiaries.forEach(function(beneficiary) {
                 beneficiary.renewals.forEach(function(renewal) {
                     if (collectionRenewalQuantity[renewal._id] !== renewal.initial_quantity) {
-                        account.renewalQuantity[renewal._id] = renewal.initial_quantity;
+                        var quantity = renewal.initial_quantity - collectionRenewalQuantity[renewal._id];
+                        setNewAdjustment(renewal, quantity);
                         return;
                     }
 
-                    if (undefined !== account.renewalQuantity[renewal._id]) {
-                        delete account.renewalQuantity[renewal._id];
-                    }
+                    removeFromNewAdjustments(renewal);
                 });
             });
         }, true);
 
 
         $scope.isModified = function(renewal) {
-            return (undefined !== account.renewalQuantity[renewal._id]);
+            return (inAdjustments(renewal) || inNewAdjustments(renewal));
         };
 
 
@@ -251,7 +305,8 @@ define([], function() {
          * Save button
          */
 		$scope.save = function() {
-            $scope.user.gadaSave().then($scope.cancel);
+            console.log(newAdjustments);
+            // $scope.user.gadaSave().then($scope.cancel);
 	    };
 
 	}];
