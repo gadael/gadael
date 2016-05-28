@@ -210,6 +210,19 @@ define([], function() {
 
 
         /**
+         * Tooltip to get the unmodified quantity, only if modified
+         * @param   {object} renewal [[Description]]
+         * @returns {string} [[Description]]
+         */
+        $scope.getUnmodifiedQuantity = function(renewal) {
+            if (collectionRenewalQuantity[renewal._id] === renewal.initial_quantity) {
+                return '';
+            }
+            return collectionRenewalQuantity[renewal._id];
+        };
+
+
+        /**
          * Previous account-collection
          */
         $scope.prev = function() {

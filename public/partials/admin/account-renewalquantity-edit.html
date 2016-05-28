@@ -46,17 +46,19 @@
                 <div class="gadael-list-rows">
                     <div ng-repeat="renewal in beneficiary.renewals" class="row vpad10" ng-class="{'-1':'text-muted','0':'text-success'}[renewal.position]">
 
-                        <div class="col-md-6 vcenter">
+                        <div class="col-sm-8 vcenter">
                             <i class="hidden-xs fa fa-retweet"></i>
                             {{renewal.start|date}}
                             <i class="fa fa-long-arrow-right text-primary"></i>
                             {{renewal.finish|date}}
+
+
                         </div>
 
-                        <div class="col-md-6 text-right vcenter">
+                        <div class="col-sm-4 text-right vcenter text-nowrap">
                             <span class="hidden-xs hidden-sm">{{renewal.consumed_quantity}} / </span>
                             <div class="input-group" ng-class="isModified(renewal)? 'has-warning' : 'has-success'">
-                                <input class="form-control" type="number" ng-model="renewal.initial_quantity" step="any" />
+                                <input class="form-control" type="number" ng-model="renewal.initial_quantity" step="any"  title="{{getUnmodifiedQuantity(renewal)}}" />
                                 <div class="input-group-addon">{{beneficiary.disp_unit}}</div>
                             </div>
                         </div>
