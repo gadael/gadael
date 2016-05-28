@@ -5,6 +5,9 @@
 /**
  * An adjustment is a quantity added or subtracted to the default quantity of a right
  * for manual adjustment of the quantity on one account
+ *
+ * For adjustments on all beneficiaries, see RightAdjustment model (monthly updates)
+ *
  * @param {Object} params
  */
 exports = module.exports = function(params) {

@@ -2,7 +2,8 @@
 
 
 /**
- * Right adjustements is associated to renewal
+ * Right adjustements is a modification of renewal initial quantity for all beneficiaries
+ * For modification of quantity for one account only, see the Adjustment model
  */
 exports = module.exports = function(params) {
     var rightAdjustmentSchema = new params.mongoose.Schema({
