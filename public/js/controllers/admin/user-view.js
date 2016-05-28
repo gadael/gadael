@@ -50,20 +50,6 @@ define([], function() {
                     }
 
 
-
-                    $scope.beneficiaries.$promise.then(function() {
-                        $scope.adjustments.$promise.then(function() {
-                            for (var i=0; i< $scope.adjustments.length; i++) {
-                                for (var j=0; j< $scope.beneficiaries.length; j++) {
-                                    if ($scope.beneficiaries[j].right._id === $scope.adjustments[i].rightRenewal.right) {
-                                        $scope.adjustments[i].rightRenewal.right = $scope.beneficiaries[j].right;
-                                    }
-                                }
-                            }
-                        });
-                    });
-
-
                 } else {
                     $scope.beneficiaries = [];
                     $scope.accountCollections = [];

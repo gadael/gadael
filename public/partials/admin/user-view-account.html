@@ -156,9 +156,8 @@
         <thead>
         <tr>
             <th translate>Right name</th>
-            <th class="col-sm-3" translate>From</th>
-            <th class="col-sm-3" translate>To</th>
-            <th translate>Quantity</th>
+            <th class="col-sm-3" translate>Renewal</th>
+            <th translate>Quantity update</th>
         </tr>
         </thead>
         <tbody>
@@ -166,9 +165,8 @@
             <td>
                 <i title="{{adjustment.rightRenewal.right.type.name}}" class="fa fa-asterisk" style="color:{{adjustment.rightRenewal.right.type.color}}"></i> {{adjustment.rightRenewal.right.name}}
             </td>
-            <td>{{adjustment.rightRenewal.start|date}}</td>
-            <td>{{adjustment.rightRenewal.finish|date}}</td>
-            <td>{{adjustment.quantity}} {{renewal.right_DispUnit}}</td>
+            <td>{{adjustment.rightRenewal.start|date}} <i class="fa fa-long-arrow-right text-primary"></i> {{adjustment.rightRenewal.finish|date}}</td>
+            <td>{{adjustment.quantity}} {{adjustment.rightRenewal.right_DispUnit}}</td>
         </tr>
         </tbody>
 

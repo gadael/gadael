@@ -25,6 +25,7 @@ exports = module.exports = function(params) {
         },
         comment: { type: String, default: '' }
     });
+
   
     adjustmentSchema.set('autoIndex', params.autoIndex);
   

@@ -75,17 +75,36 @@ exports = module.exports = function(services, app) {
         }
 
 
-        getQuery(params, function(query) {
+        getQuery(params, query => {
 
 
             service.resolveQuery(
                 query,
                 paginate,
-                function(err, docs) {
+                (err, docs) => {
                     if (service.handleMongoError(err))
                     {
-                        service.outcome.success = true;
-                        service.deferred.resolve(docs);
+                        // populate right document
+
+                        let rightPromises = [];
+                        let typesPromises = [];
+
+                        docs.forEach(adjustment => {
+                            let p = adjustment.rightRenewal.populate('right').execPopulate();
+                            rightPromises.push(p);
+                            p.then(() => {
+                                // populate type document
+                                typesPromises.push(adjustment.rightRenewal.right.populate('type').execPopulate());
+                            });
+                        });
+
+                        Promise.all(rightPromises).then(() => {
+                            Promise.all(typesPromises).then(() => {
+
+                                service.outcome.success = true;
+                                service.deferred.resolve(docs);
+                            });
+                        });
                     }
                 }
             );
