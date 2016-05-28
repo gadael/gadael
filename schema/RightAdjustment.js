@@ -1,5 +1,9 @@
 'use strict';
 
+
+/**
+ * Right adjustements is associated to renewal
+ */
 exports = module.exports = function(params) {
     var rightAdjustmentSchema = new params.mongoose.Schema({
         from: {

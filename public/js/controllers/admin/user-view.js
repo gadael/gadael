@@ -18,6 +18,7 @@ define([], function() {
         var accountBeneficiaries = Rest.admin.accountbeneficiaries.getResource();
         var accountCollection = Rest.admin.accountcollections.getResource();
         var accountScheduleCalendars = Rest.admin.accountschedulecalendars.getResource();
+        var adjustmentsResource = Rest.admin.adjustments.getResource();
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
@@ -34,6 +35,7 @@ define([], function() {
                     $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: account._id });
                     $scope.accountCollections = accountCollection.query({ account: account._id });
                     $scope.beneficiaries = accountBeneficiaries.query({ account: account._id });
+                    $scope.adjustments = adjustmentsResource.query({ user: $scope.user._id });
 
                     var today = new Date();
 
@@ -47,22 +49,20 @@ define([], function() {
                         $scope.age = today.getFullYear() - birth.getFullYear();
                     }
 
-                    $scope.beneficiaries.$promise.then(function() {
-                        $scope.customQuantities = [];
-                        for (var i=0; i< $scope.beneficiaries.length; i++) {
-                            var renewals = $scope.beneficiaries[i].renewals;
 
-                            for (var j=0; j<renewals.length; j++) {
-                                if (account.renewalQuantity[renewals[j]._id] !== undefined) {
-                                    renewals[j].right = $scope.beneficiaries[i].right;
-                                    renewals[j].customQuantity = account.renewalQuantity[renewals[j]._id];
-                                    $scope.customQuantities.push(renewals[j]);
+
+                    $scope.beneficiaries.$promise.then(function() {
+                        $scope.adjustments.$promise.then(function() {
+                            for (var i=0; i< $scope.adjustments.length; i++) {
+                                for (var j=0; j< $scope.beneficiaries.length; j++) {
+                                    if ($scope.beneficiaries[j].right._id === $scope.adjustments[i].rightRenewal.right) {
+                                        $scope.adjustments[i].rightRenewal.right = $scope.beneficiaries[j].right;
+                                    }
                                 }
                             }
-                        }
-
-                        console.log($scope.customQuantities);
+                        });
                     });
+
 
                 } else {
                     $scope.beneficiaries = [];

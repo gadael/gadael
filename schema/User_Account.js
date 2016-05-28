@@ -47,11 +47,7 @@ exports = module.exports = function(params) {
         notify: {
             approvals: { type: Boolean, default: false },
             allocations: { type: Boolean, default: false }
-        },
-
-        renewalQuantity: mongoose.Schema.Types.Mixed            // specific quantity for renewals
-                                                                // This is an object with renewal id for property name
-                                                                // and the new initial quantity as value
+        }
     });
 
     accountSchema.index({ user: 1 });
@@ -598,14 +594,14 @@ exports = module.exports = function(params) {
 
     /**
      * Get the given quantity for a renewal
+     * This is the initial quantity without the adjustements
+     *
+     * TODO: remove this method, not necessary
+     *
      * @param {RightRenewal} renewal
      * @return {Number}
      */
     accountSchema.methods.getQuantity = function(renewal) {
-
-        if (this.renewalQuantity !== undefined && this.renewalQuantity[renewal._id] !== undefined) {
-            return this.renewalQuantity[renewal._id];
-        }
 
         if (renewal.right.quantity === undefined) {
             throw new Error('Missing right quantity');

@@ -162,19 +162,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="renewal in customQuantities">
+        <tr ng-repeat="adjustment in adjustments">
             <td>
-                <i title="{{renewal.right.type.name}}" class="fa fa-asterisk" style="color:{{renewal.right.type.color}}"></i> {{renewal.right.name}}
+                <i title="{{adjustment.rightRenewal.right.type.name}}" class="fa fa-asterisk" style="color:{{adjustment.rightRenewal.right.type.color}}"></i> {{adjustment.rightRenewal.right.name}}
             </td>
-            <td>{{renewal.start|date}}</td>
-            <td>{{renewal.finish|date}}</td>
-            <td>{{renewal.customQuantity}} {{renewal.right_DispUnit}}</td>
+            <td>{{adjustment.rightRenewal.start|date}}</td>
+            <td>{{adjustment.rightRenewal.finish|date}}</td>
+            <td>{{adjustment.quantity}} {{renewal.right_DispUnit}}</td>
         </tr>
         </tbody>
 
     </table>
 
-    <div class="alert alert-success" role="alert" ng-if="!user.roles.account.renewalQuantity">
+    <div class="alert alert-success" role="alert" ng-if="!adjustments">
         <span>This user has no configured specific quantity, rights are set by collection only</span>
     </div>
 </div>

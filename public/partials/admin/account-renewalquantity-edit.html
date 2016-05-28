@@ -37,11 +37,11 @@
 
 
 
-        <form role="form" class="form-inline" name="accountRenewalQuantityEdit">
+        <form role="form" name="accountRenewalQuantityEdit">
 
 
 
-            <div ng-repeat="beneficiary in beneficiaries">
+            <div ng-repeat="beneficiary in beneficiaries" class="form-inline">
                 <h3 class="top30">{{beneficiary.right.name}}</h3>
                 <div class="gadael-list-rows">
                     <div ng-repeat="renewal in beneficiary.renewals" class="row vpad10" ng-class="{'-1':'text-muted','0':'text-success'}[renewal.position]">
@@ -69,8 +69,10 @@
 
 
 
-
-
+            <div class="form-group top30">
+                <label for="adjustment_comment" translate>Justification, write about this manual adjustment</label>
+                <textarea class="form-control" id="adjustment_comment" ng-model="adjustment.comment"></textarea>
+            </div>
 
 
             <div class="col-sm-12 text-center top30">
