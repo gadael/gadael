@@ -117,20 +117,25 @@ define([], function() {
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
 
+
         /**
-         * Test if renewal is in saved adjustment from server
+         * get adjustment sum for one renewal
          * @param   {object}  renewal [[Description]]
          * @returns {boolean} [[Description]]
          */
-        function inAdjustments(renewal) {
+        function getAdjustmentSum(renewal) {
+
+            var totalAdjustment = 0;
+
             for (var i=0; i<adjustments.length; i++) {
                 if (adjustments[i].rightRenewal._id === renewal._id) {
-                    return true;
+                    totalAdjustment += adjustments[i].quantity;
                 }
             }
 
-            return false;
+            return totalAdjustment;
         }
+
 
         /**
          * Test if a renwal is in the adjustments to save
@@ -250,6 +255,7 @@ define([], function() {
             }
 
             beneficiaries.forEach(function(beneficiary) {
+                console.log(beneficiary);
                 beneficiary.renewals.forEach(function(renewal) {
                     if (collectionRenewalQuantity[renewal._id] !== renewal.initial_quantity) {
                         var quantity = renewal.initial_quantity - collectionRenewalQuantity[renewal._id];
@@ -263,8 +269,19 @@ define([], function() {
         }, true);
 
 
+        /**
+         * Test if the initial quantity of renewal is modified by adjustments for this user
+         *
+         * @param   {object} renewal [[Description]]
+         * @returns {boolean} [[Description]]
+         */
         $scope.isModified = function(renewal) {
-            return (inAdjustments(renewal) || inNewAdjustments(renewal));
+
+            if (inNewAdjustments(renewal)) {
+                return true;
+            }
+
+            return (0 !== getAdjustmentSum(renewal));
         };
 
 
@@ -274,10 +291,7 @@ define([], function() {
          * @returns {string} [[Description]]
          */
         $scope.getUnmodifiedQuantity = function(renewal) {
-            if (collectionRenewalQuantity[renewal._id] === renewal.initial_quantity) {
-                return '';
-            }
-            return collectionRenewalQuantity[renewal._id];
+            return renewal.initial_quantity - getAdjustmentSum(renewal);
         };
 
 

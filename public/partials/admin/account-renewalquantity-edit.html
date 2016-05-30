@@ -42,23 +42,36 @@
 
 
             <div ng-repeat="beneficiary in beneficiaries" class="form-inline">
-                <h3 class="top30">{{beneficiary.right.name}}</h3>
+
+                <div class="row top30">
+                    <h3 class="col-sm-8">
+                        <i class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}" title="{{beneficiary.right.type.name}}"></i>
+                        {{beneficiary.right.name}}
+                    </h3>
+                    <div class="col-sm-4 text-right top30 text-info">
+                        <small title="{{'Initial quantity on renewal creation'|translate}}">{{beneficiary.right.quantity}} {{beneficiary.initial_quantity_dispUnit}}</small>
+                    </div>
+                </div>
+
                 <div class="gadael-list-rows">
-                    <div ng-repeat="renewal in beneficiary.renewals" class="row vpad10" ng-class="{'-1':'text-muted','0':'text-success'}[renewal.position]">
+                    <div ng-repeat="renewal in beneficiary.renewals" class="row vpad10">
 
                         <div class="col-sm-8 vcenter">
-                            <i class="hidden-xs fa fa-retweet"></i>
-                            {{renewal.start|date}}
-                            <i class="fa fa-long-arrow-right text-primary"></i>
-                            {{renewal.finish|date}}
+                            <span  ng-class="{'-1':'text-muted','0':'text-success'}[renewal.position]">
+                                <i class="hidden-xs fa fa-retweet"></i>
+                                {{renewal.start|date}}
+                                <i class="fa fa-long-arrow-right text-primary"></i>
+                                {{renewal.finish|date}}
+                                <br />
+                            </span>
 
-
+                            <small title="{{'Initial quantity without this user personal adjustments'|translate}}">{{getUnmodifiedQuantity(renewal)}} {{beneficiary.initial_quantity_dispUnit}}</small>
                         </div>
 
                         <div class="col-sm-4 text-right vcenter text-nowrap">
                             <span class="hidden-xs hidden-sm">{{renewal.consumed_quantity}} / </span>
                             <div class="input-group" ng-class="isModified(renewal)? 'has-warning' : 'has-success'">
-                                <input class="form-control" type="number" ng-model="renewal.initial_quantity" step="any"  title="{{getUnmodifiedQuantity(renewal)}}" />
+                                <input class="form-control" type="number" ng-model="renewal.initial_quantity" step="any" />
                                 <div class="input-group-addon">{{beneficiary.disp_unit}}</div>
                             </div>
                         </div>
