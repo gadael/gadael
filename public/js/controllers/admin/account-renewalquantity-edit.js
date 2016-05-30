@@ -94,15 +94,17 @@ define([], function() {
         '$scope',
         '$location',
 		'Rest',
+        '$q',
         function(
 			$scope,
             $location,
-			Rest
+			Rest,
+            $q
 		) {
 
         var accountCollectionResource = Rest.admin.accountcollections.getResource();
         var accoutBeneficiariesResource = Rest.admin.accountbeneficiaries.getResource();
-        var adjustmentsResource = Rest.admin.adjustments.getResource();
+        var adjustmentResource = Rest.admin.adjustments.getResource();
 
         var account, accountCollections, adjustments, newAdjustments = [];
 
@@ -164,12 +166,15 @@ define([], function() {
          * @param {Number} quantity [[Description]]
          */
         function setNewAdjustment(renewal, quantity) {
-            newAdjustments.push({
-                user: $scope.user._id,
-                rightRenewal: renewal,
-                quantity: quantity,
-                comment: null // must be set on save
-            });
+
+            var adjustment = new adjustmentResource();
+
+            adjustment.user = $scope.user._id;
+            adjustment.rightRenewal = renewal;
+            adjustment.quantity = quantity;
+            adjustment.comment = null;  // must be set on save
+
+            newAdjustments.push(adjustment);
         }
 
 
@@ -223,7 +228,7 @@ define([], function() {
 
                     account = $scope.user.roles.account;
                     accountCollections = accountCollectionResource.query({ account: account._id });
-                    adjustments = adjustmentsResource.query({ user: $scope.user._id });
+                    adjustments = adjustmentResource.query({ user: $scope.user._id });
 
                     accountCollections.$promise.then(function() {
                         setAccountCollection(accountCollections);
@@ -305,8 +310,14 @@ define([], function() {
          * Save button
          */
 		$scope.save = function() {
-            console.log(newAdjustments);
-            // $scope.user.gadaSave().then($scope.cancel);
+
+            var promises = [];
+
+            newAdjustments.forEach(function(adjustment) {
+                promises.push(adjustment.$create());
+            });
+
+            $q.all(promises).then($scope.cancel);
 	    };
 
 	}];
