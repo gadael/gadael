@@ -166,7 +166,7 @@
                 <i title="{{adjustment.rightRenewal.right.type.name}}" class="fa fa-asterisk" style="color:{{adjustment.rightRenewal.right.type.color}}"></i> {{adjustment.rightRenewal.right.name}}
             </td>
             <td>{{adjustment.rightRenewal.start|date}} <i class="fa fa-long-arrow-right text-primary"></i> {{adjustment.rightRenewal.finish|date}}</td>
-            <td>{{adjustment.quantity}} {{adjustment.rightRenewal.right_DispUnit}}</td>
+            <td><span ng-if="adjustment.quantity>0">+</span>{{adjustment.quantity|number}} {{adjustment.disp_unit}}</td>
         </tr>
         </tbody>
 

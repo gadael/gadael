@@ -101,8 +101,20 @@ exports = module.exports = function(services, app) {
                         Promise.all(rightPromises).then(() => {
                             Promise.all(typesPromises).then(() => {
 
+                                // Add dispUnit on adjustment
+
+                                let adjustmentObjects = [];
+
+                                docs.forEach(function(adjustment) {
+                                    let o = adjustment.toObject();
+
+                                    o.disp_unit = adjustment.rightRenewal.right.getDispUnit(adjustment.quantity);
+                                    adjustmentObjects.push(o);
+                                });
+
+
                                 service.outcome.success = true;
-                                service.deferred.resolve(docs);
+                                service.deferred.resolve(adjustmentObjects);
                             });
                         });
                     }
