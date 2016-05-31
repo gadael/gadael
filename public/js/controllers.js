@@ -111,10 +111,7 @@ define(['angular', 'services'], function (angular) {
 
 
 		
-		.controller('Admin', ['$scope', '$injector', function($scope, $injector) {
-            invokeController('controllers/admin/index', this, $scope, $injector);
-		}])
-    
+
 		
 		.controller('AdminRequests', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/request/requests', this, $scope, $injector);

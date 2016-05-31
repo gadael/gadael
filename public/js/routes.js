@@ -161,14 +161,7 @@ define(['angular', 'app'], function(angular, app) {
 		
 		
 		// administration pages
-		
-		$routeProvider.when('/admin', {
-			templateUrl: 'partials/admin/index.html',
-			controller: 'Admin'
-		});
-        
-        
-		
+
 		$routeProvider.when('/admin/requests', {
 			templateUrl: 'partials/admin/request/requests.html',
 			controller: 'AdminRequests'

@@ -81,10 +81,6 @@ exports.getInfos = function(req, res) {
             
             menu.admin = [
                 {
-                    'text': '<i class="fa fa-home"></i>&nbsp;'+gt.gettext('Admin summary'),
-                    'href': '#/admin'
-                },
-                {
                     'text': '<i class="fa fa-folder text-primary"></i>&nbsp;'+gt.gettext('Requests'),
                     'href': '#/admin/requests'
                 },
