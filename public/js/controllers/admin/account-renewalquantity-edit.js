@@ -256,7 +256,6 @@ define([], function() {
             }
 
             beneficiaries.forEach(function(beneficiary) {
-                console.log(beneficiary);
                 beneficiary.renewals.forEach(function(renewal) {
                     if (collectionRenewalQuantity[renewal._id] !== renewal.initial_quantity) {
                         var quantity = renewal.initial_quantity - collectionRenewalQuantity[renewal._id];

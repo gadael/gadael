@@ -49,7 +49,7 @@
                         {{beneficiary.right.name}}
                     </h3>
                     <div class="col-sm-4 text-right top30 text-info">
-                        <small title="{{'Initial quantity on renewal creation'|translate}}">{{beneficiary.right.quantity}} {{beneficiary.initial_quantity_dispUnit}}</small>
+                        <small title="{{'Initial quantity on renewal creation'|translate}}">{{beneficiary.right.quantity|number}} {{beneficiary.initial_quantity_dispUnit}}</small>
                     </div>
                 </div>
 
@@ -65,11 +65,14 @@
                                 <br />
                             </span>
 
-                            <small title="{{'Initial quantity without this user personal adjustments'|translate}}">{{getUnmodifiedQuantity(renewal)}} {{beneficiary.initial_quantity_dispUnit}}</small>
+                            <small title="{{'Initial quantity without this user personal adjustments'|translate}}">{{getUnmodifiedQuantity(renewal)|number}} {{beneficiary.initial_quantity_dispUnit}}</small>
                         </div>
 
-                        <div class="col-sm-4 text-right vcenter text-nowrap">
-                            <span class="hidden-xs hidden-sm">{{renewal.consumed_quantity}} / </span>
+                        <div class="col-sm-1 hidden-xs hidden-sm text-right vcenter" title="{{'Consumed quantity'|translate}}">
+                            {{renewal.consumed_quantity|number}} /
+                        </div>
+
+                        <div class="col-sm-3 text-right vcenter">
                             <div class="input-group" ng-class="isModified(renewal)? 'has-warning' : 'has-success'">
                                 <input class="form-control" type="number" ng-model="renewal.initial_quantity" step="any" />
                                 <div class="input-group-addon">{{beneficiary.disp_unit}}</div>
