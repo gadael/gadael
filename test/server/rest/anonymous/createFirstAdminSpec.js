@@ -32,7 +32,7 @@ describe('Create first admin functionality', function() {
         server.deleteAdminAccountIfExists().then(function() {
             server.get('/rest/anonymous/createfirstadmin', {}, function(res, body) {
                 expect(res.statusCode).toEqual(200);
-                expect(body).toEqual(true);
+                expect(body.allowed).toEqual(true);
                 done();
             });
         })
@@ -78,7 +78,7 @@ describe('Create first admin functionality', function() {
     it('test if create first admin allowed when the admin account allready exists', function(done) {
         server.get('/rest/anonymous/createfirstadmin', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body).toEqual(false);
+            expect(body.allowed).toEqual(false);
             done();
         });
 
