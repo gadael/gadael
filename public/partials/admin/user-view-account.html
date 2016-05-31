@@ -156,17 +156,19 @@
         <thead>
         <tr>
             <th translate>Right name</th>
-            <th class="col-sm-3" translate>Renewal</th>
-            <th translate>Quantity update</th>
+            <th translate>Renewal</th>
+            <th class="hidden-xs hidden-sm" translate>Default quantity</th>
+            <th translate>User quantity</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="adjustment in adjustments">
+        <tr ng-repeat="renewal in adjustedRenewals">
             <td>
-                <i title="{{adjustment.rightRenewal.right.type.name}}" class="fa fa-asterisk" style="color:{{adjustment.rightRenewal.right.type.color}}"></i> {{adjustment.rightRenewal.right.name}}
+                <i title="{{renewal.right.type.name}}" class="fa fa-asterisk" style="color:{{renewal.right.type.color}}"></i> {{renewal.right.name}}
             </td>
-            <td>{{adjustment.rightRenewal.start|date}} <i class="fa fa-long-arrow-right text-primary"></i> {{adjustment.rightRenewal.finish|date}}</td>
-            <td><span ng-if="adjustment.quantity>0">+</span>{{adjustment.quantity|number}} {{adjustment.disp_unit}}</td>
+            <td>{{renewal.start|date}}<span class="hidden-xs"> <i class="fa fa-long-arrow-right text-primary"></i> {{renewal.finish|date}}</span></td>
+            <td class="hidden-xs hidden-sm">{{renewal.defaultQuantity|number}} {{renewal.initial_quantity_dispUnit}}</td>
+            <td>{{renewal.initial_quantity|number}} {{renewal.initial_quantity_dispUnit}}</td>
         </tr>
         </tbody>
 

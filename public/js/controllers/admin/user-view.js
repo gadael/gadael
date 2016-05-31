@@ -50,6 +50,45 @@ define([], function() {
                     }
 
 
+                    // create an array with renewals modified by adjustements
+
+                    var adjustedRenewals = {};
+                    $scope.beneficiaries.$promise.then(function() {
+
+                        // renewals from beneficiaries contain more infos
+                        var renewalsById = {};
+                        $scope.beneficiaries.forEach(function(b) {
+                            b.renewals.forEach(function(r) {
+                                r.right = b.right;
+                                renewalsById[r._id] = r;
+                            });
+                        });
+
+                        $scope.adjustments.$promise.then(function() {
+                            $scope.adjustments.forEach(function(a) {
+                                if (undefined === adjustedRenewals[a.rightRenewal._id]) {
+                                    adjustedRenewals[a.rightRenewal._id] = renewalsById[a.rightRenewal._id];
+                                    adjustedRenewals[a.rightRenewal._id].adjustmentSum = 0;
+                                    adjustedRenewals[a.rightRenewal._id].defaultQuantity = renewalsById[a.rightRenewal._id].initial_quantity;
+                                }
+
+                                adjustedRenewals[a.rightRenewal._id].adjustmentSum += a.quantity;
+                                adjustedRenewals[a.rightRenewal._id].defaultQuantity -= a.quantity;
+                            });
+
+                            $scope.adjustedRenewals = [];
+                            for(var id in adjustedRenewals) {
+                                if (adjustedRenewals.hasOwnProperty(id)) {
+                                    if (adjustedRenewals[id].adjustmentSum !== 0) {
+                                        $scope.adjustedRenewals.push(adjustedRenewals[id]);
+                                    }
+                                }
+                            }
+                            console.log($scope.adjustedRenewals);
+                        });
+                    });
+
+
                 } else {
                     $scope.beneficiaries = [];
                     $scope.accountCollections = [];

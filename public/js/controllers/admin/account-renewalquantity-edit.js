@@ -238,6 +238,7 @@ define([], function() {
                     accountCollections.$promise.then(function() {
                         setAccountCollection(accountCollections);
                     });
+
                 }
 
             });
