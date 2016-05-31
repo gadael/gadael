@@ -46,9 +46,9 @@ function query(service, params, callback) {
             .where('ref').equals('RightCollection')
             .where('document').equals(params.collection);
 
-        findCollRights.exec().then(rights => {
-            let collRights = rights.map(r => { return r._id; });
-            find.where({ _id: { $in: collRights } });
+        findCollRights.exec().then(rightcollections => {
+            let rights = rightcollections.map(r => { return r.right; });
+            find.where({ _id: { $in: rights } });
             callback(null, find);
         })
         .catch(callback);
