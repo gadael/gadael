@@ -2,8 +2,8 @@ define([], function() {
         
     'use strict';
     
-	return ['$scope', 'Rest', '$q', 'departmentDays', 'renewalChart', 'gettext',
-            function($scope, Rest, $q, departmentDays, renewalChart, gettext) {
+	return ['$scope', 'Rest', '$q', 'departmentDays', 'renewalChart', 'gettext', '$http',
+            function($scope, Rest, $q, departmentDays, renewalChart, gettext, $http) {
 
         var collaboratorsResource;
         var calendareventsResource = Rest.user.calendarevents.getResource();
@@ -33,6 +33,15 @@ define([], function() {
         if ($scope.sessionUser.department) {
             $scope.department = $scope.sessionUser.department;
             $scope.department.days = departmentDays(collaboratorsResource, calendareventsResource, 14, $scope.department._id);
+        }
+
+
+        $scope.createFirstAdmin = false;
+        if (!$scope.isAuthenticated) {
+            $http.get('/rest/anonymous/createfirstadmin').then(function(response) {
+                console.log(response);
+                $scope.createFirstAdmin = response.data.allowed;
+            });
         }
 
 	}];

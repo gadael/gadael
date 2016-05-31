@@ -21,10 +21,12 @@ function getController() {
         promise.then(function(users) {
             var createFirstAdminAllowed = (0 === users.length);
             controller.res.statusCode = service.httpstatus;
-            controller.res.end(JSON.stringify(createFirstAdminAllowed));
+            controller.res.json({
+                allowed: createFirstAdminAllowed
+            });
         }).catch(function(err) {
             controller.res.statusCode = service.httpstatus;
-            controller.res.end(JSON.stringify({ $outcome: service.outcome }));
+            controller.res.json({ $outcome: service.outcome });
         });
     };
 }

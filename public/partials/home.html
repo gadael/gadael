@@ -3,6 +3,11 @@
     <div ng-if="!sessionUser.isAuthenticated">
         <h2 translate>Wellcome to your absence manager</h2>
         <p translate>Please log into the application to see your account informations</p>
+
+        <div class="top30" ng-if="createFirstAdmin">
+            <p>Congratulation, this server has just been created and contain no users, please do not leave it that way.</p>
+            <a class="btn btn-primary" ng-href="#/login/createfirstadmin">Create first administrator</a>
+        </div>
     </div>
 
     <div ng-if="sessionUser.isAccount">
