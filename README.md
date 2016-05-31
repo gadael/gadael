@@ -72,7 +72,8 @@ grunt test
 - [ ] ICS Export
 - [ ] Fix the unavailableevents account REST service, exclude leaves periods, add a test: method account.getPeriodUnavailableEvents
 - [ ] Method renewal.getWorkedDays
-- [ ] Page for custom quantities accout-renewalquantity controller
+- [x] Page for custom quantities accout-renewalquantity controller
+- [ ] Emails notifications
 
 ## Technical features
 
