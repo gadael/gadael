@@ -13,25 +13,48 @@
  * 
  * @param {listItemsService} service
  * @param {array} params      query parameters if called by controller
+ * @param {function} callback
  *
- * @return {Query}
+ * @return {Promise}
  */
-var query = function(service, params) {
+function query(service, params, callback) {
+    
+    return new Promise((resolve, reject) => {
 
-    var find = service.app.db.models.Right.find();
+        let find = service.app.db.models.Right.find();
 
-    if (params.name) {
-        find.where({ name: new RegExp('^'+params.name, 'i') });
-    }
-    
-    if (params.type) {
-        find.where({ type: params.type });
-    }
-    
-    find.populate('type');
-    
-    return find;
-};
+        if (params.name) {
+            find.where({ name: new RegExp('^'+params.name, 'i') });
+        }
+
+        if (params.type) {
+            find.where({ type: params.type });
+        }
+
+        find.populate('type');
+
+
+        if (!params.collection) {
+            return callback(null, find);
+        }
+
+
+        // rights in a collection
+
+        let findCollRights = service.app.db.models.Beneficiary.find();
+        findCollRights
+            .where('ref').equals('RightCollection')
+            .where('document').equals(params.collection);
+
+        findCollRights.exec().then(rights => {
+            let collRights = rights.map(r => { return r._id; });
+            find.where({ _id: { $in: collRights } });
+            callback(null, find);
+        })
+        .catch(callback);
+
+    });
+}
 
 
 
@@ -82,14 +105,21 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
           
+        query(service, params,(err, listQuery) => {
 
-        service.resolveQuery(
-            query(service, params).select('name description type quantity quantity_unit rules sortkey').sort('name'),
-            paginate,
-            function(err, docs) {
-                getResultSet(docs, service.mongOutcome);
+            if (err) {
+                return service.error(err);
             }
-        );
+
+            service.resolveQuery(
+                listQuery.select('name description type quantity quantity_unit rules sortkey').sort('name'),
+                paginate,
+                function(err, docs) {
+                    getResultSet(docs, service.mongOutcome);
+                }
+            );
+        });
+
 
         return service.deferred.promise;
     };

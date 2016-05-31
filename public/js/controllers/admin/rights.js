@@ -9,6 +9,7 @@ define([], function() {
             $scope.setPageTitle(gettext('Absence rights'));
 
 			$scope.types = Rest.admin.types.getResource().query();
+            $scope.collections = Rest.admin.collections.getResource().query();
 
 		}
 	];
