@@ -430,6 +430,34 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Get leave events from requests, deleted requests are excluded
+     * @param {Date} dtstart [[Description]]
+     * @param {Date} dtend   [[Description]]
+     * @return {Promise}  Era object
+     */
+    accountSchema.methods.getLeaveEvents = function(dtstart, dtend) {
+
+        let account = this;
+        let eventModel = this.model('CalendarEvent');
+        let leaves = new jurassic.Era();
+
+        return new Promise((resolve, reject) => {
+
+            let find = eventModel.find()
+                .where('user.id', account.user.id)
+                .where('status').ne('CANCELED');
+
+            find.exec().then(events => {
+
+                events.map(leaves.addPeriod);
+                resolve(leaves);
+
+            }).catch(reject);
+        });
+    };
+
+
 
     /**
      * get non working periods in a period
@@ -438,8 +466,21 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to an Era object
      */
     accountSchema.methods.getPeriodUnavailableEvents = function(dtstart, dtend) {
-        // TODO add leaves periods
-        return this.getPeriodNonWorkingDaysEvents(dtstart, dtend);
+
+        let account = this;
+
+        return new Promise((resolve, reject) => {
+
+            Promise.all([
+                account.getPeriodNonWorkingDaysEvents(dtstart, dtend),
+                account.getLeaveEvents(dtstart, dtend)
+            ]).then(res => {
+
+                let unavailableEra = res[0];
+                resolve(unavailableEra.getFlattenedEra(res[1]));
+            })
+            .catch(reject);
+        });
     };
 
 
