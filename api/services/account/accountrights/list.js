@@ -96,8 +96,8 @@ exports = module.exports = function(services, app)
             }, callback);
         }
 
-
-        async.each(rights, function(rightDocument, cb) {
+        // async.eachSeries is used instead of async.each to maintain order in the output variable
+        async.eachSeries(rights, function(rightDocument, cb) {
 
             var right = rightDocument.toObject();
             right.disp_unit = rightDocument.getDispUnit();
