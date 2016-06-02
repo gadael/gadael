@@ -70,7 +70,7 @@ grunt test
 - [ ] Dynamic intial quantity computed from the number of worked days in the previous renewal period (french RTT, belgium annual leaves ...)
 - [ ] Set right duration in weeks
 - [ ] ICS Export
-- [ ] Fix the unavailableevents account REST service, exclude leaves periods, add a test: method account.getPeriodUnavailableEvents
+- [ ] add a test: method account.getPeriodUnavailableEvents
 - [ ] Method renewal.getWorkedDays
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Emails notifications
