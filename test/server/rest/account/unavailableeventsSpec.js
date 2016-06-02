@@ -118,17 +118,18 @@ describe('unavailableevents accout rest service', function() {
         });
     });
 
-    /*
-    it('request unavailableevents as account, with working period set', function(done) {
 
-        var dtstart, dtend, event;
 
-        dtstart = new Date(2015,3,1).toJSON();
-        dtend = new Date(2015,5,1).toJSON();
 
-        server.get('/rest/account/unavailableevents', { dtstart: dtstart, dtend: dtend }, function(res, body) {
+    function testDate(dtstart, expectedNonWorkingPeriod, callback) {
+
+        let event;
+        let dtend = new Date(dtstart);
+        dtend.setDate(dtend.getDate()+1);
+
+        server.get('/rest/account/unavailableevents', { dtstart: dtstart.toJSON(), dtend: dtend.toJSON() }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toBeGreaterThan(1); // 1er mai
+            expect(body.length).toEqual(expectedNonWorkingPeriod);
 
             for(var i=0; i<body.length; i++) {
                 event = body[i];
@@ -136,12 +137,29 @@ describe('unavailableevents accout rest service', function() {
                 expect(event.dtend).toBeDefined();
             }
 
-            done();
+            callback();
         });
+
+    }
+
+
+
+    it('request unavailableevents as account on a monday, with working period set', function(done) {
+
+        testDate(new Date(2015, 4, 4), 3, done);
+    });
+
+    it('request unavailableevents as account on a sunday', function(done) {
+
+        testDate(new Date(2015, 4, 2), 1, done);
+    });
+
+    it('request unavailableevents as account on a non-working day', function(done) {
+
+        testDate(new Date(2015, 4, 1), 1, done);
     });
 
 
-    */
     it('request unavailableevents as account on one year', function(done) {
 
         var dtstart, dtend;

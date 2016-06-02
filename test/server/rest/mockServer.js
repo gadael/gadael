@@ -34,7 +34,8 @@ function mockServer(dbname, port, readyCallback) {
         
         var company = { 
             name: 'The Fake Company REST service',
-            port: port 
+            port: port,
+            country: 'FR' // all tests on rest services are based on french initial data
         };
         
         api.createDb(headless, serverInst.dbname, company, function() {
