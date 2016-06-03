@@ -8,7 +8,7 @@ define([], function() {
         var collaboratorsResource;
         var calendareventsResource = Rest.user.calendarevents.getResource();
 
-        $scope.setPageTitle(gettext('Home'));
+        $scope.setPageTitle($scope.company.name+' - '+gettext('Home'));
 
         if ($scope.sessionUser.isAccount) {
 
