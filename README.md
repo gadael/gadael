@@ -71,7 +71,7 @@ grunt test
 - [ ] Set right duration in weeks
 - [ ] ICS Export
 - [x] add a test: method account.getPeriodUnavailableEvents or /rest/account/unavailableevents
-- [ ] Method renewal.getWorkedDays
+- [ ] Add test for renewal.getPlannedWorkDayNumber
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Emails notifications
 

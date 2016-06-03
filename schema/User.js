@@ -687,6 +687,45 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Get list of collections used on a period and containing a specific right
+     *
+     * TODO: remove if not used
+     *
+     * @param   {Date}     dtstart period start
+     * @param   {Date}     dtend   period end
+     * @param   {Right}    right   mongoose document
+     * @returns {Promise} Resolve to an array of RightCollection documents
+     */
+    userSchema.methods.getCollectionsWithRight = function(dtstart, dtend, right) {
+        let user = this;
+        let collections = {};
+
+
+        return user.getEntryAccountCollections(dtstart, dtend)
+        .then(accountCollections => {
+            let rightsPromises = [];
+            accountCollections.forEach(accountCollection => {
+                collections[accountCollection.rightCollection.id] = accountCollection.rightCollection;
+                rightsPromises.push(accountCollection.rightCollection.getRights());
+            });
+
+            return Promise.all(rightsPromises);
+        })
+        .then(beneficiaries => {
+            let filteredCollections = [];
+
+            beneficiaries.forEach(b => {
+                if (b.right.id === right.id) {
+                    filteredCollections.push(collections[b.ref.toString()]);
+                }
+            });
+
+            return filteredCollections;
+        });
+    };
+
+
 
     /**
      * Get last 100 messages for the user

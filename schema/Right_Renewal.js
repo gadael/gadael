@@ -656,6 +656,8 @@ exports = module.exports = function(params) {
 
     /**
      * Get number of days in renewal period
+     * in classical cases, this will be 365
+     *
      * @returns {Number} Integer
      */
     rightRenewalSchema.methods.getDays = function() {
@@ -669,6 +671,10 @@ exports = module.exports = function(params) {
         var millisecondsPerDay = 24 * 60 * 60 * 1000;
         return (treatAsUTC(this.start) - treatAsUTC(this.finish)) / millisecondsPerDay;
     };
+
+
+
+
 
 
 
@@ -692,34 +698,21 @@ exports = module.exports = function(params) {
         }
 
         let account = user.roles.account;
+        let weekEnds, nonWorkingDays;
 
-        return new Promise((resolve, reject) => {
-            Promise.all([
-                renewal.getWeekEndDays(account),
-                account.getPeriodNonWorkingDaysEvents(renewal.start, renewal.finish),
-                renewal.getRightPromise()
-            ]).then(r => {
+        return Promise.all([
+            renewal.getWeekEndDays(account),
+            account.getPeriodNonWorkingDaysEvents(renewal.start, renewal.finish)
+        ]).then(r => {
 
-                let weekEnds = r[0];
-                let nonWorkingDays = r[1].getDays();
+            weekEnds = r[0];
+            nonWorkingDays = r[1].getDays();
 
-                /*
-                let right = r[2];
-                */
+            return renewal.getUserQuantity(user);
 
 
-                //
-                // TODO ici on a besoin de trouver la liste des regimes de conges utilises peandant la periode du renouvellement
-                // pour chaque regime, compter le nombre de jours qui ont ete attribues a l'utilisateur
-                // tenir compte uniquement des regimes associes au droit
-                // dans ce genre de situation, a cheval sur 2 regimes, la quantites initiale a ete modifie specifiquement pour cet utilisateur
-                // potentiellement sur les 2 regimes il faut cette quantite pour terminer cette fonction
-
-
-                resolve(renewal.getDays() - weekEnds - 0 - nonWorkingDays);
-
-
-            }).catch(reject);
+        }).then(initalQuantity => {
+            return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });
 
     };
