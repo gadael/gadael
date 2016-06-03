@@ -143,8 +143,29 @@ exports.getInfos = function(req, res) {
 
     companyModel.find({}, 'name maintenance public_text private_text max_users', (err, companies) => {
 
+        let company = companies[0].toObject();
+
+        /**
+         * Replace text variables in company object for security (do not expose private stuff in publc rest service)
+         * @param {String} use Property name
+         * @param {String} del Property name
+         */
+        function replaceProp(use, del) {
+            company.home_text = company[use];
+            if (undefined !== company[del]) {
+                delete company[del];
+            }
+        }
+
+        if (sessionUser.isAuthenticated) {
+            replaceProp('private_text', 'public_text');
+        } else {
+            replaceProp('public_text', 'private_text');
+        }
+
+
         res.json({
-            company: companies[0],
+            company: company,
             lang: lang[0].lang,
             sessionUser: sessionUser,
             menu: menu,

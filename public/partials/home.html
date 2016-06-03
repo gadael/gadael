@@ -1,3 +1,4 @@
+
 <div class="_jumbotron">
 
     <div ng-if="!sessionUser.isAuthenticated">
@@ -8,11 +9,17 @@
             <p>Congratulation, this server has just been created and contain no users, please do not leave it that way.</p>
             <a class="btn btn-primary" ng-href="#/login/createfirstadmin">Create first administrator</a>
         </div>
+
     </div>
+
+
+    <div class="home-text">
+        <p ng-repeat="paragraph in company.home_text|nlToArray track by $index">{{paragraph}}</p>
+    </div>
+
 
     <div ng-if="sessionUser.isAccount">
         <h2 translate>My account</h2>
-
 
         <div class="col-lg-8 col-sm-6 col-xs-12">
             <div class="gadael-list-rows">

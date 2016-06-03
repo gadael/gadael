@@ -4,9 +4,11 @@ define(['angular', 'services'], function (angular) {
 	/* Filters */
   
 	angular.module('gadael.filters', ['gadael.services'])
-		.filter('interpolate', ['version', function(version) {
-			return function(text) {
-				return String(text).replace(/\%VERSION\%/mg, version);
-			};
-	}]);
+        .filter('nlToArray', function() {
+            return function(text) {
+                return text.split('\n');
+            };
+        })
+    ;
+
 });
