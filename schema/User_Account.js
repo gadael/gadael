@@ -563,12 +563,7 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to an array of beneficiary documents
      */
     accountSchema.methods.getRightBeneficiaries = function(moment) {
-        
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
+
         
         if (!moment) {
             moment = new Date();
@@ -576,13 +571,13 @@ exports = module.exports = function(params) {
         
 
 
-        var account = this;
+        let account = this;
         
         
-        this.getCollection(moment).then(function(rightCollection) {
+        return this.getCollection(moment).then(function(rightCollection) {
 
             if (!account.user.id) {
-                return deferred.reject('The user.id property is missing on user.roles.account');
+                throw new Error('The user.id property is missing on user.roles.account');
             }
             
             var userDocuments = [account.user.id];
@@ -591,16 +586,13 @@ exports = module.exports = function(params) {
                 userDocuments.push(rightCollection._id);
             }
 
-            deferred.resolve(
-                account.model('Beneficiary')
+            return account.model('Beneficiary')
                 .where('document').in(userDocuments)
                 .populate('right')
-                .exec()
-            );
+                .exec();
             
-        }).catch(deferred.reject);
-        
-        return deferred.promise;
+        });
+
     };
     
     /**
