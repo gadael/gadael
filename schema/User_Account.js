@@ -427,19 +427,16 @@ exports = module.exports = function(params) {
         let eventModel = this.model('CalendarEvent');
         let leaves = new jurassic.Era();
 
-        return new Promise((resolve, reject) => {
 
-            let find = eventModel.find()
-                .where('user.id', account.user.id)
-                .where('status').ne('CANCELED');
+        let find = eventModel.find()
+            .where('user.id', account.user.id)
+            .where('status').ne('CANCELED');
 
-            find.exec().then(events => {
-
-                events.map(leaves.addPeriod);
-                resolve(leaves);
-
-            }).catch(reject);
+        return find.exec().then(events => {
+            events.map(leaves.addPeriod);
+            return leaves;
         });
+
     };
 
 
