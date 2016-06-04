@@ -672,7 +672,7 @@ exports = module.exports = function(params) {
         }
 
         var millisecondsPerDay = 24 * 60 * 60 * 1000;
-        return (treatAsUTC(this.start) - treatAsUTC(this.finish)) / millisecondsPerDay;
+        return (treatAsUTC(this.finish) - treatAsUTC(this.start)) / millisecondsPerDay;
     };
 
 
@@ -713,6 +713,11 @@ exports = module.exports = function(params) {
 
 
         }).then(initalQuantity => {
+
+            console.log(weekEnds);
+            console.log(initalQuantity);
+            console.log(nonWorkingDays);
+
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });
 
