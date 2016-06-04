@@ -601,6 +601,40 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * get account promise
+     * if allready populated, promisify the existing document
+     * else populate the document or reject the promise is the user is not an account
+     *
+     * TODO create methods for 2 other roles
+     *
+     * @return {Promise}
+     */
+    userSchema.methods.getAccount = function() {
+
+        let user = this;
+
+        return new Promise((resolve, reject) => {
+
+            if (!user.roles.account) {
+                throw new Error('Missing account');
+            }
+
+            if (user.populated('roles.account')) {
+                return resolve(user.roles.account);
+            }
+
+            user.populate('roles.account', err => {
+
+                if (err) {
+                    return reject(err);
+                }
+
+                resolve(user.roles.account);
+            });
+        });
+    };
+
 
 
     /**

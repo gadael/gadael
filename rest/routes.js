@@ -58,11 +58,9 @@ exports = module.exports = function(app, passport)
 {
     var controllers = new fileControllers(app);
     
-    
-	app.get('/rest/accounts', require('./Account').getAccounts);
-	app.get('/rest/account', require('./Account').getAccount);
+
 	app.get('/rest/common', require('./Common').getInfos);
-	app.get('/rest/admin', require('./admin/index').getInfos);
+
     
     controllers.add('./user/user');
     controllers.add('./user/settings');

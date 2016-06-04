@@ -643,6 +643,9 @@ exports = module.exports = function(params) {
 
                 let RenewalEra = new jurassic.Era();
                 let RenewalPeriod = new jurassic.Period();
+                RenewalPeriod.dtstart = renewal.start;
+                RenewalPeriod.dtend = renewal.finish;
+
                 RenewalEra.addPeriod(RenewalPeriod);
 
                 RenewalEra.subtractEra(ScheduleEra);
@@ -692,18 +695,16 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getPlannedWorkDayNumber = function(user) {
 
         let renewal = this;
-
-        if (!user.populated('roles.account') || !user.roles.account) {
-            throw new Error('Missing account');
-        }
-
-        let account = user.roles.account;
         let weekEnds, nonWorkingDays;
 
-        return Promise.all([
-            renewal.getWeekEndDays(account),
-            account.getPeriodNonWorkingDaysEvents(renewal.start, renewal.finish)
-        ]).then(r => {
+        return user.getAccount().then(account => {
+
+            return Promise.all([
+                renewal.getWeekEndDays(account),
+                account.getPeriodNonWorkingDaysEvents(renewal.start, renewal.finish)
+            ]);
+
+        }).then(r => {
 
             weekEnds = r[0];
             nonWorkingDays = r[1].getDays();
@@ -716,7 +717,6 @@ exports = module.exports = function(params) {
         });
 
     };
-
 
 
 
