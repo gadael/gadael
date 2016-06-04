@@ -238,8 +238,10 @@ exports = module.exports = function(params) {
                         .populate('calendar');
     };
 
+
     /**
      * Query for schedule calendars witout end date, starting before a date
+     *
      * @param {Date} moment
      * @return {Query}
      */
@@ -254,7 +256,10 @@ exports = module.exports = function(params) {
                         .populate('calendar');
     };
 
+
      /**
+      * Get schedule calendars associated to account in a period
+      *
       * @param {Date} dtstart
       * @param {Date} dtend
       *
@@ -263,36 +268,16 @@ exports = module.exports = function(params) {
       */
      accountSchema.methods.getPeriodScheduleCalendars = function(dtstart, dtend) {
 
-         var deferred = {};
-         deferred.promise = new Promise(function(resolve, reject) {
-             deferred.resolve = resolve;
-             deferred.reject = reject;
-         });
-
          var account = this;
 
-         account.getScheduleCalendarOverlapQuery(dtstart, dtend)
-            .exec(function(err, arr1) {
+         return account.getScheduleCalendarOverlapQuery(dtstart, dtend).exec()
+        .then(function(arr1) {
 
-                if (err) {
-                    deferred.reject(err);
-                    return;
-                }
-
-                account.getScheduleCalendarBeforeFromQuery(dtend)
-                    .exec(function(err, arr2) {
-
-                    if (err) {
-                        deferred.reject(err);
-                        return;
-                    }
-
-                    deferred.resolve(arr1.concat(arr2));
-                });
-
+            return account.getScheduleCalendarBeforeFromQuery(dtend).exec()
+            .then(function(arr2) {
+                return arr1.concat(arr2);
             });
-
-         return deferred.promise;
+        });
      };
 
 
@@ -469,17 +454,13 @@ exports = module.exports = function(params) {
 
         let account = this;
 
-        return new Promise((resolve, reject) => {
+        return Promise.all([
+            account.getPeriodNonWorkingDaysEvents(dtstart, dtend),
+            account.getLeaveEvents(dtstart, dtend)
+        ]).then(res => {
 
-            Promise.all([
-                account.getPeriodNonWorkingDaysEvents(dtstart, dtend),
-                account.getLeaveEvents(dtstart, dtend)
-            ]).then(res => {
-
-                let unavailableEra = res[0];
-                resolve(unavailableEra.getFlattenedEra(res[1]));
-            })
-            .catch(reject);
+            let unavailableEra = res[0];
+            return unavailableEra.getFlattenedEra(res[1]);
         });
     };
 
@@ -491,47 +472,26 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.getScheduleCalendar = function(moment) {
 
-        var deferred = {};
-        deferred.promise = new Promise((resolve, reject) => {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
-
         var account = this;
         
-        account.getScheduleCalendarOverlapQuery(moment, moment)
-            .exec(function(err, arr) {
+        return account.getScheduleCalendarOverlapQuery(moment, moment).exec()
+        .then(function(arr) {
+            
+            if (arr && arr.length > 0) {
+                return arr[0].calendar;
+            }
 
-                if (err) {
-                    deferred.reject(err);
-                    return;
-                }
-            
+            return account.getScheduleCalendarBeforeFromQuery(moment).exec()
+            .then(function(arr) {
+
+
                 if (!arr || 0 === arr.length) {
-                    
-                    account.getScheduleCalendarBeforeFromQuery(moment)
-                        .exec(function(err, arr) {
-                        
-                        if (err) {
-                            deferred.reject(err);
-                            return;
-                        }
-                        
-                        if (!arr || 0 === arr.length) {
-                            deferred.resolve(null);
-                            return; 
-                        }
-                        
-                        deferred.resolve(arr[0].calendar);
-                    });
-                    
-                    return;
+                    return null;
                 }
-            
-                deferred.resolve(arr[0].calendar);
+
+                return arr[0].calendar;
             });
-        
-        return deferred.promise;
+        });
     };
     
     
