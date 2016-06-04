@@ -349,7 +349,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * get non working days in a period
+     * get non working days in a period (non working days + week-ends)
      * @param {Date} dtstart
      * @param {Date} dtend
      * @return {Promise} resolve to an Era object

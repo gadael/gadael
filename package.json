@@ -58,7 +58,7 @@
     "restitute": "~0.1.0",
     "q": "~1.4.1",
     "bcrypt": "~0.8.1",
-    "jurassic": "git://github.com/polo2ro/jurassic.git#c266a898da4b2627894af7fb3350c44983a22531",
+    "jurassic": "git://github.com/polo2ro/jurassic.git#1eddd3a756c3672b5ed0cc1e03b682749d77a574",
     "xlsx-writestream": "~0.4.0",
     "tmp": "~0.0.28",
     "latinize": "~0.2.0"

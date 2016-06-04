@@ -1,7 +1,5 @@
 'use strict';
 
-const jurassic = require('jurassic');
-
 
 exports = module.exports = function(params) {
 	
@@ -641,15 +639,8 @@ exports = module.exports = function(params) {
         return new Promise((resolve, reject) => {
             account.getPeriodScheduleEvents(renewal.start, renewal.finish).then(ScheduleEra => {
 
-                let RenewalEra = new jurassic.Era();
-                let RenewalPeriod = new jurassic.Period();
-                RenewalPeriod.dtstart = renewal.start;
-                RenewalPeriod.dtend = renewal.finish;
-
-                RenewalEra.addPeriod(RenewalPeriod);
-
-                RenewalEra.subtractEra(ScheduleEra);
-                resolve(RenewalEra.getDays());
+                let scheduledDays = Object.keys(ScheduleEra.getDays()).length;
+                resolve(renewal.getDays() - scheduledDays);
 
             }).catch(reject);
         });
@@ -707,7 +698,7 @@ exports = module.exports = function(params) {
         }).then(r => {
 
             weekEnds = r[0];
-            nonWorkingDays = r[1].getDays();
+            nonWorkingDays = Object.keys(r[1].getDays()).length;
 
             return renewal.getUserQuantity(user);
 
