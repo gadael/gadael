@@ -48,6 +48,7 @@ define(function() {
                 accountrights           : init('admin/accountrights/:id'),
                 accountcollections      : init('admin/accountcollections/:id'),
                 accountschedulecalendars: init('admin/accountschedulecalendars/:id'),
+                accountnwdayscalendars  : init('admin/accountnwdayscalendars/:id'),
                 beneficiaries           : init('admin/beneficiaries/:id'),
                 calendars               : init('admin/calendars/:id'),
                 calendarevents          : init('admin/calendarevents/:id'),

@@ -1,0 +1,52 @@
+
+<form role="form" name="accountNWDaysCalendarsEdit">
+
+
+
+    <div class="row">
+
+        <h3 class="col-md-9" translate>Non-working days scheduling for {{user.lastname}} {{user.firstname}}</h3>
+
+        <div class="col-md-3 text-right">
+            <br />
+            <button class="btn btn-primary" ng-click="addAccountNWDaysCalendar()">
+                <i class="fa fa-plus-circle"></i> <span translate>Add a calendar</span>
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="row" ng-repeat="accountNWDaysCalendar in accountNWDaysCalendars">
+        <div class="col-md-6 form-group">
+            <label for="user_accountNWDaysCalendar{{$index}}" translate>Non-working days calendar</label>
+
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-warning" ng-click="removeAccountNWDaysCalendar($index)" ng-disabled="removeIsDisabled(accountNWDaysCalendar)"><span class="glyphicon glyphicon-remove"></span><span class="sr-only" translate>Remove</span></button>
+                </div>
+                <select class="form-control" id="user_accountNWDaysCalendar{{$index}}" ng-model="accountNWDaysCalendar.calendar._id" ng-options="calendar._id as calendar.name for calendar in calendars" ng-required>
+                    <option></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3 form-group">
+            <label for="user_from" translate>From</label>
+            <input type="text" id="user_from" class="form-control" ng-model="accountNWDaysCalendar.from" data-max-date="{{accountNWDaysCalendar.to}}" data-autoclose="1" container="body" ng-required bs-datepicker />
+        </div>
+
+        <div class="col-md-3 form-group">
+            <label for="user_to" translate>To</label>
+            <input type="text" id="user_to" class="form-control" ng-model="accountNWDaysCalendar.to" data-min-date="{{accountNWDaysCalendar.from}}" data-autoclose="1" container="body" bs-datepicker />
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-12 text-center top30">
+        <button class="btn btn-primary" ng-click="saveAccountNWDaysCalendars()" translate>Save</button>
+        <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
+    </div>
+
+</form>

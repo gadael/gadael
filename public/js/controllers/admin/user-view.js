@@ -18,6 +18,7 @@ define([], function() {
         var accountBeneficiaries = Rest.admin.accountbeneficiaries.getResource();
         var accountCollection = Rest.admin.accountcollections.getResource();
         var accountScheduleCalendars = Rest.admin.accountschedulecalendars.getResource();
+        var accountNWDaysCalendars = Rest.admin.accountnwdayscalendars.getResource();
         var adjustmentsResource = Rest.admin.adjustments.getResource();
 
         if ($scope.user.$promise) {
@@ -33,6 +34,7 @@ define([], function() {
                     var account = $scope.user.roles.account;
 
                     $scope.accountScheduleCalendars = accountScheduleCalendars.query({ account: account._id });
+                    $scope.accountNWDaysCalendars = accountNWDaysCalendars.query({ account: account._id });
                     $scope.accountCollections = accountCollection.query({ account: account._id });
                     $scope.beneficiaries = accountBeneficiaries.query({ account: account._id });
                     $scope.adjustments = adjustmentsResource.query({ user: $scope.user._id });
