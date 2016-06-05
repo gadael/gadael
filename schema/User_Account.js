@@ -349,41 +349,21 @@ exports = module.exports = function(params) {
 
 
     /**
-     * get non working days in a period (non working days + week-ends)
-     * @param {Date} dtstart
-     * @param {Date} dtend
-     * @return {Promise} resolve to an Era object
+     * [[Description]]
+     * @param   {Date} dtstart [[Description]]
+     * @param   {Date} dtend   [[Description]]
+     * @returns {Promise} Resolve to an Era object
      */
-    accountSchema.methods.getPeriodNonWorkingDaysEvents = function(dtstart, dtend) {
+    accountSchema.methods.getNonWorkingDayEvents = function(dtstart, dtend) {
 
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
+        let searchCals = this.model('Calendar').find();
+        searchCals.where('type', 'nonworkingday');
+        return searchCals.exec().then(function(calendars) {
 
-        var acSchema = this;
 
-        this.getPeriodScheduleEvents(dtstart, dtend).then(function(scheduleEvents) {
+            var nonWorkingDays = new jurassic.Era();
 
-            var unavailableEvents = new jurassic.Era();
-            var p = new jurassic.Period();
-            p.dtstart = dtstart;
-            p.dtend = dtend;
-            unavailableEvents.addPeriod(p);
-            unavailableEvents.subtractEra(scheduleEvents);
-
-            // add non-working days
-
-            var searchCals = acSchema.model('Calendar').find();
-            searchCals.where('type', 'nonworkingday');
-            searchCals.exec(function(err, calendars) {
-                if (err) {
-                    return deferred.reject(err);
-                }
-
-                var nonWorkingDays = new jurassic.Era();
-
+            return new Promise((resolve, reject) => {
                 async.each(calendars, function(calendar, endCal) {
                     calendar.getEvents(dtstart, dtend, function(err, events) {
                         if (err) {
@@ -398,20 +378,49 @@ exports = module.exports = function(params) {
                     });
                 }, function(err) {
                     if (err) {
-                        return deferred.reject(err);
+                        return reject(err);
                     }
 
-                    unavailableEvents.addEra(nonWorkingDays);
-
-                    var era = unavailableEvents.getFlattenedEra();
-
-                    deferred.resolve(era);
+                    resolve(nonWorkingDays);
                 });
             });
         });
 
+    };
 
-        return deferred.promise;
+
+
+    /**
+     * get non working days in a period (non working days + week-ends + non worked periods in worked days)
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise} resolve to an Era object
+     */
+    accountSchema.methods.getPeriodNonWorkingDaysEvents = function(dtstart, dtend) {
+
+        let account = this;
+
+        return Promise.all([
+            account.getPeriodScheduleEvents(dtstart, dtend),
+            account.getNonWorkingDayEvents(dtstart, dtend)
+        ]).then(function(res) {
+
+            let scheduleEvents = res[0];
+            let nonWorkingDays = res[1];
+
+            let unavailableEvents = new jurassic.Era();
+            let p = new jurassic.Period();
+            p.dtstart = dtstart;
+            p.dtend = dtend;
+            unavailableEvents.addPeriod(p);
+            unavailableEvents.subtractEra(scheduleEvents);
+
+            // add non-working days
+            unavailableEvents.addEra(nonWorkingDays);
+
+            return unavailableEvents.getFlattenedEra();
+
+        });
     };
 
 

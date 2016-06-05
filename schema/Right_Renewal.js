@@ -692,7 +692,7 @@ exports = module.exports = function(params) {
 
             return Promise.all([
                 renewal.getWeekEndDays(account),
-                account.getPeriodNonWorkingDaysEvents(renewal.start, renewal.finish)
+                account.getNonWorkingDayEvents(renewal.start, renewal.finish)
             ]);
 
         }).then(r => {
