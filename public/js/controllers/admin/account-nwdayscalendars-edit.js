@@ -33,26 +33,26 @@ define([], function() {
 
                                 // force values as date object
 
-                                for(var i=0; i<$scope.accountScheduleCalendars.length; i++) {
-                                    if ($scope.accountScheduleCalendars[i].from) {
-                                        $scope.accountScheduleCalendars[i].from = new Date($scope.accountScheduleCalendars[i].from);
+                                for(var i=0; i<$scope.accountNWDaysCalendars.length; i++) {
+                                    if ($scope.accountNWDaysCalendars[i].from) {
+                                        $scope.accountNWDaysCalendars[i].from = new Date($scope.accountNWDaysCalendars[i].from);
                                     }
 
-                                    if ($scope.accountScheduleCalendars[i].to) {
-                                        $scope.accountScheduleCalendars[i].to = new Date($scope.accountScheduleCalendars[i].to);
+                                    if ($scope.accountNWDaysCalendars[i].to) {
+                                        $scope.accountNWDaysCalendars[i].to = new Date($scope.accountNWDaysCalendars[i].to);
                                     }
                                 }
                             }
                         }
                     );
                 } else {
-                    $scope.accountScheduleCalendars = [];
+                    $scope.accountNWDaysCalendars = [];
                     $scope.addAccountCollection();
                 }
             });
         }
 
-        $scope.calendars = Rest.admin.calendars.getResource().query({ type: 'workschedule' });
+        $scope.calendars = Rest.admin.calendars.getResource().query({ type: 'nonworkingday' });
 
 
 

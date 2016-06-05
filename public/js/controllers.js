@@ -163,6 +163,10 @@ define(['angular', 'services'], function (angular) {
             invokeController('controllers/admin/account-schedulecalendars-edit', this, $scope, $injector);
 		}])
 
+        .controller('AdminAccountNWDaysCalendarsEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/account-nwdayscalendars-edit', this, $scope, $injector);
+		}])
+
         .controller('AdminAccountRenewalQuantityEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/account-renewalquantity-edit', this, $scope, $injector);
 		}])

@@ -252,6 +252,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminAccountScheduleCalendarsEdit'
 		});
 
+        $routeProvider.when('/admin/users/:id/account-nwdayscalendars', {
+			templateUrl: 'partials/admin/account-nwdayscalendars-edit.html',
+			controller: 'AdminAccountNWDaysCalendarsEdit'
+		});
+
         $routeProvider.when('/admin/users/:id/account-renewalquantity', {
 			templateUrl: 'partials/admin/account-renewalquantity-edit.html',
 			controller: 'AdminAccountRenewalQuantityEdit'

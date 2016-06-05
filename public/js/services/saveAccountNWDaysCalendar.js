@@ -1,5 +1,5 @@
 define([], function() {
-    
+
     'use strict';
 
     /**
@@ -8,38 +8,38 @@ define([], function() {
      * @returns {Promise}
      */
     var saveRow = function($q, resource) {
-        
+
         var deferred = $q.defer();
-        
+
         if (resource._id) {
 
             resource.$save(deferred.resolve, deferred.reject);
-            
+
         } else {
             resource.$create(deferred.resolve, deferred.reject);
         }
 
         return deferred.promise;
     };
-    
-    
-    
+
+
+
     /**
      * Save all account collections
-     * 
+     *
      */
     return function($scope, $q, catchOutcome) {
 
 
         if (!$scope.user.roles || !$scope.user.roles.account) {
-            // TODO remove the existing calendars
+            // TODO remove the existing non working days calendars
             return;
         }
 
         var promises = [];
 
 
-        $scope.accountScheduleCalendars.forEach(function(document) {
+        $scope.accountNWDaysCalendars.forEach(function(document) {
 
             // remove time on dates before saving
 
@@ -56,7 +56,7 @@ define([], function() {
             } else {
                 document.user = $scope.user._id;
             }
-            
+
             promises.push(catchOutcome(saveRow($q, document)));
         });
 
