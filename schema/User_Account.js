@@ -79,6 +79,17 @@ exports = module.exports = function(params) {
     
     
     /**
+     * Find non-working days calendars
+     * @returns {Query} A mongoose query on the account schedule calendar schema
+     */
+    accountSchema.methods.getAccountNWDaysCalendarQuery = function() {
+        return this.model('AccountNWDaysCalendar')
+            .find()
+            .where('account').equals(this._id);
+    };
+
+
+    /**
      * Get a Q promise from a query on accountCollection
      * @param {Query} query     Mongoose query object
      * @return {Promise} resolve to a rightCollection document or null
@@ -257,6 +268,58 @@ exports = module.exports = function(params) {
     };
 
 
+
+
+
+    /**
+     * Query for non-working days calendars overlapping a period
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Query}
+     */
+    accountSchema.methods.getNWDaysCalendarOverlapQuery = function(dtstart, dtend) {
+
+        var from = new Date(dtstart);
+        from.setHours(0,0,0,0);
+        var to = new Date(dtend);
+        to.setHours(0,0,0,0);
+
+        return this.getAccountNWDaysCalendarQuery()
+                        .where('from').lte(to)
+                        .where('to').gte(from)
+                        .populate('calendar');
+    };
+
+
+    /**
+     * Query for non-working days calendars witout end date, starting before a date
+     *
+     * @param {Date} moment
+     * @return {Query}
+     */
+    accountSchema.methods.getNWDaysCalendarBeforeFromQuery = function(moment) {
+
+        var d = new Date(moment);
+        d.setHours(0,0,0,0);
+
+        return this.getAccountNWDaysCalendarQuery()
+                        .where('from').lte(d)
+                        .where('to').equals(null)
+                        .populate('calendar');
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
      /**
       * Get schedule calendars associated to account in a period
       *
@@ -282,41 +345,47 @@ exports = module.exports = function(params) {
 
 
 
+
     /**
-     * get schedule events in a period
-     * @param {Date} dtstart
-     * @param {Date} dtend
-     * @return {Promise} resolve to an Era object
-     */
-    accountSchema.methods.getPeriodScheduleEvents = function(dtstart, dtend) {
+      * Get non-working days calendars associated to account in a period
+      *
+      * @param {Date} dtstart
+      * @param {Date} dtend
+      *
+      * @see {AccountNWDaysCalendar}
+      * @return {Promise} resolve to an array of AccountNWDaysCalendar
+      */
+     accountSchema.methods.getPeriodNWDaysCalendars = function(dtstart, dtend) {
 
+         var account = this;
 
+         return account.getNWDaysCalendarOverlapQuery(dtstart, dtend).exec()
+        .then(function(arr1) {
 
-        function isValidDate(d) {
-            if ( Object.prototype.toString.call(d) !== "[object Date]" ) {
-                return false;
-            }
-            return !isNaN(d.getTime());
-        }
-
-        if (!isValidDate(dtstart) || !isValidDate(dtend)) {
-            throw new Error('Missing date interval');
-        }
-
-
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
+            return account.getNWDaysCalendarBeforeFromQuery(dtend).exec()
+            .then(function(arr2) {
+                return arr1.concat(arr2);
+            });
         });
+     };
 
-        var account = this;
 
-        account.getPeriodScheduleCalendars(dtstart, dtend).then(function(ascList) {
+    /**
+     * Get list of events from a list of planning documents (schedule calendars or non-working days calendars)
+     * @param {Array} plannings [[Description]]
+     * @param {Date} dtstart   [[Description]]
+     * @param {Date} dtend     [[Description]]
+     *
+     * @return {Promise}
+     */
+    accountSchema.methods.getPlanningEvents = function(plannings, dtstart, dtend) {
 
-            var from, to, events = new jurassic.Era();
 
-            async.each(ascList, function(asc, callback) {
+        let from, to, events = new jurassic.Era();
+
+        return new Promise((resolve, reject) => {
+
+            async.each(plannings, function(asc, callback) {
                 from = asc.from > dtstart ? asc.from : dtstart;
                 to = (null !== asc.to && asc.to < dtend) ? asc.to : dtend;
                 asc.calendar.getEvents(from, to, function eventsCb(err, calendarEvents) {
@@ -337,55 +406,64 @@ exports = module.exports = function(params) {
             }, function(err) {
 
                 if (err) {
-                    return deferred.reject(err);
+                    return reject(err);
                 }
 
-                deferred.resolve(events);
+                resolve(events);
             });
         });
+    };
 
-        return deferred.promise;
+
+
+    accountSchema.methods.checkInterval = function(dtstart, dtend) {
+        function isValidDate(d) {
+            if ( Object.prototype.toString.call(d) !== "[object Date]" ) {
+                return false;
+            }
+            return !isNaN(d.getTime());
+        }
+
+        if (!isValidDate(dtstart) || !isValidDate(dtend)) {
+            throw new Error('Missing date interval');
+        }
     };
 
 
     /**
-     * [[Description]]
+     * get schedule events in a period
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise} resolve to an Era object
+     */
+    accountSchema.methods.getPeriodScheduleEvents = function(dtstart, dtend) {
+
+        let account = this;
+
+        account.checkInterval(dtstart, dtend);
+
+        return account.getPeriodScheduleCalendars(dtstart, dtend).then(function(ascList) {
+            return account.getPlanningEvents(ascList, dtstart, dtend);
+        });
+
+    };
+
+
+    /**
+     * Get non-working days events in a period
      * @param   {Date} dtstart [[Description]]
      * @param   {Date} dtend   [[Description]]
      * @returns {Promise} Resolve to an Era object
      */
     accountSchema.methods.getNonWorkingDayEvents = function(dtstart, dtend) {
 
-        let searchCals = this.model('Calendar').find();
-        searchCals.where('type', 'nonworkingday');
-        return searchCals.exec().then(function(calendars) {
+        let account = this;
 
+        account.checkInterval(dtstart, dtend);
 
-            var nonWorkingDays = new jurassic.Era();
-
-            return new Promise((resolve, reject) => {
-                async.each(calendars, function(calendar, endCal) {
-                    calendar.getEvents(dtstart, dtend, function(err, events) {
-                        if (err) {
-                            return endCal(err);
-                        }
-
-
-                        events.forEach(function(event) {
-                            nonWorkingDays.addPeriod(event);
-                        });
-                        endCal();
-                    });
-                }, function(err) {
-                    if (err) {
-                        return reject(err);
-                    }
-
-                    resolve(nonWorkingDays);
-                });
-            });
+        return account.getPeriodNWDaysCalendars(dtstart, dtend).then(function(ascList) {
+            return account.getPlanningEvents(ascList, dtstart, dtend);
         });
-
     };
 
 
