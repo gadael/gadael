@@ -705,10 +705,6 @@ exports = module.exports = function(params) {
 
         }).then(initalQuantity => {
 
-            console.log(weekEnds);
-            console.log(initalQuantity);
-            console.log(nonWorkingDays);
-
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });
 
