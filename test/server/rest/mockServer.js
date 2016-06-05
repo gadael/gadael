@@ -422,8 +422,22 @@ mockServer.prototype.createUserAccountRole = function(department, nickname, serv
  */
 mockServer.prototype.createUserAccount = function(department) {
 
-    return this.createUserAccountRole(department, 'mockaccount', 'account');
+    let app = this.app;
 
+    return this.createUserAccountRole(department, 'mockaccount', 'account')
+    .then(userAccount => {
+
+        let nonworkingdaysCalendar = new app.db.models.AccountNWDaysCalendar();
+        nonworkingdaysCalendar.account = userAccount.user.roles.account;
+        nonworkingdaysCalendar.calendar = '5740adf51cf1a569643cc100'; // france metropolis
+        nonworkingdaysCalendar.from = new Date(2000,0,1,0,0,0,0);
+
+        return nonworkingdaysCalendar.save()
+        .then(() => {
+            return userAccount;
+        });
+
+    });
 };
 
 

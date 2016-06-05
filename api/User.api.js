@@ -131,30 +131,31 @@ api.createRandomDisabledAdmin = function(app, email, password) {
  */
 api.createRandomAccount = function(app, email, password) {
 
-    return new Promise(function(resolve, reject) {
-        api.createRandomUser(app, email, password).then(function(randomUser) {
-            randomUser.user.saveAccount().then(function() {
+    return api.createRandomUser(app, email, password)
+    .then(function(randomUser) {
+        return randomUser.user.saveAccount()
+        .then(() => {
 
-                let find = app.db.models.Calendar.find();
-                find.where('type', 'workschedule');
+            let scheduleCalendar = new app.db.models.AccountScheduleCalendar();
+            scheduleCalendar.account = randomUser.user.roles.account;
+            scheduleCalendar.calendar = '5740adf51cf1a569643cc101'; // 35H full time work schedule
+            scheduleCalendar.from = new Date(2000,0,1,0,0,0,0);
 
-                find.exec().then(calendars => {
+            let nonworkingdaysCalendar = new app.db.models.AccountNWDaysCalendar();
+            nonworkingdaysCalendar.account = randomUser.user.roles.account;
+            nonworkingdaysCalendar.calendar = '5740adf51cf1a569643cc100'; // france metropolis
+            nonworkingdaysCalendar.from = new Date(2000,0,1,0,0,0,0);
 
-                    if (calendars.length === 0) {
-                        return reject('No schedule calendar');
-                    }
-
-                    let scheduleCalendar = new app.db.models.AccountScheduleCalendar();
-                    scheduleCalendar.account = randomUser.user.roles.account;
-                    scheduleCalendar.calendar = calendars[0]._id;
-                    scheduleCalendar.from = new Date(2000,0,1,0,0,0,0);
-                    scheduleCalendar.save().then(() => {
-                        resolve(randomUser);
-                    }).catch(reject);
-                }).catch(reject);
-            }).catch(reject);
-        }).catch(reject);
+            return Promise.all([
+                scheduleCalendar.save(),
+                nonworkingdaysCalendar.save()
+            ]);
+        })
+        .then(() => {
+            return randomUser;
+        });
     });
+
 };
 
 

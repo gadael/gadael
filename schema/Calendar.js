@@ -188,6 +188,7 @@ exports = module.exports = function(params) {
         function createDefaults(done) {
 
             let allCalendars = [{
+                _id: '5740adf51cf1a569643cc101',
                 name: gt.gettext('35H full time work schedule'),
                 url: 'calendars/01.ics',
                 type: 'workschedule',
@@ -225,6 +226,7 @@ exports = module.exports = function(params) {
                 });
 
                 allCalendars.push({
+                    _id: '5740adf51cf1a569643cc100',
                     name: gt.gettext('French non working days (metropolis)'),
                     url: icsdbBaseUrl+'france-nonworkingdays.ics',
                     type: 'nonworkingday'
