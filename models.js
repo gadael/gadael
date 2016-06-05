@@ -35,6 +35,7 @@ models.load = function() {
 
     require('./schema/AccountCollection')(requirements);
     require('./schema/AccountScheduleCalendar')(requirements);
+    require('./schema/AccountNWDaysCalendar')(requirements);
 	require('./schema/Company')(requirements);
 	require('./schema/User')(requirements);
 	require('./schema/User_Admin')(requirements);

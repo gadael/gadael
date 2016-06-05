@@ -4,8 +4,8 @@ const accountPlanning = require('./AccountPlanning');
 
 exports = module.exports = function(params) {
 
-	let acSchema = accountPlanning(params);
+	let aNWDSchema = accountPlanning(params);
 
-    params.db.model('AccountScheduleCalendar', acSchema);
+    params.db.model('AccountNWDaysCalendar', aNWDSchema);
 };
 
