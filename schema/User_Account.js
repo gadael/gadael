@@ -769,9 +769,9 @@ exports = module.exports = function(params) {
         return account.getPeriodScheduleEvents(weekLoop, dtend)
         .then(era => {
 
-            era.periods.forEach(p => {
+            era.getFlattenedEra().periods.forEach(p => {
 
-                if (p > limit) {
+                if (p.dtstart > limit) {
                     next();
                 }
 
@@ -781,8 +781,14 @@ exports = module.exports = function(params) {
                     currentWeek[wd] = 0;
                 }
 
-                currentWeek[wd] += (p.dtend.getTime() - p.dtstart.getTime())/360000;
+                currentWeek[wd] += (p.dtend.getTime() - p.dtstart.getTime())/3600000;
             });
+
+
+            if (0 === weeks.length) {
+                throw new Error('No weeks found');
+            }
+
 
             // average days per week and hours per week
 
@@ -792,6 +798,8 @@ exports = module.exports = function(params) {
                 nbDaySum += w.nbDays;
                 hourSum += w.hours;
             });
+
+
 
             return {
                 nbDays: (nbDaySum / weeks.length),
