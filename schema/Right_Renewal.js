@@ -712,6 +712,9 @@ exports = module.exports = function(params) {
 
 
 
+
+
+
     params.db.model('RightRenewal', rightRenewalSchema);
     
     

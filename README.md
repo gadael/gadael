@@ -67,7 +67,8 @@ grunt test
 - [x] Test rights initialization by country
 - [x] Test age rule type (Swiss)
 - [ ] In the request_period rule type, allow interval duration in years (5 years for swiss annual leaves)
-- [ ] Add test for renewal.getPlannedWorkDayNumber
+- [x] Add test for renewal.getPlannedWorkDayNumber
+- [ ] Test account.getWeekHours
 - [ ] Dynamic intial quantity computed from the number of worked days in the previous renewal period (french RTT, belgium annual leaves ...) see renewal.getPlannedWorkDayNumber
 - [ ] Set right duration in weeks
 - [ ] ICS Export

@@ -706,5 +706,102 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Get number of hours per week on a period on a period
+     * If there are more than one shedule period on the requested interval, the method will return the average
+     * This is used to compute number of RTT days
+     *
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise} resolve to an object with number of hours and the number of worked days
+     */
+    accountSchema.methods.getWeekHours = function(dtstart, dtend) {
+
+        let account = this;
+
+        let weekLoop = new Date(dtstart);
+        // go to next monday
+
+        weekLoop.setDate(weekLoop.getDate() + (8 - weekLoop.getDay()) % 7);
+
+        // wee need at least one week
+        let limit = new Date(weekLoop);
+        limit.setDate(limit.getDate() + 7);
+
+        if (limit > dtend) {
+            throw new Error('Interval must contain one week starting on a monday '+dtstart+' - '+dtend);
+        }
+
+        /**
+         * contain hours per day in current week
+         * properties are week days
+         * @var {Array}
+         */
+        let currentWeek = {};
+        let weeks = [];
+
+
+        /**
+         * Forward to next week
+         */
+        function next() {
+
+            let week = {
+                nbDays: 0,
+                hours: 0
+            };
+
+            for(let wd in currentWeek) {
+                if (currentWeek.hasOwnProperty(wd)) {
+                    week.nbDays++;
+                    week.hours += currentWeek[wd];
+                }
+            }
+
+            weeks.push(week);
+            currentWeek = [];
+
+            weekLoop.setDate(weekLoop.getDate() + 7);
+            limit.setDate(limit.getDate() + 7);
+        }
+
+
+        return account.getPeriodScheduleEvents(weekLoop, dtend)
+        .then(era => {
+
+            era.periods.forEach(p => {
+
+                if (p > limit) {
+                    next();
+                }
+
+                let wd = p.dtstart.getDay();
+
+                if (undefined === currentWeek[wd]) {
+                    currentWeek[wd] = 0;
+                }
+
+                currentWeek[wd] += (p.dtend.getTime() - p.dtstart.getTime())/360000;
+            });
+
+            // average days per week and hours per week
+
+            let nbDaySum = 0, hourSum = 0;
+
+            weeks.forEach(w => {
+                nbDaySum += w.nbDays;
+                hourSum += w.hours;
+            });
+
+            return {
+                nbDays: (nbDaySum / weeks.length),
+                hours: (hourSum / weeks.length)
+            };
+        });
+    };
+
+
+
+
     params.db.model('Account', accountSchema);
 };
