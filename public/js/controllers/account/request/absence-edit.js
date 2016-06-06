@@ -124,6 +124,14 @@ define(['q'], function(Q) {
             delete $scope.request.requestLog;
             delete $scope.request.approvalSteps;
 
+            if (undefined !== $scope.request.time_saving_deposit) {
+                delete $scope.request.time_saving_deposit;
+            }
+
+            if (undefined !== $scope.request.workperiod_recover) {
+                delete $scope.request.workperiod_recover;
+            }
+
             try {
                 $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights);
                 $scope.request.gadaSave($scope.back);

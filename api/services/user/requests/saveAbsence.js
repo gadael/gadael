@@ -343,7 +343,7 @@ function checkElement(service, user, elem)
 
 
             if (!rightDocument.validateRules(renewalDocument, user._id, elemPeriod.dtstart, elemPeriod.dtend)) {
-                return deferred.reject('This renewal is not valid on the period');
+                return deferred.reject('This renewal is not valid on the period: '+rightDocument.name+' ('+renewalDocument.start+' - '+renewalDocument.finish+')');
             }
 
 

@@ -54,11 +54,13 @@ grunt test
 
 ## TODO
 
+- [ ] Request modification from user
+- [ ] Edit request from admin
+- [ ] Delete requests from admin
 - [ ] Sage Export
-- [ ] Delete requests (the button does not work)
 - [ ] Decrease depending on the illness leaves
-- [ ] Display homepage text for public/private
-- [ ] Display company name from the common rest service on homepage
+- [x] Display homepage text for public/private
+- [x] Display company name from the common rest service on homepage
 - [x] ICSDB integration database initialisation
 - [ ] ICSDB integration for non working days calendars
 - [x] Rights initialization by country

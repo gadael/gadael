@@ -6,6 +6,9 @@ define(['angular', 'services'], function (angular) {
 	angular.module('gadael.filters', ['gadael.services'])
         .filter('nlToArray', function() {
             return function(text) {
+                if (undefined === text) {
+                    return [];
+                }
                 return text.split('\n');
             };
         })
