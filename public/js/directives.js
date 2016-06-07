@@ -107,6 +107,8 @@ define(['angular', 'services'], function(angular) {
     /**
      * For login/password fields, refresh data binding by timeout if necessary
      * because the auto-fill does not update the scope
+     *
+     * TODO remove
      */
     .directive('autoFillSync', function($timeout) {
        return {
