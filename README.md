@@ -57,6 +57,7 @@ grunt test
 - [ ] Request modification from user
 - [ ] Edit request from admin
 - [ ] Delete requests from admin
+- [ ] Fix moment-duration-format decimal separator
 - [ ] Sage Export
 - [ ] Decrease depending on the illness leaves
 - [x] Display homepage text for public/private
