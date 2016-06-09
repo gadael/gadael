@@ -78,6 +78,7 @@ grunt test
 - [x] Add a test: method account.getPeriodUnavailableEvents or /rest/account/unavailableevents
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Emails notifications
+- [ ] Compulsory leaves management
 
 ## Technical features
 
