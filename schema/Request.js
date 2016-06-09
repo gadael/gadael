@@ -26,7 +26,8 @@ exports = module.exports = function(params) {
 
         absence: {
             rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' },
-            distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }]
+            distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }],
+            compulsoryLeave: { type: mongoose.Schema.Types.ObjectId, ref: 'CompulsoryLeave' }
         },
 
         time_saving_deposit: [params.embeddedSchemas.TimeSavingDeposit],
