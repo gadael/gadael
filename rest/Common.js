@@ -85,6 +85,10 @@ exports.getInfos = function(req, res) {
                     'href': '#/admin/requests'
                 },
                 {
+                    'text': '<i class="fa fa-folder text-warning"></i>&nbsp;'+gt.gettext('Compulsory leaves'),
+                    'href': '#/admin/compulsory'
+                },
+                {
                     'text': '<i class="fa fa-cloud-download"></i>&nbsp;'+gt.gettext('Exports'),
                     'href': '#/admin/exports'
                 },
