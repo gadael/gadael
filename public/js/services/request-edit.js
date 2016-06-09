@@ -1,18 +1,8 @@
-define(['momentDurationFormat', 'q'], function(moment, Q) {
+define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration, Q) {
 
     'use strict';
 
-
-
-
-
-
-
-
-
-
-
-
+    momentDuration(moment);
 
 
 

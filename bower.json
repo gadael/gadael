@@ -19,7 +19,7 @@
     "angular-resource": "~1.3.13",
     "rrule": "~2.1.0",
     "moment": "~2.8.4",
-    "moment-duration-format": "https://github.com/ricwa230/moment-duration-format.git#e7b0b15a9c3709103017438b1c2b2929d95f8f6e",
+    "moment-duration-format": "https://github.com/jsmreese/moment-duration-format.git#dev",
     "angular-teleperiod": "#8698001d08ce4837da368d487e5b4967a1435ae7",
     "angular-bootstrap-colorpicker": "~3.0.18",
     "angular-image-crop": "https://github.com/demarchisd/angular-image-crop.git#master",
