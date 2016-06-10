@@ -102,6 +102,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/beneficiaries');
     controllers.add('./admin/requests');
     controllers.add('./admin/waitingrequests');
+    controllers.add('./admin/compulsoryleaves');
     controllers.add('./admin/adjustments');
     controllers.add('./admin/recoverquantities');
     controllers.add('./admin/timesavingaccounts');
