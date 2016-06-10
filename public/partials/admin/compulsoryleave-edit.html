@@ -1,0 +1,57 @@
+<h1 ng-if="undefined === compulsoryleave._id"><i class="fa fa-magic text-muted"></i> <span translate>Create a compulsory leave</span></h1>
+<h1 ng-if="undefined !== compulsoryleave._id"><i class="fa fa-edit text-muted"></i> <span translate>Modify a compulsory leave</span></h1>
+
+<form role="form">
+
+    <div class="form-group top30">
+        <label for="compulsoryleave_name" translate>Compulsory leave name (this will be visible on users calendars)</label>
+        <input type="text" class="form-control" id="compulsoryleave_name" ng-model="compulsoryleave.name" />
+    </div>
+
+
+    <div class="form-group">
+        <label for="compulsoryleave_right" translate>Leave right</label>
+        <select class="form-control" ng-model="compulsoryleave.name" ng-options="right.name for right in rights">
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="compulsoryleave_right" translate>Leave period</label>
+        <div class="form-inline">
+            <ng-include src="'partials/utils/common/request/periodselect.html'"></ng-include>
+        </div>
+    </div>
+
+    <div class="form-group top30">
+        <strong>Create leaves for users in </strong>
+        <select ng-model="population">
+            <option value="collections">collections</option>
+            <option value="departments">departments</option>
+        </select>
+    </div>
+
+    <div class="form-group" ng-if="population=='collections'">
+        <div class="checkbox" ng-repeat="collection in collections">
+            <label>
+            <input type="checkbox" value="{{collection._id}}"
+                   ng-checked="compulsoryleave.collections.indexOf(collection._id) > -1"
+                   ng-click="toggleSelection(compulsoryleave.collections, collection._id)" />
+            {{collection.name}}</label>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="population=='departments'">
+        <div class="checkbox" style="vertical-align:top" ng-repeat="department in departments">
+            <label>
+            <input type="checkbox" value="{{department._id}}"
+                   ng-checked="compulsoryleave.departments.indexOf(department._id) > -1"
+                   ng-click="toggleSelection(compulsoryleave.departments, department._id)" />
+            {{department.name}}</label>
+        </div>
+    </div>
+
+    <div class="top30">
+        <button class="btn btn-primary" ng-click="save()" translate>Save</button>
+        <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+    </div>
+</form>
