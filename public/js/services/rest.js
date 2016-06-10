@@ -63,6 +63,7 @@ define(function() {
                 types                   : init('admin/types/:id'),
                 users                   : init('admin/users/:id'),
                 requests                : init('admin/requests/:id'),
+                compulsoryleaves        : init('admin/compulsoryleaves/:id'),
                 recoverquantities       : init('admin/recoverquantities/:id'),
                 timesavingaccounts      : init('admin/timesavingaccounts/:id'),
                 collaborators           : init('admin/collaborators/:id'),

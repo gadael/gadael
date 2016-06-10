@@ -262,6 +262,24 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminAccountRenewalQuantityEdit'
 		});
 
+
+
+        $routeProvider.when('/admin/compulsoryleaves', {
+			templateUrl: 'partials/admin/compulsoryleaves.html',
+			controller: 'AdminCompulsoryLeaves'
+		});
+
+		$routeProvider.when('/admin/compulsoryleave-edit/:id', {
+			templateUrl: 'partials/admin/compulsoryleave-edit.html',
+			controller: 'AdminCompulsoryLeaveEdit'
+		});
+
+		$routeProvider.when('/admin/compulsoryleave-edit', {
+			templateUrl: 'partials/admin/compulsoryleave-edit.html',
+			controller: 'AdminCompulsoryLeaveEdit'
+		});
+
+
 		
         
 		$routeProvider.when('/admin/departments', {

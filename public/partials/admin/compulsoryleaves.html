@@ -1,0 +1,62 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+
+		<div class="row gadael-list-header">
+			<div class="col-sm-3 text-center">
+				<a ng-href="#/admin/compulsoryleave-edit" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add compulsory leave</span></a>
+			</div>
+
+			<div class="col-xs-12 col-sm-8 text-center">
+				<begriffs.pagination
+					per-page="25"
+					collection="compulsoryleaves"
+					url="'/rest/admin/compulsoryleaves'"
+					url-params="search"
+					template-url="partials/utils/paginate-anything.html">
+				</begriffs.pagination>
+			</div>
+		</div>
+
+
+		<div class="gadael-list-rows">
+			<div class="row" ng-repeat="compulsoryleave in compulsoryleaves">
+				<div class="col-sm-10">
+					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/compulsoryleaves/{{compulsoryleave._id}}" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a>
+					 &nbsp; {{compulsoryleave.name}}
+				</div>
+
+                <div class="col-sm-2">
+
+                </div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div role="search" class="col-xs-12 col-sm-3">
+
+
+		<h2><i class="fa fa-search"></i> <span translate>Search in compulsory leaves</span></h2>
+
+		<div class="form-group">
+			<label for="search_name" translate>By name:</label><br />
+			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
+		</div>
+
+		<div class="form-group">
+			<label for="search_collection" translate>By collection:</label><br />
+			<select class="form-control" id="search_collection" ng-model="search.collection" ng-options="collection._id as collection.name for collection in collections">
+				<option></option>
+			</select>
+		</div>
+
+
+		<div class="form-group">
+			<label for="search_department" translate>By department:</label><br />
+			<select class="form-control" id="search_department" ng-model="search.department" ng-options="department._id as department.name for department in departments">
+				<option></option>
+			</select>
+		</div>
+	</div>
+</div>

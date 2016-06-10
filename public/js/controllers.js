@@ -198,6 +198,14 @@ define(['angular', 'services'], function (angular) {
 		.controller('AdminCalendarEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/calendar-edit', this, $scope, $injector);
 		}])
+
+        .controller('AdminCompulsoryLeaves', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/compulsoryleaves', this, $scope, $injector);
+		}])
+
+		.controller('AdminCompulsoryLeaveEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/compulsoryleave-edit', this, $scope, $injector);
+		}])
 		
 		.controller('AdminTypes', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/types', this, $scope, $injector);
