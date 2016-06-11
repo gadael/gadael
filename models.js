@@ -29,6 +29,7 @@ models.load = function() {
     require('./schema/Request_WorkperiodRecover')(requirements);
     require('./schema/Request_TimeSavingDeposit')(requirements);
     require('./schema/ValidInterval')(requirements);
+    require('./schema/CompulsoryLeaveRequest')(requirements);
 
 	//then regular docs
 

@@ -121,7 +121,10 @@ describe('Approval on absence request', function() {
         async.concat(departments1, getDepartmentUsers, function(err, users) {
             async.each(users, userCreateRequest, function(err) {
                 expect(err).toBe(undefined);
-
+                if (err) {
+                    console.error(err);
+                    console.log(err.stack);
+                }
 
 
                 done();
@@ -548,11 +551,13 @@ describe('Approval on absence request', function() {
         server.get('/rest/account/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            expect(body[0].status.title).toBeDefined();
-            expect(body[0].status.created).toEqual('accepted');
-            expect(body[0].status.deleted).toEqual(null);
-            expect(body[0].events[0].status).toEqual('CONFIRMED');
-            expect(body[0].approvalSteps.length).toEqual(0);
+            if (body.length === 1) {
+                expect(body[0].status.title).toBeDefined();
+                expect(body[0].status.created).toEqual('accepted');
+                expect(body[0].status.deleted).toEqual(null);
+                expect(body[0].events[0].status).toEqual('CONFIRMED');
+                expect(body[0].approvalSteps.length).toEqual(0);
+            }
             done();
         });
     });

@@ -510,6 +510,8 @@ exports = module.exports = function(params) {
     /**
      * Get a user available quantity 
      * the user quantity - the consumed quantity + deposits quantity
+     * To check before consume, use getUsedConsumableQuantity instead because the consumed quantity of a period
+     * is not equal to the duration quantity
      *
      * @todo duplicated with accountRight object
      *
@@ -540,17 +542,17 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getUsedConsumableQuantity = function(user, right, dtstart, dtend) {
         let renewal = this;
         
-        return user.getCollectionsWithRight()
-        .then(accountCollections => {
-            if (0 === accountCollections.length) {
+        return user.getCollectionsWithRight(dtstart, dtend, right)
+        .then(collections => {
+            if (0 === collections.length) {
                 throw new Error(util.format('No valid collection between %s and %s', dtstart.toString(), dtend.toString()));
             }
 
-            if (1 < accountCollections.length) {
+            if (1 < collections.length) {
                 throw new Error(util.format('More than one valid collection between %s and %s', dtstart.toString(), dtend.toString()));
             }
 
-            return accountCollections[0].rightCollection;
+            return collections[0];
         })
         .then(collection => {
             return this.getUserAvailableQuantity(user)
@@ -558,9 +560,11 @@ exports = module.exports = function(params) {
 
                 // create a fake absence element
 
-                let event = new renewal.model('CalendarEvent');
-                let element = new renewal.model('AbsenceElem');
+                let CalendarEvent = renewal.model('CalendarEvent');
+                let AbsenceElem = renewal.model('AbsenceElem');
 
+                let event = new CalendarEvent();
+                let element = new AbsenceElem();
 
                 event.dtstart = dtstart;
                 event.dtend = dtend;
@@ -599,7 +603,7 @@ exports = module.exports = function(params) {
         let renewal = this;
 
         return user.getAccount()
-        .then(account => {
+        .then(() => {
 
             return Promise.all([
                 renewal.getUserQuantity(user),

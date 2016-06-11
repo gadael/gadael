@@ -746,13 +746,15 @@ exports = module.exports = function(params) {
 
             return Promise.all(rightsPromises);
         })
-        .then(beneficiaries => {
+        .then(all => {
             let filteredCollections = [];
 
-            beneficiaries.forEach(b => {
-                if (b.right.id === right.id) {
-                    filteredCollections.push(collections[b.ref.toString()]);
-                }
+            all.forEach(beneficiaries => {
+                beneficiaries.forEach(b => {
+                    if (b.right.id === right.id && 'RightCollection' === b.ref) {
+                        filteredCollections.push(collections[b.document.toString()]);
+                    }
+                });
             });
 
             return filteredCollections;
