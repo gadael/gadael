@@ -1,5 +1,7 @@
 'use strict';
 
+let util = require('util');
+
 
 exports = module.exports = function(params) {
 	
@@ -516,24 +518,75 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getUserAvailableQuantity = function(user) {
         
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
-
-        Promise.all([
+        return Promise.all([
             this.getUserQuantity(user),
             this.getUserConsumedQuantity(user),
             this.getUserTimeSavingDepositsQuantity(user)
         ]).then(function(arr) {
-            deferred.resolve(arr[0] - arr[1] + arr[2]);
-        }).catch(deferred.reject);
+            return (arr[0] - arr[1] + arr[2]);
+        });
+    };
+
+
+    /**
+     * Consumable quantity, consumed quantity of a request if all available quantity is used
+     *
+     * @param {User} user
+     * @param {Right} right
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @returns {Promise} resolve to a number
+     */
+    rightRenewalSchema.methods.getUsedConsumableQuantity = function(user, right, dtstart, dtend) {
+        let renewal = this;
         
-        return deferred.promise;
+        return user.getCollectionsWithRight()
+        .then(accountCollections => {
+            if (0 === accountCollections.length) {
+                throw new Error(util.format('No valid collection between %s and %s', dtstart.toString(), dtend.toString()));
+            }
+
+            if (1 < accountCollections.length) {
+                throw new Error(util.format('More than one valid collection between %s and %s', dtstart.toString(), dtend.toString()));
+            }
+
+            return accountCollections[0].rightCollection;
+        })
+        .then(collection => {
+            return this.getUserAvailableQuantity(user)
+            .then(availableQuantity => {
+
+                // create a fake absence element
+
+                let event = new renewal.model('CalendarEvent');
+                let element = new renewal.model('AbsenceElem');
+
+
+                event.dtstart = dtstart;
+                event.dtend = dtend;
+
+                element.events = [event];
+                element.quantity = availableQuantity;
+                element.right = {
+                    id: right._id,
+                    name: right.name,
+                    quantity_unit: right.quantity_unit,
+                    renewal: {
+                        id: renewal._id,
+                        start: renewal.start,
+                        finish: renewal.finish
+                    },
+                    consuption: right.consuption,
+                    consuptionBusinessDaysLimit: right.consuptionBusinessDaysLimit
+                };
+
+                return right.getConsumedQuantity(collection, element);
+            });
+        });
     };
     
     
+
     /**
      * Get a user available, consumed and initial quantity
      *
@@ -541,39 +594,29 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to an object
      */
     rightRenewalSchema.methods.getUserQuantityStats = function(user) {
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
+
 
         let renewal = this;
 
-        user.populate('roles.account', (err) => {
+        return user.getAccount()
+        .then(account => {
 
-            if (err) {
-                return deferred.reject(err);
-            }
-
-            Promise.all([
+            return Promise.all([
                 renewal.getUserQuantity(user),
                 renewal.getUserConsumedQuantity(user),
                 renewal.getUserTimeSavingDepositsQuantity(user),
                 renewal.getDaysRatio(user)
-            ]).then(function(arr) {
-                deferred.resolve({
-                    initial: arr[0],
-                    consumed: arr[1],
-                    deposits: arr[2],
-                    available: (arr[0] - arr[1] + arr[2]),
-                    daysratio: arr[3]
-                });
-            }).catch(deferred.reject);
+            ]);
+
+        }).then(arr => {
+            return {
+                initial: arr[0],
+                consumed: arr[1],
+                deposits: arr[2],
+                available: (arr[0] - arr[1] + arr[2]),
+                daysratio: arr[3]
+            };
         });
-
-
-
-        return deferred.promise;
     };
 
 

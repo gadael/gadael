@@ -356,7 +356,7 @@ function checkElement(service, user, elem)
                     return deferred.reject('Arrival date must be before renewal finish');
                 }
 
-
+                // TODO: check the potential consumed quantity instead
                 renewal.getUserAvailableQuantity(user).then(function(available) {
 
                     if (available < elem.quantity) {

@@ -724,7 +724,7 @@ exports = module.exports = function(params) {
     /**
      * Get list of collections used on a period and containing a specific right
      *
-     * TODO: remove if not used
+     *
      *
      * @param   {Date}     dtstart period start
      * @param   {Date}     dtend   period end
