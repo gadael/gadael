@@ -19,6 +19,8 @@ exports = module.exports = function(services, app) {
 
         service.app.db.models.CompulsoryLeave
         .findOne({ '_id' : params.id})
+        .populate('departments')
+        .populate('collections')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

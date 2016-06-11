@@ -57,9 +57,9 @@ grunt test
 - [ ] Request modification from user
 - [ ] Edit request from admin
 - [ ] Delete requests from admin
-- [ ] Fix moment-duration-format decimal separator
+- [x] Fix moment-duration-format decimal separator
 - [ ] Sage Export
-- [ ] Decrease depending on the illness leaves
+- [ ] Decrease RTT depending on the illness leaves
 - [x] Display homepage text for public/private
 - [x] Display company name from the common rest service on homepage
 - [x] ICSDB integration database initialisation
@@ -78,7 +78,8 @@ grunt test
 - [x] Add a test: method account.getPeriodUnavailableEvents or /rest/account/unavailableevents
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Emails notifications
-- [ ] Compulsory leaves management
+- [ ] Compulsory leaves management, test rest service
+- [ ] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
 
 ## Technical features
 
