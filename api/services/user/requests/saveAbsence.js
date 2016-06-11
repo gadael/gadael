@@ -1,20 +1,25 @@
 'use strict';
 
+const util = require('util');
+
+
+
+
+
 
 
 /**
- * This function will create or update an event
+ * This function will create or update events objects without saving to db
  *
  * @param {apiService}  service
  * @param {User}        user         The user document
  * @param {AbsenceElem} elem
  * @param {array}       events       array of objects
  *
- * @return {Promise}        Promise the AbsenceElem document, modified with the events ID
+ * @return {Promise}        resolve to an array
  */
-function saveEvents(service, user, elem, events)
+function createEvents(service, user, elem, events)
 {
-    let async = require('async');
     let EventModel = service.app.db.models.CalendarEvent;
 
     let deferred = {};
@@ -31,7 +36,7 @@ function saveEvents(service, user, elem, events)
      * @param {object} event
      * @param {function} callback
      */
-    function setProperties(eventDocument, event, callback)
+    function setProperties(eventDocument, event)
     {
         if (undefined === elem.right.type) {
             eventDocument.summary = elem.right.name;
@@ -46,62 +51,55 @@ function saveEvents(service, user, elem, events)
             name: user.getName()
         };
 
-        eventDocument.save(function(err, savedEvent) {
-            if (err) {
-                return callback(err);
-            }
-
-            if (undefined === savedEvent._id || null === savedEvent._id) {
-                throw new Error('Unexpected value');
-            }
-
-            elem.events.push(savedEvent._id);
-            callback();
-        });
+        return eventDocument;
     }
 
 
-
-    if (elem.events) {
-        async.each(events, function(postedEvent, callback) {
-
-            if (undefined === postedEvent._id || null === postedEvent._id) {
-                return setProperties(new EventModel(), postedEvent, callback);
-            }
-
-            EventModel.findById(postedEvent._id, function(err, existingEvent) {
-
-                if (err) {
-                    return deferred.reject(err);
-                }
-
-                if (existingEvent) {
-                    setProperties(existingEvent, postedEvent, callback);
-                } else {
-                    setProperties(new EventModel(), postedEvent, callback);
-                }
-            });
-
-        }, function(err) {
-            if (err) {
-                return deferred.reject(err);
-            }
-
-            deferred.resolve(elem);
-        });
+    let allEvents = [];
+    let oldEventPromises = [];
+    let oldPostedEvents = [];
 
 
-        return deferred.promise;
+    for (let i=0; i<events.length; i++) {
+        let postedEvent = events[i];
+
+        if (undefined === postedEvent._id || null === postedEvent._id) {
+            // new event
+            allEvents.push(setProperties(new EventModel(), postedEvent));
+            continue;
+        }
+
+        oldEventPromises.push(EventModel.findById(postedEvent._id).exec());
+        oldPostedEvents.push(postedEvent);
     }
 
 
-    // create new document
+    if (0 === oldEventPromises.length) {
+        return Promise.resolve(allEvents);
+    }
 
-    var newEventDocument = new EventModel();
-    setProperties(newEventDocument);
 
-    return deferred.promise;
+    // update properties of old events
+
+    return Promise.all(oldEventPromises)
+    .then(oldEvents => {
+        for (let i=0; i<oldEvents.length; i++) {
+            let existingEvent = oldEvents[i];
+            let postedEvent = oldPostedEvents[i];
+
+            if (existingEvent) {
+                allEvents.push(setProperties(existingEvent, postedEvent));
+            } else {
+                allEvents.push(setProperties(new EventModel(), postedEvent));
+            }
+        }
+
+        return allEvents;
+    });
+
 }
+
+
 
 
 
@@ -146,235 +144,167 @@ function getElemPeriod(elem)
 
 
 /**
- * This function will create or update an absence element
- *
+ * Create element object from posted informations
  * @param {apiService}                  service
  * @param {User} user                   The user document
  * @param {object} elem                 elem object from params
  * @param {RightCollection} collection
- *
- * @return {Promise}        Promise the AbsenceElem document
+ * @return {Promise}
  */
-function saveElement(service, user, elem, collection)
+function createElement(service, user, elem, collection)
 {
-    return new Promise(function(resolve, reject) {
+    if (undefined === elem.right) {
+        throw new Error('element must contain a right property');
+    }
 
-        if (!collection) {
-            return reject('The collection is missing');
-        }
+    if (undefined === elem.right.id) {
+        throw new Error('element must contain a right.id property');
+    }
 
-        let ElementModel = service.app.db.models.AbsenceElem;
-        let RightModel = service.app.db.models.Right;
+    if (undefined === elem.right.renewal) {
+        throw new Error('element must contain a right.renewal property');
+    }
 
-        let elemPeriod = getElemPeriod(elem);
+    if (undefined === elem.events) {
+        throw new Error('element must contain an events property');
+    }
 
-        function setProperties(element)
-        {
-            element.quantity = elem.quantity;
-
-            RightModel.findOne({ _id: elem.right.id })
-            .populate('type')
-            .exec(function(err, rightDocument) {
-
-                if (err) {
-                    return reject(err);
-                }
+    if (undefined === elem.quantity) {
+        throw new Error('element must contain a quantity property');
+    }
 
 
-                //TODO: the renewal ID tu use must be in params
-                // a right can have multiples usable renewals at the same time
+    if (!collection) {
+        throw new Error('The collection is missing');
+    }
 
-                // get renewal to save in element
-                rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
+    let ElementModel = service.app.db.models.AbsenceElem;
+    let RightModel = service.app.db.models.Right;
 
-                    if (null === renewal) {
-                        return reject('No available renewal for the element');
-                    }
+    let elemPeriod = getElemPeriod(elem);
+    let rightDocument;
 
+    /**
+     * Set properties of an element object
+     * @param   {object}   element [[Description]]
+     * @returns {Promise}  Resolve to the element object
+     */
+    function setProperties(element) {
+        element.quantity = elem.quantity;
 
-                    element.right = {
-                        id: elem.right.id,
-                        name: rightDocument.name,
-                        quantity_unit: rightDocument.quantity_unit,
-                        renewal: {
-                            id: renewal._id,
-                            start: renewal.start,
-                            finish: renewal.finish
-                        },
-                        consuption: rightDocument.consuption,
-                        consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
-                    };
+        return RightModel.findOne({ _id: elem.right.id })
+        .populate('type')
+        .exec()
+        .then(right => {
+            rightDocument = right;
+            // get renewal to save in element
+            return rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend);
+        })
+        .then(renewal => {
 
-                    if (undefined !== rightDocument.type) {
-                        element.right.type = {
-                            id: rightDocument.type._id,
-                            name: rightDocument.type.name,
-                            color: rightDocument.type.color
-                        };
-                    }
-
-
-                    element.user = {
-                        id: user._id,
-                        name: user.getName()
-                    };
+            if (null === renewal) {
+                throw new Error('No available renewal for the element');
+            }
 
 
+            element.right = {
+                _document: rightDocument,
+                id: elem.right.id,
+                name: rightDocument.name,
+                quantity_unit: rightDocument.quantity_unit,
+                renewal: {
+                    _document: renewal,
+                    id: renewal._id,
+                    start: renewal.start,
+                    finish: renewal.finish
+                },
+                consuption: rightDocument.consuption,
+                consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
+            };
 
-                    saveEvents(service, user, element, elem.events).then(function() {
-
-
-                        // The consumed quantity
-                        // will be computed from collection and elem parameters
-                        rightDocument.getConsumedQuantity(collection, element).then(consumed => {
-                            element.consumedQuantity = consumed;
-
-                            element.save(function(err, element) {
-                                if (err) {
-                                    return reject(err);
-                                }
-                                resolve(element);
-                            });
-
-                        }).catch(reject);
-
-                    }).catch(reject);
-
-                }).catch(reject);
-
-
-            });
-        }
+            if (undefined !== rightDocument.type) {
+                element.right.type = {
+                    id: rightDocument.type._id,
+                    name: rightDocument.type.name,
+                    color: rightDocument.type.color
+                };
+            }
 
 
-        if (elem._id) {
-            // updated existing element
-            ElementModel.findById(elem._id, function(err, existingElement) {
+            element.user = {
+                _document: user,
+                id: user._id,
+                name: user.getName()
+            };
 
-                if (err) {
-                    return reject(err);
-                }
 
-                if (elem) {
-                    setProperties(existingElement);
-                } else {
-                    setProperties(new ElementModel());
-                }
-            });
-            return;
-        }
+            return createEvents(service, user, element, elem.events);
 
-        // create new element
-        setProperties(new ElementModel());
-    });
+
+        }).then(events => {
+            element.events = events;
+            return rightDocument.getConsumedQuantity(collection, element);
+
+        }).then(consumed => {
+            element.consumedQuantity = consumed;
+            return element;
+        });
+    }
+
+
+    if (elem._id) {
+        // updated existing element
+        return ElementModel.findById(elem._id)
+        .then(existingElement => {
+
+            if (existingElement) {
+                return setProperties(existingElement);
+            }
+
+            // Not found
+            return setProperties(new ElementModel());
+        });
+    }
+
+    // create new element
+    return setProperties(new ElementModel());
 }
-
-
 
 
 
 /**
  * Check element validity of one element
- * @param {apiService}                  service
- * @param {User} user                   The user document
- * @param {object} elem                 elem object from params
- * @return {Promise}
+ * @param {AbsenceElem} element
+ * @return {Promise}   Resolve to true or throw Error
  */
-function checkElement(service, user, elem)
+function checkElement(element)
 {
-    const util = require('util');
-    const RightModel = service.app.db.models.Right;
-    const RenewalModel = service.app.db.models.RightRenewal;
+    let rightDocument = element.right._document;
+    let renewalDocument = element.right.renewal._document;
+    let userDocument = element.user._document;
 
-    let deferred = {};
-    deferred.promise = new Promise(function(resolve, reject) {
-        deferred.resolve = resolve;
-        deferred.reject = reject;
-    });
+    let dtstart = element.events[0].dtstart;
+    let dtend = element.events[element.events.length-1].dtend;
 
 
-
-
-    if (undefined === elem.right) {
-        return deferred.reject('element must contain a right property');
+    if (!rightDocument.validateRules(renewalDocument, userDocument._id, dtstart, dtend)) {
+        throw new Error('This renewal is not valid on the period: '+rightDocument.name+' ('+renewalDocument.start+' - '+renewalDocument.finish+')');
     }
 
-    if (undefined === elem.right.id) {
-        return deferred.reject('element must contain a right.id property');
-    }
-
-    if (undefined === elem.right.renewal) {
-        return deferred.reject('element must contain a right.renewal property');
-    }
-
-    if (undefined === elem.events) {
-        return deferred.reject('element must contain an events property');
-    }
-
-    if (undefined === elem.quantity) {
-        return deferred.reject('element must contain a quantity property');
+    if (userDocument.roles.account.arrival > renewalDocument.finish) {
+        throw new Error('Arrival date must be before renewal finish');
     }
 
 
-    var elemPeriod = getElemPeriod(elem);
-
-    RightModel.findOne({ _id: elem.right.id })
-        .exec(function(err, rightDocument) {
-
-        if (err) {
-            return deferred.reject(err);
+    return renewalDocument.getUsedConsumableQuantity(userDocument, rightDocument, dtstart, dtend)
+    .then(consumable => {
+        // TODO: Compare with consumed quantity
+        if (consumable < element.consumedQuantity) {
+            throw new Error(util.format('The quantity requested on right "%s" is not available, consumable quantity is %s', rightDocument.name, consumable));
         }
 
-        if (!rightDocument) {
-            return deferred.reject('failed to get right document from id '+elem.right.id);
-        }
-
-
-        RenewalModel.findOne({ _id: elem.right.renewal })
-        .exec(function(err, renewalDocument) {
-
-            if (err) {
-                return deferred.reject(err);
-            }
-
-            if (null === renewalDocument) {
-                return deferred.reject('No available renewal for the element');
-            }
-
-
-            if (!rightDocument.validateRules(renewalDocument, user._id, elemPeriod.dtstart, elemPeriod.dtend)) {
-                return deferred.reject('This renewal is not valid on the period: '+rightDocument.name+' ('+renewalDocument.start+' - '+renewalDocument.finish+')');
-            }
-
-
-
-            // get renewal to save in element
-            rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend).then(function(renewal) {
-
-
-                if (user.roles.account.arrival > renewalDocument.finish) {
-                    return deferred.reject('Arrival date must be before renewal finish');
-                }
-
-
-                renewal.getUsedConsumableQuantity(user, rightDocument, elemPeriod.dtstart, elemPeriod.dtend)
-                .then(consumable => {
-
-                    if (consumable < elem.quantity) {
-                        return deferred.reject(util.format('The quantity requested on right "%s" is not available', rightDocument.name));
-                    }
-
-                    deferred.resolve(true);
-
-
-                }, deferred.reject);
-            });
-
-        });
-
+        return true;
     });
-
-    return deferred.promise;
 }
 
 
@@ -397,35 +327,46 @@ function checkElement(service, user, elem)
  */
 function saveAbsence(service, user, params, collection) {
 
-    return new Promise((resolve, reject) => {
 
-        if (params.distribution === undefined || params.distribution.length === 0) {
-            throw new Error('right distribution is mandatory to save an absence request');
-        }
+    if (params.distribution === undefined || params.distribution.length === 0) {
+        throw new Error('right distribution is mandatory to save an absence request');
+    }
 
-        let i, elem,
-            chekedElementsPromises = [],
-            savedElementsPromises = [];
+    let i, elem,
+        elementsPromises = [],
+        savedElementsPromises = [];
 
-        // check available quantity
+    // promisify all elements
 
-        for(i=0; i<params.distribution.length; i++) {
-            elem = params.distribution[i];
-            chekedElementsPromises.push(checkElement(service, user, elem));
-        }
+    for(i=0; i<params.distribution.length; i++) {
+        elem = params.distribution[i];
+        elementsPromises.push(createElement(service, user, elem));
+    }
 
-        Promise.all(chekedElementsPromises).then(function() {
 
-            // save the events and create the elements documents
+    return Promise.all(elementsPromises)
+    .then(elements => {
 
-            for(i=0; i<params.distribution.length; i++) {
-                elem = params.distribution[i];
-                savedElementsPromises.push(saveElement(service, user, elem, collection));
-            }
+        // promisify all checks
 
-            resolve(Promise.all(savedElementsPromises));
+        let checkPromises = [];
+        elements.forEach(e => {
+            checkPromises.push(checkElement(e));
+        });
 
-        }, reject);
+        return Promise.all(checkPromises);
+
+
+    })
+    .then(elements => {
+
+        // promisify all save
+
+        elements.forEach(element => {
+            savedElementsPromises.push(element.save());
+        });
+
+        return Promise.all(savedElementsPromises);
 
     });
 }
