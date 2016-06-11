@@ -571,6 +571,11 @@ exports = module.exports = function(params) {
 
                 element.events = [event];
                 element.quantity = availableQuantity;
+                element.user = {
+                    id: user._id,
+                    name: user.getName()
+                };
+
                 element.right = {
                     id: right._id,
                     name: right.name,

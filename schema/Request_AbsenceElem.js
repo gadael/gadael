@@ -161,6 +161,43 @@ exports = module.exports = function(params) {
 
 
 
+
+
+    /**
+     * get events promise
+     * if allready populated, promisify the existing array
+     * else populate the document
+     *
+     * @return {Promise}
+     */
+    absenceElemSchema.methods.getEvents = function() {
+
+        let elem = this;
+
+        return new Promise((resolve, reject) => {
+
+            if (!elem.events) {
+                throw new Error('Missing events property');
+            }
+
+            if (elem.populated('events')) {
+                return resolve(elem.events);
+            }
+
+            elem.populate('events', err => {
+
+                if (err) {
+                    return reject(err);
+                }
+
+                resolve(elem.events);
+            });
+        });
+    };
+
+
+
+
     /**
      * Get list of working days using the working times calendar associated to applicant in the absence element period
      * Return an array with dates where the applicant should work but is not, excepted from the last worked date ,
@@ -175,59 +212,55 @@ exports = module.exports = function(params) {
         let elem = this;
         let accountModel = elem.model('Account');
 
+        let accountsPromise = accountModel.find().where('user.id', elem.user.id).exec();
+        let eventsPromise = elem.getEvents();
+
+        let dtend;
+
+        return Promise.all([accountsPromise, eventsPromise]).then(all => {
+
+            let accounts = all[0];
+            let elemEvents = all[1];
+
+            if (0 === accounts.length) {
+                throw new Error('No account found for user '+elem.user.id);
+            }
 
 
-        return new Promise((resolve, reject) => {
 
-            let find = accountModel.find().where('user.id', elem.user.id);
+            let dtstart = new Date(elemEvents[0].dtstart);
+            dtstart.setHours(0,0,0,0);
 
-            find.exec().then((accounts) => {
+            dtend = elemEvents[elemEvents.length-1].dtend;
 
-                if (0 === accounts.length) {
-                    throw new Error('No account found for user '+elem.user.id);
+            // we add one week to the end date to get the back to work day
+            let endSearch = new Date(dtend);
+            endSearch.setDate(endSearch.getDate()+8);
+            endSearch.setHours(0,0,0,0);
+
+            return accounts[0].getPeriodScheduleEvents(dtstart, endSearch);
+        })
+        .then(era => {
+
+            // filter out the dates after the back to work date
+
+            let events = [];
+
+            let i=0, last = false;
+
+            while (!last && undefined !== era.periods[i]) {
+                let period = era.periods[i];
+                if (period.dtstart > dtend) {
+                    last = true;
                 }
 
-                // populate events
+                events.push(period);
+                i++;
+            }
 
-                elem.populate('events', (err) => {
-
-                    if (err) {
-                        return reject(err);
-                    }
-
-                    let dtstart = new Date(elem.events[0].dtstart);
-                    dtstart.setHours(0,0,0,0);
-
-                    let dtend = elem.events[elem.events.length-1].dtend;
-
-                    // we add one week to the end date to get the back to work day
-                    let endSearch = new Date(dtend);
-                    endSearch.setDate(endSearch.getDate()+8);
-                    endSearch.setHours(0,0,0,0);
-
-                    accounts[0].getPeriodScheduleEvents(dtstart, endSearch).then(era => {
-
-                        // filter out the dates after the back to work date
-
-                        let events = [];
-
-                        let i=0, last = false;
-
-                        while (!last && undefined !== era.periods[i]) {
-                            let period = era.periods[i];
-                            if (period.dtstart > dtend) {
-                                last = true;
-                            }
-
-                            events.push(period);
-                            i++;
-                        }
-
-                        resolve(events);
-                    });
-                });
-            }).catch(reject);
+            return events;
         });
+
     };
 
 
