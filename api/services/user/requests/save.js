@@ -280,11 +280,29 @@ function saveRequest(service, params) {
             name: params.createdBy.getName()
         };
 
-        var document = new RequestModel();
-        document.set(fieldsToSet);
-        document.addLog('create', params.createdBy);
+        // save events, because of a mongoose bug
+        // if events are not saved before, mongoose set a wrong id in the request document
+        // and in the AbsenceElem document
 
-        return end(document, gt.gettext('The request has been created'));
+        let evtProm = [];
+        fieldsToSet.events.forEach(event => {
+            evtProm.push(event.save());
+        });
+
+        return Promise.all(evtProm)
+        .then(() => {
+
+            // no need to update fieldsToSet, mongoose will save the correct event id if the id exists
+
+            var document = new RequestModel();
+            document.set(fieldsToSet);
+            document.addLog('create', params.createdBy);
+
+            return end(document, gt.gettext('The request has been created'));
+
+        });
+
+
 
 
     }).catch(service.error);
