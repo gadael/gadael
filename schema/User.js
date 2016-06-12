@@ -614,25 +614,14 @@ exports = module.exports = function(params) {
 
         let user = this;
 
-        return new Promise((resolve, reject) => {
+        if (!user.roles.account) {
+            throw new Error('Missing account');
+        }
 
-            if (!user.roles.account) {
-                throw new Error('Missing account');
-            }
-
-            if (user.populated('roles.account')) {
-                return resolve(user.roles.account);
-            }
-
-            user.populate('roles.account', err => {
-
-                if (err) {
-                    return reject(err);
-                }
-
-                resolve(user.roles.account);
-            });
+        return user.populate('roles.account').execPopulate().then(nuser => {
+            return nuser.roles.account;
         });
+
     };
 
 
