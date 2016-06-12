@@ -164,9 +164,7 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
                     Error.captureStackTrace(done);
 
                     console.log('\nresponse from '+path);
-                    console.log(e);
-                    console.log('------------');
-                    console.log(done.stack);
+                    console.log(e.stack);
                     console.log('------------');
                     console.log(bodyObject, null, 4);
                     done(res, {});

@@ -153,6 +153,7 @@ function getElemPeriod(elem)
  */
 function createElement(service, user, elem, collection)
 {
+
     if (undefined === elem.right) {
         throw new Error('element must contain a right property');
     }
@@ -182,7 +183,7 @@ function createElement(service, user, elem, collection)
     let RightModel = service.app.db.models.Right;
 
     let elemPeriod = getElemPeriod(elem);
-    let rightDocument;
+    let rightDocument, renewalDocument;
 
     /**
      * Set properties of an element object
@@ -206,14 +207,13 @@ function createElement(service, user, elem, collection)
                 throw new Error('No available renewal for the element');
             }
 
+            renewalDocument = renewal;
 
             element.right = {
-                _document: rightDocument,
                 id: elem.right.id,
                 name: rightDocument.name,
                 quantity_unit: rightDocument.quantity_unit,
                 renewal: {
-                    _document: renewal,
                     id: renewal._id,
                     start: renewal.start,
                     finish: renewal.finish
@@ -232,7 +232,6 @@ function createElement(service, user, elem, collection)
 
 
             element.user = {
-                _document: user,
                 id: user._id,
                 name: user.getName()
             };
@@ -247,9 +246,15 @@ function createElement(service, user, elem, collection)
 
         }).then(consumed => {
             element.consumedQuantity = consumed;
-            return element;
+            return {
+                element: element,
+                user: user,
+                right: rightDocument,
+                renewal: renewalDocument
+            };
         });
     }
+
 
 
     if (elem._id) {
@@ -274,14 +279,15 @@ function createElement(service, user, elem, collection)
 
 /**
  * Check element validity of one element
- * @param {AbsenceElem} element
- * @return {Promise}   Resolve to true or throw Error
+ * @param {object} contain, element is stored in contain.element
+ * @return {Promise}   Resolve to contain or throw Error
  */
-function checkElement(element)
+function checkElement(contain)
 {
-    let rightDocument = element.right._document;
-    let renewalDocument = element.right.renewal._document;
-    let userDocument = element.user._document;
+    let rightDocument = contain.right;
+    let renewalDocument = contain.renewal;
+    let userDocument = contain.user;
+    let element = contain.element;
 
     let dtstart = element.events[0].dtstart;
     let dtend = element.events[element.events.length-1].dtend;
@@ -303,7 +309,7 @@ function checkElement(element)
             throw new Error(util.format('The quantity requested on right "%s" is not available, consumable quantity is %s', rightDocument.name, consumable));
         }
 
-        return true;
+        return contain;
     });
 }
 
@@ -316,7 +322,7 @@ function checkElement(element)
 
 
 /**
- * Save list of events
+ * Save list of absence elment
  *
  * @param {apiService} service
  * @param {User} user             absence owner object
@@ -325,7 +331,7 @@ function checkElement(element)
  *
  * @return {Promise} promised distribution array
  */
-function saveAbsence(service, user, params, collection) {
+function saveAbsenceDistribution(service, user, params, collection) {
 
 
     if (params.distribution === undefined || params.distribution.length === 0) {
@@ -333,37 +339,38 @@ function saveAbsence(service, user, params, collection) {
     }
 
     let i, elem,
-        elementsPromises = [],
+        containsPromises = [],
         savedElementsPromises = [];
 
-    // promisify all elements
+
+    // promisify all elements in the contain objects
 
     for(i=0; i<params.distribution.length; i++) {
         elem = params.distribution[i];
-        elementsPromises.push(createElement(service, user, elem));
+        containsPromises.push(createElement(service, user, elem, collection));
     }
 
 
-    return Promise.all(elementsPromises)
-    .then(elements => {
+    return Promise.all(containsPromises)
+    .then(contains => {
 
         // promisify all checks
 
         let checkPromises = [];
-        elements.forEach(e => {
-            checkPromises.push(checkElement(e));
+        contains.forEach(contain => {
+            checkPromises.push(checkElement(contain));
         });
 
         return Promise.all(checkPromises);
 
 
     })
-    .then(elements => {
+    .then(contains => {
 
-        // promisify all save
+        // promisify all save on element
 
-        elements.forEach(element => {
-            savedElementsPromises.push(element.save());
+        contains.forEach(contain => {
+            savedElementsPromises.push(contain.element.save());
         });
 
         return Promise.all(savedElementsPromises);
@@ -469,7 +476,7 @@ function saveEmbedEvents(service, requestDoc)
 
 
 exports = module.exports = {
-    saveAbsence: saveAbsence,
+    saveAbsenceDistribution: saveAbsenceDistribution,
     getCollectionFromDistribution: getCollectionFromDistribution,
     saveEmbedEvents: saveEmbedEvents
 };

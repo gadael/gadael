@@ -80,40 +80,41 @@ function prepareRequestFields(service, params, user)
 
         if (undefined !== params.absence) {
 
+            let collection;
 
+            saveAbsence.getCollectionFromDistribution(params.absence.distribution, account)
+            .then(function(rightCollection) {
+                collection = rightCollection;
+                return saveAbsence.saveAbsenceDistribution(service, user, params.absence, collection);
+            })
+            .then(distribution => {
 
-            saveAbsence.getCollectionFromDistribution(params.absence.distribution, account).then(function(collection) {
+                fieldsToSet.events = [];
 
-                let promisedDistribution = saveAbsence.saveAbsence(service, user, params.absence, collection);
+                // push elements events to the request events
 
-                promisedDistribution.then(distribution => {
+                let d, e, elem;
 
-                        fieldsToSet.events = [];
+                for(d=0; d<distribution.length; d++) {
+                    elem = distribution[d];
+                    for(e=0; e<elem.events.length; e++) {
+                        fieldsToSet.events.push(elem.events[e]._id);
+                    }
+                }
 
-                        // push elements events to the request events
+                fieldsToSet.absence = {
+                    distribution: distribution
+                };
 
-                        var d, e, elem;
+                if (null !== collection) {
+                    fieldsToSet.absence.rightCollection = collection._id;
+                }
 
-                        for(d=0; d<distribution.length; d++) {
-                            elem = distribution[d];
-                            for(e=0; e<elem.events.length; e++) {
-                                fieldsToSet.events.push(elem.events[e]);
-                            }
-                        }
+                return fieldsToSet;
 
-                        fieldsToSet.absence = {
-                            distribution: distribution
-                        };
-
-                        if (null !== collection) {
-                            fieldsToSet.absence.rightCollection = collection._id;
-                        }
-
-                        deferred.resolve(fieldsToSet);
-
-                }, deferred.reject);
-
-            }, deferred.reject);
+            })
+            .then(deferred.resolve)
+            .catch(deferred.reject);
         }
 
         if (undefined !== params.time_saving_deposit) {
@@ -128,7 +129,8 @@ function prepareRequestFields(service, params, user)
 
 
 
-            saveTimeSavingDeposit.getFieldsToSet(service, params.time_saving_deposit[0]).then(function(tsdFields) {
+            saveTimeSavingDeposit.getFieldsToSet(service, params.time_saving_deposit[0])
+            .then(function(tsdFields) {
                 fieldsToSet.time_saving_deposit = [tsdFields];
                 deferred.resolve(fieldsToSet);
             }, deferred.reject);
@@ -146,10 +148,12 @@ function prepareRequestFields(service, params, user)
 
 
 
-            saveWorkperiodRecover.getEventsPromise(service, params.events).then(function(events) {
+            saveWorkperiodRecover.getEventsPromise(service, params.events)
+            .then(function(events) {
                 fieldsToSet.events = events;
 
-                saveWorkperiodRecover.getFieldsToSet(service, params.workperiod_recover[0]).then(function(wpFields) {
+                saveWorkperiodRecover.getFieldsToSet(service, params.workperiod_recover[0])
+                .then(function(wpFields) {
                     fieldsToSet.workperiod_recover = [wpFields];
                     deferred.resolve(fieldsToSet);
                 }, deferred.reject);

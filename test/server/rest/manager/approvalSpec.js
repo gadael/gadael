@@ -555,7 +555,10 @@ describe('Approval on absence request', function() {
                 expect(body[0].status.title).toBeDefined();
                 expect(body[0].status.created).toEqual('accepted');
                 expect(body[0].status.deleted).toEqual(null);
-                expect(body[0].events[0].status).toEqual('CONFIRMED');
+                expect(body[0].events.length).toBeGreaterThan(0);
+                if (body[0].events.length > 0) {
+                    expect(body[0].events[0].status).toEqual('CONFIRMED');
+                }
                 expect(body[0].approvalSteps.length).toEqual(0);
             }
             done();
