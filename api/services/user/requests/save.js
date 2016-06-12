@@ -285,9 +285,11 @@ function saveRequest(service, params) {
         // and in the AbsenceElem document
 
         let evtProm = [];
-        fieldsToSet.events.forEach(event => {
-            evtProm.push(event.save());
-        });
+        if (undefined !== fieldsToSet.events) {
+            fieldsToSet.events.forEach(event => {
+                evtProm.push(event.save());
+            });
+        }
 
         return Promise.all(evtProm)
         .then(() => {
