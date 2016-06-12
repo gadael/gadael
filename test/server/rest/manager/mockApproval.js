@@ -314,7 +314,11 @@ mockApproval.prototype.createDepartments = function(app) {
 
 };
 
-
+/**
+ * Create a random absence request
+ * @param   {User} user
+ * @returns {Promise} service promise
+ */
 mockApproval.prototype.createRequest = function createRequest(user)
 {
     return this.api.request.createRandomAbsence(this.server.app, user);
