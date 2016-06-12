@@ -208,7 +208,7 @@ function saveRequest(service, params) {
             savedDocument = document;
 
             if (document.absence !== undefined) {
-                return saveAbsence.saveEmbedEvents(service, document);
+                return saveAbsence.saveEmbedEvents(document);
             }
 
             if (document.workperiod_recover !== undefined) {

@@ -427,10 +427,10 @@ function getCollectionFromDistribution(distribution, account) {
  * @param {Request} requestDoc
  * @return {Promise}
  */
-function saveEmbedEvents(service, requestDoc)
+function saveEmbedEvents(requestDoc)
 {
-    var elem, events;
-    var AbsenceElemModel = service.app.db.models.AbsenceElem;
+    let elem, events;
+    let AbsenceElemModel = requestDoc.model('AbsenceElem');
 
 
     return AbsenceElemModel.find()
