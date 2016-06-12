@@ -478,30 +478,27 @@ exports = module.exports = function(params) {
             workingTimesDate = renewal.finish;
         }
 
-        return new Promise((resolve, reject) => {
+        if (!renewal.populated('right')) {
+            throw new Error('right must be populated');
+        }
 
-            if (!renewal.populated('right')) {
-                throw new Error('right must be populated');
+        if ('D' === renewal.right.quantity_unit) {
+            return Promise.resolve(1);
+        }
+
+
+        return user.getAccount()
+        .then(account => {
+            return account.getScheduleCalendar(workingTimesDate);
+        })
+        .then(calendar => {
+
+            if (null === calendar) {
+                // no schedule calendar on period
+                return 0;
             }
 
-            if (!user.populated('roles.account')) {
-                throw new Error('roles.account must be populated');
-            }
-
-            if ('D' === renewal.right.quantity_unit) {
-                return resolve(1);
-            }
-
-            user.roles.account.getScheduleCalendar(workingTimesDate).then(calendar => {
-
-                if (null === calendar) {
-                    // no schedule calendar on period
-                    return resolve(0);
-                }
-
-                resolve(1/calendar.hoursPerDay);
-
-            }).catch(reject);
+            return (1/calendar.hoursPerDay);
         });
     };
 
