@@ -302,11 +302,10 @@ function checkElement(contain)
     }
 
 
-    return renewalDocument.getUsedConsumableQuantity(userDocument, rightDocument, dtstart, dtend)
-    .then(consumable => {
-        // TODO: Compare with consumed quantity
-        if (consumable < element.consumedQuantity) {
-            throw new Error(util.format('The quantity requested on right "%s" is not available, consumable quantity is %s', rightDocument.name, consumable));
+    return renewalDocument.getUserAvailableQuantity(userDocument, rightDocument, dtstart, dtend)
+    .then(availableQuantity => {
+        if (availableQuantity < element.consumedQuantity) {
+            throw new Error(util.format('The quantity requested on right "%s" is not available, available quantity is %s', rightDocument.name, availableQuantity));
         }
 
         return contain;

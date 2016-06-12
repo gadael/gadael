@@ -79,7 +79,7 @@ grunt test
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Emails notifications
 - [ ] Compulsory leaves management, test rest service
-- [ ] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
+- [x] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
 
 ## Technical features
 

@@ -255,17 +255,25 @@ api.createProportionConsRequest = function(app, attendance, dtstart, dtend, nbda
  * @param   {Date}    dtstart
  * @param   {Date}    dtend
  * @param   {Number}  nbdays
+ * @param   {Number}  availableQuantity
  * @returns {Promise} Resolve to absence element
  */
-api.createBusinessDaysConsRequest = function(app, dtstart, dtend, nbdays) {
-    let uniqueName = 'BusinessDays '+dtstart+' '+nbdays;
+api.createBusinessDaysConsRequest = function(app, dtstart, dtend, nbdays, availableQuantity) {
+    let uniqueName = 'BusinessDays '+dtstart+' '+nbdays+availableQuantity;
+
+    let rightProps = {
+        name: uniqueName,
+        consuption: 'businessDays'
+    };
+
+    if (undefined !== availableQuantity) {
+        rightProps.quantity = availableQuantity;
+    }
 
     return api.createRandomAccountRequest(app, {
         name: uniqueName
-    }, {
-        name: uniqueName,
-        consuption: 'businessDays'
     },
+    rightProps,
     dtstart,
     dtend,
     nbdays

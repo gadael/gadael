@@ -116,6 +116,24 @@ describe('Right consumption', function() {
         }).catch(done);
     });
 
+
+
+    it('verify that consuption cannot be greater than available', function(done) {
+
+        let fridayEnd = new Date(friday);
+        fridayEnd.setHours(23);
+
+        api.user.createBusinessDaysConsRequest(app, friday, fridayEnd, 1, 1).then(elem => {
+            done('Element created');
+        }).catch(err => {
+            expect(err).toBeDefined();
+            done();
+        });
+    });
+
+
+
+
     it('verify businessDays consuption type on more than one week (monday to monday)', function(done) {
 
         let nextMonday = new Date(monday);

@@ -1,6 +1,5 @@
 'use strict';
 
-let util = require('util');
 
 
 exports = module.exports = function(params) {
@@ -507,8 +506,7 @@ exports = module.exports = function(params) {
     /**
      * Get a user available quantity 
      * the user quantity - the consumed quantity + deposits quantity
-     * To check before consume, use getUsedConsumableQuantity instead because the consumed quantity of a period
-     * is not equal to the duration quantity
+     *
      *
      * @todo duplicated with accountRight object
      *
@@ -527,69 +525,7 @@ exports = module.exports = function(params) {
     };
 
 
-    /**
-     * Consumable quantity, consumed quantity of a request if all available quantity is used
-     *
-     * @param {User} user
-     * @param {Right} right
-     * @param {Date} dtstart
-     * @param {Date} dtend
-     * @returns {Promise} resolve to a number
-     */
-    rightRenewalSchema.methods.getUsedConsumableQuantity = function(user, right, dtstart, dtend) {
-        let renewal = this;
-        
-        return user.getCollectionsWithRight(dtstart, dtend, right)
-        .then(collections => {
-            if (0 === collections.length) {
-                throw new Error(util.format('No valid collection between %s and %s', dtstart.toString(), dtend.toString()));
-            }
 
-            if (1 < collections.length) {
-                throw new Error(util.format('More than one valid collection between %s and %s', dtstart.toString(), dtend.toString()));
-            }
-
-            return collections[0];
-        })
-        .then(collection => {
-            return this.getUserAvailableQuantity(user)
-            .then(availableQuantity => {
-
-                // create a fake absence element
-
-                let CalendarEvent = renewal.model('CalendarEvent');
-                let AbsenceElem = renewal.model('AbsenceElem');
-
-                let event = new CalendarEvent();
-                let element = new AbsenceElem();
-
-                event.dtstart = dtstart;
-                event.dtend = dtend;
-
-                element.events = [event];
-                element.quantity = availableQuantity;
-                element.user = {
-                    id: user._id,
-                    name: user.getName()
-                };
-
-                element.right = {
-                    id: right._id,
-                    name: right.name,
-                    quantity_unit: right.quantity_unit,
-                    renewal: {
-                        id: renewal._id,
-                        start: renewal.start,
-                        finish: renewal.finish
-                    },
-                    consuption: right.consuption,
-                    consuptionBusinessDaysLimit: right.consuptionBusinessDaysLimit
-                };
-
-                return right.getConsumedQuantity(collection, element);
-            });
-        });
-    };
     
     
 
