@@ -425,6 +425,7 @@ function getCollectionFromDistribution(distribution, account) {
 /**
  * Update link to absences elements in the linked events
  * @param {Request} requestDoc
+ * @return {Promise}
  */
 function saveEmbedEvents(service, requestDoc)
 {
@@ -432,15 +433,14 @@ function saveEmbedEvents(service, requestDoc)
     var AbsenceElemModel = service.app.db.models.AbsenceElem;
 
 
-    AbsenceElemModel.find().where('_id').in(requestDoc.absence.distribution)
-        .populate('events')
-        .exec(function(err, elements) {
+    return AbsenceElemModel.find()
+    .where('_id').in(requestDoc.absence.distribution)
+    .populate('events')
+    .exec()
+    .then(elements => {
 
-        if (err) {
-            return console.trace(err);
-        }
-
-        var i, j, event;
+        let i, j, event;
+        let eventSavePromises = [];
 
         for (i=0; i<elements.length; i++) {
 
@@ -459,13 +459,14 @@ function saveEmbedEvents(service, requestDoc)
                         event.status = 'TENTATIVE';
                     }
 
-                    event.save();
+                    eventSavePromises.push(event.save());
                 }
             }
         }
 
-    });
+        return Promise.all(eventSavePromises);
 
+    });
 
 }
 

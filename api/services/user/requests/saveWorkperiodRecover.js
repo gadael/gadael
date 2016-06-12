@@ -99,14 +99,15 @@ function getFieldsToSet(service, wrParams)
  * @param {User}        user            Request owner
  * @param {Request}     document
  *
- * @return {Promise}    resolve to the Beneficiary document
+ * @return {Promise}    resolve to the Beneficiary document or null if right has not been created
  */
 function createRight(user, document)
 {
-    document.createRecoveryRight().then(function(right) {
+    return document.createRecoveryRight()
+    .then(function(right) {
 
         if (null === right || undefined === right) {
-            return Q(null);
+            return Promise.resolve(null);
         }
 
         // link right to user using a beneficiary

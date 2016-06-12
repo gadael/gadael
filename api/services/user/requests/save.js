@@ -98,7 +98,7 @@ function prepareRequestFields(service, params, user)
                 for(d=0; d<distribution.length; d++) {
                     elem = distribution[d];
                     for(e=0; e<elem.events.length; e++) {
-                        fieldsToSet.events.push(elem.events[e]._id);
+                        fieldsToSet.events.push(elem.events[e]);
                     }
                 }
 
@@ -174,101 +174,120 @@ function prepareRequestFields(service, params, user)
  * 
  * @param {apiService} service
  * @param {Object} params
+ *
+ * @return {Promise}
  */  
 function saveRequest(service, params) {
 
     
-    var RequestModel = service.app.db.models.Request;
-    var UserModel = service.app.db.models.User;
+    let RequestModel = service.app.db.models.Request;
+    let UserModel = service.app.db.models.User;
 
-    UserModel.findOne({
+    let userDocument;
+
+    let filter = {
+        _id: params.id
+    };
+
+    filter['user.id'] = params.user;
+
+
+    /**
+     * Save document and add message to service promise
+     * @param {Request} document
+     * @param {String}  message
+     * @return {Promise}
+     */
+    function end(document, message)
+    {
+        let savedDocument;
+
+        return document.save()
+        .then(document => {
+
+            savedDocument = document;
+
+            if (document.absence !== undefined) {
+                return saveAbsence.saveEmbedEvents(service, document);
+            }
+
+            if (document.workperiod_recover !== undefined) {
+                // create right if no approval
+                return saveWorkperiodRecover.createRight(userDocument, document);
+            }
+
+            if (document.time_saving_deposit !== undefined) {
+                return Promise.resolve(null);
+            }
+
+            throw new Error('Document without goal');
+
+
+        })
+        .then(() => {
+
+            service.resolveSuccess(
+                savedDocument,
+                message
+            );
+
+            return savedDocument;
+        });
+    }
+
+
+
+    return UserModel.findOne({
         '_id': params.user
     }).populate('roles.account').populate('department')
-    .exec(function(err, user) {
-
-        if (err) {
-            return service.error(err);
-        }
+    .exec()
+    .then(user => {
 
         if (!user) {
-            return service.error('User not found');
+            throw new Error('User not found');
         }
 
-        prepareRequestFields(service, params, user).then(function(fieldsToSet) {
+        userDocument = user;
+        return prepareRequestFields(service, params, user);
 
-            var filter = {
-                _id: params.id
-            };
+    })
+    .then(fieldsToSet => {
 
-            filter['user.id'] = params.user;
-
-            function end(document, message)
-            {
-
-                document.save(function(err, document) {
-                    if (service.handleMongoError(err)) {
-
-
-                        if (document.absence !== undefined) {
-                            saveAbsence.saveEmbedEvents(service, document);
-                        }
-
-                        if (document.workperiod_recover !== undefined) {
-                            // create right if no approval
-                            saveWorkperiodRecover.createRight(user, document);
-                        }
-
-                        // Absence: Do not wait for event update?
-                        // worperiod recover: Do not wait for right creation?
-
-                        service.resolveSuccess(
-                            document,
-                            message
-                        );
-                    }
-                });
+        if (params.id)
+        {
+            if (params.modifiedBy === undefined) {
+                throw new Error('The modifiedBy parameter is missing');
             }
 
+            return RequestModel.findOne(filter)
+            .then(document => {
 
-
-            if (params.id)
-            {
-                if (params.modifiedBy === undefined) {
-                    return service.error('The modifiedBy parameter is missing');
-                }
-
-                RequestModel.findOne(filter, function(err, document) {
-                    if (service.handleMongoError(err)) {
-
-                        document.set(fieldsToSet);
-                        document.addLog('modify', params.modifiedBy);
-                        end(document, gt.gettext('The request has been modified'));
-                    }
-                });
-
-
-
-            } else {
-
-                if (params.createdBy === undefined) {
-                    return service.error('The createdBy parameter is missing');
-                }
-
-                fieldsToSet.createdBy = {
-                    id: params.createdBy._id,
-                    name: params.createdBy.getName()
-                };
-
-                var document = new RequestModel();
                 document.set(fieldsToSet);
-                document.addLog('create', params.createdBy);
+                document.addLog('modify', params.modifiedBy);
+                return end(document, gt.gettext('The request has been modified'));
+            });
+        }
 
-                end(document, gt.gettext('The request has been created'));
-            }
 
-        }, service.error);
 
-    });
+
+        if (params.createdBy === undefined) {
+            throw new Error('The createdBy parameter is missing');
+        }
+
+        fieldsToSet.createdBy = {
+            id: params.createdBy._id,
+            name: params.createdBy.getName()
+        };
+
+        var document = new RequestModel();
+        document.set(fieldsToSet);
+        document.addLog('create', params.createdBy);
+
+        return end(document, gt.gettext('The request has been created'));
+
+
+    }).catch(service.error);
 }
     
     
