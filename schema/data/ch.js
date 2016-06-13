@@ -12,7 +12,8 @@ module.exports = exports = {
                     type: "request_period",
                     title: gt.gettext("The absence must be made after the renewal start date, and within 5 years following the end of the renewal period"),
                     min: 0,
-                    max: 1825
+                    max: 5,
+                    unit: 'Y'
                 }
             ],
             renewal: {
@@ -30,13 +31,15 @@ module.exports = exports = {
                     type: "request_period",
                     title: gt.gettext("The absence must be made after the renewal start date, and within 5 years following the end of the renewal period"),
                     min: 0,
-                    max: 1825
+                    max: 5,
+                    unit: 'Y'
                 },
                 {
                     type: "age",
                     title: gt.gettext("Under 21 at the time of the absence"),
                     min: 0,
-                    max: 21
+                    max: 21,
+                    unit: 'Y'
                 }
             ],
             renewal: {

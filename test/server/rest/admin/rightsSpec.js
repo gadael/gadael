@@ -146,10 +146,11 @@ describe('vacations rights admin rest service', function() {
             },
             {
                 type: 'request_period',
-                'title': 'Request period must be in the renewal period, with a one week tolerance',
+                'title': 'Request period must be in the renewal period, with 5 years tolerance',
                 interval: {
-                    min: 7,
-                    max: 7
+                    min: 0,
+                    max: 5,
+                    unit: 'Y'
                 }
             }]
         }, function(res, body) {
@@ -183,6 +184,9 @@ describe('vacations rights admin rest service', function() {
             }
 
             expect(body.rules.length).toEqual(2);
+
+            expect(body.rules[1].interval.max).toEqual(5);
+            expect(body.rules[1].interval.unit).toEqual('Y');
 
             var edit = body;
             delete edit.$outcome;

@@ -39,7 +39,8 @@ exports = module.exports = function(params) {
         
         interval: {
             min: { type: Number, default: 0 }, // number of days or number of years
-            max: { type: Number, default: 0 }  // number of days or number of years
+            max: { type: Number, default: 0 }, // number of days or number of years
+            unit: { type: String, enum: ['D', 'Y'], default: 'D' }
         },
         
         timeCreated: { type: Date, default: Date.now },
@@ -109,8 +110,19 @@ exports = module.exports = function(params) {
         var start = new Date(renewal.start);
         var finish = new Date(renewal.finish);
 
-        start.setDate(start.getDate() - this.interval.min);
-        finish.setDate(finish.getDate() + this.interval.max);
+        if (undefined === this.interval.unit) {
+            throw new Error('The interval unit is mandatory');
+        }
+
+        if ('D' === this.interval.unit) {
+            start.setDate(start.getDate() - this.interval.min);
+            finish.setDate(finish.getDate() + this.interval.max);
+        }
+
+        if ('Y' === this.interval.unit) {
+            start.setFullYear(start.getFullYear() - this.interval.min);
+            finish.setFullYear(finish.getFullYear() + this.interval.max);
+        }
 
         return {
             dtstart: start,
@@ -145,7 +157,39 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Create interval from one date
+     * @throws {Error} If the interval unit is not year
+     * @param   {Date}   d          reference date, ex birth date
+     * @param   {String} operator   operator to use on date year
+     * @returns {Array}  min and max
+     */
+    rightRuleSchema.methods.getIntervalFromDate = function(d, operator) {
 
+        let operators = {
+            '+': function(a, b) { return a + b; },
+            '-': function(a, b) { return a - b; }
+        };
+
+        let min, max;
+
+        min = new Date(d);
+        max = new Date(d);
+
+        if ('Y' !== this.interval.unit) {
+            throw new Error('The interval unit for this rule must be year');
+        }
+
+        let applyBoundary = operators[operator];
+
+        min.setFullYear(applyBoundary(min.getFullYear(), this.interval.min));
+        max.setFullYear(applyBoundary(max.getFullYear(), this.interval.max));
+
+        return {
+            min:min,
+            max:max
+        };
+    };
 
 
 
@@ -176,17 +220,11 @@ exports = module.exports = function(params) {
         }
 
 
-
-        var min, max;
-
-        min = new Date(birth);
-        max = new Date(birth);
+        let i = this.getIntervalFromDate(birth, '+');
 
 
-        min.setFullYear(min.getFullYear() + this.interval.min);
-        max.setFullYear(max.getFullYear() + this.interval.max);
 
-        if (dtstart < min || dtend > max) {
+        if (dtstart < i.min || dtend > i.max) {
             return false;
         }
 
@@ -230,16 +268,9 @@ exports = module.exports = function(params) {
 
 
 
-        var min, max;
+        let i = this.getIntervalFromDate(seniority, '-');
 
-        min = new Date(seniority);
-        max = new Date(seniority);
-
-
-        min.setFullYear(min.getFullYear() - this.interval.min);
-        max.setFullYear(max.getFullYear() - this.interval.max);
-
-        if (dtstart < min || dtend > max) {
+        if (dtstart < i.min || dtend > i.max) {
             return false;
         }
 
