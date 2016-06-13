@@ -77,11 +77,30 @@ function saveRight(service, params) {
     }
 
 
+    // force unit
+    for (let i=0; i<params.rules.length; i++) {
+
+        if (undefined === params.rules[i].interval) {
+            params.rules[i].interval = {};
+        }
+
+        switch (params.rules[i].type) {
+            case 'seniority':
+            case 'age':
+                params.rules[i].interval.unit = 'Y';
+                break;
+        }
+    }
+
+
+
+
     if (params.id)
     {
         var postedRules = [];
         var postedRulesId = [];
         var newRules = [];
+
         params.rules.forEach(function(rule) {
             if (undefined !== rule._id) {
                 postedRules.push(rule);
