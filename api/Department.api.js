@@ -1,6 +1,6 @@
 'use strict';
 
-var api = {};
+let api = {};
 exports = module.exports = api;
 
 

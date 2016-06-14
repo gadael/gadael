@@ -27,9 +27,9 @@ describe('time saving account rest service', function() {
     });
 
 
-    it('create new time saving account right in days', function(done) {
+    it('create right in days with time saving activated', function(done) {
         server.post('/rest/admin/rights', {
-            name: 'Time saving account',
+            name: 'Time saving activated',
             quantity: 0,
             quantity_unit: 'D',
             timeSaving: {

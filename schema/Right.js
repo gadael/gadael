@@ -14,7 +14,12 @@ exports = module.exports = function(params) {
         require_approval: { type: Boolean, default:true },
         sortkey: Number,
         
-        consuption: {                             // consuption type
+        special: { type: String },                               // quantity evaluation rule used instead of the default quantity
+                                                                 // name will be readonly
+                                                                 // special rights are stored in api/specialrights/*
+                                                                 // proposed special rights will be filtered by company.country
+
+        consuption: {                                            // consuption type
             type: String,
             enum:['proportion', 'businessDays', 'workingDays'],  // proportion: user the attendance percentage defined in user right collection
             required: true,                                      // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
@@ -26,8 +31,10 @@ exports = module.exports = function(params) {
         // automatic distribution on this right on request creation
         autoDistribution: { type: Boolean, default:true },
         
-        quantity: { type: Number, min:0, required: true },
-        quantity_unit: { type: String, enum:['D', 'H'], required: true },
+        quantity: { type: Number, min:0 },                          // initial quantity for each renewal
+                                                                    // this can be overwritten by special quantity from a custom rule (ex: RTT)
+
+        quantity_unit: { type: String, enum:['D', 'H'], required: true },   // Days our Hours
         
         /**
          * Add "quantity" every first day of month
@@ -42,12 +49,12 @@ exports = module.exports = function(params) {
         },
         
         timeSaving: {
-            active: { type: Boolean, default: false },
-            max: { type: Number, min:1 },          // max quantity per renewal
-            savingInterval: {
-                useDefault: { type: Boolean, default:true },
-                min: Number, // years before renewal start date
-                max: Number  // years before renewal end date
+            active: { type: Boolean, default: false },              // The right quantity can be saved to CET or not
+            max: { type: Number, min:1 },                           // max saveable quantity per renewal
+            savingInterval: {                                       //
+                useDefault: { type: Boolean, default:true },        // default saving interval is the renewal period
+                min: Number,                                        // years before renewal start date
+                max: Number                                         // years before renewal end date
             }
         },
 
@@ -84,6 +91,22 @@ exports = module.exports = function(params) {
         this.updateAdjustments(next);
 
     });
+
+
+
+    /**
+     * Check if the right is a time saving account
+     * @returns {boolean}
+     */
+    rightSchema.methods.isTimeSavingAccount = function() {
+        if (undefined === this.special || null === this.special) {
+            return false;
+        }
+        // TODO: check special type
+        return true;
+    };
+
+
 
 
     /**

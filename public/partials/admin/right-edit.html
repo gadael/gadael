@@ -58,21 +58,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
 
-                        <label><input type="checkbox" id="timeSaving_active" ng-model="right.timeSaving.active" />
-                            <span translate>Use this right as a deposit target for time saving deposits requests</span>
-                        </label>
-                    </div>
-
-                    <div class="form-group" ng-if="right.timeSaving.active">
-                        <label for="timeSaving_max" translate>Deposits limit per renewals</label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" id="timeSaving_max" ng-model="right.timeSaving.max" step="any" />
-                            <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>
-                            <span class="input-group-addon" ng-if="right.quantity_unit=='H'"><span translate>Hours</span></span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -119,22 +105,41 @@
 
 
                     <div class="form-group">
-                        <input type="checkbox" id="timeSaving_savingInterval_useDefault" ng-model="right.timeSaving.savingInterval.useDefault" />
-                        <label for="timeSaving_savingInterval_useDefault" translate>Use default saving interval (renewal interval)</label>
+
+                        <label><input type="checkbox" id="timeSaving_active" ng-model="right.timeSaving.active" />
+                            <span translate>Allow to save quantity from this right to the time deposit account</span>
+                        </label>
                     </div>
 
-                    <div ng-if="!right.timeSaving.savingInterval.useDefault">
-                      <div class="form-group">
-                        <label for="timeSaving_savingInterval_min" translate>Years before renewal start date</label>
-                        <input type="number"  class="form-control" id="timeSaving_savingInterval_min" ng-model="right.timeSaving.savingInterval.min" />
-                      </div>
+                    <div class="form-group" ng-if="right.timeSaving.active">
 
-                      <div class="form-group">
-                        <label for="timeSaving_savingInterval_max" translate>Years before renewal end date</label>
-                        <input type="number"  class="form-control" id="timeSaving_savingInterval_max" ng-model="right.timeSaving.savingInterval.max" />
-                      </div>
+                        <div class="form-group">
+                            <label for="timeSaving_max" translate>Saving limit per renewals</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="timeSaving_max" ng-model="right.timeSaving.max" step="any" />
+                                <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>
+                                <span class="input-group-addon" ng-if="right.quantity_unit=='H'"><span translate>Hours</span></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="checkbox" id="timeSaving_savingInterval_useDefault" ng-model="right.timeSaving.savingInterval.useDefault" />
+                            <label for="timeSaving_savingInterval_useDefault" translate>Use default saving interval (renewal interval)</label>
+                        </div>
+
+                        <div ng-if="!right.timeSaving.savingInterval.useDefault">
+                          <div class="form-group">
+                            <label for="timeSaving_savingInterval_min" translate>Years before renewal start date</label>
+                            <input type="number"  class="form-control" id="timeSaving_savingInterval_min" ng-model="right.timeSaving.savingInterval.min" />
+                          </div>
+
+                          <div class="form-group">
+                            <label for="timeSaving_savingInterval_max" translate>Years before renewal end date</label>
+                            <input type="number"  class="form-control" id="timeSaving_savingInterval_max" ng-model="right.timeSaving.savingInterval.max" />
+                          </div>
+                        </div>
                     </div>
-
 
                     <div class="form-group col-md-6">
                         <label for="consuption" translate>Quantity consuption for part-time right collections</label>

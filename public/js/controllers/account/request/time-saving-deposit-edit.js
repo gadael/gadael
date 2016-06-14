@@ -44,7 +44,7 @@ define([], function() {
         beneficiaries.$promise.then(function(b) {
             b.forEach(function(beneficiary) {
 
-                if (undefined !== beneficiary.right.timeSaving && beneficiary.right.timeSaving.active) {
+                if (beneficiary.right.isTimeSavingAccount()) {
                     return;
                 }
 
