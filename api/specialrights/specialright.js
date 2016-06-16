@@ -3,6 +3,9 @@
 
 /**
  * Special right base class
+ *
+ * @constructor
+ *
  * @param {Express} app
  */
 function specialRight(app) {
@@ -27,13 +30,31 @@ function specialRight(app) {
     this.quantityUnit = 'D';
 
     /**
+     * Quantity field stats on right edit form
+     *
      * If set to true, the quantity will not be modifiable by admin
-     * if set to false the getQuantity() must return the quantity field on right document because
-     * the right will should act with the quantity set by administrator
+     * in this case, user getQuantityLabel to explain where quantity come from on the admin form
+     *
+     * if set to false the getQuantity() should return the quantity field on right document because
+     * the right will should act with the quantity set by administrator.
+     *
+     * Another possiblity is quantityReadOnly=false and getQuantity return a custom value but in this case
+     * the quantity label must be overloaded with an appropriate explanation
+     * for example if the quantity is a base quantity and a computed value is added to it
+     * @see specialright.getQuantityLabel
      *
      * @var {Boolean}
      */
     this.quantityReadOnly = false;
+
+
+    /**
+     * List of country ISO code where the special right can be created
+     * this will be test apon company.country
+     *
+     * @var {Array} contain ISO 2 letter code
+     */
+    this.countries = [];
 }
 
 
@@ -48,9 +69,12 @@ specialRight.prototype.canCreate = function() {
 
 /**
  * Get special right description
+ * @abstract
+ *
+ * @return {String} Internationalized string
  */
 specialRight.prototype.getDescription = function() {
-    return '';
+    throw new Error('must be implemented by subclass!');
 };
 
 
@@ -60,9 +84,10 @@ specialRight.prototype.getDescription = function() {
  * @see RightRenewal.getUserQuantity()
  *
  * @param {RightRenewal} renewal
+ * @param {User}         user   User document with account role
  * @returns {Promise}
  */
-specialRight.prototype.getQuantity = function(renewal) {
+specialRight.prototype.getQuantity = function(renewal, user) {
     if (!this.quantityReadOnly) {
         // modifiable by admin in right
         return renewal.getRightPromise()
@@ -71,6 +96,15 @@ specialRight.prototype.getQuantity = function(renewal) {
         });
     }
     return 0;
+};
+
+
+/**
+ * A label addon on form as explanation on the quantity field
+ * @returns {String} internationalized string
+ */
+specialRight.prototype.getQuantityLabel = function() {
+    return null;
 };
 
 

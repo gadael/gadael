@@ -618,8 +618,8 @@ exports = module.exports = function(params) {
             throw new Error('Missing account');
         }
 
-        return user.populate('roles.account').execPopulate().then(nuser => {
-            return nuser.roles.account;
+        return user.populate('roles.account').execPopulate().then(populatedUser => {
+            return populatedUser.roles.account;
         });
 
     };

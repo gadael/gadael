@@ -253,6 +253,26 @@ exports = module.exports = function(params) {
     };
     
     
+    /**
+     * Get the initial quantity for a user without adjustments
+     * this shoud be the quantity set by administrator on the right or a computed quantity
+     * if this is a special right
+     *
+     * @param {[[Type]]} user User document with account role
+     *
+     * @returns {Promise} resolve to a number
+     */
+    rightRenewalSchema.methods.getUserRightInitialQuantity = function(user) {
+
+        let specialright = this.getSpecialRight();
+
+        if (null === specialright) {
+            return this.quantity;
+        }
+
+        return specialright.getQuantity(this, user);
+    };
+
     
     /**
      * Get a user initial quantity 
@@ -262,7 +282,7 @@ exports = module.exports = function(params) {
      *
      * @todo duplicated with accountRight object
      * 
-     * @param {User} user
+     * @param {User} user User document with account role
      * 
      * @returns {Promise} resolve to a number
      */
