@@ -233,32 +233,42 @@ exports = module.exports = function(params) {
      */
     rightSchema.methods.getPeriodRenewal = function(dtstart, dtend) {
         
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
+        return this.getRenewalsQuery()
+        .where('start').lte(dtstart)
+        .where('finish').gte(dtend)
+        .exec()
+        .then(arr => {
+
+            if (!arr || 0 === arr.length) {
+                return null;
+            }
+
+            return arr[0];
         });
-        
+    };
 
-        this.getRenewalsQuery()
-            .where('start').lte(dtstart)
-            .where('finish').gte(dtend)
-            .exec(function(err, arr) {
-            
-                if (err) {
-                    deferred.reject(err);
-                    return;
-                }
-            
-                if (!arr || 0 === arr.length) {
-                    deferred.resolve(null);
-                    return;   
-                }
 
-                deferred.resolve(arr[0]);
-            });
+    /**
+     * Get renewal With same date interval
+     *
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @returns {Promise}
+     */
+    rightSchema.methods.getSameRenewal = function(dtstart, dtend) {
         
-        return deferred.promise;
+        return this.getRenewalsQuery()
+        .where('start').is(dtstart)
+        .where('finish').is(dtend)
+        .exec()
+        .then(arr => {
+
+            if (!arr || 0 === arr.length) {
+                return null;
+            }
+
+            return arr[0];
+        });
     };
     
 

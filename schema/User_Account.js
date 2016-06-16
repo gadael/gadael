@@ -707,7 +707,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Get number of hours per week on a period on a period
+     * Get number of hours per week on a period
      * If there are more than one shedule period on the requested interval, the method will return the average
      * This is used to compute number of RTT days
      *

@@ -23,8 +23,13 @@ function rtt(app) {
 rtt.prototype = new specialright();
 
 
+rtt.prototype.getName = function() {
+    return gt.gettext('RTT');
+};
+
+
 rtt.prototype.getDescription = function() {
-    return gt.gettext('RTT, working time reduction right');
+    return gt.gettext('Working time reduction right, this right require an annual leave with same renewal period');
 };
 
 
@@ -33,7 +38,7 @@ rtt.prototype.getDescription = function() {
  * @param {RightRenewal} renewal
  */
 rtt.prototype.getQuantity = function(renewal, user) {
-    // TODO
+
 
     /*
     Vos salariés travaillent 37,5 heures par semaine sur 5 jours, soit 37,5 / 5 = 7,5 par jour.
@@ -44,24 +49,54 @@ rtt.prototype.getQuantity = function(renewal, user) {
     Or, ces 114 heures représentent 114 / 7,5 = 15,2 jours de RTT dans l’année (à arrondir, en fonction de l’accord, à la journée ou à la demi-journée supérieure).
     */
 
-    user.getAccount()
-    .then(account => {
 
-        return Promise.all([
-            account.getWeekHours(),
-            renewal.getPlannedWorkDayNumber(user)
-        ]);
+    let rightModel = renewal.model('Right');
+
+    // find a renewal for annual leave matching the RTT renewal
+
+
+    return rightModel.findOne()
+    .where('special').is('annualleave')
+    .exec()
+    .then(right => {
+
+        if (null === right) {
+            throw new Error('To compute RTT quantity, an annual leave right is required');
+        }
+
+        return right.getSameRenewal(renewal.start, renewal.finish);
+
+    })
+    .then(annualLeaveRenewal => {
+
+        if (null === annualLeaveRenewal) {
+            throw new Error('To compute RTT quantity, an annual leave right with same renewal period is required');
+        }
+
+        return user.getAccount()
+        .then(account => {
+            return Promise.all([
+                account.getWeekHours(renewal.start, renewal.finish),
+                annualLeaveRenewal.getPlannedWorkDayNumber(user)
+            ]);
+        });
+
     })
     .then(all => {
 
-        // TODO: days per week
-        //
+        // all[0].days number of days in one week
+        // all[0].hours number of hours in one week
+        // all[1] number of potential worked days in the renewal of the annual leave
 
+        let dayHours = all[0].hours / all[0].days;
+        let workWeeks = all[1] / all[0].days;
 
+        let exceedingHours = (all[0].hours - 35) * workWeeks;
+        let exceedingDays = exceedingHours / dayHours;
+
+        return Math.round(exceedingDays);
     });
 
-
-    return 0;
 };
 
 

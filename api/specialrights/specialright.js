@@ -68,7 +68,19 @@ specialRight.prototype.canCreate = function() {
 
 
 /**
+ * if return a string, the right name will not be modifiable
+ * the name from this method will be used instead on right creation
+ * @returns {String}
+ */
+specialRight.prototype.getName = function() {
+    return null;
+}
+
+
+/**
  * Get special right description
+ * displayed only to administrator
+ *
  * @abstract
  *
  * @return {String} Internationalized string
