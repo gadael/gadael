@@ -240,34 +240,16 @@ exports = module.exports = function(params) {
      * @return {Promise}
      */
     rightRenewalSchema.methods.getRightPromise = function() {
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
-        var renewal = this;
+
+        let renewal = this;
         
-        if (renewal.right && renewal.right._id) {
-            // allready populated
-            deferred.resolve(renewal.right);
-
-        } else if (!renewal.right) {
-            
-            // No right, should not happen, a renewal must be linked to a right
-            deferred.resolve(null);
-
-        } else {
-            
-            renewal.populate('right', function(err, renewal) {
-                if (err) {
-                    return deferred.reject(err);
-                }
-                
-                deferred.resolve(renewal.right);
-            });   
+        if (!renewal.right) {
+            throw new Error('Missing right on account document');
         }
-        
-        return deferred.promise;
+
+        return renewal.populate('right').execPopulate().then(() => {
+            return renewal.right;
+        });
     };
     
     
@@ -293,54 +275,60 @@ exports = module.exports = function(params) {
             deferred.reject = reject;
         });
         
-        Promise.all([renewal.getRightPromise(), renewal.getUserAdjustmentQuantity(user)])
-            .then(function(arr) {
+        Promise.all([
+            renewal.getRightPromise(),
+            renewal.getUserAdjustmentQuantity(user)
+        ])
+        .then(function(arr) {
 
-                /**
-                 * Default right quantity available for the renewal
-                 * if the user account arrival date is > renewal.start
-                 * a pro rata of the quantity is computed for the default quantity
-                 * @var {Number}
-                 */
-                var rightQuantity = arr[0].quantity;
+            /**
+             * Default right quantity available for the renewal
+             * if the user account arrival date is > renewal.start
+             * a pro rata of the quantity is computed for the default quantity
+             *
+             * @todo replace with specialright.getQuantity
+             *
+             * @var {Number}
+             */
+            var rightQuantity = arr[0].quantity;
 
-                /**
-                 * Manual adjustment created by administrators on the account-right page
-                 * @var {Number}
-                 */
-                var userAdjustment = arr[1];
+            /**
+             * Manual adjustment created by administrators on the account-right page
+             * @var {Number}
+             */
+            var userAdjustment = arr[1];
 
-                if (user.roles.account.arrival > renewal.finish) {
-                    // this will not be used via the REST API because invalid renewal are disacarded before
-                    return deferred.resolve(0);
+            if (user.roles.account.arrival > renewal.finish) {
+                // this will not be used via the REST API because invalid renewal are disacarded before
+                return deferred.resolve(0);
+            }
+
+
+            if (user.roles.account.arrival > renewal.start) {
+                var renewalDuration = renewal.finish.getTime() - renewal.start.getTime();
+                var availableDuration = renewal.finish.getTime() - user.roles.account.arrival.getTime();
+
+                rightQuantity = Math.round(rightQuantity * availableDuration / renewalDuration);
+            }
+
+            /**
+             * If the right is configured with monthly quantity update,
+             * this variable will contain adjustments in renewal from the arrival date to the current date
+             * @var {Number}
+             */
+            var renewalAdjustment = 0;
+            var now = new Date();
+
+            renewal.adjustments.forEach(function(adjustment) {
+                if (adjustment.from >= user.roles.account.arrival && adjustment.from <= now) {
+                    renewalAdjustment += adjustment.quantity;
                 }
+            });
 
 
-                if (user.roles.account.arrival > renewal.start) {
-                    var renewalDuration = renewal.finish.getTime() - renewal.start.getTime();
-                    var availableDuration = renewal.finish.getTime() - user.roles.account.arrival.getTime();
-
-                    rightQuantity = Math.round(rightQuantity * availableDuration / renewalDuration);
-                }
-
-                /**
-                 * If the right is configured with monthly quantity update,
-                 * this variable will contain adjustments in renewal from the arrival date to the current date
-                 * @var {Number}
-                 */
-                var renewalAdjustment = 0;
-                var now = new Date();
-
-                renewal.adjustments.forEach(function(adjustment) {
-                    if (adjustment.from >= user.roles.account.arrival && adjustment.from <= now) {
-                        renewalAdjustment += adjustment.quantity;
-                    }
-                });
-
-
-                deferred.resolve(rightQuantity + renewalAdjustment + userAdjustment);
-            })
-            .catch(deferred.reject);
+            deferred.resolve(rightQuantity + renewalAdjustment + userAdjustment);
+        })
+        .catch(deferred.reject);
             
         return deferred.promise;
     };

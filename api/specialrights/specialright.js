@@ -11,13 +11,29 @@ function specialRight(app) {
     this.app = app;
 
 
-    /**
-     * Default values for public properties
-     */
 
+    /**
+     * If the right is a time saving target
+     * it will be proposed as target in the request creation form (time saving deposit)
+     * @var {Boolean}
+     */
     this.timeSavingAccount = false;
 
+    /**
+     * if set to NULL, the value will be modifiable by admin
+     * if set to D or H the value will be set on right creation and not modifiable
+     * @var {String}
+     */
     this.quantityUnit = 'D';
+
+    /**
+     * If set to true, the quantity will not be modifiable by admin
+     * if set to false the getQuantity() must return the quantity field on right document because
+     * the right will should act with the quantity set by administrator
+     *
+     * @var {Boolean}
+     */
+    this.quantityReadOnly = false;
 }
 
 
@@ -40,9 +56,20 @@ specialRight.prototype.getDescription = function() {
 
 /**
  * Get initial quantity used by renewals
+ *
+ * @see RightRenewal.getUserQuantity()
+ *
  * @param {RightRenewal} renewal
+ * @returns {Promise}
  */
 specialRight.prototype.getQuantity = function(renewal) {
+    if (!this.quantityReadOnly) {
+        // modifiable by admin in right
+        return renewal.getRightPromise()
+        .then(right => {
+            return right.quantity;
+        });
+    }
     return 0;
 };
 
