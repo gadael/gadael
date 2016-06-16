@@ -8,7 +8,7 @@
  *
  * @param {Express} app
  */
-function specialRight(app) {
+function SpecialRight(app) {
 
 
     this.app = app;
@@ -62,7 +62,7 @@ function specialRight(app) {
  * Test if the special right can be created by administrator
  * @return {boolean}
  */
-specialRight.prototype.canCreate = function() {
+SpecialRight.prototype.canCreate = function() {
     return true;
 };
 
@@ -72,9 +72,9 @@ specialRight.prototype.canCreate = function() {
  * the name from this method will be used instead on right creation
  * @returns {String}
  */
-specialRight.prototype.getName = function() {
+SpecialRight.prototype.getName = function() {
     return null;
-}
+};
 
 
 /**
@@ -85,7 +85,7 @@ specialRight.prototype.getName = function() {
  *
  * @return {String} Internationalized string
  */
-specialRight.prototype.getDescription = function() {
+SpecialRight.prototype.getDescription = function() {
     throw new Error('must be implemented by subclass!');
 };
 
@@ -99,7 +99,7 @@ specialRight.prototype.getDescription = function() {
  * @param {User}         user   User document with account role
  * @returns {Promise}
  */
-specialRight.prototype.getQuantity = function(renewal, user) {
+SpecialRight.prototype.getQuantity = function(renewal, user) {
     if (!this.quantityReadOnly) {
         // modifiable by admin in right
         return renewal.getRightPromise()
@@ -115,9 +115,9 @@ specialRight.prototype.getQuantity = function(renewal, user) {
  * A label addon on form as explanation on the quantity field
  * @returns {String} internationalized string
  */
-specialRight.prototype.getQuantityLabel = function() {
+SpecialRight.prototype.getQuantityLabel = function() {
     return null;
 };
 
 
-exports = module.exports = specialRight;
+exports = module.exports = SpecialRight;

@@ -4,7 +4,7 @@
  * Special right list
  * @param {Express} app
  */
-function specialRightIndex(app) {
+function SpecialRightIndex(app) {
 
     this.app = app;
 
@@ -16,10 +16,10 @@ function specialRightIndex(app) {
 
 
 /**
- * Get all instances of specialRight
+ * Get all instances of SpecialRight
  * @returns {Object}
  */
-specialRightIndex.prototype.getInstances = function() {
+SpecialRightIndex.prototype.getInstances = function() {
 
     let instances = {};
 
@@ -38,7 +38,7 @@ specialRightIndex.prototype.getInstances = function() {
  * Get list of special right with canCreate=true
  * @return {Array}
  */
-specialRightIndex.prototype.getCreateList = function() {
+SpecialRightIndex.prototype.getCreateList = function() {
     let list = [];
     let all = this.getInstances();
 
@@ -53,4 +53,4 @@ specialRightIndex.prototype.getCreateList = function() {
 
 
 
-exports = module.exports = specialRightIndex;
+exports = module.exports = SpecialRightIndex;

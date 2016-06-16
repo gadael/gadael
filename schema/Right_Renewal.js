@@ -264,13 +264,17 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getUserRightInitialQuantity = function(user) {
 
-        let specialright = this.getSpecialRight();
+        return this.getRightPromise()
+        .then(right => {
+            let specialright = right.getSpecialRight();
 
-        if (null === specialright) {
-            return this.quantity;
-        }
+            if (null === specialright) {
+                return this.quantity;
+            }
 
-        return specialright.getQuantity(this, user);
+            return specialright.getQuantity(this, user);
+        });
+
     };
 
     

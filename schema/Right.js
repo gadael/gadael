@@ -202,6 +202,15 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * [[Description]]
+     *
+     * @return {SpecialRight}
+     */
+    rightSchema.methods.getSpecialRight = function() {
+        //TODO
+    };
+
 
     /**
      * Find right renewals
