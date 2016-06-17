@@ -54,19 +54,13 @@ exports = module.exports = function(services, app) {
                         return;
                     }
 
-                    var right = beneficiary.right;
+                    let right = beneficiary.right;
 
-                    if (undefined === right.timeSaving) {
+
+                    if (undefined === right.special || 'timesavingaccount' !== right.special) {
                         return;
                     }
 
-                    if (!right.timeSaving.active) {
-                        return;
-                    }
-
-
-
-                    //right.getAllRenewals
 
                     timeSavingBeneficiaries.push(beneficiary);
                 });
