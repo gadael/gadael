@@ -4,9 +4,9 @@
 describe('time saving account rest service', function() {
 
 
-    var server, collection, right, timeSavingAccount, userAccount;
+    let server, collection, right, savingAccount, userAccount;
 
-    var today = new Date();
+    let today = new Date();
 
 
     beforeEach(function(done) {
@@ -30,10 +30,11 @@ describe('time saving account rest service', function() {
     it('create right in days with time saving activated', function(done) {
         server.post('/rest/admin/rights', {
             name: 'Time saving activated',
-            quantity: 0,
+            quantity: 25,
             quantity_unit: 'D',
             timeSaving: {
-                active: true
+                active: true,
+                max: 5
             }
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -60,6 +61,59 @@ describe('time saving account rest service', function() {
 
         server.post('/rest/admin/rightrenewals', {
             right: right._id,
+            start: start,
+            finish: finish
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            done();
+        });
+    });
+
+
+
+    it('create a time saving account', function(done) {
+        server.post('/rest/admin/rights', {
+            name: 'Time saving account',
+            quantity_unit: 'D',
+            special: 'timesavingaccount',
+            timeSavingAccount: {
+                max: 20,
+                savingInterval: {
+                    useDefault: true
+                }
+            }
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+
+            expect(body._id).toBeDefined();
+            expect(body.special).toEqual('timesavingaccount');
+            expect(body.timeSaving).toBeUndefined();
+            expect(body.timeSavingAccount).toBeDefined();
+
+
+            savingAccount = body;
+
+            done();
+        });
+    });
+
+
+    it('create renewal for time saving account', function(done) {
+
+        var start = new Date(today);
+        start.setDate(1);
+        start.setMonth(0);
+        var finish = new Date(start);
+        finish.setFullYear(finish.getFullYear()+5);
+
+        server.post('/rest/admin/rightrenewals', {
+            right: savingAccount._id,
             start: start,
             finish: finish
         }, function(res, body) {
@@ -129,6 +183,22 @@ describe('time saving account rest service', function() {
     });
 
 
+    it('Link time saving account to collection with a beneficiary', function(done) {
+
+        server.post('/rest/admin/beneficiaries', {
+            document: collection._id,
+            right: savingAccount,
+            ref: 'RightCollection'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            expect(body.$outcome).toBeDefined();
+            expect(body.$outcome.success).toBeTruthy();
+            done();
+        });
+    });
+
+
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
             expect(res.statusCode).toEqual(200);
@@ -148,7 +218,12 @@ describe('time saving account rest service', function() {
         server.get('/rest/account/timesavingaccounts', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            timeSavingAccount = body[0];
+
+            if (body.length !== 1) {
+                return done();
+            }
+
+            let timeSavingAccount = body[0];
 
             expect(timeSavingAccount.savingPeriod).toBeDefined();
             expect(timeSavingAccount.renewal).toBeDefined();

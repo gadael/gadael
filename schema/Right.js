@@ -23,7 +23,7 @@ exports = module.exports = function(params) {
         consuption: {                                            // consuption type
             type: String,
             enum:['proportion', 'businessDays', 'workingDays'],  // proportion: user the attendance percentage defined in user right collection
-            required: true,                                      // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
+                                                                 // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
             default: 'proportion'                                // workingDays: full working days are consumed
         },
 
@@ -54,10 +54,10 @@ exports = module.exports = function(params) {
             max: { type: Number, min:1 }                            // max saveable quantity from renewal
         },
 
-        timeSavingAccount: {
+        timeSavingAccount: {                                        // used only if special==='timesavingaccount'
             max: { type: Number, min:1 },                           // max saveable quantity into renewal
             savingInterval: {
-                useDefault: { type: Boolean, default:true },        // default saving interval is the renewal period
+                useDefault: { type: Boolean, default: true },       // default saving interval is the renewal period
                 min: Number,                                        // years before renewal start date
                 max: Number                                         // years before renewal end date
             }

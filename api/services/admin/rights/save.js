@@ -48,28 +48,23 @@ function saveRight(service, params) {
     
     var fieldsToSet = { 
         name: params.name,
+        description: params.description,
         type: type,
         require_approval: params.require_approval,
-        quantity: params.quantity,
-        quantity_unit: params.quantity_unit,
         activeFor: params.activeFor,
         rules: params.rules,
         addMonthly: params.addMonthly,
         timeSaving: params.timeSaving,
-        sortkey: params.sortkey
+        timeSavingAccount: params.timeSavingAccount,
+        sortkey: params.sortkey,
+        quantity_unit: params.quantity_unit,
+        quantity: params.quantity,
+        special: params.special,
+        consuption: params.consuption,
+        consuptionBusinessDaysLimit: params.consuptionBusinessDaysLimit
     };
-    
-    if (undefined !== params.consuption) {
-        fieldsToSet.consuption = params.consuption;
-    }
 
-    if (undefined !== params.consuptionBusinessDaysLimit) {
-        fieldsToSet.consuptionBusinessDaysLimit = params.consuptionBusinessDaysLimit;
-    }
 
-    if(undefined !== params.description) {
-        fieldsToSet.description = params.description;
-    }
 
     if (undefined !== fieldsToSet.addMonthly && undefined !== fieldsToSet.addMonthly.quantity && 0 >= fieldsToSet.addMonthly.quantity) {
         // this field is hidden anyway
@@ -156,10 +151,14 @@ function saveRight(service, params) {
             fieldsToSet.rules = params.rules;
         }
 
-        RightModel.create(fieldsToSet, function(err, document) {
+        let right = new RightModel();
+        right.set(fieldsToSet);
+
+        right.save(function(err, document) {
 
             if (service.handleMongoError(err))
             {
+
                 service.resolveSuccess(
                     document, 
                     gt.gettext('The vacation right has been created')
