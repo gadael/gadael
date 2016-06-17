@@ -5,13 +5,9 @@
  * Special right base class
  *
  * @constructor
- *
- * @param {Express} app
  */
-function SpecialRight(app) {
+function SpecialRight() {
 
-
-    this.app = app;
 
 
 

@@ -8,11 +8,9 @@ const gt = require('./../modules/gettext');
  *
  * @constructor
  * @augments specialright
- *
- * @param {Express} app
  */
-function annualleave(app) {
-    this.base(app);
+function annualleave() {
+    this.base();
 
     this.quantityReadOnly = true;
 

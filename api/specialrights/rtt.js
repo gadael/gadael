@@ -9,10 +9,10 @@ const gt = require('./../modules/gettext');
  * @constructor
  * @augments specialright
  *
- * @param {Express} app
+ *
  */
-function rtt(app) {
-    this.base(app);
+function rtt() {
+    this.base();
 
     this.quantityReadOnly = true;
 

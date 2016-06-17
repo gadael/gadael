@@ -2,15 +2,15 @@
 
 /**
  * Special right list
- * @param {Express} app
+ *
  */
-function SpecialRightIndex(app) {
+function SpecialRightIndex() {
 
-    this.app = app;
 
     this.objects = {
-        'rtt':                  require('./rtt'),
-        'timesavingaccount':    require('./timesavingaccount')
+        rtt:                  require('./rtt'),
+        timesavingaccount:    require('./timesavingaccount'),
+        annualleave:          require('./annualleave')
     };
 }
 
@@ -25,7 +25,7 @@ SpecialRightIndex.prototype.getInstances = function() {
 
     for (let name in this.objects) {
         if (this.objects.hasOwnProperty(name)) {
-            instances[name] = this.objects[name](this.app);
+            instances[name] = this.objects[name]();
         }
     }
 

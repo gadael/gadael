@@ -1,6 +1,7 @@
 'use strict';
 
 const gt = require('./../modules/gettext');
+const SpecialRightIndex = require('./../api/specialrights/index');
 
 exports = module.exports = function(params) {
     
@@ -203,12 +204,18 @@ exports = module.exports = function(params) {
 
 
     /**
-     * [[Description]]
+     * Get special right object or null
      *
      * @return {SpecialRight}
      */
     rightSchema.methods.getSpecialRight = function() {
-        //TODO
+        if (undefined === SpecialRightIndex[this.special]) {
+            return null;
+        }
+
+        let SpecialRight = SpecialRightIndex[this.special];
+
+        return new SpecialRight();
     };
 
 
