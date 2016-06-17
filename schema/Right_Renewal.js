@@ -594,28 +594,31 @@ exports = module.exports = function(params) {
 
 
 
-        if (undefined === right.timeSaving || !right.timeSaving.active) {
+        if (undefined === right.timeSavingAccount || 'timesavingaccount' !== right.special) {
             return null;
         }
 
-        if (undefined === right.timeSaving.savingInterval) {
+        if (undefined === right.timeSavingAccount.savingInterval) {
             return null;
         }
 
-        if (right.timeSaving.savingInterval.useDefault) {
+        let savingInterval = right.timeSavingAccount.savingInterval;
+
+
+        if (savingInterval.useDefault) {
             return {
                 start: this.start,
                 finish: this.finish
             };
         }
 
-        var savingPeriod = {
+        let savingPeriod = {
             start: new Date(this.start),
             finish: new Date(this.finish)
         };
 
-        savingPeriod.start.setFullYear(savingPeriod.start.getFullYear() - right.timeSaving.savingInterval.min);
-        savingPeriod.finish.setFullYear(savingPeriod.finish.getFullYear() - right.timeSaving.savingInterval.max);
+        savingPeriod.start.setFullYear(savingPeriod.start.getFullYear() - savingInterval.min);
+        savingPeriod.finish.setFullYear(savingPeriod.finish.getFullYear() - savingInterval.max);
 
         return savingPeriod;
     };

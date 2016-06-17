@@ -40,8 +40,6 @@ describe('time saving account rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.timeSaving).toBeDefined();
             expect(body.timeSaving.active).toBeTruthy();
-            expect(body.timeSaving.savingInterval).toBeDefined();
-            expect(body.timeSaving.savingInterval.useDefault).toBeTruthy();
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
 

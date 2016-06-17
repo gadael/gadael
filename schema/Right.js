@@ -51,8 +51,12 @@ exports = module.exports = function(params) {
         
         timeSaving: {
             active: { type: Boolean, default: false },              // The right quantity can be saved to CET or not
-            max: { type: Number, min:1 },                           // max saveable quantity per renewal
-            savingInterval: {                                       //
+            max: { type: Number, min:1 }                            // max saveable quantity from renewal
+        },
+
+        timeSavingAccount: {
+            max: { type: Number, min:1 },                           // max saveable quantity into renewal
+            savingInterval: {
                 useDefault: { type: Boolean, default:true },        // default saving interval is the renewal period
                 min: Number,                                        // years before renewal start date
                 max: Number                                         // years before renewal end date

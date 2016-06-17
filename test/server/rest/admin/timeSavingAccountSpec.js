@@ -43,8 +43,7 @@ describe('vacations rights admin rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.timeSaving).toBeDefined();
             expect(body.timeSaving.active).toBeTruthy();
-            expect(body.timeSaving.savingInterval).toBeDefined();
-            expect(body.timeSaving.savingInterval.useDefault).toBeTruthy();
+            expect(body.timeSavingAccount).toBeUndefined();
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
 
@@ -112,8 +111,8 @@ describe('vacations rights admin rest service', function() {
             name: 'Time saving account',
             quantity: 0,
             quantity_unit: 'D',
-            timeSaving: {
-                active: true,
+            special: 'timesavingaccount',
+            timeSavingAccount: {
                 max:25,
                 savingInterval: {
                     useDefault: false,

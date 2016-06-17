@@ -80,6 +80,9 @@ grunt test
 - [ ] Emails notifications
 - [ ] Compulsory leaves management, test rest service
 - [x] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
+- [ ] Get special right infos in right.get service
+- [ ] do not display quantity field if readonly by special right
+
 
 ## Technical features
 

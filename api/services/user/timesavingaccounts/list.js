@@ -41,37 +41,32 @@ exports = module.exports = function(services, app) {
      */
     function getAccountBeneficiaries(account)
     {
-            var deferred = Q.defer();
+
+        var timeSavingBeneficiaries = [];
+
+        return account.getRightBeneficiaries()
+        .then(function(beneficiaries) {
+
+            beneficiaries.forEach(function(beneficiary) {
+
+                if (undefined === beneficiary.right) {
+                    return;
+                }
+
+                let right = beneficiary.right;
 
 
-            var timeSavingBeneficiaries = [];
-
-            account.getRightBeneficiaries().then(function(beneficiaries) {
-
-                beneficiaries.forEach(function(beneficiary) {
-
-                    if (undefined === beneficiary.right) {
-                        return;
-                    }
-
-                    let right = beneficiary.right;
+                if (undefined === right.special || 'timesavingaccount' !== right.special) {
+                    return;
+                }
 
 
-                    if (undefined === right.special || 'timesavingaccount' !== right.special) {
-                        return;
-                    }
+                timeSavingBeneficiaries.push(beneficiary);
+            });
 
+            return timeSavingBeneficiaries;
 
-                    timeSavingBeneficiaries.push(beneficiary);
-                });
-
-                deferred.resolve(timeSavingBeneficiaries);
-
-            }, deferred.reject);
-
-
-        return deferred.promise;
-
+        });
     }
 
 
@@ -98,7 +93,7 @@ exports = module.exports = function(services, app) {
         getAccount(accountId)
             .then(getUser)
             .then(getAccountBeneficiaries)
-            .then(function(timeSavingBeneficiaries) {
+            .then(timeSavingBeneficiaries => {
 
             async.each(timeSavingBeneficiaries, function(beneficiary, callback) {
 
