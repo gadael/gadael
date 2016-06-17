@@ -12,7 +12,7 @@ const gt = require('./../modules/gettext');
 function annualleave() {
     this.base();
 
-    this.quantityReadOnly = true;
+    this.quantityReadOnly = false;
 
     this.countries = ['FR', 'BE', 'DE', 'UK'];
 }
