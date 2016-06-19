@@ -11,15 +11,10 @@ const gt = require('./../../../../modules/gettext');
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['name', 'quantity_unit'])) {
+    if (service.needRequiredFields(params, ['name'])) {
         return;
     }
 
-    // quantity is not required as not empty but must be defined to Number value, can be 0
-    if (undefined === params.quantity) {
-        service.deferred.reject(new Error('quantity must be defined'));
-        return;
-    }
 
     saveRight(service, params);
 }
@@ -57,8 +52,8 @@ function saveRight(service, params) {
         timeSaving: params.timeSaving,
         timeSavingAccount: params.timeSavingAccount,
         sortkey: params.sortkey,
-        quantity_unit: params.quantity_unit,
-        quantity: params.quantity,
+        quantity_unit: params.quantity_unit || 'D',
+        quantity: params.quantity || 0,
         special: params.special,
         consuption: params.consuption,
         consuptionBusinessDaysLimit: params.consuptionBusinessDaysLimit
@@ -88,8 +83,6 @@ function saveRight(service, params) {
             }
         }
     }
-
-
 
     if (params.id)
     {

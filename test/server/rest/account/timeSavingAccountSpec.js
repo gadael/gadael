@@ -93,7 +93,7 @@ describe('time saving account rest service', function() {
 
             expect(body._id).toBeDefined();
             expect(body.special).toEqual('timesavingaccount');
-            expect(body.timeSaving).toBeUndefined();
+            expect(body.timeSaving.active).toBeFalsy();
             expect(body.timeSavingAccount).toBeDefined();
 
 
