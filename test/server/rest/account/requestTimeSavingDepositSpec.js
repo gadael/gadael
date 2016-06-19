@@ -113,10 +113,9 @@ describe('request time saving deposit rest service', function() {
     it('create time saving account 1', function(done) {
         server.post('/rest/admin/rights', {
             name: 'Time saving account 1',
-            quantity: 0,
-            quantity_unit: 'D',
-            timeSaving: {
-                active: true
+            special: 'timesavingaccount',
+            timeSavingAccount: {
+                max: 10
             }
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);

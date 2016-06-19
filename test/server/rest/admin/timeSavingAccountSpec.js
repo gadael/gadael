@@ -43,7 +43,6 @@ describe('vacations rights admin rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.timeSaving).toBeDefined();
             expect(body.timeSaving.active).toBeTruthy();
-            expect(body.timeSavingAccount).toBeUndefined();
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
 
@@ -82,7 +81,7 @@ describe('vacations rights admin rest service', function() {
 
         server.get('/rest/admin/rights/'+right, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.name).toEqual('Time saving account');
+            expect(body.name).toEqual('Time saving activated');
             expect(body.quantity).toEqual(0);
             expect(body.quantity_unit).toEqual('D');
             expect(body.timeSaving.active).toEqual(true);
@@ -95,7 +94,7 @@ describe('vacations rights admin rest service', function() {
         server.delete('/rest/admin/rights/'+right, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toEqual(right);
-            expect(body.name).toEqual('Time saving account');
+            expect(body.name).toEqual('Time saving activated');
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeTruthy();
             done();
