@@ -54,7 +54,7 @@ SpecialRightIndex.prototype.getList = function() {
 
 /**
  * Get list of special right with canCreate=true
- * @return {Array}
+ * @return {Promise}
  */
 SpecialRightIndex.prototype.getCreateList = function(RightModel) {
 
@@ -63,16 +63,23 @@ SpecialRightIndex.prototype.getCreateList = function(RightModel) {
     }
 
     let list = [];
+    let promises = [];
     let all = this.getInstances();
 
 
     for (let name in all) {
-        if (all.hasOwnProperty(name) && all[name].canCreate(RightModel)) {
+        if (all.hasOwnProperty(name)) {
             list.push(all[name].getServiceObject());
+            promises.push(all[name].canCreate(RightModel));
         }
     }
 
-    return list;
+    return Promise.all(promises)
+    .then(pres => {
+        return list.filter((item, index) => {
+            return pres[index];
+        });
+    });
 };
 
 

@@ -21,13 +21,17 @@ exports = module.exports = function(services, app) {
         let index = new SpecialRightIndex();
 
         if (params.create) {
-            list = index.getCreateList(app.db.models.Right);
+            index.getCreateList(app.db.models.Right).then(list => {
+                service.outcome.success = true;
+                service.deferred.resolve(list);
+            });
         } else {
             list = index.getList();
+            service.outcome.success = true;
+            service.deferred.resolve(list);
         }
 
-        service.outcome.success = true;
-        service.deferred.resolve(list);
+
 
         return service.deferred.promise;
     };
