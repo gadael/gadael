@@ -60,6 +60,7 @@ define(function() {
                 rightrenewals           : init('admin/rightrenewals/:id'),
                 rightrules              : init('admin/rightrules/:id'),
                 rights                  : init('admin/rights/:id'),
+                specialrights           : init('admin/specialrights'),
                 types                   : init('admin/types/:id'),
                 users                   : init('admin/users/:id'),
                 requests                : init('admin/requests/:id'),

@@ -56,10 +56,15 @@ function SpecialRight() {
 
 /**
  * Test if the special right can be created by administrator
- * @return {boolean}
+ * @return {Promise}
  */
-SpecialRight.prototype.canCreate = function() {
-    return true;
+SpecialRight.prototype.canCreate = function(RightModel) {
+
+    let special = this.constructor.name;
+
+    return RightModel.count({ special: special }).then(count => {
+        return (count === 0);
+    });
 };
 
 

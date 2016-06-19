@@ -24,8 +24,8 @@ module.exports = exports = {
             }
         },
         {
-            quantity: 5,
             name: gt.gettext("Paid annual leave until the age of 20 years old"),
+            quantity: 5,
             rules: [
                 {
                     type: "request_period",
