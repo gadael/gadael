@@ -22,12 +22,12 @@ AnnualLeave.prototype.constructor = AnnualLeave;
 
 
 AnnualLeave.prototype.getName = function() {
-    return gt.gettext('RTT');
+    return gt.gettext('Annual paid leave');
 };
 
 
 AnnualLeave.prototype.getDescription = function() {
-    return gt.gettext('Annual paid leave');
+    return gt.gettext("Paid time off work granted by employers to employees to be used for whatever the employee wishes. Depending on the employer's policies, differing number of days may be offered, and the employee may be required to give a certain amount of advance notice");
 };
 
 

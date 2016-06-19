@@ -1,0 +1,39 @@
+
+
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <form class="gadael-list-rows pad15">
+
+                    <div class="row">
+                        <label>
+                            <input type="radio" ng-model="right.special" value="" />
+                            <span translate>No special behaviour</span>
+                        </label>
+                        <br />No constraints
+
+                    </div>
+
+                    <div class="row" ng-repeat="specialRight in specialRights">
+                        <label>
+                            <input type="radio" ng-model="right.special" value="{{specialRight.special}}" />
+                            {{specialRight.name}}
+                        </label>
+                        <br />{{specialRight.description}}
+                    </div>
+
+                    <div class="text-right top30">
+                        <button class="btn btn-primary" ng-click="$hide()" translate>Continue</button>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
