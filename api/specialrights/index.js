@@ -25,11 +25,29 @@ SpecialRightIndex.prototype.getInstances = function() {
 
     for (let name in this.objects) {
         if (this.objects.hasOwnProperty(name)) {
-            instances[name] = this.objects[name]();
+            instances[name] = new this.objects[name]();
         }
     }
 
     return instances;
+};
+
+
+/**
+ * Get list of special rights
+ * @return {Array}
+ */
+SpecialRightIndex.prototype.getList = function() {
+    let list = [];
+    let all = this.getInstances();
+
+    for (let name in all) {
+        if (all.hasOwnProperty(name)) {
+            list.push(all[name].getServiceObject());
+        }
+    }
+
+    return list;
 };
 
 
@@ -38,13 +56,19 @@ SpecialRightIndex.prototype.getInstances = function() {
  * Get list of special right with canCreate=true
  * @return {Array}
  */
-SpecialRightIndex.prototype.getCreateList = function() {
+SpecialRightIndex.prototype.getCreateList = function(RightModel) {
+
+    if (!RightModel) {
+        throw new Error('missing right model');
+    }
+
     let list = [];
     let all = this.getInstances();
 
+
     for (let name in all) {
-        if (all.hasOwnProperty(name) && all[name].canCreate) {
-            list.push(all[name]);
+        if (all.hasOwnProperty(name) && all[name].canCreate(RightModel)) {
+            list.push(all[name].getServiceObject());
         }
     }
 

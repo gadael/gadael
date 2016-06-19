@@ -1,7 +1,7 @@
 'use strict';
 
-const specialright = require('./specialright');
-const gt = require('./../modules/gettext');
+const SpecialRight = require('./specialright');
+const gt = require('./../../modules/gettext');
 
 /**
  * Right for "reduction du temps de travail"
@@ -11,8 +11,8 @@ const gt = require('./../modules/gettext');
  *
  *
  */
-function rtt() {
-    this.base();
+function Rtt() {
+    SpecialRight.call(this);
 
     this.quantityReadOnly = true;
 
@@ -20,15 +20,16 @@ function rtt() {
 }
 
 
-rtt.prototype = new specialright();
+Rtt.prototype = Object.create(SpecialRight.prototype);
+Rtt.prototype.constructor = Rtt;
 
 
-rtt.prototype.getName = function() {
+Rtt.prototype.getName = function() {
     return gt.gettext('RTT');
 };
 
 
-rtt.prototype.getDescription = function() {
+Rtt.prototype.getDescription = function() {
     return gt.gettext('Working time reduction right, this right require an annual leave with same renewal period');
 };
 
@@ -37,7 +38,7 @@ rtt.prototype.getDescription = function() {
  * Get initial quantity used by renewals
  * @param {RightRenewal} renewal
  */
-rtt.prototype.getQuantity = function(renewal, user) {
+Rtt.prototype.getQuantity = function(renewal, user) {
 
 
     /*
@@ -100,9 +101,9 @@ rtt.prototype.getQuantity = function(renewal, user) {
 };
 
 
-rtt.prototype.getQuantityLabel = function() {
+Rtt.prototype.getQuantityLabel = function() {
     return gt.gettext('RTT is computed from the user time schedule on the renewal period');
 };
 
 
-exports = module.exports = rtt;
+exports = module.exports = Rtt;

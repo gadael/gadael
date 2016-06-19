@@ -2,15 +2,20 @@ define([], function() {
     
     'use strict';
 
-	return ['$scope', '$location', 'Rest', function($scope, $location, Rest) {
+	return ['$scope', '$location' ,'$routeParams', 'Rest',
+            function($scope, $location, $routeParams, Rest) {
 
         // if there is createable special right
         // open a popup to define special only if right not saved
 
-        console.log($scope.company.country);
+        if (!$routeParams.id) {
+            var specialRightsResource = Rest.admin.specialrights.getResource();
+            var specialRights = specialRightsResource.query({ country: $scope.company.country, create: true });
 
-
-
+            specialRights.$promise.then(function() {
+                console.log(specialRights);
+            });
+        }
 
 		$scope.right = Rest.admin.rights.getFromUrl().loadRouteId();
         $scope.types = Rest.admin.types.getResource().query();

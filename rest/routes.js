@@ -96,6 +96,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/collaborators');
     controllers.add('./admin/unavailableevents');
     controllers.add('./admin/types');
+    controllers.add('./admin/specialrights');
     controllers.add('./admin/rights');
     controllers.add('./admin/rightrenewals');
     controllers.add('./admin/accountbeneficiaries');

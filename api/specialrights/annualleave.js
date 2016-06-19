@@ -1,7 +1,7 @@
 'use strict';
 
-const specialright = require('./specialright');
-const gt = require('./../modules/gettext');
+const SpecialRight = require('./specialright');
+const gt = require('./../../modules/gettext');
 
 /**
  * Right for "reduction du temps de travail"
@@ -9,26 +9,26 @@ const gt = require('./../modules/gettext');
  * @constructor
  * @augments specialright
  */
-function annualleave() {
-    this.base();
+function AnnualLeave() {
+    SpecialRight.call(this);
 
     this.quantityReadOnly = false;
 
     this.countries = ['FR', 'BE', 'DE', 'UK'];
 }
 
+AnnualLeave.prototype = Object.create(SpecialRight.prototype);
+AnnualLeave.prototype.constructor = AnnualLeave;
 
-annualleave.prototype = new specialright();
 
-
-annualleave.prototype.getName = function() {
+AnnualLeave.prototype.getName = function() {
     return gt.gettext('RTT');
 };
 
 
-annualleave.prototype.getDescription = function() {
+AnnualLeave.prototype.getDescription = function() {
     return gt.gettext('Annual paid leave');
 };
 
 
-exports = module.exports = annualleave;
+exports = module.exports = AnnualLeave;

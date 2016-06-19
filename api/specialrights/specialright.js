@@ -121,4 +121,22 @@ SpecialRight.prototype.getQuantityLabel = function() {
 };
 
 
+
+/**
+ * Get object for service
+ * Information needed for right creation
+ * @returns {object}
+ */
+SpecialRight.prototype.getServiceObject = function() {
+    return {
+        special: this.constructor.name,
+        name: this.getName(),
+        description: this.getDescription(),
+        canCreate: this.canCreate(),
+        countries: this.countries
+    };
+};
+
+
+
 exports = module.exports = SpecialRight;
