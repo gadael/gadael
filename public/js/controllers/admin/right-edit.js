@@ -17,6 +17,7 @@ define([], function() {
 
                     var modalscope = $scope.$new();
                     modalscope.specialRights = specialRights;
+                    modalscope.specialselection = '';
 
                     $modal({
                         scope: modalscope,
@@ -28,13 +29,37 @@ define([], function() {
         }
 
 
-        $scope.setSpecial = function(special) {
-            $scope.right.special = special;
-        }
+        $scope.nameReadOnly = false;
+
+
+        $scope.setSpecialRight = function(specialright) {
+
+            if (null === specialright) {
+                $scope.nameReadOnly = false;
+                $scope.right.special = undefined;
+                $scope.right.name = '';
+                return;
+            }
+
+            $scope.right.special = specialright.special;
+            if (null !== specialright.name) {
+                $scope.nameReadOnly = true;
+                $scope.right.name = specialright.name;
+            }
+        };
 
 
 		$scope.right = Rest.admin.rights.getFromUrl().loadRouteId();
         $scope.types = Rest.admin.types.getResource().query();
+
+
+        $scope.right.$promise.then(function() {
+            if ($scope.right.special) {
+                // TODO: get special status for namereadonly
+                $scope.nameReadOnly = true;
+            }
+        });
+
 
         $scope.quantityUnits = [{
             value: 'D',
