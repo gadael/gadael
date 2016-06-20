@@ -43,7 +43,7 @@ define([], function() {
                 return;
             }
 
-            for (let defaultProp in specialright.default) {
+            for (var defaultProp in specialright.default) {
                 if (specialright.default[defaultProp]) {
                     $scope.right[defaultProp] = specialright.default[defaultProp];
                 }
