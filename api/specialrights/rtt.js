@@ -14,7 +14,7 @@ const gt = require('./../../modules/gettext');
 function Rtt() {
     SpecialRight.call(this);
 
-    this.quantityReadOnly = true;
+    this.editQuantity = false;
 
     this.countries = ['FR'];
 }

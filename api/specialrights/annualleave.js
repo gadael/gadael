@@ -12,7 +12,7 @@ const gt = require('./../../modules/gettext');
 function AnnualLeave() {
     SpecialRight.call(this);
 
-    this.quantityReadOnly = false;
+    this.editQuantity = true;
 
     this.countries = ['FR', 'BE', 'DE', 'UK'];
 }

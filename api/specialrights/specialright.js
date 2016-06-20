@@ -18,30 +18,34 @@ function SpecialRight() {
      */
     this.timeSavingAccount = false;
 
+
+    /**
+     * Default quantity for right initialization
+     * @var {Number}
+     */
+    this.quantity = 0;
+
     /**
      * if set to NULL, the value will be modifiable by admin
      * if set to D or H the value will be set on right creation and not modifiable
      * @var {String}
      */
-    this.quantityUnit = 'D';
+    this.quantity_unit = 'D';
 
     /**
      * Quantity field stats on right edit form
      *
-     * If set to true, the quantity will not be modifiable by admin
+     * If set to false, the quantity will not be modifiable by admin
      * in this case, user getQuantityLabel to explain where quantity come from on the admin form
      *
-     * if set to false the getQuantity() should return the quantity field on right document because
-     * the right will should act with the quantity set by administrator.
-     *
-     * Another possiblity is quantityReadOnly=false and getQuantity return a custom value but in this case
+     * Another possiblity is editQuantity=true and getQuantity return a custom value but in this case
      * the quantity label must be overloaded with an appropriate explanation
      * for example if the quantity is a base quantity and a computed value is added to it
      * @see specialright.getQuantityLabel
      *
      * @var {Boolean}
      */
-    this.quantityReadOnly = false;
+    this.editQuantity = true;
 
 
     /**
@@ -73,8 +77,30 @@ SpecialRight.prototype.canCreate = function(RightModel) {
  * the name from this method will be used instead on right creation
  * @returns {String}
  */
-SpecialRight.prototype.getName = function() {
+SpecialRight.prototype.getDefaultRightName = function() {
+    return this.getName();
+};
+
+
+
+
+/**
+ * Right description initialization
+ * the description will not be modifiable if not null
+ * @returns {String}
+ */
+SpecialRight.prototype.getDefaultRightDescription = function() {
     return null;
+};
+
+
+/**
+ * Get special right name
+ * displayed only to administrator
+ * @returns {String}
+ */
+SpecialRight.prototype.getName = function() {
+    throw new Error('must be implemented by subclass!');
 };
 
 
@@ -129,9 +155,18 @@ SpecialRight.prototype.getQuantityLabel = function() {
  */
 SpecialRight.prototype.getServiceObject = function() {
     return {
-        special: this.constructor.name,
         name: this.getName(),
-        description: this.getDescription()
+        description: this.getDescription(),
+        countries: this.countries,
+        editQuantity: this.editQuantity,
+        quantityLabel: this.getQuantityLabel(),
+        default: {
+            special: this.constructor.name,
+            name: this.getDefaultRightName(),
+            description: this.getDefaultRightDescription(),
+            quantity: this.quantity,
+            quantity_unit: this.quantity_unit
+        }
     };
 };
 

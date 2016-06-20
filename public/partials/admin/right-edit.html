@@ -10,7 +10,7 @@
 
     <div class="form-group">
         <label for="right_description" translate>Description</label>
-        <textarea class="form-control" id="right_description" ng-model="right.description"></textarea>
+        <textarea class="form-control" id="right_description" ng-model="right.description" ng-readonly="descriptionReadOnly"></textarea>
     </div>
 
     <div class="form-group">
@@ -27,7 +27,9 @@
                 <div class="panel-heading"><span translate>Quantity provided on each renewals</span></div>
                 <div class="panel-body">
 
-                    <div class="form-group">
+                    <p>{{quantityLabel}}</p>
+
+                    <div class="form-group" ng-if="editQuantity">
                         <label for="right_quantity" class="control-label" translate>Default quantity</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="right_quantity" ng-model="right.quantity" step="any" />
@@ -40,7 +42,7 @@
 
 
 
-                    <div class="form-group">
+                    <div class="form-group" ng-if="editQuantity">
                         <label for="addMonthly_quantity" translate>Quantity to add every month</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="addMonthly_quantity" ng-model="right.addMonthly.quantity" step="any" />

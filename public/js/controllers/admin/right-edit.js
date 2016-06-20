@@ -30,22 +30,30 @@ define([], function() {
 
 
         $scope.nameReadOnly = false;
-
+        $scope.descriptionReadOnly = false;
+        $scope.editQuantity = true;
 
         $scope.setSpecialRight = function(specialright) {
 
-            if (null === specialright) {
+            if ('' === specialright) {
                 $scope.nameReadOnly = false;
+                $scope.descriptionReadOnly = false;
                 $scope.right.special = undefined;
                 $scope.right.name = '';
                 return;
             }
 
-            $scope.right.special = specialright.special;
-            if (null !== specialright.name) {
-                $scope.nameReadOnly = true;
-                $scope.right.name = specialright.name;
+            for (let defaultProp in specialright.default) {
+                if (specialright.default[defaultProp]) {
+                    $scope.right[defaultProp] = specialright.default[defaultProp];
+                }
             }
+
+            $scope.editQuantity = specialright.editQuantity;
+            $scope.quantityLabel = specialright.quantityLabel;
+
+            $scope.nameReadOnly = (null !== specialright.default.name);
+            $scope.descriptionReadOnly = (null !== specialright.default.description);
         };
 
 
@@ -53,12 +61,31 @@ define([], function() {
         $scope.types = Rest.admin.types.getResource().query();
 
 
-        $scope.right.$promise.then(function() {
-            if ($scope.right.special) {
-                // TODO: get special status for namereadonly
-                $scope.nameReadOnly = true;
-            }
-        });
+        if ($scope.right.$promise) {
+            // right modification
+            $scope.right.$promise.then(function() {
+                if ($scope.right.special) {
+                    // TODO: get special status for namereadonly
+                    $scope.nameReadOnly = true;
+                }
+            });
+        } else {
+
+            // right creation
+
+
+            $scope.right = {
+                activeFor: {
+                    account:true,
+                    manager: true,
+                    admin: true
+                },
+                activeSpan: {
+                    useDefault: true
+                },
+                consuption: 'proportion'
+            };
+        }
 
 
         $scope.quantityUnits = [{

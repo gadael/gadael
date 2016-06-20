@@ -12,7 +12,7 @@ const gt = require('./../../modules/gettext');
 function TimeSavingAccount() {
     SpecialRight.call(this);
 
-    this.quantityReadOnly = true;
+    this.editQuantity = false;
 
     this.countries = ['FR'];
 }
