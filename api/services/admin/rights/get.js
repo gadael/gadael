@@ -26,8 +26,10 @@ exports = module.exports = function(services, app) {
             {
                 if (document) {
                     
-                    var right = document.toObject();
+                    let right = document.toObject();
                     right.disp_unit = document.getDispUnit();
+                    let specialRight = document.getSpecialRight();
+                    right.specialright = specialRight.getServiceObject();
                     
                     document.getLastRenewal()
                         .then(function(lastRenewal) {

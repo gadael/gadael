@@ -147,6 +147,14 @@ SpecialRight.prototype.getQuantityLabel = function() {
 };
 
 
+/**
+ * get key name of special right, used in right document
+ * @returns {String}
+ */
+SpecialRight.prototype.getSpecial = function() {
+    return this.constructor.name;
+};
+
 
 /**
  * Get object for service
@@ -161,7 +169,7 @@ SpecialRight.prototype.getServiceObject = function() {
         editQuantity: this.editQuantity,
         quantityLabel: this.getQuantityLabel(),
         default: {
-            special: this.constructor.name,
+            special: this.getSpecial(),
             name: this.getDefaultRightName(),
             description: this.getDefaultRightDescription(),
             quantity: this.quantity,

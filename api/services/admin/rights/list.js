@@ -70,7 +70,10 @@ function getResultSet(docs, callback) {
     async.map(
         docs, 
         function(doc, done) {
-            var right = doc.toObject();
+            let right = doc.toObject();
+            let specialRight = doc.getSpecialRight();
+            right.specialright = specialRight.getServiceObject();
+
             
             doc.getLastRenewal()
                 .then(function(lastRenewal) {
