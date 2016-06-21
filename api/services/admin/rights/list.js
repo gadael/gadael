@@ -72,7 +72,9 @@ function getResultSet(docs, callback) {
         function(doc, done) {
             let right = doc.toObject();
             let specialRight = doc.getSpecialRight();
-            right.specialright = specialRight.getServiceObject();
+            if (specialRight) {
+                right.specialright = specialRight.getServiceObject();
+            }
 
             
             doc.getLastRenewal()
