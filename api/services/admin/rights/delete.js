@@ -21,7 +21,7 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err)) {
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {
-                        service.success(gt.gettext('The calendar has been deleted'));
+                        service.success(gt.gettext('The leave right has been deleted'));
                         
                         var right = document.toObject();
                         right.$outcome = service.outcome;

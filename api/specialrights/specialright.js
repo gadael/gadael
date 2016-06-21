@@ -152,7 +152,7 @@ SpecialRight.prototype.getQuantityLabel = function() {
  * @returns {String}
  */
 SpecialRight.prototype.getSpecial = function() {
-    return this.constructor.name;
+    return this.constructor.name.toLowerCase();
 };
 
 

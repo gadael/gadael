@@ -30,6 +30,11 @@ define([], function() {
 			$location.path('/admin/rights');
 		};
 
+
+        $scope.deleteRight = function() {
+            $scope.right.gadaDelete($scope.cancel);
+        };
+
 	}];
 });
 

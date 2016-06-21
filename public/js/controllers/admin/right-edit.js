@@ -66,7 +66,8 @@ define([], function() {
             $scope.right.$promise.then(function() {
                 if ($scope.right.special) {
                     // TODO: get special status for namereadonly
-                    $scope.nameReadOnly = true;
+
+                    console.log($scope.right.special);
                 }
             });
         } else {
@@ -74,17 +75,17 @@ define([], function() {
             // right creation
 
 
-            $scope.right = {
-                activeFor: {
-                    account:true,
-                    manager: true,
-                    admin: true
-                },
-                activeSpan: {
-                    useDefault: true
-                },
-                consuption: 'proportion'
+            $scope.right.activeFor = {
+                account:true,
+                manager: true,
+                admin: true
             };
+
+            $scope.right.activeSpan = {
+                useDefault: true
+            };
+
+            $scope.right.consuption = 'proportion';
         }
 
 
@@ -104,6 +105,7 @@ define([], function() {
 		$scope.saveRight = function() {
 			$scope.right.gadaSave($scope.back);
 	    };
+
 	}];
 });
 
