@@ -112,6 +112,32 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Count uses in requests
+     * @return {Promise} Resolve to a number
+     */
+    rightSchema.methods.countUses = function() {
+
+        let right = this;
+
+        let AbsenceElem = this.model('AbsenceElem');
+        let Request = this.model('Request');
+
+
+        let absences = AbsenceElem.count().where('right.id', right._id).exec();
+        let tsdOrWorkRecover = Request.count({ $or:
+             [
+                 {'time_saving_deposit.right': right._id},
+                 {'workperiod_recover.right.id': right._id}
+             ]
+        })
+        .exec();
+
+        return Promise.all([absences, tsdOrWorkRecover])
+        .then(all => {
+            return (all[0] + all[1]);
+        });
+    };
 
 
     /**
