@@ -82,6 +82,7 @@ grunt test
 - [x] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
 - [ ] Get special right infos in right.get service
 - [ ] do not display quantity field if readonly by special right
+- [ ] delete renewals and links to collections when delete right
 
 
 ## Technical features
