@@ -5,6 +5,7 @@ describe('request time saving deposit rest service', function() {
 
 
     var server,
+
         userAdmin,      // create the account, the manager
         userAccount,    // create the request
         userManager,    // should be assigned to approval
@@ -46,10 +47,12 @@ describe('request time saving deposit rest service', function() {
 
 
     it('Create admin session needed for prerequisits', function(done) {
-        server.createAdminSession().then(function(user) {
+        server.createAdminUser().then(function(user) {
             userAdmin = user;
-            expect(userAdmin.roles.admin).toBeDefined();
-            done();
+            expect(userAdmin.user.roles.admin).toBeDefined();
+            server.authenticateUser(userAdmin).then(() => {
+                done();
+            }).catch(done);
         });
     });
 
@@ -343,6 +346,31 @@ describe('request time saving deposit rest service', function() {
     });
 
 
+    it('login as admin and try to delete right and time saving account', function(done) {
+        server.authenticateUser(userAdmin).then((user) => {
+
+            server.delete('/rest/admin/rights/'+right1._id, function(res, body) {
+                expect(res.statusCode).toEqual(500);
+                expect(body.$outcome.success).toBeFalsy();
+
+                server.delete('/rest/admin/rights/'+timeSavingAccount1._id, function(res, body) {
+                    expect(res.statusCode).toEqual(500);
+                    expect(body.$outcome.success).toBeFalsy();
+                    done();
+                });
+            });
+
+        }).catch(done);
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
 
 
 
@@ -467,6 +495,114 @@ describe('request time saving deposit rest service', function() {
     });
 
 
+    it('login as admin and try to delete right and time saving account', function(done) {
+
+        // cant delete because request is not yet deleted
+
+        server.authenticateUser(userAdmin).then((user) => {
+
+            server.delete('/rest/admin/rights/'+right1._id, function(res, body) {
+                expect(res.statusCode).toEqual(500);
+
+                server.delete('/rest/admin/rights/'+timeSavingAccount1._id, function(res, body) {
+                    expect(res.statusCode).toEqual(500);
+                    done();
+                });
+            });
+
+        }).catch(done);
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('Authenticate user manager session', function(done) {
+        expect(userManager.user.roles.manager).toBeDefined();
+        server.authenticateUser(userManager).then(function() {
+            done();
+        });
+
+    });
+
+
+    it('list waiting requests', function(done) {
+        server.get('/rest/manager/waitingrequests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1); // the request wait to be deleted
+            done();
+        });
+    });
+
+
+    var approvalStep2;
+
+    it('get request 1 in waiting delete state', function(done) {
+        server.get('/rest/manager/waitingrequests/'+request1._id, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.approvalSteps).toBeDefined();
+            if (body.approvalSteps) {
+                expect(body.approvalSteps.length).toEqual(1);
+                approvalStep2 = body.approvalSteps[0];
+            }
+            done();
+        });
+    });
+
+
+    it('accept request 1 approval step for delete', function(done) {
+        server.put('/rest/manager/waitingrequests/'+request1._id, {
+            approvalStep: approvalStep2._id,
+            action: 'wf_accept'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.requestLog).toBeDefined();
+            if (body.requestLog) {
+                var lastLog = body.requestLog[body.requestLog.length -1];
+                expect(lastLog.action).toEqual('delete');
+            }
+            done();
+        });
+    });
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
+    it('login as admin and delete right and time saving account while there is a deleted request', function(done) {
+
+        server.authenticateUser(userAdmin).then((user) => {
+
+            server.delete('/rest/admin/rights/'+right1._id, function(res, body) {
+                expect(res.statusCode).toEqual(200);
+
+                server.delete('/rest/admin/rights/'+timeSavingAccount1._id, function(res, body) {
+                    expect(res.statusCode).toEqual(200);
+                    done();
+                });
+            });
+
+        }).catch(done);
+    });
+
+
+
+    it('logout', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
 
 
     it('close the mock server', function(done) {

@@ -279,16 +279,11 @@ mockServer.prototype.deleteAdminAccountIfExists = function() {
 
 
 
-
-
-
 /**
- * Create admin account in database and login with it
- * Set the admin property on the mockServer object
- * 
- * @return {Promise}
+ * [[Description]]
+ * @returns {Promise} [[Description]]
  */
-mockServer.prototype.createAdminSession = function() {
+mockServer.prototype.createAdminUser = function() {
 
     let userModel = this.app.db.models.User;
     let server = this;
@@ -332,13 +327,27 @@ mockServer.prototype.createAdminSession = function() {
     return getAdmin()
     .then(function(admin) {
 
-        var adminUser = {
+        return {
             password: password,
             user: admin
         };
-
-        return server.authenticateUser(adminUser);
     });
+
+};
+
+
+
+/**
+ * Create admin account in database and login with it
+ * Set the admin property on the mockServer object
+ *
+ * @return {Promise}
+ */
+mockServer.prototype.createAdminSession = function() {
+
+    let server = this;
+    return server.createAdminUser()
+    .then(server.authenticateUser);
 };
 
 
@@ -442,9 +451,6 @@ mockServer.prototype.createUserStranger = function(department) {
 mockServer.prototype.createUserManager = function(memberDepartment, managerDepartment) {
 
 
-
-
-    var deferred = Q.defer();
     var userModel = this.app.db.models.User;
     var managerModel = this.app.db.models.Manager;
     var server = this;
@@ -452,23 +458,19 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
 
     // get account document
 
-    userModel.find({ email: 'mockmanager@example.com' }).exec(function (err, users) {
-        if (err) {
-            deferred.reject(new Error(err));
-            return;
-        }
+    return userModel.find({ email: 'mockmanager@example.com' })
+    .exec()
+    .then(users => {
+
 
         if (1 === users.length) {
-            deferred.resolve(users[0]);
+            return users[0];
         } else {
 
             var userManager = new userModel();
-            userModel.encryptPassword(password, function(err, hash) {
 
-                if (err) {
-                    deferred.reject(new Error(err));
-                    return;
-                }
+            return userModel.encryptPassword(password)
+            .then(hash => {
 
                 userManager.password = hash;
                 userManager.email = 'mockmanager@example.com';
@@ -479,12 +481,8 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
                     userManager.department = memberDepartment._id;
                 }
 
-                userManager.save(function(err, user) {
-
-                    if (err) {
-                        return deferred.reject(err);
-                    }
-
+                return userManager.save()
+                .then(user => {
 
                     var manager = new managerModel();
                     manager.user = {
@@ -496,43 +494,31 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
                         manager.department = [managerDepartment._id];
                     }
 
-                    manager.save(function(err, manager) {
+                    return manager.save();
 
-                        if (err) {
-                            return deferred.reject(err);
-                        }
+                })
+                .then(manager => {
 
-                        userManager.roles = {
-                            manager: manager._id
-                        };
+                    userManager.roles = {
+                        manager: manager._id
+                    };
 
-                        userManager.save(function(err, user) {
+                    return userManager.save();
+                })
+                .then(user => {
 
-                            if (err) {
-                                return deferred.reject(err);
-                            }
+                    return user.populate('roles.manager')
+                    .execPopulate();
+                })
+                .then(user => {
 
-                            user.populate('roles.manager', function(err, user) {
-
-                                if (err) {
-                                    return deferred.reject(err);
-                                }
-
-                                Object.defineProperty(server, 'manager', { value: user, writable: true });
-                                deferred.resolve({ user: user, password: password });
-                            });
-
-                        });
-
-                    });
-
-
+                    Object.defineProperty(server, 'manager', { value: user, writable: true });
+                    return { user: user, password: password };
                 });
+
             });
         }
     });
-
-    return deferred.promise;
 };
 
 

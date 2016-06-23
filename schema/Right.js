@@ -124,13 +124,20 @@ exports = module.exports = function(params) {
         let Request = this.model('Request');
 
 
-        let absences = AbsenceElem.count().where('right.id', right._id).exec();
-        let tsdOrWorkRecover = Request.count({ $or:
-             [
-                 {'time_saving_deposit.right': right._id},
-                 {'workperiod_recover.right.id': right._id}
-             ]
-        })
+        let absences = AbsenceElem.count()
+        .where('right.id', right._id)
+        .exec();
+
+        let tsdOrWorkRecover = Request.count({ $and: [
+            { 'status.deleted' : { $ne: 'accepted' } },
+            { $or:
+                 [
+                     { 'time_saving_deposit.from.right': right._id },
+                     { 'time_saving_deposit.to.right': right._id },
+                     { 'workperiod_recover.right.id': right._id }
+                 ]
+            }
+        ]})
         .exec();
 
         return Promise.all([absences, tsdOrWorkRecover])
