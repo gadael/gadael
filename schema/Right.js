@@ -97,6 +97,35 @@ exports = module.exports = function(params) {
 
     });
 
+    rightSchema.pre('remove', function(next) {
+        next();
+        this.removeRenewals().then(() => {
+            next();
+        }).catch(next);
+    });
+
+
+    /**
+     * call a remove on each document
+     * remove on model have no query hook so it not used here because we may have to chain multiple pre remove middlewares
+     * @return {Promise}
+     */
+    rightSchema.methods.removeRenewals = function() {
+        let RightRenewal = this.model('RightRenewal');
+
+        return RightRenewal.find()
+        .where('right').is(this._id)
+        .exec()
+        .then(renewals => {
+            let removePromises = [];
+
+            renewals.forEach(renewal => {
+                removePromises.push(renewal.remove());
+            });
+
+            return Promise.all(removePromises);
+        });
+    };
 
 
     /**
