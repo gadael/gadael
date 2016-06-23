@@ -4,7 +4,6 @@ let Q = require('q');
 let api = require('../../../api/Company.api.js');
 let headless = require('../../../api/Headless.api.js');
 
-
 /**
  * The mock server object
  * @param {String} dbname
@@ -166,7 +165,7 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
                     console.log('\nresponse from '+path);
                     console.log(e.stack);
                     console.log('------------');
-                    console.log(bodyObject, null, 4);
+                    console.log(body);
                     done(res, {});
                 }
 
@@ -347,7 +346,9 @@ mockServer.prototype.createAdminSession = function() {
 
     let server = this;
     return server.createAdminUser()
-    .then(server.authenticateUser);
+    .then(appliquant => {
+        return server.authenticateUser(appliquant);
+    });
 };
 
 
