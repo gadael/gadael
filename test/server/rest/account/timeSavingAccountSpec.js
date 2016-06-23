@@ -208,7 +208,7 @@ describe('time saving account rest service', function() {
 
 
     it('login account session', function(done) {
-        server.authenticateAccount(userAccount).then(function() {
+        server.authenticateUser(userAccount).then(function() {
             done();
         });
     });

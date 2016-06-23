@@ -227,7 +227,7 @@ describe('account right rest service', function() {
 
     it('Authenticate user account session', function(done) {
         expect(userAccount.user.roles.account).toBeDefined();
-        server.authenticateAccount(userAccount).then(function() {
+        server.authenticateUser(userAccount).then(function() {
             done();
         });
 

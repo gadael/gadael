@@ -37,7 +37,7 @@ describe('personalevents accout rest service', function() {
         server.createUserAccount()
         .then(function(account) {
             userAccount = account;
-            server.authenticateAccount(account).then(function() {
+            server.authenticateUser(account).then(function() {
                 done();
             });
         });

@@ -277,6 +277,11 @@ mockServer.prototype.deleteAdminAccountIfExists = function() {
 };
 
 
+
+
+
+
+
 /**
  * Create admin account in database and login with it
  * Set the admin property on the mockServer object
@@ -285,74 +290,55 @@ mockServer.prototype.deleteAdminAccountIfExists = function() {
  */
 mockServer.prototype.createAdminSession = function() {
 
-    var deferred = Q.defer();
-    var userModel = this.app.db.models.User;
-    var server = this;
-    var password = 'secret';
+    let userModel = this.app.db.models.User;
+    let server = this;
+    let password = 'secret';
 
     // get admin document
-    var getAdmin = function() {
-        var deferred = Q.defer();
-        
-        userModel.find({ email: 'admin@example.com' }).exec(function (err, users) {
-            if (err) {
-                deferred.reject(new Error(err));
-                return;
-            }
+    function getAdmin() {
+
+        return userModel.find({ email: 'admin@example.com' })
+        .exec()
+        .then(users => {
             
             if (1 === users.length) {
-                deferred.resolve(users[0]);
+                return users[0];
             } else {
                 
                 var admin = new userModel();
                 
-                userModel.encryptPassword(password, function(err, hash) {
-        
-                    if (err) {
-                        deferred.reject(new Error(err));
-                        return;
-                    }
-                    
+                return userModel.encryptPassword(password)
+                .then(hash => {
+
                     admin.password = hash;
                     admin.email = 'admin@example.com';
                     admin.lastname = 'admin';
-                    admin.saveAdmin().then(function(user) {
 
-                        
+                    return admin.saveAdmin()
+                    .then(function(user) {
+
                         Object.defineProperty(server, 'admin', { value: user, writable: true });
-
-                    
-                        deferred.resolve(user);
+                        return user;
                     });
                 });
             }
         });
         
-        return deferred.promise;
-    };
+
+    }
     
     
     // login as admin
-    getAdmin().then(function(admin) {
+    return getAdmin()
+    .then(function(admin) {
 
-        server.post('/rest/login', {
-            'username': admin.email,
-            'password': password
-        }, function(res, body) {
-            
+        var adminUser = {
+            password: password,
+            user: admin
+        };
 
-            if (res.statusCode !== 200 || !body.$outcome.success) {
-                deferred.reject(new Error('Error while login with admin account'));
-                return;
-            }
-            
-            
-            
-            deferred.resolve(admin);
-        });
+        return server.authenticateUser(adminUser);
     });
-    
-    return deferred.promise;
 };
 
 
@@ -572,25 +558,24 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
  * @param {Object} account
  * @return {Promise} resolve to the user document
  */
-mockServer.prototype.authenticateAccount = function(account) {
+mockServer.prototype.authenticateUser = function(account) {
 
-    var deferred = Q.defer();
     var server = this;
 
-    server.post('/rest/login', {
-        'username': account.user.email,
-        'password': account.password
-    }, function(res, body) {
+    return new Promise((resolve, reject) => {
+        server.post('/rest/login', {
+            'username': account.user.email,
+            'password': account.password
+        }, function(res, body) {
 
-        if (res.statusCode !== 200 || !body.$outcome.success) {
-            deferred.reject(new Error('Error while login with account'));
-            return;
-        }
+            if (res.statusCode !== 200 || !body.$outcome.success) {
+                reject(new Error('Error while login'));
+                return;
+            }
 
-        deferred.resolve(account.user);
+            resolve(account.user);
+        });
     });
-
-    return deferred.promise;
 };
 
 
@@ -602,17 +587,12 @@ mockServer.prototype.authenticateAccount = function(account) {
  */
 mockServer.prototype.createAccountSession = function() {
 
-    var deferred = Q.defer();
     var server = this;
 
 
     // login as user account
-    server.createUserAccount()
-    .then(function(account) {
-        server.authenticateAccount(account).then(deferred.resolve);
-    });
-
-    return deferred.promise;
+    return server.createUserAccount()
+    .then(server.authenticateUser);
 };
 
 

@@ -37,7 +37,7 @@ describe('calendarevents accout rest service', function() {
         server.createUserAccount()
         .then(function(account) {
             userAccount = account;
-            server.authenticateAccount(account).then(function() {
+            server.authenticateUser(account).then(function() {
                 done();
             });
         });
@@ -113,7 +113,7 @@ describe('calendarevents accout rest service', function() {
     });
 
     it('Authenticate as account', function(done) {
-        server.authenticateAccount(userAccount).then(function() {
+        server.authenticateUser(userAccount).then(function() {
             done();
         });
     });

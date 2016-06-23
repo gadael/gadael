@@ -186,7 +186,7 @@ describe('request workperiod recover account rest service', function() {
 
     it('Authenticate user account session', function(done) {
         expect(userAccount.user.roles.account).toBeDefined();
-        server.authenticateAccount(userAccount).then(function() {
+        server.authenticateUser(userAccount).then(function() {
             done();
         });
 
@@ -350,7 +350,7 @@ describe('request workperiod recover account rest service', function() {
 
     it('Authenticate user stranger session', function(done) {
         expect(userStranger.user.roles.account).toBeDefined();
-        server.authenticateAccount(userStranger).then(function() {
+        server.authenticateUser(userStranger).then(function() {
             done();
         });
 
@@ -396,7 +396,7 @@ describe('request workperiod recover account rest service', function() {
 
     it('Authenticate user manager session', function(done) {
         expect(userManager.user.roles.manager).toBeDefined();
-        server.authenticateAccount(userManager).then(function() {
+        server.authenticateUser(userManager).then(function() {
             done();
         });
 
@@ -460,7 +460,7 @@ describe('request workperiod recover account rest service', function() {
 
     it('Authenticate user account session', function(done) {
         expect(userAccount.user.roles.account).toBeDefined();
-        server.authenticateAccount(userAccount).then(function() {
+        server.authenticateUser(userAccount).then(function() {
             done();
         });
 
