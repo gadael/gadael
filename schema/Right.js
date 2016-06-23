@@ -91,22 +91,34 @@ exports = module.exports = function(params) {
 	rightSchema.set('autoIndex', params.autoIndex);
 
     
+    /**
+     * Pre save hook
+     */
     rightSchema.pre('save', function(next) {
         // set monthly adjustments from today
         this.updateAdjustments(next);
 
     });
 
+    /**
+     * Pre remove hook
+     */
     rightSchema.pre('remove', function(next) {
         next();
-        this.removeRenewals().then(() => {
+
+        let promises = [];
+
+        promises.push(this.removeRenewals());
+        promises.push(this.removeBeneficiaries());
+
+        Promise.all(promises).then(() => {
             next();
         }).catch(next);
     });
 
 
     /**
-     * call a remove on each document
+     * delete all renewals linked to this right
      * remove on model have no query hook so it not used here because we may have to chain multiple pre remove middlewares
      * @return {Promise}
      */
@@ -121,6 +133,27 @@ exports = module.exports = function(params) {
 
             renewals.forEach(renewal => {
                 removePromises.push(renewal.remove());
+            });
+
+            return Promise.all(removePromises);
+        });
+    };
+
+    /**
+     * Delete all beneficiaries linked to this right
+     * @return {Promise}
+     */
+    rightSchema.methods.removeBeneficiaries = function() {
+        let Beneficiary = this.model('Beneficiary');
+
+        return Beneficiary.find()
+        .where('right').is(this._id)
+        .exec()
+        .then(beneficiaries => {
+            let removePromises = [];
+
+            beneficiaries.forEach(b => {
+                removePromises.push(b.remove());
             });
 
             return Promise.all(removePromises);
