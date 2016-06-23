@@ -544,7 +544,7 @@ exports = module.exports = function(params) {
     /**
      * Encrypt password
      * @param {String} password     clear text password
-     * @param {function} done       callback function, receive error and hash as parameter
+     * @param {function} [done]       callback function, receive error and hash as parameter
      *
      * @return {Promise}
      */ 
@@ -558,7 +558,10 @@ exports = module.exports = function(params) {
                 }
 
                 bcrypt.hash(password, salt, (err, hash) => {
-                    done(err, hash);
+
+                    if (undefined !== done) {
+                        done(err, hash);
+                    }
 
                     if (err) {
                         return reject(err);

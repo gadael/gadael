@@ -347,32 +347,25 @@ mockServer.prototype.createAdminSession = function() {
 mockServer.prototype.createUserAccountRole = function(department, nickname, serverProperty) {
 
 
-
-    var deferred = Q.defer();
     var userModel = this.app.db.models.User;
     var server = this;
     var password = 'secret';
 
     // get account document
 
-    userModel.find({ email: nickname+'@example.com' }).exec(function (err, users) {
-        if (err) {
-            deferred.reject(new Error(err));
-            return;
-        }
+    return userModel.find({ email: nickname+'@example.com' })
+    .exec()
+    .then(users => {
+
 
         if (1 === users.length) {
-            deferred.resolve(users[0]);
+            return users[0];
         } else {
 
             var userAccount = new userModel();
 
-            userModel.encryptPassword(password, function(err, hash) {
-
-                if (err) {
-                    deferred.reject(new Error(err));
-                    return;
-                }
+            return userModel.encryptPassword(password)
+            .then(hash => {
 
                 userAccount.password = hash;
                 userAccount.email = nickname+'@example.com';
@@ -383,18 +376,16 @@ mockServer.prototype.createUserAccountRole = function(department, nickname, serv
                     userAccount.department = department._id;
                 }
 
-                userAccount.saveAccount({}).then(function(user) {
+                return userAccount.saveAccount({})
+                .then(user => {
 
                     Object.defineProperty(server, serverProperty, { value: user, writable: true });
 
-                    deferred.resolve({ user: user, password: password });
-                }).catch(deferred.reject);
+                    return { user: user, password: password };
+                });
             });
         }
     });
-
-    return deferred.promise;
-
 };
 
 
