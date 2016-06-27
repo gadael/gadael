@@ -145,7 +145,6 @@ exports = module.exports = function(params) {
      */
     rightRuleSchema.methods.validateRule = function(renewal, user, dtstart, dtend, timeCreated) {
 
-
         switch(this.type) {
             case 'seniority':       return this.validateSeniority(dtstart, dtend, user);
             case 'entry_date':      return this.validateEntryDate(timeCreated, renewal);

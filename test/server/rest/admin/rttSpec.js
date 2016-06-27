@@ -50,6 +50,16 @@ describe('request absence admin rest service', function() {
     });
 
 
+    it('verify renewals list for RTT', function(done) {
+        server.get('/rest/admin/rightrenewals', {
+            right: '5770cad63fccf8da5150e7da'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(2);
+            done();
+        });
+    });
+
 
     it('create a department', function(done) {
         server.post('/rest/admin/departments', {
@@ -89,23 +99,16 @@ describe('request absence admin rest service', function() {
     });
 
 
-    it('request list of current requests as admin', function(done) {
-        server.get('/rest/admin/requests', {}, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(0);
-            done();
-        });
-    });
 
 
     var where;
 
-    it('request account current collection', function(done) {
+    it('request account current collection for a period', function(done) {
 
         where = {
             user: userAccount.user._id.toString(),
             dtstart: new Date(2015,1,1, 8).toJSON(),
-            dtend: new Date(2015,1,1, 18).toJSON()
+            dtend: new Date(2015,1,2, 18).toJSON()
         };
 
         server.get('/rest/admin/collection', where, function(res, body) {
@@ -116,19 +119,56 @@ describe('request absence admin rest service', function() {
     });
 
 
+    it('request account collection content', function(done) {
 
-    it('request list of accessibles rights', function(done) {
-        server.get('/rest/admin/accountrights', where, function(res, body) {
+
+        server.get('/rest/admin/beneficiaries', {
+            document: '5740adf51cf1a569643cc520',
+            ref: 'RightCollection'
+        }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(3); // FR default
-
+            //console.log(body[2].right);
             done();
         });
     });
 
+    // TODO remove entry_date rule on the RTT right to make it testable
+
+
+    /*
+    it('request list of accessibles rights for a non-worked period', function(done) {
+        server.get('/rest/admin/accountrights', where, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(0); // the user have no working hours ?
+            done();
+        });
+    });
+    */
 
 
 
+    it('create a workshedule for the user', function(done) {
+        server.post('/rest/admin/accountschedulecalendars', {
+            user: userAccount.user._id,
+            calendar: {
+                _id: '5740adf51cf1a569643cc101'  // 35h fulltime, FR default
+            },
+            from: new Date(2014,1,1).toJSON()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+    it('request list of accessibles rights for a period', function(done) {
+        server.get('/rest/admin/accountrights', where, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+
+            done();
+        });
+    });
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {

@@ -44,6 +44,8 @@ exports = module.exports = function(services, app)
          */
         function getRenewalAvailableQuantity(right, renewal) {
 
+
+
             if (!right.validateRules(renewal, user, dtstart, dtend)) {
                 return null;
             }

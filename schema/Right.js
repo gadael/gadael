@@ -619,55 +619,6 @@ exports = module.exports = function(params) {
         }
 
 
-        /**
-         * [[Description]]
-         * @returns {Number} In days
-         *//*
-        function getPaidLeaveQuantity() {
-            switch(company.country) {
-                case 'FR':
-                case 'AT': // Autriche
-                case 'BO': // Bolivie
-                case 'GR': // Grece
-                case 'SE': // Suede
-                case 'FI': // Finlande
-                case 'LU': // Luxembourg
-                    return 25;
-
-                case 'UK':
-                    return 28;
-
-                case 'VE': // Venezuela
-                case 'MT': // Malte
-                    return 24;
-
-                case 'HU': // Hongrie
-                    return 23;
-
-                case 'ES': // Espagne
-                case 'PT': // Portugal
-                case 'PE': // Perou
-                case 'BR': // Bresil
-                    return 22;
-
-                case 'NO': // Norvege
-                    return 21;
-
-                case 'CY': // Chypre
-                case 'JP': // Japon
-                case 'PL': // Pologne
-                case 'HR': // Croatie
-                case 'AR': // Argentine
-                case 'IT': // Italie
-                case 'AU': // Australie
-                case 'BE': // Belgique
-                    return 20;
-
-            }
-
-            return 20;
-        }
-        */
 
 
 
@@ -689,12 +640,14 @@ exports = module.exports = function(params) {
                 period.start = new Date();
                 period.start.setHours(0,0,0,0);
 
-                period.start.setMonth(rightData.renewal.month);
-                period.start.setDate(rightData.renewal.day);
+
+                period.start.setMonth(rightData.renewal.start.month, rightData.renewal.start.day);
 
                 if (period.start > now) {
                     period.start.setFullYear(period.start.getFullYear()-1);
                 }
+
+
 
                 period.finish = new Date(period.start);
                 period.finish.setFullYear(period.finish.getFullYear()+1);
@@ -707,6 +660,11 @@ exports = module.exports = function(params) {
 
                 let right = new model();
 
+                if (undefined !== rightData._id) {
+                    right._id = rightData._id;
+                }
+
+                right.special = rightData.special;
                 right.name = rightData.name || gt.gettext('Paid annual leave');
                 right.quantity_unit = rightData.quantity_unit || 'D';
                 right.quantity = rightData.quantity || 20;

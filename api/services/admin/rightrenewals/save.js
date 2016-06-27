@@ -19,7 +19,21 @@ function validate(service, params) {
         return service.error(gt.gettext('Finish date must be greater than start date'));
     }
 
-    saveRenewal(service, params);
+    var RightModel = service.app.db.models.Right;
+
+    RightModel.count({ _id: params.right }).exec((err, count) => {
+        if (err) {
+            return service.error(err);
+        }
+
+        if (0 === count) {
+            return service.error('No right found for '+params.right);
+        }
+
+        saveRenewal(service, params);
+    });
+
+
 }
     
     
@@ -34,9 +48,13 @@ function saveRenewal(service, params) {
 
     var RightRenewalModel = service.app.db.models.RightRenewal;
     
+    var rightId = params.right;
+    if (undefined !== params.right._id) {
+        rightId = params.right._id;
+    }
     
     var fieldsToSet = { 
-        right: params.right, 
+        right: rightId,
         start: params.start,
         finish: params.finish,
         lastUpdate: new Date()  
@@ -55,6 +73,7 @@ function saveRenewal(service, params) {
                 document.adjustments = document.adjustments.filter(function(a) {
                     return (null !== a.quantity);
                 });
+
 
                 document.save(function(err, document) {
 
@@ -77,6 +96,7 @@ function saveRenewal(service, params) {
 
         var document = new RightRenewalModel();
         document.set(fieldsToSet);
+
         document.save(function(err, document) {
 
             if (service.handleMongoError(err))
