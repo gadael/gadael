@@ -7,7 +7,8 @@ describe('request absence admin rest service', function() {
     let server,
         userAdmin,      // create the account, the manager
         userAccount,    // create the request
-
+        right,
+        rtt,
         department;     // department associated to userManager
 
 
@@ -128,23 +129,24 @@ describe('request absence admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(3); // FR default
-            //console.log(body[2].right);
+            right = body[2].right;
             done();
         });
     });
 
-    // TODO remove entry_date rule on the RTT right to make it testable
 
+    it('remove entry_date rule to make it testable', function(done) {
 
-    /*
-    it('request list of accessibles rights for a non-worked period', function(done) {
-        server.get('/rest/admin/accountrights', where, function(res, body) {
+        right.rules = right.rules.filter(rule => {
+            return (rule.type !== 'entry_date');
+        });
+
+        server.put('/rest/admin/rights/'+right._id , right, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(0); // the user have no working hours ?
             done();
         });
     });
-    */
+
 
 
 
@@ -161,14 +163,19 @@ describe('request absence admin rest service', function() {
         });
     });
 
+
     it('request list of accessibles rights for a period', function(done) {
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
 
+            rtt = body[0];
+
+            expect(rtt.available_quantity).toEqual(20);
             done();
         });
     });
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {

@@ -33,7 +33,6 @@ module.exports = exports = {
             _id: '5770cad63fccf8da5150e7da',
             special: 'rtt',
             name: "RTT",
-            quantity: 9,
             rules: [
                 {
                     type: "entry_date",
