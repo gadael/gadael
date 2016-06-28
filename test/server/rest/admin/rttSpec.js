@@ -34,6 +34,18 @@ describe('request absence admin rest service', function() {
         });
     });
 
+    it('create renewal on default annual leaves right', function(done) {
+        server.post('/rest/admin/rightrenewals', {
+            right: {
+                _id: '577225e3f3c65dd800257bdc'
+            },
+            start: new Date(2015,1,1).toJSON(),
+            finish: new Date(2016,1,1).toJSON()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
 
 
 
