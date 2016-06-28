@@ -40,6 +40,7 @@ Rtt.prototype.getDescription = function() {
  */
 Rtt.prototype.getQuantity = function(renewal, user) {
 
+
     /*
     Vos salariés travaillent 37,5 heures par semaine sur 5 jours, soit 37,5 / 5 = 7,5 par jour.
     Dans l’année, ils travaillent :
@@ -88,8 +89,8 @@ Rtt.prototype.getQuantity = function(renewal, user) {
         // all[0].hours number of hours in one week
         // all[1] number of potential worked days in the renewal of the annual leave
 
-        let dayHours = all[0].hours / all[0].days;
-        let workWeeks = all[1] / all[0].days;
+        let dayHours = all[0].hours / all[0].nbDays;
+        let workWeeks = all[1] / all[0].nbDays;
 
         let exceedingHours = (all[0].hours - 35) * workWeeks;
         let exceedingDays = exceedingHours / dayHours;
