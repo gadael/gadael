@@ -308,11 +308,18 @@ exports = module.exports = function(params) {
      * @return {SpecialRight}
      */
     rightSchema.methods.getSpecialRight = function() {
-        if (undefined === SpecialRightIndex[this.special]) {
+
+        let index = new SpecialRightIndex();
+        let list = index.objects;
+
+
+
+        if (undefined === list[this.special]) {
             return null;
         }
 
-        let SpecialRight = SpecialRightIndex[this.special];
+
+        let SpecialRight = list[this.special];
 
         return new SpecialRight();
     };
@@ -373,8 +380,8 @@ exports = module.exports = function(params) {
     rightSchema.methods.getSameRenewal = function(dtstart, dtend) {
         
         return this.getRenewalsQuery()
-        .where('start').is(dtstart)
-        .where('finish').is(dtend)
+        .where('start', dtstart)
+        .where('finish', dtend)
         .exec()
         .then(arr => {
 

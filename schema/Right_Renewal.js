@@ -293,14 +293,11 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getUserQuantity = function(user) {
         
         var renewal = this;
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
+
         
-        Promise.all([
-            renewal.getRightPromise(),
+
+        return Promise.all([
+            renewal.getUserRightInitialQuantity(user),
             renewal.getUserAdjustmentQuantity(user)
         ])
         .then(function(arr) {
@@ -310,11 +307,9 @@ exports = module.exports = function(params) {
              * if the user account arrival date is > renewal.start
              * a pro rata of the quantity is computed for the default quantity
              *
-             * @todo replace with specialright.getQuantity
-             *
              * @var {Number}
              */
-            var rightQuantity = arr[0].quantity;
+            var rightQuantity = arr[0];
 
             /**
              * Manual adjustment created by administrators on the account-right page
@@ -324,7 +319,7 @@ exports = module.exports = function(params) {
 
             if (user.roles.account.arrival > renewal.finish) {
                 // this will not be used via the REST API because invalid renewal are disacarded before
-                return deferred.resolve(0);
+                return 0;
             }
 
 
@@ -350,11 +345,9 @@ exports = module.exports = function(params) {
             });
 
 
-            deferred.resolve(rightQuantity + renewalAdjustment + userAdjustment);
-        })
-        .catch(deferred.reject);
-            
-        return deferred.promise;
+
+            return (rightQuantity + renewalAdjustment + userAdjustment);
+        });
     };
     
     /**

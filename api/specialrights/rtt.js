@@ -40,7 +40,6 @@ Rtt.prototype.getDescription = function() {
  */
 Rtt.prototype.getQuantity = function(renewal, user) {
 
-
     /*
     Vos salariés travaillent 37,5 heures par semaine sur 5 jours, soit 37,5 / 5 = 7,5 par jour.
     Dans l’année, ils travaillent :
@@ -57,7 +56,7 @@ Rtt.prototype.getQuantity = function(renewal, user) {
 
 
     return rightModel.findOne()
-    .where('special').is('annualleave')
+    .where('special', 'annualleave')
     .exec()
     .then(right => {
 
