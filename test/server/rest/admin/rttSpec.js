@@ -8,7 +8,7 @@ describe('request absence admin rest service', function() {
         userAdmin,      // create the account, the manager
         userAccount,    // create the request
         right,
-        rtt,
+        schedule,
         department;     // department associated to userManager
 
 
@@ -150,15 +150,18 @@ describe('request absence admin rest service', function() {
 
 
 
-    it('create a workshedule for the user', function(done) {
+    it('Set a 40H workshedule', function(done) {
         server.post('/rest/admin/accountschedulecalendars', {
             user: userAccount.user._id,
             calendar: {
-                _id: '5740adf51cf1a569643cc101'  // 35h fulltime, FR default
+                _id: '5740adf51cf1a569643cc101'
             },
             from: new Date(2014,1,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+
+            schedule = body._id;
+
             done();
         });
     });
@@ -168,13 +171,39 @@ describe('request absence admin rest service', function() {
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-
-            rtt = body[0];
-
-            expect(rtt.available_quantity).toEqual(20);
+            expect(body[0].available_quantity).toEqual(20);
             done();
         });
     });
+
+
+    /*
+    it('Set a 39H workshedule', function(done) {
+        server.put('/rest/admin/accountschedulecalendars/'+schedule, {
+            user: userAccount.user._id,
+            calendar: {
+                _id: '5740adf51cf1a569643cc102'
+            },
+            from: new Date(2014,1,1).toJSON()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+
+            schedule = body._id;
+
+            done();
+        });
+    });
+
+
+    it('request list of accessibles rights for a period', function(done) {
+        server.get('/rest/admin/accountrights', where, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            expect(body[0].available_quantity).toEqual(9);
+            done();
+        });
+    });
+    */
 
 
     it('logout', function(done) {

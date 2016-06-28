@@ -187,13 +187,22 @@ exports = module.exports = function(params) {
          */
         function createDefaults(done) {
 
-            let allCalendars = [{
+            let allCalendars = [
+            {
                 _id: '5740adf51cf1a569643cc101',
-                name: gt.gettext('35H full time work schedule'),
-                url: 'calendars/01.ics',
+                name: gt.gettext('5 days 40H - 8H 12H / 14H 18H'),
+                url: 'calendars/5d-40h-1.ics',
                 type: 'workschedule',
                 locked: true
-            }];
+            },
+            {
+                _id: '5740adf51cf1a569643cc102',
+                name: gt.gettext('5 days 39H - 8H 12H / 14H 18H, 17H on friday'),
+                url: 'calendars/5d-39h-1.ics',
+                type: 'workschedule',
+                locked: true
+            }
+            ];
 
 
 
