@@ -697,6 +697,13 @@ exports = module.exports = function(params) {
 
 
         }).then(initalQuantity => {
+            /*
+            console.log({
+                renewalDays: renewal.getDays(),
+                weekEnd: weekEnds,
+                annualLeave: initalQuantity,
+                nonWorkingDays: nonWorkingDays
+            });*/
 
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });

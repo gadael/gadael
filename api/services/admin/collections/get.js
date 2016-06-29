@@ -19,7 +19,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
         
         service.app.db.models.RightCollection
-        .findOne({ '_id' : params.id}, 'name attendance businessDays')
+        .findOne({ '_id' : params.id})
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {

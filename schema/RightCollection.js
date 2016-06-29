@@ -22,7 +22,9 @@ exports = module.exports = function(params) {
             TH: { type: Boolean, default: true },
             FR: { type: Boolean, default: true },
             SA: { type: Boolean, default: true }
-        }
+        },
+
+        workedDays: Number                                              // package agreement
     });
   
     collectionSchema.set('autoIndex', params.autoIndex);

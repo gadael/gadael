@@ -50,23 +50,32 @@ function validate(service, params) {
  */  
 function saveCollection(service, params) {
 
+    let fieldsToSet = {
+        name: params.name
+    };
 
-    var RightCollection = service.app.db.models.RightCollection;
+
+    if (params.attendance !== undefined) {
+        fieldsToSet.attendance = params.attendance;
+    }
+
+    if (params.businessDays !== undefined) {
+        fieldsToSet.businessDays = params.businessDays;
+    }
+
+    if (params.workedDays !== undefined) {
+        fieldsToSet.workedDays = params.workedDays;
+    }
+
+
+    let RightCollection = service.app.db.models.RightCollection;
 
     if (params.id)
     {
         RightCollection.findById(params.id, function (err, document) {
             if (service.handleMongoError(err))
             {
-                document.name = params.name;
-
-                if (params.attendance !== undefined) {
-                    document.attendance = params.attendance;
-                }
-                
-                if (params.businessDays !== undefined) {
-                    document.businessDays = params.businessDays;
-                }
+                document.set(fieldsToSet);
 
                 document.save(function (err) {
                     if (service.handleMongoError(err)) {
@@ -82,15 +91,10 @@ function saveCollection(service, params) {
 
     } else {
 
-        var newObj = {
-            name: params.name
-        };
+        let collection = new RightCollection();
+        collection.set(fieldsToSet);
 
-        if (params.attendance !== undefined) {
-            newObj.attendance = params.attendance;
-        }
-
-        RightCollection.create(newObj, function(err, document) {
+        collection.save(function(err, document) {
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(

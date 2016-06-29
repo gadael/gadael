@@ -74,7 +74,7 @@ exports = module.exports = function(services, app) {
             }
 
             service.resolveQuery(
-                find.select('name attendance businessDays').sort('name'),
+                find.sort('name'),
                 paginate,
                 function(err, docs) {
                     if (service.handleMongoError(err)) {

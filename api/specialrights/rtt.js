@@ -93,9 +93,11 @@ Rtt.prototype.getQuantity = function(renewal, user) {
         let workWeeks = all[1] / all[0].nbDays;
 
         let exceedingHours = (all[0].hours - 35) * workWeeks;
-        let exceedingDays = exceedingHours / dayHours;
+        let exceedingDays = Math.round(exceedingHours / dayHours);
 
-        return Math.round(exceedingDays);
+
+
+        return exceedingDays;
     });
 
 };

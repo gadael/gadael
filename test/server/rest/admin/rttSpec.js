@@ -193,7 +193,7 @@ describe('request absence admin rest service', function() {
     });
 
 
-
+    /*
     it('Set a 39H workshedule', function(done) {
         server.put('/rest/admin/accountschedulecalendars/'+schedule, {
             user: userAccount.user._id,
@@ -219,7 +219,7 @@ describe('request absence admin rest service', function() {
             done();
         });
     });
-
+    */
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
