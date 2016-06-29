@@ -89,14 +89,14 @@ Rtt.prototype.getQuantity = function(renewal, user) {
         // all[0].days number of days in one week
         // all[0].hours number of hours in one week
         // all[1] number of potential worked days in the renewal of the annual leave
-        // all[2].workedDays aggrement worked days
+        // all[2].workedDays agreement worked days
 
         if (undefined !== all[2].workedDays) {
             return (all[1] - all[2].workedDays);
         }
 
 
-        // without the aggrement number of worked days
+        // without the agreement number of worked days
 
         let dayHours = all[0].hours / all[0].nbDays;
         let workWeeks = all[1] / all[0].nbDays;
