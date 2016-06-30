@@ -51,38 +51,14 @@ Rtt.prototype.getQuantity = function(renewal, user) {
     */
 
 
-    let rightModel = renewal.model('Right');
 
-    // find a renewal for annual leave matching the RTT renewal
-
-
-    return rightModel.findOne()
-    .where('special', 'annualleave')
-    .exec()
-    .then(right => {
-
-        if (null === right) {
-            throw new Error('To compute RTT quantity, an annual leave right is required');
-        }
-
-        return right.getSameRenewal(renewal.start, renewal.finish);
-
-    })
-    .then(annualLeaveRenewal => {
-
-        if (null === annualLeaveRenewal) {
-            throw new Error('To compute RTT quantity, an annual leave right with same renewal period is required');
-        }
-
-        return user.getAccount()
-        .then(account => {
-            return Promise.all([
-                account.getWeekHours(renewal.start, renewal.finish),
-                annualLeaveRenewal.getPlannedWorkDayNumber(user),
-                account.getCollection(renewal.start) // attribution on period start
-            ]);
-        });
-
+    return user.getAccount()
+    .then(account => {
+        return Promise.all([
+            account.getWeekHours(renewal.start, renewal.finish),
+            renewal.getPlannedWorkDayNumber(user), // 25 days
+            account.getCollection(renewal.start) // collection on period start
+        ]);
     })
     .then(all => {
 

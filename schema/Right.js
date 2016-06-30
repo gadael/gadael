@@ -394,6 +394,47 @@ exports = module.exports = function(params) {
     };
     
 
+    /**
+     * Get the quantity added on initial quantity between two dates
+     * this include initial quantity of the right and monthly updates
+     *
+     * @param {User} user
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     *
+     * @returns {Promise}
+     */
+    rightSchema.methods.getInitialQuantityInPeriod = function(user, dtstart, dtend) {
+
+        return this.getRenewalsQuery()
+        .where('start', { $gte: dtstart })
+        .where('start', { $lt: dtend })
+        .exec()
+        .then(arr => {
+
+            let promises = [];
+
+            arr.forEach(renewal => {
+                // on each renewal, get the max initial quantity in period
+                promises.push(renewal.getUserQuantity(user, dtend));
+            });
+
+            return Promise.all(promises);
+        })
+        .then(all => {
+
+            if (0 === all.length) {
+                // ne renewals found in period
+                return 0;
+            }
+
+            return all.reduce((sum, initialQuantity) => {
+                return sum + initialQuantity;
+            });
+        });
+    };
+
+
 
     /**
      * Get current renewal or null if no renewal

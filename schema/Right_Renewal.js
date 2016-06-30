@@ -258,7 +258,7 @@ exports = module.exports = function(params) {
      * this shoud be the quantity set by administrator on the right or a computed quantity
      * if this is a special right
      *
-     * @param {[[Type]]} user User document with account role
+     * @param {User} user User document with account role
      *
      * @returns {Promise} resolve to a number
      */
@@ -286,15 +286,18 @@ exports = module.exports = function(params) {
      *
      * @todo duplicated with accountRight object
      * 
-     * @param {User} user User document with account role
-     * 
+     * @param {User}    user        User document with account role
+     * @param {Date}    [moment]    the adjutments will be added up to this date, default is now
+     *
      * @returns {Promise} resolve to a number
      */
-    rightRenewalSchema.methods.getUserQuantity = function(user) {
+    rightRenewalSchema.methods.getUserQuantity = function(user, moment) {
         
         var renewal = this;
 
-        
+        if (undefined === moment) {
+            moment = new Date();
+        }
 
         return Promise.all([
             renewal.getUserRightInitialQuantity(user),
@@ -336,10 +339,9 @@ exports = module.exports = function(params) {
              * @var {Number}
              */
             var renewalAdjustment = 0;
-            var now = new Date();
 
             renewal.adjustments.forEach(function(adjustment) {
-                if (adjustment.from >= user.roles.account.arrival && adjustment.from <= now) {
+                if (adjustment.from >= user.roles.account.arrival && adjustment.from <= moment) {
                     renewalAdjustment += adjustment.quantity;
                 }
             });
@@ -668,8 +670,7 @@ exports = module.exports = function(params) {
 
     /**
      * Get number of planned working days on the period
-     * This method should be called on the renewal associated to the annual paid leave because
-     * the associated right will be excluded from computed quantity and only this right will be taken into account
+     *
      *
      * @exemple 365 - 104 week-ends days - 25 days of annual paid leaves - 8 non working days = 228
      *
@@ -680,6 +681,10 @@ exports = module.exports = function(params) {
 
         let renewal = this;
         let weekEnds, nonWorkingDays;
+
+        let Type = renewal.model('Type');
+
+
 
         return user.getAccount().then(account => {
 
@@ -693,7 +698,14 @@ exports = module.exports = function(params) {
             weekEnds = r[0];
             nonWorkingDays = Object.keys(r[1].getDays()).length;
 
-            return renewal.getUserQuantity(user);
+            return Type.findOne({ _id: '5740adf51cf1a569643cc508'}).exec()
+            .then(type => {
+                if (null === type) {
+                    throw new Error('To compute RTT quantity, the annual leave type is required');
+                }
+
+                return type.getInitialQuantityInPeriod(user, renewal.start, renewal.finish);
+            });
 
 
         }).then(initalQuantity => {

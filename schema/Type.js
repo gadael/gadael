@@ -112,7 +112,35 @@ exports = module.exports = function(params) {
     };
     
 
+    /**
+     * Get the quantity added on initial quantity between two dates on all rights of the type
+     * this include initial quantity of the right and adjustments
+     *
+     * @param {User} user
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     *
+     * @returns {Promise}
+     */
+    typeSchema.methods.getInitialQuantityInPeriod = function(user, dtstart, dtend) {
+        let Right = this.model('Right');
 
+        return Right.find({ type: this._id }).exec()
+        .then(rights => {
+
+            let promises = [];
+            rights.forEach(right => {
+                promises.push(right.getInitialQuantityInPeriod(user, dtstart, dtend));
+            });
+
+            return Promise.all(promises);
+        })
+        .then(all => {
+            return all.reduce((sum, initialQuantity) => {
+                return sum + initialQuantity;
+            });
+        });
+    };
 
   
 	typeSchema.index({ 'name': 1 }, { unique: true });
