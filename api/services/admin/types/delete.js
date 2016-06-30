@@ -19,6 +19,12 @@ exports = module.exports = function(services, app) {
         
         service.app.db.models.Type.findById(params.id, function (err, document) {
             if (service.handleMongoError(err)) {
+
+                if (document.locked) {
+                    return service.forbidden(gt.gettext('This type is locked'));
+                }
+
+
                 document.remove(function(err) {
                     if (service.handleMongoError(err)) {
                         service.success(gt.gettext('The right type has been deleted'));

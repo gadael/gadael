@@ -13,7 +13,9 @@ exports = module.exports = function(params) {
 		groupFolded: { type: Boolean, default: false }, 	// folding status in the request creation page
         groupTitle: String,
         sortkey: Number,
-		timeCreated: { type: Date, default: Date.now }
+		timeCreated: { type: Date, default: Date.now },
+        // used for the default types embeded in the app
+		locked: { type: Boolean, default: false }
 	});
     
     

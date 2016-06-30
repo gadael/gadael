@@ -40,19 +40,34 @@ function saveRightType(service, params) {
 
     if (params.id)
     {
-        TypeModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
-            if (service.handleMongoError(err))
-            {
-                service.resolveSuccess(
-                    document, 
-                    gt.gettext('The right type has been modified')
-                );
+        TypeModel.findOne({ _id: params._id }).exec((err, type) => {
+            if (service.handleMongoError(err)) {
+
+                if (type.locked) {
+                    return service.forbidden(gt.gettext('This type is locked'));
+                }
+
+                type.set(fieldsToSet);
+
+                type.save((err, document) => {
+                    if (service.handleMongoError(err))
+                    {
+                        service.resolveSuccess(
+                            document,
+                            gt.gettext('The right type has been modified')
+                        );
+                    }
+                });
             }
         });
 
+
     } else {
 
-        TypeModel.create(fieldsToSet, function(err, document) {
+        let type = new TypeModel();
+        type.set(fieldsToSet);
+
+        type.save((err, document) => {
 
             if (service.handleMongoError(err))
             {
