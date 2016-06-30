@@ -42,6 +42,8 @@ exports = module.exports = function(params) {
 
         /**
          * initialize default types on database creation
+         * The types created by default are not modifiables
+         *
          * @param {function} done   Callback
          */
         function createDefaults(done) {
@@ -77,16 +79,21 @@ exports = module.exports = function(params) {
                 allTypes.push({ _id: '5740adf51cf1a569643cc51f' , name: gt.gettext('Fractionating leave')       , sortkey: 23, groupFolded: true });
             }
 
-            async.each(allTypes, function( type, callback) {
+            async.each(allTypes, function( fieldsToSet, callback) {
 
-              model.create(type, function(err) {
-                  if (err) {
-                      callback(err);
-                      return;
-                  }
+                let type = new model();
+                type.set(fieldsToSet);
+                type.locked = true;
 
-                  callback();
-              });
+                type.save(type, function(err) {
+                    if (err) {
+                        callback(err);
+                        return;
+                    }
+
+                    callback();
+                });
+
             }, function(err){
                 // if any of the file processing produced an error, err would equal that error
                 if(err) {
