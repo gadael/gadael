@@ -81,7 +81,7 @@ describe("Test company creation", function companyCreation() {
             port: 2800,
             name: 'No country'
         }).then(count => {
-            expect(count[0]).toEqual(1); // Calendar
+            expect(count[0]).toEqual(2); // Calendar
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
@@ -100,7 +100,7 @@ describe("Test company creation", function companyCreation() {
             name: 'FR',
             country: 'FR'
         }).then(count => {
-            expect(count[0]).toBeGreaterThan(1); // Calendar
+            expect(count[0]).toBeGreaterThan(2); // Calendar
             expect(count[1]).toBeGreaterThan(23); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
@@ -118,7 +118,7 @@ describe("Test company creation", function companyCreation() {
             name: 'UK',
             country: 'UK'
         }).then(count => {
-            expect(count[0]).toEqual(4); // Calendar
+            expect(count[0]).toEqual(5); // Calendar
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
@@ -137,7 +137,7 @@ describe("Test company creation", function companyCreation() {
             name: 'BE',
             country: 'BE'
         }).then(count => {
-            expect(count[0]).toEqual(2); // Calendar
+            expect(count[0]).toEqual(3); // Calendar
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
@@ -156,7 +156,7 @@ describe("Test company creation", function companyCreation() {
             name: 'CH',
             country: 'CH'
         }).then(count => {
-            expect(count[0]).toEqual(27); // Calendar (one per canton + working times)
+            expect(count[0]).toEqual(28); // Calendar (one per canton + working times)
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection

@@ -636,7 +636,10 @@ exports = module.exports = function(params) {
         return new Promise((resolve, reject) => {
             account.getPeriodScheduleEvents(renewal.start, renewal.finish).then(ScheduleEra => {
 
+
+
                 let scheduledDays = Object.keys(ScheduleEra.getDays()).length;
+
                 resolve(renewal.getDays() - scheduledDays);
 
             }).catch(reject);
@@ -660,7 +663,7 @@ exports = module.exports = function(params) {
         }
 
         var millisecondsPerDay = 24 * 60 * 60 * 1000;
-        return (treatAsUTC(this.finish) - treatAsUTC(this.start)) / millisecondsPerDay;
+        return (1 + (treatAsUTC(this.finish) - treatAsUTC(this.start)) / millisecondsPerDay);
     };
 
 
@@ -713,13 +716,6 @@ exports = module.exports = function(params) {
 
 
         }).then(initalQuantity => {
-
-            console.log({
-                renewalDays: renewal.getDays(),
-                weekEnd: weekEnds,
-                annualLeave: initalQuantity,
-                nonWorkingDays: nonWorkingDays
-            });
 
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });

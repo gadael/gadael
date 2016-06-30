@@ -168,7 +168,7 @@ describe('request absence admin rest service', function() {
             calendar: {
                 _id: '5740adf51cf1a569643cc101'
             },
-            from: new Date(2014,1,1).toJSON()
+            from: new Date(2014,0,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
 
@@ -191,14 +191,14 @@ describe('request absence admin rest service', function() {
     });
 
 
-    /*
+
     it('Set a 39H workshedule', function(done) {
         server.put('/rest/admin/accountschedulecalendars/'+schedule, {
             user: userAccount.user._id,
             calendar: {
                 _id: '5740adf51cf1a569643cc102'
             },
-            from: new Date(2014,1,1).toJSON()
+            from: new Date(2014,0,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
 
@@ -217,7 +217,7 @@ describe('request absence admin rest service', function() {
             done();
         });
     });
-    */
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
