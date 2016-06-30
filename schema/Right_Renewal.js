@@ -264,15 +264,17 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getUserRightInitialQuantity = function(user) {
 
-        return this.getRightPromise()
+        let renewal = this;
+
+        return renewal.getRightPromise()
         .then(right => {
             let specialright = right.getSpecialRight();
 
             if (null === specialright) {
-                return this.quantity;
+                return right.quantity;
             }
 
-            return specialright.getQuantity(this, user);
+            return specialright.getQuantity(renewal, user);
         });
 
     };
@@ -694,6 +696,8 @@ exports = module.exports = function(params) {
             ]);
 
         }).then(r => {
+
+
 
             weekEnds = r[0];
             nonWorkingDays = Object.keys(r[1].getDays()).length;

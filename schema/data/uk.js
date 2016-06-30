@@ -7,6 +7,7 @@ module.exports = exports = {
         {
             special: 'annualleave',
             name: gt.gettext("Paid annual leave"),
+            type: '5740adf51cf1a569643cc508',
             quantity: 28,
             rules: [
                 {
@@ -31,11 +32,13 @@ module.exports = exports = {
         },
         {
             name: gt.gettext("Ordinary Maternity Leave"),
+            type: '5740adf51cf1a569643cc50e',
             quantity: 130, // 26 weeks
             activeFor: {  account: false }
         },
         {
             name: gt.gettext("Additional Maternity Leave"),
+            type: '5740adf51cf1a569643cc50e',
             quantity: 130, // 26 weeks
             activeFor: {  account: false }
         }

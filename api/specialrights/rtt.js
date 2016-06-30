@@ -37,9 +37,9 @@ Rtt.prototype.getDescription = function() {
 /**
  * Get initial quantity used by renewals
  * @param {RightRenewal} renewal
+ * @return {Promise}
  */
 Rtt.prototype.getQuantity = function(renewal, user) {
-
 
     /*
     Vos salariés travaillent 37,5 heures par semaine sur 5 jours, soit 37,5 / 5 = 7,5 par jour.
@@ -54,33 +54,23 @@ Rtt.prototype.getQuantity = function(renewal, user) {
 
     return user.getAccount()
     .then(account => {
+
         return Promise.all([
-            account.getWeekHours(renewal.start, renewal.finish),
+        //    account.getWeekHours(renewal.start, renewal.finish),
             renewal.getPlannedWorkDayNumber(user), // 25 days
             account.getCollection(renewal.start) // collection on period start
         ]);
     })
     .then(all => {
 
-        // all[0].days number of days in one week
-        // all[0].hours number of hours in one week
-        // all[1] number of potential worked days in the renewal of the annual leave
-        // all[2].workedDays agreement worked days
+        // all[0] number of potential worked days in the renewal of the annual leave
+        // all[1].workedDays agreement worked days
 
-        if (undefined !== all[2].workedDays) {
-            return (all[1] - all[2].workedDays);
+        if (undefined !== all[1].workedDays) {
+            return (all[0] - all[1].workedDays);
         }
 
-
-        // without the agreement number of worked days
-
-        let dayHours = all[0].hours / all[0].nbDays;
-        let workWeeks = all[1] / all[0].nbDays;
-
-        let exceedingHours = (all[0].hours - 35) * workWeeks;
-        let exceedingDays = Math.round(exceedingHours / dayHours);
-
-        return exceedingDays;
+        throw new Error('missing workdays on collection');
     });
 
 };

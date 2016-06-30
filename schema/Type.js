@@ -124,8 +124,9 @@ exports = module.exports = function(params) {
      */
     typeSchema.methods.getInitialQuantityInPeriod = function(user, dtstart, dtend) {
         let Right = this.model('Right');
+        let type = this;
 
-        return Right.find({ type: this._id }).exec()
+        return Right.find({ type: type }).exec()
         .then(rights => {
 
             let promises = [];

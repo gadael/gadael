@@ -8,6 +8,7 @@ module.exports = exports = {
             _id: '577225e3f3c65dd800257bdc',
             special: 'annualleave',
             name: gt.gettext("Paid annual leave"),
+            type: '5740adf51cf1a569643cc508',
             quantity: 25,
             rules: [
                 {
@@ -32,6 +33,7 @@ module.exports = exports = {
         },
         {
             _id: '5770cad63fccf8da5150e7da',
+            type: '5740adf51cf1a569643cc51d',
             special: 'rtt',
             name: "RTT",
             rules: [
@@ -57,6 +59,7 @@ module.exports = exports = {
         },
         {
             name: gt.gettext("Maternity"),
+            type: '5740adf51cf1a569643cc50e',
             quantity: 80,
             activeFor: {  account: false }
         }

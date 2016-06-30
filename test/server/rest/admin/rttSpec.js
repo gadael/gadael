@@ -39,8 +39,8 @@ describe('request absence admin rest service', function() {
             right: {
                 _id: '577225e3f3c65dd800257bdc'
             },
-            start: new Date(2015,1,1).toJSON(),
-            finish: new Date(2016,1,1).toJSON()
+            start: new Date(2014,5,1).toJSON(),
+            finish: new Date(2015,4,31).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -54,8 +54,8 @@ describe('request absence admin rest service', function() {
             right: {
                 _id: '5770cad63fccf8da5150e7da'
             },
-            start: new Date(2015,1,1).toJSON(),
-            finish: new Date(2016,1,1).toJSON()
+            start: new Date(2014,0,1).toJSON(),
+            finish: new Date(2014,11,31).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -104,7 +104,7 @@ describe('request absence admin rest service', function() {
             rightCollection: {
                 _id: '5740adf51cf1a569643cc520'
             },
-            from: new Date(2014,1,1).toJSON()
+            from: new Date(2014,0,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -120,8 +120,8 @@ describe('request absence admin rest service', function() {
 
         where = {
             user: userAccount.user._id.toString(),
-            dtstart: new Date(2015,1,1, 8).toJSON(),
-            dtend: new Date(2015,1,2, 18).toJSON()
+            dtstart: new Date(2014,1,1, 8).toJSON(),
+            dtend: new Date(2014,1,2, 18).toJSON()
         };
 
         server.get('/rest/admin/collection', where, function(res, body) {
@@ -185,8 +185,6 @@ describe('request absence admin rest service', function() {
             expect(body.length).toEqual(1);
             if (body.length > 0) {
                 expect(body[0].available_quantity).toEqual(9);
-            } else {
-                console.log(body.$outcome);
             }
             done();
         });

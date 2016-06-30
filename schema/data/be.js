@@ -7,6 +7,7 @@ module.exports = exports = {
         {
             special: 'annualleave',
             name: gt.gettext("Paid annual leave"),
+            type: '5740adf51cf1a569643cc508',
             quantity: 20,
             rules: [
                 {
@@ -31,6 +32,7 @@ module.exports = exports = {
         },
         {
             name: gt.gettext("Maternity"),
+            type: '5740adf51cf1a569643cc50e',
             quantity: 75,
             activeFor: {  account: false }
         }

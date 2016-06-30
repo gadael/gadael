@@ -127,14 +127,16 @@ SpecialRight.prototype.getDescription = function() {
  * @returns {Promise}
  */
 SpecialRight.prototype.getQuantity = function(renewal, user) {
-    if (!this.quantityReadOnly) {
+
+    if (this.editQuantity) {
         // modifiable by admin in right
         return renewal.getRightPromise()
         .then(right => {
             return right.quantity;
         });
     }
-    return 0;
+
+    return Promise.resolve(0);
 };
 
 
