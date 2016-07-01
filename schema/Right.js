@@ -1,6 +1,6 @@
 'use strict';
 
-const gt = require('./../modules/gettext');
+//const gt = require('./../modules/gettext');
 const SpecialRightIndex = require('./../api/specialrights/index');
 
 exports = module.exports = function(params) {
@@ -713,10 +713,10 @@ exports = module.exports = function(params) {
                 }
 
                 right.special = rightData.special;
-                right.name = rightData.name || gt.gettext('Paid annual leave');
+                right.name = rightData.name;
                 right.quantity_unit = rightData.quantity_unit || 'D';
-                right.quantity = rightData.quantity || 20;
-                right.type = rightData.type || '5740adf51cf1a569643cc508';
+                right.quantity = rightData.quantity;
+                right.type = rightData.type;
                 right.rules = rightData.rules;
 
                 right.save().then(right => {
