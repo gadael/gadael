@@ -407,14 +407,16 @@ exports = module.exports = function(params) {
     rightSchema.methods.getInitialQuantityInPeriod = function(user, dtstart, dtend) {
 
         return this.getRenewalsQuery()
-        .where('start', { $gte: dtstart })
-        .where('start', { $lt: dtend })
+        .where({
+            start: { $gte: dtstart, $lt: dtend }
+        })
         .exec()
         .then(arr => {
 
             let promises = [];
 
             arr.forEach(renewal => {
+
                 // on each renewal, get the max initial quantity in period
                 promises.push(renewal.getUserQuantity(user, dtend));
             });

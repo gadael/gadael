@@ -37,6 +37,29 @@ describe('Right renewal', function() {
 	});
 
 
+    it('create renewal on default annual leaves right', function(done) {
+
+        let RightRenewal = server.app.db.models.RightRenewal;
+        let renewal1 = new RightRenewal();
+        let renewal2 = new RightRenewal();
+
+        renewal1.right = '577225e3f3c65dd800257bdc';
+        renewal2.right = '577225e3f3c65dd800257bdc';
+
+        renewal1.start = new Date(2013,5,1,0,0,0,0);
+        renewal1.finish = new Date(2014,4,31,0,0,0,0);
+
+        renewal2.start = new Date(2014,5,1,0,0,0,0);
+        renewal2.finish = new Date(2015,4,31,0,0,0,0);
+
+        Promise.all([renewal1.save(), renewal2.save()])
+        .then(all => {
+                done();
+        })
+        .catch(done);
+    });
+
+
     it('verify the getPlannedWorkDayNumber method', function(done) {
 
         let right = new rightModel();
@@ -48,8 +71,8 @@ describe('Right renewal', function() {
         };
 
         let rightRenewal = new renewalModel();
-        rightRenewal.start = new Date(2015,5,1);
-        rightRenewal.finish = new Date(2016,4,31);
+        rightRenewal.start = new Date(2014,0,1);
+        rightRenewal.finish = new Date(2014,11,31);
 
         right.save((err, right) => {
 
@@ -61,12 +84,12 @@ describe('Right renewal', function() {
 
                 rightRenewal.getPlannedWorkDayNumber(user).then(workDays => {
 
-                    // renewal duration = 366 (bisextile)
+                    // renewal duration = 365
                     // - 105 week-ends days
                     // - 25 days of annual paid leaves
                     // - 8 non working days
 
-                    expect(workDays).toEqual(229);
+                    expect(workDays).toEqual(227);
                     done();
                 }).catch(done);
             });
