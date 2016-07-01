@@ -759,7 +759,7 @@ exports = module.exports = function(params) {
             }
 
             weeks.push(week);
-            currentWeek = [];
+            currentWeek = {};
 
             weekLoop.setDate(weekLoop.getDate() + 7);
             limit.setDate(limit.getDate() + 7);

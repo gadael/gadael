@@ -2,7 +2,6 @@
 
 const ical = require('ical');
 const gt = require('./../modules/gettext');
-const async = require('async');
 const util = require('util');
 const latinize = require('latinize');
 
@@ -81,7 +80,6 @@ exports = module.exports = function(params) {
                         if (data.hasOwnProperty(k)) {
 
                             entry = data[k];
-
 
                             if (entry.type === 'VEVENT') {
                                 var event = new EventModel();
@@ -430,33 +428,30 @@ exports = module.exports = function(params) {
             }
 
 
+            let savedCal = [];
+            allCalendars.forEach(calendar => {
+                let caldoc = new model();
+                caldoc.set(calendar);
+                savedCal.push(caldoc.save());
+            });
 
 
+            Promise.all(savedCal).then(all => {
+                let dowloadedCals = [];
+                all.forEach(calendar => {
+                    dowloadedCals.push(calendar.downloadEvents());
+                });
 
-            async.each(allCalendars, function( type, callback) {
-
-              model.create(type, function(err, calendar) {
-                  if (err) {
-                      callback(err);
-                      return;
-                  }
-
-                  calendar.downloadEvents().then(function() {
-                      callback();
-                  }, callback);
-
-              });
-            }, function(err){
-                // if any of the file processing produced an error, err would equal that error
-                if(err) {
-                    console.trace(err);
-                    return;
-                }
-
+                return Promise.all(dowloadedCals);
+            })
+            .then(() => {
                 if (done) {
                     done();
                 }
-            });
+            })
+            .catch(console.trace);
+
+
         }
 
 

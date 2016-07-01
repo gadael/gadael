@@ -138,7 +138,7 @@ api.createRandomAccount = function(app, email, password) {
 
             let scheduleCalendar = new app.db.models.AccountScheduleCalendar();
             scheduleCalendar.account = randomUser.user.roles.account;
-            scheduleCalendar.calendar = '5740adf51cf1a569643cc101'; // 35H full time work schedule
+            scheduleCalendar.calendar = '5740adf51cf1a569643cc101'; // 40H full time work schedule
             scheduleCalendar.from = new Date(2000,0,1,0,0,0,0);
 
             let nonworkingdaysCalendar = new app.db.models.AccountNWDaysCalendar();
