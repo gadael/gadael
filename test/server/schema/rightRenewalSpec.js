@@ -40,8 +40,8 @@ describe('Right renewal', function() {
     it('verify the getPlannedWorkDayNumber method', function(done) {
 
         let right = new rightModel();
-        right.name = 'French annual leave';
-        right.quantity = 25;
+        right.name = 'Additional right';
+        right.quantity = 2;
         right.quantity_unit = 'D';
         right.addMonthly = {
             quantity: null
@@ -60,7 +60,13 @@ describe('Right renewal', function() {
                 expect(err).toBeNull();
 
                 rightRenewal.getPlannedWorkDayNumber(user).then(workDays => {
-                    expect(workDays).toEqual(228);
+
+                    // renewal duration = 366 (bisextile)
+                    // - 105 week-ends days
+                    // - 25 days of annual paid leaves
+                    // - 8 non working days
+
+                    expect(workDays).toEqual(229);
                     done();
                 }).catch(done);
             });

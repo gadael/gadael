@@ -708,7 +708,7 @@ exports = module.exports = function(params) {
             return Type.findOne({ _id: '5740adf51cf1a569643cc508'}).exec()
             .then(type => {
                 if (null === type) {
-                    throw new Error('To compute RTT quantity, the annual leave type is required');
+                    throw new Error('To compute the number of planned working days, the annual leave type is required');
                 }
 
                 return type.getInitialQuantityInPeriod(user, renewal.start, renewal.finish);
@@ -716,6 +716,9 @@ exports = module.exports = function(params) {
 
 
         }).then(initalQuantity => {
+            if (0 === initalQuantity) {
+                throw new Error('To compute the number of planned working days, the annual leave initial quantity is required');
+            }
 
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });

@@ -213,7 +213,9 @@ describe('request absence admin rest service', function() {
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            expect(body[0].available_quantity).toEqual(9);
+            if (body.length === 1) {
+                expect(body[0].available_quantity).toEqual(9);
+            }
             done();
         });
     });
