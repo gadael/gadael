@@ -585,15 +585,21 @@ describe('request time saving deposit rest service', function() {
 
             server.delete('/rest/admin/rights/'+right1._id, function(res, body) {
                 expect(res.statusCode).toEqual(200);
+                if (200 !== res.statusCode) {
+                    console.log(body.$outcome);
+                }
 
                 server.delete('/rest/admin/rights/'+timeSavingAccount1._id, function(res, body) {
                     expect(res.statusCode).toEqual(200);
+                    if (200 !== res.statusCode) {
+                        console.log(body.$outcome);
+                    }
                     done();
                 });
             });
 
         }).catch(done);
-    }, 10000);
+    });
 
 
 

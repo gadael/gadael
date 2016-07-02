@@ -123,10 +123,16 @@ describe('vacations rights admin rest service', function() {
     it('delete the created right', function(done) {
         server.delete('/rest/admin/rights/'+right, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body._id).toEqual(right);
-            expect(body.name).toEqual('Rest right test');
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+
+            if (200 !== res.statusCode) {
+                console.log(body.$outcome);
+            } else {
+
+                expect(body._id).toEqual(right);
+                expect(body.name).toEqual('Rest right test');
+                expect(body.$outcome).toBeDefined();
+                expect(body.$outcome.success).toBeTruthy();
+            }
             done();
         });
     });
