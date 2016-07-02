@@ -104,12 +104,12 @@ exports = module.exports = function(params) {
      * Pre remove hook
      */
     rightSchema.pre('remove', function(next) {
-        next();
+        let right = this;
 
         let promises = [];
 
-        promises.push(this.removeRenewals());
-        promises.push(this.removeBeneficiaries());
+        promises.push(right.removeRenewals());
+        promises.push(right.removeBeneficiaries());
 
         Promise.all(promises).then(() => {
             next();
@@ -123,10 +123,13 @@ exports = module.exports = function(params) {
      * @return {Promise}
      */
     rightSchema.methods.removeRenewals = function() {
-        let RightRenewal = this.model('RightRenewal');
+
+        let right = this;
+
+        let RightRenewal = right.model('RightRenewal');
 
         return RightRenewal.find()
-        .where('right').is(this._id)
+        .where('right').is(right._id)
         .exec()
         .then(renewals => {
             let removePromises = [];
