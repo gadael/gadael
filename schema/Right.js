@@ -169,11 +169,7 @@ exports = module.exports = function(params) {
      * @returns {boolean}
      */
     rightSchema.methods.isTimeSavingAccount = function() {
-        if (undefined === this.special || null === this.special) {
-            return false;
-        }
-        // TODO: check special type
-        return true;
+        return ('timesavingaccount' === this.special);
     };
 
 
