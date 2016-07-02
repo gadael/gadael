@@ -7,7 +7,7 @@ describe('request absence admin rest service', function() {
     let server,
         userAdmin,      // create the account, the manager
         userAccount,    // create the request
-        right,
+        right,          // RTT right to test
         schedule,
         department;     // department associated to userManager
 
@@ -141,7 +141,12 @@ describe('request absence admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(3); // FR default
-            right = body[2].right;
+            body.forEach(beneficiary => {
+                if (beneficiary.right.special === 'rtt') {
+                    right = beneficiary.right;
+                }
+            });
+
             done();
         });
     });
