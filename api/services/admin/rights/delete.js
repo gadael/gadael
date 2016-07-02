@@ -21,7 +21,7 @@ exports = module.exports = function(services, app) {
 
             if (service.handleMongoError(err)) {
 
-                // TODO: do not accept delete if used in requests
+                // do not accept delete if used in requests
                 document.countUses().then(uses => {
                     if (uses > 0) {
                         return service.error(util.format(gt.gettext('Failed to delete, the right is used %d in requests'), uses));
@@ -37,7 +37,8 @@ exports = module.exports = function(services, app) {
                             service.deferred.resolve(right);
                         }
                     });
-                });
+                })
+                .catch(service.error);
 
 
             }
