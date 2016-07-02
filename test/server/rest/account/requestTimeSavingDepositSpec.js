@@ -593,7 +593,7 @@ describe('request time saving deposit rest service', function() {
             });
 
         }).catch(done);
-    });
+    }, 10000);
 
 
 
