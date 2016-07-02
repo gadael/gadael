@@ -129,7 +129,7 @@ exports = module.exports = function(params) {
         let RightRenewal = right.model('RightRenewal');
 
         return RightRenewal.find()
-        .where('right').is(right._id)
+        .where('right', right._id)
         .exec()
         .then(renewals => {
             let removePromises = [];
@@ -150,7 +150,7 @@ exports = module.exports = function(params) {
         let Beneficiary = this.model('Beneficiary');
 
         return Beneficiary.find()
-        .where('right').is(this._id)
+        .where('right', this._id)
         .exec()
         .then(beneficiaries => {
             let removePromises = [];
