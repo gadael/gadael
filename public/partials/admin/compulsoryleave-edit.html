@@ -11,14 +11,41 @@
 
     <div class="form-group">
         <label for="compulsoryleave_right" translate>Leave right</label>
-        <select class="form-control" ng-model="compulsoryleave.name" ng-options="right.name for right in rights">
+        <select class="form-control" ng-model="compulsoryleave.right" ng-options="right.name for right in rights">
         </select>
     </div>
 
     <div class="form-group">
         <label for="compulsoryleave_right" translate>Leave period</label>
         <div class="form-inline">
-            <ng-include src="'partials/utils/common/request/periodselect.html'"></ng-include>
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="sr-only" for="compulsoryleaveBeginDate">Begin date</label>
+                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    <input id="adbsenceBeginDate" class="form-control" ng-model="compulsoryleave.dtstart" bs-datepicker type="text" placeholder="{{'Begin date'|translate}}" data-autoclose="1" />
+                </div>
+
+                <div class="input-group">
+                    <label class="sr-only" for="compulsoryleaveBeginHour">Begin hour</label>
+                    <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
+                    <input id="compulsoryleaveBeginHour" class="form-control" ng-model="compulsoryleave.dtstart" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="sr-only" for="compulsoryleaveEndDate">End date</label>
+                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    <input id="adbsenceEndDate" class="form-control" ng-model="compulsoryleave.dtend" bs-datepicker type="text" placeholder="{{'End date'|translate}}" data-autoclose="1" />
+                </div>
+
+                <div class="input-group">
+                    <label class="sr-only" for="compulsoryleaveEndHour">End hour</label>
+                    <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
+                    <input id="compulsoryleaveEndHour" class="form-control" ng-model="compulsoryleave.dtend" bs-timepicker type="text" size="5" maxsize="5" placeholder="{{'Hour'|translate}}" />
+                </div>
+            </div>
         </div>
     </div>
 

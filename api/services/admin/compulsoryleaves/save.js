@@ -11,11 +11,11 @@ const gt = require('./../../../../modules/gettext');
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['dtstart', 'dtend', 'name', 'userCreated', 'collections', 'departments'])) {
+    if (service.needRequiredFields(params, ['dtstart', 'dtend', 'name', 'userCreated', 'collections', 'departments', 'right'])) {
         return;
     }
 
-    if (params.dtend >= params.dtstart) {
+    if (params.dtend <= params.dtstart) {
         return service.error(gt.gettext('Finish date must be greater than start date'));
     }
 
@@ -27,7 +27,7 @@ function validate(service, params) {
         return service.error(gt.gettext('departments must be an array'));
     }
 
-    if (params.departments.length === 0 && params.collections.length) {
+    if (params.departments.length === 0 && params.collections.length === 0) {
         return service.error(gt.gettext('either departments or collections must contain items'));
     }
 
@@ -63,6 +63,13 @@ function saveCompulsoryLeave(service, params) {
 
     var CompulsoryLeaveModel = service.app.db.models.CompulsoryLeave;
 
+    let rightId;
+
+    if (params.right._id === undefined) {
+        rightId = params.right;
+    } else {
+        rightId = params.right._id;
+    }
 
     var fieldsToSet = {
         name: params.name,
@@ -75,7 +82,8 @@ function saveCompulsoryLeave(service, params) {
         },
         comment: params.comment,
         collections: getIds(params.collections),
-        departments: getIds(params.departments)
+        departments: getIds(params.departments),
+        right: rightId
     };
 
 

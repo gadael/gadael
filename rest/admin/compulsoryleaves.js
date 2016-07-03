@@ -25,7 +25,7 @@ getController.prototype = new ctrlFactory.get();
 
 
 function save() {
-    this.jsonService(this.service('admin/compulsoryleaves/save'));
+    this.jsonService(this.service('admin/compulsoryleaves/save', { userCreated: this.req.user }));
 }
 
 function createController() {
