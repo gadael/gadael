@@ -79,6 +79,7 @@ grunt test
 - [x] Add a test: method account.getPeriodUnavailableEvents or /rest/account/unavailableevents
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Emails notifications
+- [ ] Compulsory leaves management, step for absence request creation
 - [ ] Compulsory leaves management, test rest service
 - [x] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
 - [ ] Get special right infos in right.get service
