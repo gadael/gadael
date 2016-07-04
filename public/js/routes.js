@@ -269,6 +269,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminCompulsoryLeaves'
 		});
 
+        $routeProvider.when('/admin/compulsoryleaves/:id', {
+			templateUrl: 'partials/admin/compulsoryleave-view.html',
+			controller: 'AdminCompulsoryLeaveView'
+		});
+
 		$routeProvider.when('/admin/compulsoryleave-edit/:id', {
 			templateUrl: 'partials/admin/compulsoryleave-edit.html',
 			controller: 'AdminCompulsoryLeaveEdit'

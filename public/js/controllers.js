@@ -203,6 +203,10 @@ define(['angular', 'services'], function (angular) {
             invokeController('controllers/admin/compulsoryleaves', this, $scope, $injector);
 		}])
 
+        .controller('AdminCompulsoryLeaveView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/compulsoryleave-view', this, $scope, $injector);
+		}])
+
 		.controller('AdminCompulsoryLeaveEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/compulsoryleave-edit', this, $scope, $injector);
 		}])
