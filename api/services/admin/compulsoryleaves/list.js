@@ -40,7 +40,6 @@ var query = function(service, params) {
 
     find.populate('collections');
     find.populate('departments');
-     // population of requests may be too large
 
     return find;
 };
