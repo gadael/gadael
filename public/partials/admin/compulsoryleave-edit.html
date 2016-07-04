@@ -61,8 +61,8 @@
         <div class="checkbox" ng-repeat="collection in collections">
             <label>
             <input type="checkbox" value="{{collection._id}}"
-                   ng-checked="compulsoryleave.collections.indexOf(collection._id) > -1"
-                   ng-click="toggleSelection(compulsoryleave.collections, collection._id)" />
+                   ng-checked="isChecked(compulsoryleave.collections, collection)"
+                   ng-click="toggleSelection(compulsoryleave.collections, collection)" />
             {{collection.name}}</label>
         </div>
     </div>
@@ -71,8 +71,8 @@
         <div class="checkbox" style="vertical-align:top" ng-repeat="department in departments">
             <label>
             <input type="checkbox" value="{{department._id}}"
-                   ng-checked="compulsoryleave.departments.indexOf(department._id) > -1"
-                   ng-click="toggleSelection(compulsoryleave.departments, department._id)" />
+                   ng-checked="isChecked(compulsoryleave.departments, department)"
+                   ng-click="toggleSelection(compulsoryleave.departments, department)" />
             {{department.name}}</label>
         </div>
     </div>
