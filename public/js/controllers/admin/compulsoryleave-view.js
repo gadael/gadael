@@ -23,8 +23,11 @@ define([], function() {
                 filter = {
                     collection:  $scope.compulsoryleave.collections.map(function(collection) {
                         return collection._id;
-                    })
+                    }),
+                    collection_dtstart: $scope.compulsoryleave.dtstart,
+                    collection_dtend: $scope.compulsoryleave.dtend
                 };
+
             } else {
                 filter = {
                     department: $scope.compulsoryleave.departments.map(function(department) {

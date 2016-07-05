@@ -18,6 +18,13 @@
  */
 var query = function(service, params, next) {
 
+    function getArr(mixed) {
+        if (mixed instanceof Array) {
+            return mixed;
+        }
+        return [mixed];
+    }
+
     var find = service.app.db.models.User.find()
         .populate('department')
         .populate('roles.account')
@@ -48,12 +55,28 @@ var query = function(service, params, next) {
     }
 
     if (params.department) {
-        find.where('department').equals(params.department);
+        find.where('department').in(getArr(params.department));
     }
 
     if (params.collection) {
-        var collFind = service.app.db.models.AccountCollection.find();
-        collFind.where('rightCollection').equals(params.collection);
+        let collFind = service.app.db.models.AccountCollection.find();
+        collFind.where('rightCollection').in(getArr(params.collection));
+
+        let dtstart = new Date();
+        let dtend = new Date();
+
+        // add a parameter for the period to test, with a default to current day
+        if (params.collection_dtstart) {
+            dtstart = params.collection_dtstart;
+        }
+
+        if (params.collection_dtend) {
+            dtend = params.collection_dtend;
+        }
+
+        collFind.where('to').gt(dtstart);
+        collFind.where('from').lt(dtend);
+
         collFind.select('account');
 
         collFind.exec(function (err, docs) {
@@ -61,7 +84,7 @@ var query = function(service, params, next) {
             {
                 var accountIdList = [];
                 for(var i=0; i<docs.length; i++) {
-                    accountIdList.push(docs[i]._id);
+                    accountIdList.push(docs[i].account);
                 }
 
                 find.where('roles.account').in(accountIdList);
