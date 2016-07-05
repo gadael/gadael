@@ -39,53 +39,57 @@ define([], function() {
             var users = usersResource.query(filter);
             catchOutcome(users.$promise);
 
-            var i, userId;
+            users.$promise.then(function() {
 
-            for (i=0; i<users.length; i++) {
-                compRequestByUser[users[i]._id] = {
-                    user: {
-                        id: users[i]._id,
-                        name: users[i].lastname+' '+users[i].firstname
-                    },
-                    quantity: null,
-                    request: null
-                };
-            }
 
-            // complete informations with the created requests
+                var i, userId;
 
-            for (i=0; i<$scope.compulsoryleave.requests.length; i++) {
-                userId = $scope.compulsoryleave.requests[i].user.id;
-
-                if (undefined === compRequestByUser[userId]) {
-                    compRequestByUser[userId] = {
-                        delete: true
+                for (i=0; i<users.length; i++) {
+                    compRequestByUser[users[i]._id] = {
+                        user: {
+                            id: users[i]._id,
+                            name: users[i].lastname+' '+users[i].firstname,
+                            image: users[i].image
+                        },
+                        quantity: null,
+                        request: null
                     };
                 }
 
-                compRequestByUser[userId].request = $scope.compulsoryleave.requests[i].request;
-                compRequestByUser[userId].quantity = $scope.compulsoryleave.requests[i].quantity;
-            }
+                // complete informations with the created requests
 
-            // TODO: for each missing quantity property, fetch server for a simulation to get the quantity
+                for (i=0; i<$scope.compulsoryleave.requests.length; i++) {
+                    userId = $scope.compulsoryleave.requests[i].user.id;
 
-            for (userId in compRequestByUser) {
-                if (compRequestByUser.hasOwnProperty(userId)) {
-                    $scope.compRequest.push(compRequestByUser[userId]);
-                }
-            }
+                    if (undefined === compRequestByUser[userId]) {
+                        compRequestByUser[userId] = {
+                            delete: true
+                        };
+                    }
 
-            // sort by user name
-            $scope.compRequest.sort(function(cr1, cr2) {
-                if (cr1.user.name > cr2.user.name) {
-                    return 1;
+                    compRequestByUser[userId].request = $scope.compulsoryleave.requests[i].request;
+                    compRequestByUser[userId].quantity = $scope.compulsoryleave.requests[i].quantity;
                 }
-                if (cr1.user.name < cr2.user.name) {
-                    return -1;
+
+                // TODO: for each missing quantity property, fetch server for a simulation to get the quantity
+
+                for (userId in compRequestByUser) {
+                    if (compRequestByUser.hasOwnProperty(userId)) {
+                        $scope.compRequest.push(compRequestByUser[userId]);
+                    }
                 }
-                return 0;
+
+                // sort by user name
+                $scope.compRequest.sort(function(cr1, cr2) {
+                    if (cr1.user.name > cr2.user.name) {
+                        return 1;
+                    }
+                    if (cr1.user.name < cr2.user.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
             });
-
 
         });
 
