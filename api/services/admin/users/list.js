@@ -74,8 +74,8 @@ var query = function(service, params, next) {
             dtend = params.collection_dtend;
         }
 
-        collFind.where('to').gt(dtstart);
-        collFind.where('from').lt(dtend);
+        collFind.where('from').lte(dtend)
+                .or([{ to: null }, { to: { $gte: dtstart } }]);
 
         collFind.select('account');
 

@@ -17,7 +17,9 @@
 
 
 <div class="row">
-    <div class="col-sm-12"><p>{{compulsoryleave.description}}</p></div>
+    <div class="col-sm-12">
+        <p ng-repeat="paragraph in compulsoryleave.description|nlToArray track by $index">{{paragraph}}</p>
+    </div>
 
     <div class="col-sm-6">
         <dl>
@@ -40,8 +42,8 @@
     <div class="row" ng-repeat="compulsoryLeaveRequest in compRequest">
 
         <div class="col-sm-5">
-            <img ng-src="{{compulsoryLeaveRequest.user.image}}" ng-if="compulsoryLeaveRequest.user.image" height="30" class="img-rounded" />
-            <i class="glyphicon glyphicon-user text-muted fa-2x" ng-if="!compulsoryLeaveRequest.user.image"></i>
+            <img ng-src="{{compulsoryLeaveRequest.user.image}}" ng-if="compulsoryLeaveRequest.user.image" height="35" class="img-rounded" />
+            <i class="user-35 fa fa-user text-muted fa-2x" ng-if="!compulsoryLeaveRequest.user.image"></i>
             <a ng-href="#/admin/users/{{compulsoryLeaveRequest.user.id}}">{{compulsoryLeaveRequest.user.name}}</a>
         </div>
 
