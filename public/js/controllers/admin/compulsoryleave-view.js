@@ -2,12 +2,24 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$location', 'Rest', 'catchOutcome',
-            function($scope, $location, Rest, catchOutcome) {
+    /**
+     * Period duration in milliseconds
+     * @param   {object}   period [[Description]]
+     * @returns {Number} [[Description]]
+     */
+    function getPeriodDuration(period) {
+        return (period.dtend.getTime() - period.dtstart.getTime());
+    }
+
+
+
+	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q',
+            function($scope, $location, Rest, catchOutcome, $q) {
 
 		$scope.compulsoryleave = Rest.admin.compulsoryleaves.getFromUrl().loadRouteId();
 
         var usersResource = Rest.admin.users.getResource();
+        var calendarEventsResource = Rest.admin.calendarevents.getResource();
 
         var compRequestByUser = {};
 
@@ -73,11 +85,35 @@ define([], function() {
 
                 // TODO: for each missing quantity property, fetch server for a simulation to get the quantity
 
+                var workschedulePromises = [];
+
                 for (userId in compRequestByUser) {
                     if (compRequestByUser.hasOwnProperty(userId)) {
+                        workschedulePromises.push(
+                            calendarEventsResource.query({
+                                user: userId,
+                                type: 'workschedule',
+                                substractNonWorkingDays: true,
+                                substractPersonalEvents: true,
+                                dtstart: $scope.compulsoryleave.dtstart,
+                                dtend: $scope.compulsoryleave.dtend
+                            }).$promise
+                        );
+
                         $scope.compRequest.push(compRequestByUser[userId]);
                     }
                 }
+
+                $q.all(workschedulePromises).then(function(all) {
+                    for (var u=0; u<all.length; u++) {
+                        var quantity = 0;
+                        for (var i=0; i<all[u].length; i++) {
+                            quantity += getPeriodDuration(all[u][i]);
+                        }
+                        $scope.compRequest[u].quantity = quantity;
+                    }
+                });
+
 
                 // sort by user name
                 $scope.compRequest.sort(function(cr1, cr2) {

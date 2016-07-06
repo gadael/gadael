@@ -81,6 +81,7 @@ exports = module.exports = function(services, app) {
      * the result events will be intersected with the serach interval
      * 
      * @param {Object} params
+     *                      params.user                     user ID for admin rest service, in account rest service the user param is set from session
      *                      params.dtstart                  search interval start
      *                      params.dtend                    search interval end
      *                      params.type                     workschedule|nonworkingday|holiday
