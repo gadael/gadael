@@ -73,6 +73,7 @@ function saveCompulsoryLeave(service, params) {
 
     var fieldsToSet = {
         name: params.name,
+        description: params.description,
         dtstart: params.dtstart,
         dtend: params.dtend,
         lastUpdate: new Date(),
@@ -80,7 +81,6 @@ function saveCompulsoryLeave(service, params) {
             id: params.userCreated._id,
             name: params.userCreated.getName()
         },
-        comment: params.comment,
         collections: getIds(params.collections),
         departments: getIds(params.departments),
         right: rightId

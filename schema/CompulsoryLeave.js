@@ -27,7 +27,7 @@ exports = module.exports = function(params) {
         lastUpdate: Date,
 
         name: { type: String, minlength: 1 },
-        comment: String,
+        description: String,
 
         collections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' }],    // references to elements used for creation
         departments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Department' }],         // references to elements used for creation

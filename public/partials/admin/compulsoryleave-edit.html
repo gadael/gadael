@@ -8,10 +8,15 @@
         <input type="text" class="form-control" id="compulsoryleave_name" ng-model="compulsoryleave.name" />
     </div>
 
+    <div class="form-group">
+        <label for="compulsoryleave_description" translate>Description</label>
+        <textarea class="form-control" id="compulsoryleave_description" ng-model="compulsoryleave.description"></textarea>
+    </div>
+
 
     <div class="form-group">
         <label for="compulsoryleave_right" translate>Leave right</label>
-        <select class="form-control" ng-model="compulsoryleave.right" ng-options="right.name for right in rights">
+        <select class="form-control" ng-model="compulsoryleave.right" ng-options="right.name for right in rights track by right._id">
         </select>
     </div>
 

@@ -15,16 +15,23 @@
 </div>
 
 
-<div class="row">
-    <div class="col-sm-6">
 
-        {{compulsoryleave.description}}
+<div class="row">
+    <div class="col-sm-12"><p>{{compulsoryleave.description}}</p></div>
+
+    <div class="col-sm-6">
+        <dl>
+            <dt translate>From:</dt><dd>{{compulsoryleave.dtstart|date:'medium'}}</dd>
+            <dt translate>To:</dt><dd>{{compulsoryleave.dtend|date:'medium'}}</dd>
+        </dl>
 
     </div>
 
     <div class="col-sm-6">
+        <dl>
+            <dt translate>Right:</dt><dd>{{compulsoryleave.right.name}}</dd>
+        </dl>
 
-        <span translate>Right: </span> {{compulsoryleave.right.name}}
     </div>
 </div>
 
@@ -33,9 +40,9 @@
     <div class="row" ng-repeat="compulsoryLeaveRequest in compRequest">
 
         <div class="col-sm-5">
-            <img ng-src="{{compulsoryLeaveRequest.user.image}}" ng-if="compulsoryLeaveRequest.user.image" height="40" class="img-rounded" />
-            <i class="top15 glyphicon glyphicon-user text-muted fa-2x" ng-if="!compulsoryLeaveRequest.user.image"></i>
-            {{compulsoryLeaveRequest.user.name}}
+            <img ng-src="{{compulsoryLeaveRequest.user.image}}" ng-if="compulsoryLeaveRequest.user.image" height="30" class="img-rounded" />
+            <i class="glyphicon glyphicon-user text-muted fa-2x" ng-if="!compulsoryLeaveRequest.user.image"></i>
+            <a ng-href="#/admin/users/{{compulsoryLeaveRequest.user.id}}">{{compulsoryLeaveRequest.user.name}}</a>
         </div>
 
         <div class="col-sm-5">
