@@ -4,19 +4,56 @@ define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
 
     /**
      * Period duration in milliseconds
-     * @param   {object}   period [[Description]]
-     * @returns {Number} [[Description]]
+     * @params  {object}   previousQuantity
+     * @param   {object}   period
+     * @returns {object}
      */
-    function getPeriodDuration(period) {
-        return (period.dtend.getTime() - period.dtstart.getTime());
+    function addPeriodDuration(previousQuantity, period) {
+
+        if (null === previousQuantity) {
+            previousQuantity = {
+                days: 0,
+                hours: 0
+            };
+        }
+
+        var ms = (period.dtend.getTime() - period.dtstart.getTime());
+
+        return {
+            days: previousQuantity.days + period.businessDays,
+            hours: ((ms /1000) / 3600)
+        };
     }
 
 
 
-	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q',
-            function($scope, $location, Rest, catchOutcome, $q) {
+
+
+
+	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q', 'gettextCatalog',
+            function($scope, $location, Rest, catchOutcome, $q, gettextCatalog) {
 
         momentDuration(moment);
+
+        /**
+         * Format quantity available in compulsory leave period
+         * @param   {object} quantity days,hours
+         * @returns {String|null}
+         */
+        function formatQuantity(quantity) {
+
+            if (null === quantity) {
+                return null;
+            }
+
+            var pattern = 'd ['+gettextCatalog.getPlural(quantity.days, 'day', 'days')+']';
+
+            return moment.duration(quantity.days, 'days').format(pattern, 1);
+        }
+
+
+
+
 
 		$scope.compulsoryleave = Rest.admin.compulsoryleaves.getFromUrl().loadRouteId();
 
@@ -85,37 +122,43 @@ define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
                     compRequestByUser[userId].quantity = $scope.compulsoryleave.requests[i].quantity;
                 }
 
-                // TODO: for each missing quantity property, fetch server for a simulation to get the quantity
+                // For each missing quantity property, fetch server for a simulation to get the quantity
 
                 var workschedulePromises = [];
+                var simulatedCompulsoryLeaves = [];
 
                 for (userId in compRequestByUser) {
                     if (compRequestByUser.hasOwnProperty(userId)) {
-                        workschedulePromises.push(
-                            calendarEventsResource.query({
-                                user: userId,
-                                type: 'workschedule',
-                                substractNonWorkingDays: true,
-                                substractPersonalEvents: true,
-                                dtstart: $scope.compulsoryleave.dtstart,
-                                dtend: $scope.compulsoryleave.dtend
-                            }).$promise
-                        );
+
+                        if (null === compRequestByUser[userId].request) {
+                            workschedulePromises.push(
+                                calendarEventsResource.query({
+                                    user: userId,
+                                    type: 'workschedule',
+                                    substractNonWorkingDays: true,
+                                    substractPersonalEvents: true,
+                                    dtstart: $scope.compulsoryleave.dtstart,
+                                    dtend: $scope.compulsoryleave.dtend
+                                }).$promise
+                            );
+
+                            simulatedCompulsoryLeaves.push(compRequestByUser[userId]);
+                        }
 
                         $scope.compRequest.push(compRequestByUser[userId]);
                     }
                 }
 
+
                 $q.all(workschedulePromises).then(function(all) {
                     for (var u=0; u<all.length; u++) {
-                        var quantity = 0;
+                        var quantity = null;
                         for (var i=0; i<all[u].length; i++) {
-                            quantity += getPeriodDuration(all[u][i]);
+                            quantity = addPeriodDuration(quantity, all[u][i]);
                         }
-                        $scope.compRequest[u].quantity = moment.duration(quantity, 'milliseconds').format();
+                        simulatedCompulsoryLeaves[u].quantity = formatQuantity(quantity);
                     }
                 });
-
 
                 // sort by user name
                 $scope.compRequest.sort(function(cr1, cr2) {
