@@ -187,6 +187,9 @@ exports = module.exports = function(services, app)
      * Call the account rights list service
      * 
      * @param {Object} params
+     *                     params.dtstart
+     *                     params.dtend
+     *                     params.user
      * 
      *
      * @return {Promise}

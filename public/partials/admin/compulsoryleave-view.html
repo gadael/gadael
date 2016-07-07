@@ -34,6 +34,7 @@
             <dt translate>Right:</dt><dd>{{compulsoryleave.right.name}}</dd>
         </dl>
 
+        <button class="btn btn-default">Book available periods</button>
     </div>
 </div>
 
@@ -41,14 +42,45 @@
 
     <div class="row" ng-repeat="compulsoryLeaveRequest in compRequest">
 
-        <div class="col-sm-5">
+        <div class="col-sm-4">
             <img ng-src="{{compulsoryLeaveRequest.user.image}}" ng-if="compulsoryLeaveRequest.user.image" height="35" class="img-rounded" />
             <i class="user-35 fa fa-user text-muted fa-2x" ng-if="!compulsoryLeaveRequest.user.image"></i>
             <a ng-href="#/admin/users/{{compulsoryLeaveRequest.user.id}}">{{compulsoryLeaveRequest.user.name}}</a>
         </div>
 
-        <div class="col-sm-5">
-            {{compulsoryLeaveRequest.quantity}}
+        <div class="col-sm-4">
+            <dl>
+                <dt translate>Available on period</dt>
+                <dd>
+                    {{compulsoryLeaveRequest.quantity|number}}
+                    <span ng-switch="compulsoryleave.right.quantity_unit">
+                        <span ng-switch-when="D"><span translate translate-n="compulsoryLeaveRequest.quantity" translate-plural="days">day</span></span>
+                        <span ng-switch-when="H"><span translate translate-n="compulsoryLeaveRequest.quantity" translate-plural="hours">hour</span></span>
+                    </span>
+                </dd>
+
+                <dt translate>Available on right</dt>
+                <dd>
+                    {{compulsoryLeaveRequest.right_quantity|number}}
+                    <span ng-switch="compulsoryleave.right.quantity_unit">
+                        <span ng-switch-when="D"><span translate translate-n="compulsoryLeaveRequest.quantity" translate-plural="days">day</span></span>
+                        <span ng-switch-when="H"><span translate translate-n="compulsoryLeaveRequest.quantity" translate-plural="hours">hour</span></span>
+                    </span>
+                </dd>
+            </dl>
+
+        </div>
+
+
+        <div class="col-sm-4">
+            <span ng-if="compulsoryLeaveRequest.request">
+                <i class="fa fa-calendar-check-o"></i> <span translate>Period is booked</span>
+            </span>
+            <span ng-if="!compulsoryLeaveRequest.request">
+                <span ng-if="compulsoryLeaveRequest.quantity">
+                    <i class="fa fa-calendar-plus-o"></i> <span translate>Available for booking</span>
+                </span>
+            </span>
         </div>
     </div>
 

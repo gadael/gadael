@@ -1,4 +1,4 @@
-define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
+define([], function() {
 
     'use strict';
 
@@ -30,25 +30,28 @@ define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
 
 
 
-	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q', 'gettextCatalog',
-            function($scope, $location, Rest, catchOutcome, $q, gettextCatalog) {
+	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q',
+            function($scope, $location, Rest, catchOutcome, $q) {
 
-        momentDuration(moment);
 
         /**
          * Format quantity available in compulsory leave period
          * @param   {object} quantity days,hours
          * @returns {String|null}
          */
-        function formatQuantity(quantity) {
+        function formatQuantity(quantity, unit) {
 
             if (null === quantity) {
-                return null;
+                return 0;
             }
 
-            var pattern = 'd ['+gettextCatalog.getPlural(quantity.days, 'day', 'days')+']';
+            if ('D' === unit) {
+                return quantity.days;
+            }
 
-            return moment.duration(quantity.days, 'days').format(pattern, 1);
+            if ('H' === unit) {
+                return quantity.hours;
+            }
         }
 
 
@@ -59,6 +62,7 @@ define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
 
         var usersResource = Rest.admin.users.getResource();
         var calendarEventsResource = Rest.admin.calendarevents.getResource();
+        var accountRightsResource = Rest.admin.accountrights.getResource();
 
         var compRequestByUser = {};
 
@@ -126,6 +130,7 @@ define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
 
                 var workschedulePromises = [];
                 var simulatedCompulsoryLeaves = [];
+                var accoutrightsPromises = [];
 
                 for (userId in compRequestByUser) {
                     if (compRequestByUser.hasOwnProperty(userId)) {
@@ -145,6 +150,15 @@ define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
                             simulatedCompulsoryLeaves.push(compRequestByUser[userId]);
                         }
 
+
+                        accoutrightsPromises.push(
+                            accountRightsResource.query({
+                                user: userId,
+                                dtstart: $scope.compulsoryleave.dtstart,
+                                dtend: $scope.compulsoryleave.dtend
+                            }).$promise
+                        );
+
                         $scope.compRequest.push(compRequestByUser[userId]);
                     }
                 }
@@ -156,9 +170,28 @@ define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
                         for (var i=0; i<all[u].length; i++) {
                             quantity = addPeriodDuration(quantity, all[u][i]);
                         }
-                        simulatedCompulsoryLeaves[u].quantity = formatQuantity(quantity);
+                        simulatedCompulsoryLeaves[u].quantity = formatQuantity(quantity, $scope.compulsoryleave.right.quantity_unit);
                     }
                 });
+
+
+
+                // fetch the quantity available on right for each user
+
+                $q.all(accoutrightsPromises).then(function(all) {
+
+                    for (var u=0; u<all.length; u++) {
+                        for (var i=0; i<all[u].length; i++) {
+                            var accountright = all[u][i];
+
+                            if ($scope.compulsoryleave.right._id === accountright._id) {
+                                $scope.compRequest[u].right_quantity = accountright.available_quantity;
+                            }
+                        }
+                    }
+                });
+
+
 
                 // sort by user name
                 $scope.compRequest.sort(function(cr1, cr2) {
