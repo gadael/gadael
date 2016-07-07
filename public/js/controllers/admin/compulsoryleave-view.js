@@ -1,4 +1,4 @@
-define([], function() {
+define(['moment', 'momentDurationFormat'], function(moment, momentDuration) {
 
     'use strict';
 
@@ -15,6 +15,8 @@ define([], function() {
 
 	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q',
             function($scope, $location, Rest, catchOutcome, $q) {
+
+        momentDuration(moment);
 
 		$scope.compulsoryleave = Rest.admin.compulsoryleaves.getFromUrl().loadRouteId();
 
@@ -110,7 +112,7 @@ define([], function() {
                         for (var i=0; i<all[u].length; i++) {
                             quantity += getPeriodDuration(all[u][i]);
                         }
-                        $scope.compRequest[u].quantity = quantity;
+                        $scope.compRequest[u].quantity = moment.duration(quantity, 'milliseconds').format();
                     }
                 });
 
