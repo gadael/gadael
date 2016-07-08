@@ -130,6 +130,13 @@ define([], function() {
 
 
             /**
+             * number of valid users in the list
+             * @var {Number}
+             */
+            $scope.validUsers = 0;
+
+
+            /**
              * Cap simulated quantity from the quantity available in right
              * @param {String} userId
              */
@@ -145,11 +152,11 @@ define([], function() {
                     return;
                 }
 
-                cr.capped = false;
 
-                if (cr.quantity > cr.right_quantity) {
-                    cr.quantity = cr.right_quantity;
-                    cr.capped = true;
+                cr.capped = (cr.quantity > cr.right_quantity);
+
+                if (!cr.capped) {
+                    $scope.validUsers++;
                 }
             }
 
@@ -184,6 +191,12 @@ define([], function() {
                         capSimulatedQuantity(userId);
                     }
                 }
+            }
+
+
+            function setNoRightQuantity(userId) {
+                compRequestByUser[userId].right_quantity = 0;
+                capSimulatedQuantity(userId);
             }
 
 
@@ -234,6 +247,7 @@ define([], function() {
                             dtend: $scope.compulsoryleave.dtend
                         }).$promise
                         .then(setRightQuantity.bind(null, userId))
+                        .catch(setNoRightQuantity.bind(null, userId))
                     );
 
                     // store in array for html display
@@ -260,20 +274,7 @@ define([], function() {
             });
 
 
-            /**
-             * Get valid number of users in the list
-             * @returns {Number} [[Description]]
-             */
-            $scope.countValidUsers = function() {
-                var users = 0;
-                $scope.compRequest.forEach(function(cr) {
-                    if (cr.quantity > 0 && !cr.capped) {
-                        users++;
-                    }
-                });
 
-                return users;
-            };
         });
 
 	}];
