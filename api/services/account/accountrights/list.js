@@ -98,6 +98,7 @@ exports = module.exports = function(services, app)
             }, callback);
         }
 
+
         // async.eachSeries is used instead of async.each to maintain order in the output variable
         async.eachSeries(rights, function(rightDocument, cb) {
 
@@ -105,6 +106,7 @@ exports = module.exports = function(services, app)
             right.disp_unit = rightDocument.getDispUnit();
 
             
+
             rightDocument.getAllRenewals().then(function(renewals) {
 
                 /**
@@ -132,10 +134,11 @@ exports = module.exports = function(services, app)
                     cb();
                 });
 
-            });
+            }).catch(cb);
 
 
         }, function(err) {
+
 
             if (err) {
                 return service.error(err);
@@ -227,6 +230,7 @@ exports = module.exports = function(services, app)
                 if (!account) {
                     return service.notFound('Account not found for user');
                 }
+
 
                 account.getRights().then(function(rights) {
                     populateTypes(rights).then(() => {

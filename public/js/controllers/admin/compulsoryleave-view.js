@@ -30,8 +30,8 @@ define([], function() {
 
 
 
-	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q',
-            function($scope, $location, Rest, catchOutcome, $q) {
+	return ['$scope', '$location', 'Rest', 'catchOutcome',
+            function($scope, $location, Rest, catchOutcome) {
 
 
         /**
@@ -94,117 +94,123 @@ define([], function() {
             var users = usersResource.query(filter);
             catchOutcome(users.$promise);
 
-            users.$promise.then(function() {
+            return users.$promise;
+        })
+        .then(function(users) {
 
 
-                var i, userId;
+            var i, userId;
 
-                for (i=0; i<users.length; i++) {
-                    compRequestByUser[users[i]._id] = {
-                        user: {
-                            id: users[i]._id,
-                            name: users[i].lastname+' '+users[i].firstname,
-                            image: users[i].image
-                        },
-                        quantity: null,
-                        request: null
+            for (i=0; i<users.length; i++) {
+                compRequestByUser[users[i]._id] = {
+                    user: {
+                        id: users[i]._id,
+                        name: users[i].lastname+' '+users[i].firstname,
+                        image: users[i].image
+                    },
+                    quantity: null,
+                    request: null
+                };
+            }
+
+            // complete informations with the created requests
+
+            for (i=0; i<$scope.compulsoryleave.requests.length; i++) {
+                userId = $scope.compulsoryleave.requests[i].user.id;
+
+                if (undefined === compRequestByUser[userId]) {
+                    compRequestByUser[userId] = {
+                        delete: true
                     };
                 }
 
-                // complete informations with the created requests
+                compRequestByUser[userId].request = $scope.compulsoryleave.requests[i].request;
+                compRequestByUser[userId].quantity = $scope.compulsoryleave.requests[i].quantity;
+            }
 
-                for (i=0; i<$scope.compulsoryleave.requests.length; i++) {
-                    userId = $scope.compulsoryleave.requests[i].user.id;
 
-                    if (undefined === compRequestByUser[userId]) {
-                        compRequestByUser[userId] = {
-                            delete: true
-                        };
-                    }
 
-                    compRequestByUser[userId].request = $scope.compulsoryleave.requests[i].request;
-                    compRequestByUser[userId].quantity = $scope.compulsoryleave.requests[i].quantity;
+
+
+
+            /**
+             * Set simulated quantity for one user
+             * @param {String} userId
+             * @param {Array} events Promise result
+             */
+            function setSimulatedQuantity(userId, events) {
+                var quantity = null;
+                for (var i=0; i<events.length; i++) {
+                    quantity = addPeriodDuration(quantity, events[i]);
                 }
 
-                // For each missing quantity property, fetch server for a simulation to get the quantity
-
-                var workschedulePromises = [];
-                var simulatedCompulsoryLeaves = [];
-                var accoutrightsPromises = [];
-
-                for (userId in compRequestByUser) {
-                    if (compRequestByUser.hasOwnProperty(userId)) {
-
-                        if (null === compRequestByUser[userId].request) {
-                            workschedulePromises.push(
-                                calendarEventsResource.query({
-                                    user: userId,
-                                    type: 'workschedule',
-                                    substractNonWorkingDays: true,
-                                    substractPersonalEvents: true,
-                                    dtstart: $scope.compulsoryleave.dtstart,
-                                    dtend: $scope.compulsoryleave.dtend
-                                }).$promise
-                            );
-
-                            simulatedCompulsoryLeaves.push(compRequestByUser[userId]);
-                        }
+                compRequestByUser[userId].quantity = formatQuantity(quantity, $scope.compulsoryleave.right.quantity_unit);
+            }
 
 
-                        accoutrightsPromises.push(
-                            accountRightsResource.query({
-                                user: userId,
-                                dtstart: $scope.compulsoryleave.dtstart,
-                                dtend: $scope.compulsoryleave.dtend
-                            }).$promise
-                        );
+            /**
+             * Set available quantity in right for one user
+             * @param {String} userId        [[Description]]
+             * @param {Array} accountrights  Promise result
+             */
+            function setRightQuantity(userId, accountrights) {
+                for (var i=0; i<accountrights.length; i++) {
+                    var accountright = accountrights[i];
 
-                        $scope.compRequest.push(compRequestByUser[userId]);
+                    if ($scope.compulsoryleave.right._id === accountright._id) {
+                        compRequestByUser[userId].right_quantity = accountright.available_quantity;
                     }
                 }
+            }
 
 
-                $q.all(workschedulePromises).then(function(all) {
-                    for (var u=0; u<all.length; u++) {
-                        var quantity = null;
-                        for (var i=0; i<all[u].length; i++) {
-                            quantity = addPeriodDuration(quantity, all[u][i]);
-                        }
-                        simulatedCompulsoryLeaves[u].quantity = formatQuantity(quantity, $scope.compulsoryleave.right.quantity_unit);
+
+            // For each missing quantity property, fetch server for a simulation to get the quantity
+            // fetch the quantity available on right for each user
+
+
+            for (userId in compRequestByUser) {
+                if (compRequestByUser.hasOwnProperty(userId)) {
+
+                    if (null === compRequestByUser[userId].request) {
+
+                        calendarEventsResource.query({
+                            user: userId,
+                            type: 'workschedule',
+                            substractNonWorkingDays: true,
+                            substractPersonalEvents: true,
+                            dtstart: $scope.compulsoryleave.dtstart,
+                            dtend: $scope.compulsoryleave.dtend
+                        }).$promise
+                        .then(setSimulatedQuantity.bind(null, userId));
                     }
-                });
+
+
+                    accountRightsResource.query({
+                        user: userId,
+                        dtstart: $scope.compulsoryleave.dtstart,
+                        dtend: $scope.compulsoryleave.dtend
+                    }).$promise
+                    .then(setRightQuantity.bind(null, userId));
+
+                    // store in array for html display
+                    $scope.compRequest.push(compRequestByUser[userId]);
+                }
+            }
 
 
 
-                // fetch the quantity available on right for each user
 
-                $q.all(accoutrightsPromises).then(function(all) {
-
-                    for (var u=0; u<all.length; u++) {
-                        for (var i=0; i<all[u].length; i++) {
-                            var accountright = all[u][i];
-
-                            if ($scope.compulsoryleave.right._id === accountright._id) {
-                                $scope.compRequest[u].right_quantity = accountright.available_quantity;
-                            }
-                        }
-                    }
-                });
-
-
-
-                // sort by user name
-                $scope.compRequest.sort(function(cr1, cr2) {
-                    if (cr1.user.name > cr2.user.name) {
-                        return 1;
-                    }
-                    if (cr1.user.name < cr2.user.name) {
-                        return -1;
-                    }
-                    return 0;
-                });
+            // sort by user name
+            $scope.compRequest.sort(function(cr1, cr2) {
+                if (cr1.user.name > cr2.user.name) {
+                    return 1;
+                }
+                if (cr1.user.name < cr2.user.name) {
+                    return -1;
+                }
+                return 0;
             });
-
         });
 
 	}];
