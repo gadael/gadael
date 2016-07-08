@@ -30,8 +30,8 @@ define([], function() {
 
 
 
-	return ['$scope', '$location', 'Rest', 'catchOutcome',
-            function($scope, $location, Rest, catchOutcome) {
+	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q',
+            function($scope, $location, Rest, catchOutcome, $q) {
 
 
         /**
@@ -129,8 +129,29 @@ define([], function() {
             }
 
 
+            /**
+             * Cap simulated quantity from the quantity available in right
+             * @param {String} userId
+             */
+            function capSimulatedQuantity(userId) {
 
+                var cr = compRequestByUser[userId];
 
+                if (!cr.quantity) {
+                    return;
+                }
+
+                if (undefined === cr.right_quantity) {
+                    return;
+                }
+
+                cr.capped = false;
+
+                if (cr.quantity > cr.right_quantity) {
+                    cr.quantity = cr.right_quantity;
+                    cr.capped = true;
+                }
+            }
 
 
             /**
@@ -145,6 +166,7 @@ define([], function() {
                 }
 
                 compRequestByUser[userId].quantity = formatQuantity(quantity, $scope.compulsoryleave.right.quantity_unit);
+                capSimulatedQuantity(userId);
             }
 
 
@@ -159,11 +181,27 @@ define([], function() {
 
                     if ($scope.compulsoryleave.right._id === accountright._id) {
                         compRequestByUser[userId].right_quantity = accountright.available_quantity;
+                        capSimulatedQuantity(userId);
                     }
                 }
             }
 
 
+            var promises = [];
+
+            /**
+             * Get a promise with potential failure and add a success promise to the promises array
+             * @param   {Promise} p Promise from calendar events or from account right
+             * @returns {boolean}  [[Description]]
+             */
+            function waitEnd(p) {
+                // ignore failures
+                promises.push(
+                    p.catch(function() {
+                        return true;
+                    })
+                );
+            }
 
             // For each missing quantity property, fetch server for a simulation to get the quantity
             // fetch the quantity available on right for each user
@@ -174,31 +212,40 @@ define([], function() {
 
                     if (null === compRequestByUser[userId].request) {
 
-                        calendarEventsResource.query({
-                            user: userId,
-                            type: 'workschedule',
-                            substractNonWorkingDays: true,
-                            substractPersonalEvents: true,
-                            dtstart: $scope.compulsoryleave.dtstart,
-                            dtend: $scope.compulsoryleave.dtend
-                        }).$promise
-                        .then(setSimulatedQuantity.bind(null, userId));
+                        waitEnd(
+                            calendarEventsResource.query({
+                                user: userId,
+                                type: 'workschedule',
+                                substractNonWorkingDays: true,
+                                substractPersonalEvents: true,
+                                dtstart: $scope.compulsoryleave.dtstart,
+                                dtend: $scope.compulsoryleave.dtend
+                            }).$promise
+                            .then(setSimulatedQuantity.bind(null, userId))
+                        );
+
                     }
 
 
-                    accountRightsResource.query({
-                        user: userId,
-                        dtstart: $scope.compulsoryleave.dtstart,
-                        dtend: $scope.compulsoryleave.dtend
-                    }).$promise
-                    .then(setRightQuantity.bind(null, userId));
+                    waitEnd(
+                        accountRightsResource.query({
+                            user: userId,
+                            dtstart: $scope.compulsoryleave.dtstart,
+                            dtend: $scope.compulsoryleave.dtend
+                        }).$promise
+                        .then(setRightQuantity.bind(null, userId))
+                    );
 
                     // store in array for html display
                     $scope.compRequest.push(compRequestByUser[userId]);
                 }
             }
 
+            $scope.quantitiesLoaded = false;
 
+            $q.all(promises).then(function() {
+                $scope.quantitiesLoaded = true;
+            });
 
 
             // sort by user name
@@ -211,6 +258,22 @@ define([], function() {
                 }
                 return 0;
             });
+
+
+            /**
+             * Get valid number of users in the list
+             * @returns {Number} [[Description]]
+             */
+            $scope.countValidUsers = function() {
+                var users = 0;
+                $scope.compRequest.forEach(function(cr) {
+                    if (cr.quantity > 0 && !cr.capped) {
+                        users++;
+                    }
+                });
+
+                return users;
+            };
         });
 
 	}];

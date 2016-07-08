@@ -32,9 +32,11 @@
     <div class="col-sm-6">
         <dl>
             <dt translate>Right:</dt><dd>{{compulsoryleave.right.name}}</dd>
+            <dt translate>Valid users:</dt><dd>{{countValidUsers()}}/{{compRequest.length}}</dd>
         </dl>
 
-        <button class="btn btn-default">Book available periods</button>
+        <button ng-disabled="!quantitiesLoaded" class="btn btn-primary">Book available periods</button>
+
     </div>
 </div>
 
@@ -77,7 +79,7 @@
                 <i class="fa fa-calendar-check-o"></i> <span translate>Period is booked</span>
             </span>
             <span ng-if="!compulsoryLeaveRequest.request">
-                <span ng-if="compulsoryLeaveRequest.quantity">
+                <span ng-if="!compulsoryLeaveRequest.capped && compulsoryLeaveRequest.quantity">
                     <i class="fa fa-calendar-plus-o"></i> <span translate>Available for booking</span>
                 </span>
             </span>
