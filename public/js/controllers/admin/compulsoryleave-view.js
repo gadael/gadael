@@ -273,9 +273,24 @@ define([], function() {
                 return 0;
             });
 
-
-
         });
+
+
+
+        $scope.savePeriods = function() {
+            $scope.compRequest.forEach(function(cr) {
+
+                if (cr.quantity > 0 && !cr.capped) {
+                    $scope.compulsoryleave.requests.push({
+                        user: {
+                            id: cr.user.id
+                        }
+                    });
+                }
+            });
+
+            $scope.compulsoryleave.gadaSave();
+        };
 
 	}];
 });
