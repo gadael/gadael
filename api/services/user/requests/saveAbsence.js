@@ -162,9 +162,11 @@ function createElement(service, user, elem, collection)
         throw new Error('element must contain a right.id property');
     }
 
+    /*
     if (undefined === elem.right.renewal) {
         throw new Error('element must contain a right.renewal property');
     }
+    */
 
     if (undefined === elem.events) {
         throw new Error('element must contain an events property');

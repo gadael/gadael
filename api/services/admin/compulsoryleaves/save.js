@@ -93,6 +93,49 @@ function saveRequests(service, params) {
     }
 
 
+    /**
+     * Get right document with validation
+     * @throws {Error} [[Description]]
+     * @returns {Promise} [[Description]]
+     */
+    function getRight() {
+        let Right = service.app.db.models.Right;
+
+        return Right.findOne({ _id:params.right })
+        .populate('type')
+        .exec()
+        .then(right => {
+            if (!right) {
+                throw new Error('Right not found');
+            }
+
+            return right;
+        });
+    }
+
+
+    function getQuantity(events) {
+        return getRight().then(right => {
+
+            let duration = 0;
+
+            events.forEach(event => {
+                let ms = event.dtend.getTime() - event.dtstart.getTime();
+
+                if ('D' === right.quantity_unit) {
+                    duration += event.businessDays;
+                }
+
+                if ('H' === right.quantity_unit) {
+                    duration += ms /1000 /3600;
+                }
+            });
+
+            return duration;
+        });
+    }
+
+
 
     /**
      * Get list of events between two date
@@ -124,7 +167,7 @@ function saveRequests(service, params) {
 
         let Request = service.app.db.models.Request;
 
-        getUser(userId)
+        return getUser(userId)
         .then(user => {
 
             fieldsToSet = {
@@ -143,19 +186,28 @@ function saveRequests(service, params) {
                 fieldsToSet.user.department = user.department.name;
             }
 
-            getEvents(user).then(events => {
+            return getEvents(user)
+            .then(events => {
 
-                let element = {
-                    events: events,
-                    user: fieldsToSet.user,
-                    right: {
-                        id: params.right
-                    }
-                };
+                return getQuantity(events)
+                .then(quantity => {
 
-                fieldsToSet.absence.distribution = [element];
 
-                return saveAbsence.getCollectionFromDistribution(fieldsToSet.absence.distribution, user.roles.account);
+
+                    let element = {
+                        quantity: quantity,
+                        events: events,
+                        user: fieldsToSet.user,
+                        right: {
+                            id: params.right
+                        }
+                    };
+
+                    fieldsToSet.absence.distribution = [element];
+
+                    return saveAbsence.getCollectionFromDistribution(fieldsToSet.absence.distribution, user.roles.account);
+
+                });
 
             })
             .then(function(rightCollection) {
@@ -164,7 +216,7 @@ function saveRequests(service, params) {
                     fieldsToSet.absence.rightCollection = rightCollection._id;
                 }
 
-                return saveAbsence.saveAbsenceDistribution(service, user, params.absence, rightCollection);
+                return saveAbsence.saveAbsenceDistribution(service, user, fieldsToSet.absence, rightCollection);
             })
             .then(distribution => {
 
