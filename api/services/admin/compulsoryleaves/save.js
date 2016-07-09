@@ -92,25 +92,6 @@ function saveRequests(service, params) {
         });
     }
 
-    /**
-     * Get right document with validation
-     * @throws {Error} [[Description]]
-     * @returns {Promise} [[Description]]
-     */
-    function getRight() {
-        let Right = service.app.db.models.Right;
-
-        return Right.findOne({ _id:params.right })
-        .populate('type')
-        .exec()
-        .then(right => {
-            if (!right) {
-                throw new Error('Right not found');
-            }
-
-            return right;
-        });
-    }
 
 
     /**
@@ -143,14 +124,8 @@ function saveRequests(service, params) {
 
         let Request = service.app.db.models.Request;
 
-        Promise.all([
-            getUser(userId),
-            getRight()
-        ])
-        .then(all => {
-
-            let user = all[0];
-            //let right = all[1];
+        getUser(userId)
+        .then(user => {
 
             fieldsToSet = {
                 user: {
@@ -211,8 +186,8 @@ function saveRequests(service, params) {
 
     params.requests.forEach(compulsoryLeaveRequest => {
 
-        if (compulsoryLeaveRequest.request) {
-            // allready created
+        if (!compulsoryLeaveRequest || compulsoryLeaveRequest.request) {
+            // error or allready created
             return;
         }
 
@@ -220,7 +195,16 @@ function saveRequests(service, params) {
 
     });
 
-    return Promise.all(promises);
+    return Promise.all(promises).then(clrs => {
+
+        clrs.forEach(clr => {
+            if (!clr) {
+                throw new Error('One of the request is missing');
+            }
+        });
+
+        return clrs;
+    });
 
 }
 
@@ -306,7 +290,8 @@ function saveCompulsoryLeave(service, params) {
             });
         }
 
-    });
+    })
+    .catch(service.error);
 }
 
 

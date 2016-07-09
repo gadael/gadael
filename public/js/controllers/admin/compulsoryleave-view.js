@@ -116,6 +116,12 @@ define([], function() {
             // complete informations with the created requests
 
             for (i=0; i<$scope.compulsoryleave.requests.length; i++) {
+
+                if (!$scope.compulsoryleave.requests[i]) {
+                    // the save has probably failed if no content
+                    continue;
+                }
+
                 userId = $scope.compulsoryleave.requests[i].user.id;
 
                 if (undefined === compRequestByUser[userId]) {
