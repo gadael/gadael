@@ -383,36 +383,29 @@ function saveAbsenceDistribution(service, user, params, collection) {
  * Multiple collection in the same request period is not allowed
  *
  * @param {Array} distribution posted parameter
+ * @param {Account} account
  * @return {Promise} promise the rightCollection or null if the user has no right collection on the period
  *
  */
 function getCollectionFromDistribution(distribution, account) {
 
+    if (undefined === distribution[0]) {
+        throw new Error('Invalid request, no distribution');
+    }
 
-    return new Promise((resolve, reject) => {
+    if (undefined === distribution[0].events) {
+        throw new Error('Invalid request, events are not available in first right of distribution');
+    }
 
-        if (undefined === distribution[0]) {
-            return reject('Invalid request, no distribution');
-        }
+    if (undefined === distribution[distribution.length -1].events) {
+        throw new Error('Invalid request, events are not available in last right of distribution');
+    }
 
-        if (undefined === distribution[0].events) {
-            return reject('Invalid request, events are not available in first right of distribution');
-        }
+    const dtstart = distribution[0].events[0].dtstart;
+    const lastElemEvents = distribution[distribution.length -1].events;
+    const dtend = lastElemEvents[lastElemEvents.length -1].dtend;
 
-        if (undefined === distribution[distribution.length -1].events) {
-            return reject('Invalid request, events are not available in last right of distribution');
-        }
-
-        const dtstart = distribution[0].events[0].dtstart;
-        const lastElemEvents = distribution[distribution.length -1].events;
-        const dtend = lastElemEvents[lastElemEvents.length -1].dtend;
-
-        resolve(
-            account.getValidCollectionForPeriod(dtstart, dtend, new Date())
-        );
-
-    });
-
+    return account.getValidCollectionForPeriod(dtstart, dtend, new Date());
 
 }
 
@@ -471,6 +464,22 @@ function saveEmbedEvents(requestDoc)
 
 
 
+function getEventsFromDistribution(distribution) {
+    let events = [];
+
+    // push elements events to the request events
+
+    let d, e, elem;
+
+    for(d=0; d<distribution.length; d++) {
+        elem = distribution[d];
+        for(e=0; e<elem.events.length; e++) {
+            events.push(elem.events[e]);
+        }
+    }
+
+    return events;
+}
 
 
 
@@ -478,5 +487,6 @@ function saveEmbedEvents(requestDoc)
 exports = module.exports = {
     saveAbsenceDistribution: saveAbsenceDistribution,
     getCollectionFromDistribution: getCollectionFromDistribution,
-    saveEmbedEvents: saveEmbedEvents
+    saveEmbedEvents: saveEmbedEvents,
+    getEventsFromDistribution: getEventsFromDistribution
 };

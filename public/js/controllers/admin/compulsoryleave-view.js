@@ -255,6 +255,10 @@ define([], function() {
                 }
             }
 
+
+            /**
+             * Property to unlock the button
+             */
             $scope.quantitiesLoaded = false;
 
             $q.all(promises).then(function() {

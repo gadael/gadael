@@ -80,36 +80,21 @@ function prepareRequestFields(service, params, user)
 
         if (undefined !== params.absence) {
 
-            let collection;
+            fieldsToSet.absence = {};
 
             saveAbsence.getCollectionFromDistribution(params.absence.distribution, account)
             .then(function(rightCollection) {
-                collection = rightCollection;
-                return saveAbsence.saveAbsenceDistribution(service, user, params.absence, collection);
+
+                if (null !== rightCollection) {
+                    fieldsToSet.absence.rightCollection = rightCollection._id;
+                }
+
+                return saveAbsence.saveAbsenceDistribution(service, user, params.absence, rightCollection);
             })
             .then(distribution => {
 
-                fieldsToSet.events = [];
-
-                // push elements events to the request events
-
-                let d, e, elem;
-
-                for(d=0; d<distribution.length; d++) {
-                    elem = distribution[d];
-                    for(e=0; e<elem.events.length; e++) {
-                        fieldsToSet.events.push(elem.events[e]);
-                    }
-                }
-
-                fieldsToSet.absence = {
-                    distribution: distribution
-                };
-
-                if (null !== collection) {
-                    fieldsToSet.absence.rightCollection = collection._id;
-                }
-
+                fieldsToSet.events = saveAbsence.getEventsFromDistribution(distribution);
+                fieldsToSet.absence.distribution = distribution;
                 return fieldsToSet;
 
             })
