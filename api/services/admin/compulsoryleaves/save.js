@@ -32,6 +32,11 @@ function validate(service, params) {
         return service.error(gt.gettext('either departments or collections must contain items'));
     }
 
+    if (params.userCreated === undefined) {
+        throw new Error('The createdBy parameter is missing');
+    }
+
+
     saveCompulsoryLeave(service, params);
 }
 
@@ -170,10 +175,16 @@ function saveRequests(service, params) {
         return getUser(userId)
         .then(user => {
 
+
+
             fieldsToSet = {
                 user: {
                     id: user._id,
                     name: user.getName()
+                },
+                createdBy: {
+                    id: params.userCreated._id,
+                    name: params.userCreated.getName()
                 },
                 approvalSteps: [],
                 absence: {},
@@ -233,6 +244,18 @@ function saveRequests(service, params) {
     }
 
 
+    /**
+     * Set request property of a compulsory leave request
+     * @param {Request} request [[Description]]
+     * @return {Promise} promised compulsory leave request
+     */
+    function setRequestInClr(compulsoryLeaveRequest, request) {
+
+        compulsoryLeaveRequest.request = request._id;
+        return Promise.resolve(compulsoryLeaveRequest);
+    }
+
+
 
     let promises = [];
 
@@ -243,8 +266,10 @@ function saveRequests(service, params) {
             return;
         }
 
-        promises.push(createRequest(compulsoryLeaveRequest.user.id));
-
+        promises.push(
+            createRequest(compulsoryLeaveRequest.user.id)
+            .then(setRequestInClr.bind(null, compulsoryLeaveRequest))
+        );
     });
 
     return Promise.all(promises).then(clrs => {

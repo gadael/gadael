@@ -124,6 +124,8 @@ define([], function() {
 
                 userId = $scope.compulsoryleave.requests[i].user.id;
 
+                console.log($scope.compulsoryleave.requests[i]);
+
                 if (undefined === compRequestByUser[userId]) {
                     compRequestByUser[userId] = {
                         delete: true
