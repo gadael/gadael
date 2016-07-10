@@ -27,7 +27,7 @@
         <div role="navigation">
             <div class="list-group">
                 <a class="list-group-item" ng-href="#/admin/users"><i class="fa fa-user"></i> <span translate>Users list</span></a>
-                <a class="list-group-item" ng-href="#/admin/requests?user={{user._id}}"><i class="fa fa-folder text-primary"></i> <span translate>User requests</span></a>
+                <a class="list-group-item" ng-href="#/admin/requests?user.name={{user.lastname}} {{user.firstname}}"><i class="fa fa-folder text-primary"></i> <span translate>User requests</span></a>
             </div>
         </div>
         

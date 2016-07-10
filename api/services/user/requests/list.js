@@ -18,6 +18,10 @@
  */
 var query = function(service, params) {
 
+
+
+
+
     if (params['status.deleted'] === undefined) {
         params['status.deleted'] = [null, 'waiting'];
     } else if (!(params['status.deleted'] instanceof Array)) {
@@ -35,9 +39,6 @@ var query = function(service, params) {
         find.where('status.created').in(params['status.created']);
     }
 
-    if (undefined !== params['user.id']) {
-        find.where({ 'user.id': params['user.id'] });
-    }
 
     if (undefined !== params['user.name']) {
         find.where({ 'user.name': new RegExp(params['user.name'], 'i') });

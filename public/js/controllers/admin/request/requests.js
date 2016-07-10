@@ -14,6 +14,9 @@ define([], function() {
         $scope.setPageTitle(gettext('Requests'));
 
         var users = Rest.admin.users.getResource();
+
+
+        $scope.search = $location.search();
         
         $scope.popover = {
             selectuser: {

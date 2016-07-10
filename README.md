@@ -85,7 +85,7 @@ grunt test
 - [ ] Get special right infos in right.get service
 - [ ] do not display quantity field if readonly by special right
 - [x] delete renewals and links to collections when delete right
-- [ ] Fix link from user view to the request list
+- [x] Fix link from user view to the request list
 
 
 ## Technical features
