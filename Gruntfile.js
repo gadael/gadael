@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     watch: {
      
       serverJS: {
-         files: ['schema/**/*.js', 'rest/**/*.js'],
+         files: ['api/**/*.js', 'modules/**/*.js', 'schema/**/*.js', 'rest/**/*.js'],
          tasks: ['newer:jshint:server']
       }
     },
