@@ -39,6 +39,9 @@ var query = function(service, params) {
         find.where('status.created').in(params['status.created']);
     }
 
+    if (undefined !== params['user.id']) {
+        find.where({ 'user.id': params['user.id'] });
+    }
 
     if (undefined !== params['user.name']) {
         find.where({ 'user.name': new RegExp(params['user.name'], 'i') });
