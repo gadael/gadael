@@ -31,7 +31,7 @@ define([
 		'gadael.directives',
 		'gadael.gettext',
 		'http-auth-interceptor',
-		'begriffs.paginate-anything',
+		'bgf.paginateAnything',
 		'vr.directives.passwordStrength.width',
 	//	'ngAnimate',
 		'ngSanitize',

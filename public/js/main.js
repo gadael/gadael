@@ -9,7 +9,7 @@ require.config({
     	angular_frfr:			'../bower_components/angular-i18n/angular-locale_fr-fr',	
     	angularGettext: 		'../bower_components/angular-gettext/dist/angular-gettext',
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',
-		paginateAnything:		'../bower_components/angular-paginate-anything/src/paginate-anything',
+		paginateAnything:		'../bower_components/angular-paginate-anything/dist/paginate-anything',
 		passwordStrength: 		'../bower_components/angular-password-strength/build/angular-password-strength.min',
 		angularAnimate:			'../bower_components/angular-animate/angular-animate.min',
 		angularSanitize:		'../bower_components/angular-sanitize/angular-sanitize.min',

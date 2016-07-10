@@ -11,12 +11,19 @@ define([], function() {
         'gettext',
         function($scope, $location, Rest, $modal, getRequestStat, gettext) {
 
+
         $scope.setPageTitle(gettext('Requests'));
 
         var users = Rest.admin.users.getResource();
 
 
-        $scope.search = $location.search();
+
+        setTimeout(function() {
+            // wait for search initialization
+            $scope.search = $location.search();
+            $scope.$apply();
+        }, 1);
+
         
         $scope.popover = {
             selectuser: {
