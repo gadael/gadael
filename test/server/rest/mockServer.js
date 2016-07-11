@@ -523,7 +523,26 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
 };
 
 
+/**
+ * Add jasmine expectation for the rest service output
+ * @param {object} body HTTP body from the rest service
+ */
+mockServer.prototype.expectSuccess = function(body) {
 
+    expect(body.$outcome).toBeDefined();
+    expect(body.$outcome.success).toBeTruthy();
+
+    if (!body.$outcome.success) {
+        if (body.$outcome.alert.length > 0) {
+            console.trace(body.$outcome.alert);
+        }
+
+        if (Object.keys(body.$outcome.errfor).length > 0) {
+            console.log('Missing mandatory fields:');
+            console.trace(body.$outcome.errfor);
+        }
+    }
+};
 
 
 

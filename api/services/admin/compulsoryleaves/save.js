@@ -394,6 +394,13 @@ exports = module.exports = function(services, app) {
      * Call the compulsory leave save service
      *
      * @param {Object} params
+     *                     params.dtstart
+     *                     params.dtend
+     *                     params.name
+     *                     params.userCreated (provided by rest service)
+     *                     params.collections
+     *                     params.departments
+     *                     params.right
      *
      * @return {Promise}
      */
