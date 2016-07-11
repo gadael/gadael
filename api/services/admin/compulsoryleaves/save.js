@@ -259,18 +259,20 @@ function saveRequests(service, params) {
 
     let promises = [];
 
-    params.requests.forEach(compulsoryLeaveRequest => {
+    if (undefined !== params.requests) {
+        params.requests.forEach(compulsoryLeaveRequest => {
 
-        if (!compulsoryLeaveRequest || compulsoryLeaveRequest.request) {
-            // error or allready created
-            return;
-        }
+            if (!compulsoryLeaveRequest || compulsoryLeaveRequest.request) {
+                // error or allready created
+                return;
+            }
 
-        promises.push(
-            createRequest(compulsoryLeaveRequest.user.id)
-            .then(setRequestInClr.bind(null, compulsoryLeaveRequest))
-        );
-    });
+            promises.push(
+                createRequest(compulsoryLeaveRequest.user.id)
+                .then(setRequestInClr.bind(null, compulsoryLeaveRequest))
+            );
+        });
+    }
 
     return Promise.all(promises).then(clrs => {
 
