@@ -82,8 +82,7 @@ describe('Compulsory leaves admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toEqual(compulsoryleave);
             expect(body.name).toEqual('Calendar test');
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });

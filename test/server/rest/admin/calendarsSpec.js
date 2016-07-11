@@ -76,8 +76,7 @@ describe('calendars admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             
             calendar = body._id;
             
@@ -104,8 +103,7 @@ describe('calendars admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toEqual(calendar);
             expect(body.name).toEqual('Calendar test');
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });

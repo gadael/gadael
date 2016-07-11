@@ -41,8 +41,7 @@ describe('time saving account rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.timeSaving).toBeDefined();
             expect(body.timeSaving.active).toBeTruthy();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             right = body;
 
@@ -66,8 +65,7 @@ describe('time saving account rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             done();
         });
@@ -88,8 +86,7 @@ describe('time saving account rest service', function() {
             }
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             expect(body._id).toBeDefined();
             expect(body.special).toEqual('timesavingaccount');
@@ -119,8 +116,7 @@ describe('time saving account rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             done();
         });
@@ -158,8 +154,7 @@ describe('time saving account rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             done();
         });
@@ -176,8 +171,7 @@ describe('time saving account rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });
@@ -192,8 +186,7 @@ describe('time saving account rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });

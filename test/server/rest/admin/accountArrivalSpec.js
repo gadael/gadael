@@ -43,8 +43,7 @@ describe('account arrival', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             right1 = body;
             delete right1.$outcome;
@@ -63,8 +62,7 @@ describe('account arrival', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             done();
         });
@@ -90,8 +88,7 @@ describe('account arrival', function() {
             }
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             user1 = body;
             delete user1.$outcome;
@@ -107,8 +104,7 @@ describe('account arrival', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             collection1 = body;
             delete collection1.$outcome;
@@ -127,8 +123,7 @@ describe('account arrival', function() {
 
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             done();
         });
@@ -157,8 +152,7 @@ describe('account arrival', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });
@@ -206,8 +200,7 @@ describe('account arrival', function() {
 
         server.put('/rest/admin/users/'+user1._id, user1, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             user1 = body;
             delete user1.$outcome;
             done();

@@ -52,8 +52,7 @@ describe('Create first admin functionality', function() {
             newpassword2: 'secret'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });

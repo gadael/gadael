@@ -44,7 +44,7 @@ describe('vacations rights admin rest service', function() {
             expect(body.timeSaving).toBeDefined();
             expect(body.timeSaving.active).toBeTruthy();
             expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             right = body._id;
 
@@ -96,7 +96,7 @@ describe('vacations rights admin rest service', function() {
             expect(body._id).toEqual(right);
             expect(body.name).toEqual('Time saving activated');
             expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });
@@ -140,7 +140,7 @@ describe('vacations rights admin rest service', function() {
             }
             expect(body.$outcome).toBeDefined();
             if (undefined !== body.$outcome) {
-                expect(body.$outcome.success).toBeTruthy();
+                server.expectSuccess(body);
             }
 
             right = body._id;

@@ -84,8 +84,7 @@ describe('user collections planning', function() {
             runs(function () {
                 expect(res.statusCode).toEqual(200);
                 
-                expect(body.$outcome).toBeDefined();
-                expect(body.$outcome.success).toBeTruthy();
+                server.expectSuccess(body);
                 
                 createdUser = body;
                 delete createdUser.$outcome;
@@ -127,7 +126,7 @@ describe('user collections planning', function() {
             to: to
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             
             accountCollection = body;
             delete accountCollection.$outcome;
@@ -167,7 +166,7 @@ describe('user collections planning', function() {
             to: undefined
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             
             done();
         });
@@ -204,7 +203,7 @@ describe('user collections planning', function() {
             to: undefined
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             
             done();
         });
@@ -233,8 +232,7 @@ describe('user collections planning', function() {
         
         server.delete('/rest/admin/users/'+createdUser._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             expect(body._id).toEqual(createdUser._id);
             
             done();

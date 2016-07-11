@@ -66,8 +66,7 @@ describe('vacations right renewals admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             right = body._id;
             done();
         });
@@ -108,8 +107,7 @@ describe('vacations right renewals admin rest service', function() {
             right: right
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });
@@ -122,8 +120,7 @@ describe('vacations right renewals admin rest service', function() {
             right: right
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             renewal = body._id;
 
@@ -180,8 +177,7 @@ describe('vacations right renewals admin rest service', function() {
             right: right
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             expect(body.finish).toEqual(newFinishDate.toJSON());
             done();
         });

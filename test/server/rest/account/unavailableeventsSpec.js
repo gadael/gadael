@@ -98,7 +98,7 @@ describe('unavailableevents accout rest service', function() {
                 to: to
             }, function(res, body) {
                 expect(res.statusCode).toEqual(200);
-                expect(body.$outcome.success).toBeTruthy();
+                server.expectSuccess(body);
                 done();
             });
         });

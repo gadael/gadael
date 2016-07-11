@@ -61,8 +61,7 @@ describe('vacations rights admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             right = body._id;
 
@@ -80,8 +79,7 @@ describe('vacations rights admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });
@@ -130,8 +128,7 @@ describe('vacations rights admin rest service', function() {
 
                 expect(body._id).toEqual(right);
                 expect(body.name).toEqual('Rest right test');
-                expect(body.$outcome).toBeDefined();
-                expect(body.$outcome.success).toBeTruthy();
+                server.expectSuccess(body);
             }
             done();
         });
@@ -168,7 +165,7 @@ describe('vacations rights admin rest service', function() {
             }
             expect(body.$outcome).toBeDefined();
             if (undefined !== body.$outcome) {
-                expect(body.$outcome.success).toBeTruthy();
+                server.expectSuccess(body);
             }
 
             right = body._id;

@@ -59,8 +59,7 @@ describe('Right collections admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             collection = body._id;
 
@@ -86,8 +85,7 @@ describe('Right collections admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toEqual(collection);
             expect(body.name).toEqual('Collection test 90%');
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });

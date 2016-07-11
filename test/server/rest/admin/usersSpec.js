@@ -103,8 +103,7 @@ describe('users admin rest service', function() {
         server.put('/rest/admin/users/'+restAdmin._id, restAdmin, function(res, body) {
 
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             done();
         });
     });
@@ -145,7 +144,7 @@ describe('users admin rest service', function() {
             expect(body.$outcome).toBeDefined();
 
             if (body.$outcome !== undefined) {
-                expect(body.$outcome.success).toBeTruthy();
+                server.expectSuccess(body);
                 expect(body.validInterval).toBeDefined();
 
 
@@ -173,7 +172,7 @@ describe('users admin rest service', function() {
             expect(body.$outcome).toBeDefined();
 
             if (undefined !== body.$outcome) {
-                expect(body.$outcome.success).toBeTruthy();
+                server.expectSuccess(body);
                 expect(body.validInterval.length).toEqual(2);
             }
             done();
@@ -195,8 +194,7 @@ describe('users admin rest service', function() {
             isActive: true
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
 
             createdUser = body;
             delete createdUser.$outcome;
@@ -211,8 +209,7 @@ describe('users admin rest service', function() {
         
         server.delete('/rest/admin/users/'+createdUser._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
-            expect(body.$outcome.success).toBeTruthy();
+            server.expectSuccess(body);
             expect(body._id).toEqual(createdUser._id);
             
             done();
