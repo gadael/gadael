@@ -13,6 +13,7 @@ describe('Compulsory leaves admin rest service', function() {
 
     let compulsoryleave;
 
+    let randomUser;
 
 
     beforeEach(function(done) {
@@ -53,6 +54,7 @@ describe('Compulsory leaves admin rest service', function() {
 		api.user.createRandomAccount(server.app).then(function(randomAccount) {
             expect(randomAccount.user.email).toBeDefined();
             expect(randomAccount.user.roles.account).toBeDefined();
+            randomUser = randomAccount.user;
 			done();
 		});
 	});
@@ -75,6 +77,33 @@ describe('Compulsory leaves admin rest service', function() {
 
             done();
         });
+    });
+
+
+    it ('create compulsory leave requests', function(done) {
+
+        server.put('/rest/admin/compulsoryleaves/'+compulsoryleave, {
+            name: 'Calendar test',
+            dtstart: new Date(2015, 0, 1, 0,0,0,0),
+            dtend: new Date(2015, 11, 31, 0,0,0,0),
+            right: '577225e3f3c65dd800257bdc',
+            collections: ['5740adf51cf1a569643cc520'],
+            departments: [],
+            requests: [
+                {
+                    user: {
+                        id: randomUser._id
+                    }
+                }
+            ]
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            server.expectSuccess(body);
+            expect(body.requests[0].request).toBeDefined();
+
+            done();
+        });
+
     });
 
     it('delete the compulsory leave', function(done) {
