@@ -290,9 +290,7 @@ describe('Compulsory leaves admin rest service', function() {
 
     it('check that the request is not modifiabled by the owner', function(done) {
         server.put('/rest/account/requests/'+request2, request2body, function(res, body) {
-            expect(res.statusCode).toEqual(401);
-            console.log(request2body);
-            console.log(body.$outcome);
+            expect(res.statusCode).toEqual(403);
             done();
         });
     });
