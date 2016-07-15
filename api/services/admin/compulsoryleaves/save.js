@@ -200,6 +200,21 @@ function saveRequests(service, params) {
             return getEvents(user)
             .then(events => {
 
+                let elementEvents = [];
+                events.forEach(event => {
+                    elementEvents.push({
+                        dtstart: event.dtstart,
+                        dtend: event.dtend,
+                        summary: params.name,
+                        description: params.description,
+                        status: 'CONFIRMED',
+                        user: {
+                            id: user._id,
+                            name: user.getName()
+                        }
+                    });
+                });
+
                 return getQuantity(events)
                 .then(quantity => {
 
@@ -207,7 +222,7 @@ function saveRequests(service, params) {
 
                     let element = {
                         quantity: quantity,
-                        events: events,
+                        events: elementEvents,
                         user: fieldsToSet.user,
                         right: {
                             id: params.right
@@ -234,11 +249,14 @@ function saveRequests(service, params) {
                 fieldsToSet.events = saveAbsence.getEventsFromDistribution(distribution);
                 fieldsToSet.absence.distribution = distribution;
 
-
                 let req = new Request();
                 req.set(fieldsToSet);
 
-                return req.save();
+                return req.save().then(requestDoc => {
+                    return saveAbsence.saveEmbedEvents(requestDoc).then(() => {
+                        return requestDoc;
+                    });
+                });
             });
         });
     }
@@ -250,7 +268,6 @@ function saveRequests(service, params) {
      * @return {Promise} promised compulsory leave request
      */
     function setRequestInClr(compulsoryLeaveRequest, request) {
-
         compulsoryLeaveRequest.request = request._id;
         return Promise.resolve(compulsoryLeaveRequest);
     }
@@ -327,7 +344,6 @@ function saveCompulsoryLeave(service, params) {
 
     saveRequests(service, params).then(requests => {
 
-
         fieldsToSet.requests = requests;
 
         if (params.id)
@@ -348,7 +364,6 @@ function saveCompulsoryLeave(service, params) {
                         }
 
                     });
-
 
                 }
             });

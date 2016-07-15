@@ -312,6 +312,7 @@ describe('request absence admin rest service', function() {
                 expect(body._id).toEqual(request1._id);
                 expect(body.absence.distribution[0].consumedQuantity).toEqual(1);
             }
+            expect(body.events.length).toEqual(2);
             done();
         });
     });
