@@ -15,22 +15,26 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
+        let CompulsoryLeave = service.app.db.models.CompulsoryLeave;
 
+        CompulsoryLeave.findById(params.id)
+        .populate('requests.request')
+        .exec()
+        .then(document => {
 
-        service.app.db.models.CompulsoryLeave.findById(params.id, function (err, document) {
-            if (service.handleMongoError(err)) {
-                document.remove(function(err) {
-                    if (service.handleMongoError(err)) {
-                        service.success(gt.gettext('The compulsory leave has been deleted'));
+            document.remove(function(err) {
+                if (service.handleMongoError(err)) {
+                    service.success(gt.gettext('The compulsory leave has been deleted'));
 
-                        var compulsoryleave = document.toObject();
-                        compulsoryleave.$outcome = service.outcome;
+                    var compulsoryleave = document.toObject();
+                    compulsoryleave.$outcome = service.outcome;
 
-                        service.deferred.resolve(compulsoryleave);
-                    }
-                });
-            }
-        });
+                    service.deferred.resolve(compulsoryleave);
+                }
+            });
+
+        })
+        .catch(service.error);
 
         return service.deferred.promise;
     };

@@ -23,37 +23,7 @@ exports = module.exports = function(params) {
 	});
 
 
-    /**
-     * Test if a request can be created for the user beetween the two dates
-     * This method will resolve to TRUE if there are no absence or non-working days in the
-     * compulsory leave period and if the available quantity for the user allow the request creation
-     *
-     * @param {CompulsoryLeave} compulsoryLeave
-     * @return {Promise}
-     */
-    compulsoryLeaveRequestSchema.methods.canCreateRequest = function(compulsoryLeave) {
 
-
-	};
-
-    /**
-     * Create the request and set request and quantity field
-     * @param {CompulsoryLeave} compulsoryLeave Parent document
-     * @return {Promise}
-     */
-    compulsoryLeaveRequestSchema.methods.createRequest = function(compulsoryLeave) {
-        let clr = this;
-
-        return clr.canCreateRequest()
-        .then(canCreate => {
-            if (!canCreate) {
-                return false;
-            }
-
-            // TODO: create the request
-            return true;
-        });
-    };
 
 
 	compulsoryLeaveRequestSchema.set('autoIndex', params.autoIndex);

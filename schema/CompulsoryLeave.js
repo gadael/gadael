@@ -39,48 +39,31 @@ exports = module.exports = function(params) {
     });
 
 
-    /**
-     * Test if the requests can be created
-     * This method will resolve to true if all requests can be created
-     *
-     * @return {Promise}
-     */
-    compulsorySchema.methods.canCreateRequest = function() {
-        let promises = [];
+    compulsorySchema.pre('remove', function(next) {
         let compulsoryLeave = this;
 
-        compulsoryLeave.requests.forEach(clr => {
-            promises.push(clr.canCreateRequest(compulsoryLeave));
-        });
+        if (!compulsoryLeave.requests || compulsoryLeave.requests.length === 0) {
+            return next();
+        }
 
-        return Promise.all(promises)
-        .then(list => {
-            for (let i=0; i<list.length; i++) {
-                if (!list[i]) {
-                    return false;
-                }
-            }
+        if (!compulsoryLeave.populated('requests.request')) {
+            return next(new Error('the requests.request field need to be populated in compulsory leave document'));
+        }
 
-            return true;
-        });
-    };
-
-
-    /**
-     * Create the requests and update the requests field
-     *
-     * @return {Promise}
-     */
-    compulsorySchema.methods.createRequests = function() {
         let promises = [];
-        let compulsoryLeave = this;
 
         compulsoryLeave.requests.forEach(clr => {
-            promises.push(clr.createRequest(compulsoryLeave));
+            promises.push(clr.request.remove());
         });
 
-        return Promise.all(promises);
-    };
+        Promise.all(promises)
+        .then(all => {
+            next();
+        })
+        .catch(next);
+
+    });
+
 
 
     compulsorySchema.set('autoIndex', params.autoIndex);
