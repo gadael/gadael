@@ -108,17 +108,13 @@ function prepareRequestFields(service, params, user)
                 return deferred.reject('Unsupported parameter for time_saving_deposit');
             }
 
-            if (params.time_saving_deposit.length !== 1) {
-                return deferred.reject('Unsupported parameter for time_saving_deposit');
+            if (params.time_saving_deposit.length === 1) {
+                saveTimeSavingDeposit.getFieldsToSet(service, params.time_saving_deposit[0])
+                .then(function(tsdFields) {
+                    fieldsToSet.time_saving_deposit = [tsdFields];
+                    deferred.resolve(fieldsToSet);
+                }, deferred.reject);
             }
-
-
-
-            saveTimeSavingDeposit.getFieldsToSet(service, params.time_saving_deposit[0])
-            .then(function(tsdFields) {
-                fieldsToSet.time_saving_deposit = [tsdFields];
-                deferred.resolve(fieldsToSet);
-            }, deferred.reject);
         }
 
         if (undefined !== params.workperiod_recover) {
@@ -127,23 +123,23 @@ function prepareRequestFields(service, params, user)
                 return deferred.reject('Unsupported parameter for workperiod_recover');
             }
 
-            if (params.workperiod_recover.length !== 1) {
-                return deferred.reject('Unsupported parameter for workperiod_recover');
+            if (params.workperiod_recover.length === 1) {
+                saveWorkperiodRecover.getEventsPromise(service, params.events)
+                .then(function(events) {
+                    fieldsToSet.events = events;
+
+                    saveWorkperiodRecover.getFieldsToSet(service, params.workperiod_recover[0])
+                    .then(function(wpFields) {
+                        fieldsToSet.workperiod_recover = [wpFields];
+                        deferred.resolve(fieldsToSet);
+                    }, deferred.reject);
+
+                }, deferred.reject);
             }
 
 
 
-            saveWorkperiodRecover.getEventsPromise(service, params.events)
-            .then(function(events) {
-                fieldsToSet.events = events;
 
-                saveWorkperiodRecover.getFieldsToSet(service, params.workperiod_recover[0])
-                .then(function(wpFields) {
-                    fieldsToSet.workperiod_recover = [wpFields];
-                    deferred.resolve(fieldsToSet);
-                }, deferred.reject);
-
-            }, deferred.reject);
         }
 
     }).catch(deferred.reject);
