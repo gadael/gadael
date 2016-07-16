@@ -20,7 +20,26 @@ function validate(service, params)
         return;
     }
 
-    saveRequest(service, params);
+    // modification of a request created by a compulsory leave is not allowed
+    if (!params.id) {
+        return saveRequest(service, params);
+    }
+
+
+
+    let Request = service.app.db.models.Request;
+    Request.findOne({ _id: params.id })
+        .populate('absence.compulsoryLeave')
+        .exec()
+    .then(request => {
+
+        if (request && request.absence && request.absence.compulsoryLeave && request.absence.compulsoryLeave._id) {
+            return service.forbidden(gt.gettext('This has been created in a compulsory leave, modification is not allowed'));
+        }
+
+        saveRequest(service, params);
+    })
+    .catch(service.error);
 }
 
 
