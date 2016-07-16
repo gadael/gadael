@@ -217,6 +217,11 @@ describe('Compulsory leaves admin rest service', function() {
         server.get('/rest/admin/requests/'+request1, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toEqual(request1);
+            expect(body.absence.compulsoryLeave).toBeDefined();
+            if (body.absence.compulsoryLeave) {
+                expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave1);
+            }
+
             body.events.forEach(event => {
 
                 let evtstart = new Date(event.dtstart);
@@ -253,6 +258,10 @@ describe('Compulsory leaves admin rest service', function() {
     it('check the created request 2', function (done) {
         server.get('/rest/admin/requests/'+request2, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body.absence.compulsoryLeave).toBeDefined();
+            if (body.absence.compulsoryLeave) {
+                expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave2);
+            }
             done();
         });
     });
@@ -288,7 +297,7 @@ describe('Compulsory leaves admin rest service', function() {
     });
 
 
-    it('check that the request is not modifiabled by the owner', function(done) {
+    it('check that the request is not modifiable by the owner', function(done) {
         server.put('/rest/account/requests/'+request2, request2body, function(res, body) {
             expect(res.statusCode).toEqual(403);
             done();

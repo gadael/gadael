@@ -307,6 +307,10 @@ function saveRequests(service, params) {
 
 
 
+
+
+
+
 /**
  * Update/create the compulsory leave document
  *
@@ -314,6 +318,44 @@ function saveRequests(service, params) {
  * @param {Object} params
  */
 function saveCompulsoryLeave(service, params) {
+
+
+    /**
+     * Save compulsory leave reference into absence requests
+     * @param {object} compulsoryLeave A saved compulsory leave document
+     * @return {Promise}
+     */
+    function updateCompulsoryLeaveRef(compulsoryLeave) {
+
+        /**
+         * Absences requests ID list
+         */
+        let requestIds = [];
+
+        let Request = service.app.db.models.Request;
+
+
+        for (let i=0; i<compulsoryLeave.requests.length; i++) {
+            requestIds.push(compulsoryLeave.requests[i].request);
+        }
+
+
+
+        return Request.find({ _id: { $in: requestIds } }).exec()
+        .then(requests => {
+            let promises = [];
+            for (let j=0; j<requests.length; j++) {
+                requests[j].absence.compulsoryLeave = compulsoryLeave._id;
+                promises.push(requests[j].save());
+            }
+
+            return Promise.all(promises);
+        })
+        .then(all => {
+            return compulsoryLeave;
+        });
+    }
+
 
 
     let CompulsoryLeaveModel = service.app.db.models.CompulsoryLeave;
@@ -348,40 +390,34 @@ function saveCompulsoryLeave(service, params) {
 
         if (params.id)
         {
-            CompulsoryLeaveModel.findOne({ _id: params.id }, function(err, document) {
-                if (service.handleMongoError(err))
-                {
-                    document.set(fieldsToSet);
-                    document.save(function(err, document) {
+            // update
 
-                        if (service.handleMongoError(err)) {
+            CompulsoryLeaveModel.findOne({ _id: params.id }).exec()
+            .then(document => {
+                document.set(fieldsToSet);
+                return document.save();
+            })
+            .then(updateCompulsoryLeaveRef)
+            .then(document => {
+                service.resolveSuccess(
+                    document,
+                    gt.gettext('The compulsory leave period has been modified')
+                );
+            }).catch(service.error);
 
-                            service.resolveSuccess(
-                                document,
-                                gt.gettext('The compulsory leave period has been modified')
-                            );
-
-                        }
-
-                    });
-
-                }
-            });
 
         } else {
 
             var document = new CompulsoryLeaveModel();
             document.set(fieldsToSet);
-            document.save(function(err, document) {
-
-                if (service.handleMongoError(err))
-                {
-                    service.resolveSuccess(
-                        document,
-                        gt.gettext('The compulsory leave period has been created')
-                    );
-                }
-            });
+            document.save()
+            .then(updateCompulsoryLeaveRef)
+            .then(document => {
+                service.resolveSuccess(
+                    document,
+                    gt.gettext('The compulsory leave period has been created')
+                );
+            }).catch(service.error);
         }
 
     })
