@@ -22,17 +22,23 @@ exports = module.exports = function(services, app) {
         .populate('right')
         .populate('departments')
         .populate('collections')
-        .exec(function(err, document) {
-            if (service.handleMongoError(err))
-            {
-                if (document) {
-                    service.outcome.success = true;
-                    service.deferred.resolve(document);
-                } else {
-                    service.notFound(gt.gettext('This compulsory leave does not exists'));
-                }
+        .exec()
+        .then(document => {
+            return document.right.populate('type').execPopulate().then(right => {
+                return document;
+            });
+        })
+        .then(document => {
+
+            if (document) {
+                service.outcome.success = true;
+                service.deferred.resolve(document);
+            } else {
+                service.notFound(gt.gettext('This compulsory leave does not exists'));
             }
-        });
+
+        })
+        .catch(service.error);
 
         return service.deferred.promise;
     };

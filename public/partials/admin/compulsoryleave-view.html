@@ -26,23 +26,28 @@
         <dl>
             <dt translate>From:</dt><dd>{{compulsoryleave.dtstart|date:'medium'}}</dd>
             <dt translate>To:</dt><dd>{{compulsoryleave.dtend|date:'medium'}}</dd>
+            <dt translate>Right:</dt>
+            <dd>
+                <i class="fa fa-asterisk" style="color:{{compulsoryleave.right.type.color}}" title="{{compulsoryleave.right.type.name}}"></i>
+                <a href="#/admin/rights/{{compulsoryleave.right._id}}">{{compulsoryleave.right.name}}</a>
+            </dd>
         </dl>
 
     </div>
 
     <div class="col-sm-6">
         <dl>
-            <dt translate>Right:</dt><dd>{{compulsoryleave.right.name}}</dd>
+
             <dt translate>Valid users:</dt><dd>{{validUsers}}/{{compRequest.length}}</dd>
         </dl>
 
         <p>
             <button ng-disabled="!quantitiesLoaded||0===validUsers" class="btn btn-primary btn-xs" ng-click="savePeriods()">Book available periods</button><br />
-            <em translate>Create leave on all valid users</em>
+            <em translate>Create a leave on all valid users</em>
         </p>
         <p>
             <button class="btn btn-danger btn-xs" ng-click="removePeriods()">Remove booked periods</button><br />
-            <em translate>Remove leave on all users with a booked period</em>
+            <em translate>Remove the leave on all users with a booked period</em>
         </p>
     </div>
 </div>
