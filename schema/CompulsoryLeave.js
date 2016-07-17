@@ -57,7 +57,7 @@ exports = module.exports = function(params) {
         });
 
         Promise.all(promises)
-        .then(all => {
+        .then(() => {
             next();
         })
         .catch(next);

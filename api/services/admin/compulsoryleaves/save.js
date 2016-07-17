@@ -351,7 +351,7 @@ function saveCompulsoryLeave(service, params) {
 
             return Promise.all(promises);
         })
-        .then(all => {
+        .then(() => {
             return compulsoryLeave;
         });
     }
