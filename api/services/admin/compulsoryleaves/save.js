@@ -369,15 +369,15 @@ function saveCompulsoryLeave(service, params) {
     }
 
     var fieldsToSet = {
+        userUpdated: {
+            id: params.userCreated._id,
+            name: params.userCreated.getName()
+        },
+        lastUpdate: new Date(),
         name: params.name,
         description: params.description,
         dtstart: params.dtstart,
         dtend: params.dtend,
-        lastUpdate: new Date(),
-        userCreated: {
-            id: params.userCreated._id,
-            name: params.userCreated.getName()
-        },
         collections: getIds(params.collections),
         departments: getIds(params.departments),
         right: rightId
@@ -390,8 +390,10 @@ function saveCompulsoryLeave(service, params) {
 
         if (params.id)
         {
-            // update
+            console.log(fieldsToSet);
 
+
+            // update
             CompulsoryLeaveModel.findOne({ _id: params.id }).exec()
             .then(document => {
                 document.set(fieldsToSet);
@@ -407,6 +409,11 @@ function saveCompulsoryLeave(service, params) {
 
 
         } else {
+
+            fieldsToSet.userCreated = {
+                id: params.userCreated._id,
+                name: params.userCreated.getName()
+            };
 
             var document = new CompulsoryLeaveModel();
             document.set(fieldsToSet);

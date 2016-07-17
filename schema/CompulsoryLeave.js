@@ -15,8 +15,8 @@ exports = module.exports = function(params) {
     var compulsorySchema = new params.mongoose.Schema({
 
         userCreated: {							// the user who create the leave
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-            name: { type: String, minlength: 1 }
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            name: String
         },
         timeCreated: { type: Date, default: Date.now },
 
@@ -53,6 +53,9 @@ exports = module.exports = function(params) {
         let promises = [];
 
         compulsoryLeave.requests.forEach(clr => {
+            if (!clr.request) {
+                return;
+            }
             promises.push(clr.request.remove());
         });
 

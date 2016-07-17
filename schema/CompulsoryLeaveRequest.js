@@ -12,12 +12,12 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var compulsoryLeaveRequestSchema = new mongoose.Schema({
 
-        request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request', required: true },
+        request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request' },
 
         quantity: Number,   // the duration quantity of the request in the same unit of compulsoryLeave.right.quantity_unit
 
         user: {             // request owner
-            name: { type:String, required: true },
+            name: String,
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
         }
 	});
