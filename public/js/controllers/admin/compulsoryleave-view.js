@@ -30,8 +30,8 @@ define([], function() {
 
 
 
-	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q',
-            function($scope, $location, Rest, catchOutcome, $q) {
+	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q', 'gettext',
+            function($scope, $location, Rest, catchOutcome, $q, gettext) {
 
 
         /**
@@ -124,7 +124,6 @@ define([], function() {
 
                 userId = $scope.compulsoryleave.requests[i].user.id;
 
-                console.log($scope.compulsoryleave.requests[i]);
 
                 if (undefined === compRequestByUser[userId]) {
                     compRequestByUser[userId] = {
@@ -302,6 +301,12 @@ define([], function() {
             });
 
             $scope.compulsoryleave.gadaSave();
+        };
+
+        $scope.delete = function() {
+            if (confirm(gettext('Are you sure you whant to delete this compulsory leave?'))) {
+                $scope.compulsoryleave.gadaDelete($location.path('/admin/compulsoryleaves'));
+            }
         };
 
 	}];
