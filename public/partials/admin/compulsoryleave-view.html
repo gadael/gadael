@@ -36,8 +36,14 @@
             <dt translate>Valid users:</dt><dd>{{validUsers}}/{{compRequest.length}}</dd>
         </dl>
 
-        <button ng-disabled="!quantitiesLoaded" class="btn btn-primary" ng-click="savePeriods()">Book available periods</button>
-
+        <p>
+            <button ng-disabled="!quantitiesLoaded||0===validUsers" class="btn btn-primary btn-xs" ng-click="savePeriods()">Book available periods</button><br />
+            <em translate>Create leave on all valid users</em>
+        </p>
+        <p>
+            <button class="btn btn-danger btn-xs" ng-click="removePeriods()">Remove booked periods</button><br />
+            <em translate>Remove leave on all users with a booked period</em>
+        </p>
     </div>
 </div>
 
@@ -52,7 +58,7 @@
         </div>
 
         <div class="col-sm-4">
-            <dl>
+            <dl ng-if="!compulsoryLeaveRequest.request">
                 <dt translate>Available on period</dt>
                 <dd>
                     {{compulsoryLeaveRequest.quantity|number}}
@@ -61,7 +67,8 @@
                         <span ng-switch-when="H"><span translate translate-n="compulsoryLeaveRequest.quantity" translate-plural="hours">hour</span></span>
                     </span>
                 </dd>
-
+            </dl>
+            <dl>
                 <dt translate>Available on right</dt>
                 <dd>
                     {{compulsoryLeaveRequest.right_quantity|number}}
@@ -77,7 +84,8 @@
 
         <div class="col-sm-4">
             <span ng-if="compulsoryLeaveRequest.request">
-                <i class="fa fa-calendar-check-o"></i> <span translate>Period is booked</span>
+                <i class="fa fa-calendar-check-o text-success"></i>
+                <a href="#/admin/requests/absences/{{compulsoryLeaveRequest.request}}" translate>Period is booked</a>
             </span>
             <span ng-if="!compulsoryLeaveRequest.request">
                 <span ng-if="!compulsoryLeaveRequest.capped && compulsoryLeaveRequest.quantity">

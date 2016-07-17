@@ -15,6 +15,7 @@ exports = module.exports = function(params) {
         request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request' },
 
         quantity: Number,   // the duration quantity of the request in the same unit of compulsoryLeave.right.quantity_unit
+                            // using dates only (not the consumed quantity)
 
         user: {             // request owner
             name: String,

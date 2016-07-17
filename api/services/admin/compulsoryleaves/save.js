@@ -66,7 +66,7 @@ function getIds(list) {
  * save all new requests
  * @param {apiService} service
  * @param {Object} params
- * @return {Promise}
+ * @return {Promise} Resolve to an array of compulsory leave requests
  */
 function saveRequests(service, params) {
 
@@ -164,7 +164,7 @@ function saveRequests(service, params) {
     /**
      * Create one user request
      * @param {String} userId
-     * @return {Promise}
+     * @return {Promise} resolve to a Request document
      */
     function createRequest(userId) {
 
@@ -269,7 +269,22 @@ function saveRequests(service, params) {
      */
     function setRequestInClr(compulsoryLeaveRequest, request) {
         compulsoryLeaveRequest.request = request._id;
+        compulsoryLeaveRequest.quantity = request.getQuantity();
         return Promise.resolve(compulsoryLeaveRequest);
+    }
+
+    /**
+     * Add user name to the compusory leave request
+     * @param {CompulsoryLeaveRequest}
+     * @return {Promise}
+     */
+    function addUserName(compulsoryLeaveRequest) {
+        let User = service.app.db.models.User;
+        return User.findById(compulsoryLeaveRequest.user.id).exec()
+        .then(user => {
+            compulsoryLeaveRequest.user.name = user.getName();
+            return compulsoryLeaveRequest;
+        });
     }
 
 
@@ -287,6 +302,7 @@ function saveRequests(service, params) {
             promises.push(
                 createRequest(compulsoryLeaveRequest.user.id)
                 .then(setRequestInClr.bind(null, compulsoryLeaveRequest))
+                .then(addUserName)
             );
         });
     }
@@ -384,15 +400,12 @@ function saveCompulsoryLeave(service, params) {
     };
 
 
-    saveRequests(service, params).then(requests => {
+    saveRequests(service, params).then(compulsoryLeaveRequests => {
 
-        fieldsToSet.requests = requests;
+        fieldsToSet.requests = compulsoryLeaveRequests;
 
         if (params.id)
         {
-            console.log(fieldsToSet);
-
-
             // update
             CompulsoryLeaveModel.findOne({ _id: params.id }).exec()
             .then(document => {
