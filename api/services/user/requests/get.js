@@ -54,7 +54,6 @@ exports = module.exports = function(services, app) {
                     return service.notFound(gt.gettext('This request does not exists'));
                 }
 
-
                 // prepare events
 
                 var events = {};

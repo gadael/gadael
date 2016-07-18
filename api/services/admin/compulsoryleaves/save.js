@@ -309,11 +309,15 @@ function saveRequests(service, params) {
      */
     function captureError(requestPromise) {
 
-        return requestPromise.catch(error => {
+        return new Promise(resolve => {
+            requestPromise
+            .then(resolve)
+            .catch(error => {
 
-            service.addAlert('info', error);
+                //service.addAlert('info', error);
 
-            return Promise.resolve(null);
+                resolve(null);
+            });
         });
     }
 

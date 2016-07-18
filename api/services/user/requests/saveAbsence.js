@@ -75,6 +75,11 @@ function createEvents(service, user, elem, events)
 
 
     if (0 === oldEventPromises.length) {
+
+        if (allEvents.length === 0) {
+            throw new Error('No events created from parameters');
+        }
+
         return Promise.resolve(allEvents);
     }
 
@@ -92,6 +97,11 @@ function createEvents(service, user, elem, events)
             } else {
                 allEvents.push(setProperties(new EventModel(), postedEvent));
             }
+        }
+
+
+        if (allEvents.length === 0) {
+            throw new Error('No events created from parameters');
         }
 
         return allEvents;
@@ -172,6 +182,10 @@ function createElement(service, user, elem, collection)
         throw new Error('element must contain an events property');
     }
 
+    if (0 === elem.events.length) {
+        throw new Error('element.events must contain one event');
+    }
+
     if (undefined === elem.quantity) {
         throw new Error('element must contain a quantity property');
     }
@@ -248,6 +262,7 @@ function createElement(service, user, elem, collection)
 
         }).then(consumed => {
             element.consumedQuantity = consumed;
+
             return {
                 element: element,
                 user: user,
@@ -370,12 +385,21 @@ function saveAbsenceDistribution(service, user, params, collection) {
 
         // promisify all save on element
 
+
         contains.forEach(contain => {
-            savedElementsPromises.push(contain.element.save());
+            let savedEvents = [];
+            contain.element.events.forEach(event => {
+                savedEvents.push(event.save());
+            });
+
+            savedElementsPromises.push(
+                Promise.all(savedEvents).then(events => {
+                    return contain.element.save();
+                })
+            );
         });
 
         return Promise.all(savedElementsPromises);
-
     });
 }
 
@@ -482,6 +506,11 @@ function getEventsFromDistribution(distribution) {
         for(e=0; e<elem.events.length; e++) {
             events.push(elem.events[e]);
         }
+    }
+
+    if (events.length === 0) {
+        throw new Error('No events found in distribution');
+
     }
 
     return events;

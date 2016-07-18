@@ -188,8 +188,8 @@ describe('Compulsory leaves admin rest service', function() {
     it('create new compulsory leave 2 with one request', function(done) {
         server.post('/rest/admin/compulsoryleaves', {
             name: 'compulsory leave test 2',
-            dtstart: new Date(2015, 11, 23, 0,0,0,0),
-            dtend: new Date(2015, 11, 26, 0,0,0,0),
+            dtstart: new Date(2015, 10, 23, 0,0,0,0),
+            dtend: new Date(2015, 10, 26, 0,0,0,0),
             right: right1._id,
             collections: [collection._id],
             departments: [],
@@ -217,8 +217,8 @@ describe('Compulsory leaves admin rest service', function() {
     it('fail to create compulsory leave request on existing period', function(done) {
         server.post('/rest/admin/compulsoryleaves', {
             name: 'compulsory leave test',
-            dtstart: new Date(2015, 11, 23, 0,0,0,0),
-            dtend: new Date(2015, 11, 26, 0,0,0,0),
+            dtstart: new Date(2015, 10, 23, 0,0,0,0),
+            dtend: new Date(2015, 10, 26, 0,0,0,0),
             right: right1._id,
             collections: [collection._id],
             departments: [],
@@ -275,6 +275,8 @@ describe('Compulsory leaves admin rest service', function() {
             if (body.absence.compulsoryLeave) {
                 expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave1);
             }
+
+            expect(body.events.length>0).toBeTruthy();
 
             body.events.forEach(event => {
 
