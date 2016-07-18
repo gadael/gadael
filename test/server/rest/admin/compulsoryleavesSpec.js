@@ -13,6 +13,7 @@ describe('Compulsory leaves admin rest service', function() {
 
     let compulsoryleave1;
     let compulsoryleave2;
+    let compulsoryleave3;
 
     let randomUser;
 
@@ -22,7 +23,7 @@ describe('Compulsory leaves admin rest service', function() {
 
     let request1;
     let request2;
-
+    let request3;
 
     beforeEach(function(done) {
 
@@ -182,7 +183,9 @@ describe('Compulsory leaves admin rest service', function() {
     });
 
 
-    it('create new compulsory leave 2 with request', function(done) {
+
+
+    it('create new compulsory leave 2 with one request', function(done) {
         server.post('/rest/admin/compulsoryleaves', {
             name: 'compulsory leave test 2',
             dtstart: new Date(2015, 11, 23, 0,0,0,0),
@@ -193,8 +196,7 @@ describe('Compulsory leaves admin rest service', function() {
             requests: [
                 {
                     user: {
-                        id: randomUser.user._id,
-                        name: randomUser.user.lastname+' '+randomUser.user.firstname
+                        id: randomUser.user._id
                     }
                 }
             ]
@@ -203,6 +205,7 @@ describe('Compulsory leaves admin rest service', function() {
             expect(body._id).toBeDefined();
             server.expectSuccess(body);
             expect(body.requests[0].request).toBeDefined();
+            expect(body.requests[0].user.name).toBeDefined();
 
             compulsoryleave2 = body._id;
             request2 = body.requests[0].request;
@@ -211,6 +214,57 @@ describe('Compulsory leaves admin rest service', function() {
         });
     });
 
+    it('fail to create compulsory leave request on existing period', function(done) {
+        server.post('/rest/admin/compulsoryleaves', {
+            name: 'compulsory leave test',
+            dtstart: new Date(2015, 11, 23, 0,0,0,0),
+            dtend: new Date(2015, 11, 26, 0,0,0,0),
+            right: right1._id,
+            collections: [collection._id],
+            departments: [],
+            requests: [
+                {
+                    user: {
+                        id: randomUser.user._id
+                    }
+                }
+            ]
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.requests.length).toEqual(0);
+            done();
+        });
+    });
+
+
+    it('create new compulsory leave 3 with one request', function(done) {
+        server.post('/rest/admin/compulsoryleaves', {
+            name: 'compulsory leave test 3',
+            dtstart: new Date(2015, 8, 1, 8,0,0,0),
+            dtend: new Date(2015, 8, 1, 19,0,0,0),
+            right: right1._id,
+            collections: [collection._id],
+            departments: [],
+            requests: [
+                {
+                    user: {
+                        id: randomUser.user._id
+                    }
+                }
+            ]
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            server.expectSuccess(body);
+            expect(body.requests[0].request).toBeDefined();
+            expect(body.requests[0].user.name).toBeDefined();
+
+            compulsoryleave3 = body._id;
+            request3 = body.requests[0].request;
+
+            done();
+        });
+    });
 
 
     it('check the created request 1', function (done) {
@@ -234,6 +288,7 @@ describe('Compulsory leaves admin rest service', function() {
             done();
         });
     });
+
 
 
     it('delete the compulsory leave', function(done) {
@@ -262,6 +317,33 @@ describe('Compulsory leaves admin rest service', function() {
             if (body.absence.compulsoryLeave) {
                 expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave2);
             }
+            expect(body.absence.distribution.length>0).toBeTruthy();
+            done();
+        });
+    });
+
+
+    it ('update compulsory leave 3 and remove requests', function(done) {
+
+        server.put('/rest/admin/compulsoryleaves/'+compulsoryleave3, {
+            name: 'compulsory leave 3 test',
+            dtstart: dtstart,
+            dtend: dtend,
+            right: right1._id,
+            collections: [collection._id],
+            departments: [],
+            requests: []
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            server.expectSuccess(body);
+            expect(body.requests.length).toEqual(0);
+            done();
+        });
+    });
+
+    it('check the deleted request 3', function (done) {
+        server.get('/rest/admin/requests/'+request3, {}, function(res, body) {
+            expect(res.statusCode).toEqual(404);
             done();
         });
     });
@@ -284,25 +366,24 @@ describe('Compulsory leaves admin rest service', function() {
 
     let request2body;
 
-    it('check that the request exists in list', function(done) {
+    it('check that the request exists in list and is not modifiable', function(done) {
         server.get('/rest/account/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             if (body.length === 1) {
                 expect(body[0]._id).toEqual(request2);
                 request2body = body[0];
+
+                server.put('/rest/account/requests/'+request2, request2body, function(res, body) {
+                    expect(res.statusCode).toEqual(403);
+                    done();
+                });
+            } else {
+                done();
             }
-            done();
         });
     });
 
-
-    it('check that the request is not modifiable by the owner', function(done) {
-        server.put('/rest/account/requests/'+request2, request2body, function(res, body) {
-            expect(res.statusCode).toEqual(403);
-            done();
-        });
-    });
 
 
     it('logout', function(done) {

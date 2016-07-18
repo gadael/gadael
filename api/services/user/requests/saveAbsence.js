@@ -399,6 +399,10 @@ function getCollectionFromDistribution(distribution, account) {
         throw new Error('Invalid request, events are not available in first right of distribution');
     }
 
+    if (0 === distribution[0].events.length) {
+        throw new Error('Invalid request, nothing in right distribution');
+    }
+
     if (undefined === distribution[distribution.length -1].events) {
         throw new Error('Invalid request, events are not available in last right of distribution');
     }

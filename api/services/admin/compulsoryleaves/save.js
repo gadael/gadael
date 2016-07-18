@@ -3,7 +3,8 @@
 
 const gt = require('./../../../../modules/gettext');
 const saveAbsence = require('./../../user/requests/saveAbsence');
-var Services = require('restitute').service;
+const Services = require('restitute').service;
+const util = require('util');
 
 /**
  * Validate params fields
@@ -143,7 +144,7 @@ function saveRequests(service, params) {
 
 
     /**
-     * Get list of events between two date
+     * Get list of available events between two date
      * @return {Promise}
      */
     function getEvents(user) {
@@ -199,6 +200,10 @@ function saveRequests(service, params) {
 
             return getEvents(user)
             .then(events => {
+
+                if (0 === events.length) {
+                    throw new Error(gt.gettext(util.format('No availability on period for %s', user.getName())));
+                }
 
                 let elementEvents = [];
                 events.forEach(event => {
@@ -264,10 +269,16 @@ function saveRequests(service, params) {
 
     /**
      * Set request property of a compulsory leave request
-     * @param {Request} request [[Description]]
+     * @param {Object} compulsoryLeaveRequest
+     * @param {Request} request null value accepted
      * @return {Promise} promised compulsory leave request
      */
     function setRequestInClr(compulsoryLeaveRequest, request) {
+
+        if (null === request) {
+            return Promise.resolve(null);
+        }
+
         compulsoryLeaveRequest.request = request._id;
         compulsoryLeaveRequest.quantity = request.getQuantity();
         return Promise.resolve(compulsoryLeaveRequest);
@@ -279,11 +290,30 @@ function saveRequests(service, params) {
      * @return {Promise}
      */
     function addUserName(compulsoryLeaveRequest) {
+
+        if (null === compulsoryLeaveRequest) {
+            return Promise.resolve(compulsoryLeaveRequest);
+        }
+
         let User = service.app.db.models.User;
         return User.findById(compulsoryLeaveRequest.user.id).exec()
         .then(user => {
             compulsoryLeaveRequest.user.name = user.getName();
             return compulsoryLeaveRequest;
+        });
+    }
+
+    /**
+     * Capture error on request promise
+     * @param {[[Type]]} requestPromise [[Description]]
+     */
+    function captureError(requestPromise) {
+
+        return requestPromise.catch(error => {
+
+            service.addAlert('info', error);
+
+            return Promise.resolve(null);
         });
     }
 
@@ -300,22 +330,29 @@ function saveRequests(service, params) {
             }
 
             promises.push(
-                createRequest(compulsoryLeaveRequest.user.id)
+                captureError(createRequest(compulsoryLeaveRequest.user.id))
                 .then(setRequestInClr.bind(null, compulsoryLeaveRequest))
                 .then(addUserName)
             );
         });
     }
 
+    // TODO remove unprocessed requests
+
+
+
+
     return Promise.all(promises).then(clrs => {
 
+        let validCompulsoryLeaveRequests = [];
+
         clrs.forEach(clr => {
-            if (!clr) {
-                throw new Error('One of the request is missing');
+            if (null !== clr) {
+                validCompulsoryLeaveRequests.push(clr);
             }
         });
 
-        return clrs;
+        return validCompulsoryLeaveRequests;
     });
 
 }
