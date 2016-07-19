@@ -161,6 +161,39 @@ function saveRequests(service, params) {
     }
 
 
+    /**
+     * Create element event from schedule calendar event
+     * @param   {CalendarEvent} event Schedule calendar event
+     * @param   {User}          user  event owner
+     * @returns {object}        Raw object for document creation
+     */
+    function createElementEventFromSheduleEvent(event, user) {
+        return {
+            dtstart: event.dtstart,
+            dtend: event.dtend,
+            summary: params.name,
+            description: params.description,
+            status: 'CONFIRMED',
+            user: {
+                id: user._id,
+                name: user.getName()
+            }
+        };
+    }
+
+    /**
+     * Create element events from schedule calendar event
+     * @param   {Array} events Schedule calendar events
+     * @param   {User} user   user  event owner
+     * @returns {Array} list of objects for event creation
+     */
+    function createElementEvents(events, user) {
+        return events.map(event => {
+            return createElementEventFromSheduleEvent(event, user);
+        });
+    }
+
+
 
     /**
      * Create one user request
@@ -205,29 +238,15 @@ function saveRequests(service, params) {
                     throw new Error(gt.gettext(util.format('No availability on period for %s', user.getName())));
                 }
 
-                let elementEvents = [];
-                events.forEach(event => {
-                    elementEvents.push({
-                        dtstart: event.dtstart,
-                        dtend: event.dtend,
-                        summary: params.name,
-                        description: params.description,
-                        status: 'CONFIRMED',
-                        user: {
-                            id: user._id,
-                            name: user.getName()
-                        }
-                    });
-                });
+
 
                 return getQuantity(events)
                 .then(quantity => {
 
 
-
                     let element = {
                         quantity: quantity,
-                        events: elementEvents,
+                        events: createElementEvents(events, user),
                         user: fieldsToSet.user,
                         right: {
                             id: params.right
