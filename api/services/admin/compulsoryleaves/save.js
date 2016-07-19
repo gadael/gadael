@@ -6,6 +6,7 @@ const saveAbsence = require('./../../user/requests/saveAbsence');
 const Services = require('restitute').service;
 const util = require('util');
 
+
 /**
  * Validate params fields
  * @param {apiService} service
@@ -494,6 +495,7 @@ function saveCompulsoryLeave(service, params) {
 
         fieldsToSet.requests = compulsoryLeaveRequests;
 
+
         if (params.id)
         {
             // update
@@ -504,8 +506,8 @@ function saveCompulsoryLeave(service, params) {
             })
             .then(updateCompulsoryLeaveRef)
             .then(document => {
-                service.resolveSuccess(
-                    document,
+                service.resolveSuccessGet(
+                    document._id,
                     gt.gettext('The compulsory leave period has been modified')
                 );
             }).catch(service.error);
@@ -523,8 +525,8 @@ function saveCompulsoryLeave(service, params) {
             document.save()
             .then(updateCompulsoryLeaveRef)
             .then(document => {
-                service.resolveSuccess(
-                    document,
+                service.resolveSuccessGet(
+                    document._id,
                     gt.gettext('The compulsory leave period has been created')
                 );
             }).catch(service.error);
@@ -533,10 +535,6 @@ function saveCompulsoryLeave(service, params) {
     })
     .catch(service.error);
 }
-
-
-
-
 
 
 

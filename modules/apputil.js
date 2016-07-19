@@ -29,9 +29,13 @@ exports = module.exports = function(app) {
      * @return {apiService}
      */
     app.getService = function(path) {
-        var apiservice = require('restitute').service;
-        var getService = require('../api/services/'+path);
-        return getService(apiservice, app);
+        let apiservice = require('restitute').service;
+        let getService = require('../api/services/'+path);
+        let service = getService(apiservice, app);
+
+        service.path = path;
+
+        return service;
     };
     
     
