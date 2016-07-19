@@ -307,6 +307,19 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Save linked event documents
+     * @returns {Promise}
+     */
+    absenceElemSchema.methods.saveEvents = function() {
+        let savedEvents = [];
+        this.events.forEach(event => {
+            savedEvents.push(event.save());
+        });
+
+        return Promise.all(savedEvents);
+    };
+
 
 	absenceElemSchema.set('autoIndex', params.autoIndex);
 

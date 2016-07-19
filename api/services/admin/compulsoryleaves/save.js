@@ -313,10 +313,35 @@ function saveRequests(service, params) {
             requestPromise
             .then(resolve)
             .catch(error => {
-
-                //service.addAlert('info', error);
-
+                service.addAlert('info', error);
                 resolve(null);
+            });
+        });
+    }
+
+    /**
+     * Delete the requests not present in new version of compulsory leave
+     * @param {Array} validList List of request ID
+     * @return {Promise} list of deleted documents
+     */
+    function deleteInvalidRequests(validList) {
+
+        if (!params.id) {
+            // creation
+            return Promise.resolve([]);
+        }
+
+        let Request = service.app.db.models.Request;
+
+        return Request
+        .find({
+            'absence.compulsoryLeave': params.id,
+            _id: { $nin: validList }
+        })
+        .exec()
+        .then(documents => {
+            return documents.map(doc => {
+                return doc.remove();
             });
         });
     }
@@ -341,22 +366,27 @@ function saveRequests(service, params) {
         });
     }
 
-    // TODO remove unprocessed requests
-
-
 
 
     return Promise.all(promises).then(clrs => {
 
+        let validRequestIds = [];
         let validCompulsoryLeaveRequests = [];
 
         clrs.forEach(clr => {
             if (null !== clr) {
                 validCompulsoryLeaveRequests.push(clr);
+                validRequestIds.push(clr.request);
             }
         });
 
-        return validCompulsoryLeaveRequests;
+        // remove unprocessed requests
+
+        return deleteInvalidRequests(validRequestIds)
+        .then(() => {
+            return validCompulsoryLeaveRequests;
+        });
+
     });
 
 }

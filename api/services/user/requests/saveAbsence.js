@@ -355,8 +355,7 @@ function saveAbsenceDistribution(service, user, params, collection) {
     }
 
     let i, elem,
-        containsPromises = [],
-        savedElementsPromises = [];
+        containsPromises = [];
 
 
     // promisify all elements in the contain objects
@@ -384,16 +383,12 @@ function saveAbsenceDistribution(service, user, params, collection) {
     .then(contains => {
 
         // promisify all save on element
-
+        let savedElementsPromises = [];
 
         contains.forEach(contain => {
-            let savedEvents = [];
-            contain.element.events.forEach(event => {
-                savedEvents.push(event.save());
-            });
 
             savedElementsPromises.push(
-                Promise.all(savedEvents).then(events => {
+                contain.element.saveEvents().then(() => {
                     return contain.element.save();
                 })
             );
