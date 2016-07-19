@@ -24,7 +24,7 @@ exports = module.exports = function(services, app) {
         .populate('collections')
         .exec()
         .then(document => {
-            return document.right.populate('type').execPopulate().then(right => {
+            return document.right.populate('type').execPopulate().then(() => {
                 return document;
             });
         })

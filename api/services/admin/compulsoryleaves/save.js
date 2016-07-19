@@ -332,7 +332,7 @@ function saveRequests(service, params) {
             requestPromise
             .then(resolve)
             .catch(error => {
-                service.addAlert('info', error);
+                service.addAlert('info', error.message);
                 resolve(null);
             });
         });

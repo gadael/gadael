@@ -303,6 +303,17 @@ define([], function() {
             $scope.compulsoryleave.gadaSave();
         };
 
+
+        $scope.removePeriods = function() {
+            $scope.compRequest.forEach(function(cr) {
+                cr.requests = [];
+                return cr;
+            });
+
+            $scope.compulsoryleave.gadaSave();
+        };
+
+
         $scope.delete = function() {
             if (confirm(gettext('Are you sure you whant to delete this compulsory leave?'))) {
                 $scope.compulsoryleave.gadaDelete($location.path('/admin/compulsoryleaves'));
