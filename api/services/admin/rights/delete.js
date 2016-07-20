@@ -15,34 +15,30 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
         
-
+        let Right = service.app.db.models.Right;
+        let rightDoc;
         
-        service.app.db.models.Right.findById(params.id, function (err, document) {
-
-            if (service.handleMongoError(err)) {
-
-                // do not accept delete if used in requests
-                document.countUses().then(uses => {
-                    if (uses > 0) {
-                        return service.error(util.format(gt.gettext('Failed to delete, the right is used %d in requests'), uses));
-                    }
-
-                    document.remove(function(err) {
-                        if (service.handleMongoError(err)) {
-                            service.success(gt.gettext('The leave right has been deleted'));
-
-                            var right = document.toObject();
-                            right.$outcome = service.outcome;
-
-                            service.deferred.resolve(right);
-                        }
-                    });
-                })
-                .catch(service.error);
-
-
+        Right.findById(params.id).exec()
+        .then(document => {
+            rightDoc = document;
+            return document.countUses();
+        })
+        .then(uses => {
+            if (uses > 0) {
+                throw new Error(util.format(gt.gettext('Failed to delete, the right is used %d in requests'), uses));
             }
-        });
+
+            return service.get(rightDoc._id);
+
+        })
+        .then(getServiceOutput => {
+
+            return rightDoc.remove()
+            .then(() => {
+                service.resolveSuccess(getServiceOutput, gt.gettext('The leave right has been deleted'));
+            });
+        })
+        .catch(service.error);
         
         return service.deferred.promise;
     };

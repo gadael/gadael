@@ -55,7 +55,7 @@
     "ical": "git://github.com/polo2ro/ical.js.git#543a750c177be2c1efb792b36c6103e1612aedd7",
     "rrule": "git://github.com/jkbrzt/rrule.git#9a540ad5193a5df9542d569c44cb8400b3575cb8",
     "node-paginate-anything": "~0.0.5",
-    "restitute": "git://github.com/polo2ro/restitute.git#11d8320665288af697227f42a63010e4beba9c58",
+    "restitute": "git://github.com/polo2ro/restitute.git#cd4bf59e8505c7e6b9f81ce35e9e8673a357f1e6",
     "q": "~1.4.1",
     "bcrypt": "~0.8.1",
     "jurassic": "git://github.com/polo2ro/jurassic.git#1eddd3a756c3672b5ed0cc1e03b682749d77a574",

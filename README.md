@@ -82,8 +82,8 @@ grunt test
 - [ ] Compulsory leaves management, fix problem when requests are deleted
 - [x] Compulsory leaves management, test rest service
 - [x] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
-- [ ] Get special right infos in right.get service
-- [ ] do not display quantity field if readonly by special right
+- [x] Get special right infos in right.get service
+- [ ] do not display quantity field if readonly by special right, because initial quantity can be variable by user
 - [x] delete renewals and links to collections when delete right
 - [x] Fix link from user view to the request list
 - [ ] Use service.resolveSuccessGet in all save/delete services to ensure REST integrity
