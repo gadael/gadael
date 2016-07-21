@@ -31,11 +31,11 @@ exports = module.exports = function(services, app) {
             return service.get(rightDoc._id);
 
         })
-        .then(getServiceOutput => {
+        .then(serviceOutput => {
 
             return rightDoc.remove()
             .then(() => {
-                service.resolveSuccess(getServiceOutput, gt.gettext('The leave right has been deleted'));
+                service.resolveSuccess(serviceOutput, gt.gettext('The leave right has been deleted'));
             });
         })
         .catch(service.error);

@@ -16,23 +16,18 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
 
         let CompulsoryLeave = service.app.db.models.CompulsoryLeave;
+        let documentPromise = CompulsoryLeave.findById(params.id)
+        .populate('requests.request') // for the pre remove hook
+        .exec();
 
-        CompulsoryLeave.findById(params.id)
-        .populate('requests.request')
-        .exec()
-        .then(document => {
+        let objectPromise = service.get(params.id);
 
-            document.remove(function(err) {
-                if (service.handleMongoError(err)) {
-                    service.success(gt.gettext('The compulsory leave has been deleted'));
-
-                    var compulsoryleave = document.toObject();
-                    compulsoryleave.$outcome = service.outcome;
-
-                    service.deferred.resolve(compulsoryleave);
-                }
+        Promise.all([documentPromise, objectPromise])
+        .then(all => {
+            return all[0].remove()
+            .then(() => {
+                service.resolveSuccess(all[1], gt.gettext('The compulsory leave has been deleted'));
             });
-
         })
         .catch(service.error);
 
