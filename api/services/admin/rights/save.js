@@ -18,6 +18,80 @@ function validate(service, params) {
 
     saveRight(service, params);
 }
+
+
+
+
+
+/**
+ * Prepare the document to save
+ * @param   {apiService} service     Save service
+ * @param   {object}     params      Put or Posted parameters
+ * @param   {object}     fieldsToSet
+ * @returns {Promise}    Resolve ro a right document, saved or not
+ */
+function prepareDocument(service, params, fieldsToSet) {
+
+    let RightModel = service.app.db.models.Right;
+
+    if (params.id)
+    {
+        let postedRules = [];
+        let postedRulesId = [];
+        let newRules = [];
+
+        params.rules.forEach(function(rule) {
+            if (undefined !== rule._id) {
+                postedRules.push(rule);
+                postedRulesId.push(rule._id);
+            } else {
+                newRules.push(rule);
+            }
+        });
+
+        return RightModel.findById(params.id).exec()
+        .then(document => {
+
+            document.set(fieldsToSet);
+
+            postedRules.forEach(function(existingRule) {
+                document.rules.id(existingRule._id).set(existingRule);
+            });
+
+            document.rules.forEach(function(rule, position) {
+                if (-1 === postedRulesId.indexOf(rule.id)) {
+                    document.rules[position].remove();
+                }
+            });
+
+            newRules.forEach(function(newRule) {
+                document.rules.push(newRule);
+            });
+
+            return document;
+        });
+
+    }
+
+
+
+
+    if (undefined === params.rules) {
+        fieldsToSet.rules = params.rules;
+    }
+
+    let right = new RightModel();
+    right.set(fieldsToSet);
+
+    return Promise.resolve(right);
+
+
+}
+
+
+
+
+
     
     
 /**
@@ -28,11 +102,8 @@ function validate(service, params) {
  */  
 function saveRight(service, params) {
 
-    
-    var RightModel = service.app.db.models.Right;
-    
 
-    var type;
+    let type;
     if (undefined !== params.type) {
         type = params.type;
         if (undefined !== params.type._id) {
@@ -41,7 +112,7 @@ function saveRight(service, params) {
     }
 
     
-    var fieldsToSet = { 
+    let fieldsToSet = {
         name: params.name,
         description: params.description,
         type: type,
@@ -84,81 +155,24 @@ function saveRight(service, params) {
         }
     }
 
-    if (params.id)
-    {
-        var postedRules = [];
-        var postedRulesId = [];
-        var newRules = [];
 
-        params.rules.forEach(function(rule) {
-            if (undefined !== rule._id) {
-                postedRules.push(rule);
-                postedRulesId.push(rule._id);
-            } else {
-                newRules.push(rule);
-            }
-        });
+    let message;
 
-        RightModel.findById(params.id, function(err, document) {
-            if (service.handleMongoError(err))
-            {
-                document.set(fieldsToSet);
+    prepareDocument(service, params, fieldsToSet)
+    .then(right => {
 
-                postedRules.forEach(function(existingRule) {
-                    document.rules.id(existingRule._id).set(existingRule);
-                });
-
-                document.rules.forEach(function(rule, position) {
-                    if (-1 === postedRulesId.indexOf(rule.id)) {
-                        document.rules[position].remove();
-                    }
-                });
-
-                newRules.forEach(function(newRule) {
-                    document.rules.push(newRule);
-                });
-
-                document.save(function(err, document) {
-
-                    if (service.handleMongoError(err)) {
-
-                        // for compatibility with the list service
-                        document.populate('type', function(err, document) {
-
-                            if (service.handleMongoError(err)) {
-
-                                service.resolveSuccess(
-                                    document,
-                                    gt.gettext('The vacation right has been modified')
-                                );
-                            }
-                        });
-                    }
-                });
-            }
-        });
-
-    } else {
-
-        if (undefined === params.rules) {
-            fieldsToSet.rules = params.rules;
+        if (right.isNew) {
+            message = gt.gettext('The vacation right has been created');
+        } else {
+            message = gt.gettext('The vacation right has been modified');
         }
 
-        let right = new RightModel();
-        right.set(fieldsToSet);
-
-        right.save(function(err, document) {
-
-            if (service.handleMongoError(err))
-            {
-
-                service.resolveSuccess(
-                    document, 
-                    gt.gettext('The vacation right has been created')
-                );
-            }
-        });
-    }
+        return right.save();
+    })
+    .then(savedRight => {
+        service.resolveSuccessGet(savedRight._id, message);
+    })
+    .catch(service.error);
 }
     
     
