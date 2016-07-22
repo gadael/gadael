@@ -4,6 +4,12 @@
 /**
  * The user account rights list service
  * Get available rights beetween two dates
+ *
+ * right must be available on dtstart to be included in the results
+ * total available quantity on accoutright is computed using the renwals in the period between dtstart and dtend
+ * the period given as parameter is the future absence request
+ *
+ * To get the list of available right on the current date, the accountbeneficiaries service shoud be used
  */
 
 
@@ -232,7 +238,7 @@ exports = module.exports = function(services, app)
                 }
 
 
-                account.getRights().then(function(rights) {
+                account.getRights(params.dtstart).then(function(rights) {
                     populateTypes(rights).then(() => {
                         addTypesGroupTitle(rights);
                         resolveAccountRights(users[0], rights, params.dtstart, params.dtend);

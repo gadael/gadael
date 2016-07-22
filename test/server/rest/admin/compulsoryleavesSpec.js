@@ -146,18 +146,20 @@ describe('Compulsory leaves admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
+
             server.expectSuccess(body);
 
-            compulsoryleave1 = body._id;
+            compulsoryleave1 = body;
 
             done();
         });
     });
 
 
+
     it ('update compulsory leave and create requests', function(done) {
 
-        server.put('/rest/admin/compulsoryleaves/'+compulsoryleave1, {
+        server.put('/rest/admin/compulsoryleaves/'+compulsoryleave1._id, {
             name: 'compulsory leave test',
             dtstart: dtstart,
             dtend: dtend,
@@ -175,11 +177,46 @@ describe('Compulsory leaves admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             server.expectSuccess(body);
+
+            compulsoryleave1 = body;
+
             expect(body.requests[0].request).toBeDefined();
-            expect(body.requests[0].request.length).toEqual(24);
+            expect(body.requests[0].request.length).toEqual(24); // The ID
+            expect(body.requests[0].quantity).toBeGreaterThan(0);
             request1 = body.requests[0].request;
             done();
         });
+    });
+
+
+
+    function getAccountRight() {
+        return new Promise((resolve, reject) => {
+            server.get('/rest/admin/accountbeneficiaries', {
+                account: randomUser.user.roles.account.toString()
+            }, function(res, body) {
+
+                if (!Array.isArray(body)) {
+                    return reject(new Error(body.$outcome.alert[0]));
+                }
+
+                resolve(body.find(ar => {
+                    return (ar.right.id === right1.id);
+                }));
+            });
+        });
+    }
+
+
+
+    it('check the right quantity after one creation', function(done) {
+
+        getAccountRight().then(accountright => {
+            expect(accountright).toBeDefined();
+            expect(accountright.available_quantity).toEqual(25 - compulsoryleave1.requests[0].quantity);
+
+            done();
+        }).catch(done);
     });
 
 
@@ -207,7 +244,7 @@ describe('Compulsory leaves admin rest service', function() {
             expect(body.requests[0].request).toBeDefined();
             expect(body.requests[0].user.name).toBeDefined();
 
-            compulsoryleave2 = body._id;
+            compulsoryleave2 = body;
             request2 = body.requests[0].request;
 
             done();
@@ -273,7 +310,7 @@ describe('Compulsory leaves admin rest service', function() {
             expect(body._id).toEqual(request1);
             expect(body.absence.compulsoryLeave).toBeDefined();
             if (body.absence.compulsoryLeave) {
-                expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave1);
+                expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave1._id);
             }
 
             expect(body.events.length>0).toBeTruthy();
@@ -293,10 +330,10 @@ describe('Compulsory leaves admin rest service', function() {
 
 
 
-    it('delete the compulsory leave', function(done) {
-        server.delete('/rest/admin/compulsoryleaves/'+compulsoryleave1, function(res, body) {
+    it('delete the compulsory leave 1', function(done) {
+        server.delete('/rest/admin/compulsoryleaves/'+compulsoryleave1._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body._id).toEqual(compulsoryleave1);
+            expect(body._id).toEqual(compulsoryleave1._id);
             expect(body.name).toEqual('compulsory leave test');
             server.expectSuccess(body);
             done();
@@ -317,7 +354,7 @@ describe('Compulsory leaves admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.absence.compulsoryLeave).toBeDefined();
             if (body.absence.compulsoryLeave) {
-                expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave2);
+                expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave2._id);
             }
             expect(body.absence.distribution.length>0).toBeTruthy();
             done();
@@ -348,6 +385,21 @@ describe('Compulsory leaves admin rest service', function() {
             expect(res.statusCode).toEqual(404);
             done();
         });
+    });
+
+
+    it('check the right quantity after delete', function(done) {
+
+        // clr 1 deleted
+        // clr 2 active
+        // clr 3 request deleted
+
+        getAccountRight().then(accountright => {
+            expect(accountright).toBeDefined();
+            expect(accountright.available_quantity).toEqual(25 - compulsoryleave2.requests[0].quantity);
+
+            done();
+        }).catch(done);
     });
 
 
