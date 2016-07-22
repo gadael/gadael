@@ -3,6 +3,27 @@
 const gt = require('./../modules/gettext');
 let Q = require('q');
 
+
+/**
+ * array map function to get Id from the document or ID
+ * @param   {object|ObjectId}   document [[Description]]
+ * @returns {ObjectId} [[Description]]
+ */
+function mapId(document) {
+    return undefined === document._id ? document : document._id;
+}
+
+function getRemovePromises(documents) {
+    let promises = [];
+    documents.forEach(doc => {
+        promises.push(doc.remove());
+    });
+
+    return Promise.all(promises);
+}
+
+
+
 exports = module.exports = function(params) {
 	
 	var mongoose = params.mongoose;
@@ -51,6 +72,69 @@ exports = module.exports = function(params) {
                                                                         // time saving deposit: the quantity is available is time saving account
                                                                         // workperiod recover: the quantity is available in recovery right
     });
+
+    /**
+     * Register pre remove hook
+     */
+    requestSchema.pre('remove', function preRemoveHook(next) {
+
+        let request = this;
+
+        Promise.all([
+            request.removeAbsenceDistribution(),
+            request.removeEvents()
+        ])
+        .then(() => {
+            next();
+        })
+        .catch(next);
+
+    });
+
+    /**
+     * Remove absence distribution
+     * @return {Promise}
+     */
+    requestSchema.methods.removeAbsenceDistribution = function() {
+
+        let request = this;
+
+        if (undefined === request.absence ||
+            undefined === request.absence.distribution ||
+            request.absence.distribution.length === 0) {
+            return Promise.resolve(false);
+        }
+
+
+        let distribution = request.absence.distribution;
+        let elementIds = distribution.map(mapId);
+
+        let AbsenceElem = request.model('AbsenceElem');
+
+        return AbsenceElem.find({ _id: { $in: elementIds } }).exec()
+        .then(getRemovePromises);
+    };
+
+
+    /**
+     * Remove all linked calendar events
+     * @return {Promise}
+     */
+    requestSchema.methods.removeEvents = function() {
+        let request = this;
+
+        if (undefined === request.events ||
+            undefined === request.events.length === 0) {
+            return Promise.resolve(false);
+        }
+
+        let eventIds = request.events.map(mapId);
+
+        let CalendarEvent = request.model('CalendarEvent');
+
+        return CalendarEvent.find({ _id: { $in: eventIds } }).exec()
+        .then(getRemovePromises);
+    };
 
 
 
