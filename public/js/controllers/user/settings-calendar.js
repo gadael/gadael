@@ -7,6 +7,7 @@ define([], function() {
 
         $scope.user = Rest.user.settings.getFromUrl().gadaGet();
 
+        $scope.connected = false;
 
 		$scope.saveUser = function() {
 			$scope.user.gadaSave($scope.back);
