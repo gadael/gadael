@@ -33,6 +33,7 @@ define([
 		'http-auth-interceptor',
 		'bgf.paginateAnything',
 		'vr.directives.passwordStrength.width',
+        'vr.directives.passwordStrength.class',
 	//	'ngAnimate',
 		'ngSanitize',
 		'mgcrea.ngStrap',

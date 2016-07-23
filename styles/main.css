@@ -294,3 +294,11 @@ http://stackoverflow.com/questions/20547819/vertical-align-with-bootstrap-3 */
     float: none;
     margin-right: -4px;
 }
+
+
+
+.pw-level1 { background: #ff2929; }
+.pw-level2 { background: #ff7601; }
+.pw-level3 { background: #fff500; }
+.pw-level4 { background: #b6d144; }
+.pw-level5 { background: #00ba00; }
