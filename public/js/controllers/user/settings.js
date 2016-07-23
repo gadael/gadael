@@ -11,10 +11,6 @@ define([], function() {
          * setImage modal popup
          */
         $scope.setImage = UserEdit.setImage($scope);
-
-		$scope.back = function() {
-			// TODO: go to a user homepage
-		};
 		
 		$scope.saveUser = function() {
 			$scope.user.gadaSave($scope.back);

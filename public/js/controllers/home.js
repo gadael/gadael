@@ -39,7 +39,6 @@ define([], function() {
         $scope.createFirstAdmin = false;
         if (!$scope.isAuthenticated) {
             $http.get('/rest/anonymous/createfirstadmin').then(function(response) {
-                console.log(response);
                 $scope.createFirstAdmin = response.data.allowed;
             });
         }

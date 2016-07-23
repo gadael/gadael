@@ -57,6 +57,16 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/user/settings.html',
 			controller: 'UserSettings'
 		});
+
+        $routeProvider.when('/user/settings/password', {
+			templateUrl: 'partials/user/settings-password.html',
+			controller: 'UserSettingsPassword'
+		});
+
+        $routeProvider.when('/user/settings/calendar', {
+			templateUrl: 'partials/user/settings-calendar.html',
+			controller: 'UserSettingsCalendar'
+		});
 		
         
         // vacation account pages

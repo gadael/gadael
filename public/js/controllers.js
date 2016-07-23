@@ -251,6 +251,14 @@ define(['angular', 'services'], function (angular) {
             invokeController('controllers/user/settings', this, $scope, $injector);
 		}])
 
+        .controller('UserSettingsPassword', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/user/settings-password', this, $scope, $injector);
+		}])
+
+        .controller('UserSettingsCalendar', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/user/settings-calendar', this, $scope, $injector);
+		}])
+
         .controller('AdminRecoverQuantities', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/recoverquantities', this, $scope, $injector);
 		}])
