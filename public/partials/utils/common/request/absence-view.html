@@ -14,11 +14,8 @@
 
         <dl class="dl-horizontal">
             <dt translate>Status:</dt>              <dd>{{request.status.title}}</dd>
-            <dt translate>Total consumption:</dt>   <dd>{{stat.consumed.D| number}} Days</dd>
-        </dl>
-
-        <dl class="dl-horizontal" ng-if="request.total.duration!==request.total.consumed">
-            <dt translate>Total duration:</dt>      <dd>{{stat.duration.D| number}} Days</dd>
+            <dt translate>Total consumption:</dt>   <dd>{{stat.consumed.D| number}} <span translate>Days</span></dd>
+            <dt translate>Total duration:</dt>      <dd>{{stat.duration.D| number}} <span translate>Days</span></dd>
         </dl>
 
         <dl class="dl-horizontal" ng-if="request.absence.distribution.length===1">

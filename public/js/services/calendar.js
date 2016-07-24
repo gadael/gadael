@@ -1,9 +1,9 @@
-define(['moment'], function(moment) {
+define(['moment', 'angular'], function(moment, angular) {
 
     'use strict';
 
 
-    return function loadCalendarService($locale, $q) {
+    return function loadCalendarService($locale, $q, $routeParams, $scrollspy, $anchorScroll) {
 
 
 
@@ -288,74 +288,128 @@ define(['moment'], function(moment) {
         }
 
 
+        /**
+         * @param {int} year
+         * @param {int} month
+         * @return {Object}
+         */
+        function createCalendar(year, month, calendarEventsResource, personalEventsResource) {
 
+            var nbWeeks = 50;
+            var cal = {
+                calendar: {
+                    weeks: [],
+                    keys: {}
+                },
+                nav: {
+                    years: [],
+                    keys: {}
+                }
+            };
+
+            var loopDate = new Date(year, month -6, 1);
+            setMonday(loopDate);
+
+
+            var endDate = new Date(loopDate);
+            endDate.setDate(endDate.getDate()+(7*nbWeeks));
+
+            addToCalendar(cal.calendar, new Date(loopDate), endDate);
+            addToNav(cal.nav, new Date(loopDate), endDate);
+
+            addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource);
+
+            return cal;
+        }
+
+        /**
+         * update nav object with number of weeks
+         * @param {Object} cal
+         * @param {Integer} nbWeeks
+         * @param {Object} calendarEventsResource
+         * @param {Object} personalEventsResource
+         *
+         * @return {Promise}
+         */
+        function addWeeks(cal, nbWeeks, calendarEventsResource, personalEventsResource) {
+
+            var calendar = cal.calendar;
+            var nav = cal.nav;
+
+            var lastweek = calendar.weeks[calendar.weeks.length-1].days;
+
+            var loopDate = new Date(lastweek[lastweek.length-1].d);
+            loopDate.setDate(loopDate.getDate()+1);
+
+            var endDate = new Date(loopDate);
+            endDate.setDate(endDate.getDate()+(7*nbWeeks));
+
+            addToCalendar(calendar, new Date(loopDate), endDate);
+            addToNav(nav, new Date(loopDate), endDate);
+
+            return addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource);
+        }
+
+
+
+        /**
+         * Initialize the Load more data function on scope, callback for the on scroll directive
+         * @param {object} $scope [[Description]]
+         */
+        function initLoadMoreData($scope, calendarEventsResource, personalEventsResource) {
+
+            var year, month, now = new Date();
+
+            if (undefined !== $routeParams.year) {
+                year = parseInt($routeParams.year, 10);
+            } else {
+                year = now.getFullYear();
+            }
+
+
+
+            if (undefined !== $routeParams.month) {
+                month = parseInt($routeParams.month, 10);
+            } else {
+                month = now.getMonth();
+            }
+
+            $scope.cal = createCalendar(year, month, calendarEventsResource, personalEventsResource);
+            $scope.previousYear = $scope.cal.nav.years[0].y - 1;
+
+
+
+            $scope.scrollTo = function(id) {
+                $anchorScroll(id);
+            };
+
+
+            $scope.isLoading = false;
+
+            $scope.loadMoreData = function loadMoreData() {
+                if (!$scope.isLoading) {
+                    $scope.isLoading = true;
+                    addWeeks($scope.cal, 6, calendarEventsResource, personalEventsResource)
+                    .then(function() {
+                        $scope.isLoading = false;
+
+                        // refresh scrollSpy
+                        var scrollspy = $scrollspy(angular.element(document.getElementsByClassName('bs-sidenav')[0]), {});
+                        scrollspy.init();
+
+                    }, function(error) {
+                        $scope.isLoading = false;
+                        throw error;
+                    });
+                }
+            };
+        }
 
 
         return {
-
-
-
-            /**
-             * @param {int} year
-             * @param {int} month
-             * @return {Object}
-             */
-            createCalendar: function(year, month, calendarEventsResource, personalEventsResource) {
-
-                var nbWeeks = 50;
-                var cal = {
-                    calendar: {
-                        weeks: [],
-                        keys: {}
-                    },
-                    nav: {
-                        years: [],
-                        keys: {}
-                    }
-                };
-
-                var loopDate = new Date(year, month -6, 1);
-                setMonday(loopDate);
-
-
-                var endDate = new Date(loopDate);
-                endDate.setDate(endDate.getDate()+(7*nbWeeks));
-
-                addToCalendar(cal.calendar, new Date(loopDate), endDate);
-                addToNav(cal.nav, new Date(loopDate), endDate);
-
-                addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource);
-
-                return cal;
-            },
-
-            /**
-             * update nav object with number of weeks
-             * @param {Object} cal
-             * @param {Integer} nbWeeks
-             * @param {Object} calendarEventsResource
-             * @param {Object} personalEventsResource
-             *
-             * @return {Promise}
-             */
-            addWeeks: function(cal, nbWeeks, calendarEventsResource, personalEventsResource) {
-
-                var calendar = cal.calendar;
-                var nav = cal.nav;
-
-                var lastweek = calendar.weeks[calendar.weeks.length-1].days;
-
-                var loopDate = new Date(lastweek[lastweek.length-1].d);
-                loopDate.setDate(loopDate.getDate()+1);
-
-                var endDate = new Date(loopDate);
-                endDate.setDate(endDate.getDate()+(7*nbWeeks));
-
-                addToCalendar(calendar, new Date(loopDate), endDate);
-                addToNav(nav, new Date(loopDate), endDate);
-
-                return addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource);
-            }
+            createCalendar: createCalendar,
+            addWeeks: addWeeks,
+            initLoadMoreData: initLoadMoreData
         };
     };
 

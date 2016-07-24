@@ -391,9 +391,9 @@ define([
     /**
      * Load the collection of REST services
      */
-    .factory('Calendar', ['$locale', '$q',
-        function(gettext, $locale, $q) {
-            return getCalendar(gettext, $locale, $q);
+    .factory('Calendar', ['$locale', '$q', '$routeParams', '$scrollspy', '$anchorScroll',
+        function(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll) {
+            return getCalendar(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll);
         }
     ]);
 });
