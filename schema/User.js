@@ -144,6 +144,18 @@ exports = module.exports = function(params) {
         }
     };
 
+    /**
+     * Get department name if exists
+     * @return {String}
+     */
+    userSchema.methods.getDepartmentName = function() {
+
+        if (!this.department) {
+            return '';
+        }
+
+        return this.department.name;
+    };
 
 
     /**

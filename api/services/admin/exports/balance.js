@@ -116,7 +116,7 @@ exports = module.exports = function(service, moment) {
                     let row = {};
 
                     row[NAME]           = users[i].getName();
-                    row[DEPARTMENT]     = users[i].department.name;
+                    row[DEPARTMENT]     = users[i].getDepartmentName();
                     row[RIGHT]          = right.name;
                     row[COLLECTION]     = userAttributes[i][0].name;
                     if (renewal) {
