@@ -22,21 +22,12 @@ define([], function() {
 
                 $scope.setPageTitle($scope.user.lastname+' '+$scope.user.firstname+' '+gettext('calendar'));
 
-                Calendar.initLoadMoreData($scope, calendarEventsResource, personalEventsResource);
+                Calendar.initLoadMoreData($scope, calendarEventsResource, personalEventsResource, requestsResource);
 
                 $scope.loadPreviousYear = function() {
                     $location.path('/admin/users/'+$scope.user._id+'/calendar/'+$scope.previousYear+'/0');
                 };
 
-
-                $scope.getRequest = function(request) {
-
-                    if (undefined === request || null === request) {
-                        return null;
-                    }
-
-                    return requestsResource.get({ id: request._id });
-                };
 
             });
 

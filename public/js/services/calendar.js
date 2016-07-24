@@ -236,32 +236,50 @@ define(['moment', 'angular'], function(moment, angular) {
 
 
         /**
+         *
+         * @param {object} [user]
+         *
          * @return {Promise}
          */
-        function addEvents(cal, fromDate, toDate, calendarEventsResource, personalEventsResource)
+        function addEvents(cal, fromDate, toDate, calendarEventsResource, personalEventsResource, user)
         {
+            function admComp(params) {
+                if (undefined !== user) {
+                    params.user = user._id;
+                }
+                console.log(params);
+                return params;
+            }
+
+
             var deferred = $q.defer();
 
             // TODO: for the admin page, the requests will require an aditional user ID
 
-            var workscheduleEvents = calendarEventsResource.query({
-                dtstart: fromDate,
-                dtend: toDate,
-                type: 'workschedule'
-            });
+            var workscheduleEvents = calendarEventsResource.query(
+                admComp({
+                    dtstart: fromDate,
+                    dtend: toDate,
+                    type: 'workschedule'
+                })
+            );
 
 
-            var nonworkingdaysEvents = calendarEventsResource.query({
-                dtstart: fromDate,
-                dtend: toDate,
-                type: 'nonworkingday'
-            });
+            var nonworkingdaysEvents = calendarEventsResource.query(
+                admComp({
+                    dtstart: fromDate,
+                    dtend: toDate,
+                    type: 'nonworkingday'
+                })
+            );
 
 
-            var personalEvents = personalEventsResource.query({
-                dtstart: fromDate,
-                dtend: toDate
-            });
+            var personalEvents = personalEventsResource.query(
+                admComp({
+                    dtstart: fromDate,
+                    dtend: toDate
+                })
+            );
 
             $q.all([
                 workscheduleEvents.$promise,
@@ -292,9 +310,12 @@ define(['moment', 'angular'], function(moment, angular) {
         /**
          * @param {int} year
          * @param {int} month
+         * @param calendarEventsResource
+         * @param personalEventsResource
+         * @param {object} [user]
          * @return {Object}
          */
-        function createCalendar(year, month, calendarEventsResource, personalEventsResource) {
+        function createCalendar(year, month, calendarEventsResource, personalEventsResource, user) {
 
             var nbWeeks = 50;
             var cal = {
@@ -318,7 +339,7 @@ define(['moment', 'angular'], function(moment, angular) {
             addToCalendar(cal.calendar, new Date(loopDate), endDate);
             addToNav(cal.nav, new Date(loopDate), endDate);
 
-            addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource);
+            addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource, user);
 
             return cal;
         }
@@ -329,10 +350,10 @@ define(['moment', 'angular'], function(moment, angular) {
          * @param {Integer} nbWeeks
          * @param {Object} calendarEventsResource
          * @param {Object} personalEventsResource
-         *
+         * @param {Object} [user]
          * @return {Promise}
          */
-        function addWeeks(cal, nbWeeks, calendarEventsResource, personalEventsResource) {
+        function addWeeks(cal, nbWeeks, calendarEventsResource, personalEventsResource, user) {
 
             var calendar = cal.calendar;
             var nav = cal.nav;
@@ -348,7 +369,7 @@ define(['moment', 'angular'], function(moment, angular) {
             addToCalendar(calendar, new Date(loopDate), endDate);
             addToNav(nav, new Date(loopDate), endDate);
 
-            return addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource);
+            return addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource, user);
         }
 
 
@@ -357,7 +378,7 @@ define(['moment', 'angular'], function(moment, angular) {
          * Initialize the Load more data function on scope, callback for the on scroll directive
          * @param {object} $scope [[Description]]
          */
-        function initLoadMoreData($scope, calendarEventsResource, personalEventsResource) {
+        function initLoadMoreData($scope, calendarEventsResource, personalEventsResource, requestsResource) {
 
             var year, month, now = new Date();
 
@@ -375,7 +396,7 @@ define(['moment', 'angular'], function(moment, angular) {
                 month = now.getMonth();
             }
 
-            $scope.cal = createCalendar(year, month, calendarEventsResource, personalEventsResource);
+            $scope.cal = createCalendar(year, month, calendarEventsResource, personalEventsResource, $scope.user);
             $scope.previousYear = $scope.cal.nav.years[0].y - 1;
 
 
@@ -390,7 +411,7 @@ define(['moment', 'angular'], function(moment, angular) {
             $scope.loadMoreData = function loadMoreData() {
                 if (!$scope.isLoading) {
                     $scope.isLoading = true;
-                    addWeeks($scope.cal, 6, calendarEventsResource, personalEventsResource)
+                    addWeeks($scope.cal, 6, calendarEventsResource, personalEventsResource, $scope.user)
                     .then(function() {
                         $scope.isLoading = false;
 
@@ -404,6 +425,17 @@ define(['moment', 'angular'], function(moment, angular) {
                     });
                 }
             };
+
+
+            $scope.getRequest = function(request) {
+
+                if (undefined === request || null === request) {
+                    return null;
+                }
+
+                return requestsResource.get({ id: request._id });
+            };
+
         }
 
 
