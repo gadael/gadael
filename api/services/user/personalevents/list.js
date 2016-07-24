@@ -95,7 +95,7 @@ exports = module.exports = function(services, app) {
 
         getEvents(service, params)
         .then(mapUid)
-        .then(service.resolveSuccess)
+        .then(service.deferred.resolve)
         .catch(service.error);
 
 

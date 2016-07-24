@@ -247,7 +247,6 @@ define(['moment', 'angular'], function(moment, angular) {
                 if (undefined !== user) {
                     params.user = user._id;
                 }
-                console.log(params);
                 return params;
             }
 
