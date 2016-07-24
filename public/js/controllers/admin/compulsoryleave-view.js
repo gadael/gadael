@@ -289,13 +289,27 @@ define([], function() {
         });
 
 
+        function isUserInRequests(id) {
+            var requests = $scope.compulsoryleave.requests;
+            for (var i=0; i<requests.length; i++) {
+                if (requests[i].user.id === id) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         /**
          * Add compulsory leave requests
          */
         $scope.savePeriods = function() {
+
+
             $scope.compRequest.forEach(function(cr) {
 
-                if (cr.quantity > 0 && !cr.capped) {
+                if (cr.quantity > 0 && !cr.capped && !isUserInRequests(cr.user.id)) {
                     $scope.compulsoryleave.requests.push({
                         user: {
                             id: cr.user.id
