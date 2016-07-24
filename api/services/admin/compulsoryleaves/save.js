@@ -373,10 +373,17 @@ function saveRequests(service, params) {
     if (undefined !== params.requests) {
         params.requests.forEach(compulsoryLeaveRequest => {
 
-            if (!compulsoryLeaveRequest || compulsoryLeaveRequest.request) {
-                // error or allready created
+            if (!compulsoryLeaveRequest) {
+                // error ?
                 return;
             }
+
+            if (compulsoryLeaveRequest.request) {
+                // allready created
+                promises.push(Promise.resolve(compulsoryLeaveRequest));
+                return;
+            }
+
 
             promises.push(
                 captureError(createRequest(compulsoryLeaveRequest.user.id))
