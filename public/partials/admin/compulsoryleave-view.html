@@ -90,7 +90,10 @@
         <div class="col-sm-4">
             <span ng-if="compulsoryLeaveRequest.request">
                 <i class="fa fa-calendar-check-o text-success"></i>
-                <a href="#/admin/requests/absences/{{compulsoryLeaveRequest.request}}" translate>Period is booked</a>
+                <a href="#/admin/requests/absences/{{compulsoryLeaveRequest.request}}" translate>
+                    Period is booked
+                    <span class="badge">{{compulsoryLeaveRequest.quantity}} {{compulsoryLeaveRequest.disp_unit}}</span>
+                </a>
             </span>
             <span ng-if="!compulsoryLeaveRequest.request">
                 <span ng-if="!compulsoryLeaveRequest.capped && compulsoryLeaveRequest.quantity">

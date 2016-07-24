@@ -2,6 +2,7 @@
 
 //const gt = require('./../modules/gettext');
 const SpecialRightIndex = require('./../api/specialrights/index');
+const dispunits = require('../modules/dispunits');
 
 exports = module.exports = function(params) {
     
@@ -491,7 +492,7 @@ exports = module.exports = function(params) {
     
     rightSchema.methods.getDispUnit = function(quantity) {
         
-        return require('../modules/dispunits')(this.quantity_unit, quantity);
+        return dispunits(this.quantity_unit, quantity);
     };
 
     

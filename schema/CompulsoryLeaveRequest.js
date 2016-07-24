@@ -1,5 +1,6 @@
 'use strict';
 
+
 /**
  * A compulsory leave request is embeded in a compulsory leave
  * The document will be created and embeded without the request field
@@ -22,7 +23,6 @@ exports = module.exports = function(params) {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
         }
 	});
-
 
 
 

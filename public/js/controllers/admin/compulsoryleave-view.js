@@ -30,8 +30,8 @@ define([], function() {
 
 
 
-	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q', 'gettext',
-            function($scope, $location, Rest, catchOutcome, $q, gettext) {
+	return ['$scope', '$location', 'Rest', 'catchOutcome', '$q', 'gettext', '$route',
+            function($scope, $location, Rest, catchOutcome, $q, gettext, $route) {
 
 
         /**
@@ -109,7 +109,8 @@ define([], function() {
                         image: users[i].image
                     },
                     quantity: null,
-                    request: null
+                    request: null,
+                    disp_unit: null
                 };
             }
 
@@ -133,6 +134,7 @@ define([], function() {
 
                 compRequestByUser[userId].request = $scope.compulsoryleave.requests[i].request;
                 compRequestByUser[userId].quantity = $scope.compulsoryleave.requests[i].quantity;
+                compRequestByUser[userId].disp_unit = $scope.compulsoryleave.requests[i].disp_unit;
             }
 
 
@@ -287,7 +289,9 @@ define([], function() {
         });
 
 
-
+        /**
+         * Add compulsory leave requests
+         */
         $scope.savePeriods = function() {
             $scope.compRequest.forEach(function(cr) {
 
@@ -300,17 +304,19 @@ define([], function() {
                 }
             });
 
-            $scope.compulsoryleave.gadaSave();
+            $scope.compulsoryleave.gadaSave().then($route.reload);
         };
 
-
+        /**
+         * Remove compulsory leave requests
+         */
         $scope.removePeriods = function() {
             $scope.compRequest.forEach(function(cr) {
                 cr.requests = [];
                 return cr;
             });
 
-            $scope.compulsoryleave.gadaSave();
+            $scope.compulsoryleave.gadaSave().then($route.reload);
         };
 
 

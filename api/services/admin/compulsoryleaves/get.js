@@ -1,6 +1,7 @@
 'use strict';
 
 const gt = require('./../../../../modules/gettext');
+const dispunits = require('./../../../../modules/dispunits');
 
 
 
@@ -24,19 +25,24 @@ exports = module.exports = function(services, app) {
         .populate('collections')
         .exec()
         .then(document => {
+
+            if(!document) {
+                return service.notFound(gt.gettext('This compulsory leave does not exists'));
+            }
+
             return document.right.populate('type').execPopulate().then(() => {
                 return document;
             });
         })
         .then(document => {
 
-            if (document) {
-                service.outcome.success = true;
-                service.deferred.resolve(document);
-            } else {
-                service.notFound(gt.gettext('This compulsory leave does not exists'));
+            let compulsoryLeaveObject = document.toObject();
+            for (let i=0; i<document.requests.length; i++) {
+                compulsoryLeaveObject.requests[i].disp_unit = dispunits(document.right.quantity_unit, document.requests[i].quantity);
             }
 
+            service.outcome.success = true;
+            service.deferred.resolve(compulsoryLeaveObject);
         })
         .catch(service.error);
 
