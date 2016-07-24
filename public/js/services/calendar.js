@@ -242,6 +242,8 @@ define(['moment', 'angular'], function(moment, angular) {
         {
             var deferred = $q.defer();
 
+            // TODO: for the admin page, the requests will require an aditional user ID
+
             var workscheduleEvents = calendarEventsResource.query({
                 dtstart: fromDate,
                 dtend: toDate,
@@ -266,7 +268,6 @@ define(['moment', 'angular'], function(moment, angular) {
                 nonworkingdaysEvents.$promise,
                 personalEvents.$promise
             ]).then(function() {
-                //TODO: add calendar events to nav.calendar
 
                 workscheduleEvents.forEach(function(event) {
                     addEvent(cal, event, 'workschedule');

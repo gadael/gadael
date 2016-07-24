@@ -247,6 +247,26 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminUserView'
 		});
         
+
+
+        $routeProvider.when('/admin/users/:id/calendar', {
+			templateUrl: 'partials/account/calendar.html',
+			controller: 'AdminCalendarView'
+		});
+
+        $routeProvider.when('/admin/users/:id/calendar/:year/:month', {
+			templateUrl: 'partials/account/calendar.html',
+			controller: 'AdminCalendarView'
+		});
+
+        $routeProvider.when('/admin/users/:id/calendar/:year/:month/:day', {
+			templateUrl: 'partials/account/calendar.html',
+			controller: 'AdminCalendarView'
+		});
+
+
+
+
         $routeProvider.when('/admin/beneficiaries/:id', {
 			templateUrl: 'partials/admin/beneficiary-edit.html',
 			controller: 'AdminBeneficiaryEdit'
