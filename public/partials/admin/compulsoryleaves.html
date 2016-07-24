@@ -45,18 +45,11 @@
 		</div>
 
 		<div class="form-group">
-			<label for="search_collection" translate>By collection:</label><br />
-			<select class="form-control" id="search_collection" ng-model="search.collection" ng-options="collection._id as collection.name for collection in collections">
+			<label for="search_collection" translate>By right:</label><br />
+			<select class="form-control" id="search_collection" ng-model="search.right" ng-options="right._id as right.name for right in rights">
 				<option></option>
 			</select>
 		</div>
 
-
-		<div class="form-group">
-			<label for="search_department" translate>By department:</label><br />
-			<select class="form-control" id="search_department" ng-model="search.department" ng-options="department._id as department.name for department in departments">
-				<option></option>
-			</select>
-		</div>
 	</div>
 </div>

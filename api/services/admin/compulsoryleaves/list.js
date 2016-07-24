@@ -20,22 +20,16 @@ var query = function(service, params) {
 
     var find = service.app.db.models.CompulsoryLeave.find();
 
-
-    if (params && params.collection)
+    if (params && params.name)
     {
-        find.where({ collection: params.collection });
+        find.where({ name: new RegExp('^'+params.name, 'i') });
     }
 
-    if (params && params.department)
+    if (params && params.right)
     {
-        find.where({ department: params.department });
+        find.where({ right: params.right });
     }
 
-    if (params && params.moment)
-    {
-        find.where({ dtstart: { $lte:params.moment } });
-        find.where({ dtend: { $gte:params.moment } });
-    }
 
 
     find.populate('collections');
