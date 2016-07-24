@@ -250,17 +250,17 @@ define(['angular', 'app'], function(angular, app) {
 
 
         $routeProvider.when('/admin/users/:id/calendar', {
-			templateUrl: 'partials/account/calendar.html',
+			templateUrl: 'partials/admin/calendar.html',
 			controller: 'AdminCalendarView'
 		});
 
         $routeProvider.when('/admin/users/:id/calendar/:year/:month', {
-			templateUrl: 'partials/account/calendar.html',
+			templateUrl: 'partials/admin/calendar.html',
 			controller: 'AdminCalendarView'
 		});
 
         $routeProvider.when('/admin/users/:id/calendar/:year/:month/:day', {
-			templateUrl: 'partials/account/calendar.html',
+			templateUrl: 'partials/admin/calendar.html',
 			controller: 'AdminCalendarView'
 		});
 

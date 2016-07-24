@@ -1,4 +1,4 @@
-
+'use strict';
 
 
 /**
@@ -15,16 +15,16 @@
  * @param {listItemsService} service
  * @param {array} params      query parameters if called by controller
  *
- * @return {Query}
+ * @return {Promise}
  */
-function getEventsQuery(service, params)
+function getEvents(service, params)
 {
-    'use strict';
+
 
     var find = service.app.db.models.CalendarEvent.find();
 
     if (undefined === params.user) {
-        throw new Error('The user parameter is mandatory in the personalevents service');
+        return Promise.reject(new Error('The user parameter is mandatory in the personalevents service'));
     }
 
     if (undefined === params.status) {
@@ -42,12 +42,24 @@ function getEventsQuery(service, params)
     find.populate('absenceElem');
     find.populate('request');
 
-    return find;
+    return find.exec();
 }
 
 
 
+function mapUid(docs) {
 
+    var objects = docs.map(function(event) {
+        event = event.toObject();
+        if (undefined === event.uid || null === event.uid || '' === event.uid) {
+            event.uid = event._id;
+        }
+
+        return event;
+    });
+
+    return Promise.resolve(objects);
+}
 
 
 
@@ -59,7 +71,6 @@ function getEventsQuery(service, params)
  */
 exports = module.exports = function(services, app) {
 
-    'use strict';
 
     var service = new services.list(app);
 
@@ -82,25 +93,10 @@ exports = module.exports = function(services, app) {
             return service.deferred.promise;
         }
 
-        getEventsQuery(service, params).exec(function(err, docs) {
-
-            if (err) {
-                return service.error(err);
-            }
-
-            var objects = docs.map(function(event) {
-                event = event.toObject();
-                if (undefined === event.uid || null === event.uid || '' === event.uid) {
-                    event.uid = event._id;
-                }
-
-                return event;
-            });
-
-            return service.mongOutcome(err, objects);
-
-
-        });
+        getEvents(service, params)
+        .then(mapUid)
+        .then(service.resolveSuccess)
+        .catch(service.error);
 
 
         return service.deferred.promise;

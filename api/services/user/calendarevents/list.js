@@ -102,49 +102,39 @@ exports = module.exports = function(services, app) {
          */
         function getPersonalEvents()
         {
-            var deferred = {};
-            deferred.promise = new Promise(function(resolve, reject) {
-                deferred.resolve = resolve;
-                deferred.reject = reject;
-            });
 
             if (undefined === params.user) {
-                deferred.reject('the user param is mandatory if substractPersonalEvents is used');
-            } else {
-
-                var filter = {
-                    'user.id': params.user,
-                    status: { $in: ['TENTATIVE', 'CONFIRMED'] }
-                };
-
-                if (undefined !== params.subtractException) {
-
-                    // Do not substract those personnal events
-                    // because this is the events to update with selection
-                    // the others personal events will be substracted from working hours
-                    if (params.subtractException instanceof Array) {
-                        filter._id = { $nin: params.subtractException };
-                    } else {
-                        filter._id = { $ne: params.subtractException };
-                    }
-                }
-
-                var find = service.app.db.models.CalendarEvent.find(filter);
-                addDatesCriterion(find, params);
-
-                find.exec(function(err, docs) {
-                    if (err) {
-                        return deferred.reject(err);
-                    }
-
-                    var dtstart = new Date(params.dtstart);
-                    var dtend = new Date(params.dtend);
-
-                    deferred.resolve(getExpandedEra(docs, dtstart, dtend));
-                });
+                return Promise.reject('the user param is mandatory if substractPersonalEvents is used');
             }
 
-            return deferred.promise;
+            let filter = {
+                'user.id': params.user,
+                status: { $in: ['TENTATIVE', 'CONFIRMED'] }
+            };
+
+            if (undefined !== params.subtractException) {
+
+                // Do not substract those personnal events
+                // because this is the events to update with selection
+                // the others personal events will be substracted from working hours
+                if (params.subtractException instanceof Array) {
+                    filter._id = { $nin: params.subtractException };
+                } else {
+                    filter._id = { $ne: params.subtractException };
+                }
+            }
+
+            var find = service.app.db.models.CalendarEvent.find(filter);
+            addDatesCriterion(find, params);
+
+            return find.exec()
+            .then(function(docs) {
+
+                var dtstart = new Date(params.dtstart);
+                var dtend = new Date(params.dtend);
+
+                return getExpandedEra(docs, dtstart, dtend);
+            });
         }
 
 
@@ -158,23 +148,18 @@ exports = module.exports = function(services, app) {
          */
         function getEventsTypeEra(type, dtstart, dtend)
         {
-            var deferred = {};
-            deferred.promise = new Promise(function(resolve, reject) {
-                deferred.resolve = resolve;
-                deferred.reject = reject;
-            });
 
-            getTypeCalendar(service, type).then(function(calendars) {
+            return getTypeCalendar(service, type)
+            .then(function(calendars) {
                 var calId = calendars.map(function(cal) {
                     return cal._id;
                 });
 
-                getEventsQuery(service, dtstart, dtend, calId).exec(function(err, docs) {
-                    deferred.resolve(getExpandedEra(docs, dtstart, dtend));
-                });
-            }, deferred.reject);
-
-            return deferred.promise;
+                return getEventsQuery(service, dtstart, dtend, calId).exec();
+            })
+            .then(docs => {
+                return getExpandedEra(docs, dtstart, dtend);
+            });
         }
 
         
@@ -204,47 +189,33 @@ exports = module.exports = function(services, app) {
          */
         function substractNonWorkingDays(era)
         {
-            var deferred = {};
-            deferred.promise = new Promise(function(resolve, reject) {
-                deferred.resolve = resolve;
-                deferred.reject = reject;
-            });
-
-
             if (undefined === params.substractNonWorkingDays || false === params.substractNonWorkingDays) {
-                deferred.resolve(era);
-                return deferred.promise;
+                return Promise.resolve(era);
             }
 
-            getEventsTypeEra('nonworkingday', params.dtstart, params.dtend).then(function(nwEra) {
-                deferred.resolve(era.subtractEra(nwEra));
+            return getEventsTypeEra('nonworkingday', params.dtstart, params.dtend)
+            .then(function(nwEra) {
+                return era.subtractEra(nwEra);
             });
-
-
-            return deferred.promise;
         }
 
 
+        /**
+         * [[Description]]
+         * @param   {Era} era [[Description]]
+         * @returns {Promise} [[Description]]
+         */
         function substractPersonalEvents(era)
         {
-            var deferred = {};
-            deferred.promise = new Promise(function(resolve, reject) {
-                deferred.resolve = resolve;
-                deferred.reject = reject;
-            });
-
 
             if (undefined === params.substractPersonalEvents || false === params.substractPersonalEvents) {
-                deferred.resolve(era);
-                return deferred.promise;
+                return Promise.resolve(era);
             }
 
-            getPersonalEvents().then(function(eventsEra) {
-                deferred.resolve(era.subtractEra(eventsEra));
-            }, deferred.reject);
-
-
-            return deferred.promise;
+            return getPersonalEvents()
+            .then(eventsEra => {
+                return era.subtractEra(eventsEra);
+            });
         }
 
 
@@ -262,7 +233,7 @@ exports = module.exports = function(services, app) {
             }
 
             if (undefined === params.type) {
-                service.forbidden('The type parameter is mandatory');
+                service.error('The type parameter is mandatory');
                 return false;
             }
 
