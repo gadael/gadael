@@ -65,6 +65,8 @@ exports = module.exports = function(app, passport)
     controllers.add('./user/user');
     controllers.add('./user/settings');
     controllers.add('./user/calendarevents');
+    app.get('/rest/user/googlecalendar', require('./user/googlecalendar').login);
+    app.get('/rest/user/googlecalendar/callback', require('./user/googlecalendar').callback);
     
     controllers.add('./account/accountrights');
     controllers.add('./account/adjustments');
@@ -77,6 +79,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./account/beneficiaries');
     controllers.add('./account/recoverquantities');
     controllers.add('./account/timesavingaccounts');
+
 
     controllers.add('./manager/waitingrequests');
     controllers.add('./manager/collaborators');

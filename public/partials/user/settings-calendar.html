@@ -16,9 +16,9 @@
 
             <div ng-if="connected">
 
-                <p translate>Your calendar connected</p>
+                <p translate>Your calendar is connected</p>
 
-                <button class="btn btn-danger" ng-click="googleConnect()"><i class="fa fa-chain-broken"></i> <span translate>Disconnect</span></button>
+                <button class="btn btn-danger" ng-click="googleDisconnect()"><i class="fa fa-chain-broken"></i> <span translate>Disconnect</span></button>
 
                 <div class="top30">
                     <button class="btn btn-primary" ng-click="userSettings.$valid && saveUser()" translate>Save</button>
