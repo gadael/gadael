@@ -513,7 +513,7 @@ exports = module.exports = {
 
         var server = http.createServer(app);
 
-        server.listen(app.config.port, 'localhost');
+        server.listen(app.config.port, app.config.host);
 
         if (callback) {
             server.on('listening', callback);

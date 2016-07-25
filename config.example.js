@@ -11,6 +11,7 @@ exports = module.exports = function createConfiguration() {
     config.loghttp = false;
     config.csrfProtection = true;
 
+    config.host = 'localhost';
     config.port = process.argv[2] || 3000;
     config.mongodb = {
         prefix: 'localhost/',
