@@ -3,8 +3,8 @@
 exports = module.exports = function(app, passport) {
 
   passport.db = app.db;
-  var LocalStrategy = require('passport-local').Strategy,
-      GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+  var LocalStrategy = require('passport-local').Strategy;
+  //    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
   passport.use(new LocalStrategy(
@@ -43,7 +43,7 @@ exports = module.exports = function(app, passport) {
   ));
 
 
-
+    /*
   if (app.config.oauth.google.key) {
     passport.use(new GoogleStrategy({
         clientID: app.config.oauth.google.key,
@@ -58,7 +58,7 @@ exports = module.exports = function(app, passport) {
       }
     ));
   }
-
+*/
 
   passport.serializeUser(function(user, done) {
     done(null, user._id);
