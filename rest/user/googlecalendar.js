@@ -22,14 +22,24 @@ passport.use(new GoogleStrategy({
 
 
 
-
+/**
+ * First click. call the google interface
+ */
 exports.login = passport.authenticate('google', { session: false });
 
+/**
+ * Google reply on this callback
+ */
+exports.callback = passport.authenticate('google', { session: false, failureRedirect: '#/user/settings/calendar' });
 
-
-
-exports.callback = passport.authenticate('google', { session: false, failureRedirect: '/login' });
-
-
+/**
+ * This is the next function of the callback route
+ * @param {object}   req [[Description]]
+ * @param {object}   res [[Description]]
+ */
+exports.next = (req, res) => {
+    console.log('accessToken: '+req.user.accessToken);
+    res.redirect('#/user/settings/calendar');
+};
 
 

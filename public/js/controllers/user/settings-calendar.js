@@ -2,16 +2,13 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$location', 'Rest', '$http',
-        function($scope, $location, Rest, $http) {
+	return ['$scope', '$location', 'Rest',
+        function($scope, $location, Rest) {
 
         $scope.user = Rest.user.settings.getFromUrl().gadaGet();
 
         $scope.connected = false;
 
-        $scope.googleConnect = function() {
-            $http.get('/rest/user/googlecalendar');
-        };
 
         $scope.googleDisconnect = function() {
 

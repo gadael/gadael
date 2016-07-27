@@ -1,5 +1,8 @@
 'use strict';
 
+const googlecalendar = require('./user/googlecalendar');
+
+
 /**
  * Object to create controller on request
  *
@@ -65,8 +68,9 @@ exports = module.exports = function(app, passport)
     controllers.add('./user/user');
     controllers.add('./user/settings');
     controllers.add('./user/calendarevents');
-    app.get('/rest/user/googlecalendar', require('./user/googlecalendar').login);
-    app.get('/rest/user/googlecalendar/callback', require('./user/googlecalendar').callback);
+
+    app.get('/rest/user/googlecalendar', googlecalendar.login);
+    app.get('/rest/user/googlecalendar/callback', googlecalendar.callback, googlecalendar.next);
     
     controllers.add('./account/accountrights');
     controllers.add('./account/adjustments');
