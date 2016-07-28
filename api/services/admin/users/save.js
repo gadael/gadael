@@ -54,7 +54,31 @@ function processPassword(service, params) {
  */  
 function saveUser(service, params) {
 
-    var User = service.app.db.models.User;
+    let User = service.app.db.models.User;
+
+    let fieldsToSet = {
+        firstname: params.firstname,
+        lastname: params.lastname,
+        email: params.email,
+        image: params.image,
+        isActive: params.isActive
+    };
+
+    if (params.department) {
+        fieldsToSet.department = params.department._id;
+    }
+
+    if (params.password) {
+        fieldsToSet.password = params.password;
+    }
+
+    if (params.google && params.google.calendar) {
+        if (undefined === fieldsToSet.google) {
+            fieldsToSet.google = {};
+        }
+
+        fieldsToSet.google.calendar = params.google.calendar;
+    }
 
 
     if (params.id)
@@ -62,16 +86,7 @@ function saveUser(service, params) {
         User.findById(params.id, function (err, user) {
             if (service.handleMongoError(err))
             {
-                user.firstname 	= params.firstname;
-                user.lastname 	= params.lastname;
-                user.email 		= params.email;
-                user.image      = params.image;
-                user.department = params.department ? params.department._id : undefined;
-                user.isActive   = params.isActive;
-
-                if (params.password) {
-                    user.password   = params.password;
-                }
+                user.set(fieldsToSet);
 
                 user.save(function(err) {
                     if (service.handleMongoError(err)) {
@@ -86,24 +101,17 @@ function saveUser(service, params) {
 
     } else {
 
+        let user = new User();
+        user.set(fieldsToSet);
 
+        user.save()
+        .then(userDocument => {
 
-        User.create({
-            firstname: params.firstname,
-            lastname: params.lastname,
-            email: params.email,
-            department: params.department,
-            password: params.password,
-            isActive: params.isActive 
-        }, function(err, userDocument) {
+            service.success(gt.gettext('The user has been created'));
+            saveUserRoles(service, params, userDocument);
 
-            if (service.handleMongoError(err))
-            {
-                service.success(gt.gettext('The user has been created'));
-
-                saveUserRoles(service, params, userDocument);
-            }
-        });
+        })
+        .catch(service.error);
     }
 }
     

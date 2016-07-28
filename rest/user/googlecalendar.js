@@ -45,7 +45,8 @@ exports.callback = passport.authenticate('google', {
 exports.next = (req, res) => {
     req.user.google.accessToken = req.googleCalendarUser.accessToken;
     req.user.save()
-    .then(() => {
+    .then((savedUser) => {
+        console.log(savedUser);
         res.redirect('/#/user/settings/calendar');
     })
     .catch(err => {

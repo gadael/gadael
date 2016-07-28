@@ -94,7 +94,8 @@ define(function() {
             user: {
                 user                    : init('user'),
                 settings                : init('user/settings'),
-                calendarevents          : init('user/calendarevents/:id')
+                calendarevents          : init('user/calendarevents/:id'),
+                googlecalendars         : init('user/googlecalendars/:id')
             },
 
             anonymous: {

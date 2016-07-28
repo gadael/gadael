@@ -6,6 +6,16 @@ const gcal = require('google-calendar');
 
 
 
+function isWritable(calendar) {
+    if ('owner' === calendar.accessRole) {
+        return true;
+    }
+
+    return false;
+}
+
+
+
 
 /**
  * Create the service
@@ -20,7 +30,7 @@ exports = module.exports = function(services, app) {
 
     /**
      * Call the googlecalendars list service
-     * Get the list of accessibles calendars, using the connected google account
+     * Get the list of writable calendars, using the connected google account
      *
      *
      *
@@ -44,7 +54,7 @@ exports = module.exports = function(services, app) {
             }
 
             service.outcome.success = true;
-            service.deferred.resolve(data);
+            service.deferred.resolve(data.items.filter(isWritable));
         });
 
         return service.deferred.promise;

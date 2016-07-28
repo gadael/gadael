@@ -19,7 +19,7 @@ exports = module.exports = function(services, app) {
 
 
         service.app.db.models.CompulsoryLeave
-        .findOne({ '_id' : params.id})
+        .findOne({ _id : params.id })
         .populate('right')
         .populate('departments')
         .populate('collections')

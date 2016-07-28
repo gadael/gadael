@@ -17,8 +17,15 @@
             <div ng-if="connected">
 
                 <p translate>Your calendar is connected</p>
+                <p><button class="btn btn-danger" ng-click="googleDisconnect()"><i class="fa fa-chain-broken"></i> <span translate>Disconnect</span></button>
+                </p>
 
-                <button class="btn btn-danger" ng-click="googleDisconnect()"><i class="fa fa-chain-broken"></i> <span translate>Disconnect</span></button>
+                <div class="form-group">
+                    <label for="googlecalendar" translate>Save leave periods to</label>
+                    <select class="form-control" id="googlecalendar" ng-model="user.google.calendar" ng-options="calendar.id as calendar.summary for calendar in calendars">
+                    </select>
+                </div>
+
 
                 <div class="top30">
                     <button class="btn btn-primary" ng-click="userSettings.$valid && saveUser()" translate>Save</button>

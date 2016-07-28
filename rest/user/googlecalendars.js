@@ -7,7 +7,7 @@ function listController() {
     ctrlFactory.list.call(this, '/rest/user/googlecalendars');
 
     this.controllerAction = function() {
-        this.jsonService(this.service('user/googlecalendars/list', { user: this.req.user.id }));
+        this.jsonService(this.service('user/googlecalendars/list', { user: this.req.user }));
     };
 }
 listController.prototype = new ctrlFactory.list();

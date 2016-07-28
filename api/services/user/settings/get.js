@@ -18,7 +18,7 @@ exports = module.exports = function(services, app) {
 
         service.app.db.models.User.findOne(
             { '_id' : params.user },
-            'image firstname lastname email roles notify')
+            'image firstname lastname email roles notify google.calendar')
         .populate('roles.account', 'notify')
         .exec(
             function(err, document) {

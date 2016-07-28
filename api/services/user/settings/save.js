@@ -20,37 +20,30 @@ function validate(service, params)
 
 
 
-function resolve(service, user, account)
-{
 
-    // do not return the full user document for security reasons
 
-    var savedUser = {
-        _id: user._id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email
-    };
+function saveAccount(service, params, user) {
 
-    if (null !== account) {
-        savedUser.roles = {
-            account: {
-                notify: {
-                    approvals: account.notify.approvals,
-                    allocations: account.notify.allocations
-                }
-            }
-        };
+    let AccountModel = service.app.db.models.Account;
+
+    if (undefined === params.roles.account.notify) {
+        return Promise.resolve(null);
     }
 
-    service.resolveSuccess(
-        savedUser,
-        gt.gettext('Your settings has been modified')
-    );
+    let fieldsToSet = {
+        notify: {
+            approvals: params.roles.account.notify.approvals,
+            allocations: params.roles.account.notify.allocations
+        }
+    };
+
+    return AccountModel.findById(user.roles.account).exec()
+    .then(account => {
+        account.set(fieldsToSet);
+        return account.save();
+    });
+
 }
-
-
-
 
 
 /**
@@ -62,44 +55,40 @@ function resolve(service, user, account)
 function saveUser(service, params) {
 
 
-    var UserModel = service.app.db.models.User;
-    var AccountModel = service.app.db.models.Account;
+    let UserModel = service.app.db.models.User;
 
-    var fieldsToSet = {
+
+    let fieldsToSet = {
         firstname: params.firstname,
         lastname: params.lastname,
         email: params.email,
         image: params.image
     };
 
-    UserModel.findByIdAndUpdate(params.user, fieldsToSet, function(err, user) {
-
-        if (service.handleMongoError(err)) {
-
-            if (undefined !== params.roles.account.notify) {
-
-                var fieldsToSet = {
-                    notify: {
-                        approvals: params.roles.account.notify.approvals,
-                        allocations: params.roles.account.notify.allocations
-                    }
-                };
-
-                AccountModel.findByIdAndUpdate(user.roles.account, fieldsToSet, function(err, account) {
-
-                    if (service.handleMongoError(err)) {
-                        resolve(service, user, account);
-                    }
-                });
-
-                return;
-            }
-
-
-            resolve(service, user, null);
+    if (params.google && params.google.calendar) {
+        if (undefined === fieldsToSet.google) {
+            fieldsToSet.google = {};
         }
 
-    });
+        fieldsToSet.google.calendar = params.google.calendar;
+    }
+
+    UserModel.findById(params.user).exec()
+    .then(function(user) {
+
+        user.set(fieldsToSet);
+        return user.save();
+    })
+    .then(user => {
+        return saveAccount(service, params, user);
+    })
+    .then(account => {
+        service.resolveSuccessGet(
+            { user: params.user },
+            gt.gettext('Your settings has been modified')
+        );
+    })
+    .catch(service.error);
 }
 
 
