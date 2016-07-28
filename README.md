@@ -73,7 +73,9 @@ grunt test
 - [x] delete renewals and links to collections when delete right
 - [x] Fix link from user view to the request list
 - [ ] Use service.resolveSuccessGet in all save/delete services to ensure REST integrity
-- [ ] View one user calendar from admin
+- [x] View one user calendar from admin
+- [ ] Fix totalCount propoerty on users list, must be the number of enabled users
+- [ ] Save events to google calendar
 
 
 ## Technical features
