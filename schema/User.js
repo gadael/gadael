@@ -31,11 +31,10 @@ exports = module.exports = function(params) {
 
 		resetPasswordToken: String,
 		resetPasswordExpires: Date,
-		twitter: {},
-		github: {},
-		facebook: {},
-		google: {},
-		tumblr: {}
+		google: {
+            accessToken: String,
+            calendar: String
+        }
 	});
   
 
