@@ -7,18 +7,19 @@ const passport = require('passport');
 const config   = require('../../config')();
 
 
-passport.use(new GoogleStrategy({
-        clientID: config.oauth.google.key,
-        clientSecret: config.oauth.google.secret,
-        callbackURL: "http://elbeuf.rosanbo.com/rest/user/googlecalendar/callback",
-        scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
-    },
-    function(accessToken, refreshToken, profile, done) {
-        profile.accessToken = accessToken;
-        return done(null, profile);
-    }
-));
-
+if (config.oauth.google.key) {
+    passport.use(new GoogleStrategy({
+            clientID: config.oauth.google.key,
+            clientSecret: config.oauth.google.secret,
+            callbackURL: "http://elbeuf.rosanbo.com/rest/user/googlecalendar/callback",
+            scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
+        },
+        function(accessToken, refreshToken, profile, done) {
+            profile.accessToken = accessToken;
+            return done(null, profile);
+        }
+    ));
+}
 
 
 
