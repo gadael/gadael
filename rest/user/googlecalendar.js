@@ -46,7 +46,6 @@ exports.next = (req, res) => {
     req.user.google.accessToken = req.googleCalendarUser.accessToken;
     req.user.save()
     .then((savedUser) => {
-        console.log(savedUser);
         res.redirect('/#/user/settings/calendar');
     })
     .catch(err => {

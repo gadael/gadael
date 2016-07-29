@@ -1,9 +1,10 @@
 'use strict';
 
-let bcrypt = require('bcrypt');
-let Charlatan = require('charlatan');
-let gt = require('./../modules/gettext');
-let util = require('util');
+const bcrypt = require('bcrypt');
+const Charlatan = require('charlatan');
+const gt = require('./../modules/gettext');
+const util = require('util');
+const oauthrefresh = require('passport-oauth2-refresh');
 
 /**
  * a user can be an account, a manager or an administrator
@@ -52,6 +53,25 @@ exports = module.exports = function(params) {
 
         next();
     });
+
+
+
+
+    /**
+     * delete documents associated to the user asynchronously
+     *
+     */
+    userSchema.pre('remove', function(next) {
+
+        var models = params.db.models;
+
+        models.Admin.remove({ 'user.id': this._id }).exec();
+        models.Account.remove({ 'user.id': this._id }).exec();
+        models.Manager.remove({ 'user.id': this._id }).exec();
+
+        next();
+    });
+
 
 
     userSchema.path('email').validate(function (value) {
@@ -816,22 +836,23 @@ exports = module.exports = function(params) {
     };
 
 
-  
-  
     /**
-     * delete documents associated to the user asynchronously
-     *
+     * Refresh google access token for calendar access
+     * The promise resolve to the saved user document
+     * @return {Promise}
      */
-    userSchema.pre('remove', function(next) {
+    userSchema.methods.refreshGoogleAccessToken = function() {
+        let user = this;
         
-        var models = params.db.models;
-        
-        models.Admin.remove({ 'user.id': this._id }).exec();
-        models.Account.remove({ 'user.id': this._id }).exec();
-        models.Manager.remove({ 'user.id': this._id }).exec();
-        
-        next();
-    });
+        return new Promise(resolve => {
+            oauthrefresh.requestNewAccessToken('google', user.google.accessToken, function(err, accessToken) {
+                user.google.accessToken = accessToken;
+                resolve(user.save());
+            });
+        });
+    };
+
+
   
   
   

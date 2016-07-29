@@ -48,6 +48,7 @@
     "passport-oauth": "^1.0.0",
     "passport-ldapauth": "^0.3.0",
     "passport-google-oauth": "~0.1",
+    "passport-oauth2-refresh": "~1.0.0",
     "helmet": "^0.2.1",
     "i18n-abide": "^0.0.20",
     "node-gettext": "~0.2.14",
