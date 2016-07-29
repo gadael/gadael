@@ -846,8 +846,17 @@ exports = module.exports = function(params) {
     userSchema.methods.refreshGoogleAccessToken = function() {
         let user = this;
         
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             oauthrefresh.requestNewAccessToken('google', user.google.refreshToken, function(err, accessToken, refreshToken) {
+
+                if (err) {
+                    return reject(err);
+                }
+
+                if (!accessToken) {
+                    return reject(new Error('refresh google access token give no result'));
+                }
+
                 user.google.accessToken = accessToken;
                 if (refreshToken) {
                     // should be the same of the initial refresh token
