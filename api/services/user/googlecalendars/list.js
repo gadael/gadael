@@ -28,6 +28,23 @@ exports = module.exports = function(services, app) {
     var service = new services.list(app);
 
 
+    function googleResponse(err, data) {
+        if(err) {
+            err.errors.forEach(gErr => {
+                service.addAlert('danger', gErr.message);
+            });
+
+            service.httpstatus = err.code;
+            service.outcome.success = false;
+            service.deferred.reject(err.message);
+            return;
+        }
+
+        service.outcome.success = true;
+        service.deferred.resolve(data.items.filter(isWritable));
+    }
+
+
     /**
      * Call the googlecalendars list service
      * Get the list of writable calendars, using the connected google account
@@ -48,14 +65,7 @@ exports = module.exports = function(services, app) {
 
         let google_calendar = new gcal.GoogleCalendar(params.user.google.accessToken);
 
-        google_calendar.calendarList.list(function(err, data) {
-            if(err) {
-                return service.error(err);
-            }
-
-            service.outcome.success = true;
-            service.deferred.resolve(data.items.filter(isWritable));
-        });
+        google_calendar.calendarList.list(googleResponse);
 
         return service.deferred.promise;
     };

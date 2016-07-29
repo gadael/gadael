@@ -82,7 +82,7 @@ function saveUser(service, params) {
     .then(user => {
         return saveAccount(service, params, user);
     })
-    .then(account => {
+    .then(() => {
         service.resolveSuccessGet(
             { user: params.user },
             gt.gettext('Your settings has been modified')
