@@ -14,8 +14,10 @@ if (config.oauth.google.key) {
             callbackURL: "http://elbeuf.rosanbo.com/rest/user/googlecalendar/callback",
             scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
         },
-        function(accessToken, refreshToken, profile, done) {
+        function(accessToken, refreshToken, params, profile, done) {
             profile.accessToken = accessToken;
+            profile.refreshToken = refreshToken;
+            profile.expire_in = params.expires_in;
             return done(null, profile);
         }
     ));
@@ -34,7 +36,9 @@ exports.login = passport.authenticate('google', { session: false });
 exports.callback = passport.authenticate('google', {
     session: false,
     failureRedirect: '/#/user/settings/calendar',
-    assignProperty: 'googleCalendarUser'
+    assignProperty: 'googleCalendarUser',
+    accessType: 'offline',
+    approvalPrompt: 'force'
 });
 
 /**
@@ -43,7 +47,12 @@ exports.callback = passport.authenticate('google', {
  * @param {object}   res [[Description]]
  */
 exports.next = (req, res) => {
-    req.user.google.accessToken = req.googleCalendarUser.accessToken;
+
+    let profile = req.googleCalendarUser;
+
+    req.user.google.accessToken = profile.accessToken;
+    req.user.google.refreshToken = profile.refreshToken;
+    req.user.google.expire_in = profile.expire_in;
     req.user.save()
     .then((savedUser) => {
         res.redirect('/#/user/settings/calendar');

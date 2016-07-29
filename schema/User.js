@@ -34,6 +34,8 @@ exports = module.exports = function(params) {
 		resetPasswordExpires: Date,
 		google: {
             accessToken: String,
+            refreshToken: String,
+            expire_in: Date,
             calendar: String
         }
 	});
@@ -845,8 +847,12 @@ exports = module.exports = function(params) {
         let user = this;
         
         return new Promise(resolve => {
-            oauthrefresh.requestNewAccessToken('google', user.google.accessToken, function(err, accessToken) {
+            oauthrefresh.requestNewAccessToken('google', user.google.refreshToken, function(err, accessToken, refreshToken) {
                 user.google.accessToken = accessToken;
+                if (refreshToken) {
+                    // should be the same of the initial refresh token
+                    user.google.refreshToken = refreshToken;
+                }
                 resolve(user.save());
             });
         });
