@@ -38,36 +38,63 @@ exports = module.exports = function(services, app) {
 
 
         function errorToAlerts(err) {
+
             if (undefined !== err.errors) {
                 err.errors.forEach(gErr => {
+                    // This is the error format from passport+google
                     service.addAlert('danger', gErr.message);
                 });
-            } else {
-                service.addAlert('danger', err.message);
+                return;
             }
+
+            if (undefined !== err.data) {
+                let data = JSON.parse(err.data);
+                if (undefined !== data.error_description) {
+                    // This is the error format given by passport-oauth2-refresh+google
+                    service.addAlert('danger', data.error_description);
+                }
+                return;
+            }
+
+            if (undefined !== err.message) {
+                service.addAlert('danger', err.message);
+                return;
+            }
+
+            console.error(err);
         }
 
 
         function reject(err) {
             service.httpstatus = 500;
             service.outcome.success = false;
-            service.deferred.reject(err.message);
+
+            if (service.outcome.alert.length > 0) {
+                service.deferred.reject(service.outcome.alert[0].message);
+            } else {
+                service.deferred.reject(new Error('Unexpected'));
+            }
         }
 
 
         function googleResponse(err, data) {
             if(err) {
 
+
                 retry--;
                 errorToAlerts(err);
 
 
                 if (401 === err.code && retry > 0) {
+
+
                     // access token token expired, refresh done less than 2 times
                     user.refreshGoogleAccessToken()
                     .then(getUserResponse)
                     .catch(err => {
+
                         errorToAlerts(err);
+
                         reject(err);
                     });
                     return;

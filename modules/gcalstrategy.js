@@ -24,6 +24,11 @@ exports = module.exports = function getStrategy() {
             scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
         },
         function(accessToken, refreshToken, params, profile, done) {
+
+            if (!refreshToken) {
+                return done('Missing refresh token');
+            }
+
             profile.accessToken = accessToken;
             profile.refreshToken = refreshToken;
             profile.expire_in = params.expires_in;

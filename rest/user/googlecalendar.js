@@ -17,7 +17,7 @@ try {
 /**
  * First click. call the google interface
  */
-exports.login = passport.authenticate('google', { session: false });
+exports.login = passport.authenticate('google', { session: false, accessType: 'offline' });
 
 /**
  * Google reply on this callback
@@ -26,8 +26,7 @@ exports.callback = passport.authenticate('google', {
     session: false,
     failureRedirect: '/#/user/settings/calendar',
     assignProperty: 'googleCalendarUser',
-    accessType: 'offline',
-    approvalPrompt: 'force'
+    accessType: 'offline'
 });
 
 /**
@@ -38,6 +37,10 @@ exports.callback = passport.authenticate('google', {
 exports.next = (req, res) => {
 
     let profile = req.googleCalendarUser;
+
+    if (!profile.refreshToken) {
+        throw new Error('the refresh token is required');
+    }
 
     req.user.google.accessToken = profile.accessToken;
     req.user.google.refreshToken = profile.refreshToken;
