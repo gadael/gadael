@@ -1,26 +1,15 @@
 'use strict';
 
 
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 const passport = require('passport');
-//const gcal     = require('google-calendar');
-const config   = require('../../config')();
+const getStrategy = require('./../../modules/gcalstrategy');
 
 
-if (config.oauth.google.key) {
-    passport.use(new GoogleStrategy({
-            clientID: config.oauth.google.key,
-            clientSecret: config.oauth.google.secret,
-            callbackURL: "http://elbeuf.rosanbo.com/rest/user/googlecalendar/callback",
-            scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
-        },
-        function(accessToken, refreshToken, params, profile, done) {
-            profile.accessToken = accessToken;
-            profile.refreshToken = refreshToken;
-            profile.expire_in = params.expires_in;
-            return done(null, profile);
-        }
-    ));
+try {
+    passport.use(getStrategy());
+} catch(e) {
+    // ignore error
 }
 
 

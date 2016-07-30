@@ -11,7 +11,8 @@ exports = module.exports = function createConfiguration() {
     config.loghttp = false;
     config.csrfProtection = true;
 
-    config.host = 'localhost';
+    config.url = null;          // used by oauth2 callback url
+    config.host = 'localhost';  // if host undefined: any host
     config.port = process.argv[2] || 3000;
     config.mongodb = {
         prefix: 'localhost/',
@@ -43,10 +44,10 @@ exports = module.exports = function createConfiguration() {
       }
     };
     config.oauth = {
-      google: {
-        key: process.env.GOOGLE_OAUTH_KEY || '',
-        secret: process.env.GOOGLE_OAUTH_SECRET || ''
-      }
+        google: {
+            key: process.env.GOOGLE_OAUTH_KEY || '',
+            secret: process.env.GOOGLE_OAUTH_SECRET || ''
+        }
     };
 
     config.staticPath = require('path').join(__dirname, 'public');

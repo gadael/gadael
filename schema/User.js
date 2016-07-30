@@ -5,6 +5,7 @@ const Charlatan = require('charlatan');
 const gt = require('./../modules/gettext');
 const util = require('util');
 const oauthrefresh = require('passport-oauth2-refresh');
+const getStrategy = require('./../modules/gcalstrategy');
 
 /**
  * a user can be an account, a manager or an administrator
@@ -845,8 +846,11 @@ exports = module.exports = function(params) {
      */
     userSchema.methods.refreshGoogleAccessToken = function() {
         let user = this;
-        
+
         return new Promise((resolve, reject) => {
+
+            oauthrefresh.use(getStrategy());
+
             oauthrefresh.requestNewAccessToken('google', user.google.refreshToken, function(err, accessToken, refreshToken) {
 
                 if (err) {
