@@ -13,7 +13,19 @@ function listController() {
 listController.prototype = new ctrlFactory.list();
 
 
+function getController() {
+    ctrlFactory.get.call(this, '/rest/user/googlecalendars/:id');
+
+    this.controllerAction = function() {
+        this.jsonService(this.service('user/googlecalendars/get', { user: this.req.user }));
+    };
+}
+getController.prototype = new ctrlFactory.get();
+
+
+
 
 exports = module.exports = {
-    list: listController
+    list: listController,
+    get: getController
 };
