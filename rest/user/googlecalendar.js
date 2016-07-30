@@ -17,7 +17,11 @@ try {
 /**
  * First click. call the google interface
  */
-exports.login = passport.authenticate('google', { session: false, accessType: 'offline' });
+exports.login = passport.authenticate('google', {
+    session: false,
+    accessType: 'offline',
+    approvalPrompt: 'force'
+});
 
 /**
  * Google reply on this callback
@@ -26,7 +30,9 @@ exports.callback = passport.authenticate('google', {
     session: false,
     failureRedirect: '/#/user/settings/calendar',
     assignProperty: 'googleCalendarUser',
-    accessType: 'offline'
+    accessType: 'offline',
+    approvalPrompt: 'force' // if we do not force approval, the refresh token will not be sent after a disconnect
+                            // so this is mandatory beecause we clear the refresh token on disconnect
 });
 
 /**
@@ -55,3 +61,29 @@ exports.next = (req, res) => {
 };
 
 
+/**
+ * Disconnect google calendar
+ * @param {object}   req [[Description]]
+ * @param {object}   res [[Description]]
+ */
+exports.logout = (req, res) => {
+
+    let gt = req.app.utility.gettext;
+    let workflow = req.app.utility.workflow(req, res);
+
+    req.user.google.accessToken = null;
+    req.user.google.refreshToken = null;
+    req.user.google.expire_in = null;
+
+    req.user.save()
+    .then((savedUser) => {
+        workflow.outcome.alert.push({
+            type: 'info',
+            message: gt.gettext('You are disconnected from your google calendar')
+        });
+        workflow.emit('response');
+    })
+    .catch(err => {
+        res.end(err.message);
+    });
+};

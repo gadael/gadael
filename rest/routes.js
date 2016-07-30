@@ -72,6 +72,7 @@ exports = module.exports = function(app, passport)
 
     app.get('/rest/user/googlecalendar', googlecalendar.login);
     app.get('/rest/user/googlecalendar/callback', googlecalendar.callback, googlecalendar.next);
+    app.get('/rest/user/googlecalendar/logout', googlecalendar.logout);
     
     controllers.add('./account/accountrights');
     controllers.add('./account/adjustments');

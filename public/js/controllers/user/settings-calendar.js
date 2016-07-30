@@ -2,8 +2,8 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$location', 'Rest',
-        function($scope, $location, Rest) {
+	return ['$scope', '$route', 'Rest', '$http', 'catchOutcome',
+        function($scope, $route, Rest, $http, catchOutcome) {
 
         var googleCalendarsResource = Rest.user.googlecalendars.getResource();
 
@@ -19,7 +19,7 @@ define([], function() {
 
 
         $scope.googleDisconnect = function() {
-
+            catchOutcome($http.get('/rest/user/googlecalendar/logout')).then($route.reload);
         };
 
 		$scope.saveUser = function() {
