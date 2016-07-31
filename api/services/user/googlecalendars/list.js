@@ -7,6 +7,11 @@ const gcalResponse = require('./../../../../modules/gcalResponse');
 
 
 function isWritable(calendar) {
+
+    if (calendar.primary) {
+        return false;
+    }
+
     if ('owner' === calendar.accessRole) {
         return true;
     }

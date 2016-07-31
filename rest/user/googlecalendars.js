@@ -25,7 +25,18 @@ getController.prototype = new ctrlFactory.get();
 
 
 
+function createController() {
+    ctrlFactory.create.call(this, '/rest/user/googlecalendars');
+    this.controllerAction = function() {
+        this.jsonService(this.service('user/googlecalendars/save'));
+    };
+}
+createController.prototype = new ctrlFactory.create();
+
+
+
 exports = module.exports = {
     list: listController,
-    get: getController
+    get: getController,
+    create: createController
 };

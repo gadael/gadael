@@ -9,12 +9,20 @@ define([], function() {
 
         $scope.user = Rest.user.settings.getFromUrl().gadaGet();
 
+        $scope.loaded = false;
         $scope.connected = false;
 
-        $scope.calendars = googleCalendarsResource.query();
+        $scope.calendars = googleCalendarsResource.query(function() {
+            $scope.connected = true;
 
-        $scope.calendars.$promise.then(function() {
-            $scope.connected = ($scope.calendars.length > 0);
+            if ($scope.calendars.length === 0) {
+                // no available secondary calendar
+                // TODO: open a modal dialog to create one
+            }
+        });
+
+        $scope.calendars.$promise.finally(function() {
+            $scope.loaded = true;
         });
 
 
