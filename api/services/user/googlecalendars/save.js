@@ -34,7 +34,7 @@ function saveCalendar(service, params) {
 
 
         let google_calendar = new gcal.GoogleCalendar(user.google.accessToken);
-        google_calendar.calendar.insert({
+        google_calendar.calendars.insert({
             summary: params.summary,
             description: gt.gettext('Leave periods provided by gadael.com')
         }, googleResponse);

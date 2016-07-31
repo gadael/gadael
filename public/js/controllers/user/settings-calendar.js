@@ -36,8 +36,7 @@ define([], function() {
         });
 
         $scope.createCalendar = function(calendar) {
-            console.log(calendar);
-            //calendar.save().then($route.reload);
+            calendar.$create().then($route.reload);
         };
 
 
