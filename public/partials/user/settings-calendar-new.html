@@ -1,0 +1,26 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <form name="createGoogleCalendar" class="pad15">
+
+                    <p translate>Create a new secondary calendar in your google account to host a copy of your leave periods.</p>
+
+                    <div class="form-group">
+                        <label for="calendar_summary" translate>Calendar summary</label>
+                        <input type="text" class="form-control" id="calendar_summary" ng-model="calendar.summary" />
+                    </div>
+
+                    <div class="text-right top30">
+                        <button class="btn btn-primary" ng-click="createCalendar(calendar);$hide()" translate>Save</button>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>

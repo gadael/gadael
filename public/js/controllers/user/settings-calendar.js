@@ -2,8 +2,8 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$route', 'Rest', '$http', 'catchOutcome',
-        function($scope, $route, Rest, $http, catchOutcome) {
+	return ['$scope', '$route', 'Rest', '$http', 'catchOutcome', '$modal', 'gettext',
+        function($scope, $route, Rest, $http, catchOutcome, $modal, gettext) {
 
         var googleCalendarsResource = Rest.user.googlecalendars.getResource();
 
@@ -17,13 +17,28 @@ define([], function() {
 
             if ($scope.calendars.length === 0) {
                 // no available secondary calendar
-                // TODO: open a modal dialog to create one
+                // open a modal dialog to create one
+
+                var modalscope = $scope.$new();
+                modalscope.calendar = new googleCalendarsResource();
+                modalscope.calendar.summary = gettext('Leave periods');
+
+                $modal({
+                    scope: modalscope,
+                    templateUrl: 'partials/user/settings-calendar-new.html',
+                    show: true
+                });
             }
         });
 
         $scope.calendars.$promise.finally(function() {
             $scope.loaded = true;
         });
+
+        $scope.createCalendar = function(calendar) {
+            console.log(calendar);
+            //calendar.save().then($route.reload);
+        };
 
 
         $scope.googleDisconnect = function() {
