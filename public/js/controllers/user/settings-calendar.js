@@ -18,22 +18,26 @@ define([], function() {
             if ($scope.calendars.length === 0) {
                 // no available secondary calendar
                 // open a modal dialog to create one
+                $scope.add();
 
-                var modalscope = $scope.$new();
-                modalscope.calendar = new googleCalendarsResource();
-                modalscope.calendar.summary = gettext('Leave periods');
-
-                $modal({
-                    scope: modalscope,
-                    templateUrl: 'partials/user/settings-calendar-new.html',
-                    show: true
-                });
             }
         });
 
         $scope.calendars.$promise.finally(function() {
             $scope.loaded = true;
         });
+
+        $scope.add = function() {
+            var modalscope = $scope.$new();
+            modalscope.calendar = new googleCalendarsResource();
+            modalscope.calendar.summary = gettext('Leave periods');
+
+            $modal({
+                scope: modalscope,
+                templateUrl: 'partials/user/settings-calendar-new.html',
+                show: true
+            });
+        };
 
         $scope.createCalendar = function(calendar) {
             calendar.$create().then($route.reload);

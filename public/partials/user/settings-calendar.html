@@ -25,13 +25,22 @@
                 <p><button class="btn btn-danger" ng-click="googleDisconnect()"><i class="fa fa-chain-broken"></i> <span translate>Disconnect</span></button>
                 </p>
 
+
+
                 <div class="form-group">
                     <label for="googlecalendar" translate>Save leave periods to</label>
-                    <select class="form-control" id="googlecalendar" ng-model="user.google.calendar" ng-options="calendar.id as calendar.summary for calendar in calendars">
-                    </select>
 
+                    <div class="input-group">
+                        <select class="form-control" id="googlecalendar" ng-model="user.google.calendar" ng-options="calendar.id as calendar.summary for calendar in calendars">
+                        </select>
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" ng-click="add()"><i class="fa fa-plus"></i><span class="sr-only" translate>Add</span></button>
+                        </div>
+                    </div>
                     <em>Only writable secondary calendars are listed here</em>
                 </div>
+
+
 
 
                 <div class="top30">
