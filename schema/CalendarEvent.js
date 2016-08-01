@@ -56,24 +56,29 @@ exports = module.exports = function(params) {
     eventSchema.post('save', function(event) {
 
         if (event.wasNew) {
+            event.googleCreate();
             return;
         }
 
-        event.googleUpdateOrCreate();
+        event.googleUpdate()
+        .catch(err => {
+            // TODO: ensure that the error match an event not found
+            return event.googleCreate();
+        });
     });
 
 
 
     /**
      * get User promise
-     * resolve to user object or throw Error
+     * resolve to user object
      * @return {Promise}
      */
     eventSchema.methods.getUser = function() {
         let event = this;
 
         if (!event.user.id) {
-            throw new Error('This is not a personnal event');
+            return Promise.reject(new Error('This is not a personnal event'));
         }
 
         return event.populate('user.id').execPopulate().then(populatedEvent => {
@@ -81,34 +86,61 @@ exports = module.exports = function(params) {
         });
     };
 
+
+    eventSchema.methods.googleGetObject = function() {
+
+        return {
+            id: this.id,
+            summary: this.summary,
+            start: this.dtstart,
+            end: this.dtend,
+            status: this.status.toLowerCase(),
+            description: this.description
+        };
+
+    };
+
+
     /**
-     * Create or update in google calendar
+     * Create in google calendar
      * @return {Promise}
      */
-    eventSchema.methods.googleUpdateOrCreate = function() {
+    eventSchema.methods.googleCreate = function() {
 
-        let userPromise;
         let event = this;
 
-        try {
-            userPromise = this.getUser();
-        } catch (e) {
-            return Promise.resolve(false);
-        }
-
-
-        return userPromise.then(user => {
+        return event.getUser()
+        .then(user => {
 
             if (!user.google || !user.google.calendar) {
                 return false;
             }
 
-            user.callGoogleCalendarApi((googleCalendar, callback) => {
-                googleCalendar.events.get(user.google.calendar, event.id, callback);
-            })
-            .then(event => {
-                console.log(event);
-                return true;
+            return user.callGoogleCalendarApi((googleCalendar, callback) => {
+                googleCalendar.events.insert(user.google.calendar, event.googleGetObject(), callback);
+            });
+        });
+    };
+
+
+
+    /**
+     * Create or update in google calendar
+     * @return {Promise}
+     */
+    eventSchema.methods.googleUpdate = function() {
+
+        let event = this;
+
+        return event.getUser()
+        .then(user => {
+
+            if (!user.google || !user.google.calendar) {
+                return false;
+            }
+
+            return user.callGoogleCalendarApi((googleCalendar, callback) => {
+                googleCalendar.events.update(user.google.calendar, event.id, event.googleGetObject(), callback);
             });
         });
     };
