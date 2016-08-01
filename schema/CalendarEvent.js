@@ -62,8 +62,12 @@ exports = module.exports = function(params) {
 
         event.googleUpdate()
         .catch(err => {
-            // TODO: ensure that the error match an event not found
-            return event.googleCreate();
+            if (err.code === 404) {
+                return event.googleCreate();
+            }
+
+            console.trace(err);
+            console.log(event.googleGetObject());
         });
     });
 
@@ -92,8 +96,12 @@ exports = module.exports = function(params) {
         return {
             id: this.id,
             summary: this.summary,
-            start: this.dtstart,
-            end: this.dtend,
+            start: {
+                dateTime: this.dtstart.toISOString()
+            },
+            end: {
+                dateTime: this.dtend.toISOString()
+            },
             status: this.status.toLowerCase(),
             description: this.description
         };
