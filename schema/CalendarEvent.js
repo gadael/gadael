@@ -39,6 +39,79 @@ exports = module.exports = function(params) {
 	eventSchema.index({ 'uid': 1 });
 	eventSchema.index({ 'dtstart': 1 });
 	eventSchema.set('autoIndex', params.autoIndex);
+
+
+    /**
+     * Pre save hook
+     */
+    eventSchema.pre('save', function(next) {
+        this.wasNew = this.isNew;
+        next();
+    });
+
+
+    /**
+     * Post-save hook
+     */
+    eventSchema.post('save', function(event) {
+
+        if (event.wasNew) {
+            return;
+        }
+
+        event.googleUpdateOrCreate();
+    });
+
+
+
+    /**
+     * get User promise
+     * resolve to user object or throw Error
+     * @return {Promise}
+     */
+    eventSchema.methods.getUser = function() {
+        let event = this;
+
+        if (!event.user.id) {
+            throw new Error('This is not a personnal event');
+        }
+
+        return event.populate('user.id').execPopulate().then(populatedEvent => {
+            return populatedEvent.user.id;
+        });
+    };
+
+    /**
+     * Create or update in google calendar
+     * @return {Promise}
+     */
+    eventSchema.methods.googleUpdateOrCreate = function() {
+
+        let userPromise;
+        let event = this;
+
+        try {
+            userPromise = this.getUser();
+        } catch (e) {
+            return Promise.resolve(false);
+        }
+
+
+        return userPromise.then(user => {
+
+            if (!user.google || !user.google.calendar) {
+                return false;
+            }
+
+            user.callGoogleCalendarApi((googleCalendar, callback) => {
+                googleCalendar.events.get(user.google.calendar, event.id, callback);
+            })
+            .then(event => {
+                console.log(event);
+                return true;
+            });
+        });
+    };
 	
 	
 	/**

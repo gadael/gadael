@@ -6,6 +6,7 @@ const gt = require('./../modules/gettext');
 const util = require('util');
 const oauthrefresh = require('passport-oauth2-refresh');
 const getStrategy = require('./../modules/gcalstrategy');
+const gcal = require('google-calendar');
 
 /**
  * a user can be an account, a manager or an administrator
@@ -872,6 +873,82 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * create a callback function for the google api
+     * if the api fail with a 401 status code, the access token is refreshed and a new call to getUserResponse is done
+     *
+     *
+     *
+     * @param   {Function} getUserResponse
+     * @param   {Function} resolve       function called on success
+     * @param   {Function} reject        function called on failure, if token refresh has failed
+     * @param   {Function} errorToAlerts function called when errors are produced by the google api
+     *
+     * @returns {Function} The callback for google api
+     */
+    userSchema.methods.createGoogleCallback = function(getUserResponse, resolve, reject, errorToAlerts) {
+
+        let retry = 3;
+        let user = this;
+
+        if (undefined === errorToAlerts) {
+            errorToAlerts = function() {
+                // additional errors are ignored for this promise method
+            };
+        }
+
+        return function googleResponse(err, data) {
+            if(err) {
+
+                retry--;
+                errorToAlerts(err);
+
+                if (401 === err.code && retry > 0) {
+
+
+                    // access token token expired, refresh done less than 2 times
+                    user.refreshGoogleAccessToken()
+                    .then(getUserResponse)
+                    .catch(err => {
+
+                        errorToAlerts(err);
+                        reject(err);
+                    });
+                    return;
+                }
+
+                return reject(err);
+            }
+
+
+            resolve(data);
+        };
+    };
+
+
+    /**
+     * Call google api on the calendar linked to the user
+     * @param {Function} onReady    This function get as parameter the GoogleCalendar instance and the callback to use on api
+     * @return {Promise}
+     */
+    userSchema.methods.callGoogleCalendarApi = function(onReady) {
+
+        let self = this;
+
+        return new Promise((resolve, reject) => {
+
+            function getUserResponse(user) {
+
+                let googleResponse = user.createGoogleCallback(getUserResponse, resolve, reject);
+                let google_calendar = new gcal.GoogleCalendar(user.google.accessToken);
+
+                onReady(google_calendar, googleResponse);
+            }
+
+            getUserResponse(self);
+
+        });
+    };
   
   
   

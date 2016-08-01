@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Create a callback for google response
+ * Create a callback for google response used in services
  * push errors to service if necessary
  * call done on success
  * refresh token if not logged in
@@ -15,8 +15,6 @@
  */
 exports = module.exports = function(service, getUserResponse, user, done) {
 
-
-    let retry = 3;
 
     function errorToAlerts(err) {
 
@@ -58,38 +56,6 @@ exports = module.exports = function(service, getUserResponse, user, done) {
     }
 
 
-    function googleResponse(err, data) {
-        if(err) {
-
-
-            retry--;
-            errorToAlerts(err);
-
-
-            if (401 === err.code && retry > 0) {
-
-
-                // access token token expired, refresh done less than 2 times
-                user.refreshGoogleAccessToken()
-                .then(getUserResponse)
-                .catch(err => {
-
-                    errorToAlerts(err);
-
-                    reject(err);
-                });
-                return;
-            }
-
-            return reject(err);
-        }
-
-
-        done(data);
-    }
-
-
-
-    return googleResponse;
+    return user.createGoogleCallback(getUserResponse, done, reject, errorToAlerts);
 
 };
