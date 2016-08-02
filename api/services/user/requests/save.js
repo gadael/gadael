@@ -167,6 +167,39 @@ function prepareRequestFields(service, params, user)
     return deferred.promise;
 }
 
+
+
+/**
+ * A request modification create new events
+ * This function remove events no more linked to the request
+ *
+ * @param   {CalendarEvent}   newRequest
+ * @returns {Promise}  resolve to list of deleted events
+ */
+function deleteOldEvents(newRequest)
+{
+
+    let newEventIds = newRequest.events.map(evt => {
+        return evt._id;
+    });
+
+    let CalendarEvent = newRequest.model('CalendarEvent');
+
+    return CalendarEvent
+    .find({ $and: [
+        { _id: { $nin: newEventIds }},
+        { request: newRequest._id }
+    ]}).exec()
+    .then(events => {
+        let promises = [];
+        events.forEach(event => {
+            promises.push(event.remove());
+        });
+
+        return Promise.all(promises);
+    });
+}
+
     
     
 /**
@@ -223,6 +256,10 @@ function saveRequest(service, params) {
             throw new Error('Document without goal');
 
 
+        })
+        .then(() => {
+
+            return deleteOldEvents(savedDocument);
         })
         .then(() => {
 

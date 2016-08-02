@@ -344,6 +344,9 @@ describe('request absence account rest service', function() {
     });
 
 
+    let request1_events_ids = [];
+
+
     it('request list of current requests as account', function(done) {
         server.get('/rest/account/requests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -353,6 +356,9 @@ describe('request absence account rest service', function() {
                 expect(body[0].events[0].dtend).toBeDefined();
                 expect(body[0].events[1].dtstart).toBeDefined();
                 expect(body[0].events[1].dtend).toBeDefined();
+
+                request1_events_ids.push(body[0].events[0]._id);
+                request1_events_ids.push(body[0].events[1]._id);
             }
             done();
         });
@@ -400,6 +406,17 @@ describe('request absence account rest service', function() {
                 expect(body.requestLog.length).toEqual(2);
             }
 
+            expect(body.events.length).toEqual(1);
+            done();
+        });
+    });
+
+
+    it('make sure the 2 previous events are now deleted', function(done) {
+        let CalendarEvent = server.app.db.models.CalendarEvent;
+        CalendarEvent.find({ _id: { $in: request1_events_ids } }).exec()
+        .then(arr => {
+            expect(arr.length).toEqual(0);
             done();
         });
     });
