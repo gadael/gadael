@@ -51,7 +51,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Post-save hook
+     * Post save hook
      */
     eventSchema.post('save', function(event) {
 
@@ -69,6 +69,13 @@ exports = module.exports = function(params) {
             console.trace(err);
             console.log(event.googleGetObject());
         });
+    });
+
+     /**
+     * Post remove hook
+     */
+    eventSchema.post('remove', function(event) {
+        event.googleRemove();
     });
 
 
@@ -133,7 +140,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Create or update in google calendar
+     * Update in google calendar
      * @return {Promise}
      */
     eventSchema.methods.googleUpdate = function() {
@@ -152,6 +159,29 @@ exports = module.exports = function(params) {
             });
         });
     };
+
+
+    /**
+     * Remove event in google calendar
+     * @return {Promise}
+     */
+    eventSchema.methods.googleRemove = function() {
+
+        let event = this;
+
+        return event.getUser()
+        .then(user => {
+
+            if (!user.google || !user.google.calendar) {
+                return false;
+            }
+
+            return user.callGoogleCalendarApi((googleCalendar, callback) => {
+                googleCalendar.events.delete(user.google.calendar, event.id, callback);
+            });
+        });
+    };
+
 	
 	
 	/**
