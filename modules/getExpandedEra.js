@@ -2,6 +2,21 @@
 var jurassic = require('jurassic');
 
 
+/**
+ * Normalize event for the jurassic api
+ * a dtend is required
+ *
+ * @param   {CalendarEvent}   event
+ * @returns {CalendarEvent}
+ */
+function normalize(event) {
+    if (undefined === event.dtend || null === event.dtend) {
+        event.dtend = new Date(event.dtstart);
+        event.dtend.setDate(event.dtend.getDate()+1);
+    }
+
+    return event;
+}
 
 
 /**
@@ -29,22 +44,23 @@ function getExpandedEra(docs, dtstart, dtend)
     var expandStart = new Date(dtstart);
     expandStart.setDate(expandStart.getDate() -1);
 
-    for(var i =0; i<docs.length; i++) {
+    for(let i =0; i<docs.length; i++) {
 
-        expanded = docs[i].expand(expandStart, dtend);
+        expanded = normalize(docs[i]).expand(expandStart, dtend);
 
         // expand event if RRULE
-        for(var e =0; e<expanded.length; e++) {
+        for(let j =0; j<expanded.length; j++) {
 
             try {
 
                 // copy properties of expanded event to the jurassic period
-                events.addPeriod(expanded[e]);
+                events.addPeriod(expanded[j]);
 
             } catch(e) {
                 // ignore invalid period
-                console.log(expanded[e]);
-                console.trace(e);
+                // console.log('expanded.length='+expanded.length+' j='+j+' expanded[e]='+expanded[j]);
+                console.log(expanded[j]);
+                console.log(e.stack);
             }
         }
     }
