@@ -346,6 +346,25 @@ exports = module.exports = function(params) {
 
 
     /**
+     * Get renewal using a id, but verifiy that the renewal is linked to the right
+     * @param   {String} id
+     * @returns {Promise}
+     */
+    rightSchema.methods.getRenewal = function(id) {
+        return this.getRenewalsQuery()
+        .where('_id').equals(id)
+        .exec()
+        .then(arr => {
+            if (!arr || 0 === arr.length) {
+                return null;
+            }
+
+            return arr[0];
+        });
+    };
+
+
+    /**
      * Get renewal by date interval or null if no renewal
      * requests straddling two periods are not allowed
      *

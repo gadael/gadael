@@ -215,7 +215,13 @@ function createElement(service, user, elem, collection)
         .then(right => {
             rightDocument = right;
             // get renewal to save in element
-            return rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend);
+            if (elem.right.renewal) {
+                // a specific renewal is given as parameter
+                return rightDocument.getRenewal(elem.right.renewal);
+            } else {
+                // use the renewal from period (default)
+                return rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend);
+            }
         })
         .then(renewal => {
 
