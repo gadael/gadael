@@ -417,13 +417,19 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                 /**
                  * @param {object} selectePeriod    selected working period
-                 * @param {Number} secQuantity      Duration for the element
                  * @param {Date} startDate          Start date for the element
+                 * @param {Number} secQuantity      Duration for the element
+                 *
                  *
                  * @return {object}
                  */
                 function extractEvent(selectedPeriod, startDate, secQuantity)
                 {
+                    if (selectedPeriod.dtstart > startDate) {
+                        // this ignore gaps between selected periods
+                        startDate = selectedPeriod.dtstart;
+                    }
+
                     if (selectedPeriod.dtend <= startDate) {
                         return null;
                     }
@@ -434,6 +440,13 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     if (selectedPeriod.dtstart >= endDate) {
                         return null;
                     }
+
+                    console.log({
+                        selectedPeriod: selectedPeriod,
+                        startDate: startDate,
+                        endDate: endDate,
+                        secQuantity: secQuantity
+                    });
 
 
                     var dtstart = selectedPeriod.dtstart > startDate ? selectedPeriod.dtstart : startDate;
@@ -457,21 +470,26 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 function createEvents(secQuantity, startDate)
                 {
 
-                    var event, events = [];
+                    var event, events = [], consumed;
 
                     periods.forEach(function(selectedPeriod) {
                         event = extractEvent(selectedPeriod, startDate, secQuantity);
                         if (null !== event) {
                             events.push(event);
-
+                            consumed = Math.round((event.dtend.getTime() - event.dtstart.getTime())/1000);
+                            console.log('consumed='+consumed+' secQuantity='+secQuantity);
                             startDate = event.dtend;
-                            secQuantity = secQuantity - Math.round((event.dtend.getTime() - event.dtstart.getTime())/1000);
+                            secQuantity = secQuantity - consumed;
 
                         }
                     });
 
                     if (0 === events.length) {
                         throw new Error('Wrong events count for quantity='+secQuantity+' startDate='+startDate);
+                    }
+
+                    if (0 !== secQuantity) {
+                        throw new Error(secQuantity+ ' seconds remain unconsumed after creation of '+events.length+' events');
                     }
 
                     return events;
@@ -516,9 +534,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                             throw new Error('Conversion not appliquable, totalDays must be greater than 0');
                         }
 
-                        var days = (totalSeconds * inputQuantity / totalDays);
-
-                        return days;
+                        return (totalSeconds * inputQuantity / totalDays);
                     }
 
                     throw new Error('Invalid quantity unit');
