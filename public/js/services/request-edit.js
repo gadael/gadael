@@ -203,6 +203,8 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                         }).$promise.then(function(periods) {
 
                             var p;
+                            duration = 0;
+                            $scope.selection.businessDays = 0;
 
                             for(var i=0; i<periods.length; i++) {
 
