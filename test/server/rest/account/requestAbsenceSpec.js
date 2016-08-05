@@ -339,12 +339,14 @@ describe('request absence account rest service', function() {
                 expect(body.events.length).toEqual(2);
             }
             request1 = body;
+            console.log(request1);
             done();
         });
     });
 
 
     let request1_events_ids = [];
+    let request1_elems_ids = [];
 
 
     it('request list of current requests as account', function(done) {
@@ -359,6 +361,9 @@ describe('request absence account rest service', function() {
 
                 request1_events_ids.push(body[0].events[0]._id);
                 request1_events_ids.push(body[0].events[1]._id);
+
+                request1_elems_ids.push(body[0].absence.distribution[0]._id);
+                request1_elems_ids.push(body[0].absence.distribution[1]._id);
             }
             done();
         });
@@ -420,6 +425,17 @@ describe('request absence account rest service', function() {
             done();
         });
     });
+
+
+    it('make sure the 2 previous absence elements are now deleted', function(done) {
+        let AbsenceElem = server.app.db.models.AbsenceElem;
+        AbsenceElem.find({ _id: { $in: request1_elems_ids } }).exec()
+        .then(arr => {
+            expect(arr.length).toEqual(0);
+            done();
+        });
+    });
+
 
 
 
