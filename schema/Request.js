@@ -603,7 +603,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Delete embeded elements
+     * Delete invalid elements
      * @returns {Promise} the list of deleted elements
      */
     requestSchema.methods.deleteElements = function() {

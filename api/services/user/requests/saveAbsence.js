@@ -337,7 +337,7 @@ function checkElement(contain)
 
 
 /**
- * delete embeded elements
+ * delete invalid elements
  *
  * @return {Promise} the list of deleted elements
  */
