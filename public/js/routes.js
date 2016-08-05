@@ -456,6 +456,11 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'partials/admin/export/export-edit-xlsx.html',
 			controller: 'AdminExportEditXlsx'
 		});
+
+        $routeProvider.when('/admin/export-edit-sage', {
+			templateUrl: 'partials/admin/export/export-edit-sage.html',
+			controller: 'AdminExportEditSage'
+		});
 		
 		$routeProvider.otherwise({redirectTo: '/home'});
 	}]);

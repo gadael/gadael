@@ -3,7 +3,7 @@
 const xlsx = require('xlsx-writestream');
 const gt = require('./../../../../modules/gettext');
 const tmp = require('tmp');
-
+const fs = require('fs');
 
 
 
@@ -94,16 +94,24 @@ exports = module.exports = function(services, app) {
             type = params.type;
         }
 
-        exportTypes[type](params).then(data => {
+        exportTypes[type](params)
+        .then(data => {
 
             let tmpname = tmp.tmpNameSync();
-            xlsx.write(tmpname, data, err => {
+
+            function callback(err) {
                 if (err) {
                     return service.deferred.reject(err);
                 }
 
                 service.deferred.resolve(tmpname);
-            });
+            }
+
+            if ('sage' === type) {
+                return fs.writeFile(tmpname, data, callback);
+            }
+
+            xlsx.write(tmpname, data, callback);
 
         }).catch(service.error);
 

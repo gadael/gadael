@@ -1,6 +1,7 @@
 'use strict';
 
 const ctrlFactory = require('restitute').controller;
+const fs = require('fs');
 
 /**
  * Download export file
@@ -22,15 +23,25 @@ function getController() {
         let params = ctrl.getServiceParameters(ctrl.req);
         let promise = service.getResultPromise(params);
 
-        promise.then(tmpname => {
-            ctrl.res.download(tmpname, 'export.xlsx', function() {
-                const fs = require('fs');
+        function deleteTmpfile(tmpname) {
+            fs.unlink(tmpname, (err) => {
+                if (err) {
+                    throw err;
+                }
+            });
+        }
 
-                fs.unlink(tmpname, (err) => {
-                    if (err) {
-                        throw err;
-                    }
+        promise.then(tmpname => {
+
+            if ('sage' === params.type) {
+                ctrl.res.download(tmpname, 'export.sage', function() {
+                    deleteTmpfile(tmpname);
                 });
+                return;
+            }
+
+            ctrl.res.download(tmpname, 'export.xlsx', function() {
+                deleteTmpfile(tmpname);
             });
         });
 

@@ -2,7 +2,7 @@
 
 /**
  * Export one line per active users and with a leave account
- * Each line will contain the requests in the requested period
+ * Each line will contain the requests in the requested period in sage format
  *
  * @param {apiService} service
  * @param {Date}       from    Interval selected before extraction
