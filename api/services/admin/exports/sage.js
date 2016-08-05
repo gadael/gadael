@@ -1,8 +1,34 @@
 'use strict';
 
 /**
- * Export one line per active users and with a leave account
+ * Get list of sage registration number + requests + quantity
+ *
+ * @param {User} user [[Description]]
+ * @param {Date} from [[Description]]
+ * @param {Date} to   [[Description]]
+ *
+ * @return {Promise}
+ */
+function getUserRequests(user, from, to) {
+    // TODO
+}
+
+
+/**
+ * Export one line per active user and with a leave account and with a a ssage reigstration number
  * Each line will contain the requests in the requested period in sage format
+ *
+ * Characters |
+ * --------------------------------------
+ * 446        | sage registration number
+ * 50         | Total number of days of the leaves, a comma is used as a decimal separator
+ * 12         | 0
+ * 432        | Period list example : 10/06/1310/06/1315/06/1321/06/13
+ *
+ * Two periods in this example :
+ *  - from 10/06/2013 to 10/06/2013
+ *  - from 15/06/2013 au 21/06/2013
+ *
  *
  * @param {apiService} service
  * @param {Date}       from    Interval selected before extraction
@@ -13,26 +39,36 @@ exports = module.exports = function(service, from, to) {
 
 
 
-    return new Promise((resolve, reject) => {
-        var findUsers = service.app.db.models.User.find();
-        findUsers.where('isActive', true);
-        findUsers.where('roles.account').exists();
-        findUsers.populate('roles.account');
 
-        findUsers.exec((err, users) => {
+        return service.app.db.models.User.find()
+        .where('isActive', true)
+        .where('roles.account').exists()
+        .populate('roles.account')
+        .exec()
+        .then(users => {
+            let promises = [];
 
-            if (err) {
-                return reject(err);
-            }
+            users.forEach(user => {
+                if (!user.roles.account.sage || !user.roles.account.sage.registrationNumber) {
+                    return;
+                }
 
-            // TODO
+                promises.push(getUserRequests(user, from, to));
+            });
 
-            resolve('');
+            return Promise.all(promises);
+        })
+        .then(susers => {
+
+            let data = '';
+            susers.forEach(su => {
+                // TODO
+                data += '\r\n';
+            });
+
+            return data;
         });
 
-
-
-    });
 
 
 };

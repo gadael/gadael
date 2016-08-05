@@ -47,6 +47,10 @@ exports = module.exports = function(params) {
         notify: {
             approvals: { type: Boolean, default: false },
             allocations: { type: Boolean, default: false }
+        },
+
+        sage: {
+            registrationNumber: String // Used in sage export
         }
     });
 
