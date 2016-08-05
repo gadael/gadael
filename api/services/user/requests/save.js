@@ -108,7 +108,7 @@ function prepareRequestFields(service, params, user)
                     fieldsToSet.absence.rightCollection = rightCollection._id;
                 }
 
-                return saveAbsence.saveAbsenceDistribution(service, user, params.absence, rightCollection);
+                return saveAbsence.saveAbsenceDistribution(service, user, params, rightCollection);
             })
             .then(distribution => {
 
@@ -258,7 +258,6 @@ function saveRequest(service, params) {
 
         })
         .then(() => {
-
             return deleteOldEvents(savedDocument);
         })
         .then(() => {

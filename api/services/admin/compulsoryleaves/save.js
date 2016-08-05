@@ -267,7 +267,7 @@ function saveRequests(service, params) {
                     fieldsToSet.absence.rightCollection = rightCollection._id;
                 }
 
-                return saveAbsence.saveAbsenceDistribution(service, user, fieldsToSet.absence, rightCollection);
+                return saveAbsence.saveAbsenceDistribution(service, user, fieldsToSet, rightCollection);
             })
             .then(distribution => {
 

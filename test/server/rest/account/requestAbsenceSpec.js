@@ -339,7 +339,6 @@ describe('request absence account rest service', function() {
                 expect(body.events.length).toEqual(2);
             }
             request1 = body;
-            console.log(request1);
             done();
         });
     });

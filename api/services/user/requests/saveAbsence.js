@@ -336,8 +336,29 @@ function checkElement(contain)
 }
 
 
+/**
+ * delete embeded elements
+ *
+ * @return {Promise} the list of deleted elements
+ */
+function deleteElements(service, params) {
 
 
+    if (!params.id) {
+        return Promise.resolve([]);
+    }
+
+    let Request = service.app.db.models.Request;
+
+    return Request.findOne({ _id: params.id }).exec()
+    .then(request => {
+        if (!request) {
+            return [];
+        }
+
+        return request.deleteElements();
+    });
+}
 
 
 
@@ -356,7 +377,7 @@ function checkElement(contain)
 function saveAbsenceDistribution(service, user, params, collection) {
 
 
-    if (params.distribution === undefined || params.distribution.length === 0) {
+    if (params.absence.distribution === undefined || params.absence.distribution.length === 0) {
         throw new Error('right distribution is mandatory to save an absence request');
     }
 
@@ -366,13 +387,15 @@ function saveAbsenceDistribution(service, user, params, collection) {
 
     // promisify all elements in the contain objects
 
-    for(i=0; i<params.distribution.length; i++) {
-        elem = params.distribution[i];
+    for(i=0; i<params.absence.distribution.length; i++) {
+        elem = params.absence.distribution[i];
         containsPromises.push(createElement(service, user, elem, collection));
     }
 
-
-    return Promise.all(containsPromises)
+    return deleteElements(service, params)
+    .then(() => {
+        return Promise.all(containsPromises);
+    })
     .then(contains => {
 
         // promisify all checks

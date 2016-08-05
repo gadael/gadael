@@ -73,6 +73,12 @@ exports = module.exports = function(params) {
                                                                         // workperiod recover: the quantity is available in recovery right
     });
 
+
+
+
+
+
+
     /**
      * Register pre remove hook
      */
@@ -88,7 +94,6 @@ exports = module.exports = function(params) {
             next();
         })
         .catch(next);
-
     });
 
     /**
@@ -596,6 +601,32 @@ exports = module.exports = function(params) {
         this.requestLog.push(log);
     };
 
+
+    /**
+     * Delete embeded elements
+     * @returns {Promise} the list of deleted elements
+     */
+    requestSchema.methods.deleteElements = function() {
+        let list = [];
+        this.absence.distribution.forEach(element => {
+            if (undefined !== element._id) {
+                list.push(element._id);
+            } else {
+                list.push(element);
+            }
+        });
+
+        let AbsenceElem = this.model('AbsenceElem');
+
+        return AbsenceElem.find({ _id: { $in: list }}).exec()
+        .then(elements => {
+            return Promise.all(
+                elements.map(element => {
+                    return element.remove();
+                })
+            );
+        });
+    };
 
 
     requestSchema.index({ 'user.id': 1 });
