@@ -1,5 +1,24 @@
 'use strict';
 
+
+
+
+
+function padStr(text, len, char) {
+
+    function replicate(len, char) {
+        return Array(len+1).join(char || ' ');
+    }
+
+    if (text.length >= len) {
+        return text;
+    }
+    return text + replicate(len-text.length, char);
+}
+
+
+
+
 /**
  * Get list of sage registration number + requests + quantity
  *
@@ -11,22 +30,18 @@
  */
 function getUserRequests(user, from, to) {
 
-    function replicate(len, char) {
-        return Array(len+1).join(char || ' ');
-    }
-
-    function padr(text, len, char) {
-        if (text.length >= len) {
-            return text;
-        }
-        return text + replicate(len-text.length, char);
-    }
 
     let account = user.roles.account;
 
     return account.getRequests(from, to)
     .then(requests => {
         //TODO
+
+        return {
+            user: user,
+            total: 0,
+            requests: ''
+        };
     });
 }
 
@@ -80,6 +95,10 @@ exports = module.exports = function(service, from, to) {
             let data = '';
             susers.forEach(su => {
                 // TODO
+                data += padStr(su.user.roles.account.sage.registrationNumber, 446);
+                data += padStr(su.total, 50);
+                data += padStr('0', 12);
+                data += padStr(su.requests, 432);
                 data += '\r\n';
             });
 
