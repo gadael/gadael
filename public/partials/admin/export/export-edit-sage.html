@@ -4,8 +4,11 @@
 
     <ng-include class="col-md-4" src="'partials/utils/common/exports/export-edit.html'"></ng-include>
 
-    <div class="col-md-8">
-
+    <div class="col-md-8 top15">
+        <strong translate>Get only periods from the following types:</strong>
+        <div ng-repeat="type in types" class="checkbox">
+            <label><input type="checkbox" value="{{type._id}}" ng-model="selectedtypes" /> {{type.name}}</label>
+        </div>
     </div>
 
     <div class="col-md-12 top30">

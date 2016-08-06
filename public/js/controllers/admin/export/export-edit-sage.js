@@ -7,7 +7,9 @@ define([], function() {
 
 		$scope.setPageTitle(gettext('Export in sage format'));
 
-        // default type
+        var typeResources = Rest.admin.types.getResource();
+
+        $scope.types = typeResources.query({});
 
         $timeout(function() {
             $scope.period = {
