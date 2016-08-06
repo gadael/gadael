@@ -67,11 +67,11 @@ exports = module.exports = function(services, app) {
         sage: function(params) {
             return new Promise(function(resolve, reject) {
 
-                if (undefined === params.from || undefined === params.to) {
-                    return reject(gt.gettext('from and to are mandatory parameters'));
+                if (undefined === params.from || undefined === params.to || undefined === params.rightType) {
+                    return reject(gt.gettext('from,to and rightType are mandatory parameters'));
                 }
 
-                resolve(require('./sage')(service, params.from, params.to));
+                resolve(require('./sage')(service, params.from, params.to, params.rightType));
             });
         }
     };

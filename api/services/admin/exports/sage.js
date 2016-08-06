@@ -28,15 +28,26 @@ function padStr(text, len, char) {
  *
  * @return {Promise}
  */
-function getUserRequests(user, from, to) {
+function getUserRequests(user, from, to, types) {
 
 
     let account = user.roles.account;
 
     return account.getRequests(from, to)
     .then(requests => {
-        //TODO
-        console.log(requests);
+
+        requests.forEach(request => {
+            let events = [];
+            request.absence.distribution.forEach(element => {
+                if (-1 === types.indexOf(element.right.type.id)) {
+                    return;
+                }
+
+                // TODO we need to adjust element quantity to ignore days out of requested period
+                // events need to be adjusted also
+                events = events.concat(element.events);
+            });
+        });
 
         return {
             user: user,
@@ -66,9 +77,10 @@ function getUserRequests(user, from, to) {
  * @param {apiService} service
  * @param {Date}       from    Interval selected before extraction
  * @param {Date}       to      Interval selected before extraction
- * @return {Promise}           Promised data is a string
+ * @param {Array}      types   list of checked ID
+ * @return {Promise}    Promised data is a string
  */
-exports = module.exports = function(service, from, to) {
+exports = module.exports = function(service, from, to, types) {
 
 
 
@@ -86,7 +98,7 @@ exports = module.exports = function(service, from, to) {
                     return;
                 }
 
-                promises.push(getUserRequests(user, from, to));
+                promises.push(getUserRequests(user, from, to, types));
             });
 
             return Promise.all(promises);
