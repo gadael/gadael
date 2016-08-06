@@ -36,6 +36,7 @@ function getUserRequests(user, from, to) {
     return account.getRequests(from, to)
     .then(requests => {
         //TODO
+        console.log(requests);
 
         return {
             user: user,
