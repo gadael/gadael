@@ -689,14 +689,26 @@ exports = module.exports = function(params) {
     /**
      * Get the account requests
      *
+     * @param {Date}    from optional
+     * @param {Date}    to   optional
+     *
      * @return {Promise}
      */
-    accountSchema.methods.getRequests = function() {
+    accountSchema.methods.getRequests = function(from, to) {
 
         var model = this.model('Request');
         var query = model.find();
 
         query.where('user.id', this.user.id);
+
+        if (undefined !== from) {
+            query.where({ 'events.dtend': { $gt: from }});
+        }
+
+        if (undefined !== to) {
+            query.where({ 'events.dtstart': { $lt: to }});
+        }
+
         query.sort({ timeCreated: 'desc' });
 
         return query.exec();

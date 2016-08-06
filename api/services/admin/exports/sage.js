@@ -10,7 +10,24 @@
  * @return {Promise}
  */
 function getUserRequests(user, from, to) {
-    // TODO
+
+    function replicate(len, char) {
+        return Array(len+1).join(char || ' ');
+    }
+
+    function padr(text, len, char) {
+        if (text.length >= len) {
+            return text;
+        }
+        return text + replicate(len-text.length, char);
+    }
+
+    let account = user.roles.account;
+
+    return account.getRequests(from, to)
+    .then(requests => {
+        //TODO
+    });
 }
 
 
