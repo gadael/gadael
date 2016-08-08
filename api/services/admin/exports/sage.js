@@ -10,6 +10,8 @@ function padStr(text, len, char) {
         return Array(len+1).join(char || ' ');
     }
 
+    text = text+'';
+
     if (text.length >= len) {
         return text;
     }

@@ -34,7 +34,6 @@ function getController() {
         promise.then(tmpname => {
 
             if ('sage' === params.type) {
-                //TODO: Declare encoding in header
                 ctrl.res.download(tmpname, 'export.sage', function() {
                     deleteTmpfile(tmpname);
                 });
