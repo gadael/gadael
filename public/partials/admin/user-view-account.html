@@ -29,6 +29,11 @@
         (<span translate translate-n="seniority_years" translate-plural="{{$count}} years seniority">One year seniority</span>)
     </p>
     
+    <p ng-if="user.roles.account.sage.registrationNumber">
+        <span translate>Sage registration number:</span>
+        {{user.roles.account.sage.registrationNumber}}
+    </p>
+
     <p><i class="fa fa-envelope text-info"></i> <span translate>Notifications options:</span>
         <ul>
             <li ng-if="user.roles.account.notify.approvals">

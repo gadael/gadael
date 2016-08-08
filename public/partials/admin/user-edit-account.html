@@ -22,6 +22,11 @@
     </div>
 </div>
 
+<div class="form-group col-md-6">
+    <label for="account_registrationNumber" translate>Sage registration number</label>
+    <input type="text" class="form-control" id="account_registrationNumber" ng-model="user.roles.account.sage.registrationNumber" />
+</div>
+
 <div class="form-group col-md-12 top30">
     <input type="checkbox" id="account_notify_approvals" ng-model="user.roles.account.notify.approvals" />
     <label for="account_notify_approvals" translate>Notify on approval</label>
@@ -31,3 +36,4 @@
     <input type="checkbox" id="account_notify_allocations" ng-model="user.roles.account.notify.allocations" />
     <label for="account_notify_allocations" translate>Notify on vacation rights allocation</label>
 </div>
+
