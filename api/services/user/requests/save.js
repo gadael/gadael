@@ -114,6 +114,9 @@ function prepareRequestFields(service, params, user)
 
                 fieldsToSet.events = saveAbsence.getEventsFromDistribution(distribution);
                 fieldsToSet.absence.distribution = distribution;
+                fieldsToSet.absence.dtstart = fieldsToSet.events[0].dtstart;
+                fieldsToSet.absence.dtend = fieldsToSet.events[fieldsToSet.events.length-1].dtend;
+
                 return fieldsToSet;
 
             })

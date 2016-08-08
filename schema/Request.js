@@ -46,6 +46,8 @@ exports = module.exports = function(params) {
                                                                                     // duplicated references to events
 
         absence: {
+            dtstart: Date,                                                          // dtstart from first event
+            dtend: Date,                                                            // dtend from last event
             rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' },
             distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }],
             compulsoryLeave: { type: mongoose.Schema.Types.ObjectId, ref: 'CompulsoryLeave' }
