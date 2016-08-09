@@ -63,7 +63,8 @@
     "xlsx-writestream": "~0.4.0",
     "tmp": "~0.0.28",
     "latinize": "~0.2.0",
-    "google-calendar": "~1.3.1"
+    "google-calendar": "~1.3.1",
+    "sprintf-js": "^1.0.3"
   },
   "devDependencies": {
     "bower": "^1.3.1",

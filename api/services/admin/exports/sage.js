@@ -1,7 +1,6 @@
 'use strict';
 
-
-
+const sprintf = require('sprintf-js').sprintf;
 
 
 function padStr(text, len, char) {
@@ -32,29 +31,73 @@ function padStr(text, len, char) {
  */
 function getUserRequests(user, from, to, types) {
 
+    /**
+     * Get number of days in one event, capped with from and to
+     * @param {CalendarEvent} event
+     */
+    function getDays(event) {
+        return event.businessDays;
+    }
+
+    /**
+     * Output date string in sage format
+     * @param {Date} date
+     */
+    function formatDate(date) {
+
+        if (undefined === date) {
+            return 'undefined';
+        }
+
+        return sprintf('%02d/%02d/%02d', date.getDate(), 1+date.getMonth(), date.getFullYear()-2000);
+    }
+
 
     let account = user.roles.account;
 
-    return account.getRequests(from, to)
+
+    return account.getRequests()
     .then(requests => {
 
+        return Promise.all(
+            requests.map(request => {
+                return request.populateAbsenceElements();
+            })
+        ).then(() => {
+            return requests;
+        });
+    })
+    .then(requests => {
+
+        let total = 0;
+        let periods = [];
+
         requests.forEach(request => {
-            let events = [];
+            let days = 0;
             request.absence.distribution.forEach(element => {
-                if (-1 === types.indexOf(element.right.type.id)) {
+
+                if (-1 === types.indexOf(element.right.type.id.toString())) {
                     return;
                 }
 
-                // TODO we need to adjust element quantity to ignore days out of requested period
-                // events need to be adjusted also
-                events = events.concat(element.events);
+                element.events.forEach(event => {
+                    days += getDays(event);
+                });
+
             });
+
+            if (days === 0) {
+                return;
+            }
+
+            periods.push(formatDate(request.absence.dtstart)+formatDate(request.absence.dtstart));
+            total += days;
         });
 
         return {
             user: user,
-            total: 0,
-            requests: ''
+            total: total,
+            requests: periods.join('')
         };
     });
 }

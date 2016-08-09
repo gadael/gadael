@@ -698,7 +698,7 @@ exports = module.exports = function(params) {
 
         var model = this.model('Request');
         var query = model.find();
-
+        query.populate('absence.distribution');
         query.where('user.id', this.user.id);
 
         if (undefined !== from) {
