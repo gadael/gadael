@@ -152,7 +152,7 @@ function getUserRequests(user, from, to, types) {
  * --------------------------------------
  * 446        | sage registration number
  * 50         | Total number of days of the leaves, a comma is used as a decimal separator
- * 12         | 0
+ * 11         | 0
  * 432        | Period list example : 10/06/1310/06/1315/06/1321/06/13
  *
  * Two periods in this example :
@@ -192,10 +192,10 @@ exports = module.exports = function(service, from, to, types) {
         .then(susers => {
             let data = '';
             susers.forEach(su => {
-                // TODO
+
                 data += padStr(su.user.roles.account.sage.registrationNumber, 446);
                 data += padStr(su.total, 50);
-                data += padStr('0', 12);
+                data += padStr('0', 11);
                 data += padStr(su.requests, 432);
                 data += '\r\n';
             });
