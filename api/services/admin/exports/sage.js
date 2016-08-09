@@ -58,6 +58,24 @@ function getUserRequests(user, from, to, types) {
     }
 
 
+    function capEvent(event) {
+
+        let capped = {
+            dtstart: event.dtstart,
+            dtend: event.dtend
+        };
+
+        if (capped.dtstart < from) {
+            capped.dtstart = from;
+        }
+
+        if (capped.dtend > to) {
+            capped.dtend = to;
+        }
+
+        return capped;
+    }
+
 
 
     let account = user.roles.account;
@@ -104,7 +122,7 @@ function getUserRequests(user, from, to, types) {
                 }
 
                 element.events.forEach(event => {
-                    days += calendar.getDays(event);
+                    days += calendar.getDays(capEvent(event));
                 });
 
             });
