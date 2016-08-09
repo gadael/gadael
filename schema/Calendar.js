@@ -175,6 +175,33 @@ exports = module.exports = function(params) {
 		});
 	};
     
+    /**
+     * Get number of days between two dates using the halfDayHour property
+     * @param   {object} event  This object must have dtstart and dtend properties
+     * @returns {Number} [[Description]]
+     */
+    calendarSchema.methods.getDays = function(event) {
+
+        let dtstart = event.dtstart;
+        let dtend = event.dtend;
+
+        let nbDays = dtend.getDate() - dtstart.getDate();
+
+        if (dtend.getHours() !== 0) {
+            if (dtend.getHours() <= this.halfDayHour.getHours() && dtend.getMinutes() <= this.halfDayHour.getMinutes()) {
+                nbDays += 0.5;
+            }
+        }
+
+        if (dtstart.getHours() >= this.halfDayHour.getHours() && dtstart.getMinutes() >= this.halfDayHour.getMinutes()) {
+            nbDays += 0.5;
+        } else {
+            nbDays += 1;
+        }
+
+        return nbDays;
+    };
+
     
     calendarSchema.statics.getInitTask = function(company) {
 

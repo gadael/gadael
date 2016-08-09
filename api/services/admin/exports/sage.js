@@ -22,6 +22,8 @@ function padStr(text, len, char) {
 
 /**
  * Get list of sage registration number + requests + quantity
+ * The parameter halfDayHour from the schedule calendar is used but only the from date is used to get the schedule calendar from the user
+ * this may become unacurate for exports on large periods
  *
  * @param {User} user [[Description]]
  * @param {Date} from [[Description]]
@@ -31,13 +33,8 @@ function padStr(text, len, char) {
  */
 function getUserRequests(user, from, to, types) {
 
-    /**
-     * Get number of days in one event, capped with from and to
-     * @param {CalendarEvent} event
-     */
-    function getDays(event) {
-        return event.businessDays;
-    }
+    let calendar;
+
 
     /**
      * Output date string in sage format
@@ -49,14 +46,40 @@ function getUserRequests(user, from, to, types) {
             return 'undefined';
         }
 
+        if (date < from) {
+            date = from;
+        }
+
+        if (date > to) {
+            date = to;
+        }
+
         return sprintf('%02d/%02d/%02d', date.getDate(), 1+date.getMonth(), date.getFullYear()-2000);
     }
 
 
+
+
     let account = user.roles.account;
 
+    return account.getScheduleCalendar(from)
+    .then(scheduleCal => {
 
-    return account.getRequests()
+        if (null === scheduleCal) {
+            // throw new Error(sprintf('User %s have no schedule calendar on %s', user.getName(), from));
+            // we try with the end date
+            return account.getScheduleCalendar(to);
+        }
+
+        return scheduleCal;
+    })
+    .then(scheduleCal => {
+        if (null === scheduleCal) {
+            throw new Error(sprintf('User %s have no schedule calendar on %s', user.getName(), from));
+        }
+        calendar = scheduleCal;
+        return account.getRequests();
+    })
     .then(requests => {
 
         return Promise.all(
@@ -81,7 +104,7 @@ function getUserRequests(user, from, to, types) {
                 }
 
                 element.events.forEach(event => {
-                    days += getDays(event);
+                    days += calendar.getDays(event);
                 });
 
             });
@@ -149,7 +172,6 @@ exports = module.exports = function(service, from, to, types) {
             return Promise.all(promises);
         })
         .then(susers => {
-
             let data = '';
             susers.forEach(su => {
                 // TODO
