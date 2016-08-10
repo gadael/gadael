@@ -11,7 +11,14 @@
         </div>
     </div>
 
-    {{selectedtypes}}
+    <div class="row text-info" role="alert">
+        <div class="col-xs-1 top15 text-right">
+            <i class="fa fa-info-circle fa-2x vcenter"></i>
+        </div>
+        <div class="col-xs-11 top15">
+            <span class="vcenter" translate>The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly</span>
+        </div>
+    </div>
 
     <div class="col-md-12 top30">
         <button class="btn btn-primary" ng-click="download()"><i class="fa fa-download"></i> <span translate>Download</span></button>

@@ -11,12 +11,22 @@ define([], function() {
 
         $scope.types = typeResources.query({});
 
-        $timeout(function() {
-            $scope.period = {
-                from: null,
-                to: null
-            };
+        $scope.types.$promise.then(function() {
+            // default value, check first type, types list is expected to be sorted manually
+            // the annual leave type should appear on first place
+            $scope.types[0].checked = true;
+        });
 
+        $scope.period = {};
+        $scope.period.from = new Date();
+        $scope.period.from.setDate(1);
+        $scope.period.to = new Date($scope.period.from);
+        $scope.period.from.setMonth($scope.period.from.getMonth()-1);
+        $scope.period.to.setDate($scope.period.to.getDate()-1);
+
+
+
+        $timeout(function() {
             $scope.downloadUrl = null;
         });
 

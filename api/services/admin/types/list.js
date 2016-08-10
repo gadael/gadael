@@ -25,6 +25,8 @@ var query = function(service, params) {
          find.where({ name: new RegExp('^'+params.name, 'i') });
     }
 
+    find.sort('sortkey');
+
     return find;
 };
 
