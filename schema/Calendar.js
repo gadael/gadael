@@ -183,19 +183,28 @@ exports = module.exports = function(params) {
     calendarSchema.methods.getDays = function(event) {
 
         let dtstart = event.dtstart;
-        let dtend = event.dtend;
+        let dtend = new Date(event.dtend);
+
+        if (dtend.getHours() === 0 && dtend.getMinutes() === 0 && dtend.getSeconds() === 0 && dtend.getMilliseconds() === 0) {
+            dtend.setMilliseconds(-1);
+        }
 
         let nbDays = dtend.getDate() - dtstart.getDate();
 
-        if (dtend.getHours() !== 0) {
-            if (dtend.getHours() <= this.halfDayHour.getHours() && dtend.getMinutes() <= this.halfDayHour.getMinutes()) {
-                nbDays += 0.5;
-            }
+        let startAfternoon = (dtstart.getHours() >= this.halfDayHour.getHours() && dtstart.getMinutes() >= this.halfDayHour.getMinutes());
+        let endMorning = (dtend.getHours() <= this.halfDayHour.getHours() && dtend.getMinutes() <= this.halfDayHour.getMinutes());
+
+        if (startAfternoon && endMorning && nbDays === 0) {
+            throw new Error('Unexpected event');
         }
 
-        if (dtstart.getHours() >= this.halfDayHour.getHours() && dtstart.getMinutes() >= this.halfDayHour.getMinutes()) {
+
+        if (startAfternoon ? !endMorning : endMorning) { //XOR
             nbDays += 0.5;
-        } else {
+        }
+
+
+        if (!startAfternoon && !endMorning) {
             nbDays += 1;
         }
 
