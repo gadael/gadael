@@ -203,6 +203,11 @@ exports = module.exports = function(params) {
     };
 
     
+    /**
+     * Init task for new database
+     * @param   {Company}   company [[Description]]
+     * @returns {Function}  The task function
+     */
     calendarSchema.statics.getInitTask = function(company) {
 
         let model = this;
