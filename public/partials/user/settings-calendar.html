@@ -14,16 +14,35 @@
         <form ng-if="loaded" role="form" name="userSettings" class="top30">
 
             <div ng-if="!connected">
-                <p translate>Your calendar is not connected</p>
-                <a class="btn btn-default" ng-href="/rest/user/googlecalendar" ><i class="fa fa-chain"></i> <span translate>Connect</span></a>
+                <div class="col-md-12 pad15 panel panel-default">
+                    <div class="col-md-8">
+                        <i class="fa fa-times-circle-o text-danger"></i>
+                        <strong class="text-info" translate>Your calendar is not connected</strong>
+                    </div>
+
+                    <div class="col-md-4 text-right">
+                        <a class="btn btn-default" ng-href="/rest/user/googlecalendar" >
+                            <i class="fa fa-chain"></i> <span translate>Connect</span>
+                        </a>
+                    </div>
+                </div>
             </div>
 
 
             <div ng-if="connected">
 
-                <p translate>Your calendar is connected</p>
-                <p><button class="btn btn-danger" ng-click="googleDisconnect()"><i class="fa fa-chain-broken"></i> <span translate>Disconnect</span></button>
-                </p>
+                <div class="col-md-12 pad15 panel panel-default">
+                    <div class="col-md-8">
+                        <i class="fa fa-check-circle-o text-success"></i>
+                        <strong class="text-info" translate>Your calendar is connected</strong>
+                    </div>
+
+                    <div class="col-md-4 text-right">
+                        <button class="btn btn-danger" ng-click="googleDisconnect()">
+                        <i class="fa fa-chain-broken"></i> <span translate>Disconnect</span>
+                        </button>
+                    </div>
+                </div>
 
 
 
@@ -37,9 +56,13 @@
                             <button class="btn btn-default" ng-click="add()"><i class="fa fa-plus"></i><span class="sr-only" translate>Add</span></button>
                         </div>
                     </div>
-                    <em>Only writable secondary calendars are listed here</em>
                 </div>
 
+
+                <p>
+                    <i class="fa fa-info-circle fa-2x vcenter text-info"></i> &nbsp;
+                    <em class="vcenter">Only writable secondary calendars are listed here</em>
+                </p>
 
 
 
