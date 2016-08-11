@@ -199,7 +199,7 @@ exports = module.exports = function(params) {
         }
 
 
-        if (startAfternoon ? !endMorning : endMorning) { //XOR
+        if (startAfternoon !== endMorning) {
             nbDays += 0.5;
         }
 
