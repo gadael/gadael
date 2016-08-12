@@ -3,24 +3,24 @@
 
 <div class="row">
 	<div class="col-xs-12 col-sm-9">
-		
+
 		<div class="row gadael-list-header">
 			<div class="col-sm-3 text-center">
 				<a ng-href="#/admin/user-edit" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add User</span></a>
 			</div>
-			
+
 			<div class="col-xs-12 col-sm-8 text-center">
 				<bgf-pagination
-					per-page="25" 
-					collection="users" 
-					url="'/rest/admin/users'" 
-					url-params="search" 
+					per-page="25"
+					collection="users"
+					url="'/rest/admin/users'"
+					url-params="search"
                     num-items="totalCount"
 					template-url="partials/utils/paginate-anything.html">
 				</bgf-pagination>
 			</div>
 		</div>
-		
+
 		<div class="gadael-list-rows">
 			<div class="row" ng-repeat="user in users">
 				<div class="col-xs-1">
@@ -35,7 +35,7 @@
                     <span class="text-muted text-nowrap" ng-if="user.roles.admin">&nbsp;<i class="text-info glyphicon glyphicon-star"></i>&nbsp;<span translate>Administrator</span></span>
                     <span class="text-muted text-nowrap" ng-if="user.roles.manager">&nbsp;<i class="text-info fa fa-sitemap"></i>&nbsp;<span translate>Department manager</span></span>
                  </div>
-				 
+
 				<div class="col-md-5 hidden-xs hidden-sm"><a href="mailto:{{user.email}}">{{user.email}}</a></div>
                 <div class="col-xs-1 hidden-xs">
                     <img  ng-src="{{user.image}}" class="img-rounded" height="40" ng-if="user.image" />
@@ -43,32 +43,32 @@
 			</div>
 		</div>
 
-		
+
 	</div>
-	
+
 	<div role="search" class="col-xs-12 col-sm-3">
 
 
         <div class="bg-warning pad15 text-warning" ng-if="company.max_users" title="{{'The number of active users is limited by your plan level'|translate}}" bs-tooltip>
-            <i class="fa fa-dashboard fa-2x"></i> {{totalCount}} users / {{company.max_users}} Max
+            <i class="fa fa-dashboard fa-2x vcenter"></i> &nbsp; <span class="vcenter" translate>{{usersstat.activeUsers}} users / {{company.max_users}} Max</span>
         </div>
 
 
 
 		<h2><i class="fa fa-search"></i> <span translate>Search in users</span></h2>
-		
+
 		<div class="form-group">
 			<label for="search_name" translate>By name:</label><br />
 			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
 		</div>
-		
+
 		<div class="form-group">
 			<label for="search_department" translate>By department:</label><br />
 			<select class="form-control" id="search_department" ng-model="search.department" ng-options="department._id as department.name for department in departments">
 				<option></option>
 			</select>
 		</div>
-		
+
 		<div class="form-group">
 			<label for="search_collection" translate>By collection:</label><br />
 			<select class="form-control" id="search_collection" ng-model="search.collection" ng-options="collection._id as collection.name for collection in collections">

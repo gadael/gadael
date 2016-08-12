@@ -3,16 +3,16 @@ define(function() {
     'use strict';
 
     return function LoadRestListService(ResourceFactory, RestResource) {
-        
+
         /**
          * the returned object will be the one used in controller
          * to create the resource from url or create a new one
          * @return {object}
          */
         function init(path) {
-            
+
             path = 'rest/'+path;
-            
+
             return {
 
                 /**
@@ -21,7 +21,7 @@ define(function() {
                  * @return {$resource}
                  */
                 getFromUrl: function() {
-                    
+
                     var restUrlPath = path;
                     if ('/:id' === path.substr(path.length-4,4)) {
                         restUrlPath = path.substr(0, path.length-4);
@@ -29,7 +29,7 @@ define(function() {
 
                     return RestResource(restUrlPath);
                 },
-                
+
 
                 /**
                  * Create resource from the resource factory service
@@ -40,9 +40,9 @@ define(function() {
                 }
             };
         }
-        
+
         return {
-            
+
             admin: {
                 accountbeneficiaries    : init('admin/accountbeneficiaries/:id'),
                 accountrights           : init('admin/accountrights/:id'),
@@ -63,6 +63,7 @@ define(function() {
                 specialrights           : init('admin/specialrights'),
                 types                   : init('admin/types/:id'),
                 users                   : init('admin/users/:id'),
+                usersstat               : init('admin/usersstat'),
                 requests                : init('admin/requests/:id'),
                 compulsoryleaves        : init('admin/compulsoryleaves/:id'),
                 recoverquantities       : init('admin/recoverquantities/:id'),
@@ -70,7 +71,7 @@ define(function() {
                 collaborators           : init('admin/collaborators/:id'),
                 export                  : init('admin/export')
             },
-            
+
             account: {
                 collection              : init('account/collection'),
                 accountrights           : init('account/accountrights/:id'),
@@ -84,7 +85,7 @@ define(function() {
                 timesavingaccounts      : init('account/timesavingaccounts/:id'),
                 collaborators           : init('account/collaborators/:id')
             },
-            
+
             manager: {
                 waitingrequests         : init('manager/waitingrequests/:id'),
                 collaborators           : init('manager/collaborators/:id'),
