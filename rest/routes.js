@@ -28,22 +28,22 @@ function ControllerFactory(model) {
 function fileControllers(app)
 {
     this.app = app;
-    
+
     /**
      * @param {string} path
      */
     this.add = function(path) {
-    
+
         var controllers = require(path);
 
         for(var ctrlName in controllers) {
             if (controllers.hasOwnProperty(ctrlName)) {
 
                 var controller = new ControllerFactory(controllers[ctrlName]);
-                
+
                 // instance used only to register method and path into the app
                 var inst = new controller.model();
-                
+
                 app[inst.method](inst.path, controller.onRequest);
             }
         }
@@ -60,11 +60,11 @@ function fileControllers(app)
 exports = module.exports = function(app, passport)
 {
     var controllers = new fileControllers(app);
-    
+
 
 	app.get('/rest/common', require('./Common').getInfos);
 
-    
+
     controllers.add('./user/user');
     controllers.add('./user/settings');
     controllers.add('./user/calendarevents');
@@ -73,7 +73,7 @@ exports = module.exports = function(app, passport)
     app.get('/rest/user/googlecalendar', googlecalendar.login);
     app.get('/rest/user/googlecalendar/callback', googlecalendar.callback, googlecalendar.next);
     app.get('/rest/user/googlecalendar/logout', googlecalendar.logout);
-    
+
     controllers.add('./account/accountrights');
     controllers.add('./account/adjustments');
     controllers.add('./account/calendars');
@@ -90,8 +90,9 @@ exports = module.exports = function(app, passport)
     controllers.add('./manager/waitingrequests');
     controllers.add('./manager/collaborators');
     controllers.add('./manager/departments');
-	
+
     controllers.add('./admin/users');
+    controllers.add('./admin/usersstat');
     controllers.add('./admin/accountrights');
     controllers.add('./admin/accountcollections');
     controllers.add('./admin/accountschedulecalendars');
@@ -119,21 +120,21 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/export');
 
     controllers.add('./anonymous/createfirstadmin');
-	
+
 	app.post('/rest/login', require('./login').authenticate);
 	app.post('/rest/login/forgot', require('./login').forgotPassword);
 	app.post('/rest/login/reset', require('./login').resetPassword);
 	app.get('/rest/logout', require('./logout').init);
-	
+
 	/*
 	app.get('/login/google', passport.authenticate('google', { callbackURL: '#/login/google/callback/', scope: ['profile email'] }));
 	app.get('/login/tumblr', passport.authenticate('ldap', { callbackURL: '#/login/ldap/callback/', scope: ['profile email'] }));
     */
-    
+
 	// tests
 	app.get('/rest/populate', require('./tests/index').populate);
-	
-	
+
+
 
 	//route not found
 	app.all('*', require('./Common').http404);

@@ -54,11 +54,11 @@ grunt test
 
 ## TODO
 
-- [ ] Request modification from user
+- [x] Request modification from user
 - [ ] Edit request from admin
 - [ ] Delete requests from admin
 - [ ] Balance export: add missing quantities
-- [ ] Sage Export
+- [x] Sage Export
 - [ ] Decrease RTT depending on the illness leaves
 - [ ] ICSDB integration for non working days calendars
 - [ ] Set right duration in weeks
@@ -66,7 +66,6 @@ grunt test
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Emails notifications
 - [ ] Compulsory leaves management, fix problem when requests are deleted
-- [x] Compulsory leaves management, test rest service
 - [x] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
 - [x] Get special right infos in right.get service
 - [ ] do not display quantity field if readonly by special right, because initial quantity can be variable by user
