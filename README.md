@@ -73,7 +73,7 @@ grunt test
 - [x] Fix link from user view to the request list
 - [ ] Use service.resolveSuccessGet in all save/delete services to ensure REST integrity
 - [x] View one user calendar from admin
-- [ ] Fix totalCount property on users list, must be the number of enabled users
+- [x] Fix totalCount property on users list, must be the number of enabled users
 - [x] Save events to google calendar
 - [x] Modal dialog to create a secondary calendar in google account
 
