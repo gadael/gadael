@@ -9,11 +9,11 @@ var marked = require('marked');
  * Authenticate with a post and fields
  *  - username
  *  - password
- */  
+ */
 exports.authenticate = function(req, res) {
-	
+
 	var gt = req.app.utility.gettext;
-	
+
 	var workflow = req.app.utility.workflow(req, res);
 
 	  workflow.on('validate', function() {
@@ -54,7 +54,7 @@ exports.authenticate = function(req, res) {
 
 		  if (results.ip >= req.app.config.loginAttempts.forIp || results.ipUser >= req.app.config.loginAttempts.forIpAndUser) {
 			workflow.outcome.alert.push({
-				type: 'warning', 
+				type: 'warning',
 				message: gt.gettext("You've reached the maximum number of login attempts. Please try again later.")
 			});
 			return workflow.emit('response');
@@ -71,7 +71,7 @@ exports.authenticate = function(req, res) {
 	  });
 
 	  workflow.on('attemptLogin', function() {
-		  
+
 		req._passport.instance.authenticate('local', function(err, user, info) {
 		  if (err) {
 			return workflow.emit('exception', err);
@@ -84,8 +84,8 @@ exports.authenticate = function(req, res) {
 				return workflow.emit('exception', err);
 			  }
 
-			  workflow.outcome.alert.push({ 
-				  type: 'danger', 
+			  workflow.outcome.alert.push({
+				  type: 'danger',
 				  message: gt.gettext('Username and password combination not found or your account is inactive.')
 			  });
 			  return workflow.emit('response');
@@ -97,8 +97,8 @@ exports.authenticate = function(req, res) {
 				return workflow.emit('exception', err);
 			  }
 
-			  workflow.outcome.alert.push({ 
-				  type: 'info', 
+			  workflow.outcome.alert.push({
+				  type: 'info',
 				  message: gt.gettext('You are now loged in')
 			  });
 			  workflow.emit('response');
@@ -114,8 +114,8 @@ exports.authenticate = function(req, res) {
 
 
 /**
- * Send an email with a reset password link 
- */ 
+ * Send an email with a reset password link
+ */
 exports.forgotPassword = function(req, res, next) {
 	var workflow = req.app.utility.workflow(req, res);
 
@@ -153,9 +153,9 @@ exports.forgotPassword = function(req, res, next) {
 		resetPasswordToken: hash,
 		resetPasswordExpires: Date.now() + 10000000
     };
-    
-    
-    
+
+
+
     req.app.db.models.User.findOneAndUpdate(conditions, fieldsToSet, function(err, user) {
       if (err) {
 		return workflow.emit('exception', err);
@@ -171,26 +171,26 @@ exports.forgotPassword = function(req, res, next) {
         return workflow.emit('response');
       }
 
-		
+
       workflow.emit('sendEmail', token, user);
     });
   });
 
-  
-  workflow.on('sendEmail', function(token, user) {
-	  
-	var gt = req.app.utility.gettext;  
 
-	
+  workflow.on('sendEmail', function(token, user) {
+
+	var gt = req.app.utility.gettext;
+
+
 	var email = {
         username: user.username,
         resetLink: req.protocol +'://'+ req.headers.host +'/#/login/reset/'+ user.email +'/'+ token +'/',
-        projectName: req.app.config.projectName
+        projectName: req.app.config.company.name
     };
-    
-	  
+
+
 	// prepare a message in markdown format
-	
+
 	/*jshint multistr: true */
 	var textBody = util.format(gt.gettext('Forgot your password?\n\
 ---------------------\n\
@@ -204,30 +204,30 @@ To reset your password, click on this [link][1] (or copy and paste the URL into 
 Thanks,\n\
 %s'), email.username, email.resetLink, email.projectName);
 
-	
+
 	// build an html alternative
-	
+
 	var htmlBody = marked(textBody);
-	
-	  
+
+
     req.app.utility.sendmail(req, res, {
       from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
       to: user.email,
-      subject: util.format(gt.gettext('Reset your %s password'), req.app.config.projectName),
+      subject: util.format(gt.gettext('Reset your %s password'), req.app.config.company.name),
       text: textBody,
       html: htmlBody,
       success: function(message) {
 			var gt = req.app.utility.gettext;
-		  
+
 			workflow.outcome.alert.push({
 					type: 'info',
 					message: util.format(gt.gettext('An email has been sent to %s'), user.email)
 			});
-			
+
 			workflow.emit('response');
       },
       error: function(err) {
-        workflow.outcome.alert.push({ 
+        workflow.outcome.alert.push({
 			type: 'danger',
 			message: 'Error Sending: '+ err
 		});
@@ -247,9 +247,9 @@ Thanks,\n\
 
 /**
  * Reset password
- */  
+ */
 exports.resetPassword = function(req, res) {
-	
+
 	var workflow = req.app.utility.workflow(req, res);
 
 	  workflow.on('validate', function() {
@@ -263,12 +263,12 @@ exports.resetPassword = function(req, res) {
 		  workflow.outcome.errfor.confirm = 'required';
 		  workflow.httpstatus = 400; // Bad Request
 		}
-		
+
 		if (req.body.confirm !== req.body.password) {
 		  workflow.outcome.errfor.confirm = 'error';
 		  workflow.httpstatus = 400; // Bad Request
 		  workflow.outcome.alert.push({
-				type: 'danger', 
+				type: 'danger',
 				message: req.app.utility.gettext.gettext('The password confirmation does not match the new password field')
 			});
 		}
@@ -282,7 +282,7 @@ exports.resetPassword = function(req, res) {
 
 
 	workflow.on('findUser', function() {
-		
+
 		var conditions = {
 		  email: req.body.email,
 		  resetPasswordExpires: { $gt: Date.now() }
@@ -293,8 +293,8 @@ exports.resetPassword = function(req, res) {
 		  }
 
 		  if (!user) {
-			workflow.outcome.alert.push({ 
-				type: 'danger', 
+			workflow.outcome.alert.push({
+				type: 'danger',
 				message: req.app.utility.gettext.gettext('Invalid request. user not found')
 			});
 			return workflow.emit('response');

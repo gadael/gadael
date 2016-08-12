@@ -12,6 +12,8 @@ exports = module.exports = function createConfiguration() {
     config.csrfProtection = true;
 
     config.url = null;          // used by oauth2 callback url
+                                // and links in Emails
+
     config.host = 'localhost';  // if host undefined: any host
     config.port = process.argv[2] || 3000;
     config.mongodb = {
@@ -19,9 +21,7 @@ exports = module.exports = function createConfiguration() {
         dbname: process.argv[3] || 'gadael'
     };
 
-    config.companyName = 'Default company';
-    config.projectName = 'Gadael';
-    config.systemEmail = 'your@email.addy';
+    config.company = null; // The company document will be here after server start
 
     // used for sessions
     config.cryptoKey = 'k8yb0brda2t';
@@ -32,10 +32,6 @@ exports = module.exports = function createConfiguration() {
     };
     config.requireAccountVerification = false;
     config.smtp = {
-      from: {
-        name: process.env.SMTP_FROM_NAME || exports.projectName +' Website',
-        address: process.env.SMTP_FROM_ADDRESS || 'your@email.addy'
-      },
       credentials: {
         user: process.env.SMTP_USERNAME || 'your@email.addy',
         password: process.env.SMTP_PASSWORD || 'bl4rg!',
@@ -54,4 +50,3 @@ exports = module.exports = function createConfiguration() {
 
     return config;
 };
-

@@ -45,6 +45,8 @@ open http://localhost:3000 in your browser
 
 Application listen on localhost only, an https reverse proxy will be necessary to open access to users.
 
+The file config.example.js can be copied to config.js for futher modifications.
+
 
 ## Tests
 
@@ -76,6 +78,7 @@ grunt test
 - [x] Fix totalCount property on users list, must be the number of enabled users
 - [x] Save events to google calendar
 - [x] Modal dialog to create a secondary calendar in google account
+- [ ] Remove modules/sendmail.js Mailgen is used instead
 
 
 ## Technical features

@@ -26,21 +26,21 @@ let http = require('http');
 /**
  * Load models into an external mongo connexion
  * for actions on databases
- * 
+ *
  * @param	object	app 	the headless mock app
  * @param	object	db		Mongoose connexion
- */  
+ */
 function gadael_loadMockModels(app, db)
 {
 
-	
+
 	models.requirements = {
 		mongoose: app.mongoose,
-		db: db,	
+		db: db,
 		autoIndex: true,
         embeddedSchemas: []
 	};
-	
+
 	models.load();
 }
 
@@ -50,7 +50,7 @@ function gadael_loadMockModels(app, db)
  * The company API
  * for action on multiples databases, application initialisation on server
  * @module api/Company
- * 
+ *
  */
 exports = module.exports = {
 
@@ -478,13 +478,6 @@ exports = module.exports = {
             next();
         });
 
-        //global locals
-        app.locals.projectName = app.config.projectName;
-        app.locals.copyrightYear = new Date().getFullYear();
-        app.locals.copyrightName = app.config.companyName;
-        app.locals.cacheBreaker = 'br34k-01';
-
-
         //setup passport
         passportHelper(app, passport);
 
@@ -510,17 +503,20 @@ exports = module.exports = {
      */
     startServer: function startServer(app, callback) {
 
+		let server = http.createServer(app);
+		let companyModel = app.db.models.Company;
 
-        var server = http.createServer(app);
+	    companyModel.findOne({}, (err, company) => {
+	        app.config.company = company;
 
-        server.listen(app.config.port, app.config.host);
+			server.listen(app.config.port, app.config.host);
 
-        if (callback) {
-            server.on('listening', callback);
-        }
+	        if (callback) {
+	            server.on('listening', callback);
+	        }
+		});
 
         app.server = server;
-
         return server;
     }
 };

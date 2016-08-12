@@ -6,23 +6,23 @@
  * user menu
  * who is logged
  * etc...
- */  
+ */
 exports.getInfos = function(req, res) {
-	
-    
+
+
     var gt = req.app.utility.gettext;
-    
+
     // detect language from HTTP-ACCEPT
 	var lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
-	
+
 	var sessionUser;
-	
+
 	var menu = {
 		account: null,
 		admin: null,
 		user: null
 	};
-  
+
 	if (req.isAuthenticated())
 	{
 		sessionUser = {
@@ -36,7 +36,7 @@ exports.getInfos = function(req, res) {
             image: req.user.image,
             department: req.user.department
 		};
-		
+
         menu.user = [
             {
                 'text': '<i class="fa fa-sign-out text-danger"></i>&nbsp;'+gt.gettext('Logout'),
@@ -47,10 +47,10 @@ exports.getInfos = function(req, res) {
                 'href': '#/user/settings'
             }
         ];
-        
-        
+
+
         if (sessionUser.isAccount) {
-            
+
             menu.account = [
                 {
                     'text': '<i class="fa fa-calendar"></i>&nbsp;'+gt.gettext('Calendar'),
@@ -66,7 +66,7 @@ exports.getInfos = function(req, res) {
                 }
             ];
         }
-        
+
         if (sessionUser.isManager) {
             menu.manager = [
                 {
@@ -76,9 +76,9 @@ exports.getInfos = function(req, res) {
             ];
         }
 
-        
+
         if (sessionUser.isAdmin) {
-            
+
             menu.admin = [
                 {
                     'text': '<i class="fa fa-folder text-primary"></i>&nbsp;'+gt.gettext('Requests'),
@@ -132,7 +132,7 @@ exports.getInfos = function(req, res) {
                 }
             ];
         }
-        
+
 
 	} else {
 		sessionUser = {
@@ -143,44 +143,37 @@ exports.getInfos = function(req, res) {
 		};
 	}
 
-    let companyModel = req.app.db.models.Company;
 
-    companyModel.find({}, 'name maintenance public_text private_text max_users', (err, companies) => {
+	let compDoc = req.app.config.company;
 
-        let company = companies[0].toObject();
+	/**
+	 * The company object output for REST service
+	 */
+    let company = {
+		name: compDoc.name,
+		maintenance: compDoc.maintenance,
+		max_users: compDoc.max_users
+	};
 
-        /**
-         * Replace text variables in company object for security (do not expose private stuff in publc rest service)
-         * @param {String} use Property name
-         * @param {String} del Property name
-         */
-        function replaceProp(use, del) {
-            company.home_text = company[use];
-            if (undefined !== company[del]) {
-                delete company[del];
-            }
+	if (sessionUser.isAuthenticated) {
+		company.home_text = compDoc.private_text;
+    } else {
+		company.home_text = compDoc.public_text;
+    }
+
+    res.json({
+        company: company,
+        lang: lang[0].lang,
+        sessionUser: sessionUser,
+        menu: menu,
+        date: {
+            short: 'dd-MM-yyyy',
+            long: 'EEEE d MMMM yyyy',
+            shortTime: 'dd-MM-yyyy HH:mm Z',
+            longTime: 'EEEE d MMMM yyyy HH:mm Z'
         }
-
-        if (sessionUser.isAuthenticated) {
-            replaceProp('private_text', 'public_text');
-        } else {
-            replaceProp('public_text', 'private_text');
-        }
-
-
-        res.json({
-            company: company,
-            lang: lang[0].lang,
-            sessionUser: sessionUser,
-            menu: menu,
-            date: {
-                short: 'dd-MM-yyyy',
-                long: 'EEEE d MMMM yyyy',
-                shortTime: 'dd-MM-yyyy HH:mm Z',
-                longTime: 'EEEE d MMMM yyyy HH:mm Z'
-            }
-        });
     });
+
 
 
 };
