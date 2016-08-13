@@ -21,7 +21,7 @@ exports = module.exports = function createConfiguration() {
         dbname: process.argv[3] || 'gadael'
     };
 
-    config.company = null; // The company document will be here after server start
+    config.company = null;      // The company document will be here after server start
 
     // used for sessions
     config.cryptoKey = 'k8yb0brda2t';
@@ -31,14 +31,18 @@ exports = module.exports = function createConfiguration() {
       logExpiration: '20m'
     };
     config.requireAccountVerification = false;
-    config.smtp = {
-      credentials: {
-        user: process.env.SMTP_USERNAME || 'your@email.addy',
-        password: process.env.SMTP_PASSWORD || 'bl4rg!',
-        host: process.env.SMTP_HOST || 'smtp.gmail.com',
-        ssl: true
-      }
+
+                                // http://nodemailer.com/
+    config.mailtransport = {    // must match nodemailer options format:
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,           // use SSL
+        auth: {
+            user: 'user@gmail.com',
+            pass: 'pass'
+        }
     };
+
     config.oauth = {
         google: {
             key: process.env.GOOGLE_OAUTH_KEY || '',

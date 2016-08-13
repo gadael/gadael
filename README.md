@@ -78,7 +78,6 @@ grunt test
 - [x] Fix totalCount property on users list, must be the number of enabled users
 - [x] Save events to google calendar
 - [x] Modal dialog to create a secondary calendar in google account
-- [ ] Remove modules/sendmail.js Mailgen is used instead
 
 
 ## Technical features

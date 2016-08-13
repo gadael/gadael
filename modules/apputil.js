@@ -14,7 +14,6 @@ exports = module.exports = function(app) {
 
     //setup utilities
     app.utility = {};
-    app.utility.sendmail = require('./sendmail'); //TODO: remove
     app.utility.slugify = require('./slugify');
     app.utility.workflow = require('./workflow');
     app.utility.gettext = require('./gettext');
