@@ -2,19 +2,24 @@
 
 const gt = require('../gettext');
 const util = require('util');
+const Mail = require('../mail');
 
 /**
  * Mail send when a user ask to reset his password
- * @param {ClientRequest} req  http.ClientRequest
+ * @param {Object} app  Express
  * @param {String} token
  * @param {User} user
  */
-exports = module.exports = function getMail(req, token, user) {
+exports = module.exports = function getMail(app, token, user) {
 
-    let resetLink = req.protocol +'://'+ req.headers.host +'/#/login/reset/'+ user.email +'/'+ token +'/';
+    let mail = new Mail(app);
 
-    return {
-        subject: util.format(gt.gettext('%s: reset your password'), req.app.config.company.name),
+    mail.setSubject(util.format(gt.gettext('%s: reset your password'), app.config.company.name));
+    mail.setTo(user);
+
+    let resetLink = app.config.url +'/#/login/reset/'+ user.email +'/'+ token +'/';
+
+    mail.setMailgenData({
         body: {
             name: user.getName(),
             intro: [
@@ -30,5 +35,7 @@ exports = module.exports = function getMail(req, token, user) {
             },
             outro: gt.gettext('If you do not have requested a password modification, just ignore this email')
         }
-    };
+    });
+
+    return mail;
 };
