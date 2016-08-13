@@ -15,7 +15,7 @@ exports = module.exports = function getMail(app, token, user) {
     let mail = new Mail(app);
 
     mail.setSubject(util.format(gt.gettext('%s: reset your password'), app.config.company.name));
-    mail.setTo(user);
+    mail.addTo(user);
 
     let resetLink = app.config.url +'/#/login/reset/'+ user.email +'/'+ token +'/';
 
