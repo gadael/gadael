@@ -1,9 +1,9 @@
 'use strict';
 
-let async = require('async');
-let crypto = require('crypto');
-var util = require('util');
-var marked = require('marked');
+const async = require('async');
+const crypto = require('crypto');
+const util = require('util');
+const resetpassword = require('../modules/email/resetpassword');
 
 /**
  * Authenticate with a post and fields
@@ -177,66 +177,30 @@ exports.forgotPassword = function(req, res, next) {
   });
 
 
-  workflow.on('sendEmail', function(token, user) {
+	workflow.on('sendEmail', function(token, user) {
 
-	var gt = req.app.utility.gettext;
+		resetpassword(req.app, token, user)
+		.send()
+		.then(info => {
+		  var gt = req.app.utility.gettext;
 
+		  workflow.outcome.alert.push({
+				  type: 'info',
+				  message: util.format(gt.gettext('An email has been sent to %s'), user.email)
+		  });
 
-	var email = {
-        username: user.username,
-        resetLink: req.protocol +'://'+ req.headers.host +'/#/login/reset/'+ user.email +'/'+ token +'/',
-        projectName: req.app.config.company.name
-    };
-
-
-	// prepare a message in markdown format
-
-	/*jshint multistr: true */
-	var textBody = util.format(gt.gettext('Forgot your password?\n\
----------------------\n\
-\n\
-We received a request to reset the password for your account (%s).\n\
-\n\
-To reset your password, click on this [link][1] (or copy and paste the URL into your browser):\n\
-\n\
-[1]: %s\n\
-\n\
-Thanks,\n\
-%s'), email.username, email.resetLink, email.projectName);
-
-
-	// build an html alternative
-
-	var htmlBody = marked(textBody);
-
-
-    req.app.utility.sendmail(req, res, {
-      from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
-      to: user.email,
-      subject: util.format(gt.gettext('Reset your %s password'), req.app.config.company.name),
-      text: textBody,
-      html: htmlBody,
-      success: function(message) {
-			var gt = req.app.utility.gettext;
-
-			workflow.outcome.alert.push({
-					type: 'info',
-					message: util.format(gt.gettext('An email has been sent to %s'), user.email)
-			});
-
-			workflow.emit('response');
-      },
-      error: function(err) {
-        workflow.outcome.alert.push({
-			type: 'danger',
-			message: 'Error Sending: '+ err
+		  workflow.emit('response');
+		})
+		.catch(err => {
+		  workflow.outcome.alert.push({
+					type: 'danger',
+					message: 'Error Sending: '+ err.getMessage()
+			  });
+		  workflow.emit('response');
 		});
-        workflow.emit('response');
-      }
-    });
-  });
+	});
 
-  workflow.emit('validate');
+	workflow.emit('validate');
 };
 
 

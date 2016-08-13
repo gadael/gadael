@@ -47,7 +47,6 @@
     "jurassic": "git://github.com/polo2ro/jurassic.git#1eddd3a756c3672b5ed0cc1e03b682749d77a574",
     "latinize": "~0.2.0",
     "mailgen": "^1.0.25",
-    "marked": "~0.3.2",
     "mongoose": "^4.4.17",
     "mongoose-path-tree": "git://github.com/velichkov/mongoose-path-tree.git#139629ceca7ec19e394ae27c0ca01ad442fbb8d5",
     "morgan": "^1.0.1",
