@@ -1,6 +1,5 @@
 'use strict';
 
-let Q = require('q');
 
 exports = module.exports = function(params) {
 
@@ -35,11 +34,11 @@ exports = module.exports = function(params) {
 	};
 
 
-  
+
 	/**
 	 * Find all managers of department
-	 * 
-	 */ 
+	 * @return {Promise}
+	 */
 	departmentSchema.methods.getManagers = function getManagers(callback) {
 		return this.model('Manager')
 			.find({ department: this._id })
@@ -54,11 +53,18 @@ exports = module.exports = function(params) {
      */
     departmentSchema.methods.getSubDepartments = function()
     {
-        var deferred = Q.defer();
+        let department = this;
 
-        this.getChildren(true, deferred.makeNodeResolver());
+        return new Promise((resolve, reject) => {
+            department.getChildren(true, (err, children) => {
+                if (err) {
+                    return reject(err);
+                }
 
-        return deferred.promise;
+                resolve(children);
+            });
+        });
+
     };
 
 
@@ -68,11 +74,17 @@ exports = module.exports = function(params) {
      */
     departmentSchema.methods.getSubTree = function()
     {
-        var deferred = Q.defer();
+        let department = this;
 
-        this.getChildrenTree(deferred.makeNodeResolver());
+        return new Promise((resolve, reject) => {
+            department.getChildrenTree(true, (err, children) => {
+                if (err) {
+                    return reject(err);
+                }
 
-        return deferred.promise;
+                resolve(children);
+            });
+        });
     };
 
 
@@ -82,11 +94,18 @@ exports = module.exports = function(params) {
      */
     departmentSchema.methods.getAncestors = function()
     {
-        var deferred = Q.defer();
+        let department = this;
 
-        this.getAncestors(deferred.makeNodeResolver());
+        return new Promise((resolve, reject) => {
+            department.getAncestors(true, (err, children) => {
+                if (err) {
+                    return reject(err);
+                }
 
-        return deferred.promise;
+                resolve(children);
+            });
+        });
+
     };
 
 

@@ -16,7 +16,7 @@ function mockApproval(server, readyCallback) {
         department: require(apiPath+'Department.api.js'),
         request: require(apiPath+'Request.api.js')
     };
-    this.Q = require('q');
+
     this.server = server;
 
 
@@ -30,30 +30,25 @@ function mockApproval(server, readyCallback) {
  */
 mockApproval.prototype.createRight = function(name, quantity, quantity_unit) {
 
-    var deferred = this.Q.defer();
 
     var RightModel = this.server.app.db.models.Right;
     var right = new RightModel();
     right.name = name;
     right.quantity = quantity;
     right.quantity_unit = quantity_unit;
-    right.save(function(err, right) {
 
-        if (err) {
-            return deferred.reject(err);
-        }
+    return right.save()
+    .then(right => {
 
         var start = new Date();     start.setFullYear(start.getFullYear()-1);
         var finish = new Date();    finish.setFullYear(finish.getFullYear()+1);
 
-        right.createRenewal(start, finish).then(function() {
-            deferred.resolve(right);
-        }, deferred.reject);
+        return right.createRenewal(start, finish)
+        .then(() => {
+            return right;
+        });
 
     });
-
-
-    return deferred.promise;
 };
 
 
@@ -78,28 +73,24 @@ mockApproval.prototype.createCollection = function(name) {
      */
     function beneficiary(rightPromise, collection)
     {
-
-        var deferredBeneficiary = self.Q.defer();
-        rightPromise.then(function(right) {
+        return rightPromise
+        .then(function(right) {
 
             var beneficiary = new BeneficiaryModel();
             beneficiary.right = right._id;
             beneficiary.document = collection._id;
             beneficiary.ref = 'RightCollection';
-            beneficiary.save(function(err, beneficiary) {
-                deferredBeneficiary.resolve(beneficiary);
-            });
-
-
+            return beneficiary.save();
         });
 
-        return deferredBeneficiary.promise;
     }
 
-    var deferred = self.Q.defer();
+
     var collection = new RightCollectionModel();
     collection.name = name;
-    collection.save(function(err, collection) {
+
+    return collection.save()
+    .then(collection => {
 
         var promises = [];
         promises.push(beneficiary(self.createRight('right 1', 25, 'D'), collection));
@@ -107,12 +98,10 @@ mockApproval.prototype.createCollection = function(name) {
         promises.push(beneficiary(self.createRight('right 3', 2, 'D'), collection));
         promises.push(beneficiary(self.createRight('right 4', 100, 'H'), collection));
 
-        self.Q.all(promises).done(function(beneficiaries) {
-            deferred.resolve(collection);
+        return Promise.all(promises).then((beneficiaries) => {
+            return collection;
         });
     });
-
-    return deferred.promise;
 };
 
 
@@ -160,9 +149,13 @@ mockApproval.prototype.addManager = function(department, manager) {
 mockApproval.prototype.createDepartments = function(app) {
 
     var mockApproval = this;
-    var departments = [], parent = null, count = 0, api = this.api, Q = this.Q;
-    var deferred = this.Q.defer();
+    var departments = [], parent = null, count = 0, api = this.api;
 
+    var deferred = {};
+    deferred.promise = new Promise(function(resolve, reject) {
+        deferred.resolve = resolve;
+        deferred.reject = reject;
+    });
 
     /**
      * Get a promise for n users
@@ -173,19 +166,24 @@ mockApproval.prototype.createDepartments = function(app) {
      */
     function getUsers(n, method, populateField)
     {
-        var usersDeferred = Q.defer();
+        var usersDeferred = {};
+        usersDeferred.promise = new Promise(function(resolve, reject) {
+            usersDeferred.resolve = resolve;
+            usersDeferred.reject = reject;
+        });
+
         var users = [];
 
 
         function next(loop) {
 
             if (loop <= 0) {
-
                 return usersDeferred.resolve(users);
             }
 
 
-            api.user[method](app).then(function populate(randomUser) {
+            api.user[method](app)
+            .then(function populate(randomUser) {
                 randomUser.user.populate(populateField, function(err, populatedUser) {
 
                     users.push(randomUser);
@@ -262,7 +260,11 @@ mockApproval.prototype.createDepartments = function(app) {
         rolesPromises.push(getUsers(accountCount[count], 'createRandomAccount', 'roles.account'));
 
 
-        Q.all(rolesPromises).spread(function(managers, accounts) {
+        Promise.all(rolesPromises)
+        .then(all => {
+
+            let managers = all[0];
+            let accounts = all[1];
 
             var i;
             var savedDocumentsPromises = []; // Manager & User
@@ -301,7 +303,7 @@ mockApproval.prototype.createDepartments = function(app) {
                 return end();
             }
 
-            Q.all(savedDocumentsPromises).then(end);
+            Promise.all(savedDocumentsPromises).then(end);
 
 
         }, deferred.reject);
@@ -333,7 +335,12 @@ mockApproval.prototype.createRequest = function createRequest(user)
  */
 mockApproval.prototype.getRequests = function getRequests(departmentName)
 {
-    var deferred = this.Q.defer();
+    var deferred = {};
+    deferred.promise = new Promise(function(resolve, reject) {
+        deferred.resolve = resolve;
+        deferred.reject = reject;
+    });
+
     var async = require('async');
 
     var model = this.server.app.db.models.Department;

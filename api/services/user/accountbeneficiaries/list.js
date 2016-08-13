@@ -1,6 +1,5 @@
 'use strict';
 
-let Q = require('q');
 let async = require('async');
 let renewalsMod = require('./renewals');
 
@@ -194,9 +193,7 @@ exports = module.exports = function(services, app) {
 
 
                         for(var i=0; i<docs.length; i++) {
-                            var deferred = Q.defer();
-                            docs[i].right.populate('type', deferred.makeNodeResolver());
-                            populatedTypePromises.push(deferred.promise);
+                            populatedTypePromises.push(docs[i].right.populate('type').execPopulate());
                         }
 
                         Promise.all(populatedTypePromises).then(function() {
@@ -218,7 +215,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-
-
-

@@ -1,6 +1,5 @@
 'use strict';
 
-let Q = require('q');
 let api = require('../../../api/Company.api.js');
 let headless = require('../../../api/Headless.api.js');
 
@@ -15,50 +14,50 @@ function mockServer(dbname, port, readyCallback) {
 
 
     var mockServerDbName = dbname+port;
-    
-    
+
+
     this.dbname = mockServerDbName;
-    
+
     this.sessionCookie = null;
-    
+
     this.isValid = false;
     var serverInst = this;
-    
+
     this.requireCloseOn = null;
     this.lastUse = Date.now();
-    
+
 
     function createRestService() {
-        
-        
-        var company = { 
+
+
+        var company = {
             name: 'The Fake Company REST service',
             port: port,
             country: 'FR' // all tests on rest services are based on french initial data
         };
-        
+
         api.createDb(headless, serverInst.dbname, company, function() {
 
             let config = require('../../../config')();
             let models = require('../../../models');
-            
+
             config.port = company.port;
             config.companyName = company.name;
             config.mongodb.dbname = serverInst.dbname;
             config.csrfProtection = false;
 
             let app = api.getExpress(config, models);
-            
-            Object.defineProperty(serverInst, 'app', { 
+
+            Object.defineProperty(serverInst, 'app', {
                 value: app
             });
-            
+
             serverInst.server = api.startServer(app, function() {
                 serverInst.isValid = true;
                 readyCallback(serverInst);
             });
-            
-            
+
+
             serverInst.sockets = [];
 
             serverInst.server.on('connection', function (socket) {
@@ -77,10 +76,10 @@ function mockServer(dbname, port, readyCallback) {
                     serverInst.sockets[i].destroy();
                 }
             });
-        
+
         });
     }
-    
+
 
     headless.connect(function() {
         api.isDbNameValid(headless, serverInst.dbname, function(status) {
@@ -89,7 +88,7 @@ function mockServer(dbname, port, readyCallback) {
                 api.dropDb(headless, serverInst.dbname, createRestService);
                 return;
             }
-            
+
             createRestService();
         });
     });
@@ -97,7 +96,7 @@ function mockServer(dbname, port, readyCallback) {
 
 
 mockServer.prototype.request = function(method, headers, query, path, done) {
-    
+
     var server = this;
 
     this.lastUse = Date.now();
@@ -105,7 +104,7 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
     if (server.sessionCookie) {
         headers.Cookie = server.sessionCookie;
     }
-    
+
     if (Object.getOwnPropertyNames(query).length !== 0) {
         var qs = require('querystring');
         path += '?'+qs.stringify(query);
@@ -119,7 +118,7 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
         agent: false,
         headers: headers
     };
-    
+
     var http = require('http');
 
     var req = http.request(urlOptions, function(res) {
@@ -132,15 +131,15 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
                 //console.log('Set new session cookie '+server.sessionCookie);
             });
         }
-        
+
         res.setEncoding('utf8');
-        
+
         var body = '';
-        
+
         res.on('data', function(chunk) {
             body += chunk;
         });
-        
+
         res.on('end', function() {
 
             if (body) {
@@ -174,7 +173,7 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
             }
         });
     });
-    
+
     return req;
 };
 
@@ -183,7 +182,7 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
  * get request on server
  */
 mockServer.prototype.get = function(path, data, done) {
-    
+
     var req = this.request('GET', {}, data, path, done);
     req.end();
 };
@@ -195,18 +194,18 @@ mockServer.prototype.get = function(path, data, done) {
 mockServer.prototype.send = function(method, path, data, done) {
 
     var postStr = JSON.stringify(data);
-    
+
     // Content-Length is wrong with UTF-8 strings
 
     var headers = {
         'Content-Type': 'application/json'
     //   , 'Content-Length': postStr.length
     };
-    
+
     var req = this.request(method, headers, {}, path, done);
-    
+
     req.write(postStr);
-    
+
     req.end();
 };
 
@@ -215,7 +214,7 @@ mockServer.prototype.send = function(method, path, data, done) {
  * put request on server
  */
 mockServer.prototype.put = function(path, data, done) {
-    
+
     this.send('PUT', path, data, done);
 };
 
@@ -224,7 +223,7 @@ mockServer.prototype.put = function(path, data, done) {
  * Post request on server
  */
 mockServer.prototype.post = function(path, data, done) {
-    
+
     this.send('POST', path, data, done);
 };
 
@@ -233,7 +232,7 @@ mockServer.prototype.post = function(path, data, done) {
  * delete request on server
  */
 mockServer.prototype.delete = function(path, done) {
-    
+
     var req = this.request('DELETE', {}, {}, path, done);
     req.end();
 };
@@ -250,7 +249,7 @@ mockServer.prototype.close = function(doneExit) {
     var app = this.app;
     var api = require('../../../api/Company.api.js');
     var headless = require('../../../api/Headless.api.js');
-    
+
 
     app.db.close(function() {
         api.dropDb(headless, mockServerDbName, function() {
@@ -272,7 +271,7 @@ mockServer.prototype.deleteAdminAccountIfExists = function() {
 
     var userModel = this.app.db.models.User;
 
-    return Q(userModel.remove({ email: 'admin@example.com' }).exec());
+    return userModel.remove({ email: 'admin@example.com' }).exec();
 };
 
 
@@ -294,13 +293,13 @@ mockServer.prototype.createAdminUser = function() {
         return userModel.find({ email: 'admin@example.com' })
         .exec()
         .then(users => {
-            
+
             if (1 === users.length) {
                 return users[0];
             } else {
-                
+
                 var admin = new userModel();
-                
+
                 return userModel.encryptPassword(password)
                 .then(hash => {
 
@@ -317,11 +316,11 @@ mockServer.prototype.createAdminUser = function() {
                 });
             }
         });
-        
+
 
     }
-    
-    
+
+
     // login as admin
     return getAdmin()
     .then(function(admin) {
@@ -602,7 +601,7 @@ var serverList = {};
 
 
 exports = module.exports = {
-    
+
     /**
      * Function loaded in a beforeEach to ensure the server is started for every test
      * This start only one instance
@@ -611,7 +610,7 @@ exports = module.exports = {
      * @param {function} ready      callback
      */
     mockServer: function(dbname, ready) {
-        
+
         if (ready === undefined && typeof(dbname) === 'function') {
             ready = dbname;
             dbname = 'MockServerDb'; // default DB name
@@ -624,7 +623,7 @@ exports = module.exports = {
                 serverList[dbname] = server;
                 ready(server);
             });
-            
+
         } else {
 
             ready(serverList[dbname]);

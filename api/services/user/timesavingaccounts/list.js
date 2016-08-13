@@ -1,6 +1,5 @@
 'use strict';
 
-let Q = require('q');
 
 /**
  * The user available time saving accounts for the current date
@@ -80,70 +79,71 @@ exports = module.exports = function(services, app) {
     {
         var async = require('async');
         var dispUnits = require('../../../../modules/dispunits');
-        var deferred = Q.defer();
 
         var results = [], savingPeriod;
         var user;
 
         function getUser(account) {
             user = account.user.id;
-            return Q(account);
+            return Promise.resolve(account);
         }
 
-        getAccount(accountId)
-            .then(getUser)
-            .then(getAccountBeneficiaries)
-            .then(timeSavingBeneficiaries => {
+        return getAccount(accountId)
+        .then(getUser)
+        .then(getAccountBeneficiaries)
+        .then(timeSavingBeneficiaries => {
 
-            async.each(timeSavingBeneficiaries, function(beneficiary, callback) {
+            return new Promise((resolve, reject) => {
+
+                async.each(timeSavingBeneficiaries, function(beneficiary, callback) {
 
 
-                beneficiary.right.getAllRenewals().then(function(renewals) {
+                    beneficiary.right.getAllRenewals().then(function(renewals) {
 
 
-                    async.each(renewals, function(renewal, renewalCb) {
+                        async.each(renewals, function(renewal, renewalCb) {
 
-                        savingPeriod = renewal.getSavingPeriod(beneficiary.right);
+                            savingPeriod = renewal.getSavingPeriod(beneficiary.right);
 
-                        if (null === savingPeriod) {
-                            return renewalCb();
-                        }
+                            if (null === savingPeriod) {
+                                return renewalCb();
+                            }
 
-                        beneficiary = beneficiary.toObject();
-                        beneficiary.right.timeSaving.max_dispUnit = dispUnits(
-                            beneficiary.right.quantity_unit,
-                            beneficiary.right.timeSaving.max
-                        );
+                            beneficiary = beneficiary.toObject();
+                            beneficiary.right.timeSaving.max_dispUnit = dispUnits(
+                                beneficiary.right.quantity_unit,
+                                beneficiary.right.timeSaving.max
+                            );
 
-                        renewal.getUserAvailableQuantity(user).then(function(availableQuantity) {
+                            renewal.getUserAvailableQuantity(user).then(function(availableQuantity) {
 
-                            results.push({
-                                savingPeriod: savingPeriod,
-                                renewal: renewal,
-                                beneficiary: beneficiary,
-                                availableQuantity: availableQuantity,
-                                availableQuantity_dispUnit: dispUnits(beneficiary.right.quantity_unit, availableQuantity)
-                            });
+                                results.push({
+                                    savingPeriod: savingPeriod,
+                                    renewal: renewal,
+                                    beneficiary: beneficiary,
+                                    availableQuantity: availableQuantity,
+                                    availableQuantity_dispUnit: dispUnits(beneficiary.right.quantity_unit, availableQuantity)
+                                });
 
-                            renewalCb();
-                        }, renewalCb);
+                                renewalCb();
+                            }, renewalCb);
 
-                    }, function(err) {
-                        callback(err, results);
+                        }, function(err) {
+                            callback(err, results);
+                        });
+
+
                     });
 
+                }, function eachEnd(err) {
+                    if (err) {
+                        return reject(err);
+                    }
 
+                    resolve(results);
                 });
-
-            }, function eachEnd(err) {
-                if (err) {
-                    return deferred.reject(err);
-                }
-                deferred.resolve(results);
             });
-        }, deferred.reject);
-
-        return deferred.promise;
+        });
     }
 
 
@@ -174,4 +174,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-

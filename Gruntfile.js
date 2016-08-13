@@ -28,13 +28,13 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-     
+
       serverJS: {
          files: ['api/**/*.js', 'modules/**/*.js', 'schema/**/*.js', 'rest/**/*.js'],
          tasks: ['newer:jshint:server']
       }
     },
-    
+
     copy: {
         fonts: {
           expand: true,
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
             dest: 'config.js'
         }
       },
-    
+
     cssmin: {
       options: {
       },
@@ -121,10 +121,10 @@ module.exports = function(grunt) {
         ]
       }
     },
-    
 
 
-    
+
+
     nggettext_extract: {
     	pot: {
     		files: {
@@ -132,7 +132,7 @@ module.exports = function(grunt) {
     		}
     	}
     },
-    
+
     nggettext_compile: {
     	all: {
     		files: {
@@ -142,14 +142,14 @@ module.exports = function(grunt) {
     },
 
     // test REST services with jasmine node
-    
+
     jasmine_node: {
 		options: {
 		  forceExit: true,
 		  match: '.',
 		  matchall: false,
 		  extensions: 'js',
-          helperNameMatcher: 'Helper', 
+          helperNameMatcher: 'Helper',
 		  specNameMatcher: 'Spec',
           showColors: true,
           includeStackTrace: true,
@@ -160,7 +160,14 @@ module.exports = function(grunt) {
 			consolidate: true
 		  }
 		},
-		all: ['test/server/'],
+		all: {
+            options: {
+                coverage: false,
+                specFolders: ['test/server/'],
+                captureExceptions: true
+            },
+            src: ['**/*.js']
+        },
 
         jasmine_coverage: {
           options: {
@@ -184,8 +191,8 @@ module.exports = function(grunt) {
 	},
 
     shell: {
-        jasmine_theseus: {
-            command: 'node-theseus node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server/'
+        jasmine: {
+            command: 'node node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server/'
         },
         pot_server: {
             command: 'find modules/ rest/ schema/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/server/template.pot'
@@ -205,7 +212,7 @@ module.exports = function(grunt) {
         }
     },
 
-    
+
     requirejs: {
         compile: {
             options: {
@@ -240,7 +247,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
   grunt.registerTask('allpot', ['shell:pot_server', 'nggettext_extract']);
   grunt.registerTask('lint', ['jshint']);
-  grunt.registerTask('test', ['shell:jasmine_theseus']);
+  grunt.registerTask('test', ['jasmine_node:all']);
   grunt.registerTask('coverage', ['jasmine_node:jasmine_coverage']);
   grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage']);
 };

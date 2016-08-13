@@ -1,7 +1,5 @@
 'use strict';
 
-let Q = require('q');
-
 /**
  * @throws Error
  * @param {Object}  wrParams        Worperiod recover request parmeters from post|put request
@@ -44,13 +42,10 @@ function testRequired(wrParams)
 function getFieldsToSet(service, wrParams)
 {
 
-    var deferred = Q.defer();
-
     try {
         testRequired(wrParams);
     } catch (e) {
-        deferred.reject(e.message);
-        return deferred.promise;
+        return Promise.reject(e);
     }
 
 
@@ -69,10 +64,12 @@ function getFieldsToSet(service, wrParams)
 
 
 
-    RecoverQuantityModel.findOne({ _id: wrParams.recoverQuantity._id }).then(function(recoverQuantity) {
+    return RecoverQuantityModel
+    .findOne({ _id: wrParams.recoverQuantity._id })
+    .then(function(recoverQuantity) {
 
         if (!recoverQuantity) {
-            return deferred.reject('Failed to get recover quantity from '+wrParams.recoverQuantity);
+            throw new Error('Failed to get recover quantity from '+wrParams.recoverQuantity);
         }
 
         fieldsToSet.recoverQuantity = recoverQuantity._id;
@@ -82,13 +79,9 @@ function getFieldsToSet(service, wrParams)
 
         fieldsToSet.right.quantity_unit = recoverQuantity.quantity_unit;
 
-        deferred.resolve(fieldsToSet);
+        return fieldsToSet;
 
-    }, deferred.reject);
-
-
-
-    return deferred.promise;
+    });
 
 }
 
@@ -137,19 +130,16 @@ function getEventsPromise(service, param)
         eventPromises.push(event.save());
     });
 
-    var deferred = Q.defer();
-
     var eventIds = [];
 
-    Promise.all(eventPromises).then(function(events) {
+    return Promise.all(eventPromises)
+    .then(function(events) {
         events.forEach(function(event) {
             eventIds.push(event);
         });
 
-        deferred.resolve(eventIds);
-    }, deferred.reject);
-
-    return deferred.promise;
+        return eventIds;
+    });
 }
 
 

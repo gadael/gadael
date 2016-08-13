@@ -1,7 +1,6 @@
 'use strict';
 
 const gt = require('./../modules/gettext');
-let Q = require('q');
 
 
 /**
@@ -25,9 +24,9 @@ function getRemovePromises(documents) {
 
 
 exports = module.exports = function(params) {
-	
+
 	var mongoose = params.mongoose;
-	
+
     var requestSchema = new mongoose.Schema({
         user: { // owner
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -381,7 +380,7 @@ exports = module.exports = function(params) {
 
 
         if (undefined === this.workperiod_recover || 0 === this.workperiod_recover.length) {
-            return Q(null);
+            return Promise.resolve(null);
         }
 
 
@@ -411,23 +410,22 @@ exports = module.exports = function(params) {
         }
 
 
-        var deferred = Q.defer();
-
-        createRight().then(function(right) {
+        return createRight()
+        .then(function(right) {
 
             if (null === right) {
-                deferred.resolve(request);
+                return request;
             }
 
             recover.right.id = right._id;
-            right.createRecoveryRenewal(recover).then(function(renewal) {
+
+            return right.createRecoveryRenewal(recover)
+            .then(function(renewal) {
                 recover.right.renewal = renewal._id;
-                deferred.resolve(request.save());
+                return request.save();
             });
-        }, deferred.reject);
+        });
 
-
-        return deferred.promise;
     };
 
 

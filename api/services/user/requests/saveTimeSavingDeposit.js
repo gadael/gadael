@@ -1,7 +1,5 @@
 'use strict';
 
-let Q = require('q');
-
 /**
  * @throws Error
  * @param {Object}  tsdParams        Worperiod recover request parmeters from post|put request
@@ -47,16 +45,13 @@ function testRequired(tsdParams)
 function getFieldsToSet(service, tsdParams)
 {
 
-    var deferred = Q.defer();
     var async = require('async');
 
     try {
         testRequired(tsdParams);
     } catch (e) {
-        deferred.reject(e.message);
-        return deferred.promise;
+        return Promise.reject(e);
     }
-
 
     function setRenewal(obj, renewal) {
 
@@ -127,22 +122,24 @@ function getFieldsToSet(service, tsdParams)
     fieldsToSet.quantity = tsdParams.quantity;
     fieldsToSet.quantity_unit = tsdParams.quantity_unit;
 
-    async.parallel([
-        function(cb) {
-            setFromRenewalId(fieldsToSet.from, tsdParams.from.renewal._id, cb);
-        },
-        function(cb) {
-            setFromRenewalId(fieldsToSet.to, tsdParams.to.renewal._id, cb);
-        }
-    ], function(err) {
-        if (err) {
-            return deferred.reject(err);
-        }
-        deferred.resolve(fieldsToSet);
+    return new Promise((resolve, reject) => {
+        async.parallel([
+            function(cb) {
+                setFromRenewalId(fieldsToSet.from, tsdParams.from.renewal._id, cb);
+            },
+            function(cb) {
+                setFromRenewalId(fieldsToSet.to, tsdParams.to.renewal._id, cb);
+            }
+        ], function(err) {
+            if (err) {
+                return reject(err);
+            }
+
+            resolve(fieldsToSet);
+        });
     });
 
 
-    return deferred.promise;
 
 }
 

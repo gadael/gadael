@@ -1,7 +1,5 @@
 'use strict';
 
-let Q = require('q');
-
 
 /**
  * Get approvaSteps to init a workflow
@@ -14,12 +12,9 @@ exports = module.exports = function getApprovalStepsModule(user) {
 
     function getStepPromise(department)
     {
-        var deferred = Q.defer();
-        department.getManagers(function(err, managers) {
-            if (err) {
-                deferred.reject(err);
-            }
 
+        return department.getManagers()
+        .then(managers => {
             var step = {};
             step.operator = department.operator;
             step.department = department.name;
@@ -28,11 +23,9 @@ exports = module.exports = function getApprovalStepsModule(user) {
                 step.approvers.push(managers[j].user.id);
             }
 
-            deferred.resolve(step);
+            return step;
 
         });
-
-        return deferred.promise;
     }
 
 
@@ -49,35 +42,32 @@ exports = module.exports = function getApprovalStepsModule(user) {
 
         var async =require('async');
 
-        var deferred = Q.defer();
         var steps = [];
 
+        return new Promise((resolve, reject) => {
+            async.eachSeries(departments, function iterator(department, callback) {
 
-        async.eachSeries(departments, function iterator(department, callback) {
+                getStepPromise(department).then(function addStep(step) {
 
-            getStepPromise(department).then(function addStep(step) {
+                    if (0 !== step.approvers.length) {
+                        steps.push(step);
+                    }
 
-                if (0 !== step.approvers.length) {
-                    steps.push(step);
+                    callback();
+                }, callback);
+            }, function done(err) {
+                if (err) {
+                    return reject(err);
                 }
 
-                callback();
-            }, callback);
-        }, function done(err) {
-            if (err) {
-                return deferred.reject(err);
-            }
+                // set the first step in waiting status
+                if (steps.length > 0) {
+                    steps[steps.length -1].status = 'waiting';
+                }
 
-            // set the first step in waiting status
-            if (steps.length > 0) {
-                steps[steps.length -1].status = 'waiting';
-            }
-
-            deferred.resolve(steps);
+                resolve(steps);
+            });
         });
-
-
-        return deferred.promise;
     }
 
 

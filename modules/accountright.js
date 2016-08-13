@@ -3,8 +3,8 @@
  * @deprecated Replaced by methods on renewal
  */
 
+'use strict';
 
-let Q = require('q');
 
 /**
  * This object represent one right associated to one user account
@@ -15,7 +15,6 @@ let Q = require('q');
  */
 function accountRight(account, renewal)
 {
-    'use strict';
 
     if (renewal.right === undefined || renewal.right._id === undefined) {
         throw new Error('The renewal need a vacation right');
@@ -36,14 +35,14 @@ function accountRight(account, renewal)
  */
 accountRight.prototype.getWaitingQuantity = function()
 {
-    'use strict';
 
-    var deferred = Q.defer();
+
     var AbsenceElemModel = this.renewal.model('AbsenceElem');
 
-    AbsenceElemModel
-        .find({ 'right.renewal': this.renewal._id, 'user.id': this.account.user.id })
-        .exec(function(err, elements) {
+    return AbsenceElemModel
+    .find({ 'right.renewal': this.renewal._id, 'user.id': this.account.user.id })
+    .exec()
+    .then(elements => {
 
         var consumed = 0;
 
@@ -51,25 +50,10 @@ accountRight.prototype.getWaitingQuantity = function()
             consumed += elements[i].consumedQuantity;
         }
 
-        deferred.resolve(consumed);
+        return consumed;
     });
-
-    return deferred.promise;
 };
 
- /**
- * Sum of quantities from confirmed requests, real input of user
- * @todo This promise never resolve!
- * @return {Promise}    promise resolve to a number
- */
-accountRight.prototype.getConfirmedQuantity = function()
-{
-    'use strict';
-
-    var deferred = Q.defer();
-
-    return deferred.promise;
-};
 
 
 /**
@@ -80,21 +64,17 @@ accountRight.prototype.getConfirmedQuantity = function()
  */
 accountRight.prototype.getConsumedQuantity = function()
 {
-   'use strict';
 
-    var deferred = Q.defer();
+
     var AbsenceElemModel = this.renewal.model('AbsenceElem');
 
-    AbsenceElemModel
-        .find({
-            'right.renewal.id': this.renewal._id,
-            'user.id': this.account.user.id
-        }) // , 'absence.distribution.consumedQuantity'
-        .exec(function(err, elements) {
-
-        if (err) {
-            return deferred.reject(err);
-        }
+    return AbsenceElemModel
+    .find({
+        'right.renewal.id': this.renewal._id,
+        'user.id': this.account.user.id
+    }) // , 'absence.distribution.consumedQuantity'
+    .exec()
+    .then(elements => {
 
         var consumed = 0;
 
@@ -108,10 +88,9 @@ accountRight.prototype.getConsumedQuantity = function()
 
         }
 
-        deferred.resolve(consumed);
+        return consumed;
     });
 
-    return deferred.promise;
 };
 
 
@@ -122,9 +101,6 @@ accountRight.prototype.getConsumedQuantity = function()
  */
 accountRight.prototype.getAvailableQuantity = function()
 {
-    'use strict';
-
-    var deferred = Q.defer();
     var self = this;
 
 
@@ -132,12 +108,11 @@ accountRight.prototype.getAvailableQuantity = function()
     // Is there a specific quantity for this beneficiary and this renewal?
     // else get the right quantity
 
-    this.getConsumedQuantity().then(function(consumed) {
+    return this.getConsumedQuantity()
+    .then(function(consumed) {
         var initialQuantity = self.account.getQuantity(self.renewal);
-        deferred.resolve(initialQuantity - consumed);
-    }, deferred.reject);
-
-    return deferred.promise;
+        return (initialQuantity - consumed);
+    });
 };
 
 

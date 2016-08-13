@@ -1,7 +1,6 @@
 'use strict';
 
 const gt = require('./../../../../modules/gettext');
-let Q = require('q');
 let getApprovalSteps = require('../../../../modules/getApprovalSteps');
 let saveAbsence = require('./saveAbsence');
 var saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
@@ -58,13 +57,9 @@ function validate(service, params)
 function prepareRequestFields(service, params, user)
 {
 
-    var deferred = Q.defer();
 
-
-
-
-
-    getApprovalSteps(user).then(approvalSteps => {
+    return getApprovalSteps(user)
+    .then(approvalSteps => {
 
         let account = user.roles.account;
 
@@ -101,7 +96,8 @@ function prepareRequestFields(service, params, user)
 
             fieldsToSet.absence = {};
 
-            saveAbsence.getCollectionFromDistribution(params.absence.distribution, account)
+            return saveAbsence
+            .getCollectionFromDistribution(params.absence.distribution, account)
             .then(function(rightCollection) {
 
                 if (null !== rightCollection) {
@@ -119,55 +115,49 @@ function prepareRequestFields(service, params, user)
 
                 return fieldsToSet;
 
-            })
-            .then(deferred.resolve)
-            .catch(deferred.reject);
+            });
         }
 
         if (undefined !== params.time_saving_deposit) {
 
             if (!Array.isArray(params.time_saving_deposit)) {
-                return deferred.reject('Unsupported parameter for time_saving_deposit');
+                throw new Error('Unsupported parameter for time_saving_deposit');
             }
 
             if (params.time_saving_deposit.length === 1) {
-                saveTimeSavingDeposit.getFieldsToSet(service, params.time_saving_deposit[0])
+                return saveTimeSavingDeposit
+                .getFieldsToSet(service, params.time_saving_deposit[0])
                 .then(function(tsdFields) {
                     fieldsToSet.time_saving_deposit = [tsdFields];
-                    deferred.resolve(fieldsToSet);
-                }, deferred.reject);
+                    return fieldsToSet;
+                });
             }
         }
 
         if (undefined !== params.workperiod_recover) {
 
             if (!Array.isArray(params.workperiod_recover)) {
-                return deferred.reject('Unsupported parameter for workperiod_recover');
+                throw new Error('Unsupported parameter for workperiod_recover');
             }
 
             if (params.workperiod_recover.length === 1) {
-                saveWorkperiodRecover.getEventsPromise(service, params.events)
+                return saveWorkperiodRecover
+                .getEventsPromise(service, params.events)
                 .then(function(events) {
                     fieldsToSet.events = events;
 
-                    saveWorkperiodRecover.getFieldsToSet(service, params.workperiod_recover[0])
+                    return saveWorkperiodRecover
+                    .getFieldsToSet(service, params.workperiod_recover[0])
                     .then(function(wpFields) {
                         fieldsToSet.workperiod_recover = [wpFields];
-                        deferred.resolve(fieldsToSet);
-                    }, deferred.reject);
-
-                }, deferred.reject);
+                        return fieldsToSet;
+                    });
+                });
             }
-
-
-
-
         }
 
-    }).catch(deferred.reject);
+    });
 
-
-    return deferred.promise;
 }
 
 
@@ -203,19 +193,19 @@ function deleteOldEvents(newRequest)
     });
 }
 
-    
-    
+
+
 /**
  * Update/create the request document
- * 
+ *
  * @param {apiService} service
  * @param {Object} params
  *
  * @return {Promise}
- */  
+ */
 function saveRequest(service, params) {
 
-    
+
     let RequestModel = service.app.db.models.Request;
     let UserModel = service.app.db.models.User;
 
@@ -348,13 +338,13 @@ function saveRequest(service, params) {
 
     }).catch(service.error);
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -365,12 +355,12 @@ function saveRequest(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the right type save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -379,9 +369,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

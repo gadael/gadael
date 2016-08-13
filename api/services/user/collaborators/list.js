@@ -1,15 +1,12 @@
 'use strict';
 
+const getExpandedEra = require('../../../../modules/getExpandedEra');
 
 /**
  * The collaborators list service
  * list of collaborators in same department with an account role
  * a property on each collaborator contain the list of events between the two dates given in parameter
  */
-
-let Q = require('q');
-
-
 
 
 
@@ -44,21 +41,18 @@ exports = module.exports = function(services, app) {
 
 
 
-
+    /**
+     * @return {Promise}
+     */
     function getDepartmentUsers(departmentId) {
 
-        var deferred = Q.defer();
-        var find = service.app.db.models.Department.findOne({ _id: departmentId });
-
-        find.exec(function(err, d) {
-            if (err) {
-                return deferred.reject(err);
-            }
-
-            deferred.resolve(d.getUsers());
+        return service.app.db.models.Department
+        .findOne({ _id: departmentId })
+        .exec()
+        .then( d => {
+            return d.getUsers();
         });
 
-        return deferred.promise;
     }
 
 
@@ -86,7 +80,7 @@ exports = module.exports = function(services, app) {
      */
     function filterAccounts(users) {
 
-        return Q(users.filter(function(user) {
+        let filtered = users.filter(user => {
             if (undefined === user.roles.account) {
                 return false;
             }
@@ -96,7 +90,9 @@ exports = module.exports = function(services, app) {
             }
 
             return true;
-        }));
+        });
+
+        return Promise.resolve(filtered);
     }
 
 
@@ -118,7 +114,7 @@ exports = module.exports = function(services, app) {
             }
         });
 
-        return Q(userAccounts);
+        return Promise.resolve(userAccounts);
     }
 
 
@@ -173,7 +169,7 @@ exports = module.exports = function(services, app) {
             }
         }
 
-        return Q(result);
+        return Promise.resolve(result);
     }
 
 
@@ -194,7 +190,7 @@ exports = module.exports = function(services, app) {
             }
         }
 
-        return Q(collaborators);
+        return Promise.resolve(collaborators);
     }
 
 
@@ -260,20 +256,12 @@ exports = module.exports = function(services, app) {
                 return u.id;
             });
 
-            var deferred = Q.defer();
-
-            findEvents(users).exec(function(err, docs) {
-
-                if (err) {
-                    return deferred.reject(err);
-                }
-
-                var getExpandedEra = require('../../../../modules/getExpandedEra');
-                var era = getExpandedEra(docs, params.dtstart, params.dtend);
-                deferred.resolve(addUid(era.periods));
+            return findEvents(users)
+            .exec()
+            .then(docs => {
+                let era = getExpandedEra(docs, params.dtstart, params.dtend);
+                return addUid(era.periods);
             });
-
-            return deferred.promise;
         }
 
 
@@ -284,7 +272,6 @@ exports = module.exports = function(services, app) {
          */
         function getWorkingTimes(userAccounts) {
 
-            var deferred = Q.defer();
 
             var users = [];
             var promisedWorkingTimes = [];
@@ -295,19 +282,16 @@ exports = module.exports = function(services, app) {
                 );
             });
 
-            Promise.all(promisedWorkingTimes).then(function(workingTimes) {
-
-
+            return Promise.all(promisedWorkingTimes)
+            .then(workingTimes => {
 
                 for(var i=0; i< workingTimes.length; i++) {
                     collaborators[users[i]].workscheduleEra = workingTimes[i];
                     collaborators[users[i]].workingtimes = addUid(workingTimes[i].periods);
                 }
 
-                deferred.resolve(userAccounts);
+                return userAccounts;
             });
-
-            return deferred.promise;
         }
 
 
@@ -340,7 +324,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-
-
-
