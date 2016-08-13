@@ -3,7 +3,7 @@
 const async = require('async');
 const crypto = require('crypto');
 const util = require('util');
-const resetpassword = require('../modules/email/resetpassword');
+const resetpassword = require('../modules/emails/resetpassword');
 
 /**
  * Authenticate with a post and fields
