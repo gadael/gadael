@@ -117,7 +117,8 @@ module.exports = function(grunt) {
           'schema/**/*.js',
           'rest/**/*.js',
           'api/**/*.js',
-          'spec/**/*.js'
+          'spec/**/*.js',
+          'modules/**/*.js'
         ]
       }
     },

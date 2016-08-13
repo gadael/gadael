@@ -1,3 +1,5 @@
+'use strict';
+
 const Mailgen = require('mailgen');
 
 /**
@@ -18,4 +20,4 @@ exports = module.exports = function(app) {
             // logo: 'https://mailgen.js/img/logo.png'
         }
     });
-}
+};
