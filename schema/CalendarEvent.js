@@ -2,19 +2,19 @@
 
 /**
  * periods to display on calendar or exported to icalendar format
- * 
+ *
  * can be associated to:
  * 	- vacation requests elements (quantity + right + absence request)
  *  - workschedules (external url provide source as ICS, stored here for cache)
  *  - non working days (external url provide source as ICS, stored here for cache)
- * 
+ *
  *  ics link to a calendar (workschedule or non working days)
  *  user.id link to to vacation entry owner
  */
 exports = module.exports = function(params) {
-	
+
 	var mongoose = params.mongoose;
-	
+
 	var eventSchema = new mongoose.Schema({
 		dtstart: { type: Date, required: true },
 		dtend: { type: Date }, // , required: true
@@ -24,7 +24,7 @@ exports = module.exports = function(params) {
         rdate: [Date],
 		transp: String,
         status: { type: String, enum:['TENTATIVE', 'CONFIRMED', 'CANCELLED'], default: 'CONFIRMED' },
-		
+
 		calendar: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
 		user: { // for events linked requests there is no link to calendar but a link to user, owner of event
 			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -89,10 +89,12 @@ exports = module.exports = function(params) {
         let event = this;
 
         if (!event.user.id) {
-            return Promise.reject(new Error('This is not a personnal event'));
+            return Promise.reject(new Error('This is not a personal event'));
         }
 
-        return event.populate('user.id').execPopulate().then(populatedEvent => {
+        return event.populate('user.id')
+		.execPopulate()
+		.then(populatedEvent => {
             return populatedEvent.user.id;
         });
     };
@@ -134,7 +136,11 @@ exports = module.exports = function(params) {
             return user.callGoogleCalendarApi((googleCalendar, callback) => {
                 googleCalendar.events.insert(user.google.calendar, event.googleGetObject(), callback);
             });
-        });
+        })
+		.catch(() => {
+			// this is not a personal event
+			return false;
+		});
     };
 
 
@@ -157,7 +163,11 @@ exports = module.exports = function(params) {
             return user.callGoogleCalendarApi((googleCalendar, callback) => {
                 googleCalendar.events.update(user.google.calendar, event.id, event.googleGetObject(), callback);
             });
-        });
+        })
+		.catch(() => {
+			// this is not a personal event
+			return false;
+		});
     };
 
 
@@ -182,12 +192,12 @@ exports = module.exports = function(params) {
         });
     };
 
-	
-	
+
+
 	/**
 	 * Get duration in miliseconds
 	 * @return int
-	 */ 
+	 */
 	eventSchema.methods.getDuration = function() {
 
         if (undefined === this.dtend) {
@@ -196,7 +206,7 @@ exports = module.exports = function(params) {
 
 		var start = this.dtstart.getTime();
 		var end = this.dtend.getTime();
-		
+
 		return (end - start);
 	};
 
@@ -219,7 +229,7 @@ exports = module.exports = function(params) {
      * @returns {RRuleSet}
      */
     eventSchema.methods.getRruleSet = function() {
-        
+
         var document = this;
 
         var RRule = require('rrule').RRule;
@@ -285,10 +295,10 @@ exports = module.exports = function(params) {
         if (null === rruleSet) {
             return [document.toObject()];
         }
-		
+
 		var list = rruleSet.between(span_start, span_end, true);
         var result = [];
-		
+
 		for(var i=0; i<list.length; i++)
 		{
 			var event = document.toObject();
@@ -296,9 +306,9 @@ exports = module.exports = function(params) {
 			event.dtend = new Date(list[i].getTime() + duration);
 			result.push(event);
 		}
-        
+
         return result;
 	};
-  
+
 	params.db.model('CalendarEvent', eventSchema);
 };
