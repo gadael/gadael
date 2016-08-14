@@ -181,7 +181,7 @@ exports.forgotPassword = function(req, res, next) {
 
 		resetpassword(req.app, token, user)
 		.send()
-		.then(info => {
+		.then(() => {
 		  var gt = req.app.utility.gettext;
 
 		  workflow.outcome.alert.push({
