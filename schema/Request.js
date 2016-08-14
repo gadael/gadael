@@ -285,6 +285,29 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Get the waiting approval step or null
+     * @return {ApprovalStep}
+     */
+    requestSchema.methods.getWaitingApprovalStep = function getWaitingApprovalStep() {
+        if (this.approvalSteps === undefined) {
+            return null;
+        }
+
+        let steps = this.approvalSteps.filter(step => {
+            return (step.status === 'waiting');
+        });
+
+        if (0 === steps.length) {
+            return null;
+        }
+
+        if (1 !== steps.length) {
+            throw new Error('Unexpected number of waiting steps on request '+this._id);
+        }
+
+        return steps[0];
+    };
 
 
     /**

@@ -16,34 +16,45 @@ exports = module.exports = function getMail(app, request) {
 
     mail.setSubject(util.format(gt.gettext('%s: a request is waiting for your approval'), app.config.company.name));
 
-    let step = request.getNextApprovalStep();
+    let step = request.getWaitingApprovalStep();
+
+    if (null === step) {
+        throw new Error('No waiting approval step');
+    }
+
+
 
     step.getApprovers().map(mail.addTo);
 
     let requestLink = app.config.url +'/#/manager/waitingrequests/'+ request._id;
 
-    let requestLog = request.getLastNonApprovalRequestLog();
-
     // Intro: request type, Waiting approval or Waiting deletion approval
     // Outro: who and when
 
-    mail.setMailgenData({
-        body: {
-            name: request.user.name,
-            intro: util.format(gt.gettext('%s request %s'), request.getDispType(), request.getDispStatus()),
-            action: {
-                instructions: gt.gettext('Please, accept of reject after login into the application'),
-                button: {
-                    text: gt.gettext('View request'),
-                    link: requestLink
-                }
-            },
-            outro: util.format(
-                gt.gettext('Workflow initiated by %s the %s'),
-                requestLog.userCreated.name,
-                requestLog.timeCreated.toLocaleString()
-            )
+    let body = {
+        name: request.user.name,
+        intro: util.format(gt.gettext('%s request %s'), request.getDispType(), request.getDispStatus()),
+        action: {
+            instructions: gt.gettext('Please, accept of reject after login into the application'),
+            button: {
+                text: gt.gettext('View request'),
+                link: requestLink
+            }
         }
+    };
+
+    let requestLog = request.getLastNonApprovalRequestLog();
+
+    if (null !== requestLog) {
+        body.outro = util.format(
+            gt.gettext('Workflow initiated by %s the %s'),
+            requestLog.userCreated.name,
+            requestLog.timeCreated.toLocaleString()
+        );
+    }
+
+    mail.setMailgenData({
+        body: body
     });
 
     return mail;
