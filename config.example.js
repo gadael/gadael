@@ -11,10 +11,11 @@ exports = module.exports = function createConfiguration() {
     config.loghttp = false;
     config.csrfProtection = true;
 
-    config.url = null;          // used by oauth2 callback url
-                                // and links in Emails
+    config.url = 'https//demo.gadael.com';      // used by oauth2 callback url
+                                                // and links in Emails
 
-    config.host = 'localhost';  // if host undefined: any host
+                                                // where the http server accept connexion to
+    config.host = 'localhost';                  // if host undefined: any host
     config.port = process.argv[2] || 3000;
     config.mongodb = {
         prefix: 'localhost/',
