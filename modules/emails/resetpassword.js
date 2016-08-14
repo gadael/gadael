@@ -9,6 +9,8 @@ const Mail = require('../mail');
  * @param {Object} app  Express
  * @param {String} token
  * @param {User} user
+ *
+ * @return {Promise}
  */
 exports = module.exports = function getMail(app, token, user) {
 
@@ -37,5 +39,5 @@ exports = module.exports = function getMail(app, token, user) {
         }
     });
 
-    return mail;
+    return Promise.resolve(mail);
 };

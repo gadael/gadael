@@ -9,6 +9,7 @@ const Mail = require('../mail');
  * @param {Object} app      Express
  * @param {Request} request
  *
+ * @return {Promise}
  */
 exports = module.exports = function getMail(app, request) {
 
@@ -24,38 +25,44 @@ exports = module.exports = function getMail(app, request) {
 
 
 
-    step.getApprovers().map(mail.addTo);
+    return step.getApprovers()
+    .then(approvers => {
 
-    let requestLink = app.config.url +'/#/manager/waitingrequests/'+ request._id;
-
-    // Intro: request type, Waiting approval or Waiting deletion approval
-    // Outro: who and when
-
-    let body = {
-        name: request.user.name,
-        intro: util.format(gt.gettext('%s request %s'), request.getDispType(), request.getDispStatus()),
-        action: {
-            instructions: gt.gettext('Please, accept of reject after login into the application'),
-            button: {
-                text: gt.gettext('View request'),
-                link: requestLink
-            }
+        for (var i=0; i< approvers.length; i++) {
+            mail.addTo(approvers[i]);
         }
-    };
 
-    let requestLog = request.getLastNonApprovalRequestLog();
+        let requestLink = app.config.url +'/#/manager/waitingrequests/'+ request._id;
 
-    if (null !== requestLog) {
-        body.outro = util.format(
-            gt.gettext('Workflow initiated by %s the %s'),
-            requestLog.userCreated.name,
-            requestLog.timeCreated.toLocaleString()
-        );
-    }
+        // Intro: request type, Waiting approval or Waiting deletion approval
+        // Outro: who and when
 
-    mail.setMailgenData({
-        body: body
+        let body = {
+            name: request.user.name,
+            intro: util.format(gt.gettext('%s request %s'), request.getDispType(), request.getDispStatus()),
+            action: {
+                instructions: gt.gettext('Please, accept of reject after login into the application'),
+                button: {
+                    text: gt.gettext('View request'),
+                    link: requestLink
+                }
+            }
+        };
+
+        let requestLog = request.getLastNonApprovalRequestLog();
+
+        if (null !== requestLog) {
+            body.outro = util.format(
+                gt.gettext('Workflow initiated by %s the %s'),
+                requestLog.userCreated.name,
+                requestLog.timeCreated.toLocaleString()
+            );
+        }
+
+        mail.setMailgenData({
+            body: body
+        });
+
+        return mail;
     });
-
-    return mail;
 };

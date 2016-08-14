@@ -23,13 +23,13 @@ exports = module.exports = function(params) {
 	 * @return {Promise}
 	 */
 	approvalStepSchema.methods.getApprovers = function() {
-
-		return this.populate({
-			path: 'approvers',
+		let step = this;
+		return this.parent().populate({
+			path: 'approvalSteps.approvers',
 			model: 'User'
 		})
 		.execPopulate()
-		.then(step => {
+		.then(() => {
 			return step.approvers;
 		});
 	};
