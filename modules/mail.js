@@ -8,6 +8,7 @@ const url = require('url');
 
 function getUserAddress(user) {
     return {
+        id: user._id, // Warning, not supported by nodemailer, but required by Message model
         name: user.getName(),
         address: user.email
     };
@@ -103,7 +104,8 @@ Mail.prototype.send = function() {
     let Message = this.app.db.models.Message;
 
     let mailMessage = new Message();
-    mailMessage.setNodemailerData(this.nodemailerData);
+    mailMessage.set(this.nodemailerData);
+    mailMessage.hostname = this.hostname;
 
     return mailMessage.save()
     .then(savedMessage => {

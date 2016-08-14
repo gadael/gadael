@@ -41,10 +41,13 @@ describe('Mail object', function() {
         .send()
         .then(message => {
             expect(message._id).toBeDefined();
-            expect(message.mailSent).toBeTruthy();
+            expect(message.emailSent).toBeTruthy();
             done();
         })
-        .catch(done);
+        .catch(err => {
+            console.log(err);
+            done(err);
+        });
     });
 
 

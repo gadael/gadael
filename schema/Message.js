@@ -13,11 +13,11 @@ exports = module.exports = function(params) {
             name: String,
             address: String
         },
-		to: {       // recipient
+		to: [{       // recipient
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
             name: { type: String, required: true },
             address: String
-        },
+        }],
 		emailSent: { type: Boolean, default: false },
 
         hostname: String, // this is the hostname used to create MessageId in email
@@ -39,7 +39,7 @@ exports = module.exports = function(params) {
      * @return {String}
      */
     messageSchema.methods.setNodemailerData = function(data) {
-        return this.lastname+' '+this.firstname;
+        //TODO remove
     };
 
 	messageSchema.index({ name: 1 });
