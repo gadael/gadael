@@ -1,7 +1,7 @@
 'use strict';
 
 const nodemailer = require('nodemailer');
-const mailgen = require('./mailgen');
+const Mailgen = require('./mailgen');
 const url = require('url');
 
 
@@ -84,8 +84,11 @@ Mail.prototype.setReferences = function(references) {
  *                             mailContent object must contain a body property
  */
 Mail.prototype.setMailgenData = function(mailContent) {
-    this.nodemailerData.html = mailgen.generate(mailContent);
-    this.nodemailerData.text = mailgen.generatePlaintext(mailContent);
+
+    let mailGenerator = new Mailgen(this.app);
+
+    this.nodemailerData.html = mailGenerator.generate(mailContent);
+    this.nodemailerData.text = mailGenerator.generatePlaintext(mailContent);
 };
 
 /**

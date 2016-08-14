@@ -66,7 +66,6 @@ grunt test
 - [ ] Set right duration in weeks
 - [ ] ICS Export
 - [x] Page for custom quantities accout-renewalquantity controller
-- [ ] Emails notifications
 - [ ] Compulsory leaves management, fix problem when requests are deleted
 - [x] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
 - [x] Get special right infos in right.get service
@@ -78,6 +77,8 @@ grunt test
 - [x] Fix totalCount property on users list, must be the number of enabled users
 - [x] Save events to google calendar
 - [x] Modal dialog to create a secondary calendar in google account
+- [ ] Create mail for the approver (validation pending)
+- [ ] Create mail for the appliquant (request accepted / rejected)
 
 
 ## Technical features

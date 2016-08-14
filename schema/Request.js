@@ -41,12 +41,14 @@ exports = module.exports = function(params) {
           name: { type: String, required: true }
         },
 
-        events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],   // for absence or workperiod_recover
-                                                                                    // duplicated references to events
+        events: [{                                                              // for absence or workperiod_recover
+            type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent'          // for absences, the events match working periods
+        }],                                                                     // duplicated from absence.distribution.events
+                                                                                // for workperiod_recover, the events are in non working periods
 
         absence: {
-            dtstart: Date,                                                          // dtstart from first event
-            dtend: Date,                                                            // dtend from last event
+            dtstart: Date,                                                      // dtstart from first event
+            dtend: Date,                                                        // dtend from last event
             rightCollection: { type: mongoose.Schema.Types.ObjectId, ref: 'RightCollection' },
             distribution: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }],
             compulsoryLeave: { type: mongoose.Schema.Types.ObjectId, ref: 'CompulsoryLeave' }
@@ -56,22 +58,25 @@ exports = module.exports = function(params) {
 
         workperiod_recover: [params.embeddedSchemas.WorperiodRecover],
 
-        status: {                                                       // approval status for request creation or request deletion
+        status: {                                                               // approval status for request creation or request deletion
             created: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null },
             deleted: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null }
         },
 
-        approvalSteps: [params.embeddedSchemas.ApprovalStep],			// on request creation, approval steps are copied and contain references to users
-                                                                        // informations about approval are stored in requestLog sub-documents instead
-                                                                        // first position in array is the last approval step (top level department in user deparments ancestors)
+        approvalSteps: [params.embeddedSchemas.ApprovalStep],			        // on request creation, approval steps are copied and contain references to users
+                                                                                // informations about approval are stored in requestLog sub-documents instead
+                                                                                // first position in array is the last approval step (top level department in user deparments ancestors)
 
-        requestLog: [params.embeddedSchemas.RequestLog],				// linear representation of all actions
-                                                                        // create, edit, delete, and effectives approval steps
+        requestLog: [params.embeddedSchemas.RequestLog],				        // linear representation of all actions
+                                                                                // create, edit, delete, and effectives approval steps
 
-        validInterval: [params.embeddedSchemas.ValidInterval]           // list of dates interval where the request is confirmed
-                                                                        // absence: the quantity is consumed
-                                                                        // time saving deposit: the quantity is available is time saving account
-                                                                        // workperiod recover: the quantity is available in recovery right
+        validInterval: [params.embeddedSchemas.ValidInterval],                  // list of dates interval where the request is confirmed
+                                                                                // absence: the quantity is consumed
+                                                                                // time saving deposit: the quantity is available is time saving account
+                                                                                // workperiod recover: the quantity is available in recovery right
+
+        messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }]    // List of emails sent for this request
+                                                                                // each new mail will use the message Ids to stay in the same conversation
     });
 
 
