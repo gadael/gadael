@@ -176,6 +176,25 @@ exports = module.exports = function(params) {
         return consumed;
     };
 
+    /**
+     * Get a displayable request type, internationalized
+     * @return {String}
+     */
+    requestSchema.methods.getDispType = function getDispType() {
+        if (this.absence && this.absence.distribution.length > 0) {
+            return gt.gettext('Leave');
+        }
+
+        if (this.time_saving_deposit && this.time_saving_deposit.length > 0) {
+            return gt.gettext('Time saving deposit');
+        }
+
+        if (this.workperiod_recover && this.workperiod_recover.length > 0) {
+            return gt.gettext('Workperiod recover');
+        }
+
+        return gt.gettext('Unknown');
+    };
 
 
     /**
@@ -218,6 +237,21 @@ exports = module.exports = function(params) {
     requestSchema.methods.getlastApprovalRequestLog = function getlastApprovalRequestLog() {
         for(var i=this.requestLog.length-1; i>=0; i--) {
             if (this.requestLog[i].approvalStep !== undefined) {
+                return this.requestLog[i];
+            }
+        }
+
+        return null;
+    };
+
+    /**
+     * Get last request log inserted, approval workflow is ignored
+     * @example get the modification which initiated the workflow
+     * @return {RequestLog}
+     */
+    requestSchema.methods.getLastNonApprovalRequestLog = function getLastNonApprovalRequestLog() {
+        for(var i=this.requestLog.length-1; i>=0; i--) {
+            if (this.requestLog[i].approvalStep === undefined) {
                 return this.requestLog[i];
             }
         }

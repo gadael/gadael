@@ -44,10 +44,7 @@ describe('Mail object', function() {
             expect(message.emailSent).toBeTruthy();
             done();
         })
-        .catch(err => {
-            console.log(err);
-            done(err);
-        });
+        .catch(done);
     });
 
 

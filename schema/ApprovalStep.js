@@ -4,12 +4,12 @@ var gt = require('./../modules/gettext');
 
 
 exports = module.exports = function(params) {
-	
+
 	var mongoose = params.mongoose;
 	var approvalStepSchema = new mongoose.Schema({
 
         status: { type: String, enum: [ null, 'waiting', 'accepted', 'rejected' ], default: null },
-    
+
         department: String,                                                // department name used to create this approval step
 		approvers: [mongoose.Schema.Types.ObjectId],			           // list of users
                                                                            // user model is not specified because this schema is embeded into
@@ -18,6 +18,21 @@ exports = module.exports = function(params) {
 	});
 
 
+	/**
+	 * Get list of approvers as an array of user documents
+	 * @return {Promise}
+	 */
+	approvalStepSchema.methods.getApprovers = function() {
+
+		return this.populate({
+			path: 'approvers',
+			model: 'User'
+		})
+		.execPopulate()
+		.then(step => {
+			return step.approvers;
+		});
+	};
 
     /**
      * Test if a user is in the approvers list
@@ -62,7 +77,7 @@ exports = module.exports = function(params) {
 
         return null;
     };
-  
+
 
 
 	approvalStepSchema.set('autoIndex', params.autoIndex);

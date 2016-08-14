@@ -79,6 +79,7 @@ grunt test
 - [x] Modal dialog to create a secondary calendar in google account
 - [ ] Create mail for the approver (validation pending)
 - [ ] Create mail for the appliquant (request accepted / rejected)
+- [ ] Use correct type and dispType in manager/waitingrequests
 
 
 ## Technical features
