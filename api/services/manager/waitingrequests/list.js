@@ -92,6 +92,7 @@ exports = module.exports = function(services, app) {
 
                         var reqObj = docs[i].toObject();
                         reqObj.status.title = docs[i].getDispStatus();
+                        reqObj.dispType = docs[i].getDispType();
                         docsObj.push(reqObj);
                     }
                 }
@@ -106,7 +107,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-
-
-

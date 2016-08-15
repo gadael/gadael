@@ -1,6 +1,7 @@
 <div class="row">
     <h1 class="col-xs-8">
-        <span translate>Request approval</span>
+        <i class="fa fa-hand-stop-o text-muted"></i>
+        <span translate>Waiting {{request.dispType}} request</span>
     </h1>
 
     <div class="col-xs-4 text-right top30">
@@ -14,4 +15,7 @@
         </button>
     </div>
 </div>
-<ng-include ng-if="request.absence" src="'partials/utils/common/request/absence-view.html'"></ng-include>
+
+<ng-include ng-if="request.absence.distribution.length>0" src="'partials/utils/common/request/absence-view.html'"></ng-include>
+<ng-include ng-if="request.time_saving_deposit.length>0" src="'partials/utils/common/request/time-saving-deposit-view.html'"></ng-include>
+<ng-include ng-if="request.workperiod_recover.length>0" src="'partials/utils/common/request/workperiod-recover-view.html'"></ng-include>

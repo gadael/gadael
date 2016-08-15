@@ -39,8 +39,18 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err))
             {
                 if (document) {
+
+                    let object = document.toObject();
+                    object.dispType = document.getDispType();
+                    object.status.title = document.getDispStatus();
+
+                    // add dispStatus on steps
+                    for (var i=0; i<object.approvalSteps.length; i++) {
+                        object.approvalSteps[i].dispStatus = document.approvalSteps[i].getDispStatus();
+                    }
+
                     service.outcome.success = true;
-                    service.deferred.resolve(document);
+                    service.deferred.resolve(object);
                 } else {
                     service.notFound(gt.gettext('This request does not exists'));
                 }
@@ -53,5 +63,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-
