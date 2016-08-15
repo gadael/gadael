@@ -121,8 +121,8 @@ function saveRequest(service, params) {
 
                         if ('accepted' === request.status.created) {
                             request.setEventsStatus('CONFIRMED').then(function() {
-                                service.resolveSuccess(
-                                    document,
+                                service.resolveSuccessGet(
+                                    document._id,
                                     gt.gettext('The request has been confirmed')
                                 );
                             });
@@ -131,8 +131,8 @@ function saveRequest(service, params) {
 
                         if ('rejected' === request.status.created) {
                             request.setEventsStatus('CANCELLED').then(function() {
-                                service.resolveSuccess(
-                                    document,
+                                service.resolveSuccessGet(
+                                    document._id,
                                     gt.gettext('The request has been cancelled')
                                 );
                             });
@@ -142,8 +142,8 @@ function saveRequest(service, params) {
 
                         if ('accepted' === request.status.deleted) {
                             request.setEventsStatus('CANCELLED').then(function() {
-                                service.resolveSuccess(
-                                    document,
+                                service.resolveSuccessGet(
+                                    document._id,
                                     gt.gettext('The appliquant has requested a delete, the request has been canceled')
                                 );
                             });
@@ -152,8 +152,8 @@ function saveRequest(service, params) {
 
                         if ('rejected' === request.status.deleted) {
                             request.setEventsStatus('CONFIRMED').then(function() {
-                                service.resolveSuccess(
-                                    document,
+                                service.resolveSuccessGet(
+                                    document._id,
                                     gt.gettext('The appliquant has requested a delete, the request has been confirmed anyway')
                                 );
                             });
@@ -161,15 +161,15 @@ function saveRequest(service, params) {
                         }
 
                         if (remainingApprovers > 0) {
-                            service.resolveSuccess(
-                                document,
+                            service.resolveSuccessGet(
+                                document._id,
                                 gt.gettext('Approval for others approvers are required to complete this step')
                             );
                             return;
                         }
 
-                        service.resolveSuccess(
-                            document,
+                        service.resolveSuccessGet(
+                            document._id,
                             gt.gettext('The request has been forwarded to the next approval step')
                         );
                     })

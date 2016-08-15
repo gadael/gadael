@@ -13,7 +13,7 @@ function validate(service, params) {
     if (service.needRequiredFields(params, ['rightCollection', 'from'])) {
         return;
     }
-    
+
     saveAccountCollection(service, params);
 }
 
@@ -25,7 +25,7 @@ function validate(service, params) {
  * @param {saveItemService} service
  * @param {object} params
  * @param {function} next
- */ 
+ */
 function getAccount(service, params, next) {
 
     if (params.account && params.account._id) {
@@ -37,7 +37,7 @@ function getAccount(service, params, next) {
         service.forbidden(gt.gettext('Cant create accountCollection, missing user or account'));
         return;
     }
-     
+
 
     // find account from user
     service.app.db.models.User.findById(params.user, function(err, user) {
@@ -60,19 +60,19 @@ function getAccount(service, params, next) {
 
 
 
-    
-    
+
+
 /**
  * Update/create the AccountCollection document
- * 
+ *
  * @param {saveItemService} service
  * @param {Object} params
- */  
+ */
 function saveAccountCollection(service, params) {
-    
+
     var AccountCollection = service.app.db.models.AccountCollection;
     var util = require('util');
-    
+
     if (params.from) {
         params.from = new Date(params.from);
         params.from.setHours(0,0,0,0);
@@ -86,69 +86,63 @@ function saveAccountCollection(service, params) {
 
     if (params._id) {
 
-        AccountCollection.findById(params._id, function(err, document) {
-            if (service.handleMongoError(err)) {
-                if (null === document) {
-                    service.notFound(util.format(gt.gettext('AccountCollection document not found for id %s'), params.id));
-                    return;
-                }
-                
+        AccountCollection.findById(params._id)
+        .then(document => {
 
-
-                document.rightCollection 	= params.rightCollection._id;
-                document.from 				= params.from;
-                document.to 				= params.to;
-
-                document.save(function (err) {
-
-                    if (service.handleMongoError(err)) {
-                        
-                        var doc = document.toObject();
-                        doc.rightCollection = params.rightCollection; // output same populated sub document
-
-                        service.resolveSuccess(
-                            doc, 
-                            gt.gettext('The account collection has been modified')
-                        );
-                    }
-                });
+            if (null === document) {
+                service.notFound(util.format(gt.gettext('AccountCollection document not found for id %s'), params.id));
+                return;
             }
-        });
+
+            document.rightCollection 	= params.rightCollection._id;
+            document.from 				= params.from;
+            document.to 				= params.to;
+
+            return document.save()
+            .then(document => {
+
+                service.resolveSuccessGet(
+                    document._id,
+                    gt.gettext('The account collection has been modified')
+                );
+            });
+
+        })
+        .catch(service.error);
 
     } else {
 
         getAccount(service, params, function(accountId) {
 
-            AccountCollection.create({
-                    account: accountId,
-                    rightCollection: params.rightCollection._id,
-                    from: params.from,
-                    to: params.to 
-                }, function(err, document) {
-                
-                
-                if (service.handleMongoError(err))
-                {
-                    var doc = document.toObject();
-                    doc.rightCollection = params.rightCollection; // output same populated sub document
-                    
-                    service.resolveSuccess(
-                        doc, 
-                        gt.gettext('The account collection has been created')
-                    );
-                }
+            let ac = new AccountCollection();
+            ac.set({
+                account: accountId,
+                rightCollection: params.rightCollection._id,
+                from: params.from,
+                to: params.to
             });
-            
+
+            ac.save()
+            .then(document => {
+
+                service.resolveSuccessGet(
+                    document._id,
+                    gt.gettext('The account collection has been created')
+                );
+
+            })
+            .catch(service.error);
+
         });
     }
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -159,12 +153,12 @@ function saveAccountCollection(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the calendar save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -173,9 +167,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
