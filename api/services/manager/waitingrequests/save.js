@@ -1,9 +1,9 @@
 'use strict';
 
 const gt = require('./../../../../modules/gettext');
-const pendingapproval = require('../../../modules/emails/pendingapproval');
-const requestaccepted = require('../../../modules/emails/requestaccepted');
-const requestrejected = require('../../../modules/emails/requestrejected');
+const pendingapproval = require('../../../../modules/emails/pendingapproval');
+const requestaccepted = require('../../../../modules/emails/requestaccepted');
+const requestrejected = require('../../../../modules/emails/requestrejected');
 
 
 /**
