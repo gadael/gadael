@@ -77,7 +77,8 @@ grunt test
 - [x] Modal dialog to create a secondary calendar in google account
 - [x] Create mail for the approver (validation pending)
 - [x] Create mail for the appliquant (request accepted / rejected)
-- [ ] Use correct type and dispType in manager/waitingrequests
+- [x] Use correct type and dispType in manager/waitingrequests
+- [ ] Do not display detail hours in planning (owner icon instead?)
 
 
 ## Main packages used
