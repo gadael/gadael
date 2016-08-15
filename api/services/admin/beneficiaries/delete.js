@@ -42,29 +42,29 @@ exports = module.exports = function(services, app) {
 
 
 
-        service.app.db.models.Beneficiary.findById(params.id, function (err, document) {
-            if (service.handleMongoError(err)) {
+        service.app.db.models.Beneficiary.findById(params.id)
+        .then(document => {
 
-                if (!validate(document)) {
-                    return;
-                }
-
-                document.remove(function(err) {
-                    if (service.handleMongoError(err)) {
-
-                        if ('User' === document.ref) {
-                            service.success(gt.gettext('The right has been removed from user account'));
-                        } else {
-                            service.success(gt.gettext('The right has been removed from the collection'));
-                        }
-
-                        var beneficiary = document.toObject();
-                        beneficiary.$outcome = service.outcome;
-
-                        service.deferred.resolve(beneficiary);
-                    }
-                });
+            if (!validate(document)) {
+                return;
             }
+
+            let message;
+
+            if ('User' === document.ref) {
+                message = gt.gettext('The right has been removed from user account');
+            } else {
+                message = gt.gettext('The right has been removed from the collection');
+            }
+
+            return service.get(params.id)
+            .then(object => {
+
+                return document.remove()
+                .then(() => {
+                    service.resolveSuccess(object, message);
+                });
+            });
         });
 
         return service.deferred.promise;
@@ -73,4 +73,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-

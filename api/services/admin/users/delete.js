@@ -4,44 +4,41 @@ const gt = require('./../../../../modules/gettext');
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.delete(app);
-    
+
     /**
      * Call the users delete service
-     * 
+     *
      * @param {object} params
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
 
 
-        service.app.db.models.User.findById(params.id, function (err, document) {
-            if (service.handleMongoError(err)) {
-                
-                if (null === document) {
-                    service.notFound(gt.gettext('User not found'));
-                    return;
-                }
-                
-                document.remove(function(err) {
-                    if (service.handleMongoError(err)) {
-                        service.success(gt.gettext('The user has been deleted'));
-                        
-                        var user = document.toObject();
-                        user.$outcome = service.outcome;
-                        
-                        service.deferred.resolve(user);
-                    }
-                });
+
+        service.app.db.models.User.findById(params.id)
+        .then(document => {
+
+            if (null === document) {
+                service.notFound(gt.gettext('User not found'));
+                return;
             }
-        });
-        
+
+            return service.get(params.id)
+            .then(object => {
+
+                return document.remove()
+                .then(() => {
+                    service.resolveSuccess(object, gt.gettext('The user has been deleted'));
+                });
+            });
+        })
+        .catch(service.error);
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-

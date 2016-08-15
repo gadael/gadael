@@ -44,26 +44,23 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
+        service.app.db.models.AccountNWDaysCalendar.findById(params.id)
+        .then(document => {
 
-        service.app.db.models.AccountNWDaysCalendar.findById(params.id, function (err, document) {
-            if (service.handleMongoError(err)) {
-
-                if (!validate(document)) {
-                    return;
-                }
-
-                document.remove(function(err) {
-                    if (service.handleMongoError(err)) {
-                        service.success(gt.gettext('The non working days has been removed from account'));
-
-                        var accountCalendar = document.toObject();
-                        accountCalendar.$outcome = service.outcome;
-
-                        service.deferred.resolve(accountCalendar);
-                    }
-                });
+            if (!validate(document)) {
+                return;
             }
-        });
+
+            return service.get(params.id)
+            .then(object => {
+
+                return document.remove()
+                .then(() => {
+                    service.resolveSuccess(object, gt.gettext('The non working days has been removed from account'));
+                });
+            });
+        })
+        .catch(service.error);
 
         return service.deferred.promise;
     };
@@ -71,4 +68,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-

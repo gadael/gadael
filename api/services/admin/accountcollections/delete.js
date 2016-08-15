@@ -9,11 +9,11 @@ const gt = require('./../../../../modules/gettext');
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.delete(app);
 
-    
-    
+
+
     /**
      * Validate before delete
      * @param   {AccountCollection}  document mongoose document
@@ -33,43 +33,39 @@ exports = module.exports = function(services, app) {
 
         return true;
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Call the account collections delete service
-     * 
+     *
      * @param {object} params
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
-        
-        service.app.db.models.AccountCollection.findById(params.id, function (err, document) {
-            if (service.handleMongoError(err)) {
-                
-                if (!validate(document)) {
-                    return;
-                }
-                
-                document.remove(function(err) {
-                    if (service.handleMongoError(err)) {
-                        service.success(gt.gettext('The collection has been removed from account'));
-                        
-                        var accountCollection = document.toObject();
-                        accountCollection.$outcome = service.outcome;
-                        
-                        service.deferred.resolve(accountCollection);
-                    }
-                });
+
+        service.app.db.models.AccountCollection.findById(params.id)
+        .then(document => {
+
+            if (!validate(document)) {
+                return;
             }
-        });
-        
+
+            return service.get(params.id)
+            .then(object => {
+
+                return document.remove()
+                .then(() => {
+                    service.resolveSuccess(object, gt.gettext('The collection has been removed from account'));
+                });
+            });
+        })
+        .catch(service.error);
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
