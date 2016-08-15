@@ -66,7 +66,6 @@ grunt test
 - [ ] ICS Export
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Compulsory leaves management, fix problem when requests are deleted
-- [x] Create a test to check if leave request creation fail if the consumed quantity is greater than available quantity but the duration quantity is lower
 - [x] Get special right infos in right.get service
 - [ ] do not display quantity field if readonly by special right, because initial quantity can be variable by user
 - [x] delete renewals and links to collections when delete right
@@ -76,8 +75,8 @@ grunt test
 - [x] Fix totalCount property on users list, must be the number of enabled users
 - [x] Save events to google calendar
 - [x] Modal dialog to create a secondary calendar in google account
-- [ ] Create mail for the approver (validation pending)
-- [ ] Create mail for the appliquant (request accepted / rejected)
+- [x] Create mail for the approver (validation pending)
+- [x] Create mail for the appliquant (request accepted / rejected)
 - [ ] Use correct type and dispType in manager/waitingrequests
 
 
