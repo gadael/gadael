@@ -53,11 +53,11 @@ describe('Mail object', function() {
     });
 
     /**
+     * create a fake work period recover request
      * @return {Promise}
      */
     function createPendingWorkperiodRecovery()
     {
-        // create a fake work period recover request
         let Request = server.app.db.models.Request;
 
         let workperiod = new Request();
@@ -69,6 +69,11 @@ describe('Mail object', function() {
         workperiod.createdBy = {
             id: user._id,
             name: user.getName()
+        };
+
+        workperiod.status = {
+            created: 'waiting',
+            deleted: null
         };
 
         workperiod.workperiod_recover = [{
@@ -127,6 +132,8 @@ describe('Mail object', function() {
         .then(wp => {
             // add fake acceptation from approver
 
+            wp.status.created = 'accepted';
+
             wp.approvalSteps[0].status = 'accepted';
 
             wp.requestLog.push({
@@ -164,6 +171,8 @@ describe('Mail object', function() {
         createPendingWorkperiodRecovery()
         .then(wp => {
             // add fake acceptation from approver
+
+            wp.status.deleted = 'accepted';
 
             wp.approvalSteps[0].status = 'rejected';
 
