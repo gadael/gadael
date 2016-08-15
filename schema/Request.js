@@ -103,6 +103,16 @@ exports = module.exports = function(params) {
     });
 
     /**
+     * Get request owner user 
+     * @return {User}
+     */
+    requestSchema.methods.getUser = function() {
+        return this.populate('user.id').execPopulate().then(populatedRequest => {
+            return populatedRequest.user.id;
+        });
+    };
+
+    /**
      * Remove absence distribution
      * @return {Promise}
      */
@@ -175,6 +185,28 @@ exports = module.exports = function(params) {
 
         return consumed;
     };
+
+
+    /**
+     * Get string used in public URL (type folder)
+     * @return string
+     */
+    requestSchema.methods.getUrlPathType = function() {
+        if (this.absence && this.absence.distribution.length > 0) {
+            return 'absences';
+        }
+
+        if (this.time_saving_deposit && this.time_saving_deposit.length > 0) {
+            return 'time-saving-deposits';
+        }
+
+        if (this.workperiod_recover && this.workperiod_recover.length > 0) {
+            return 'workperiod-recovers';
+        }
+
+        return null;
+    };
+
 
     /**
      * Get a displayable request type, internationalized

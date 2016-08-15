@@ -7,6 +7,7 @@ const helpers = require('../rest/mockServer');
 const stubTransport = require('nodemailer-stub-transport');
 const resetpassword = require('../../../modules/emails/resetpassword');
 const pendingapproval = require('../../../modules/emails/pendingapproval');
+const requestaccepted = require('../../../modules/emails/requestaccepted');
 
 const api = {
     company: require('../../../api/Company.api.js'),
@@ -50,9 +51,11 @@ describe('Mail object', function() {
         .catch(done);
     });
 
-
-    it('send pending approval', function(done) {
-
+    /**
+     * @return {Promise}
+     */
+    function createPendingWorkperiodRecovery()
+    {
         // create a fake work period recover request
         let Request = server.app.db.models.Request;
 
@@ -93,11 +96,52 @@ describe('Mail object', function() {
             timeCreated: new Date()
         }];
 
-        // The real test begin here
+        return workperiod.save();
+    }
 
-        workperiod.save()
+
+    it('send pending approval', function(done) {
+
+        createPendingWorkperiodRecovery()
         .then(wp => {
             return pendingapproval(server.app, wp);
+        })
+        .then(mail => {
+            return mail.send();
+        })
+        .then(message => {
+            expect(message._id).toBeDefined();
+            expect(message.emailSent).toBeTruthy();
+            done();
+        })
+        .catch(err => {
+            console.log(err);
+            done(err);
+        });
+    });
+
+
+    it('send request accepted', function(done) {
+        createPendingWorkperiodRecovery()
+        .then(wp => {
+            // add fake acceptation from approver
+
+            wp.approvalSteps[0].status = 'accepted';
+
+            wp.requestLog.push({
+                action: 'wf_accept',
+                userCreated: {
+                    id: user._id,
+                    name: user.getName()
+                },
+                timeCreated: new Date(),
+                approvalStep: wp.approvalSteps[0]._id
+            });
+
+            return wp.save();
+        })
+        .then(wp => {
+            return requestaccepted(server.app, wp);
         })
         .then(mail => {
             return mail.send();

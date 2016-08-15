@@ -23,7 +23,7 @@ exports = module.exports = function getMail(app, request) {
         throw new Error('No waiting approval step');
     }
 
-
+    let requestLink = app.config.url +'/#/manager/waitingrequests/'+ request._id;
 
     return step.getApprovers()
     .then(approvers => {
@@ -32,14 +32,12 @@ exports = module.exports = function getMail(app, request) {
             mail.addTo(approvers[i]);
         }
 
-        let requestLink = app.config.url +'/#/manager/waitingrequests/'+ request._id;
-
         // Intro: request type, Waiting approval or Waiting deletion approval
         // Outro: who and when
 
         let body = {
-            name: request.user.name,
-            intro: util.format(gt.gettext('%s request %s'), request.getDispType(), request.getDispStatus()),
+            title: gt.gettext('Approval request'),
+            intro: util.format(gt.gettext('%s request for %s is %s'), request.getDispType(), request.user.name, request.getDispStatus()),
             action: {
                 instructions: gt.gettext('Please, accept of reject after login into the application'),
                 button: {
