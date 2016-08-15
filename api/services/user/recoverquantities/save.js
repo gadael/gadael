@@ -55,7 +55,7 @@ function saveRecoverQuantity(service, params) {
 
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
+                service.resolveSuccessGet(
                     document._id,
                     gt.gettext('The recover quantity has been created')
                 );

@@ -249,7 +249,7 @@ describe('request workperiod recover account rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.workperiod_recover).toBeDefined();
             if (body.workperiod_recover) {
-                expect(body.user.id).toEqual(userAccount.user._id.toString());
+                expect(body.user.id._id).toEqual(userAccount.user._id.toString());
                 expect(body.user.name).toBeDefined();
                 expect(body.approvalSteps.length).toEqual(1);
                 expect(body.requestLog.length).toEqual(1);

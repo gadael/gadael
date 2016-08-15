@@ -265,7 +265,7 @@ describe('request time saving deposit rest service', function() {
             expect(body._id).toBeDefined();
             expect(body.time_saving_deposit).toBeDefined();
             if (body.time_saving_deposit) {
-                expect(body.user.id).toEqual(userAccount.user._id.toString());
+                expect(body.user.id._id).toEqual(userAccount.user._id.toString());
                 expect(body.user.name).toBeDefined();
                 expect(body.approvalSteps.length).toEqual(1);
                 expect(body.requestLog.length).toEqual(1);
