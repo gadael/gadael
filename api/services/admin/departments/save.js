@@ -22,22 +22,22 @@ function validate(service, params) {
 
     saveDepartment(service, params);
 }
-    
-    
+
+
 /**
  * Update/create the department document
- * 
+ *
  * @param {apiService} service
  * @param {Object} params
- */  
+ */
 function saveDepartment(service, params) {
-    
+
 
 
 
     var DepartmentModel = service.app.db.models.Department;
-    
-    var fieldsToSet = { 
+
+    var fieldsToSet = {
         name: params.name
     };
 
@@ -57,8 +57,8 @@ function saveDepartment(service, params) {
                 document.set(fieldsToSet);
                 document.save(function(err, document) {
                     if (service.handleMongoError(err)) {
-                        service.resolveSuccess(
-                            document,
+                        service.resolveSuccessGet(
+                            document._id,
                             gt.gettext('The department has been modified')
                         );
                     }
@@ -75,21 +75,21 @@ function saveDepartment(service, params) {
         document.save(function(err, document) {
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
-                    document, 
+                service.resolveSuccessGet(
+                    document._id,
                     gt.gettext('The department has been created')
                 );
             }
         });
     }
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -100,12 +100,12 @@ function saveDepartment(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the department save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -114,9 +114,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

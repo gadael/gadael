@@ -17,38 +17,38 @@ function validate(service, params) {
 
     saveCalendar(service, params);
 }
-    
-    
+
+
 /**
  * Update/create the calendar document
- * 
+ *
  * @param {apiService} service
  * @param {Object} params
- */  
+ */
 function saveCalendar(service, params) {
 
-    
+
     var CalendarModel = service.app.db.models.Calendar;
-    
-    
-    var fieldsToSet = { 
-        name: params.name, 
+
+
+    var fieldsToSet = {
+        name: params.name,
         url: params.url,
         type: params.type,
-        lastUpdate: new Date()  
+        lastUpdate: new Date()
     };
-    
+
     if ('workschedule' === params.type) {
         fieldsToSet.halfDayHour = params.halfDayHour;
         fieldsToSet.hoursPerDay = params.hoursPerDay;
     }
 
-    
+
     function downloadEvents(calendar, message)
     {
         calendar.downloadEvents().then(function() {
-            service.resolveSuccess(
-                calendar,
+            service.resolveSuccessGet(
+                calendar._id,
                 message
             );
         }).catch(function(err) {
@@ -57,7 +57,7 @@ function saveCalendar(service, params) {
         });
 
     }
-    
+
 
     if (params.id)
     {
@@ -96,13 +96,13 @@ function saveCalendar(service, params) {
         });
     }
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -113,12 +113,12 @@ function saveCalendar(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the calendar save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -127,9 +127,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

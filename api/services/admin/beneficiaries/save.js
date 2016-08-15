@@ -54,8 +54,8 @@ function saveBeneficiary(service, params) {
 
                     if (service.handleMongoError(err)) {
 
-                        service.resolveSuccess(
-                            document,
+                        service.resolveSuccessGet(
+                            document._id,
                             gt.gettext('The right association has been modified')
                         );
                     }
@@ -74,8 +74,8 @@ function saveBeneficiary(service, params) {
 
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
-                    document,
+                service.resolveSuccessGet(
+                    document._id,
                     gt.gettext('The right association has been created')
                 );
             }
@@ -119,5 +119,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-

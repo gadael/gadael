@@ -73,28 +73,30 @@ function saveAccountNWDaysCalendar(service, params) {
     var util = require('util');
 
     if (params.id) {
-        nwdaysCalendar.findById(params.id, function(err, document) {
-            if (service.handleMongoError(err)) {
-                if (null === document) {
-                    service.notFound(util.format(gt.gettext('Account non working days calendar document not found for id %s'), params.id));
-                    return;
-                }
+        nwdaysCalendar.findById(params.id)
+        .then(document => {
 
-
-                document.calendar 	= params.calendar._id;
-                document.from 		= params.from;
-                document.to 		= params.to;
-
-                document.save(function (err) {
-                    if (service.handleMongoError(err)) {
-                        service.resolveSuccess(
-                            document,
-                            gt.gettext('The account non working days calendar period has been modified')
-                        );
-                    }
-                });
+            if (null === document) {
+                service.notFound(util.format(gt.gettext('Account non working days calendar document not found for id %s'), params.id));
+                return;
             }
-        });
+
+            document.calendar 	= params.calendar._id;
+            document.from 		= params.from;
+            document.to 		= params.to;
+
+            return document.save()
+            .then(document =>  {
+
+                service.resolveSuccessGet(
+                    document._id,
+                    gt.gettext('The account non working days calendar period has been modified')
+                );
+
+            });
+
+        })
+        .catch(service.error);
 
     } else {
 
@@ -109,8 +111,8 @@ function saveAccountNWDaysCalendar(service, params) {
 
                 if (service.handleMongoError(err))
                 {
-                    service.resolveSuccess(
-                        document,
+                    service.resolveSuccessGet(
+                        document._id,
                         gt.gettext('The account non working days calendar period has been created')
                     );
                 }
@@ -154,5 +156,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-

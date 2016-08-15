@@ -255,8 +255,8 @@ function saveRequest(service, params) {
         })
         .then(() => {
 
-            service.resolveSuccess(
-                savedDocument,
+            service.resolveSuccessGet(
+                savedDocument._id,
                 message
             );
 

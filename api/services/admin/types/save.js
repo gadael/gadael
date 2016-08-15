@@ -16,27 +16,27 @@ function validate(service, params) {
 
     saveRightType(service, params);
 }
-    
-    
+
+
 /**
  * Update/create the right type document
- * 
+ *
  * @param {apiService} service
  * @param {Object} params
- */  
+ */
 function saveRightType(service, params) {
-    
+
     var TypeModel = service.app.db.models.Type;
-    
-    
-    var fieldsToSet = { 
+
+
+    var fieldsToSet = {
         name: params.name,
         groupFolded: params.groupFolded,
         groupTitle: params.groupTitle,
         sortkey: params.sortkey,
         color: params.color
     };
-    
+
 
     if (params.id)
     {
@@ -52,8 +52,8 @@ function saveRightType(service, params) {
                 type.save((err, document) => {
                     if (service.handleMongoError(err))
                     {
-                        service.resolveSuccess(
-                            document,
+                        service.resolveSuccessGet(
+                            document._id,
                             gt.gettext('The right type has been modified')
                         );
                     }
@@ -71,21 +71,21 @@ function saveRightType(service, params) {
 
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
-                    document, 
+                service.resolveSuccessGet(
+                    document._id,
                     gt.gettext('The right type has been created')
                 );
             }
         });
     }
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -96,12 +96,12 @@ function saveRightType(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the right type save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -110,9 +110,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

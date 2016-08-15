@@ -40,14 +40,14 @@ function validate(service, params) {
 
     saveCollection(service, params);
 }
-    
-    
+
+
 /**
  * Update/create the collection document
- * 
+ *
  * @param {apiService} service
  * @param {Object} params
- */  
+ */
 function saveCollection(service, params) {
 
     let fieldsToSet = {
@@ -79,9 +79,9 @@ function saveCollection(service, params) {
 
                 document.save(function (err) {
                     if (service.handleMongoError(err)) {
-                        
-                        service.resolveSuccess(
-                            document, 
+
+                        service.resolveSuccessGet(
+                            document._id,
                             gt.gettext('The collection has been modified')
                         );
                     }
@@ -97,25 +97,25 @@ function saveCollection(service, params) {
         collection.save(function(err, document) {
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
-                    document, 
+                service.resolveSuccessGet(
+                    document._id,
                     gt.gettext('The collection has been created')
                 );
             }
         });
     }
 }
-    
+
 
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the collection save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Query}
@@ -124,9 +124,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

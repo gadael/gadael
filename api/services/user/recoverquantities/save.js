@@ -42,8 +42,8 @@ function saveRecoverQuantity(service, params) {
         QuantityModel.findByIdAndUpdate(params.id, fieldsToSet, function(err, document) {
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
-                    document,
+                service.resolveSuccessGet(
+                    document._id,
                     gt.gettext('The recover quantity has been modified')
                 );
             }
@@ -56,7 +56,7 @@ function saveRecoverQuantity(service, params) {
             if (service.handleMongoError(err))
             {
                 service.resolveSuccess(
-                    document,
+                    document._id,
                     gt.gettext('The recover quantity has been created')
                 );
             }
@@ -98,5 +98,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-

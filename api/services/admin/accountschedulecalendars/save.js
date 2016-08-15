@@ -13,7 +13,7 @@ function validate(service, params) {
     if (service.needRequiredFields(params, ['calendar', 'from'])) {
         return;
     }
-    
+
     saveAccountScheduleCalendar(service, params);
 }
 
@@ -25,7 +25,7 @@ function validate(service, params) {
  * @param {saveItemService} service
  * @param {object} params
  * @param {function} next
- */ 
+ */
 function getAccount(service, params, next) {
 
     if (params.account) {
@@ -59,16 +59,16 @@ function getAccount(service, params, next) {
 
 
 
-    
-    
+
+
 /**
  * Update/create the AccountScheduleCalendar document
- * 
+ *
  * @param {saveItemService} service
  * @param {Object} params
- */  
+ */
 function saveAccountScheduleCalendar(service, params) {
-    
+
     var scheduleCalendar = service.app.db.models.AccountScheduleCalendar;
     var util = require('util');
 
@@ -79,7 +79,7 @@ function saveAccountScheduleCalendar(service, params) {
                     service.notFound(util.format(gt.gettext('AccountScheduleCalendar document not found for id %s'), params.id));
                     return;
                 }
-                
+
 
                 document.calendar 	= params.calendar._id;
                 document.from 		= params.from;
@@ -87,8 +87,8 @@ function saveAccountScheduleCalendar(service, params) {
 
                 document.save(function (err) {
                     if (service.handleMongoError(err)) {
-                        service.resolveSuccess(
-                            document, 
+                        service.resolveSuccessGet(
+                            document._id,
                             gt.gettext('The account schedule calendar period has been modified')
                         );
                     }
@@ -99,33 +99,33 @@ function saveAccountScheduleCalendar(service, params) {
     } else {
 
         getAccount(service, params, function(accountId) {
-        
+
             scheduleCalendar.create({
                     account: accountId,
                     calendar: params.calendar._id,
                     from: params.from,
-                    to: params.to 
+                    to: params.to
                 }, function(err, document) {
 
                 if (service.handleMongoError(err))
                 {
-                    service.resolveSuccess(
-                        document, 
+                    service.resolveSuccessGet(
+                        document._id,
                         gt.gettext('The account schedule calendar period has been created')
                     );
                 }
             });
-            
+
         });
     }
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -136,12 +136,12 @@ function saveAccountScheduleCalendar(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the calendar save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -150,9 +150,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

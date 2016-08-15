@@ -35,34 +35,34 @@ function validate(service, params) {
 
 
 }
-    
-    
+
+
 /**
  * Update/create the right renewal document
- * 
+ *
  * @param {apiService} service
  * @param {Object} params
- */  
+ */
 function saveRenewal(service, params) {
 
 
     var RightRenewalModel = service.app.db.models.RightRenewal;
-    
+
     var rightId = params.right;
     if (undefined !== params.right._id) {
         rightId = params.right._id;
     }
-    
-    var fieldsToSet = { 
+
+    var fieldsToSet = {
         right: rightId,
         start: params.start,
         finish: params.finish,
-        lastUpdate: new Date()  
+        lastUpdate: new Date()
     };
-    
-    
-    
-    
+
+
+
+
 
     if (params.id)
     {
@@ -79,8 +79,8 @@ function saveRenewal(service, params) {
 
                     if (service.handleMongoError(err)) {
 
-                        service.resolveSuccess(
-                            document,
+                        service.resolveSuccessGet(
+                            document._id,
                             gt.gettext('The right renewal period has been modified')
                         );
 
@@ -101,21 +101,21 @@ function saveRenewal(service, params) {
 
             if (service.handleMongoError(err))
             {
-                service.resolveSuccess(
-                    document, 
+                service.resolveSuccessGet(
+                    document._id,
                     gt.gettext('The right renewal period has been created')
                 );
             }
         });
     }
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -126,12 +126,12 @@ function saveRenewal(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the right renewal save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -140,9 +140,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
