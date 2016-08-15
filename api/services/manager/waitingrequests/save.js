@@ -1,7 +1,9 @@
 'use strict';
 
 const gt = require('./../../../../modules/gettext');
-
+const pendingapproval = require('../../../modules/emails/pendingapproval');
+const requestaccepted = require('../../../modules/emails/requestaccepted');
+const requestrejected = require('../../../modules/emails/requestrejected');
 
 
 /**
@@ -23,6 +25,30 @@ function validate(service, params)
 }
 
 
+
+/**
+ * Send mail to next approvers or request owner
+ * @param {Object} app Express
+ * @param {Request} request The saved request
+ * @param {Number} remainingApprovers
+ * @return {Promise}
+ */
+function sendEmail(app, request, remainingApprovers)
+{
+    if ('accepted' === request.status.created || 'accepted' === request.status.deleted) {
+        return requestaccepted(app, request).send();
+    }
+
+    if ('rejected' === request.status.created || 'rejected' === request.status.deleted) {
+        return requestrejected(app, request).send();
+    }
+
+    if (remainingApprovers > 0) {
+        return pendingapproval(app, request).send();
+    }
+
+    throw new Error('Unexpected request, there are no remaining approvers but the request is not accepted nor rejected');
+}
 
 
 
@@ -76,74 +102,71 @@ function saveRequest(service, params) {
                         return service.forbidden(e.message);
                     }
 
-                    document.save(function(err, request) {
+                    document.save()
+                    .then(request => {
 
-                        if (service.handleMongoError(err)) {
+                        return request.populate('events')
+                        .execPopulate();
+                    })
+                    .then(request => {
 
-                            request.populate('events', function(err) {
+                        sendEmail(service.app, request, remainingApprovers);
 
-                                if (service.handleMongoError(err)) {
-
-                                    if ('accepted' === request.status.created) {
-                                        request.setEventsStatus('CONFIRMED').then(function() {
-                                            service.resolveSuccess(
-                                                document,
-                                                gt.gettext('The request has been confirmed')
-                                            );
-                                        });
-                                        return;
-                                    }
-
-                                    if ('rejected' === request.status.created) {
-                                        request.setEventsStatus('CANCELLED').then(function() {
-                                            service.resolveSuccess(
-                                                document,
-                                                gt.gettext('The request has been cancelled')
-                                            );
-                                        });
-                                        return;
-                                    }
-
-
-                                    if ('accepted' === request.status.deleted) {
-                                        request.setEventsStatus('CANCELLED').then(function() {
-                                            service.resolveSuccess(
-                                                document,
-                                                gt.gettext('The appliquant has requested a delete, the request has been canceled')
-                                            );
-                                        });
-                                        return;
-                                    }
-
-                                    if ('rejected' === request.status.deleted) {
-                                        request.setEventsStatus('CONFIRMED').then(function() {
-                                            service.resolveSuccess(
-                                                document,
-                                                gt.gettext('The appliquant has requested a delete, the request has been confirmed anyway')
-                                            );
-                                        });
-                                        return;
-                                    }
-
-                                    if (remainingApprovers > 0) {
-                                        service.resolveSuccess(
-                                            document,
-                                            gt.gettext('Approval for others approvers are required to complete this step')
-                                        );
-                                        return;
-                                    }
-
-                                    service.resolveSuccess(
-                                        document,
-                                        gt.gettext('The request has been forwarded to the next approval step')
-                                    );
-
-                                }
-
+                        if ('accepted' === request.status.created) {
+                            request.setEventsStatus('CONFIRMED').then(function() {
+                                service.resolveSuccess(
+                                    document,
+                                    gt.gettext('The request has been confirmed')
+                                );
                             });
-
+                            return;
                         }
-                    });
+
+                        if ('rejected' === request.status.created) {
+                            request.setEventsStatus('CANCELLED').then(function() {
+                                service.resolveSuccess(
+                                    document,
+                                    gt.gettext('The request has been cancelled')
+                                );
+                            });
+                            return;
+                        }
+
+
+                        if ('accepted' === request.status.deleted) {
+                            request.setEventsStatus('CANCELLED').then(function() {
+                                service.resolveSuccess(
+                                    document,
+                                    gt.gettext('The appliquant has requested a delete, the request has been canceled')
+                                );
+                            });
+                            return;
+                        }
+
+                        if ('rejected' === request.status.deleted) {
+                            request.setEventsStatus('CONFIRMED').then(function() {
+                                service.resolveSuccess(
+                                    document,
+                                    gt.gettext('The appliquant has requested a delete, the request has been confirmed anyway')
+                                );
+                            });
+                            return;
+                        }
+
+                        if (remainingApprovers > 0) {
+                            service.resolveSuccess(
+                                document,
+                                gt.gettext('Approval for others approvers are required to complete this step')
+                            );
+                            return;
+                        }
+
+                        service.resolveSuccess(
+                            document,
+                            gt.gettext('The request has been forwarded to the next approval step')
+                        );
+                    })
+                    .catch(service.error);
 
                 }
 
@@ -187,5 +210,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-

@@ -6,6 +6,7 @@ const Mail = require('../mail');
 
 /**
  * Mail send to department managers
+ *
  * @param {Object} app      Express
  * @param {Request} request
  *

@@ -7,6 +7,9 @@ const Mail = require('../mail');
 
 /**
  * Mail send to request owner when workflow succeed
+ * This mail is for approval ony, requestcreated will be used instead if
+ * an admin create a request for a user without approval
+ *
  * @param {Object} app      Express
  * @param {Request} request
  * @returns {Promise}

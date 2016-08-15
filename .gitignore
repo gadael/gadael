@@ -14,3 +14,4 @@ po/*.mo
 /coverage/
 /public/js/optimized.js
 /public/js/translation.js
+.tags
