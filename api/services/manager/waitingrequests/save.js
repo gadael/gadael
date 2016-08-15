@@ -110,7 +110,14 @@ function saveRequest(service, params) {
                     })
                     .then(request => {
 
-                        sendEmail(service.app, request, remainingApprovers);
+                        try {
+                            sendEmail(service.app, request, remainingApprovers);
+                            // the output promise of sendEmail is ignored
+                            // the process must end successfully also when email fail
+                        } catch(e) {
+                            // errors are catched here to prevent insertion in promise result
+                        }
+
 
                         if ('accepted' === request.status.created) {
                             request.setEventsStatus('CONFIRMED').then(function() {
