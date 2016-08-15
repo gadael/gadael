@@ -37,8 +37,7 @@ cd gadael
 npm install
 bower install
 grunt build
-
-node app.js
+grunt
 ```
 
 open http://localhost:3000 in your browser
@@ -82,13 +81,22 @@ grunt test
 - [ ] Use correct type and dispType in manager/waitingrequests
 
 
-## Technical features
+## Main packages used
 
-* [Express JS](http://expressjs.com/) application
+* [Express JS](http://expressjs.com/) application REST server
 * [Angular JS](https://angularjs.org/) front-end
 * [Bootstrap CSS](http://getbootstrap.com/) Look and feel
 
+Notifications:
 
+* [Mailgen](https://github.com/eladnava/mailgen) Notification template
+* [Nodemailer](https://nodemailer.com/) Send the emails using configurable transport
+
+Interactions with other services:
+
+* [google-calendar](https://github.com/wanasit/google-calendar) Interface to the google calendar API
+* [ical.js](https://github.com/peterbraden/ical.js) Read ical format
+* [ICSDB](https://github.com/gadael/icsdb) ICS files for non working days
 
 ## Licence
 
