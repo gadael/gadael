@@ -8,6 +8,7 @@ const stubTransport = require('nodemailer-stub-transport');
 const resetpassword = require('../../../modules/emails/resetpassword');
 const pendingapproval = require('../../../modules/emails/pendingapproval');
 const requestaccepted = require('../../../modules/emails/requestaccepted');
+const requestrejected = require('../../../modules/emails/requestrejected');
 
 const api = {
     company: require('../../../api/Company.api.js'),
@@ -142,6 +143,44 @@ describe('Mail object', function() {
         })
         .then(wp => {
             return requestaccepted(server.app, wp);
+        })
+        .then(mail => {
+            return mail.send();
+        })
+        .then(message => {
+            expect(message._id).toBeDefined();
+            expect(message.emailSent).toBeTruthy();
+            done();
+        })
+        .catch(err => {
+            console.log(err);
+            done(err);
+        });
+    });
+
+
+
+    it('send request rejected', function(done) {
+        createPendingWorkperiodRecovery()
+        .then(wp => {
+            // add fake acceptation from approver
+
+            wp.approvalSteps[0].status = 'rejected';
+
+            wp.requestLog.push({
+                action: 'wf_reject',
+                userCreated: {
+                    id: user._id,
+                    name: user.getName()
+                },
+                timeCreated: new Date(),
+                approvalStep: wp.approvalSteps[0]._id
+            });
+
+            return wp.save();
+        })
+        .then(wp => {
+            return requestrejected(server.app, wp);
         })
         .then(mail => {
             return mail.send();
