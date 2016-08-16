@@ -78,7 +78,7 @@ grunt test
 - [x] Create mail for the approver (validation pending)
 - [x] Create mail for the appliquant (request accepted / rejected)
 - [x] Use correct type and dispType in manager/waitingrequests
-- [ ] Do not display detail hours in planning (owner icon instead?)
+- [x] Do not display detail hours in planning
 
 
 ## Main packages used
