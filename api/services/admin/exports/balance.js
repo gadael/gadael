@@ -139,10 +139,14 @@ exports = module.exports = function(service, moment) {
                         renewal.getUserWaitingQuantity(user, moment)
                     ])
                     .then(all => {
+
+                        let waiting = all[2];
+
                         row[QUANTITY]       = all[0];
                         row[CONSUMED]       = all[1];
-                        row[WAITING]        = all[2];
-                        row[BALANCE]        = (row[QUANTITY] - row[CONSUMED] - row[WAITING]);
+                        row[WAITING]        = waiting.created;
+                        row[BALANCE]        = (row[QUANTITY] - row[CONSUMED] - waiting.created);
+                        row[WAITDEL]        = waiting.deleted;
 
                         data.push(row);
                     });

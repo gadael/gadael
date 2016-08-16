@@ -388,15 +388,17 @@ exports = module.exports = function(params) {
 
 
 	/**
-	 * Get a user consumed quantity (leaves only)
+	 * Get user consumed quantity (leaves only)
 	 * @see rightRenewalSchema.getUserConsumedQuantity() for full consumption
 	 *
 	 * @param {User} user		Request owner
 	 * @param {Date} moment		Only request approved on this date
+	 * @param {Function} collector Get quantity and status
 	 *
-	 * @returns {Promise} 		resolve to a number
+	 * @returns {Promise} 		resolve to true
 	 */
-	rightRenewalSchema.methods.getUserAbsenceQuantity = function(user, moment) {
+	rightRenewalSchema.methods.getUserAbsenceQuantity = function(user, moment, collector)
+	{
 		let AbsenceElem = this.model('AbsenceElem');
         let renewal = this;
 
@@ -407,15 +409,41 @@ exports = module.exports = function(params) {
 			},
 			'quantity'
 		)
+		.populate('events.request')
+		.exec()
 		.then(docs => {
-
-            var consumed = 0;
             for(var i=0; i<docs.length; i++) {
-                consumed += docs[i].quantity;
+				let request = docs[i].events[0].request;
+				let status = request.getDateStatus(moment);
+				collector(status, docs[i].quantity);
             }
 
-			return consumed;
+			return true;
         });
+	};
+
+
+	/**
+	 * Get user consumed quantity (leaves only)
+	 * @see rightRenewalSchema.getUserConsumedQuantity() for full consumption
+	 *
+	 * @param {User} user		Request owner
+	 * @param {Date} moment		Only request approved on this date
+	 *
+	 * @returns {Promise} 		resolve to a number
+	 */
+	rightRenewalSchema.methods.getUserAbsenceConsumedQuantity = function(user, moment) {
+		let consumed = 0;
+		return this.getUserAbsenceQuantity(user, moment, function(status, quantity) {
+			if (status.created !== 'accepted') {
+				return;
+			}
+
+			consumed += quantity;
+		})
+		.then(() => {
+			return consumed;
+		});
 	};
 
 
@@ -425,10 +453,27 @@ exports = module.exports = function(params) {
 	 *
 	 * @param {User} user		Request owner
 	 * @param {Date} moment		Only request in waiting state on this date
+	 *
+	 * @return {Promise} 	resolve to an object
 	 */
 	rightRenewalSchema.methods.getUserWaitingQuantity = function(user, moment) {
+		let waiting = {
+			created: 0,
+			deleted: 0
+		};
 
-		//TODO
+		return this.getUserAbsenceQuantity(user, moment, function(status, quantity) {
+			if (status.created === 'waiting') {
+				waiting.created += quantity;
+			}
+
+			if (status.deleted === 'waiting') {
+				waiting.deleted += quantity;
+			}
+		})
+		.then(() => {
+			return waiting;
+		});
 	};
 
 
@@ -449,7 +494,7 @@ exports = module.exports = function(params) {
 		let renewal = this;
 
         return Promise.all([
-			renewal.getUserAbsenceQuantity(user, moment),
+			renewal.getUserAbsenceConsumedQuantity(user, moment),
 			renewal.getUserSavedQuantity(user, moment)
 		])
 		.then(all => {

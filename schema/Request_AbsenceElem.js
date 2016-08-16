@@ -3,7 +3,7 @@
 
 /**
  *
- */  
+ */
 exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var absenceElemSchema = new mongoose.Schema({
@@ -12,22 +12,22 @@ exports = module.exports = function(params) {
                                                             // consuption=proportion: attendance percentage from RightCollection
                                                             // consuption=businessDays: businessDays from RightCollection
         events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],
-        
+
         user: {                                     // absence owner
           id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
           name: { type: String, required: true }
         },
-        
+
         right: {                                    // right parameters used on absence creation
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
             name: { type: String, required: true },
             quantity_unit: { type: String, enum:['D', 'H'], required: true },
-            type: { 
+            type: {
                 id: { type: mongoose.Schema.Types.ObjectId, ref: 'Type', required: true },
                 name: { type: String, required: true },
                 color: { type: String }
             },
-            renewal: { 
+            renewal: {
                 id: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' , required: true },
                 start: { type: Date, required: true },
                 finish: { type: Date, required: true }
@@ -95,6 +95,18 @@ exports = module.exports = function(params) {
 	};
 
 
+	/**
+	 * Get request from absence element
+	 * @return {Promise}
+	 */
+	absenceElemSchema.getRequest = function() {
+		return this.events[0]
+		.populate('request')
+		.execPopulate()
+		.then(event => {
+			return event.request;
+		});
+	};
 
 
     /**
