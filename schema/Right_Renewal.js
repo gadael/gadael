@@ -3,11 +3,11 @@
 
 
 exports = module.exports = function(params) {
-	
+
 	var mongoose = params.mongoose;
 
 	var rightRenewalSchema = new mongoose.Schema({
-        
+
         right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
         timeCreated: { type: Date, default: Date.now },
         lastUpdate: { type: Date, default: Date.now },
@@ -16,16 +16,16 @@ exports = module.exports = function(params) {
 
         adjustments: [params.embeddedSchemas.RightAdjustment]
 	});
-  
+
 	rightRenewalSchema.set('autoIndex', params.autoIndex);
-  
-	
-    
+
+
+
     /**
      * Ensure that the renewal interval do not overlap another renewal period
      */
     rightRenewalSchema.pre('save', function(next) {
-		
+
 		var renewal = this;
 
         renewal.checkOverlap()
@@ -67,11 +67,11 @@ exports = module.exports = function(params) {
                 deferred.resolve(true);
             }
         );
-        
+
         return deferred.promise;
     };
-    
-    
+
+
     /**
      * The last renewal end date
      * @return {Promise}
@@ -195,13 +195,13 @@ exports = module.exports = function(params) {
     };
 
 
-    
+
     /**
      * Get a user adjustement quantity, can be a negative value
      * adjustments on renewal
-     * 
+     *
      * @param {Document} user
-     * 
+     *
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserAdjustmentQuantity = function(user) {
@@ -215,24 +215,24 @@ exports = module.exports = function(params) {
         var renewal = this;
 
         model.find({ rightRenewal: renewal._id, user: user._id }, 'quantity', function (err, docs) {
-            
+
             if (err) {
                 deferred.reject(err);
             }
-            
+
             var adjustments = 0;
             for(var i=0; i<docs.length; i++) {
                 adjustments += docs[i].quantity;
             }
-            
+
             deferred.resolve(adjustments);
         });
-        
+
         return deferred.promise;
     };
-    
-    
-    
+
+
+
     /**
      * Get the right linked to the renewal
      * return a promise and resolve to a Right document
@@ -242,7 +242,7 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getRightPromise = function() {
 
         let renewal = this;
-        
+
         if (!renewal.right) {
             throw new Error('Missing right on account document');
         }
@@ -251,8 +251,8 @@ exports = module.exports = function(params) {
             return renewal.right;
         });
     };
-    
-    
+
+
     /**
      * Get the initial quantity for a user without adjustments
      * this shoud be the quantity set by administrator on the right or a computed quantity
@@ -279,22 +279,22 @@ exports = module.exports = function(params) {
 
     };
 
-    
+
     /**
-     * Get a user initial quantity 
+     * Get a user initial quantity
      * default right quantity + adjustments on renewal from the monthly updates + manual adjustments on renewal for the user
      * The default quantity from right is accessible only after the account arrival date
      * for renewals straddling the arrival date, the quantiy is computed using the percentage of account valid time
      *
      * @todo duplicated with accountRight object
-     * 
+     *
      * @param {User}    user        User document with account role
      * @param {Date}    [moment]    the adjutments will be added up to this date, default is now
      *
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserQuantity = function(user, moment) {
-        
+
         var renewal = this;
 
         if (undefined === moment) {
@@ -353,78 +353,108 @@ exports = module.exports = function(params) {
             return (rightQuantity + renewalAdjustment + userAdjustment);
         });
     };
-    
+
     /**
      * Quantity moved to time saving accounts
      * sum of quantities in deposits for this renewal
      *
      * @param {User} user
+	 * @param {Date} moment
      *
      * @returns {Promise} resolve to a number
      */
-    rightRenewalSchema.methods.getUserSavedQuantity = function(user) {
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
+    rightRenewalSchema.methods.getUserSavedQuantity = function(user, moment) {
 
-        var model = this.model('Request');
-        model.find({
-            'time_saving_deposit.from.renewal.id': this._id,
-            'user.id': user._id
-        }, 'time_saving_deposit.quantity', function (err, docs) {
-            if (err) {
-                deferred.reject(err);
-            }
+
+        let Request = this.model('Request');
+
+		return Request.find(
+			{
+	            'time_saving_deposit.from.renewal.id': this._id,
+	            'user.id': user._id
+	        },
+			'time_saving_deposit.quantity'
+		)
+		.then(docs => {
 
             var deposits = 0;
             for(var i=0; i<docs.length; i++) {
                 deposits += docs[i].time_saving_deposit[0].quantity;
             }
 
-            deferred.resolve(deposits);
+            return deposits;
         });
-
-        return deferred.promise;
     };
 
-    
-    /**
-     * Get a user consumed quantity 
-     * sum of quantities in requests and saved from this renewal
-     *
-     * @todo duplicated with accountRight object
-     * 
-     * @param {User} user
-     * 
-     * @returns {Promise} resolve to a number
-     */
-    rightRenewalSchema.methods.getUserConsumedQuantity = function(user) {
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
 
-        var model = this.model('AbsenceElem');
-        var renewal = this;
-        model.find({ 'right.renewal.id': renewal._id, 'user.id': user._id }, 'quantity', function(err, docs) {
-            if (err) {
-                deferred.reject(err);
-            }
-            
+	/**
+	 * Get a user consumed quantity (leaves only)
+	 * @see rightRenewalSchema.getUserConsumedQuantity() for full consumption
+	 *
+	 * @param {User} user		Request owner
+	 * @param {Date} moment		Only request approved on this date
+	 *
+	 * @returns {Promise} 		resolve to a number
+	 */
+	rightRenewalSchema.methods.getUserAbsenceQuantity = function(user, moment) {
+		let AbsenceElem = this.model('AbsenceElem');
+        let renewal = this;
+
+        return AbsenceElem.find(
+			{
+				'right.renewal.id': renewal._id,
+				'user.id': user._id
+			},
+			'quantity'
+		)
+		.then(docs => {
+
             var consumed = 0;
             for(var i=0; i<docs.length; i++) {
                 consumed += docs[i].quantity;
             }
-            
-            renewal.getUserSavedQuantity(user).then(function(savedQuantity) {
-                deferred.resolve(consumed - savedQuantity);
-            }, deferred.reject);
+
+			return consumed;
         });
-        
-        return deferred.promise;
+	};
+
+
+	/**
+	 * Get a user waiting quantity
+     * sum of quantities in requests and saved from this renewal
+	 *
+	 * @param {User} user		Request owner
+	 * @param {Date} moment		Only request in waiting state on this date
+	 */
+	rightRenewalSchema.methods.getUserWaitingQuantity = function(user, moment) {
+
+		//TODO
+	};
+
+
+    /**
+     * Get a user consumed quantity
+     * sum of quantities in requests and saved from this renewal
+	 * Do not include the waiting quantity
+     *
+     * @todo duplicated with accountRight object
+     *
+     * @param {User} user		Request owner
+	 * @param {Date} moment		Only request approved on this date
+     *
+     * @returns {Promise} resolve to a number
+     */
+    rightRenewalSchema.methods.getUserConsumedQuantity = function(user, moment) {
+
+		let renewal = this;
+
+        return Promise.all([
+			renewal.getUserAbsenceQuantity(user, moment),
+			renewal.getUserSavedQuantity(user, moment)
+		])
+		.then(all => {
+            return (all[0] - all[1]);
+        });
     };
 
 
@@ -510,10 +540,10 @@ exports = module.exports = function(params) {
         });
     };
 
-        
-    
+
+
     /**
-     * Get a user available quantity 
+     * Get a user available quantity
      * the user quantity - the consumed quantity + deposits quantity
      *
      *
@@ -523,7 +553,7 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserAvailableQuantity = function(user) {
-        
+
         return Promise.all([
             this.getUserQuantity(user),
             this.getUserConsumedQuantity(user),
@@ -535,8 +565,8 @@ exports = module.exports = function(params) {
 
 
 
-    
-    
+
+
 
     /**
      * Get a user available, consumed and initial quantity
@@ -731,9 +761,7 @@ exports = module.exports = function(params) {
 
 
     params.db.model('RightRenewal', rightRenewalSchema);
-    
-    
-    
+
+
+
 };
-
-

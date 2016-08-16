@@ -76,7 +76,7 @@ grunt test
 - [x] Save events to google calendar
 - [x] Modal dialog to create a secondary calendar in google account
 - [x] Create mail for the approver (validation pending)
-- [x] Create mail for the appliquant (request accepted / rejected)
+- [ ] Use the requestcreated mail
 - [x] Use correct type and dispType in manager/waitingrequests
 - [x] Do not display detail hours in planning
 

@@ -186,6 +186,80 @@ exports = module.exports = function(params) {
         return consumed;
     };
 
+    /**
+     * Get the last request log at a Date
+     * @return {RequestLog}
+     */
+    requestSchema.methods.getDateLog = function(moment) {
+        for (var i=this.requestLog.length; i>=0; i--) {
+            if (moment < this.requestLog[i].timeCreated) {
+                return this.requestLog[i];
+            }
+        }
+
+        return null;
+    };
+
+
+    /**
+     * Get the status of request on a Date
+     * using the request log
+     * For this to work, we make the assumption that we never come back on a delete
+     *
+     * @return object
+     */
+    requestSchema.methods.getDateStatus = function(moment) {
+        let requestLog = this.getDateLog();
+
+        if (null === requestLog) {
+            return this.status;
+        }
+
+        switch(requestLog.action) {
+            case 'create':
+            case 'modify':
+                return {
+                    created: 'accepted',
+                    deleted: null
+                };
+
+            case 'wf_sent':
+            case 'wf_accept':
+            case 'wf_reject':
+                if ('accepted' === this.status.deleted) {
+                    return {
+                        created: null,
+                        deleted: 'waiting'
+                    };
+                }
+
+                return {
+                    created: 'waiting',
+                    deleted: null
+                };
+
+            case 'wf_end':
+                if ('accepted' === this.status.deleted) {
+                    return {
+                        created: null,
+                        deleted: 'accepted'
+                    };
+                }
+
+                return {
+                    created: 'accepted',
+                    deleted: null
+                };
+
+            case 'delete':
+                return {
+                    created: null,
+                    deleted: 'accepted'
+                };
+        }
+
+    };
+
 
     /**
      * Get string used in public URL (type folder)

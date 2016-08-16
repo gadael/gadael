@@ -58,7 +58,9 @@ exports = module.exports = function(service, moment) {
     const RENEWAL_FINISH    = gt.gettext('Renewal finish');
     const QUANTITY          = gt.gettext('Quantity'); // initial quantity with adjustments
     const CONSUMED          = gt.gettext('Consumed quantity');
+    const WAITING           = gt.gettext('Waiting quantity');
     const BALANCE           = gt.gettext('Remaining quantity');
+    const WAITDEL           = gt.gettext('Pending delete');
 
 
     return new Promise((resolve, reject) => {
@@ -110,13 +112,17 @@ exports = module.exports = function(service, moment) {
                  * Add one row
                  * @param {Model} right   Right for row, mandatory
                  * @param {Model} renewal Active renewal on moment date if exists
+                 *
+                 * @return {Promise}
                  */
                 function addRowToData(right, renewal)
                 {
                     let row = {};
 
-                    row[NAME]           = users[i].getName();
-                    row[DEPARTMENT]     = users[i].getDepartmentName();
+                    let user = users[i];
+
+                    row[NAME]           = user.getName();
+                    row[DEPARTMENT]     = user.getDepartmentName();
                     row[RIGHT]          = right.name;
                     row[COLLECTION]     = userAttributes[i][0].name;
                     if (renewal) {
@@ -127,11 +133,19 @@ exports = module.exports = function(service, moment) {
                         row[RENEWAL_FINISH] = '';
                     }
 
-                    row[QUANTITY]       = 0;
-                    row[CONSUMED]       = 0;
-                    row[BALANCE]        = 0;
+                    return Promise.all([
+                        renewal.getUserQuantity(user, moment),
+                        renewal.getUserConsumedQuantity(user, moment),
+                        renewal.getUserWaitingQuantity(user, moment)
+                    ])
+                    .then(all => {
+                        row[QUANTITY]       = all[0];
+                        row[CONSUMED]       = all[1];
+                        row[WAITING]        = all[2];
+                        row[BALANCE]        = (row[QUANTITY] - row[CONSUMED] - row[WAITING]);
 
-                    data.push(row);
+                        data.push(row);
+                    });
                 }
 
 
