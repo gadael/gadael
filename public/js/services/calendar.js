@@ -192,6 +192,8 @@ define(['moment', 'angular'], function(moment, angular) {
 
 
 
+
+
         /**
          * Add event to nav
          * @param {Object} cal
@@ -200,6 +202,19 @@ define(['moment', 'angular'], function(moment, angular) {
          */
         function addEvent(cal, event, typeProperty)
         {
+            function inEvents(events)
+            {
+                for (var i=0; i<events.length; i++) {
+                    if (events[i]._id === event._id) {
+                        // allready loaded
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+
             var loopDate = new Date(event.dtstart);
             var endDate = new Date(event.dtend);
             var weekprop, weekkey, dayprop, daykey, day, events;
@@ -225,7 +240,10 @@ define(['moment', 'angular'], function(moment, angular) {
                 day  = cal.calendar.weeks[weekkey].days[daykey];
                 events = day[typeProperty];
 
-                events.push(event);
+
+                if (!inEvents(events)) {
+                    events.push(event);
+                }
 
                 loopDate.setDate(loopDate.getDate()+1);
             }
