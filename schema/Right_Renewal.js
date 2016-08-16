@@ -365,6 +365,9 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getUserSavedQuantity = function(user, moment) {
 
+		if (undefined === moment) {
+            moment = new Date();
+        }
 
         let Request = this.model('Request');
 
@@ -399,6 +402,10 @@ exports = module.exports = function(params) {
 	 */
 	rightRenewalSchema.methods.getUserAbsenceQuantity = function(user, moment, collector)
 	{
+		if (undefined === moment) {
+            moment = new Date();
+        }
+
 		let AbsenceElem = this.model('AbsenceElem');
         let renewal = this;
 
@@ -413,6 +420,12 @@ exports = module.exports = function(params) {
 		.exec()
 		.then(docs => {
             for(var i=0; i<docs.length; i++) {
+
+				if (undefined === docs[i].events) {
+					// unexpected element without event
+					continue;
+				}
+
 				let request = docs[i].events[0].request;
 				let status = request.getDateStatus(moment);
 				collector(status, docs[i].quantity);

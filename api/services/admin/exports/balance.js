@@ -63,119 +63,124 @@ exports = module.exports = function(service, moment) {
     const WAITDEL           = gt.gettext('Pending delete');
 
 
-    return new Promise((resolve, reject) => {
+    if (!moment || 'undefined' === moment) {
+        return Promise.reject(new Error('missing moment parameter'));
+    }
 
-        if (!moment || 'undefined' === moment) {
-            return reject('missing moment parameter');
-        }
+    moment = new Date(moment);
 
-        moment = new Date(moment);
+    let findUsers = service.app.db.models.User.getMomentUsersFind(moment);
+    findUsers.where('roles.account').exists();
 
-        let findUsers = service.app.db.models.User.getMomentUsersFind(moment);
-        findUsers.where('roles.account').exists();
-
-        findUsers.populate('department');
-        findUsers.populate('roles.account');
+    findUsers.populate('department');
+    findUsers.populate('roles.account');
 
 
 
-        findUsers.exec((err, users) => {
-            if (err) {
-                return reject(err);
-            }
+    return findUsers.exec()
+    .then(users => {
+        let userPromises = [];
 
-            let userPromises = [];
+        users.forEach(user => {
+            let account = user.roles.account;
 
-            users.forEach(user => {
-                let account = user.roles.account;
+            // TODO: getRights use getCollection to get rights
+            // this can be rewritten to use the same query for both
+            let collectionPromise = account.getCollection(moment);
+            let rightsPromise = account.getRights(moment);
 
-                // TODO: getRights use getCollection to get rights
-                // this can be rewritten to use the same query for both
-                let collectionPromise = account.getCollection(moment);
-                let rightsPromise = account.getRights(moment);
-
-                userPromises.push(
-                    Promise.all([collectionPromise, rightsPromise])
-                );
-            });
+            userPromises.push(
+                Promise.all([collectionPromise, rightsPromise])
+            );
+        });
 
 
-            // build rows
+        // build rows
 
-            Promise.all(userPromises).then(userAttributes => {
+        return Promise.all(userPromises)
+        .then(userAttributes => {
 
-                let data = [];
-                let i, j;
+            let data = [];
+            let i, j;
 
 
-                /**
-                 * Add one row
-                 * @param {Model} right   Right for row, mandatory
-                 * @param {Model} renewal Active renewal on moment date if exists
-                 *
-                 * @return {Promise}
-                 */
-                function addRowToData(right, renewal)
-                {
-                    let row = {};
+            /**
+             * Add one row
+             * @param {Model} right   Right for row, mandatory
+             * @param {Model} renewal Active renewal on moment date if exists
+             *
+             * @return {Promise}
+             */
+            function addRowToData(right, renewal)
+            {
+                let row = {};
 
-                    let user = users[i];
+                let user = users[i];
 
-                    row[NAME]           = user.getName();
-                    row[DEPARTMENT]     = user.getDepartmentName();
-                    row[RIGHT]          = right.name;
-                    row[COLLECTION]     = userAttributes[i][0].name;
-                    if (renewal) {
-                        row[RENEWAL_START]  = renewal.start;
-                        row[RENEWAL_FINISH] = renewal.finish;
-                    } else {
-                        row[RENEWAL_START]  = '';
-                        row[RENEWAL_FINISH] = '';
-                    }
+                row[NAME]           = user.getName();
+                row[DEPARTMENT]     = user.getDepartmentName();
+                row[RIGHT]          = right.name;
+                row[COLLECTION]     = userAttributes[i][0].name;
+                if (renewal) {
+                    row[RENEWAL_START]  = renewal.start;
+                    row[RENEWAL_FINISH] = renewal.finish;
+                } else {
+                    row[RENEWAL_START]  = '';
+                    row[RENEWAL_FINISH] = '';
+                    row[QUANTITY]       = 0;
+                    row[CONSUMED]       = 0;
+                    row[WAITING]        = 0;
+                    row[BALANCE]        = 0;
+                    row[WAITDEL]        = 0;
 
-                    return Promise.all([
-                        renewal.getUserQuantity(user, moment),
-                        renewal.getUserConsumedQuantity(user, moment),
-                        renewal.getUserWaitingQuantity(user, moment)
-                    ])
-                    .then(all => {
-
-                        let waiting = all[2];
-
-                        row[QUANTITY]       = all[0];
-                        row[CONSUMED]       = all[1];
-                        row[WAITING]        = waiting.created;
-                        row[BALANCE]        = (row[QUANTITY] - row[CONSUMED] - waiting.created);
-                        row[WAITDEL]        = waiting.deleted;
-
-                        data.push(row);
-                    });
+                    return Promise.resolve(0);
                 }
 
+                return Promise.all([
+                    renewal.getUserQuantity(user, moment),
+                    renewal.getUserConsumedQuantity(user, moment),
+                    renewal.getUserWaitingQuantity(user, moment)
+                ])
+                .then(all => {
 
-                let userRenewalsPromises = getUserRenewalsPromises(users, userAttributes, moment);
+                    let waiting = all[2];
+
+                    row[QUANTITY]       = all[0];
+                    row[CONSUMED]       = all[1];
+                    row[WAITING]        = waiting.created;
+                    row[BALANCE]        = (row[QUANTITY] - row[CONSUMED] - waiting.created);
+                    row[WAITDEL]        = waiting.deleted;
+
+                    data.push(row);
+
+                    return 0;
+                });
+            }
 
 
-                // loop to create rows once renewals are resolved
-                Promise.all(userRenewalsPromises).then(usersRenewals => {
+            let userRenewalsPromises = getUserRenewalsPromises(users, userAttributes, moment);
 
-                    for (i=0; i<users.length; i++) {
-                        let rights = userAttributes[i][1];
-                        for(j=0; j<rights.length; j++) {
-                            addRowToData(rights[j], usersRenewals[i][j]);
-                        }
+
+            // loop to create rows once renewals are resolved
+            return Promise.all(userRenewalsPromises)
+            .then(usersRenewals => {
+
+                let rowPromises = [];
+                for (i=0; i<users.length; i++) {
+                    let rights = userAttributes[i][1];
+                    for(j=0; j<rights.length; j++) {
+                        rowPromises.push(
+                            addRowToData(rights[j], usersRenewals[i][j])
+                        );
                     }
+                }
 
-                    resolve(data);
-                }).catch(reject);
+                return Promise.all(rowPromises);
 
-
-
-
-
-            })
-            .catch(reject);
-
+            }).then(() => {
+                return data;
+            });
         });
     });
+
 };
