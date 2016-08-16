@@ -191,7 +191,7 @@ exports = module.exports = function(params) {
      * @return {RequestLog}
      */
     requestSchema.methods.getDateLog = function(moment) {
-        for (var i=this.requestLog.length; i>=0; i--) {
+        for (let i=this.requestLog.length-1; i>=0; i--) {
             if (moment < this.requestLog[i].timeCreated) {
                 return this.requestLog[i];
             }

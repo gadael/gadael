@@ -354,20 +354,17 @@ exports = module.exports = function(params) {
         });
     };
 
-    /**
-     * Quantity moved to time saving accounts
-     * sum of quantities in deposits for this renewal
-     *
-     * @param {User} user
-	 * @param {Date} moment
-     *
-     * @returns {Promise} resolve to a number
-     */
-    rightRenewalSchema.methods.getUserSavedQuantity = function(user, moment) {
 
-		if (undefined === moment) {
-            moment = new Date();
-        }
+	/**
+	 * Quantity moved to time saving accounts
+	 * sum of quantities in deposits for this renewal
+	 *
+	 * @param {User} user
+	 * @param {Date} moment
+	 *
+	 * @returns {Promise} resolve to a number
+	 */
+	rightRenewalSchema.methods.getUserSavedQuantity = function(user, moment, addDepositQuantity) {
 
         let Request = this.model('Request');
 
@@ -380,13 +377,41 @@ exports = module.exports = function(params) {
 		)
 		.then(docs => {
 
-            var deposits = 0;
+
             for(var i=0; i<docs.length; i++) {
-                deposits += docs[i].time_saving_deposit[0].quantity;
+
+				let status = docs[i].getDateStatus(moment);
+				addDepositQuantity(status, docs[i].time_saving_deposit[0].quantity);
+
+
             }
 
-            return deposits;
+            return true;
         });
+	};
+
+
+
+    /**
+     * Confirmed quantity moved to time saving accounts
+     * sum of quantities in deposits for this renewal
+     *
+     * @param {User} user
+	 * @param {Date} moment
+     *
+     * @returns {Promise} resolve to a number
+     */
+    rightRenewalSchema.methods.getUserSavedConfirmedQuantity = function(user, moment) {
+
+		let savedQuantity = 0;
+
+		return this.getUserSavedQuantity(user, moment, function(status, quantity) {
+			if ('confirmed' === status.created) {
+				savedQuantity += quantity;
+			}
+		}).then(() => {
+			return savedQuantity;
+		});
     };
 
 
@@ -402,37 +427,39 @@ exports = module.exports = function(params) {
 	 */
 	rightRenewalSchema.methods.getUserAbsenceQuantity = function(user, moment, collector)
 	{
-		if (undefined === moment) {
-            moment = new Date();
-        }
+		let renewal = this;
 
-		let AbsenceElem = this.model('AbsenceElem');
-        let renewal = this;
+		/**
+		 * Get consumed quantity of renewal
+		 * @return {Number}
+		 */
+		function getRenewalConsumption(request) {
+			for (let i=0; i<request.absence.distribution.length; i++) {
+				let element = request.absence.distribution[i];
+				if (element.right.renewal.id.equals(renewal._id)) {
+					return element.consumedQuantity;
+				}
+			}
+			return 0;
+		}
 
-        return AbsenceElem.find(
-			{
-				'right.renewal.id': renewal._id,
-				'user.id': user._id
-			},
-			'quantity'
-		)
-		.populate('events.request')
+		let Request = this.model('Request');
+
+		return Request.find({ 'user.id': user._id })
+		.populate('absence.distribution')
 		.exec()
-		.then(docs => {
-            for(var i=0; i<docs.length; i++) {
-
-				if (undefined === docs[i].events) {
-					// unexpected element without event
+		.then(requests => {
+			for (var i=0; i<requests.length; i++) {
+				let quantity = getRenewalConsumption(requests[i]);
+				if (0 === quantity) {
 					continue;
 				}
 
-				let request = docs[i].events[0].request;
-				let status = request.getDateStatus(moment);
-				collector(status, docs[i].quantity);
-            }
+				let status = requests[i].getDateStatus(moment);
+				collector(status, quantity);
+			}
+		});
 
-			return true;
-        });
 	};
 
 
@@ -448,11 +475,9 @@ exports = module.exports = function(params) {
 	rightRenewalSchema.methods.getUserAbsenceConsumedQuantity = function(user, moment) {
 		let consumed = 0;
 		return this.getUserAbsenceQuantity(user, moment, function(status, quantity) {
-			if (status.created !== 'accepted') {
-				return;
+			if (status.created === 'accepted') {
+				consumed += quantity;
 			}
-
-			consumed += quantity;
 		})
 		.then(() => {
 			return consumed;
@@ -508,7 +533,7 @@ exports = module.exports = function(params) {
 
         return Promise.all([
 			renewal.getUserAbsenceConsumedQuantity(user, moment),
-			renewal.getUserSavedQuantity(user, moment)
+			renewal.getUserSavedConfirmedQuantity(user, moment)		// time saving account only
 		])
 		.then(all => {
             return (all[0] - all[1]);
@@ -525,30 +550,22 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserTimeSavingDepositsQuantity = function(user) {
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
 
-        var model = this.model('Request');
-        model.find({
+        let Request = this.model('Request');
+
+        return Request.find({
             'time_saving_deposit.to.renewal.id': this._id,
             'user.id': user._id
-        }, 'time_saving_deposit.quantity', function (err, docs) {
-            if (err) {
-                deferred.reject(err);
-            }
+        }, 'time_saving_deposit.quantity')
+		.then(docs => {
 
             var deposits = 0;
             for(var i=0; i<docs.length; i++) {
                 deposits += docs[i].time_saving_deposit[0].quantity;
             }
 
-            deferred.resolve(deposits);
+            return deposits;
         });
-
-        return deferred.promise;
     };
 
 
@@ -602,7 +619,10 @@ exports = module.exports = function(params) {
 
     /**
      * Get a user available quantity
-     * the user quantity - the consumed quantity + deposits quantity
+     * the user initial quantity (adjustments included)
+	 * 	- the confirmed consumed quantity
+	 * 	- waiting quantity (future consumption)
+	 *  + confirmed deposits quantity (if we are on a time saving deposit account)
      *
      *
      * @todo duplicated with accountRight object
@@ -615,9 +635,10 @@ exports = module.exports = function(params) {
         return Promise.all([
             this.getUserQuantity(user),
             this.getUserConsumedQuantity(user),
+			this.getUserWaitingQuantity(user),
             this.getUserTimeSavingDepositsQuantity(user)
         ]).then(function(arr) {
-            return (arr[0] - arr[1] + arr[2]);
+            return (arr[0] - arr[1] - arr[2].created + arr[3]);
         });
     };
 
