@@ -103,7 +103,7 @@ exports = module.exports = function(params) {
     });
 
     /**
-     * Get request owner user 
+     * Get request owner user
      * @return {User}
      */
     requestSchema.methods.getUser = function() {
@@ -266,7 +266,7 @@ exports = module.exports = function(params) {
      * Get last request log inserted for the approval workflow
      * @return {RequestLog}
      */
-    requestSchema.methods.getlastApprovalRequestLog = function getlastApprovalRequestLog() {
+    requestSchema.methods.getLastApprovalRequestLog = function getLastApprovalRequestLog() {
         for(var i=this.requestLog.length-1; i>=0; i--) {
             if (this.requestLog[i].approvalStep !== undefined) {
                 return this.requestLog[i];
@@ -306,7 +306,7 @@ exports = module.exports = function(params) {
             return null;
         }
 
-        var log = this.getlastApprovalRequestLog();
+        var log = this.getLastApprovalRequestLog();
 
         if (null === log) {
             // nothing done about approval

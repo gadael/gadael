@@ -23,7 +23,7 @@ exports = module.exports = function getMail(app, request) {
     .then(user => {
         mail.addTo(user);
 
-        let log = request.getlastApprovalRequestLog();
+        let log = request.getLastApprovalRequestLog();
 
         if ('wf_reject' !== log.action) {
             throw new Error('Unexpected last approval request log');

@@ -9,6 +9,7 @@ const resetpassword = require('../../../modules/emails/resetpassword');
 const pendingapproval = require('../../../modules/emails/pendingapproval');
 const requestaccepted = require('../../../modules/emails/requestaccepted');
 const requestrejected = require('../../../modules/emails/requestrejected');
+const requestcreated = require('../../../modules/emails/requestcreated');
 
 const api = {
     company: require('../../../api/Company.api.js'),
@@ -204,6 +205,37 @@ describe('Mail object', function() {
             done(err);
         });
     });
+
+
+
+
+    it('send request created', function(done) {
+        createPendingWorkperiodRecovery()
+        .then(wp => {
+            // add fake acceptation from approver
+
+            wp.status.created = 'accepted';
+            wp.approvalSteps = [];
+            return wp.save();
+        })
+        .then(wp => {
+            return requestcreated(server.app, wp);
+        })
+        .then(mail => {
+            return mail.send();
+        })
+        .then(message => {
+            expect(message._id).toBeDefined();
+            expect(message.emailSent).toBeTruthy();
+            done();
+        })
+        .catch(err => {
+            console.log(err);
+            done(err);
+        });
+    });
+
+
 
 
     it('close the mock server', function(done) {

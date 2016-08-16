@@ -25,12 +25,12 @@ exports = module.exports = function getMail(app, request) {
     .then(user => {
         mail.addTo(user);
 
-        let log = request.getlastNonApprovalRequestLog();
+        let log = request.getLastNonApprovalRequestLog();
 
         mail.setMailgenData({
             body: {
                 name: request.user.name,
-                intro: util.format(gt.gettext('A %s has been created on your account by %s'), request.getDispType(), log.user.name),
+                intro: util.format(gt.gettext('A %s has been created on your account by %s'), request.getDispType(), log.userCreated.name),
                 action: {
                     instructions: gt.gettext('Consult the details after login into the application'),
                     button: {
