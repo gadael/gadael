@@ -233,6 +233,44 @@ define(['moment', 'angular'], function(moment, angular) {
 
         }
 
+        /**
+         * Merge events of the same day and same request
+         * @param {Array} events
+         * @return {Array}
+         */
+        function mergeEvents(events)
+        {
+            var output = [];
+            var days = {};
+
+            for (var i=0; i<events.length; i++) {
+                var event = events[i];
+
+                if (!event.request || !event.request._id) {
+                    // no request linked to event, ignore
+                    output.push(event);
+                    continue;
+                }
+
+                var d = event.dtstart.toDateString()+event.request._id;
+
+                if (undefined === days[d]) {
+                    days[d] = event;
+                    output.push(event);
+                } else {
+                    if (days[d].dtstart > event.dtstart) {
+                        days[d].dtstart = event.dtstart;
+                    }
+
+                    if (days[d].dtend < event.dtend) {
+                        days[d].dtend = event.dtend;
+                    }
+                }
+            }
+
+            return output;
+        }
+
 
 
         /**
@@ -253,7 +291,6 @@ define(['moment', 'angular'], function(moment, angular) {
 
             var deferred = $q.defer();
 
-            // TODO: for the admin page, the requests will require an aditional user ID
 
             var workscheduleEvents = calendarEventsResource.query(
                 admComp({
@@ -286,15 +323,15 @@ define(['moment', 'angular'], function(moment, angular) {
                 personalEvents.$promise
             ]).then(function() {
 
-                workscheduleEvents.forEach(function(event) {
+                mergeEvents(workscheduleEvents).forEach(function(event) {
                     addEvent(cal, event, 'workschedule');
                 });
 
-                nonworkingdaysEvents.forEach(function(event) {
+                mergeEvents(nonworkingdaysEvents).forEach(function(event) {
                     addEvent(cal, event, 'nonworkingday');
                 });
 
-                personalEvents.forEach(function(event) {
+                mergeEvents(personalEvents).forEach(function(event) {
                     addEvent(cal, event, 'events');
                 });
 

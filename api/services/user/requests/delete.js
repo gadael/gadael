@@ -5,28 +5,28 @@ const getApprovalSteps = require('../../../../modules/getApprovalSteps');
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.delete(app);
-    
+
     /**
      * Call the requests delete service
-     * 
+     *
      * @param {object} params
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
+
 
         var filter = {
             _id: params.id,
             'status.deleted': null
         };
-        
+
         if (params.user) {
             filter['user.id'] = params.user;
         }
-        
-        
+
+
         function endDelete(document) {
             document.save(function(err) {
                 if (service.handleMongoError(err)) {
@@ -49,7 +49,7 @@ exports = module.exports = function(services, app) {
             .populate('events')
             .exec(function(err, document) {
             if (service.handleMongoError(err)) {
-                
+
 
 
                 if (!params.deletedBy) {
@@ -84,11 +84,10 @@ exports = module.exports = function(services, app) {
 
             }
         });
-        
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
