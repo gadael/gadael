@@ -79,6 +79,7 @@ grunt test
 - [ ] Use the requestcreated mail
 - [x] Use correct type and dispType in manager/waitingrequests
 - [x] Do not display detail hours in planning
+- [ ] Fix prev/next buttons in planning calendar
 
 
 ## Main packages used
