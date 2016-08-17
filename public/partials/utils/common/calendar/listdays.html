@@ -46,11 +46,22 @@
                         data-content-template="partials/utils/common/calendar/popover-event.html"
                         data-auto-close="1"
                         bs-popover>
-                        <i ng-if="event.status=='CONFIRMED'" class="fa fa-check-circle text-success" title="{{'Confirmed'|translate}}"></i>
-                        <i ng-if="event.status=='TENTATIVE'" class="fa fa-hourglass-half text-warning" title="{{'Waiting approval'|translate}}"></i>
-                        <span ng-if="day.isStart(event)">{{event.dtstart|date:'shortTime'}}</span>
-                        <i class="fa fa-long-arrow-right"></i>
-                        <span ng-if="day.isEnd(event)">{{event.dtend|date:'shortTime'}}</span>
+
+                        <i ng-if="event.status=='CONFIRMED'" class="hidden-xs fa fa-check-circle text-success" title="{{'Confirmed'|translate}}"></i>
+                        <i ng-if="event.status=='TENTATIVE'" class="hidden-xs fa fa-hourglass-half text-warning" title="{{'Waiting approval'|translate}}"></i>
+
+
+                        <span class="hidden-sm hidden-xs">
+                            <span ng-if="day.isStart(event)">{{event.dtstart|date:'shortTime'}}</span>
+                            <i class="fa fa-long-arrow-right"></i>
+                            <span ng-if="day.isEnd(event)">{{event.dtend|date:'shortTime'}}</span>
+                        </span>
+
+                        <span class="hidden-md hidden-lg">
+                            <span ng-if="day.isStart(event)">{{event.dtstart|date:'H'}}</span>
+                            /
+                            <span ng-if="day.isEnd(event)">{{event.dtend|date:'H'}}</span>
+                        </span>
                     </a>
                 </div>
 
