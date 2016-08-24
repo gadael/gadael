@@ -32,16 +32,23 @@ define([], function() {
 
         var startDate = new Date();
 
+
         $scope.departmentReload = function(relativeDays) {
             if ($scope.sessionUser.department) {
+                $scope.departmentLoading = true;
+
                 if (0 !== relativeDays) {
                     startDate.setDate(startDate.getDate()+relativeDays);
                 }
-                
+
                 $scope.department = $scope.sessionUser.department;
-                $scope.department.days = departmentDays(collaboratorsResource, calendareventsResource, 14, $scope.department._id, startDate);
+                departmentDays(collaboratorsResource, calendareventsResource, 14, $scope.department._id, startDate)
+                .then(function(days) {
+                    $scope.departmentLoading = false;
+                    $scope.department.days = days;
+                });
             }
-        }
+        };
 
         $scope.departmentReload(0);
 

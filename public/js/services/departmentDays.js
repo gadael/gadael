@@ -10,7 +10,7 @@ define(function() {
     return function createDepartmentDays($q, $location) {
 
         /**
-         * @return {Object} scope variable
+         * @return {Promise}  resolve to scope variable
          */
         return function departmentDays(collaboratorsResource, calendareventsResource, nbdays, department, startDate, adminLink) {
 
@@ -19,6 +19,7 @@ define(function() {
             if (undefined === startDate) {
                 startDate = new Date();
             }
+
             startDate.setHours(0,0,0,0);
             var endDate = new Date(startDate);
 
@@ -57,7 +58,11 @@ define(function() {
             });
 
 
-            $q.all([scopeOutput.collaborators.$promise, nonworkingdaysQuery.$promise]).then(function(results) {
+            return $q.all([
+                scopeOutput.collaborators.$promise,
+                nonworkingdaysQuery.$promise
+            ])
+            .then(function(results) {
 
                 var collaborators = results[0];
                 var nonworkingdays = results[1];
@@ -127,9 +132,10 @@ define(function() {
                     }
                 }
 
+                return scopeOutput;
             });
 
-            return scopeOutput;
+
         };
     };
 });

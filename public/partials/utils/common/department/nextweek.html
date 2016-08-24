@@ -7,6 +7,8 @@
                         <i class="fa fa-group"></i> {{department.name}}
                     </a>
                 </strong>
+
+
             </td>
             <th style="width:7ex" class="text-center vgradiant" ng-repeat="col in department.days.collaborators[0].days" ng-class="{'hidden-xs': $index>7 }">
                 <span data-title="{{col.date|date}}" bs-tooltip>{{col.date|date:'d'}}</span>
@@ -15,25 +17,27 @@
     </thead>
     <tfoot>
         <tr>
-            <td></td>
+            <td><i ng-if="departmentLoading" class="fa fa-spinner fa-spin fa-fw"></i></td>
             <td>
-                <button type="button" class="btn btn-default hidden-lg hidden-md hidden-sm" title="{{'Previous page'|translate}}" ng-click="departmentReload(-14)">
+                <button type="button" class="btn btn-default hidden-lg hidden-md hidden-sm" title="{{'Previous page'|translate}}" ng-click="departmentReload(-8)">
                     <i class="fa fa-chevron-circle-left"></i>
                 </button>
 
-                <button type="button" class="btn btn-default hidden-xs" title="{{'Previous page'|translate}}" ng-click="departmentReload(-8)">
+                <button type="button" class="btn btn-default hidden-xs" title="{{'Previous page'|translate}}" ng-click="departmentReload(-14)">
                     <i class="fa fa-chevron-circle-left"></i>
                 </button>
+
+
             </td>
             <td colspan="6"></td>
             <td class="hidden-lg hidden-md hidden-sm">
-                <button type="button" class="btn btn-default" title="{{'Next page'|translate}}" ng-click="departmentReload(14)">
+                <button type="button" class="btn btn-default" title="{{'Next page'|translate}}" ng-click="departmentReload(8)">
                     <i class="fa fa-chevron-circle-right"></i>
                 </button>
             </td>
             <td class="hidden-xs" colspan="6"></td>
             <td class="hidden-xs">
-                <button type="button" class="btn btn-default" title="{{'Next page'|translate}}" ng-click="departmentReload(8)">
+                <button type="button" class="btn btn-default" title="{{'Next page'|translate}}" ng-click="departmentReload(14)">
                     <i class="fa fa-chevron-circle-right"></i>
                 </button>
             </td>
