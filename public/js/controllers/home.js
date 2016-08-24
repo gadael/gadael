@@ -1,7 +1,7 @@
 define([], function() {
-        
+
     'use strict';
-    
+
 	return ['$scope', 'Rest', '$q', 'departmentDays', 'renewalChart', 'gettext', '$http',
             function($scope, Rest, $q, departmentDays, renewalChart, gettext, $http) {
 
@@ -20,7 +20,7 @@ define([], function() {
         }
 
 
-		
+
         if ($scope.sessionUser.isManager) {
             // load waiting requests
 
@@ -30,10 +30,20 @@ define([], function() {
             $scope.waitingrequests = waitingRequestResource.query();
         }
 
-        if ($scope.sessionUser.department) {
-            $scope.department = $scope.sessionUser.department;
-            $scope.department.days = departmentDays(collaboratorsResource, calendareventsResource, 14, $scope.department._id);
+        var startDate = new Date();
+
+        $scope.departmentReload = function(relativeDays) {
+            if ($scope.sessionUser.department) {
+                if (0 !== relativeDays) {
+                    startDate.setDate(startDate.getDate()+relativeDays);
+                }
+                
+                $scope.department = $scope.sessionUser.department;
+                $scope.department.days = departmentDays(collaboratorsResource, calendareventsResource, 14, $scope.department._id, startDate);
+            }
         }
+
+        $scope.departmentReload(0);
 
 
         $scope.createFirstAdmin = false;

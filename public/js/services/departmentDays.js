@@ -12,11 +12,13 @@ define(function() {
         /**
          * @return {Object} scope variable
          */
-        return function departmentDays(collaboratorsResource, calendareventsResource, nbdays, department, adminLink) {
+        return function departmentDays(collaboratorsResource, calendareventsResource, nbdays, department, startDate, adminLink) {
 
             var scopeOutput = {};
 
-            var startDate = new Date();
+            if (undefined === startDate) {
+                startDate = new Date();
+            }
             startDate.setHours(0,0,0,0);
             var endDate = new Date(startDate);
 
@@ -65,7 +67,7 @@ define(function() {
                     var collaborator = collaborators[c];
 
                     collaborator.days = {};
-                    var loopDate = new Date();
+                    var loopDate = new Date(startDate);
 
                     loopDate.setHours(0,0,0,0);
 

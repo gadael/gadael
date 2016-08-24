@@ -28,8 +28,8 @@ define([], function() {
         /**
          * Recursive loader
          */
-        function getSubDepartments(department) {
-            department.days = departmentDays(collaboratorsResource, calendareventsResource, 14, department._id, true);
+        function getSubDepartments(department, startDate) {
+            department.days = departmentDays(collaboratorsResource, calendareventsResource, 14, department._id, startDate, true);
             $scope.allDepartments.push(department);
             department.children.forEach(getSubDepartments);
         }
@@ -66,4 +66,3 @@ define([], function() {
 
 	}];
 });
-
