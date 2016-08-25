@@ -58,28 +58,17 @@ grunt test
 - [x] Request modification from user
 - [ ] Edit request from admin
 - [ ] Delete requests from admin
-- [ ] Balance export: add missing quantities
+- [x] Balance export: add missing quantities
 - [x] Sage Export
 - [ ] Decrease RTT depending on the illness leaves
 - [ ] ICSDB integration for non working days calendars
-- [ ] Set right duration in weeks
 - [ ] ICS Export
 - [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Compulsory leaves management, fix problem when requests are deleted
 - [x] Get special right infos in right.get service
 - [ ] do not display quantity field if readonly by special right, because initial quantity can be variable by user
-- [x] delete renewals and links to collections when delete right
-- [x] Fix link from user view to the request list
-- [ ] Use service.resolveSuccessGet in all save/delete services to ensure REST integrity
-- [x] View one user calendar from admin
-- [x] Fix totalCount property on users list, must be the number of enabled users
-- [x] Save events to google calendar
-- [x] Modal dialog to create a secondary calendar in google account
-- [x] Create mail for the approver (validation pending)
 - [ ] Use the requestcreated mail
-- [x] Use correct type and dispType in manager/waitingrequests
-- [x] Do not display detail hours in planning
-- [ ] Fix prev/next buttons in planning calendar
+- [ ] Display request on pending delete status (list & view)
 
 
 ## Main packages used
