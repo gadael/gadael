@@ -1,8 +1,9 @@
 define([
-    'angular', 
-    'services/loadableResource', 
-    'services/catchOutcome', 
+    'angular',
+    'services/loadableResource',
+    'services/catchOutcome',
     'services/departmentDays',
+    'services/departmentReload',
     'services/renewalChart',
     'services/rest',
     'services/absence-edit',
@@ -11,12 +12,13 @@ define([
     'services/request-stat',
     'services/beneficiary',
     'services/calendar',
-    'angularResource'], 
+    'angularResource'],
     function (
         angular,
         loadableResource,
         catchOutcome,
         departmentDays,
+        departmentReload,
         renewalChart,
         rest,
         AbsenceEdit,
@@ -25,27 +27,27 @@ define([
         getRequestStat,
         initBeneficiary,
         getCalendar) {
-    
+
 	'use strict';
-    
-	
+
+
 	/* Services */
-	
+
 	angular.module('gadael.services', ['ngResource'])
-	
-    
-    
+
+
+
     /**
-     * catch outcome messages from the rest service and 
+     * catch outcome messages from the rest service and
      *  - forward messages to rootscope
      *  - highlight the missing fields
      */
     .factory('catchOutcome', ['$rootScope', '$q', function($rootScope, $q) {
-        
+
         return catchOutcome(angular, $rootScope, $q);
     }])
-    
-    
+
+
     /**
      * Prepare scope for the department planning
      *
@@ -54,6 +56,16 @@ define([
 
         return departmentDays($q, $location);
     }])
+
+    /**
+     * Create function for department planning reload
+     * @return {Function}
+     */
+    .factory('departmentReload', ['departmentDays', function(departmentDays) {
+
+        return departmentReload(departmentDays);
+    }])
+
 
 
     /**
@@ -66,45 +78,45 @@ define([
     }])
 
 
-    .factory('ResourceFactory', 
+    .factory('ResourceFactory',
         ['$resource', function($resource) {
-        
+
         /**
          * create a resource
          * @param   {string} collectionPath path to rest service
          * @param   {object} parameters Optional parameters default is { id:'@_id' }
          */
         var ResourceFactory = function(collectionPath, parameters) {
-            
+
             if (undefined === parameters) {
-                parameters = { id:'@_id' };   
+                parameters = { id:'@_id' };
             }
-            
-            return $resource(collectionPath, parameters, 
-                { 
+
+            return $resource(collectionPath, parameters,
+                {
                     'save': { method:'PUT' },    // overwrite default save method (POST)
                     'create': { method:'POST' }
-                }  
+                }
             );
         };
-        
-            
+
+
         return ResourceFactory;
-        
+
     }])
-    
-    
+
+
 
 	/**
 	 * Create a resource to an object or to a collection
 	 * the object resource is created only if the angular route contain a :id
-	 */ 
+	 */
 	.factory('RestResource',
-        ['ResourceFactory', '$routeParams', 'catchOutcome', 
+        ['ResourceFactory', '$routeParams', 'catchOutcome',
         function(ResourceFactory, $routeParams, catchOutcome) {
-            
+
         var buildResource = loadableResource(ResourceFactory, $routeParams, catchOutcome);
-        
+
 		/**
 		 * Get the resource
 		 * @param   {string} collectionPath [[Description]]
@@ -115,12 +127,12 @@ define([
 			if ($routeParams.id) {
 				return buildResource.real(collectionPath);
 			}
-			
+
 			return buildResource.fake(collectionPath);
 		};
 
 	}])
-	
+
     /**
      * Load the collection of REST services
      */
@@ -129,8 +141,8 @@ define([
             return rest(ResourceFactory, RestResource);
         }
     ])
-    
-    
+
+
     /**
      * Set stats on a request object
      * Informations on the selected period
@@ -147,12 +159,12 @@ define([
      *
      */
 
-    .factory('AbsenceEdit',  
+    .factory('AbsenceEdit',
         function(gettextCatalog) {
             return AbsenceEdit(gettextCatalog);
         }
     )
-    
+
     .factory('WorkperiodRecoverEdit',
         function(gettextCatalog) {
             return WorkperiodRecoverEdit(gettextCatalog);
@@ -169,14 +181,14 @@ define([
         }
     ])
 
-        
+
     /**
 	 * Add periods form in the array of items
-     * 
-	 */  
+     *
+	 */
 	.factory('addPeriodRow', function() {
-        
-      
+
+
         /**
          * Add periods form in the array of items (deferred service call)
          *
@@ -191,8 +203,8 @@ define([
             });
         };
 	})
-    
- 
+
+
 	.factory('saveAccountCollection', ['$q', 'catchOutcome', function($q, catchOutcome) {
 
         /**
@@ -204,12 +216,12 @@ define([
             require(['services/saveAccountCollection'], function(serviceFn) {
                 serviceFn($scope, $q, catchOutcome).then(deferred.resolve);
             });
-            
+
             return deferred.promise;
         };
 	}])
-    
-    
+
+
     .factory('saveAccountScheduleCalendar', ['$q', 'catchOutcome', function($q, catchOutcome) {
 
         /**
@@ -221,12 +233,12 @@ define([
             require(['services/saveAccountScheduleCalendar'], function(serviceFn) {
                 serviceFn($scope, $q, catchOutcome).then(deferred.resolve);
             });
-            
+
             return deferred.promise;
         };
 	}])
-    
-    
+
+
     .factory('saveAccountNWDaysCalendar', ['$q', 'catchOutcome', function($q, catchOutcome) {
 
         /**
@@ -248,7 +260,7 @@ define([
 
         /**
          * Save account collections in scope
-         * 
+         *
          * @param {Scope} $scope
          * @param {Integer} collectionId  The saved collection _id
          */
@@ -257,12 +269,12 @@ define([
             require(['services/saveBeneficiaries'], function(serviceFn) {
                 serviceFn($scope, collectionId, $q, catchOutcome).then(deferred.resolve);
             });
-            
+
             return deferred.promise;
         };
 	}])
-	
-	
+
+
 
 
     .factory('removeSubDocument', function() {

@@ -2,8 +2,8 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', 'Rest', '$q', 'departmentDays', 'renewalChart', 'gettext', '$http',
-            function($scope, Rest, $q, departmentDays, renewalChart, gettext, $http) {
+	return ['$scope', 'Rest', '$q', 'departmentReload', 'renewalChart', 'gettext', '$http',
+            function($scope, Rest, $q, departmentReload, renewalChart, gettext, $http) {
 
         var collaboratorsResource;
         var calendareventsResource = Rest.user.calendarevents.getResource();
@@ -32,25 +32,10 @@ define([], function() {
 
         var startDate = new Date();
 
+        $scope.department = $scope.sessionUser.department;
 
-        $scope.departmentReload = function(relativeDays) {
-            if ($scope.sessionUser.department) {
-                $scope.departmentLoading = true;
-
-                if (0 !== relativeDays) {
-                    startDate.setDate(startDate.getDate()+relativeDays);
-                }
-
-                $scope.department = $scope.sessionUser.department;
-                departmentDays(collaboratorsResource, calendareventsResource, 14, $scope.department._id, startDate)
-                .then(function(days) {
-                    $scope.departmentLoading = false;
-                    $scope.department.days = days;
-                });
-            }
-        };
-
-        $scope.departmentReload(0);
+        $scope.departmentReload = departmentReload(startDate, collaboratorsResource, calendareventsResource);
+        $scope.departmentReload($scope.department, 0);
 
 
         $scope.createFirstAdmin = false;

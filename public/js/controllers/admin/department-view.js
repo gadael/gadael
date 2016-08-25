@@ -5,11 +5,15 @@ define([], function() {
 		'$location',
 		'Rest',
         'departmentDays',
+        'departmentReload',
+        '$q',
          function(
 			$scope,
 			$location,
 			Rest,
-            departmentDays
+            departmentDays,
+            departmentReload,
+            $q
 		) {
 
 		$scope.department = Rest.admin.departments.getFromUrl().loadRouteId();
@@ -27,12 +31,33 @@ define([], function() {
 
         /**
          * Recursive loader
+         * @return {Promise}
          */
         function getSubDepartments(department, startDate) {
-            department.days = departmentDays(collaboratorsResource, calendareventsResource, 14, department._id, startDate, true);
-            $scope.allDepartments.push(department);
-            department.children.forEach(getSubDepartments);
+
+            var promise = departmentDays(collaboratorsResource, calendareventsResource, 14, department._id, startDate, true);
+
+            promise.then(function(days) {
+                department.days = days;
+                $scope.allDepartments.push(department);
+            });
+
+            var promises = [promise];
+            for(var i=0; i<department.children.length; i++) {
+                promises.push(getSubDepartments(department.children[i], startDate));
+            }
+
+            return $q.all(promises);
+
         }
+
+        var startDate = new Date();
+        var collaboratorsResource = Rest.admin.collaborators.getResource();
+        var calendareventsResource = Rest.admin.calendarevents.getResource();
+
+
+        $scope.departmentReload = departmentReload(startDate, collaboratorsResource, calendareventsResource);
+
 
         $scope.department.$promise.then(function(department) {
 
@@ -49,13 +74,10 @@ define([], function() {
                 }
             }
 
-            getSubDepartments($scope.department);
+            return getSubDepartments($scope.department);
         });
 
 
-
-        var collaboratorsResource = Rest.admin.collaborators.getResource();
-        var calendareventsResource = Rest.admin.calendarevents.getResource();
 
 
 
