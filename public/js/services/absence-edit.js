@@ -154,7 +154,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             }
         }
 
-        
+
         // Service to edit an absence,
         // shared by account/request/absence-edit and admin/request/absence-edit
 
@@ -313,11 +313,26 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                         // load distribution if this is a request modification
                         if (undefined !== $scope.request.absence && $scope.request.absence.distribution.length > 0) {
+
+                            var ai, aj;
+                            var accessiblesRenewals = [];
+                            for (ai=0; ai<$scope.accountRights.length; ai++) {
+                                for (aj=0; aj<$scope.accountRights[ai].renewals.length; aj++) {
+                                    accessiblesRenewals.push($scope.accountRights[ai].renewals[aj]._id);
+                                }
+                            }
+
                             $scope.request.absence.distribution.forEach(function(element) {
-                                $scope.distribution.renewal[element.right.renewal.id] = {
-                                    quantity: element.quantity,
-                                    right: element.right.id
-                                };
+
+                                // add renewal only if exists in accountRights
+                                
+                                if (-1 !== accessiblesRenewals.indexOf(element.right.renewal.id)) {
+
+                                    $scope.distribution.renewal[element.right.renewal.id] = {
+                                        quantity: element.quantity,
+                                        right: element.right.id
+                                    };
+                                }
                             });
 
                             distributionWatch($scope.distribution, $scope);
@@ -496,6 +511,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 }
 
                 /**
+                 * Get quantity unit from right ID
                  * @return {String} D|H
                  */
                 function getQuantityUnit(rightId)
@@ -506,7 +522,12 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         }
                     }
 
-                    throw new Error('Right not found in available accountRights');
+                    if (0 === accountRights.length) {
+                        throw new Error('No accountRights');
+                    }
+
+                    //console.log(accountRights);
+                    throw new Error('Right '+rightId+' not found in available accountRights');
                 }
 
 

@@ -1,5 +1,5 @@
 define(['q'], function(Q) {
-    
+
     'use strict';
 
 
@@ -7,10 +7,10 @@ define(['q'], function(Q) {
             function($scope, $location, Rest, AbsenceEdit, $routeParams, $rootScope) {
 
 
-        
+
         AbsenceEdit.initScope($scope);
-        
-        // resources 
+
+        // resources
         var calendars = Rest.account.calendars.getResource();
         var calendarEvents = Rest.user.calendarevents.getResource();
         var personalEvents = Rest.account.personalevents.getResource();
@@ -24,7 +24,7 @@ define(['q'], function(Q) {
         var requestUser = null;
 
         $scope.selectionReady = false;
-        
+
         if ($scope.request.$promise) {
             $scope.request.$promise.then(function() {
                 // edit this request
@@ -34,7 +34,7 @@ define(['q'], function(Q) {
                 $scope.selectionReady = true;
             });
         } else {
-            
+
             // create a new request
             $scope.newRequest = true;
 
@@ -47,7 +47,7 @@ define(['q'], function(Q) {
             $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events);
             $scope.selectionReady = true; // no selection
         }
-        
+
 
         userPromise.then(function(user) {
 
@@ -133,6 +133,7 @@ define(['q'], function(Q) {
             }
 
             try {
+
                 $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights);
                 $scope.request.gadaSave($scope.back);
             } catch(e) {
@@ -145,4 +146,3 @@ define(['q'], function(Q) {
 
 	}];
 });
-
