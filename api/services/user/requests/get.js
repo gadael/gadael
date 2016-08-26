@@ -19,8 +19,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
 
         var filter = {
-            _id: params.id,
-            'status.deleted': { $in: [null, 'waiting'] }
+            _id: params.id
         };
 
         if (params.user) {
@@ -48,6 +47,10 @@ exports = module.exports = function(services, app) {
 
                 if (!document) {
                     return service.notFound(gt.gettext('This request does not exists'));
+                }
+
+                if (document.status.deleted === 'accepted') {
+                    return service.gone(gt.gettext('This request has been deleted'));
                 }
 
                 // prepare events
