@@ -69,7 +69,9 @@ exports = module.exports = function(services, app) {
 
                 // this is an accepted request, need approval to delete
 
+                document.status.created = null;
                 document.status.deleted = 'waiting';
+                
                 document.addLog(
                     'wf_sent',
                     params.deletedBy,

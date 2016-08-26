@@ -83,6 +83,7 @@ function prepareRequestFields(service, params, user)
             fieldsToSet.status = {
                 created: 'accepted'
             };
+            
         } else {
 
             fieldsToSet.status = {

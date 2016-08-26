@@ -9,31 +9,27 @@ exports = module.exports = function(services, app) {
 
 
     var service = new services.get(app);
-    
+
     /**
      * Call the request get service
-     * 
+     *
      * @param {Object} params
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
 
-        if (params['status.deleted'] === undefined) {
-            params['status.deleted'] = null;
-        }
-
         var filter = {
             _id: params.id,
-            'status.deleted': params['status.deleted']
+            'status.deleted': { $in: [null, 'waiting'] }
         };
-        
+
         if (params.user) {
             filter['user.id'] = params.user;
         }
 
-        
-        
-        
+
+
+
 
 
 
@@ -145,12 +141,10 @@ exports = module.exports = function(services, app) {
                 service.deferred.resolve(docObj);
             }
         });
-        
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
