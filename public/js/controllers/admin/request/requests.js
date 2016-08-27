@@ -1,11 +1,11 @@
 define([], function() {
-    
+
     'use strict';
-    
+
 	return [
-        '$scope', 
-        '$location', 
-        'Rest', 
+        '$scope',
+        '$location',
+        'Rest',
         '$modal',
         'getRequestStat',
         'gettext',
@@ -22,15 +22,15 @@ define([], function() {
             // wait for search initialization
             $scope.search = $location.search();
             $scope.$apply();
-        }, 1);
+        }, 1000);
 
-        
+
         $scope.popover = {
             selectuser: {
-                search: ''   
+                search: ''
             }
         };
-        
+
         /**
          * A search in the users popover
          * @param {string} newValue
@@ -43,31 +43,31 @@ define([], function() {
                 $scope.popover.selectuser.users = [];
             }
         });
-            
-            
-        
+
+
+
         /**
          * Select a user account in the create request popover, open a modal
          * with spoof informations and available actions
-         * 
+         *
          * @param {Object} user
          */
         $scope.popoverSelect = function(user) {
-            
+
             var modalscope = $scope.$new();
             modalscope.user = user;
             modalscope.goto = function(requestType) {
                 $location.url('/admin/requests/'+requestType+'-edit?user='+user._id);
             };
-            
+
             $modal({
                 scope: modalscope,
                 templateUrl: 'partials/admin/request/spoof-user-modal.html',
                 show: true
             });
-            
+
         };
-            
+
         $scope.departments = Rest.admin.departments.getResource().query();
 
 
