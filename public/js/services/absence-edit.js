@@ -325,7 +325,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                             $scope.request.absence.distribution.forEach(function(element) {
 
                                 // add renewal only if exists in accountRights
-                                
+
                                 if (-1 !== accessiblesRenewals.indexOf(element.right.renewal.id)) {
 
                                     $scope.distribution.renewal[element.right.renewal.id] = {
@@ -375,10 +375,11 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
              * Get Period picker callback for working times
              * @param {Resource} calendarEvents
              * @param {Array} personalEventList personal events list, the list of events curently modified
+             * @param {Object} user optional parameter used for admin query
              *
              * @return function
              */
-            getLoadWorkingTimes: function(calendarEvents, personalEventList) {
+            getLoadWorkingTimes: function(calendarEvents, personalEventList, user) {
 
 
 
@@ -393,6 +394,10 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         substractNonWorkingDays: true,
                         substractPersonalEvents: true
                     };
+
+                    if (user) {
+                        queryParams.user = user._id;
+                    }
 
                     if (angular.isArray(personalEventList) && personalEventList.length > 0) {
                         queryParams.subtractException = [];
