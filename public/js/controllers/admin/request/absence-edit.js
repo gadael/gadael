@@ -36,12 +36,14 @@ define(['q'], function(Q) {
                     // edit this request
 
                     $scope.editRequest = true;
+                    AbsenceEdit.setSelectionFromRequest($scope);
+                    $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events, request.user.id);
+                    $scope.selectionReady = true;
+
                     AbsenceEdit.onceUserLoaded($scope, request.user.id, calendarEvents);
 
-                    userId = request.user.id._id;
-                    userPromise = users.get({ id: userId }).$promise;
-
-                    deferred.resolve(userPromise);
+                    $scope.user = request.user.id;
+                    deferred.resolve(request.user.id);
                 });
 
                 return deferred.promise;
