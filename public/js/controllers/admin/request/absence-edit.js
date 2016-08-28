@@ -124,7 +124,7 @@ define(['q'], function(Q) {
 
 
 
-            var serviceAction = AbsenceEdit.getNextButtonJob($scope, accountRights);
+            var serviceAction = AbsenceEdit.getNextButtonJob($scope, $scope.user, accountRights);
 
             serviceAction();
         };
