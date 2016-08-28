@@ -196,11 +196,16 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                             return setDuration($scope, duration);
                         }
 
-                        calendarEvents.query({
+                        var params = {
                             type: 'workschedule',
                             dtstart: begin,
                             dtend: end
-                        }).$promise.then(function(periods) {
+                        };
+
+                        // Admin only?
+                        params.user = user._id;
+
+                        calendarEvents.query(params).$promise.then(function(periods) {
 
                             var p;
                             duration = 0;
