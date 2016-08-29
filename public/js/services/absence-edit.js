@@ -169,7 +169,19 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             getLoadEvents: RequestEdit.getLoadEvents,
             getLoadScholarHolidays: RequestEdit.getLoadScholarHolidays,
 
+            cleanDocument: function cleanDocument(request) {
+                delete request.requestLog;
+                delete request.approvalSteps;
 
+                if (undefined !== request.time_saving_deposit) {
+                    delete request.time_saving_deposit;
+                }
+
+                if (undefined !== request.workperiod_recover) {
+                    delete request.workperiod_recover;
+                }
+
+            },
 
 
 

@@ -2,7 +2,8 @@ define(['q'], function(Q) {
 
     'use strict';
 
-	return ['$scope', '$location', 'Rest', 'AbsenceEdit', function($scope, $location, Rest, AbsenceEdit) {
+	return ['$scope', '$location', 'Rest', 'AbsenceEdit', '$rootScope',
+    function($scope, $location, Rest, AbsenceEdit, $rootScope) {
 
 
 
@@ -133,7 +134,23 @@ define(['q'], function(Q) {
 
 
         $scope.saveAbsence = function() {
-            console.log('save request');
+
+            var renewals = $scope.distribution.renewal;
+            var periods = $scope.selection.periods;
+
+
+            AbsenceEdit.cleanDocument($scope.request);
+
+            try {
+
+                $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights);
+                $scope.request.gadaSave($scope.back);
+            } catch(e) {
+                $rootScope.pageAlerts.push({
+                    message: e.message,
+                    type: 'danger'
+                });
+            }
         };
 
 	}];

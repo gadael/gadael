@@ -120,17 +120,7 @@ define(['q'], function(Q) {
             var periods = $scope.selection.periods;
 
 
-            // cleanup object
-            delete $scope.request.requestLog;
-            delete $scope.request.approvalSteps;
-
-            if (undefined !== $scope.request.time_saving_deposit) {
-                delete $scope.request.time_saving_deposit;
-            }
-
-            if (undefined !== $scope.request.workperiod_recover) {
-                delete $scope.request.workperiod_recover;
-            }
+            AbsenceEdit.cleanDocument($scope.request);
 
             try {
 

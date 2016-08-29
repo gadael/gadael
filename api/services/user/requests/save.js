@@ -66,7 +66,7 @@ function prepareRequestFields(service, params, user)
 
         let fieldsToSet = {
             user: {
-                id: params.user,
+                id: getUserId(params),
                 name: account.user.name
             },
             approvalSteps: approvalSteps
@@ -83,7 +83,7 @@ function prepareRequestFields(service, params, user)
             fieldsToSet.status = {
                 created: 'accepted'
             };
-            
+
         } else {
 
             fieldsToSet.status = {
@@ -195,6 +195,26 @@ function deleteOldEvents(newRequest)
 }
 
 
+/**
+ * User id can be provided by account rest service (forced ID) or by admin rest service (use the embeded object)
+ */
+function getUserId(params)
+{
+    if (undefined === params.user) {
+        throw new Error('Missing mandatory parameter user');
+    }
+
+    if (typeof params.user === 'string') {
+        return params.user;
+    }
+
+    if (undefined !== params.user.id && undefined !== params.user.id._id) {
+        return params.user.id._id;
+    }
+
+    throw new Error('Unexpected object, user.id neet to be populated');
+}
+
 
 /**
  * Update/create the request document
@@ -216,7 +236,7 @@ function saveRequest(service, params) {
         _id: params.id
     };
 
-    filter['user.id'] = params.user;
+    filter['user.id'] = getUserId(params);
 
 
     /**
@@ -268,7 +288,7 @@ function saveRequest(service, params) {
 
 
     return UserModel.findOne({
-        '_id': params.user
+        '_id': getUserId(params)
     }).populate('roles.account').populate('department')
     .exec()
     .then(user => {
