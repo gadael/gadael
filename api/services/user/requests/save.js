@@ -204,7 +204,7 @@ function getUserId(params)
         throw new Error('Missing mandatory parameter user');
     }
 
-    if (typeof params.user === 'string') {
+    if (typeof params.user === 'string' || typeof params.user === 'object' && 'ObjectID' === params.user.constructor.name) {
         return params.user;
     }
 
