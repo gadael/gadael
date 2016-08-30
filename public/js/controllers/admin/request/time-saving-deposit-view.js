@@ -14,6 +14,11 @@ define([], function() {
 
 		$scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
 
+        $scope.request.$promise.then(function() {
+            var status = $scope.request.status.created;
+            $scope.canEdit = ('accepted' === status || 'waiting' === status);
+        });
+
         $scope.stat = getRequestStat($scope.request);
 
         $scope.edit = function() {
@@ -32,4 +37,3 @@ define([], function() {
 
 	}];
 });
-

@@ -1,0 +1,20 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-9">
+
+		<div class="row">
+			<h1 class="col-md-8"><i class="fa fa-undo text-muted"></i> <span translate>Time saving deposit request</span></h1>
+
+			<div class="col-md-4 text-right top30" ng-if="canEdit">
+				<button class="btn btn-primary" ng-click="edit()"><i class="glyphicon glyphicon-edit"></i> <span>Edit</span></button>
+				<button class="btn btn-danger" ng-click="delete()"><i class="glyphicon glyphicon-remove"></i> <span>Delete</span></button>
+			</div>
+		</div>
+
+        <ng-include src="'partials/utils/common/request/time-saving-deposit-view.html'"></ng-include>
+
+	</div>
+
+	<div class="col-xs-12 col-sm-3">
+		<ng-include src="'partials/admin/request/owner.html'"></ng-include>
+	</div>
+</div>

@@ -58,7 +58,7 @@ grunt test
 - [x] Request modification from user
 - [x] Edit request from admin
 - [x] Delete requests from admin
-- [ ] Delete a waiting request from admin
+- [ ] View time saving deposit by admin
 - [x] Balance export: add missing quantities
 - [x] Sage Export
 - [ ] Decrease RTT depending on the illness leaves
