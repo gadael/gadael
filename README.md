@@ -56,8 +56,9 @@ grunt test
 ## TODO
 
 - [x] Request modification from user
-- [ ] Edit request from admin
-- [ ] Delete requests from admin
+- [x] Edit request from admin
+- [x] Delete requests from admin
+- [ ] Delete a waiting request from admin
 - [x] Balance export: add missing quantities
 - [x] Sage Export
 - [ ] Decrease RTT depending on the illness leaves

@@ -22,6 +22,10 @@ define([], function() {
 
         $scope.stat = getRequestStat($scope.request);
 
+        $scope.backToList = function() {
+            $location.path('/admin/requests');
+        };
+
         $scope.edit = function() {
             $location.path('/admin/requests/absence-edit/'+$scope.request._id);
         };
@@ -31,7 +35,7 @@ define([], function() {
          */
 		$scope.delete = function() {
             if (confirm('Are you sure you whant to delete the absence request?')) {
-                $location.path('/admin/requests');
+                $scope.request.gadaDelete($scope.backToList);
             }
 
 		};

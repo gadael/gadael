@@ -13,6 +13,10 @@ define(function() {
 
             return function departmentReload(department, relativeDays) {
 
+                if (undefined === department) {
+                    return;
+                }
+
                 department.loading = true;
 
                 if (0 !== relativeDays) {
