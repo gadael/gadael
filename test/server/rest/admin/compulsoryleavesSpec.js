@@ -439,6 +439,14 @@ describe('Compulsory leaves admin rest service', function() {
     });
 
 
+    it('check that the request cannot be deleted on its own', function(done) {
+        server.delete('/rest/account/requests/'+request2, function(res, body) {
+            expect(res.statusCode).toEqual(403);
+            done();
+        });
+    });
+
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
@@ -454,4 +462,3 @@ describe('Compulsory leaves admin rest service', function() {
 
 
 });
-

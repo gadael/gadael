@@ -51,7 +51,6 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err)) {
 
 
-
                 if (!params.deletedBy) {
                     return service.error('the deletedBy parameter is missing');
                 }
@@ -60,6 +59,11 @@ exports = module.exports = function(services, app) {
                 if (null === document) {
                     return service.forbidden(gt.gettext('The request is not accessible'));
                 }
+
+                if (document.absence && document.absence.compulsoryLeave) {
+                    return service.forbidden(gt.gettext('This has been created in a compulsory leave, deletion is not allowed'));
+                }
+
 
                 if ('accepted' !== document.status.created) {
                     document.status.deleted = 'accepted';
@@ -71,7 +75,7 @@ exports = module.exports = function(services, app) {
 
                 document.status.created = null;
                 document.status.deleted = 'waiting';
-                
+
                 document.addLog(
                     'wf_sent',
                     params.deletedBy,
