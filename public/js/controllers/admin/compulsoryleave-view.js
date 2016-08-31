@@ -325,11 +325,11 @@ define([], function() {
          * Remove compulsory leave requests
          */
         $scope.removePeriods = function() {
-            $scope.compRequest.forEach(function(cr) {
-                cr.requests = [];
-                return cr;
-            });
-
+            for (var i=0; i<$scope.compRequest.length; i++) {
+                $scope.compRequest[i].requests = null;
+            }
+            
+            $scope.compulsoryleave.requests = [];
             $scope.compulsoryleave.gadaSave().then($route.reload);
         };
 

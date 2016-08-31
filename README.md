@@ -69,8 +69,8 @@ grunt test
 - [x] Get special right infos in right.get service
 - [ ] do not display quantity field if readonly by special right, because initial quantity can be variable by user
 - [ ] Use the requestcreated mail
-- [ ] Display request on pending delete status (list & view)
-
+- [x] Display request on pending delete status (list & view)
+- [ ] Display compulsory leave title in planning and leave view
 
 ## Main packages used
 
