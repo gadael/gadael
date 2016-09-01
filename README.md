@@ -71,6 +71,7 @@ grunt test
 - [ ] Use the requestcreated mail
 - [x] Display request on pending delete status (list & view)
 - [ ] Display compulsory leave title in planning and leave view
+- [ ] Start calendar view on current date
 
 ## Main packages used
 
