@@ -42,13 +42,13 @@
                 <div class="text-center" ng-repeat="event in day.events">
                     <a
                         href=""
-                        title="{{event.summary}}"
+                        ng-attr-title="{{event.summary}}"
                         data-content-template="partials/utils/common/calendar/popover-event.html"
                         data-auto-close="1"
                         bs-popover>
 
-                        <i ng-if="event.status=='CONFIRMED'" class="hidden-xs fa fa-check-circle text-success" title="{{'Confirmed'|translate}}"></i>
-                        <i ng-if="event.status=='TENTATIVE'" class="hidden-xs fa fa-hourglass-half text-warning" title="{{'Waiting approval'|translate}}"></i>
+                        <i ng-if="event.status=='CONFIRMED'" class="hidden-xs fa fa-check-circle text-success" ng-attr-title="{{'Confirmed'|translate}}"></i>
+                        <i ng-if="event.status=='TENTATIVE'" class="hidden-xs fa fa-hourglass-half text-warning" ng-attr-title="{{'Waiting approval'|translate}}"></i>
 
 
                         <span class="hidden-sm hidden-xs">

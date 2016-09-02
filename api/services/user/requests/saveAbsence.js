@@ -22,27 +22,27 @@ function createEvents(service, user, elem, events)
 {
     let EventModel = service.app.db.models.CalendarEvent;
 
-    let deferred = {};
-    deferred.promise = new Promise(function(resolve, reject) {
-        deferred.resolve = resolve;
-        deferred.reject = reject;
-    });
-
-
-
     /**
-     * Set event properties and save
-     * @param {CalendarEvent} eventDocument
-     * @param {object} event
+     * Set event properties
+     * 
+     * @param {CalendarEvent} eventDocument     new event document to save or event document to update on request modification
+     * @param {object} event                    Object with user given informations for event
+     *                                          summary and description are set here for compulsory leaves but not for regular leaves
      * @param {function} callback
      */
     function setProperties(eventDocument, event)
     {
-        if (undefined === elem.right.type) {
-            eventDocument.summary = elem.right.name;
-        } else {
-            eventDocument.summary = elem.right.type.name;
+        eventDocument.summary = event.summary;
+
+        if (undefined === event.summary) {
+            if (undefined === elem.right.type) {
+                eventDocument.summary = elem.right.name;
+            } else {
+                eventDocument.summary = elem.right.type.name;
+            }
         }
+
+        eventDocument.description = event.description;
 
         eventDocument.dtstart = event.dtstart;
         eventDocument.dtend = event.dtend;
@@ -155,7 +155,7 @@ function getElemPeriod(elem)
 
 /**
  * Create element object from posted informations
- * @param {apiService}                  service
+ * @param {apiService} service
  * @param {User} user                   The user document
  * @param {object} elem                 elem object from params
  * @param {RightCollection} collection
@@ -171,12 +171,6 @@ function createElement(service, user, elem, collection)
     if (undefined === elem.right.id) {
         throw new Error('element must contain a right.id property');
     }
-
-    /*
-    if (undefined === elem.right.renewal) {
-        throw new Error('element must contain a right.renewal property');
-    }
-    */
 
     if (undefined === elem.events) {
         throw new Error('element must contain an events property');
