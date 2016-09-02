@@ -1,5 +1,6 @@
 <div ng-if="request.absence.distribution.length > 0">
     <i class="fa fa-calendar text-primary"></i> <strong translate>Absence</strong>
+    <div>{{request.absence.compulsoryLeave.name}}</div>
     <div class="row">
         <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
         <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}

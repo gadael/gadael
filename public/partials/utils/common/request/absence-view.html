@@ -1,6 +1,9 @@
 <div class="row panel panel-primary">
 
     <div class="col-md-6 top10">
+
+        <h3 ng-if="request.absence.compulsoryLeave.name">{{request.absence.compulsoryLeave.name}}</h3>
+
         <dl class="dl-horizontal">
             <dt translate>From:</dt>
             <dd>{{request.events[0].dtstart|date:'medium'}}</dd>
@@ -11,6 +14,7 @@
     </div>
 
     <div class="col-md-6 top10">
+
 
         <dl class="dl-horizontal">
             <dt translate>Status:</dt>              <dd>{{request.status.title}}</dd>
@@ -47,8 +51,3 @@
 </div>
 
 <ng-include src="'partials/utils/common/request/request-view-embed.html'"></ng-include>
-
-
-
-
-

@@ -10,7 +10,7 @@
 
 /**
  * Create the query with filters
- * 
+ *
  * @param {listItemsService} service
  * @param {array} params      query parameters if called by controller
  *
@@ -69,6 +69,7 @@ var query = function(service, params) {
     }
 
     find.populate('absence.distribution');
+    find.populate('absence.compulsoryLeave');
     find.populate('events');
     find.populate('user.id');
 
@@ -79,12 +80,12 @@ var query = function(service, params) {
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.list(app);
-    
+
     /**
      * Call the requests list service
-     * 
+     *
      * @param {Object} params
      * @param {function} [paginate]  Optional parameter to paginate the results
      *
@@ -96,7 +97,7 @@ exports = module.exports = function(services, app) {
         var find = query(service, params)
             .select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps status')
             .sort('timeCreated');
-        
+
 
         service.resolveQuery(find, paginate, function(err, docs) {
 
@@ -123,11 +124,7 @@ exports = module.exports = function(services, app) {
 
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
-
-
