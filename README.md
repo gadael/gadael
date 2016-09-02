@@ -68,7 +68,7 @@ grunt test
 - [ ] Compulsory leaves management, fix problem when requests are deleted
 - [x] Get special right infos in right.get service
 - [ ] do not display quantity field if readonly by special right, because initial quantity can be variable by user
-- [ ] Use the requestcreated mail
+- [x] Use the requestcreated mail
 - [x] Display request on pending delete status (list & view)
 - [x] Display compulsory leave title in planning and leave view
 - [ ] Start calendar view on current date

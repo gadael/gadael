@@ -1,11 +1,11 @@
 'use strict';
 
 const gt = require('./../../../../modules/gettext');
-let getApprovalSteps = require('../../../../modules/getApprovalSteps');
-let saveAbsence = require('./saveAbsence');
-var saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
-var saveWorkperiodRecover = require('./saveWorkperiodRecover');
-
+const getApprovalSteps = require('../../../../modules/getApprovalSteps');
+const saveAbsence = require('./saveAbsence');
+const saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
+const saveWorkperiodRecover = require('./saveWorkperiodRecover');
+const requestcreated = require('../../../../modules/emails/requestcreated');
 
 /**
  * Validate params fields
@@ -280,6 +280,12 @@ function saveRequest(service, params) {
                 savedDocument._id,
                 message
             );
+
+            // if event created by an administrator for a user, notify him
+
+            if (!params.id && savedDocument.status.created === 'accepted' && !savedDocument.user.id.equals(savedDocument.createdBy.id)) {
+                requestcreated(service.app, savedDocument);
+            }
 
             return savedDocument;
         });

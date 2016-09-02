@@ -5,7 +5,7 @@ const gt = require('./../../../../modules/gettext');
 const saveAbsence = require('./../../user/requests/saveAbsence');
 const Services = require('restitute').service;
 const util = require('util');
-
+const requestcreated = require('../../../../modules/emails/requestcreated');
 
 /**
  * Validate params fields
@@ -279,6 +279,7 @@ function saveRequests(service, params) {
 
                 return req.save().then(requestDoc => {
                     return saveAbsence.saveEmbedEvents(requestDoc).then(() => {
+                        requestcreated(service.app, requestDoc);
                         return requestDoc;
                     });
                 });
@@ -580,5 +581,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-
