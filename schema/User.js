@@ -10,17 +10,17 @@ const gcal = require('google-calendar');
 
 /**
  * a user can be an account, a manager or an administrator
- * 
- */ 
+ *
+ */
 exports = module.exports = function(params) {
-	
+
 	var mongoose = params.mongoose;
 	var userSchema = new mongoose.Schema({
-		password: { type: String, required: true },
+		password: { type: String, required: true, select: false },
 		email: { type: String, required: true },
 		lastname: { type: String, required: true },
 		firstname: { type: String },
-        image: String, // avatar base64 url
+        image: String, // avatar base64 url with image content
 		roles: {
 		  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
 		  account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
@@ -41,7 +41,7 @@ exports = module.exports = function(params) {
             calendar: String
         }
 	});
-  
+
 
     /**
      * Pre-save hook
@@ -223,8 +223,8 @@ exports = module.exports = function(params) {
 
         });
     };
-    
-    
+
+
 
     /**
      * Test if the user is manager of another user
@@ -340,19 +340,19 @@ exports = module.exports = function(params) {
 
 
 
-  
+
     /**
      * Test role
      * 	admin: administrator of vacations application
      * 	account: regular user, can create vacation requests if rights are availables
      * 	manager: department(s) manager, can supervise one or more departments
-     * 
+     *
      * @param	string	role
-     * 
+     *
      * @return bool
-     */ 
+     */
     userSchema.methods.canPlayRoleOf = function(role) {
-        
+
         if (role === "admin" && this.roles.admin) {
             return true;
         }
@@ -360,18 +360,18 @@ exports = module.exports = function(params) {
         if (role === "account" && this.roles.account) {
             return true;
         }
-        
+
         if (role === "manager" && this.roles.manager) {
             return true;
         }
 
         return false;
     };
-  
-  
+
+
     /**
      * Default return URL after login
-     */ 
+     */
     userSchema.methods.defaultReturnUrl = function() {
         var returnUrl = '/';
 
@@ -387,8 +387,8 @@ exports = module.exports = function(params) {
 
         return returnUrl;
     };
-    
-    
+
+
 
 
     /**
@@ -438,8 +438,8 @@ exports = module.exports = function(params) {
 
         });
     };
-    
-    
+
+
 
     /**
      * Save user and create account role if necessary
@@ -574,15 +574,15 @@ exports = module.exports = function(params) {
 
 
 
-  
-  
+
+
     /**
      * Encrypt password
      * @param {String} password     clear text password
      * @param {function} [done]       callback function, receive error and hash as parameter
      *
      * @return {Promise}
-     */ 
+     */
     userSchema.statics.encryptPassword = function(password, done) {
 
         return new Promise((resolve, reject) => {
@@ -609,28 +609,28 @@ exports = module.exports = function(params) {
         });
 
     };
-  
-  
+
+
     /**
      * Validate password
      * @param {String} password     clear text password
      * @param {String} hash         The encrypted password as in database
      * @param {function} done       callback function
-     */  
+     */
     userSchema.statics.validatePassword = function(password, hash, done) {
         bcrypt.compare(password, hash, done);
     };
-  
-  
-  
+
+
+
     /**
      * test method to create random user
      *
      * @param {String} password     clear text password
      * @param {function} done       callback function
-     */  
+     */
     userSchema.statics.createRandom = function(password, done) {
-		
+
 
 		var model = this;
 
@@ -640,16 +640,16 @@ exports = module.exports = function(params) {
 			{
 				return done(err);
 			}
-			
+
 			var fieldsToSet = {
 				email: Charlatan.Internet.email(),
 				lastname: Charlatan.Name.lastName(),
 				firstname: Charlatan.Name.firstName(),
 				password: hash
 			};
-		  
+
 			model.create(fieldsToSet, done);
-			
+
 		});
     };
 
@@ -949,9 +949,9 @@ exports = module.exports = function(params) {
 
         });
     };
-  
-  
-  
+
+
+
     userSchema.index({ email: 1 }, { unique: true });
     userSchema.index({ timeCreated: 1 });
     userSchema.index({ 'twitter.id': 1 });
@@ -959,7 +959,7 @@ exports = module.exports = function(params) {
     userSchema.index({ 'facebook.id': 1 });
     userSchema.index({ 'google.id': 1 });
     userSchema.set('autoIndex', params.autoIndex);
-  
+
     params.db.model('User', userSchema);
 
 };
