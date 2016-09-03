@@ -160,10 +160,10 @@ function saveRequest(service, params) {
                             return;
                         }
 
-                        if (remainingApprovers > 0) {
+                        if (remainingApprovers > 0) { // remaining approvers on the same step
                             service.resolveSuccessGet(
                                 document._id,
-                                gt.gettext('Approval for others approvers are required to complete this step')
+                                gt.gettext('Your approval has been saved, others approvals are required to complete this step')
                             );
                             return;
                         }
