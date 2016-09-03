@@ -7,7 +7,9 @@ define([], function() {
         '$location',
         'Rest',
         'getRequestStat',
-        function($scope, $location, Rest, getRequestStat) {
+        'catchOutcome',
+        '$http',
+        function($scope, $location, Rest, getRequestStat, catchOutcome, $http) {
 
 
             var waitingRequestResource = Rest.manager.waitingrequests.getResource();
@@ -34,6 +36,39 @@ define([], function() {
             });
 
             $scope.getStat = getRequestStat;
+
+
+            /**
+             * Save one request
+             * @param {Object} request
+             */
+            function saveApprovalStatus(request) {
+                 /*jshint validthis:true */
+                var action = this;
+                var approvalStep;
+
+                request.approvalSteps.forEach(function(step) {
+                    if ('waiting' === step.status && step.approvers.indexOf($scope.sessionUser._id)) {
+                        approvalStep = step;
+                    }
+                });
+
+                catchOutcome(
+                    $http.put('/rest/manager/waitingrequests/'+request._id, {
+                        approvalStep: approvalStep,
+                        action: action
+                    })
+                );
+            }
+
+
+            $scope.accept = function() {
+                $scope.waitingrequests.forEach(saveApprovalStatus.bind('wf_accept'));
+            };
+
+            $scope.reject = function() {
+                $scope.waitingrequests.forEach(saveApprovalStatus.bind('wf_reject'));
+            };
 
 	}];
 });
