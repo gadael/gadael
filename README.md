@@ -55,6 +55,7 @@ grunt test
 
 ## TODO
 
+- [ ] Get managed services on home page
 - [ ] View time saving deposit by admin
 - [ ] Decrease RTT depending on the illness leaves
 - [ ] ICSDB integration for non working days calendars

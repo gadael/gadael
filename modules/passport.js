@@ -12,12 +12,14 @@ exports = module.exports = function(app, passport) {
 
       var db = passport.db;
 
-      var conditions = { 
+      var conditions = {
 		  isActive: true,
 		  email: username
 	  };
 
-      db.models.User.findOne(conditions)
+      db.models.User
+        .findOne(conditions)
+        .select('+password')
         .exec(function(err, user) {
         if (err) {
           return done(err);
@@ -86,14 +88,14 @@ exports = module.exports = function(app, passport) {
       }
     });
   });
-  
-  
+
+
   var http = require('http'), req = http.IncomingMessage.prototype;
-  
+
 	/**
 	 * Test if logged in
 	 * output a 401 unauthorized header on failure
-	 */ 
+	 */
 	req.ensureAuthenticated = function(req, res, next) {
         if (req.isAuthenticated()) {
             return next();
@@ -101,7 +103,7 @@ exports = module.exports = function(app, passport) {
 
         var workflow = req.app.utility.workflow(req, res);
         var gt = req.app.utility.gettext;
-        
+
         workflow.httpstatus = 401;
         workflow.emit('exception', gt.gettext('Access denied for anonymous users'));
 	};
@@ -112,18 +114,18 @@ exports = module.exports = function(app, passport) {
 	/**
 	 * Test if logged in as administrator
 	 * output a 401 unauthorized header on failure
-	 */ 
+	 */
 	req.ensureAdmin = function(req, res, next) {
-        
-        
-        
+
+
+
 	  if (req.isAuthenticated() && req.user.canPlayRoleOf('admin')) {
 		return next(req, res);
 	  }
-      
+
       var workflow = req.app.utility.workflow(req, res);
       var gt = req.app.utility.gettext;
-      
+
       workflow.httpstatus = 401;
       workflow.emit('exception', gt.gettext('Access denied for non administrators'));
 	};
@@ -132,18 +134,18 @@ exports = module.exports = function(app, passport) {
 	/**
 	 * Test if logged in as user a verified user account
 	 * output a 401 unauthorized header on failure
-	 */  
+	 */
 	req.ensureAccount = function(req, res, next) {
 
         var denyAccess = function() {
-            
+
             var workflow = req.app.utility.workflow(req, res);
             var gt = req.app.utility.gettext;
-            
+
             workflow.httpstatus = 401;
             workflow.emit('exception', gt.gettext('Access denied'));
         };
-        
+
         if (req.user.canPlayRoleOf('account')) {
             if (req.app.config.requireAccountVerification) {
                 if (req.user.roles.account.isVerified !== 'yes') {
@@ -152,9 +154,9 @@ exports = module.exports = function(app, passport) {
             }
             return next(req, res);
         }
-        
+
         return denyAccess();
 	};
 
-  
+
 };

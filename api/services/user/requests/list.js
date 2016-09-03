@@ -96,7 +96,7 @@ exports = module.exports = function(services, app) {
 
         var find = query(service, params)
             .select('user timeCreated createdBy events absence time_saving_deposit workperiod_recover approvalSteps status')
-            .sort('timeCreated');
+            .sort('-timeCreated');
 
 
         service.resolveQuery(find, paginate, function(err, docs) {
