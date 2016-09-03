@@ -10,14 +10,18 @@
 exports.getInfos = function(req, res) {
 
 
-    var gt = req.app.utility.gettext;
+    let gt = req.app.utility.gettext;
 
     // detect language from HTTP-ACCEPT
-	var lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
+	let lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
+    let langCode = 'en';
+    if (undefined !== lang[0]) {
+        langCode = lang[0].lang;
+    }
 
-	var sessionUser;
+	let sessionUser;
 
-	var menu = {
+	let menu = {
 		account: null,
 		admin: null,
 		user: null
@@ -160,6 +164,8 @@ exports.getInfos = function(req, res) {
     } else {
 		company.home_text = compDoc.public_text;
     }
+
+
 
     res.json({
         company: company,
