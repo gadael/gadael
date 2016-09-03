@@ -55,22 +55,14 @@ grunt test
 
 ## TODO
 
-- [x] Request modification from user
-- [x] Edit request from admin
-- [x] Delete requests from admin
 - [ ] View time saving deposit by admin
-- [x] Balance export: add missing quantities
-- [x] Sage Export
 - [ ] Decrease RTT depending on the illness leaves
 - [ ] ICSDB integration for non working days calendars
 - [ ] ICS Export
-- [x] Page for custom quantities accout-renewalquantity controller
 - [ ] Compulsory leaves management, fix problem when requests are deleted
-- [x] Get special right infos in right.get service
 - [ ] do not display quantity field if readonly by special right, because initial quantity can be variable by user
 - [x] Use the requestcreated mail
-- [x] Display request on pending delete status (list & view)
-- [x] Display compulsory leave title in planning and leave view
+- [ ] Display pending delete status on planning
 - [ ] Start calendar view on current date
 
 ## Main packages used
