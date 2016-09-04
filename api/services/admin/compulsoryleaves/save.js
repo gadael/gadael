@@ -225,7 +225,14 @@ function saveRequests(service, params) {
                 absence: {},
                 status: {
                     created: 'accepted'
-                }
+                },
+                requestLog: [{
+                    action: 'create',
+                    userCreated: {
+                        id: params.userCreated._id,
+                        name: params.userCreated.getName()
+                    }
+                }]
             };
 
             if (user.department) {

@@ -4,19 +4,19 @@ var gt = require('./../modules/gettext');
 
 
 exports = module.exports = function(params) {
-	
-	var mongoose = params.mongoose;	
+
+	var mongoose = params.mongoose;
 
 	var requestActions = [
-		'create',		// request created (previsonal request if no sent step or end at same date)
+		'create',		// request created
 		'wf_sent',		// request is created and sent for approval
 		'wf_accept',	// approver accept approval step
 		'wf_reject',	// approver reject approval step
-		'wf_end',		// notification sent to applicant with approval status
+		'wf_end',		// close workflow
 		'modify',		// request modified
 		'delete'		// request deleted
 	];
-	
+
 	var requestLogSchema = new mongoose.Schema({
 		comment: { type: String, default: '' },							// Approver comment
 		action: { type: String, enum: requestActions },
@@ -56,11 +56,10 @@ exports = module.exports = function(params) {
         return gt.gettext('Unknown action');
     };
 
-  
+
 	requestLogSchema.set('autoIndex', params.autoIndex);
-  
+
 	//params.db.model('RequestLog', requestLogSchema);
 
     params.embeddedSchemas.RequestLog = requestLogSchema;
 };
-
