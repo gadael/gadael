@@ -6,7 +6,8 @@
             <i class="fa fa-asterisk" style="color:{{right.type.color}}"></i> {{right.type.name}}
         </p>
         <p>{{right.description}}</p>
-        <p>
+        
+        <p ng-if="renewal">
             <strong translate>Last renewal:</strong><br />
             <span translate>from</span> {{renewal.start|date}}
             <span translate>to</span> {{renewal.finish|date}}
