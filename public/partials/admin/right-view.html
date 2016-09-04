@@ -20,13 +20,21 @@
                 <h2><i class="fa fa-asterisk" style="color:{{right.type.color}}" title="{{right.type.name}}"></i> {{right.name}}</h2>
                 <p class="lead">{{right.description}}</p>
                 <p><span translate>Type:</span> {{right.type.name}}</p>
-                <p ng-if="!right.specialright || right.specialright.editQuantity">
-                    <span translate>Default quantity on start renewal:</span> {{right.quantity | number}} {{right.disp_unit}}
-                </p>
-                <p ng-if="right.specialright && !right.specialright.editQuantity">
-                    {{right.specialright.quantityLabel}}
-                    <span ng-if="!right.specialright.quantityLabel">
-                        <span translate>The start renewal quantity is dynamicaly computed</span>
+
+                <p>
+                    <span class="fa-stack" ng-if="right.specialright">
+                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                        <i class="fa fa-legal fa-stack-1x fa-inverse" title="{{'Special right:'|translate}} {{right.specialright.name}}"></i>
+                    </span>
+
+                    <span ng-if="!right.specialright || right.specialright.editQuantity">
+                        <span translate>Default quantity on start renewal:</span> {{right.quantity | number}} {{right.disp_unit}}
+                    </span>
+                    <span ng-if="right.specialright && !right.specialright.editQuantity">
+                        {{right.specialright.quantityLabel}}
+                        <span ng-if="!right.specialright.quantityLabel">
+                            <span translate>The start renewal quantity is dynamicaly computed</span>
+                        </span>
                     </span>
                 </p>
                 <p ng-if="right.addMonthly.quantity>0"><span translate>Monthly additions:</span> {{right.addMonthly.quantity | number}} {{right.disp_unit}}</p>
