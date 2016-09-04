@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-xs-12 col-sm-3">
-        
-        
-        
+
+
+
         <div role="navigation">
             <div class="list-group">
                 <a class="list-group-item" ng-href="#/admin/rights"><i class="fa fa-folder-o"></i> <span translate>Rights list</span></a>
@@ -10,17 +10,25 @@
                 <a class="list-group-item" ng-href="#/admin/collections"><i class="fa fa-book"></i> <span translate>Rights collections</span></a>
             </div>
         </div>
-        
+
     </div>
-    
+
     <div class="col-xs-10 col-sm-9">
-        
+
         <div class="row panel panel-primary">
             <div class="col-xs-8">
                 <h2><i class="fa fa-asterisk" style="color:{{right.type.color}}" title="{{right.type.name}}"></i> {{right.name}}</h2>
                 <p class="lead">{{right.description}}</p>
                 <p><span translate>Type:</span> {{right.type.name}}</p>
-                <p><span translate>Default quantity on start renewal:</span> {{right.quantity | number}} {{right.disp_unit}}</p>
+                <p ng-if="!right.specialright || right.specialright.editQuantity">
+                    <span translate>Default quantity on start renewal:</span> {{right.quantity | number}} {{right.disp_unit}}
+                </p>
+                <p ng-if="right.specialright && !right.specialright.editQuantity">
+                    {{right.specialright.quantityLabel}}
+                    <span ng-if="!right.specialright.quantityLabel">
+                        <span translate>The start renewal quantity is dynamicaly computed</span>
+                    </span>
+                </p>
                 <p ng-if="right.addMonthly.quantity>0"><span translate>Monthly additions:</span> {{right.addMonthly.quantity | number}} {{right.disp_unit}}</p>
             </div>
 
@@ -28,14 +36,14 @@
                 <br />
                 <a ng-href="#/admin/right-edit/{{right._id}}" class="btn btn-info hidden-print" role="button">
                     <i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span>
-                </a> 
+                </a>
 
                 <a ng-click="deleteRight()" class="btn btn-danger hidden-print" role="button">
                     <i class="fa fa-edit"></i> <span class="hidden-xs" translate>Delete</span>
                 </a>
             </div>
         </div>
-        
+
         <div class="row">
             <h3  class="col-xs-10"><i class="fa fa-shield text-muted"></i> <span translate>Rules</span></h3>
             <div class="col-xs-2 text-right">
@@ -70,10 +78,10 @@
                 <span translate>This right has no configured rules</span>
             </div>
         </div>
-        
-        
+
+
         <div class="row">
-            
+
             <h3  class="col-xs-10"><i class="fa fa-retweet text-muted"></i> <span translate>Renewals</span></h3>
             <div class="col-xs-2 text-right">
                 <br />
@@ -107,7 +115,7 @@
                 <span>This right has no configured renewals</span>
             </div>
         </div>
-        
+
 
         <div class="row">
 
@@ -138,6 +146,6 @@
         </div>
 
     </div>
-        
-    
+
+
 </div>

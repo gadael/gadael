@@ -61,7 +61,7 @@ grunt test
 - [ ] ICSDB integration for non working days calendars
 - [ ] ICS Export
 - [ ] Compulsory leaves management, fix problem when requests are deleted
-- [ ] do not display quantity field if readonly by special right, because initial quantity can be variable by user
+- [x] do not display quantity field if readonly by special right, because initial quantity can be variable by user
 - [x] Use the requestcreated mail
 - [ ] Display pending delete status on planning
 - [ ] Start calendar view on current date
