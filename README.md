@@ -65,6 +65,7 @@ grunt test
 - [x] Use the requestcreated mail
 - [ ] Display pending delete status on planning
 - [ ] Start calendar view on current date
+- [ ] Right collection modification (report quantity on new rights)
 
 ## Main packages used
 
