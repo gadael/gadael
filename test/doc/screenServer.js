@@ -13,13 +13,29 @@ function addWebshotMethod(server)
         let options = {
           defaultWhiteBackground: true,
           customHeaders: o.headers,
-          renderDelay: 500,
+          renderDelay: 1000,
           errorIfStatusIsNot200: true,
-          errorIfJSException: true
+          errorIfJSException: true,
+          windowSize: {
+              width: 1024,
+              height: null
+          },
+          shotSize: {
+              width: 'window',
+              height: 'all'
+          }
         };
-        webshot(url, './test/doc/screenshots/'+filename+'.png', options, function(err) {
-            done(err);
+
+        return new Promise((accept, reject) => {
+            webshot(url, './test/doc/screenshots/'+filename+'.png', options, function(err) {
+                if (err) {
+                    return reject(err);
+                }
+                accept(null);
+            });
         });
+
+
     };
 
 
