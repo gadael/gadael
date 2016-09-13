@@ -6,19 +6,18 @@ const webshot = require('webshot');
 
 function addWebshotMethod(server)
 {
-    server.webshot = function(angularPath, done) {
+    server.webshot = function(angularPath, filename, done) {
         let o = server.getUrlOptions();
         let url = 'http://'+o.hostname+':'+o.port+'/#'+angularPath;
 
         let options = {
           defaultWhiteBackground: true,
           customHeaders: o.headers,
-          renderDelay: 200,
+          renderDelay: 500,
           errorIfStatusIsNot200: true,
           errorIfJSException: true
         };
-
-        webshot(url, './test/doc/screenshots/'+angularPath+'.png', options, function(err) {
+        webshot(url, './test/doc/screenshots/'+filename+'.png', options, function(err) {
             done(err);
         });
     };

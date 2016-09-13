@@ -68,6 +68,9 @@ describe('users admin rest service for documentation', function() {
         server.get('/rest/admin/users', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
+
+            server.webshot('/admin/users', 'userlist-with-one-admin', done);
+
             done();
         });
     });
@@ -87,7 +90,7 @@ describe('users admin rest service for documentation', function() {
 
             restAdmin = body;
 
-            server.webshot('/admin/users', done);
+            server.webshot('/admin/users/'+restAdmin._id, 'user-admin-view', done);
 
         });
     });
