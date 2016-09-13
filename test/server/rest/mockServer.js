@@ -95,11 +95,25 @@ function mockServer(dbname, port, readyCallback) {
 }
 
 
-mockServer.prototype.request = function(method, headers, query, path, done) {
+mockServer.prototype.getUrlOptions = function(method, headers, query, path) {
 
-    var server = this;
+    let server = this;
 
-    this.lastUse = Date.now();
+    if (undefined === method) {
+        method = 'GET';
+    }
+
+    if (undefined === headers) {
+        headers = {};
+    }
+
+    if (undefined === query) {
+        query = {};
+    }
+
+    if (undefined === path) {
+        path = '';
+    }
 
     if (server.sessionCookie) {
         headers.Cookie = server.sessionCookie;
@@ -110,14 +124,26 @@ mockServer.prototype.request = function(method, headers, query, path, done) {
         path += '?'+qs.stringify(query);
     }
 
-    var urlOptions = {
+    return {
         hostname: 'localhost',
-        port: this.app.config.port,
+        port: server.app.config.port,
         path: path,
         method: method,
         agent: false,
         headers: headers
     };
+
+};
+
+
+mockServer.prototype.request = function(method, headers, query, path, done) {
+
+    var server = this;
+
+    this.lastUse = Date.now();
+
+
+    var urlOptions = server.getUrlOptions(method, headers, query, path);
 
     var http = require('http');
 

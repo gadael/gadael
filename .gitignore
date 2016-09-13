@@ -15,3 +15,4 @@ po/*.mo
 /public/js/optimized.js
 /public/js/translation.js
 .tags
+/test/doc/screenshots/*

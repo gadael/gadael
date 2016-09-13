@@ -88,6 +88,7 @@
     "grunt-contrib-requirejs": "~0.4.4",
     "jasmine-node": "~1.14.3",
     "shelljs": "^0.2.6",
-    "nodemailer-stub-transport": "~1.0.0"
+    "nodemailer-stub-transport": "~1.0.0",
+    "webshot": "~0.18.0"
   }
 }
