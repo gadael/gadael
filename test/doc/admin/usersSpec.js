@@ -1,9 +1,12 @@
 'use strict';
 
 const helpers = require('../screenServer');
+const api = {
+    user: require('../../../api/User.api'),
+    department: require('../../../api/Department.api')
+};
 
-
-describe('users admin rest service for documentation', function() {
+describe('admin screenshots for documentation', function() {
 
 
     var server;
@@ -36,18 +39,6 @@ describe('users admin rest service for documentation', function() {
             done();
         });
     });
-
-
-
-    it('request users list as admin', function(done) {
-        server.get('/rest/admin/users', {}, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(1);
-
-            done();
-        });
-    });
-
 
 
     it('create new user', function(done) {
@@ -84,6 +75,22 @@ describe('users admin rest service for documentation', function() {
             .then(server.webshot('/admin/user-edit/'+createdUser._id, 'user-account-edit'))
             .then(done);
 
+        });
+    });
+
+
+    it('create a random manager', function(done) {
+        api.department.createRandom(server.app, null, 3)
+        .then(randomDepartment => {
+            expect(randomDepartment.department).toBeDefined();
+            expect(randomDepartment.manager.user).toBeDefined();
+
+            server.webshot('/admin/users/'+randomDepartment.manager.user._id, 'user-manager-view')
+            .then(server.webshot('/admin/user-edit/'+randomDepartment.manager.user._id, 'user-manager-edit'))
+            .then(server.webshot('/admin/departments', 'departments'))
+            .then(server.webshot('/admin/departments/'+randomDepartment.department._id, 'department-view'))
+            .then(server.webshot('/admin/department-edit/'+randomDepartment.department._id, 'department-edit'))
+            .then(done);
         });
     });
 
