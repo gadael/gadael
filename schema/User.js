@@ -659,7 +659,6 @@ exports = module.exports = function(params) {
      * if allready populated, promisify the existing document
      * else populate the document or reject the promise is the user is not an account
      *
-     * TODO create methods for 2 other roles
      *
      * @return {Promise}
      */
@@ -673,6 +672,29 @@ exports = module.exports = function(params) {
 
         return user.populate('roles.account').execPopulate().then(populatedUser => {
             return populatedUser.roles.account;
+        });
+
+    };
+
+
+	/**
+     * get manager promise
+     * if allready populated, promisify the existing document
+     * else populate the document or reject the promise is the user is not a manager
+     *
+     *
+     * @return {Promise}
+     */
+    userSchema.methods.getManager = function() {
+
+        let user = this;
+
+        if (!user.roles.manager) {
+            throw new Error('Not a manager');
+        }
+
+        return user.populate('roles.manager').execPopulate().then(populatedUser => {
+            return populatedUser.roles.manager;
         });
 
     };
