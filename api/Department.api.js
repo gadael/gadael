@@ -70,33 +70,35 @@ api.populate = function(app, department, nbUsers, password) {
     const Charlatan = require('charlatan');
     let userApi = require('./User.api');
 
-    return new Promise((resolve, reject) => {
+    let promises = [];
 
-        let promises = [];
+    promises.push(userApi.createRandomManager(app, Charlatan.Internet.safeEmail(), password));
 
-        promises.push(userApi.createRandomManager(app, Charlatan.Internet.safeEmail(), password));
+    for (let u=0; u<nbUsers; u++) {
+        promises.push(userApi.createRandomAccount(app, Charlatan.Internet.safeEmail(), password));
+    }
 
-        for (let u=0; u<nbUsers; u++) {
-            promises.push(userApi.createRandomAccount(app, Charlatan.Internet.safeEmail(), password));
-        }
+    let saves = [];
 
-        Promise.all(promises).then(randomUsers => {
+    return Promise.all(promises)
+    .then(randomUsers => {
+        return randomUsers[0].user.getManager()
+        .then(managerDocument => {
+            managerDocument.department = [department._id];
+            saves.push(managerDocument.save());
+            return randomUsers;
+        });
+    })
+    .then(randomUsers => {
+        randomUsers.forEach(randomUser => {
+            randomUser.user.department = department._id;
+            saves.push(randomUser.user.save());
+        });
 
-            let promises = [];
-
-            randomUsers.forEach(randomUser => {
-                randomUser.user.department = department._id;
-                promises.push(randomUser.user.save());
-
-            });
-
-            Promise.all(promises).then(() => {
-                resolve(randomUsers);
-            }).catch(reject);
-
-
-        }).catch(reject);
-
+        return Promise.all(saves)
+        .then(() => {
+            return randomUsers;
+        });
     });
 };
 
@@ -118,7 +120,7 @@ api.createRandom = function(app, parent, nbUsers, password) {
 
                 let randomDepartment = {
                     department: department,
-                    manager: randomUsers.pop(),
+                    manager: randomUsers.shift(),
                     members: randomUsers
                 };
 
