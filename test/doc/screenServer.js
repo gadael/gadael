@@ -13,7 +13,7 @@ function addWebshotMethod(server)
         let options = {
           defaultWhiteBackground: true,
           customHeaders: o.headers,
-          renderDelay: 1000,
+          renderDelay: 2000,
           errorIfStatusIsNot200: true,
           errorIfJSException: true,
           windowSize: {

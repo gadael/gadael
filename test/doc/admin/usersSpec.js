@@ -36,7 +36,18 @@ describe('admin screenshots for documentation', function() {
     it('Create admin session', function(done) {
         server.createAdminSession().then(function(theCreatedAdmin) {
             expect(theCreatedAdmin.isActive).toBeTruthy();
-            done();
+
+            server.webshot('/admin/types', 'typelist')
+            .then(server.webshot('/admin/types/5740adf51cf1a569643cc508', 'type-edit'))
+            .then(server.webshot('/admin/rights', 'rightlist'))
+            .then(server.webshot('/admin/rights/577225e3f3c65dd800257bdc', 'right-view-annual-leave'))
+            .then(server.webshot('/admin/right-edit/577225e3f3c65dd800257bdc', 'right-edit-annual-leave'))
+            .then(server.webshot('/admin/collections', 'collectionlist'))
+            .then(server.webshot('/admin/collections/5740adf51cf1a569643cc520', 'collection-edit'))
+            .then(server.webshot('/admin/calendars', 'calendarlist'))
+            .then(server.webshot('/admin/calendars/5740adf51cf1a569643cc101', 'calendar-edit-5d-40h'))
+            .then(server.webshot('/admin/rights-sort', 'right-sort'))
+            .then(done);
         });
     });
 
