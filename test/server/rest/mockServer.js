@@ -1,17 +1,19 @@
 'use strict';
 
-let api = require('../../../api/Company.api.js');
-let headless = require('../../../api/Headless.api.js');
+const api = require('../../../api/Company.api.js');
+const headless = require('../../../api/Headless.api.js');
+const models = require('../../../models');
+let config = require('../../../config')();
 
 /**
  * The mock server object
  * @param {String} dbname
  * @param {Integer} port
  * @param {Function} readyCallback
+ * @param {String} countryCode          Database initialization
+ * @param {String} languageCode         Language code (mo file)
  */
-function mockServer(dbname, port, readyCallback) {
-
-
+function mockServer(dbname, port, readyCallback, countryCode, languageCode) {
 
     var mockServerDbName = dbname+port;
 
@@ -26,6 +28,14 @@ function mockServer(dbname, port, readyCallback) {
     this.requireCloseOn = null;
     this.lastUse = Date.now();
 
+    if (undefined === countryCode) {
+        countryCode = 'FR'; // all tests on rest services are based on french initial data
+    }
+
+
+    if (undefined !== languageCode) {
+        config.language = languageCode;
+    }
 
     function createRestService() {
 
@@ -33,13 +43,12 @@ function mockServer(dbname, port, readyCallback) {
         var company = {
             name: 'The Fake Company REST service',
             port: port,
-            country: 'FR' // all tests on rest services are based on french initial data
+            country: countryCode
         };
 
         api.createDb(headless, serverInst.dbname, company, function() {
 
-            let config = require('../../../config')();
-            let models = require('../../../models');
+
 
             config.port = company.port;
             config.companyName = company.name;
@@ -634,8 +643,10 @@ exports = module.exports = {
      *
      * @param {String} [dbname]     optionnal database name
      * @param {function} ready      callback
+     * @param {String} countryCode
+     * @param {String} languageCode
      */
-    mockServer: function(dbname, ready) {
+    mockServer: function(dbname, ready, countryCode, languageCode) {
 
         if (ready === undefined && typeof(dbname) === 'function') {
             ready = dbname;
@@ -648,7 +659,7 @@ exports = module.exports = {
             new mockServer(dbname, port, function(server) {
                 serverList[dbname] = server;
                 ready(server);
-            });
+            }, countryCode, languageCode);
 
         } else {
 

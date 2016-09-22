@@ -7,26 +7,26 @@ const latinize = require('latinize');
 
 /**
  * Source URL for non-working day ICS file or workshedules ICS file
- * 
+ *
  * The events in CalendarEvent schema will be delete and recreated according to the ics source file
  * the past events will never be modified
- * 
+ *
  * @see http://www.calconnect.org/tests/iCalendar-RRULE-Interop/iCalendar-RRULE-Interop-Matrix.html
- */  
+ */
 exports = module.exports = function(params) {
 
 	var mongoose = params.mongoose;
 
     var defaultHalfDay = new Date();
     defaultHalfDay.setHours(12,0,0);
-	
+
 	var calendarSchema = new params.mongoose.Schema({
 		name: { type: String, required: true },
 		url: { type: String, required: true },
 		type: { type: String, enum:['workschedule', 'nonworkingday', 'holiday'], required: true },
 		lastUpdate: { type: Date }, // date for last modification or last copy of events from ics to database
 		timeCreated: { type: Date, default: Date.now },
-		
+
 		// used for the default ics embeded in the app
 		locked: { type: Boolean, default: false },
 
@@ -42,19 +42,19 @@ exports = module.exports = function(params) {
 
 	calendarSchema.index({ 'lastUpdate': 1 });
 	calendarSchema.set('autoIndex', params.autoIndex);
-  
-  
+
+
 	/**
 	 * Download events from url
      * promise resolve the number of copied events, do not stop on error
      *
      * @return promise
-	 */ 
+	 */
 	calendarSchema.methods.downloadEvents = function() {
 
 
 		var calendar = this;
-        
+
         return new Promise((resolve, reject) => {
 
 
@@ -127,9 +127,9 @@ exports = module.exports = function(params) {
 
         });
 	};
-	
-	
-	
+
+
+
 	/**
 	 * get events from database beeween two dates
 	 * RRULE events are expanded from this mehod
@@ -137,20 +137,20 @@ exports = module.exports = function(params) {
      * @param {Date} span_start
      * @param {Date} span_end
      * @param {function} callback
-	 */ 
+	 */
 	calendarSchema.methods.getEvents = function(span_start, span_end, callback) {
-		
+
 		var EventModel = params.db.models.CalendarEvent;
 
-		EventModel.find({ 
-			$or:[ 
-				{'rrule': { $ne: null } }, 
-				{ 
+		EventModel.find({
+			$or:[
+				{'rrule': { $ne: null } },
+				{
 					$and: [
 						{ 'dtstart': { $lt: span_end }},
 						{ 'dtend': { $gt: span_start }}
 					]
-				} 
+				}
 			]
 		})
         .where('calendar', this._id)
@@ -160,7 +160,7 @@ exports = module.exports = function(params) {
 				callback(err, null);
 				return;
 			}
-			
+
 			var events = [];
 
 
@@ -174,7 +174,7 @@ exports = module.exports = function(params) {
 
 		});
 	};
-    
+
     /**
      * Get number of days between two dates using the halfDayHour property
      * @param   {object} event  This object must have dtstart and dtend properties
@@ -211,7 +211,7 @@ exports = module.exports = function(params) {
         return nbDays;
     };
 
-    
+
     /**
      * Init task for new database
      * @param   {Company}   company [[Description]]
@@ -326,7 +326,7 @@ exports = module.exports = function(params) {
                 });
 
             }
-            
+
 
             if ('CH' === company.country) {
 
@@ -502,12 +502,8 @@ exports = module.exports = function(params) {
 
 
 
-	
-	
-  
+
+
+
 	params.db.model('Calendar', calendarSchema);
 };
-
-
-
-

@@ -85,7 +85,7 @@ module.exports = function(grunt) {
                 'public/js/**/*.js'
             ],
             options: {
-                destination: 'doc',
+                destination: 'doc/jsdoc',
                 verbose: 1
             }
         }

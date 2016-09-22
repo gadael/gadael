@@ -185,7 +185,6 @@ exports = module.exports = {
                 }
 
                 // create the company entry
-
                 var companyDoc = new m.Company(company);
 
                 async.parallel([

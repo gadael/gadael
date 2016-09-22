@@ -1,10 +1,10 @@
 'use strict';
 
-const helpers = require('../server/rest/mockServer');
+const helpers = require('../../test/server/rest/mockServer');
 const webshot = require('webshot');
 
 
-function addWebshotMethod(server)
+function addWebshotMethod(server, languageCode)
 {
     server.webshot = function(angularPath, filename, done) {
         let o = server.getUrlOptions();
@@ -27,7 +27,7 @@ function addWebshotMethod(server)
         };
 
         return new Promise((accept, reject) => {
-            webshot(url, './test/doc/screenshots/'+filename+'.png', options, function(err) {
+            webshot(url, './doc/screenshots/'+languageCode+'/'+filename+'.png', options, function(err) {
                 if (err) {
                     return reject(err);
                 }
@@ -50,12 +50,15 @@ exports = module.exports = {
      * This start only one instance
      *
      * @param {String} [dbname]     optionnal database name
+     * @param {String} countryCode  Database will be initialized with this country UK|FR|...
+     * @param {String} languageCode en|fr|...
      * @param {function} ready      callback
      */
-    mockServer: function(dbname, ready) {
+    screenServer: function(dbname, countryCode, languageCode, ready) {
+
         helpers.mockServer(dbname, function(_mockServer) {
-            addWebshotMethod(_mockServer);
+            addWebshotMethod(_mockServer, languageCode);
             ready(_mockServer);
-        });
+        }, countryCode, languageCode);
     }
 };

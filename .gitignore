@@ -10,9 +10,9 @@ public/fonts/*.woff*
 /bower_components
 /node_modules
 po/*.mo
-/doc/
+/doc/jsdoc/
 /coverage/
 /public/js/optimized.js
 /public/js/translation.js
 .tags
-/test/doc/screenshots/*
+/doc/screenshots/*

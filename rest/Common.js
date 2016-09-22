@@ -13,11 +13,11 @@ exports.getInfos = function(req, res) {
     let gt = req.app.utility.gettext;
 
     // detect language from HTTP-ACCEPT
-	let lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
-    let langCode = 'en';
-    if (undefined !== lang[0]) {
-        langCode = lang[0].lang;
-    }
+	// let lang = require('../node_modules/i18n-abide/lib/i18n').parseAcceptLanguage(req.headers['accept-language']);
+    // let langCode = 'en';
+    // if (undefined !== lang[0]) {
+    //     langCode = lang[0].lang;
+    // }
 
 	let sessionUser;
 
@@ -169,7 +169,7 @@ exports.getInfos = function(req, res) {
 
     res.json({
         company: company,
-        lang: lang[0].lang,
+        lang: req.app.config.language,
         sessionUser: sessionUser,
         menu: menu,
         date: {

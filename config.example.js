@@ -23,6 +23,7 @@ exports = module.exports = function createConfiguration() {
     };
 
     config.company = null;      // The company document will be here after server start
+    config.language = 'fr';     // this should match a po file in /po/server
 
     // used for sessions
     config.cryptoKey = 'k8yb0brda2t';
