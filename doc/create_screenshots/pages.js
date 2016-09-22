@@ -70,6 +70,9 @@ exports = module.exports = function pages(server)
         .then(server.webshot('/admin/calendars', 'calendarlist'))
         .then(server.webshot('/admin/calendars/5740adf51cf1a569643cc101', 'calendar-edit-5d-40h'))
         .then(server.webshot('/admin/rights-sort', 'right-sort'))
+        .then(server.webshot('/admin/exports', 'exports'))
+        .then(server.webshot('/admin/export-edit-xlsx', 'export-edit-xlsx'))
+        .then(server.webshot('/admin/export-edit-sage', 'export-edit-sage'))
         .then(createUser);
     })
     .then(createdUser => {
