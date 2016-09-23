@@ -1,5 +1,6 @@
 'use strict';
 
+const requestdateparams = require('../../../../modules/requestdateparams');
 
 /**
  * The calendar events list service
@@ -17,7 +18,7 @@ function addDatesCriterion(find, params)
 /**
  * Get regular event by applying the date filter
  * And rrule events by calling the expand on the events
- * 
+ *
  * @param {listItemsService} service
  * @param {array} calendarIds
  *
@@ -34,7 +35,7 @@ function getEventsQuery(service, dtstart, dtend, calendarIds)
         dtend: dtend
     });
 
-    
+
     return find;
 }
 
@@ -75,11 +76,11 @@ function getTypeCalendar(service, type)
 exports = module.exports = function(services, app) {
 
     var service = new services.list(app);
-    
+
     /**
      * Call the calendar events list service
      * the result events will be intersected with the serach interval
-     * 
+     *
      * @param {Object} params
      *                      params.user                     user ID for admin rest service, in account rest service the user param is set from session
      *                      params.dtstart                  search interval start
@@ -93,7 +94,7 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
+
         var getExpandedEra = require('../../../../modules/getExpandedEra');
 
         /**
@@ -162,7 +163,7 @@ exports = module.exports = function(services, app) {
             });
         }
 
-        
+
 
         /**
          * @return {Promise}
@@ -226,7 +227,7 @@ exports = module.exports = function(services, app) {
          * @return {boolean}
          */
         function checkParams() {
-            var checkDateParams = require('../../../../modules/requestdateparams');
+            var checkDateParams = requestdateparams(app);
 
             if (!checkDateParams(service, params)) {
                 return false;
@@ -265,14 +266,10 @@ exports = module.exports = function(services, app) {
         }, service.error);
 
 
-        
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
-
-

@@ -1,14 +1,12 @@
 'use strict';
 
-const dispunits = require('./../../../../modules/dispunits');
-
-
 
 exports = module.exports = function(services, app) {
 
     var service = new services.get(app);
 
     const gt = app.utility.gettext;
+    const dispunits = app.utility.dispunits;
 
     /**
      * Call the compulsory leave get service

@@ -18,7 +18,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
 
         let list;
-        let index = new SpecialRightIndex();
+        let index = new SpecialRightIndex(app);
 
         if (params.create) {
             index.getCreateList(app.db.models.Right).then(list => {
@@ -39,4 +39,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-

@@ -1,7 +1,6 @@
 'use strict';
 
 const SpecialRight = require('./specialright');
-const gt = require('./../../modules/gettext');
 
 /**
  * Right for "reduction du temps de travail"
@@ -9,8 +8,8 @@ const gt = require('./../../modules/gettext');
  * @constructor
  * @augments specialright
  */
-function TimeSavingAccount() {
-    SpecialRight.call(this);
+function TimeSavingAccount(app) {
+    SpecialRight.call(this, app);
 
     this.editQuantity = false;
 
@@ -22,15 +21,18 @@ TimeSavingAccount.prototype.constructor = TimeSavingAccount;
 
 
 TimeSavingAccount.prototype.getName = function() {
+    const gt = this.app.utility.gettext;
     return gt.gettext('Time saving account');
 };
 
 
 TimeSavingAccount.prototype.getDescription = function() {
+    const gt = this.app.utility.gettext;
     return gt.gettext('Time saving account, is necessary to activate time saving account request for users');
 };
 
 TimeSavingAccount.prototype.getQuantityLabel = function() {
+    const gt = this.app.utility.gettext;
     return gt.gettext('Quantity added by the time saving account requests will be made available for each users on their available quantity');
 };
 

@@ -165,8 +165,6 @@ exports.getInfos = function(req, res) {
 		company.home_text = compDoc.public_text;
     }
 
-
-
     res.json({
         company: company,
         lang: req.app.config.language,

@@ -16,10 +16,12 @@ var config = require('../config')();
 
 app.config = config;
 app.mongoose = mongoose;
-apputil(app);
+
 
 
 app.connect = function(callback) {
+
+	apputil(app);
 
 	app.db = mongoose.createConnection(config.mongodb.prefix + config.mongodb.dbname);
 	app.db.on('error', console.error.bind(console, 'Headless mock mongoose connection error: '));

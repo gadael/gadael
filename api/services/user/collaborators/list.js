@@ -1,6 +1,7 @@
 'use strict';
 
 const getExpandedEra = require('../../../../modules/getExpandedEra');
+const requestdateparams = require('../../../../modules/requestdateparams');
 
 /**
  * The collaborators list service
@@ -210,7 +211,7 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
-        var checkParams = require('../../../../modules/requestdateparams');
+        var checkParams = requestdateparams(app);
 
         if (!checkParams(service, params)) {
             return service.deferred.promise;

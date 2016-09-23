@@ -1,7 +1,7 @@
 'use strict';
 
 const SpecialRight = require('./specialright');
-const gt = require('./../../modules/gettext');
+
 
 /**
  * Right for "reduction du temps de travail"
@@ -11,8 +11,8 @@ const gt = require('./../../modules/gettext');
  *
  *
  */
-function Rtt() {
-    SpecialRight.call(this);
+function Rtt(app) {
+    SpecialRight.call(this, app);
 
     this.editQuantity = false;
 
@@ -25,11 +25,13 @@ Rtt.prototype.constructor = Rtt;
 
 
 Rtt.prototype.getName = function() {
+    const gt = this.app.utility.gettext;
     return gt.gettext('RTT');
 };
 
 
 Rtt.prototype.getDescription = function() {
+    const gt = this.app.utility.gettext;
     return gt.gettext('Working time reduction right, this right require an annual leave with same renewal period');
 };
 
@@ -66,6 +68,7 @@ Rtt.prototype.getQuantity = function(renewal, user) {
 
 
 Rtt.prototype.getQuantityLabel = function() {
+    const gt = this.app.utility.gettext;
     return gt.gettext('RTT is computed from the user time schedule on the renewal period');
 };
 

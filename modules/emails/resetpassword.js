@@ -1,6 +1,5 @@
 'use strict';
 
-const gt = require('../gettext');
 const util = require('util');
 const Mail = require('../mail');
 
@@ -13,6 +12,8 @@ const Mail = require('../mail');
  * @return {Promise}
  */
 exports = module.exports = function getMail(app, token, user) {
+
+    const gt = app.utility.gettext;
 
     let mail = new Mail(app);
 

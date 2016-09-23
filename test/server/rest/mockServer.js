@@ -37,6 +37,9 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode) {
         config.language = languageCode;
     }
 
+    // overwrite default config
+    headless.config = config;
+
     function createRestService() {
 
 

@@ -21,7 +21,7 @@
 exports = module.exports = function(services, app) {
 
     var service = new services.list(app);
-
+    const dispunits = app.utility.dispunits;
 
 
     function getAccount(accountId)
@@ -78,7 +78,6 @@ exports = module.exports = function(services, app) {
     function getRenewals(accountId)
     {
         var async = require('async');
-        var dispUnits = require('../../../../modules/dispunits');
 
         var results = [], savingPeriod;
         var user;
@@ -110,7 +109,7 @@ exports = module.exports = function(services, app) {
                             }
 
                             beneficiary = beneficiary.toObject();
-                            beneficiary.right.timeSaving.max_dispUnit = dispUnits(
+                            beneficiary.right.timeSaving.max_dispUnit = dispunits(
                                 beneficiary.right.quantity_unit,
                                 beneficiary.right.timeSaving.max
                             );
@@ -122,7 +121,7 @@ exports = module.exports = function(services, app) {
                                     renewal: renewal,
                                     beneficiary: beneficiary,
                                     availableQuantity: availableQuantity,
-                                    availableQuantity_dispUnit: dispUnits(beneficiary.right.quantity_unit, availableQuantity)
+                                    availableQuantity_dispUnit: dispunits(beneficiary.right.quantity_unit, availableQuantity)
                                 });
 
                                 renewalCb();

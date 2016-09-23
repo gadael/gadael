@@ -2,10 +2,11 @@
 
 /**
  * Special right list
- *
+ * @param {Express} app
  */
-function SpecialRightIndex() {
+function SpecialRightIndex(app) {
 
+    this.app = app;
 
     this.objects = {
         rtt:                  require('./rtt'),
@@ -17,6 +18,7 @@ function SpecialRightIndex() {
 
 /**
  * Get all instances of SpecialRight
+ *
  * @returns {Object}
  */
 SpecialRightIndex.prototype.getInstances = function() {
@@ -25,7 +27,7 @@ SpecialRightIndex.prototype.getInstances = function() {
 
     for (let name in this.objects) {
         if (this.objects.hasOwnProperty(name)) {
-            instances[name] = new this.objects[name]();
+            instances[name] = new this.objects[name](this.app);
         }
     }
 
@@ -35,11 +37,12 @@ SpecialRightIndex.prototype.getInstances = function() {
 
 /**
  * Get list of special rights
+ *
  * @return {Array}
  */
 SpecialRightIndex.prototype.getList = function() {
     let list = [];
-    let all = this.getInstances();
+    let all = this.getInstances(this.app);
 
     for (let name in all) {
         if (all.hasOwnProperty(name)) {
@@ -54,6 +57,7 @@ SpecialRightIndex.prototype.getList = function() {
 
 /**
  * Get list of special right with canCreate=true
+ *
  * @return {Promise}
  */
 SpecialRightIndex.prototype.getCreateList = function(RightModel) {
@@ -64,7 +68,7 @@ SpecialRightIndex.prototype.getCreateList = function(RightModel) {
 
     let list = [];
     let promises = [];
-    let all = this.getInstances();
+    let all = this.getInstances(this.app);
 
 
     for (let name in all) {

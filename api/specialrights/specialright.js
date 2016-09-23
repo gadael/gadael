@@ -6,9 +6,9 @@
  *
  * @constructor
  */
-function SpecialRight() {
+function SpecialRight(app) {
 
-
+    this.app = app;
 
 
     /**

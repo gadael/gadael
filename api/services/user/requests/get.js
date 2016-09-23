@@ -1,12 +1,12 @@
 'use strict';
 
-const dispunits = require('../../../../modules/dispunits');
 const jurassic = require('jurassic');
 
 
 exports = module.exports = function(services, app) {
 
     const gt = app.utility.gettext;
+    const dispunits = app.utility.dispunits;
 
     var service = new services.get(app);
 

@@ -1,11 +1,12 @@
 'use strict';
 
 const SpecialRightIndex = require('./../api/specialrights/index');
-const dispunits = require('../modules/dispunits');
+
 
 exports = module.exports = function(params) {
 
-    let mongoose = params.mongoose;
+    const dispunits = params.app.utility.dispunits;
+    const mongoose = params.mongoose;
 
 	let rightSchema = new params.mongoose.Schema({
 		name: { type: String, unique: true, required: true },
@@ -308,7 +309,7 @@ exports = module.exports = function(params) {
      */
     rightSchema.methods.getSpecialRight = function() {
 
-        let index = new SpecialRightIndex();
+        let index = new SpecialRightIndex(params.app);
         let list = index.objects;
 
 
@@ -320,7 +321,7 @@ exports = module.exports = function(params) {
 
         let SpecialRight = list[this.special];
 
-        return new SpecialRight();
+        return new SpecialRight(params.app);
     };
 
 
@@ -679,7 +680,7 @@ exports = module.exports = function(params) {
 
             try {
 
-                return require('./data/'+company.country.toLowerCase());
+                return require('./data/'+company.country.toLowerCase())(params.app);
 
             } catch(e) {
                 return null;

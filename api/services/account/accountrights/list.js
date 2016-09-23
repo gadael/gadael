@@ -1,5 +1,6 @@
 'use strict';
 
+const requestdateparams = require('../../../../modules/requestdateparams');
 
 /**
  * The user account rights list service
@@ -25,14 +26,14 @@
  */
 exports = module.exports = function(services, app)
 {
-    
+
     var service = new services.list(app);
-    
-    
-    
-    
+
+
+
+
     /**
-     * 
+     *
      * @param {Document} user
      * @param {Array}    rights array of mongoose documents
      * @param {Date}     dtstart
@@ -41,7 +42,7 @@ exports = module.exports = function(services, app)
     function resolveAccountRights(user, rights, dtstart, dtend)
     {
         var async = require('async');
-        
+
         /**
          * Get the promise for the available quantity
          * @param   {Right} right
@@ -111,7 +112,7 @@ exports = module.exports = function(services, app)
             var right = rightDocument.toObject();
             right.disp_unit = rightDocument.getDispUnit();
 
-            
+
 
             rightDocument.getAllRenewals().then(function(renewals) {
 
@@ -154,9 +155,9 @@ exports = module.exports = function(services, app)
             service.deferred.resolve(output);
         });
     }
-    
-    
-    
+
+
+
     /**
      * Populate type in all rights
      * @param {Array} rights
@@ -172,9 +173,9 @@ exports = module.exports = function(services, app)
 
         return Promise.all(promisedPopulate);
     }
-    
-    
-    
+
+
+
     /**
      * Update groupTitle property with name if not set in type document
      * @param {Array} rights
@@ -186,25 +187,25 @@ exports = module.exports = function(services, app)
             }
         });
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     /**
      * Call the account rights list service
-     * 
+     *
      * @param {Object} params
      *                     params.dtstart
      *                     params.dtend
      *                     params.user
-     * 
+     *
      *
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
+
         if (params.dtstart) {
             params.dtstart = new Date(params.dtstart);
         }
@@ -212,25 +213,25 @@ exports = module.exports = function(services, app)
         if (params.dtend) {
             params.dtend = new Date(params.dtend);
         }
-        
 
-        var checkParams = require('../../../../modules/requestdateparams');
-        
+
+        var checkParams = requestdateparams(app);
+
         if (!checkParams(service, params)) {
-            return service.deferred.promise;   
+            return service.deferred.promise;
         }
 
 
         // get user account document for the user param
-        
+
         service.app.db.models.User.find({ _id: params.user }).populate('roles.account').exec(function(err, users) {
-            
+
             if (service.handleMongoError(err)) {
 
                 if (0 === users.length) {
                     return service.notFound('User not found for '+params.user);
                 }
-                
+
                 var account = users[0].roles.account;
 
                 if (!account) {
@@ -245,20 +246,16 @@ exports = module.exports = function(services, app)
                     }).catch(service.error);
 
                 }).catch(service.notFound);
-                
+
             } else {
                 service.notFound('User not found for '+params.user);
             }
         });
-        
-        
+
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
-
-

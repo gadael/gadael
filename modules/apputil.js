@@ -16,7 +16,8 @@ exports = module.exports = function(app) {
     app.utility = {};
     app.utility.slugify = require('./slugify');
     app.utility.workflow = require('./workflow');
-    app.utility.gettext = require('./gettext');
+    app.utility.gettext = require('./gettext')(app.config);
+    app.utility.dispunits = require('./dispunits')(app);
 
     /**
      * Load a service
