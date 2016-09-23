@@ -1,7 +1,5 @@
 'use strict';
 
-
-const gt = require('./../../../../modules/gettext');
 const gcal = require('google-calendar');
 const gcalResponse = require('./../../../../modules/gcalResponse');
 
@@ -36,6 +34,8 @@ function isWritable(calendar) {
 exports = module.exports = function(services, app) {
 
     let service = new services.list(app);
+
+    const gt = app.utility.gettext;
 
 
     function getUserResponse(user) {
@@ -81,7 +81,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-
-
-

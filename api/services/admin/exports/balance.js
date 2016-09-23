@@ -1,9 +1,6 @@
 'use strict';
 
 
-const gt = require('./../../../../modules/gettext');
-
-
 
 /**
  * Get a two level promises list for right renewals
@@ -48,7 +45,7 @@ function getUserRenewalsPromises(users, userAttributes, moment) {
  */
 exports = module.exports = function(service, moment) {
 
-
+    const gt = service.app.utility.gettext;
 
     const NAME              = gt.gettext('Name');
     const DEPARTMENT        = gt.gettext('Department');

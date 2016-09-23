@@ -1,7 +1,6 @@
 'use strict';
 
 const ical = require('ical');
-const gt = require('./../modules/gettext');
 const util = require('util');
 const latinize = require('latinize');
 
@@ -15,7 +14,7 @@ const latinize = require('latinize');
  */
 exports = module.exports = function(params) {
 
-	var mongoose = params.mongoose;
+	const mongoose = params.mongoose;
 
     var defaultHalfDay = new Date();
     defaultHalfDay.setHours(12,0,0);
@@ -220,6 +219,8 @@ exports = module.exports = function(params) {
     calendarSchema.statics.getInitTask = function(company) {
 
         let model = this;
+
+		const gt = params.app.utility.gettext;
 
         /**
          * initialize default calendars

@@ -1,15 +1,14 @@
 'use strict';
 
 
-const gt = require('./../../../../modules/gettext');
-
-
 /**
  * Validate params fields
  * @param {apiService} service
  * @param {Object} params
  */
 function validate(service, params) {
+
+    const gt = service.app.utility.gettext;
 
     if (service.needRequiredFields(params, ['right', 'start', 'finish'])) {
         return;
@@ -45,7 +44,7 @@ function validate(service, params) {
  */
 function saveRenewal(service, params) {
 
-
+    const gt = service.app.utility.gettext;
     var RightRenewalModel = service.app.db.models.RightRenewal;
 
     var rightId = params.right;

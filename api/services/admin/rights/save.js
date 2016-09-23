@@ -1,6 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 
 
 
@@ -92,15 +91,18 @@ function prepareDocument(service, params, fieldsToSet) {
 
 
 
-    
-    
+
+
 /**
  * Update/create the vacation right document
- * 
+ *
  * @param {apiService} service
  * @param {Object} params
- */  
+ */
 function saveRight(service, params) {
+
+
+    const gt = service.app.utility.gettext;
 
 
     let type;
@@ -111,7 +113,7 @@ function saveRight(service, params) {
         }
     }
 
-    
+
     let fieldsToSet = {
         name: params.name,
         description: params.description,
@@ -174,13 +176,13 @@ function saveRight(service, params) {
     })
     .catch(service.error);
 }
-    
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
 
 
 
@@ -191,12 +193,12 @@ function saveRight(service, params) {
  * @returns {saveItemService}
  */
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
 
     /**
      * Call the calendar save service
-     * 
+     *
      * @param {Object} params
      *
      * @return {Promise}
@@ -205,9 +207,7 @@ exports = module.exports = function(services, app) {
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

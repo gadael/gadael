@@ -1,9 +1,6 @@
 'use strict';
 
 
-const gt = require('./../../../../modules/gettext');
-
-
 
 /**
  * Validate params fields
@@ -12,6 +9,7 @@ const gt = require('./../../../../modules/gettext');
  */
 function validate(service, params) {
 
+    const gt = service.app.utility.gettext;
 
     function hasOneBusinessDay() {
         for (let d in params.businessDays) {
@@ -49,6 +47,8 @@ function validate(service, params) {
  * @param {Object} params
  */
 function saveCollection(service, params) {
+
+    const gt = service.app.utility.gettext;
 
     let fieldsToSet = {
         name: params.name

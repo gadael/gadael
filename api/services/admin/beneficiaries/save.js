@@ -1,6 +1,6 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
+
 const util = require('util');
 
 
@@ -30,7 +30,7 @@ function validate(service, params) {
  */
 function saveBeneficiary(service, params) {
 
-
+    const gt = service.app.utility.gettext;
 
     var Beneficiary = service.app.db.models.Beneficiary;
 

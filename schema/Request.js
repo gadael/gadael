@@ -1,7 +1,5 @@
 'use strict';
 
-const gt = require('./../modules/gettext');
-
 
 /**
  * array map function to get Id from the document or ID
@@ -25,7 +23,7 @@ function getRemovePromises(documents) {
 
 exports = module.exports = function(params) {
 
-	var mongoose = params.mongoose;
+	const mongoose = params.mongoose;
 
     var requestSchema = new mongoose.Schema({
         user: { // owner
@@ -292,6 +290,9 @@ exports = module.exports = function(params) {
      * @return {String}
      */
     requestSchema.methods.getDispType = function getDispType() {
+
+        const gt = params.app.utility.gettext;
+
         if (this.absence && this.absence.distribution.length > 0) {
             return gt.gettext('Leave');
         }
@@ -314,6 +315,7 @@ exports = module.exports = function(params) {
      */
     requestSchema.methods.getDispStatus = function getDispStatus() {
 
+        const gt = params.app.utility.gettext;
 
         if (null !== this.status.created) {
             switch(this.status.created) {

@@ -2,7 +2,6 @@
 
 
 let periodCriterion = require('../../../../modules/periodcriterion');
-const gt = require('./../../../../modules/gettext');
 
 
 /**
@@ -13,6 +12,8 @@ const gt = require('./../../../../modules/gettext');
  * @return {Promise}           Promised data is the array compatible with xlsx-writestream
  */
 exports = module.exports = function(service, from, to) {
+
+    const gt = service.app.utility.gettext;
 
     const NAME          = gt.gettext('Name');
     const DEPARTMENT    = gt.gettext('Department');

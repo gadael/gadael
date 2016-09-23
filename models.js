@@ -4,21 +4,22 @@ var models = {};
 
 exports = module.exports = models;
 
-// 
+//
 models.requirements = {
-	mongoose: null,		// the mongoose object
-	db: null,			// database connexion to link with shemas
-	autoIndex: false,	// boolean used to autoindex schemas
-    embeddedSchemas: [] // collect embedable schemas in this array
+	mongoose: null,		 // the mongoose object
+	db: null,			 // database connexion to link with shemas
+	autoIndex: false,	 // boolean used to autoindex schemas
+    embeddedSchemas: [], // collect embedable schemas in this array
+	app: null			 // reference to application, not really fully loaded when load() is called
 };
-	
+
 
 
 
 models.load = function() {
-	
+
 	var requirements = this.requirements;
-	
+
 	//embeddable docs first
 	require('./schema/Status')(requirements);
 	require('./schema/StatusLog')(requirements);
@@ -48,7 +49,7 @@ models.load = function() {
 	require('./schema/Request')(requirements);
     require('./schema/RecoverQuantity')(requirements);
     require('./schema/CompulsoryLeave')(requirements);
-  
+
 	require('./schema/RightCollection')(requirements);
 	require('./schema/Type')(requirements);
 	require('./schema/Right')(requirements);

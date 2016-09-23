@@ -1,7 +1,6 @@
 'use strict';
 
 var async = require('async');
-var gt = require('./../modules/gettext');
 
 
 exports = module.exports = function(params) {
@@ -26,12 +25,12 @@ exports = module.exports = function(params) {
 
         workedDays: Number                                              // package agreement
     });
-  
+
     collectionSchema.set('autoIndex', params.autoIndex);
-  
+
     collectionSchema.index({ name: 1 });
-    
-    
+
+
 
     /**
      * Get the list of business days in an array according to Date.getDay format
@@ -64,7 +63,7 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to an array of beneficiaries
      */
     collectionSchema.methods.getRights = function getRights() {
-        
+
         var find = this.model('Beneficiary').find()
             .where('ref').equals('RightCollection')
             .where('document').equals(this._id)
@@ -73,35 +72,35 @@ exports = module.exports = function(params) {
 
         return find.exec();
     };
-    
+
     /**
      * Get the list of users with collection
      * @param {Date}    moment  Optional date for collection association to users
      * @return {Promise} resolve to an array of users
      */
     collectionSchema.methods.getUsers = function getUsers(moment) {
-        
+
         var deferred = {};
         deferred.promise = new Promise(function(resolve, reject) {
             deferred.resolve = resolve;
             deferred.reject = reject;
         });
-        
+
         if (null === moment) {
             moment = new Date();
             moment.setHours(0,0,0,0);
         }
-        
+
         this.model('AccountCollection').find()
             .where('from').lte(moment)
             .where('to').gte(moment)
             .populate('account.user.id.roles.account')
             .exec(function(err, arr) {
-            
+
                 if (err) {
                     deferred.reject(err); return;
                 }
-            
+
                 var users = [];
                 for(var i=0; i<arr.length; i++) {
                     users.push(arr[i].user.id);
@@ -109,14 +108,16 @@ exports = module.exports = function(params) {
 
                 deferred.resolve(users);
             });
-        
+
         return deferred.promise;
     };
-    
+
 
     collectionSchema.statics.getInitTask = function(company) {
 
         let model = this;
+
+        const gt = params.app.utility.gettext;
 
 
         function createDefaults(done) {
@@ -159,8 +160,7 @@ exports = module.exports = function(params) {
     };
 
 
-    
-  
+
+
     params.db.model('RightCollection', collectionSchema);
 };
-

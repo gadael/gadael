@@ -1,14 +1,13 @@
 'use strict';
 
-var async = require('async');
-var gt = require('./../modules/gettext');
+const async = require('async');
 
 
 exports = module.exports = function(params) {
-	
+
 	var mongoose = params.mongoose;
 	var typeSchema = new mongoose.Schema({
-		name: { type: String, unique: true },		
+		name: { type: String, unique: true },
 		color: { type: String },
 		groupFolded: { type: Boolean, default: false }, 	// folding status in the request creation page
         groupTitle: String,
@@ -17,8 +16,8 @@ exports = module.exports = function(params) {
         // used for the default types embeded in the app
 		locked: { type: Boolean, default: false }
 	});
-    
-    
+
+
 
     /**
      * Get group title, the manager probably configured a plural version of the name
@@ -39,6 +38,9 @@ exports = module.exports = function(params) {
 
         let model = this;
 
+		const gt = params.app.utility.gettext;
+
+
 
         /**
          * initialize default types on database creation
@@ -48,7 +50,7 @@ exports = module.exports = function(params) {
          */
         function createDefaults(done) {
 
-            
+
             let allTypes = [
                 { _id: '5740adf51cf1a569643cc508' ,  name: gt.gettext('Paid annual leave')                , sortkey: 1 },
                 { _id: '5740adf51cf1a569643cc509' ,  name: gt.gettext('Seniority leave')                  , sortkey: 2 },
@@ -110,7 +112,7 @@ exports = module.exports = function(params) {
 
         return createDefaults;
     };
-    
+
 
     /**
      * Get the quantity added on initial quantity between two dates on all rights of the type
@@ -143,10 +145,9 @@ exports = module.exports = function(params) {
         });
     };
 
-  
+
 	typeSchema.index({ 'name': 1 }, { unique: true });
 	typeSchema.set('autoIndex', params.autoIndex);
-  
+
 	params.db.model('Type', typeSchema);
 };
-

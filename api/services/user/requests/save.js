@@ -1,6 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 const getApprovalSteps = require('../../../../modules/getApprovalSteps');
 const saveAbsence = require('./saveAbsence');
 const saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
@@ -14,6 +13,8 @@ const requestcreated = require('../../../../modules/emails/requestcreated');
  */
 function validate(service, params)
 {
+
+    const gt = service.app.utility.gettext;
 
     if (service.needRequiredFields(params, ['user'])) {
         return;
@@ -226,6 +227,7 @@ function getUserId(params)
  */
 function saveRequest(service, params) {
 
+    const gt = service.app.utility.gettext;
 
     let RequestModel = service.app.db.models.Request;
     let UserModel = service.app.db.models.User;

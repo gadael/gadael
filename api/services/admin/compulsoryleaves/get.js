@@ -1,6 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 const dispunits = require('./../../../../modules/dispunits');
 
 
@@ -8,6 +7,8 @@ const dispunits = require('./../../../../modules/dispunits');
 exports = module.exports = function(services, app) {
 
     var service = new services.get(app);
+
+    const gt = app.utility.gettext;
 
     /**
      * Call the compulsory leave get service
@@ -52,5 +53,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-

@@ -1,12 +1,12 @@
 'use strict';
 
 var async = require('async');
-var gt = require('./../modules/gettext');
 
 
 exports = module.exports = function(params) {
 
-	var mongoose = params.mongoose;
+	const mongoose = params.mongoose;
+
 	var recoverQuantitySchema = new mongoose.Schema({
 		name: { type: String, unique: true },
 		quantity: { type: Number, min:0, required: true },
@@ -18,7 +18,7 @@ exports = module.exports = function(params) {
 
     recoverQuantitySchema.statics.getInitTask = function(companyDoc) {
 
-
+		const gt = params.app.utility.gettext;
         let model = this;
 
         function createDefaults(done) {
@@ -82,4 +82,3 @@ exports = module.exports = function(params) {
 
 	params.db.model('RecoverQuantity', recoverQuantitySchema);
 };
-

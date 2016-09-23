@@ -1,7 +1,6 @@
 'use strict';
 
-var ctrlFactory = require('restitute').controller;
-var gt = require('./../../modules/gettext');
+const ctrlFactory = require('restitute').controller;
 
 
 
@@ -46,8 +45,9 @@ function createController() {
     this.controllerAction = function() {
 
         // Do not save first admin twice
-        var service = controller.service('admin/users/list');
-        var promise = service.getResultPromise({}); // no parameters, no pagination
+        let service = controller.service('admin/users/list');
+        let promise = service.getResultPromise({}); // no parameters, no pagination
+        const gt = service.app.utility.gettext;
 
         promise.then(function(users) {
             if (0 === users.length) {

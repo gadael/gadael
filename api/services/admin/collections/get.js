@@ -1,23 +1,20 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
-
-
 
 exports = module.exports = function(services, app) {
-    
 
+    const gt = app.utility.gettext;
 
     var service = new services.get(app);
-    
+
     /**
      * Call the collection get service
-     * 
+     *
      * @param {Object} params
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
+
         service.app.db.models.RightCollection
         .findOne({ '_id' : params.id})
         .exec(function(err, document) {
@@ -31,12 +28,10 @@ exports = module.exports = function(services, app) {
                 }
             }
         });
-        
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

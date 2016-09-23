@@ -1,6 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 const pendingapproval = require('../../../../modules/emails/pendingapproval');
 const requestaccepted = require('../../../../modules/emails/requestaccepted');
 const requestrejected = require('../../../../modules/emails/requestrejected');
@@ -61,6 +60,7 @@ function sendEmail(app, request, remainingApprovers)
  */
 function saveRequest(service, params) {
 
+    const gt = service.app.utility.gettext;
 
     var RequestModel = service.app.db.models.Request;
     var UserModel = service.app.db.models.User;

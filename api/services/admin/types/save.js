@@ -1,6 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 
 
 /**
@@ -25,6 +24,8 @@ function validate(service, params) {
  * @param {Object} params
  */
 function saveRightType(service, params) {
+
+    const gt = service.app.utility.gettext;
 
     var TypeModel = service.app.db.models.Type;
 

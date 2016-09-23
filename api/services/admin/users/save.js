@@ -1,11 +1,9 @@
 'use strict';
 
 
-const gt = require('./../../../../modules/gettext');
-
 /**
  * Validate params fields
- * 
+ *
  */
 function validate(service, params) {
 
@@ -45,14 +43,16 @@ function processPassword(service, params) {
     saveUser(service, params);
 }
 
-    
 
 
-    
+
+
 /**
  * Update/create the user document
- */  
+ */
 function saveUser(service, params) {
+
+    const gt = service.app.utility.gettext;
 
     let User = service.app.db.models.User;
 
@@ -92,7 +92,7 @@ function saveUser(service, params) {
                     if (service.handleMongoError(err)) {
 
                         service.success(gt.gettext('The user has been modified'));
-                        
+
                         saveUserRoles(service, params, user);
                     }
                 });
@@ -114,12 +114,14 @@ function saveUser(service, params) {
         .catch(service.error);
     }
 }
-    
-    
+
+
 /**
- * 
+ *
  */
 function saveUserRoles(service, params, userDocument) {
+
+    const gt = service.app.utility.gettext;
 
     if (!userDocument) {
         return service.notFound(gt.gettext('No user document to save roles on'));
@@ -140,7 +142,7 @@ function saveUserRoles(service, params, userDocument) {
 
 
     var admin = params.isAdmin ? {} : null;
-    
+
     var manager = null;
 
     if (params.roles !== undefined && params.roles.manager !== undefined) {
@@ -150,24 +152,24 @@ function saveUserRoles(service, params, userDocument) {
     if (undefined !== params.isManager && !params.isManager) {
         manager = null;
     }
-                        
+
 
     saveRoles(
-        service.app.db.models, 
-        userDocument, 
-        account, 
-        admin, 
-        manager, 
+        service.app.db.models,
+        userDocument,
+        account,
+        admin,
+        manager,
         function updateUserWithSavedRoles(err, results) {
 
             if (service.handleMongoError(err)) { // error forwarded by async
 
                 userDocument.save(function(err) {
                     if (service.handleMongoError(err)) { // error for user document
-                        
+
                         var output = userDocument.toObject();
                         output.$outcome = service.outcome;
-                        
+
                         service.deferred.resolve(output);
                     }
                 });
@@ -175,33 +177,31 @@ function saveUserRoles(service, params, userDocument) {
         }
     );
 }
-    
-    
-    
-    
+
+
+
+
 
 
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.save(app);
-    
+
     /**
      * Call the users save service
-     * 
+     *
      * @param {Object} user
      *
      * @return {Query}
      */
     service.getResultPromise = function(params) {
-        
+
         validate(service, params);
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

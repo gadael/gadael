@@ -1,11 +1,9 @@
 'use strict';
 
-var gt = require('./../modules/gettext');
-
 
 exports = module.exports = function(params) {
 
-	var mongoose = params.mongoose;
+	const mongoose = params.mongoose;
 
 	var requestActions = [
 		'create',		// request created
@@ -35,6 +33,7 @@ exports = module.exports = function(params) {
      */
     requestLogSchema.methods.getActionSummary = function getActionSummary() {
 
+		const gt = params.app.utility.gettext;
 
         switch(this.action) {
             case 'create':

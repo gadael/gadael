@@ -1,6 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 const util = require('util');
 
 
@@ -30,7 +29,7 @@ function validate(service, params) {
  */
 function saveAdjustment(service, params) {
 
-
+    const gt = service.app.utility.gettext;
 
     var Adjustment = service.app.db.models.Adjustment;
 
@@ -125,5 +124,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-

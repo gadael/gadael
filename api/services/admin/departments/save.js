@@ -2,9 +2,6 @@
 
 
 
-const gt = require('./../../../../modules/gettext');
-
-
 
 /**
  * Validate params fields
@@ -32,7 +29,7 @@ function validate(service, params) {
  */
 function saveDepartment(service, params) {
 
-
+    const gt = service.app.utility.gettext;
 
 
     var DepartmentModel = service.app.db.models.Department;

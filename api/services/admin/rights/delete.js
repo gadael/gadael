@@ -1,23 +1,24 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 const util = require('util');
 
 exports = module.exports = function(services, app) {
-    
+
+    const gt = app.utility.gettext;
+
     var service = new services.delete(app);
-    
+
     /**
      * Call the vacation right delete service
-     * 
+     *
      * @param {object} params
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
+
         let Right = service.app.db.models.Right;
         let rightDoc;
-        
+
         Right.findById(params.id).exec()
         .then(document => {
             rightDoc = document;
@@ -39,11 +40,10 @@ exports = module.exports = function(services, app) {
             });
         })
         .catch(service.error);
-        
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-

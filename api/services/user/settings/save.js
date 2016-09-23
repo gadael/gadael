@@ -1,7 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
-
 
 /**
  * Validate params fields
@@ -54,6 +52,7 @@ function saveAccount(service, params, user) {
  */
 function saveUser(service, params) {
 
+    const gt = service.app.utility.gettext;
 
     let UserModel = service.app.db.models.User;
 
@@ -125,5 +124,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-

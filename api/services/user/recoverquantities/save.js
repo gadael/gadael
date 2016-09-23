@@ -1,7 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
-
 
 
 
@@ -28,6 +26,7 @@ function validate(service, params) {
  */
 function saveRecoverQuantity(service, params) {
 
+    const gt = service.app.utility.gettext;
 
     var QuantityModel = service.app.db.models.RecoverQuantity;
 

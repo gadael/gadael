@@ -1,6 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 
 /**
  * Validate params fields
@@ -27,6 +26,8 @@ function validate(service, params) {
  * @param {function} next
  */
 function getAccount(service, params, next) {
+
+    const gt = service.app.utility.gettext;
 
     if (params.account && params.account._id) {
         next(params.account._id);
@@ -69,6 +70,8 @@ function getAccount(service, params, next) {
  * @param {Object} params
  */
 function saveAccountCollection(service, params) {
+
+    const gt = service.app.utility.gettext;
 
     var AccountCollection = service.app.db.models.AccountCollection;
     var util = require('util');

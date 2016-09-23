@@ -1,11 +1,11 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
-
 
 exports = module.exports = function(services, app) {
 
     var service = new services.delete(app);
+
+    const gt = app.utility.gettext;
 
     /**
      * Call the rightrenewal delete service
@@ -28,7 +28,7 @@ exports = module.exports = function(services, app) {
                     service.resolveSuccess(object, gt.gettext('The renewal has been deleted'));
                 });
             });
-            
+
         })
         .catch(service.error);
 

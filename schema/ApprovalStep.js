@@ -1,7 +1,5 @@
 'use strict';
 
-var gt = require('./../modules/gettext');
-
 
 exports = module.exports = function(params) {
 
@@ -68,6 +66,7 @@ exports = module.exports = function(params) {
      */
     approvalStepSchema.methods.getDispStatus = function() {
 
+		const gt = params.app.utility.gettext;
 
         switch(this.status) {
             case 'waiting':     return gt.gettext('Waiting');

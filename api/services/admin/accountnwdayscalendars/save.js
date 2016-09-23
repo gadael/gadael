@@ -1,8 +1,6 @@
 'use strict';
 
 
-const gt = require('./../../../../modules/gettext');
-
 /**
  * Validate params fields
  * @param {apiService} service
@@ -27,6 +25,8 @@ function validate(service, params) {
  * @param {function} next
  */
 function getAccount(service, params, next) {
+
+    const gt = service.app.utility.gettext;
 
     if (params.account) {
         next(params.account);
@@ -68,6 +68,8 @@ function getAccount(service, params, next) {
  * @param {Object} params
  */
 function saveAccountNWDaysCalendar(service, params) {
+
+    const gt = service.app.utility.gettext;
 
     var nwdaysCalendar = service.app.db.models.AccountNWDaysCalendar;
     var util = require('util');

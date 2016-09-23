@@ -1,12 +1,13 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 const getApprovalSteps = require('../../../../modules/getApprovalSteps');
 
 
 exports = module.exports = function(services, app) {
 
     var service = new services.delete(app);
+
+    const gt = app.utility.gettext;
 
     /**
      * Call the requests delete service

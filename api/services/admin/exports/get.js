@@ -1,7 +1,6 @@
 'use strict';
 
 const xlsx = require('xlsx-writestream');
-const gt = require('./../../../../modules/gettext');
 const tmp = require('tmp');
 const fs = require('fs');
 
@@ -13,7 +12,7 @@ exports = module.exports = function(services, app) {
 
     let service = new services.get(app);
 
-
+    const gt = app.utility.gettext;
 
     /**
      * Get data for each export type
@@ -122,5 +121,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-

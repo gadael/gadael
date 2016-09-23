@@ -1,14 +1,13 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
-
 
 
 exports = module.exports = function(services, app) {
-    
+
+    const gt = app.utility.gettext;
 
     var service = new services.get(app);
-    
+
     /**
      * @param {Object} department       Department document converted to object
      * @param {Array}  managers
@@ -28,12 +27,12 @@ exports = module.exports = function(services, app) {
 
     /**
      * Call the department get service
-     * 
+     *
      * @param {Object} params
      * @return {Promise}
      */
     service.getResultPromise = function(params) {
-        
+
         service.app.db.models.Department
         .findOne({ '_id' : params.id})
         .populate('parent')
@@ -84,12 +83,10 @@ exports = module.exports = function(services, app) {
                 }
             }
         });
-        
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

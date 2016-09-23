@@ -38,7 +38,8 @@ function gadael_loadMockModels(app, db)
 		mongoose: app.mongoose,
 		db: db,
 		autoIndex: true,
-        embeddedSchemas: []
+        embeddedSchemas: [],
+		app: app
 	};
 
 	models.load();
@@ -420,9 +421,11 @@ exports = module.exports = {
             mongoose: app.mongoose,
             db: app.db,
             autoIndex: (app.get('env') === 'development'),
-            embeddedSchemas: []
+            embeddedSchemas: [],
+			app: app
         };
 
+		apputil(app);
         models.load();
 
         //settings
@@ -483,7 +486,7 @@ exports = module.exports = {
         //setup routes
         routes(app, passport);
 
-        apputil(app);
+
 
 
         return app;

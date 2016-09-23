@@ -1,13 +1,12 @@
 'use strict';
 
-//const gt = require('./../modules/gettext');
 const SpecialRightIndex = require('./../api/specialrights/index');
 const dispunits = require('../modules/dispunits');
 
 exports = module.exports = function(params) {
-    
+
     let mongoose = params.mongoose;
-    
+
 	let rightSchema = new params.mongoose.Schema({
 		name: { type: String, unique: true, required: true },
         description: String,
@@ -15,7 +14,7 @@ exports = module.exports = function(params) {
         type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
         require_approval: { type: Boolean, default:true },
         sortkey: Number,
-        
+
         special: { type: String },                               // quantity evaluation rule used instead of the default quantity
                                                                  // name will be readonly
                                                                  // special rights are stored in api/specialrights/*
@@ -32,12 +31,12 @@ exports = module.exports = function(params) {
 
         // automatic distribution on this right on request creation
         autoDistribution: { type: Boolean, default:true },
-        
+
         quantity: { type: Number, min:0 },                          // initial quantity for each renewal
                                                                     // this can be overwritten by special quantity from a custom rule (ex: RTT)
 
         quantity_unit: { type: String, enum:['D', 'H'], required: true },   // Days our Hours
-        
+
         /**
          * Add "quantity" every first day of month
          * on each modification of the right, an array of rightAdjustments will be created in renewal
@@ -49,7 +48,7 @@ exports = module.exports = function(params) {
             quantity: { type: Number, min:0 },
             max: { type: Number, min:0 }
         },
-        
+
         timeSaving: {
             active: { type: Boolean, default: false },              // The right quantity can be saved to CET or not
             max: { type: Number, min:1 }                            // max saveable quantity from renewal
@@ -66,14 +65,14 @@ exports = module.exports = function(params) {
 
         activeFor: {
             account: { type: Boolean, default:true },
-            
+
             // manager substituting one of his subordinate
             manager: { type: Boolean, default:true },
-            
+
             // admin substituting one of the user with vacation account
             admin: { type: Boolean, default:true }
         },
-        
+
         // activeSpan.min minimal number of days between entry date and request start date
         // this is the time given to the approvers
         // activeSpan.max maximal number of days between entry date and request end date
@@ -86,12 +85,12 @@ exports = module.exports = function(params) {
 
         rules: [params.embeddedSchemas.RightRule]
 	});
-    
-    
+
+
     rightSchema.index({ 'name': 1 }, { unique: true });
 	rightSchema.set('autoIndex', params.autoIndex);
 
-    
+
     /**
      * Pre save hook
      */
@@ -334,7 +333,7 @@ exports = module.exports = function(params) {
             .find()
             .where('right').equals(this._id);
     };
-    
+
 
     /**
      * Get all renewals
@@ -373,7 +372,7 @@ exports = module.exports = function(params) {
      * @returns {Promise}
      */
     rightSchema.methods.getPeriodRenewal = function(dtstart, dtend) {
-        
+
         return this.getRenewalsQuery()
         .where('start').lte(dtstart)
         .where('finish').gte(dtend)
@@ -397,7 +396,7 @@ exports = module.exports = function(params) {
      * @returns {Promise}
      */
     rightSchema.methods.getSameRenewal = function(dtstart, dtend) {
-        
+
         return this.getRenewalsQuery()
         .where('start', dtstart)
         .where('finish', dtend)
@@ -411,7 +410,7 @@ exports = module.exports = function(params) {
             return arr[0];
         });
     };
-    
+
 
     /**
      * Get the quantity added on initial quantity between two dates
@@ -480,41 +479,41 @@ exports = module.exports = function(params) {
      * @returns {Promise}
      */
     rightSchema.methods.getLastRenewal = function() {
-        
+
         var deferred = {};
         deferred.promise = new Promise(function(resolve, reject) {
             deferred.resolve = resolve;
             deferred.reject = reject;
         });
-        
+
         this.getRenewalsQuery()
             .limit(1)
             .sort('-start')
             .exec(function(err, arr) {
-            
+
                 if (err) {
                     deferred.reject(err);
                     return;
                 }
-            
+
                 if (!arr || 0 === arr.length) {
                     deferred.resolve(null);
                     return;
                 }
-            
+
                 deferred.resolve(arr[0]);
             });
-        
+
         return deferred.promise;
     };
-    
-    
+
+
     rightSchema.methods.getDispUnit = function(quantity) {
-        
+
         return dispunits(this.quantity_unit, quantity);
     };
 
-    
+
     /**
      * Validate right rules
      * return false if one of the rules is not appliquable (ex: for request date when the request does not exists)
@@ -540,7 +539,7 @@ exports = module.exports = function(params) {
 
         return true;
     };
-    
+
 
 
     /**
@@ -802,11 +801,6 @@ exports = module.exports = function(params) {
     };
 
 
-	
+
 	params.db.model('Right', rightSchema);
 };
-
-
-
-
-

@@ -1,18 +1,17 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
 const userComplete = require('../../../../modules/userComplete');
 
 
 exports = module.exports = function(services, app) {
 
+    const gt = app.utility.gettext;
 
-    
     var service = new services.get(app);
-    
+
     /**
      * Call the users get service
-     * 
+     *
      * @param {Object} params
      * @return {Promise}
      */
@@ -32,19 +31,17 @@ exports = module.exports = function(services, app) {
                         service.outcome.success = true;
                         service.deferred.resolve(userObj);
                     });
-                    
-                    
+
+
                 } else {
                     service.notFound(gt.gettext('This user does not exists'));
                 }
             }
         });
-        
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-

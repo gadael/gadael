@@ -1,7 +1,5 @@
 'use strict';
 
-
-const gt = require('./../../../../modules/gettext');
 const saveAbsence = require('./../../user/requests/saveAbsence');
 const Services = require('restitute').service;
 const util = require('util');
@@ -13,6 +11,8 @@ const requestcreated = require('../../../../modules/emails/requestcreated');
  * @param {Object} params
  */
 function validate(service, params) {
+
+    const gt = service.app.utility.gettext;
 
     if (service.needRequiredFields(params, ['dtstart', 'dtend', 'name', 'userCreated', 'collections', 'departments', 'right'])) {
         return;
@@ -71,6 +71,8 @@ function getIds(list) {
  * @return {Promise} Resolve to an array of compulsory leave requests
  */
 function saveRequests(service, params) {
+
+    const gt = service.app.utility.gettext;
 
 
     /**
@@ -441,6 +443,7 @@ function saveRequests(service, params) {
  */
 function saveCompulsoryLeave(service, params) {
 
+    const gt = service.app.utility.gettext;
 
     /**
      * Save compulsory leave reference into absence requests

@@ -2,7 +2,6 @@
 
 const bcrypt = require('bcrypt');
 const Charlatan = require('charlatan');
-const gt = require('./../modules/gettext');
 const util = require('util');
 const oauthrefresh = require('passport-oauth2-refresh');
 const getStrategy = require('./../modules/gcalstrategy');
@@ -98,6 +97,9 @@ exports = module.exports = function(params) {
      * @param {function} next
      */
     userSchema.methods.checkMaxActiveUsers = function(next) {
+
+		const gt = params.app.utility.gettext;
+
 
         let companyModel = params.db.models.Company;
         let userModel = params.db.models.User;

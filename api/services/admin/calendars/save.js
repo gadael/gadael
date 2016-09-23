@@ -1,8 +1,5 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
-
-
 
 /**
  * Validate params fields
@@ -28,7 +25,9 @@ function validate(service, params) {
 function saveCalendar(service, params) {
 
 
-    var CalendarModel = service.app.db.models.Calendar;
+    const CalendarModel = service.app.db.models.Calendar;
+
+    const gt = service.app.utility.gettext;
 
 
     var fieldsToSet = {

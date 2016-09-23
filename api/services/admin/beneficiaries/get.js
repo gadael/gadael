@@ -1,14 +1,12 @@
 'use strict';
 
-const gt = require('./../../../../modules/gettext');
-
 
 
 exports = module.exports = function(services, app) {
 
     var service = new services.get(app);
 
-
+    const gt = app.utility.gettext;
 
 
     /**
