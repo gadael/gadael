@@ -11,6 +11,10 @@
  */
 exports = module.exports = function(app) {
 
+    if (undefined !== app.utility) {
+        return;
+    }
+
 
     //setup utilities
     app.utility = {};

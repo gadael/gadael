@@ -157,6 +157,8 @@ exports = module.exports = {
      */
     createDb: function createDb(app, dbName, company, callback) {
 
+		apputil(app);
+
         // createConnection
         let db = app.mongoose.createConnection();
 
