@@ -7,6 +7,7 @@ module.exports = exports = function(app) {
     return {
         rights: [
             {
+                _id: '577225e3f3c65dd800257bdc',
                 special: 'annualleave',
                 name: gt.gettext("Paid annual leave"),
                 type: '5740adf51cf1a569643cc508',
