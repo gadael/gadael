@@ -13,4 +13,4 @@ if ('en' === language) {
     country = 'UK';
 }
 
-helpers.screenServer('docScreenshotsEn', country, language, pages);
+helpers.screenServer('docScreenshots_'+language, country, language, pages);

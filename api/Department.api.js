@@ -64,6 +64,8 @@ api.create = function(app, parent, name, operator) {
  * @param {Express}    app
  * @param {Department} department A created department object
  * @param {Int}        nbUsers    Number of members in department (other than manager)
+ *
+ * @return {Promise}
  */
 api.populate = function(app, department, nbUsers, password) {
 
@@ -77,6 +79,51 @@ api.populate = function(app, department, nbUsers, password) {
     for (let u=0; u<nbUsers; u++) {
         promises.push(userApi.createRandomAccount(app, Charlatan.Internet.safeEmail(), password));
     }
+
+    let saves = [];
+
+    return Promise.all(promises)
+    .then(randomUsers => {
+        return randomUsers[0].user.getManager()
+        .then(managerDocument => {
+            managerDocument.department = [department._id];
+            saves.push(managerDocument.save());
+            return randomUsers;
+        });
+    })
+    .then(randomUsers => {
+        randomUsers.forEach(randomUser => {
+            randomUser.user.department = department._id;
+            saves.push(randomUser.user.save());
+        });
+
+        return Promise.all(saves)
+        .then(() => {
+            return randomUsers;
+        });
+    });
+};
+
+/**
+ * Populate a department for documentation screenshots
+ *
+ * @param {Express}    app
+ * @param {Department} department A created department object
+ *
+ * @return {Promise}
+ */
+api.populateScreenshots = function(app, department) {
+
+    let userApi = require('./User.api');
+
+    let promises = [];
+
+    promises.push(userApi.createRandomManager(app, 'manager@example.com', 'secret', 'Doe', 'Jane'));
+
+    promises.push(userApi.createRandomAccount(app, 'user1@example.com', 'secret', 'Cannella', 'Pamila'));
+    promises.push(userApi.createRandomAccount(app, 'user2@example.com', 'secret', 'Pitcher', 'Malcolm'));
+    promises.push(userApi.createRandomAccount(app, 'user3@example.com', 'secret', 'Mcgee', 'Lincoln'));
+
 
     let saves = [];
 
@@ -116,6 +163,33 @@ api.createRandom = function(app, parent, nbUsers, password) {
     return new Promise((resolve, reject) => {
         api.create(app, parent).then(department => {
             api.populate(app, department, nbUsers, password)
+            .then(randomUsers => {
+
+                let randomDepartment = {
+                    department: department,
+                    manager: randomUsers.shift(),
+                    members: randomUsers
+                };
+
+                resolve(randomDepartment);
+            }).catch(reject);
+        }).catch(reject);
+    });
+};
+
+
+/**
+ * Create a department with a population for documentation screenshot
+ * @param {Express} app
+ * @param {String}  parent   Parent department ID
+ *
+ * @return {Promise}    Resolve to the randomDepartment object
+ */
+api.createScreenshootDepartment = function(app, parent) {
+    const gt = app.utility.gettext;
+    return new Promise((resolve, reject) => {
+        api.create(app, parent, gt.gettext('Products and sales')).then(department => {
+            api.populateScreenshots(app, department)
             .then(randomUsers => {
 
                 let randomDepartment = {

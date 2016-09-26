@@ -6,29 +6,29 @@ exports = module.exports = api;
 
 /**
  * Generate "count" random users in the app
- * 
+ *
  * @param 	object		app			Express app or headless mock app
- * @param	int			count		
+ * @param	int			count
  * @param	function	callback	Receive the created users
- */  
+ */
 api.populate = function(app, count, callback) {
-	
+
 	// create some users
-	
+
 	var async = require('async');
 
 	async.times(count, function(n, next){
-		
+
 		app.db.models.User.createRandom('secret', function(err, user) {
 			next(err, user);
 		});
 	}, function(err, users) {
-		
+
 		if (err)
 		{
 			console.trace(err);
 		}
-		
+
 		callback(users);
 	});
 };
@@ -40,10 +40,12 @@ api.populate = function(app, count, callback) {
  * @param {Express} app
  * @param {string} [email]
  * @param {string} [password]
- *
+ * @param {string} [lastname]
+ * @param {string} [firstname]
+ * 
  * @return {Promise}
  */
-api.createRandomUser = function(app, email, password) {
+api.createRandomUser = function(app, email, password, lastname, firstname) {
 
     let deferred = {};
     deferred.promise = new Promise(function(resolve, reject) {
@@ -66,8 +68,8 @@ api.createRandomUser = function(app, email, password) {
 
         user.password = hash;
         user.email = email || Charlatan.Internet.safeEmail();
-        user.lastname = Charlatan.Name.lastName();
-		user.firstname = Charlatan.Name.firstName();
+        user.lastname = lastname || Charlatan.Name.lastName();
+		user.firstname = firstname || Charlatan.Name.firstName();
 
         deferred.resolve({
             user: user,
@@ -129,9 +131,9 @@ api.createRandomDisabledAdmin = function(app, email, password) {
  * @param {string} [password]
  * @return {Promise}
  */
-api.createRandomAccount = function(app, email, password) {
+api.createRandomAccount = function(app, email, password, lastname, firstname) {
 
-    return api.createRandomUser(app, email, password)
+    return api.createRandomUser(app, email, password, lastname, firstname)
     .then(function(randomUser) {
         return randomUser.user.saveAccount()
         .then(() => {
@@ -172,13 +174,15 @@ api.createRandomAccount = function(app, email, password) {
  * @param {Express} app
  * @param {string} [email]
  * @param {string} [password]
+ * @param {string} [lastname]
+ * @param {string} [firstname]
  *
  * @return {Promise}
  */
-api.createRandomManager = function(app, email, password) {
+api.createRandomManager = function(app, email, password, lastname, firstname) {
 
     return new Promise(function(resolve, reject) {
-        api.createRandomUser(app, email, password).then(function(randomUser) {
+        api.createRandomUser(app, email, password, lastname, firstname).then(function(randomUser) {
             randomUser.user.saveManager().then(function() {
                  resolve(randomUser);
             }).catch(reject);

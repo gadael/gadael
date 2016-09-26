@@ -57,6 +57,22 @@ exports = module.exports = function pages(server)
     }
 
 
+    function loginAsManager()
+    {
+        return new Promise((resolve) => {
+            server.get('/rest/logout', {}, function(res) {
+                server.post('/rest/login', {
+                    username: 'manager@example.com', // Jane Doe
+                    password: 'secret'
+                }, function(res, body) {
+                    resolve(true);
+                });
+            });
+        });
+    }
+
+
+
     return server.createAdminSession()
     .then(function(theCreatedAdmin) {
 
@@ -79,7 +95,7 @@ exports = module.exports = function pages(server)
         .then(createUser);
     })
     .then(createdUser => {
-        return api.department.createRandom(server.app, null, 3)
+        return api.department.createScreenshootDepartment(server.app, null, 3)
         .then(randomDepartment => {
 
             return server.webshot('/admin/users', 'userlist-with-one-admin')
@@ -94,5 +110,7 @@ exports = module.exports = function pages(server)
             .then(server.webshot('/admin/department-edit/'+randomDepartment.department._id, 'department-edit'));
         });
     })
+    .then(loginAsManager)
+    .then(server.webshot('/manager/waitingrequests', 'manager-waiting-requests'))
     .then(closeServer);
 };
