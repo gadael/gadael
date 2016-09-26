@@ -57,16 +57,32 @@ exports = module.exports = function pages(server)
     }
 
 
+    function logout()
+    {
+        return new Promise((resolve, reject) => {
+            server.get('/rest/logout', {}, function(res, body) {
+                if (res.statusCode === 200) {
+                    return resolve(true);
+                }
+                reject(new Error(body.$outcome.alert[0].message));
+            });
+        });
+    }
+
+
     function loginAsManager()
     {
-        return new Promise((resolve) => {
-            server.get('/rest/logout', {}, function(res) {
-                server.post('/rest/login', {
-                    username: 'manager@example.com', // Jane Doe
-                    password: 'secret'
-                }, function(res, body) {
-                    resolve(true);
-                });
+        return new Promise((resolve, reject) => {
+
+            server.post('/rest/login', {
+                username: 'manager@example.com', // Jane Doe
+                password: 'secret'
+            }, function(res, body) {
+                if (res.statusCode === 200) {
+                    return resolve(true);
+                }
+
+                reject(new Error(body.$outcome.alert[0].message));
             });
         });
     }
@@ -110,7 +126,18 @@ exports = module.exports = function pages(server)
             .then(server.webshot('/admin/department-edit/'+randomDepartment.department._id, 'department-edit'));
         });
     })
-    .then(loginAsManager)
-    .then(server.webshot('/manager/waitingrequests', 'manager-waiting-requests'))
+    .then(() => {
+        return logout()
+        .then(loginAsManager)
+        .then(() => {
+            return server.webshot('/home', 'manager-home')
+            .then(server.webshot('/manager/waitingrequests', 'manager-waiting-requests'));
+        });
+    })
+
+
+    .then(function() {
+        return true;
+    })
     .then(closeServer);
 };

@@ -26,11 +26,16 @@ function addWebshotMethod(server, languageCode)
           }
         };
 
+        console.log(filename+' start');
+
         return new Promise((accept, reject) => {
+
             webshot(url, './doc/screenshots/'+languageCode+'/'+filename+'.png', options, function(err) {
                 if (err) {
                     return reject(err);
                 }
+
+                console.log(filename+' done');
                 accept(null);
             });
         });
@@ -58,7 +63,7 @@ exports = module.exports = {
 
         helpers.mockServer(dbname, function(_mockServer) {
             addWebshotMethod(_mockServer, languageCode);
-            ready(_mockServer);
+            ready(_mockServer).catch(console.error);
         }, countryCode, languageCode);
     }
 };
