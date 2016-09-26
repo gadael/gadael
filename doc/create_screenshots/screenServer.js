@@ -26,8 +26,6 @@ function addWebshotMethod(server, languageCode)
           }
         };
 
-        console.log(filename+' start');
-
         return new Promise((accept, reject) => {
 
             webshot(url, './doc/screenshots/'+languageCode+'/'+filename+'.png', options, function(err) {
@@ -35,7 +33,6 @@ function addWebshotMethod(server, languageCode)
                     return reject(err);
                 }
 
-                console.log(filename+' done');
                 accept(null);
             });
         });
