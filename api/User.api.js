@@ -42,7 +42,7 @@ api.populate = function(app, count, callback) {
  * @param {string} [password]
  * @param {string} [lastname]
  * @param {string} [firstname]
- * 
+ *
  * @return {Promise}
  */
 api.createRandomUser = function(app, email, password, lastname, firstname) {
@@ -161,8 +161,21 @@ api.createRandomAccount = function(app, email, password, lastname, firstname) {
 };
 
 
+/**
+ * Set general collection 100%
+ * @return {Promise}
+ */
+api.linkToDefaultCollection = function(app, randomUser) {
+	return randomUser.user.getAccount()
+	.then(account => {
+		let link = new app.db.models.AccountCollection();
+		link.account = account._id;
+		link.rightCollection = '5740adf51cf1a569643cc520';
+		link.from = new Date(2016,0,1,0,0,0,0);
+		return link.save();
+	});
 
-
+};
 
 
 

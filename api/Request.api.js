@@ -10,9 +10,72 @@ exports = module.exports = api;
  * using the user/requests service
  *
  * @param 	{Express}	app   App or headless mock app
- * @param   {User}      user  Appliquant
+ * @param   {User} user  Appliquant
+ * @param   {Date} dtstart
+ * @param   {Date} dtend
+ * @param   {Int} nbdays
+ *
+ * @return {Promise}
  */
 api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
+
+    let save = app.getService('user/requests/save');
+
+
+    function createOnRight(rightDocument) {
+        return rightDocument.getPeriodRenewal(dtstart, dtend)
+
+        .then(renewal => {
+
+            if (!renewal) {
+                return null;
+            }
+
+            let params = { // parameters given to the service
+                user: user._id,
+                createdBy: user,
+                absence: {
+                    distribution: [
+                        {
+                            events: [{
+                                dtstart: dtstart,
+                                dtend: dtend
+                            }],
+                            quantity: nbdays,
+                            right: {
+                                id: rightDocument._id,
+                                renewal:renewal._id
+                            }
+                        }
+                    ]
+                }
+            };
+
+            return save.getResultPromise(params);
+        });
+    }
+
+
+    /**
+     * @return {Promise}
+     */
+    function loop(rights) {
+
+        if (rights.length === 0) {
+            throw new Error('no renewals rights');
+        }
+
+        return createOnRight(rights[0])
+        .then(result => {
+            if (null === result) {
+                rights.shift();
+                return loop(rights);
+            }
+            return result;
+        });
+    }
+
+
 
     if (!nbdays) {
         nbdays = 1;
@@ -22,64 +85,34 @@ api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
         throw new Error('This user is not an account');
     }
 
-    if (!user.roles.account._id) {
-        throw new Error('Account must be populated');
-    }
-
-    let account = user.roles.account;
 
 
-    let save = app.getService('user/requests/save');
-    let rightDocument;
+    return user.getAccount()
+    .then(account => {
 
-    return account.getRights().then(rights => {
-
-        if (rights.length < 1) {
-            throw new Error('No rights associated to the user');
+        if (!account) {
+            throw new Error('This user is not an account');
         }
 
-        if (!dtstart) {
-            dtstart = new Date();
-        }
+        return account.getRights().then(rights => {
 
-        if (!dtend) {
-            dtend = new Date(dtstart);
-            dtend.setDate(dtend.getDate()+nbdays);
-        }
-
-        rightDocument = rights[0];
-
-        return rightDocument.getPeriodRenewal(dtstart, dtend);
-    })
-    .then(renewal => {
-
-        if (!renewal) {
-            throw new Error('No renewal on this period');
-        }
-
-        let params = { // parameters given to the service
-            user: user._id,
-            createdBy: user,
-            absence: {
-                distribution: [
-                    {
-                        events: [{
-                            dtstart: dtstart,
-                            dtend: dtend
-                        }],
-                        quantity: nbdays,
-                        right: {
-                            id: rightDocument._id,
-                            renewal:renewal._id
-                        }
-                    }
-                ]
+            if (rights.length < 1) {
+                throw new Error('No rights associated to the user');
             }
-        };
 
-        return save.getResultPromise(params);
+            if (!dtstart) {
+                dtstart = new Date();
+            }
+
+            if (!dtend) {
+                dtend = new Date(dtstart);
+                dtend.setDate(dtend.getDate()+nbdays);
+            }
+
+            return loop(rights);
+        });
     });
 
+
+
 };
-
-

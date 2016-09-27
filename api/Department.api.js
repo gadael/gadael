@@ -137,6 +137,17 @@ api.populateScreenshots = function(app, department) {
         });
     })
     .then(randomUsers => {
+        let collectionPromises = [];
+        for (let i=1; i<randomUsers.length; i++) { // ignore first, not an account
+            collectionPromises.push(userApi.linkToDefaultCollection(app, randomUsers[i]));
+        }
+
+        return Promise.all(collectionPromises)
+        .then(() => {
+            return randomUsers;
+        });
+    })
+    .then(randomUsers => {
         randomUsers.forEach(randomUser => {
             randomUser.user.department = department._id;
             saves.push(randomUser.user.save());

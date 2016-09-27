@@ -60,7 +60,10 @@ exports = module.exports = {
 
         helpers.mockServer(dbname, function(_mockServer) {
             addWebshotMethod(_mockServer, languageCode);
-            ready(_mockServer).catch(console.error);
+            ready(_mockServer).catch(err => {
+                console.error(err);
+                console.log(err.stack);
+            });
         }, countryCode, languageCode);
     }
 };

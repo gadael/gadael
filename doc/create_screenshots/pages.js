@@ -2,16 +2,15 @@
 
 const api = {
     user: require('../../api/User.api'),
-    department: require('../../api/Department.api')
+    department: require('../../api/Department.api'),
+    request: require('../../api/Request.api')
 };
 
 
 
-exports = module.exports = function pages(server)
-{
+exports = module.exports = function pages(server) {
 
-    function createUser()
-    {
+    function createUser() {
         return new Promise((resolve, reject) => {
             server.post('/rest/admin/users', {
                 firstname: 'John',
@@ -45,8 +44,7 @@ exports = module.exports = function pages(server)
     }
 
 
-    function closeServer()
-    {
+    function closeServer() {
         return new Promise((resolve) => {
             server.get('/rest/logout', {}, function(res) {
                 server.close(() => {
@@ -57,8 +55,7 @@ exports = module.exports = function pages(server)
     }
 
 
-    function logout()
-    {
+    function logout() {
         return new Promise((resolve, reject) => {
             server.get('/rest/logout', {}, function(res, body) {
                 if (res.statusCode === 200) {
@@ -70,8 +67,7 @@ exports = module.exports = function pages(server)
     }
 
 
-    function loginAsManager()
-    {
+    function loginAsManager() {
         return new Promise((resolve, reject) => {
 
             server.post('/rest/login', {
@@ -88,6 +84,24 @@ exports = module.exports = function pages(server)
     }
 
 
+
+    function loginAsAccount() {
+        return new Promise((resolve, reject) => {
+
+            server.post('/rest/login', {
+                username: 'user1@example.com', // Pamila Cannella
+                password: 'secret'
+            }, function(res, body) {
+                if (res.statusCode === 200) {
+                    return resolve(true);
+                }
+
+                reject(new Error(body.$outcome.alert[0].message));
+            });
+        });
+    }
+
+    let user1;
 
     return server.createAdminSession()
     .then(function(theCreatedAdmin) {
@@ -114,6 +128,8 @@ exports = module.exports = function pages(server)
         return api.department.createScreenshootDepartment(server.app, null, 3)
         .then(randomDepartment => {
 
+            user1 = randomDepartment.members[0].user;
+
             return server.webshot('/admin/users', 'userlist-with-one-admin')
             .then(server.webshot('/admin/users/'+server.admin._id, 'user-admin-view'))
             .then(server.webshot('/admin/user-edit/'+server.admin._id, 'user-admin-edit'))
@@ -124,6 +140,17 @@ exports = module.exports = function pages(server)
             .then(server.webshot('/admin/departments', 'departments'))
             .then(server.webshot('/admin/departments/'+randomDepartment.department._id, 'department-view'))
             .then(server.webshot('/admin/department-edit/'+randomDepartment.department._id, 'department-edit'));
+        });
+    })
+    .then(() => {
+        return logout()
+        .then(loginAsAccount)
+        .then(() => {
+            let dtstart = new Date(2016, 6, 2, 8,0,0,0);
+            let dtend = new Date(2016, 6, 2, 18,0,0,0);
+            return api.request.createRandomAbsence(server.app, user1, dtstart, dtend, 1)
+            .then(server.webshot('/home', 'account-home'))
+            .then(server.webshot('/account/beneficiaries', 'account-rights'));
         });
     })
     .then(() => {
