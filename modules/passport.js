@@ -1,10 +1,13 @@
 'use strict';
 
+const http = require('http');
+const LocalStrategy = require('passport-local').Strategy;
+//const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 exports = module.exports = function(app, passport) {
 
   passport.db = app.db;
-  var LocalStrategy = require('passport-local').Strategy;
-  //    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 
 
   passport.use(new LocalStrategy(
@@ -90,7 +93,7 @@ exports = module.exports = function(app, passport) {
   });
 
 
-  var http = require('http'), req = http.IncomingMessage.prototype;
+   let req = http.IncomingMessage.prototype;
 
 	/**
 	 * Test if logged in
