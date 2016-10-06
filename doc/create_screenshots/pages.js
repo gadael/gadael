@@ -103,16 +103,18 @@ exports = module.exports = function pages(server) {
 
     let user1;
 
+    const ANNUAL_LEAVE = '577225e3f3c65dd800257bdc';
+
     return server.createAdminSession()
     .then(function(theCreatedAdmin) {
 
         return server.webshot('/admin/types', 'typelist')
         .then(server.webshot('/admin/types/5740adf51cf1a569643cc508', 'type-edit'))
         .then(server.webshot('/admin/rights', 'rightlist'))
-        .then(server.webshot('/admin/rights/577225e3f3c65dd800257bdc', 'right-view-annual-leave'))
-        .then(server.webshot('/admin/right-edit/577225e3f3c65dd800257bdc', 'right-edit-annual-leave'))
-        .then(server.webshot('/admin/rightrule-edit?right=577225e3f3c65dd800257bdc', 'rightrule-edit-annual-leave'))
-        .then(server.webshot('/admin/rightrenewal-edit?right=577225e3f3c65dd800257bdc', 'rightrenewal-edit-annual-leave'))
+        .then(server.webshot('/admin/rights/'+ANNUAL_LEAVE, 'right-view-annual-leave'))
+        .then(server.webshot('/admin/right-edit/'+ANNUAL_LEAVE, 'right-edit-annual-leave'))
+        .then(server.webshot('/admin/rightrule-edit?right='+ANNUAL_LEAVE, 'rightrule-edit-annual-leave'))
+        .then(server.webshot('/admin/rightrenewal-edit?right='+ANNUAL_LEAVE, 'rightrenewal-edit-annual-leave'))
         .then(server.webshot('/admin/collections', 'collectionlist'))
         .then(server.webshot('/admin/collections/5740adf51cf1a569643cc520', 'collection-edit'))
         .then(server.webshot('/admin/collections/5740adf51cf1a569643cc522', 'collection-parttime-edit'))
@@ -150,9 +152,14 @@ exports = module.exports = function pages(server) {
             let dtend = new Date(2016, 6, 2, 18,0,0,0);
             return api.request.createRandomAbsence(server.app, user1, dtstart, dtend, 1)
             .then(() => {
+                return user1.roles.account.getRightBeneficiary(ANNUAL_LEAVE);
+            })
+            .then(beneficiary => {
                 return server.webshot('/home', 'account-home')
                 .then(server.webshot('/account/calendar', 'account-calendar'))
                 .then(server.webshot('/account/beneficiaries', 'account-rights'))
+                .then(server.webshot('/account/beneficiaries/'+beneficiary._id, 'account-annual-leave'))
+                .then(server.webshot('/account/requests', 'account-requests'))
                 .then(server.webshot('/account/requests/absence-edit', 'account-absence-create'))
                 .then(server.webshot('/account/requests/time-saving-deposit-edit', 'account-time-saving-deposit-create'))
                 .then(server.webshot('/account/requests/workperiod-recover-edit', 'account-workperiod-recover-create'));

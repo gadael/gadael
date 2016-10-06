@@ -57,8 +57,8 @@ exports = module.exports = function(params) {
     accountSchema.index({ user: 1 });
     accountSchema.index({ 'status.id': 1 });
     accountSchema.set('autoIndex', params.autoIndex);
-    
-    
+
+
 
     /**
      * Find rights collections
@@ -70,7 +70,7 @@ exports = module.exports = function(params) {
             .find()
             .where('account').equals(this._id);
     };
-    
+
     /**
      * Find schedule calendars
      * @returns {Query} A mongoose query on the account schedule calendar schema
@@ -80,8 +80,8 @@ exports = module.exports = function(params) {
             .find()
             .where('account').equals(this._id);
     };
-    
-    
+
+
     /**
      * Find non-working days calendars
      * @returns {Query} A mongoose query on the account schedule calendar schema
@@ -170,7 +170,7 @@ exports = module.exports = function(params) {
     };
 
 
-    
+
     /**
      * Get the right collection for a specific date
      * @param {Date} moment
@@ -198,8 +198,8 @@ exports = module.exports = function(params) {
             return collection;
         });
     };
-    
-    
+
+
 
 
 
@@ -561,10 +561,10 @@ exports = module.exports = function(params) {
     accountSchema.methods.getScheduleCalendar = function(moment) {
 
         var account = this;
-        
+
         return account.getScheduleCalendarOverlapQuery(moment, moment).exec()
         .then(function(arr) {
-            
+
             if (arr && arr.length > 0) {
                 return arr[0].calendar;
             }
@@ -581,8 +581,8 @@ exports = module.exports = function(params) {
             });
         });
     };
-    
-    
+
+
 
     /**
      * Get the ongoing right collection
@@ -592,7 +592,7 @@ exports = module.exports = function(params) {
         var today = new Date();
         return this.getCollection(today);
     };
-    
+
     /**
      * Get the ongoing schedule calendar
      * @return {Promise} resolve to a calendar document or null
@@ -601,50 +601,94 @@ exports = module.exports = function(params) {
         var today = new Date();
         return this.getScheduleCalendar(today);
     };
-    
-    
-    /**
-     * 
-     * Get the list of rights beneficiaries associated to an account
-     * @param {Date} moment  optional date parameter
-     * 
-     * @return {Promise} resolve to an array of beneficiary documents
-     */
-    accountSchema.methods.getRightBeneficiaries = function(moment) {
 
-        
+
+    /**
+     * Get an array with the account ID and the collection id for the moment date
+     * This array can be used to filter associated beneficiaries
+     *
+     * @param {Date} moment
+     *
+     * @return {Promise}
+     */
+    accountSchema.methods.getBeneficiaryDocumentIds = function(moment) {
+
         if (!moment) {
             moment = new Date();
         }
-        
-
 
         let account = this;
-        
-        
+
         return this.getCollection(moment).then(function(rightCollection) {
 
             if (!account.user.id) {
                 throw new Error('The user.id property is missing on user.roles.account');
             }
-            
+
             var userDocuments = [account.user.id];
 
             if (rightCollection) {
                 userDocuments.push(rightCollection._id);
             }
 
+            return userDocuments;
+        });
+
+
+    };
+
+
+    /**
+     *
+     * Get the list of rights beneficiaries associated to an account
+     * @param {Date} moment  optional date parameter
+     *
+     * @return {Promise} resolve to an array of beneficiary documents
+     */
+    accountSchema.methods.getRightBeneficiaries = function(moment) {
+
+        let account = this;
+
+        return account.getBeneficiaryDocumentIds(moment)
+        .then(function(userDocuments) {
+
             return account.model('Beneficiary')
+                .find()
                 .where('document').in(userDocuments)
                 .populate('right')
                 .exec();
-            
         });
 
     };
-    
+
     /**
-     * 
+     * Get the beneficiary document or null if the right is not associated
+     *
+     * @param {String} rightId
+     * @param {Date} moment     Optional
+     *
+     * @return {Promise}  Resolve to the beneficiary document
+     */
+    accountSchema.methods.getRightBeneficiary = function(rightId, moment) {
+
+        let account = this;
+
+        return account.getBeneficiaryDocumentIds(moment)
+        .then(function(userDocuments) {
+
+            return account.model('Beneficiary')
+                .findOne()
+                .where('document').in(userDocuments)
+                .where('right').equals(rightId)
+                .populate('right')
+                .exec();
+        });
+    };
+
+
+
+    /**
+     *
      * @param {Date} moment  optional date parameter
      * @return {Promise} resolve to an array of rights
      */
@@ -653,7 +697,7 @@ exports = module.exports = function(params) {
         return this.getRightBeneficiaries(moment)
         .then(function(beneficiaries) {
             let rights = [];
-            
+
             for(var i=0; i< beneficiaries.length; i++) {
                 rights.push(beneficiaries[i].right);
             }
@@ -661,7 +705,7 @@ exports = module.exports = function(params) {
             return rights;
         });
     };
-    
+
 
 
 
