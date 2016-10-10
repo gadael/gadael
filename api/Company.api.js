@@ -182,7 +182,7 @@ exports = module.exports = {
             m.Company.count({}, (err, count) => {
 
                 if (0 !== count) {
-                    console.error('Database allready initialized');
+                    console.error('Database allready initialized with company object: '+dbName);
                     callback(null);
                     return db.close();
                 }
