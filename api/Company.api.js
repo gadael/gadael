@@ -42,6 +42,7 @@ function gadael_loadMockModels(app, db)
 		app: app
 	};
 
+	apputil(app);
 	models.load();
 }
 

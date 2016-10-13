@@ -37,6 +37,7 @@ app.connect = function(callback) {
             embeddedSchemas: {},
             app: app
 		};
+
 		models.load();
 
 		callback();

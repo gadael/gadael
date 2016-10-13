@@ -66,6 +66,7 @@ grunt test
 - [ ] Display pending delete status on planning
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
+- [ ] After first admin created, redirect to login form
 
 ## Main packages used
 
