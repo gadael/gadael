@@ -321,6 +321,8 @@ exports = module.exports = {
 
     /**
      * Get all company documents from all the databases
+	 * Promise resolve to an associated object wher keys are dbnames
+	 * 
      * @param {Object} app
      * @return {Promise}
      */
