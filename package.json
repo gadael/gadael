@@ -2,7 +2,7 @@
   "name": "gadael",
   "version": "0.0.1",
   "author": "Paul de Rosanbo <paul@rosanbo.com>",
-  "description": "Vacations management application for  smart teams, nodejs server, angularjs frontend",
+  "description": "Vacations management application for smart teams, nodejs server, angularjs frontend",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,7 +10,6 @@
   },
   "keywords": [
     "icalendar",
-    "ldap",
     "vacations",
     "holidays",
     "node",
@@ -21,7 +20,9 @@
     "Congé",
     "Absence",
     "récupération des jours travaillés",
-    "working time recovery"
+    "working time recovery",
+    "google",
+    "calendar"
   ],
   "scripts": {
     "test": "grunt travis"
