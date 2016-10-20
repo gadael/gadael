@@ -4,7 +4,11 @@ exports = module.exports = function(params) {
 	var companySchema = new params.mongoose.Schema({
 		name: { type: String, required: true, unique: true },			// company name, site title
 		port: { type: Number, required: true },							// server port
-		email: String,													// system email, used in from field for notification
+		lastname: String,												// system owner
+		firstname: String,												// system owner
+		email: String,													// system owner email, fallback
+		managerName: String,											// Manager name used in the from field for notifications and in signature
+		managerEmail: String,											// system email, used in from field for notifications
         public_text: String,                                            // Text to display one homepage for annonymous
         private_text: String,                                           // Text to display one homepage for users logged in
         country: { type: String, maxlength: 2, minlength: 2 },          // Country code used for database initialisation ISO 3166-1 alpha-2

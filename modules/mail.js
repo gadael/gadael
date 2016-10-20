@@ -24,9 +24,11 @@ function Mail(app) {
 
     this.transporter = nodemailer.createTransport(app.config.mailtransport);
 
+    let company = app.config.company;
+
     let from = {
-        name: app.config.company.name,
-        address: app.config.company.email
+        name: company.managerName || company.firstname+' '+company.lastname,
+        address: company.managerEmail || company.email
     };
 
     /**
