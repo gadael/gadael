@@ -15,6 +15,7 @@ exports = module.exports = function(params) {
 
 		workperiod_recover_request: { type: Boolean, default: false },	// allow creation of workperiod recover requests
 		maintenance:  { type: Boolean, default: false },				// maintenance mode, the app is read only
+		disabled:  { type: Boolean, default: false },					// Application disabled, no access
 		approb_alert: { type: Number, default: 15 },					// number of days after no action on request approbation
 
 		renewal: {														// default renewal date for each year
