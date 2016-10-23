@@ -196,7 +196,7 @@ api.createRandom = function(app, parent, nbUsers, password) {
  *
  * @return {Promise}    Resolve to the randomDepartment object
  */
-api.createScreenshootDepartment = function(app, parent) {
+api.createScreenshotDepartment = function(app, parent) {
     const gt = app.utility.gettext;
     return new Promise((resolve, reject) => {
         api.create(app, parent, gt.gettext('Products and sales')).then(department => {

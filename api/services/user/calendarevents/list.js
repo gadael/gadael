@@ -175,8 +175,10 @@ exports = module.exports = function(services, app) {
                 case 'workschedule':
                     return account.getPeriodScheduleEvents(dtstart, dtend);
 
-                case 'holiday':
                 case 'nonworkingday':
+                    return account.getNonWorkingDayEvents(dtstart, dtend);
+
+                case 'holiday':
                     return getEventsTypeEra(type, dtstart, dtend);
 
             }

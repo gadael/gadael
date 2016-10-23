@@ -127,7 +127,7 @@ exports = module.exports = function pages(server) {
         .then(createUser);
     })
     .then(createdUser => {
-        return api.department.createScreenshootDepartment(server.app, null, 3)
+        return api.department.createScreenshotDepartment(server.app, null)
         .then(randomDepartment => {
 
             user1 = randomDepartment.members[0].user;
