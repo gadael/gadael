@@ -136,17 +136,22 @@ api.createRandomAccount = function(app, email, password, lastname, firstname) {
     return api.createRandomUser(app, email, password, lastname, firstname)
     .then(function(randomUser) {
         return randomUser.user.saveAccount()
-        .then(() => {
+		.then(user => {
+			return user.getAccount();
+		})
+        .then(account => {
+
+			let from = new Date(2000,0,1,0,0,0,0);
 
             let scheduleCalendar = new app.db.models.AccountScheduleCalendar();
-            scheduleCalendar.account = randomUser.user.roles.account;
+            scheduleCalendar.account = account._id;
             scheduleCalendar.calendar = '5740adf51cf1a569643cc101'; // 40H full time work schedule
-            scheduleCalendar.from = new Date(2000,0,1,0,0,0,0);
+            scheduleCalendar.from = from;
 
             let nonworkingdaysCalendar = new app.db.models.AccountNWDaysCalendar();
-            nonworkingdaysCalendar.account = randomUser.user.roles.account;
+            nonworkingdaysCalendar.account = account._id;
             nonworkingdaysCalendar.calendar = '5740adf51cf1a569643cc100'; // france metropolis
-            nonworkingdaysCalendar.from = new Date(2000,0,1,0,0,0,0);
+            nonworkingdaysCalendar.from = from;
 
             return Promise.all([
                 scheduleCalendar.save(),

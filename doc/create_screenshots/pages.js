@@ -101,7 +101,7 @@ exports = module.exports = function pages(server) {
         });
     }
 
-    let user1;
+    let user1, beneficiary1;
 
     const ANNUAL_LEAVE = '577225e3f3c65dd800257bdc';
 
@@ -132,16 +132,28 @@ exports = module.exports = function pages(server) {
 
             user1 = randomDepartment.members[0].user;
 
-            return server.webshot('/admin/users', 'userlist-with-one-admin')
-            .then(server.webshot('/admin/users/'+server.admin._id, 'user-admin-view'))
-            .then(server.webshot('/admin/user-edit/'+server.admin._id, 'user-admin-edit'))
-            .then(server.webshot('/admin/users/'+createdUser._id, 'user-account-view'))
-            .then(server.webshot('/admin/user-edit/'+createdUser._id, 'user-account-edit'))
-            .then(server.webshot('/admin/users/'+randomDepartment.manager.user._id, 'user-manager-view'))
-            .then(server.webshot('/admin/user-edit/'+randomDepartment.manager.user._id, 'user-manager-edit'))
-            .then(server.webshot('/admin/departments', 'departments'))
-            .then(server.webshot('/admin/departments/'+randomDepartment.department._id, 'department-view'))
-            .then(server.webshot('/admin/department-edit/'+randomDepartment.department._id, 'department-edit'));
+            return user1.roles.account.getRightBeneficiary(ANNUAL_LEAVE)
+            .then(beneficiary => {
+
+                beneficiary1 = beneficiary;
+
+                return server.webshot('/admin/users', 'userlist-with-one-admin')
+                .then(server.webshot('/admin/users/'+server.admin._id, 'user-admin-view'))
+                .then(server.webshot('/admin/user-edit/'+server.admin._id, 'user-admin-edit'))
+                .then(server.webshot('/admin/users/'+user1._id, 'user-account-view'))
+                .then(server.webshot('/admin/user-edit/'+user1._id, 'user-account-edit'))
+                .then(server.webshot('/admin/users/'+user1._id+'/account-collections', 'user-account-collections'))
+                .then(server.webshot('/admin/users/'+user1._id+'/account-schedulecalendars', 'user-account-schedulecalendars'))
+                .then(server.webshot('/admin/users/'+user1._id+'/account-nwdayscalendars', 'user-account-nwdayscalendars'))
+                .then(server.webshot('/admin/users/'+user1._id+'/account-renewalquantity', 'user-account-renewalquantity'))
+                .then(server.webshot('/admin/beneficiaries/'+beneficiary1._id+'?user='+user1._id, 'user-account-annual-leave'))
+                .then(server.webshot('/admin/users/'+randomDepartment.manager.user._id, 'user-manager-view'))
+                .then(server.webshot('/admin/user-edit/'+randomDepartment.manager.user._id, 'user-manager-edit'))
+                .then(server.webshot('/admin/departments', 'departments'))
+                .then(server.webshot('/admin/departments/'+randomDepartment.department._id, 'department-view'))
+                .then(server.webshot('/admin/department-edit/'+randomDepartment.department._id, 'department-edit'));
+
+            });
         });
     })
     .then(() => {
@@ -152,13 +164,10 @@ exports = module.exports = function pages(server) {
             let dtend = new Date(2016, 6, 2, 18,0,0,0);
             return api.request.createRandomAbsence(server.app, user1, dtstart, dtend, 1)
             .then(() => {
-                return user1.roles.account.getRightBeneficiary(ANNUAL_LEAVE);
-            })
-            .then(beneficiary => {
                 return server.webshot('/home', 'account-home')
                 .then(server.webshot('/account/calendar', 'account-calendar'))
                 .then(server.webshot('/account/beneficiaries', 'account-rights'))
-                .then(server.webshot('/account/beneficiaries/'+beneficiary._id, 'account-annual-leave'))
+                .then(server.webshot('/account/beneficiaries/'+beneficiary1._id, 'account-annual-leave'))
                 .then(server.webshot('/account/requests', 'account-requests'))
                 .then(server.webshot('/account/requests/absence-edit', 'account-absence-create'))
                 .then(server.webshot('/account/requests/time-saving-deposit-edit', 'account-time-saving-deposit-create'))

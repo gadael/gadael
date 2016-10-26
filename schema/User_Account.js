@@ -94,7 +94,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Get a Q promise from a query on accountCollection
+     * Get a promise from a query on accountCollection
      * @param {Query} query     Mongoose query object
      * @return {Promise} resolve to a rightCollection document or null
      */
@@ -102,32 +102,18 @@ exports = module.exports = function(params) {
 
         query.populate('rightCollection');
 
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
-
-        query.exec(function(err, arr) {
-            if (err) {
-                deferred.reject(err);
-                return;
-            }
-
+        return query.exec()
+        .then(arr => {
             if (!arr || 0 === arr.length) {
-                deferred.resolve(null);
-                return;
+                return null;
             }
 
             if (arr.length !== 1) {
-                deferred.reject(new Error('More than one collection'));
-                return;
+                throw new Error('More than one collection: '+arr.length);
             }
 
-            deferred.resolve(arr[0].rightCollection);
+            return arr[0].rightCollection;
         });
-
-        return deferred.promise;
     };
 
 
@@ -206,7 +192,9 @@ exports = module.exports = function(params) {
 
     /**
      * Set the collection for the account
-     * @param {Date} moment
+     * @param {String|ObjectId|RightCollection} rightCollection
+     * @param {Date} from
+     * @param {Date} to
      *
      * @return {Promise} resolve to a AccountCollection document
      */
