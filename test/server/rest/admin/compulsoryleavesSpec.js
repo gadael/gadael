@@ -192,18 +192,22 @@ describe('Compulsory leaves admin rest service', function() {
 
     function getAccountRight() {
         return new Promise((resolve, reject) => {
-            server.get('/rest/admin/accountbeneficiaries', {
-                account: randomUser.user.roles.account.toString()
-            }, function(res, body) {
 
-                if (!Array.isArray(body)) {
-                    return reject(new Error(body.$outcome.alert[0]));
-                }
+            randomUser.user.getAccount()
+            .then(account => {
+                server.get('/rest/admin/accountbeneficiaries', {
+                    account: account._id.toString()
+                }, function(res, body) {
 
-                resolve(body.find(ar => {
-                    return (ar.right.id === right1.id);
-                }));
-            });
+                    if (!Array.isArray(body)) {
+                        return reject(new Error(body.$outcome.alert[0].message));
+                    }
+
+                    resolve(body.find(ar => {
+                        return (ar.right.id === right1.id);
+                    }));
+                });
+            }).catch(reject);
         });
     }
 
