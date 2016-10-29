@@ -4,12 +4,9 @@
 [![Code Climate](https://codeclimate.com/github/gadael/gadael/badges/gpa.svg)](https://codeclimate.com/github/gadael/gadael)
 [![Test Coverage](https://codeclimate.com/github/gadael/gadael/badges/coverage.svg)](https://codeclimate.com/github/gadael/gadael/coverage)
 
-nodejs absences management application
+nodejs leaves management application
 
 In developpement, not ready for production
-
-
-
 
 This application help you manage presence of your employees in your company. The staff can do requests, access to their planning, the department planning, the remaining vacation rights...
 
@@ -55,10 +52,12 @@ grunt test
 
 ## TODO
 
+- [ ] Login with a google account
 - [ ] Get managed services on home page
 - [ ] View time saving deposit by admin
 - [ ] Decrease RTT depending on the illness leaves
 - [ ] ICSDB integration for non working days calendars
+- [ ] After first admin created, redirect to login form
 - [ ] ICS Export
 - [ ] Compulsory leaves management, fix problem when requests are deleted
 - [x] do not display quantity field if readonly by special right, because initial quantity can be variable by user
@@ -66,7 +65,7 @@ grunt test
 - [ ] Display pending delete status on planning
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
-- [ ] After first admin created, redirect to login form
+
 
 ## Main packages used
 
