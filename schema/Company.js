@@ -28,7 +28,8 @@ exports = module.exports = function(params) {
         manager_options: {
             edit_request: { type: Boolean, default: true }              // spoof the users members of departments below him
         },
-		timeCreated: { type: Date, default: Date.now }
+		timeCreated: { type: Date, default: Date.now },
+		lastLogin: Date
 	});
 
 	companySchema.index({ name: 1 });

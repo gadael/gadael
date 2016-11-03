@@ -33,15 +33,15 @@ exports = module.exports = function(app, passport) {
         }
 
         db.models.User.validatePassword(password, user.password, function(err, isValid) {
-          if (err) {
-            return done(err);
-          }
+            if (err) {
+                return done(err);
+            }
 
-          if (!isValid) {
-            return done(null, false, { message: 'Invalid password' });
-          }
+            if (!isValid) {
+                return done(null, false, { message: 'Invalid password' });
+            }
 
-          return done(null, user);
+            return done(null, user);
         });
       });
     }
@@ -65,31 +65,33 @@ exports = module.exports = function(app, passport) {
   }
 */
 
-  passport.serializeUser(function(user, done) {
-    done(null, user._id);
+  /**
+   * Serialize user once connected
+   */
+  passport.serializeUser((user, done) => {
+      let company = app.config.company;
+      company.lastLogin = new Date();
+      company.save();
+
+      done(null, user._id);
   });
 
-  passport.deserializeUser(function(id, done) {
+  passport.deserializeUser((id, done) => {
 
     var db = passport.db;
     db.models.User.findOne({ _id: id })
         .populate('department')
         .populate('roles.admin')
         .populate('roles.manager')
-        .populate('roles.account').exec(function(err, user) {
-      if (user && user.roles && user.roles.admin) {
-        user.roles.admin.populate("groups", function(err, admin) {
-          done(err, user);
-        });
-      }
-      else {
+        .populate('roles.account')
+        .exec(function(err, user) {
 
-          if (null === user) {
-            console.trace(id+' -> NULL');
-          }
-        done(err, user);
-      }
-    });
+            if (null === user) {
+                console.error('User not found in deserializeUser '+id+' -> NULL');
+            }
+
+            done(err, user);
+        });
   });
 
 
