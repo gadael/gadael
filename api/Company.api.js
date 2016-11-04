@@ -322,7 +322,7 @@ exports = module.exports = {
     /**
      * Get all company documents from all the databases
 	 * Promise resolve to an associated object wher keys are dbnames
-	 * 
+	 *
      * @param {Object} app
      * @return {Promise}
      */
@@ -396,6 +396,8 @@ exports = module.exports = {
         });
     },
 
+
+
     /**
      *Get Express Application
      * @return {Object}
@@ -445,6 +447,13 @@ exports = module.exports = {
         }
 
         app.use(compression());
+		app.use(function(req, res, next) {
+			if (config.company.disabled) {
+				res.status(401).send('Site disabled by administrator');
+				return;
+			}
+			next();
+		});
         app.use(serveStatic(config.staticPath));
         app.use(bodyParser.json());
         app.use(cookieParser());
