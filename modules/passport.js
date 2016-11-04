@@ -70,8 +70,10 @@ exports = module.exports = function(app, passport) {
    */
   passport.serializeUser((user, done) => {
       let company = app.config.company;
-      company.lastLogin = new Date();
-      company.save();
+      if (company) {
+          company.lastLogin = new Date();
+          company.save();
+      }
 
       done(null, user._id);
   });

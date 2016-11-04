@@ -58,6 +58,7 @@ grunt test
 - [ ] Decrease RTT depending on the illness leaves
 - [ ] ICSDB integration for non working days calendars
 - [ ] After first admin created, redirect to login form
+- [ ] Display error message on disabled site for all routes
 - [ ] ICS Export
 - [ ] Compulsory leaves management, fix problem when requests are deleted
 - [x] do not display quantity field if readonly by special right, because initial quantity can be variable by user
