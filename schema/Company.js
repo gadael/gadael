@@ -77,6 +77,43 @@ exports = module.exports = function(params) {
         }).catch(next);
     };
 
+	/**
+	 * Get inactivity in minutes and days
+	 * Minutes can be used if days=0
+	 * @return Number
+	 */
+	companySchema.methods.getInactivity = function() {
+		let company = this;
+
+		if (!company.lastMinRefresh) {
+			return {
+				days: 0,
+				minutes: 0
+			};
+		}
+
+		function treatAsUTC(date) {
+			let result = new Date(date);
+			result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+			return result;
+		}
+
+		function daysBetween(startDate, endDate) {
+			let millisecondsPerDay = 24 * 60 * 60 * 1000;
+			return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
+		}
+
+		let now = new Date();
+
+		// 5 minutes are added to last record to include to potential
+		// uncounted refreshs
+		let min = 5 + (company.lastMinRefresh.getTime()/60000);
+
+		return {
+			days: Math.floor(daysBetween(company.lastMinRefresh, now)),
+			minutes: Math.floor((now.getTime()/60000)-min)
+		};
+	};
 
 
 	params.db.model('Company', companySchema);

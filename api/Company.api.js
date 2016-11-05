@@ -19,7 +19,7 @@ let compression = require('compression');
 let serveStatic = require('serve-static');
 let cookieParser = require('cookie-parser');
 let http = require('http');
-
+let gadaelMiddleware = require('../modules/gadaelMiddleware');
 
 
 
@@ -447,28 +447,7 @@ exports = module.exports = {
         }
 
         app.use(compression());
-		app.use(function(req, res, next) {
-			if (config.company.disabled) {
-				res.status(401).send('Site disabled by administrator');
-				return;
-			}
-
-			next();
-
-			let now, setNow = true;
-
-			now = new Date();
-
-			if (config.company.lastMinRefresh) {
-				let age = now.getTime() - config.company.lastMinRefresh.getTime();
-				setNow = age > 300000; // 5min
-			}
-
-			if (setNow) {
-				config.company.lastMinRefresh = now;
-				config.company.save();
-			}
-		});
+		app.use(gadaelMiddleware(app));
         app.use(serveStatic(config.staticPath));
         app.use(bodyParser.json());
         app.use(cookieParser());

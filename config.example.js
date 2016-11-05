@@ -54,5 +54,7 @@ exports = module.exports = function createConfiguration() {
 
     config.staticPath = require('path').join(__dirname, 'public');
 
+    config.inactivityTimeout = null; // Minutes
+
     return config;
 };
