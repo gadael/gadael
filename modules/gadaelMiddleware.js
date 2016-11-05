@@ -41,11 +41,10 @@ exports = module.exports = function(app) {
                 clearTimeout(app.inactivity);
             }
 
-            let ms = config.inactivityTimeout*60000;
-
             app.inactivity = setTimeout(function() {
+                console.log('Exit because of inactivity timeout');
                 process.exit();
-            }, ms);
+            }, config.inactivityTimeout * 60000);
         }
     };
 };
