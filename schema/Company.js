@@ -29,7 +29,8 @@ exports = module.exports = function(params) {
             edit_request: { type: Boolean, default: true }              // spoof the users members of departments below him
         },
 		timeCreated: { type: Date, default: Date.now },
-		lastLogin: Date
+		lastLogin: Date,												// Updated on each login
+		lastMinRefresh: Date											// This is updated every five minutes only
 	});
 
 	companySchema.index({ name: 1 });

@@ -452,7 +452,22 @@ exports = module.exports = {
 				res.status(401).send('Site disabled by administrator');
 				return;
 			}
+
 			next();
+
+			let now, setNow = true;
+
+			now = new Date();
+
+			if (config.company.lastMinRefresh) {
+				let age = now.getTime() - config.company.lastMinRefresh.getTime();
+				setNow = age > 300000; // 5min
+			}
+
+			if (setNow) {
+				config.company.lastMinRefresh = now;
+				config.company.save();
+			}
 		});
         app.use(serveStatic(config.staticPath));
         app.use(bodyParser.json());
