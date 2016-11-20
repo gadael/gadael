@@ -53,6 +53,9 @@ grunt test
 ## TODO
 
 - [ ] Login with a google account
+- [ ] Login from ldap server
+- [ ] Disable password modification on settings page if not local login
+- [ ] Disable password modification for mananger if not local login
 - [ ] Get managed services on home page
 - [ ] View time saving deposit by admin
 - [ ] Decrease RTT depending on the illness leaves

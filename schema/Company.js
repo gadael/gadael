@@ -30,7 +30,26 @@ exports = module.exports = function(params) {
         },
 		timeCreated: { type: Date, default: Date.now },
 		lastLogin: Date,												// Updated on each login
-		lastMinRefresh: Date											// This is updated every five minutes only
+		lastMinRefresh: Date,											// This is updated every five minutes only
+
+		loginservice: {
+			type: String,
+			enum: ['local', 'google', 'ldap'],
+			default: 'local'
+		},
+
+		loginservices: {
+
+	        google: {													// configure google oAuth login in instance
+	            clientID: String,
+	            clientSecret: String
+	        },
+
+			ldap: {														// Authenticate on ldap server
+				host: String,
+				basedn: String
+			}
+	    }
 	});
 
 	companySchema.index({ name: 1 });
