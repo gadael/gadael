@@ -32,20 +32,21 @@ exports = module.exports = function(params) {
 		lastLogin: Date,												// Updated on each login
 		lastMinRefresh: Date,											// This is updated every five minutes only
 
-		loginservice: {
-			type: String,
-			enum: ['local', 'google', 'ldap'],
-			default: 'local'
-		},
 
-		loginservices: {
+		loginservices: { 												// local or ldap, google
 
-	        google: {													// configure google oAuth login in instance
+			local: {
+				enable: { type: Boolean, default: true }
+			},
+
+	        google: {
+				enable: { type: Boolean, default: false },				// configure google oAuth login in instance
 	            clientID: String,
 	            clientSecret: String
 	        },
 
-			ldap: {														// Authenticate on ldap server
+			ldap: {
+				enable: { type: Boolean, default: false },				// Authenticate on ldap server
 				host: String,
 				basedn: String
 			}
@@ -132,6 +133,15 @@ exports = module.exports = function(params) {
 			days: Math.floor(daysBetween(company.lastMinRefresh, now)),
 			minutes: Math.floor((now.getTime()/60000)-min)
 		};
+	};
+
+
+	/**
+	 * Test if configuration need a login form
+	 * @return {Boolean}
+	 */
+	companySchema.methods.haveLoginForm = function() {
+		return (this.loginservices.local.enable || this.loginservices.ldap.enable);
 	};
 
 

@@ -156,7 +156,8 @@ exports.getInfos = function(req, res) {
     let company = {
 		name: compDoc.name,
 		maintenance: compDoc.maintenance,
-		max_users: compDoc.max_users
+		max_users: compDoc.max_users,
+        haveLoginForm: compDoc.haveLoginForm()
 	};
 
 	if (sessionUser.isAuthenticated) {
