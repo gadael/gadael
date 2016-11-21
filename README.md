@@ -52,6 +52,7 @@ grunt test
 
 ## TODO
 
+- [ ] Move /rest/login to /rest/annonymous/formlogin
 - [ ] Login with a google account
 - [ ] Login from ldap server
 - [ ] Disable password modification on settings page if not local login
