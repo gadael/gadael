@@ -61,7 +61,7 @@ function createController() {
             workflow.success(gt.gettext('You are now loged in'));
         })
         .catch(err => {
-            workflow.httpstatus = 401;
+            workflow.httpstatus = 400;
             workflow.emit('exception', err.message);
         });
 

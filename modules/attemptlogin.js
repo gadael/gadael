@@ -21,18 +21,20 @@ exports = module.exports = function attemptLogin(strategy, req, res) {
 
 
     let userPromise = new Promise((resolve, reject) => {
+
         req._passport.instance.authenticate(strategy, function(err, user, info) {
+
             if (err) {
                 return reject(err);
             }
-
-            return user;
+            resolve(user);
         })(req, res);
     });
 
-
     return userPromise
     .then(user => {
+
+
 
         if (!user) {
             let attempt = new loginAttempt();
