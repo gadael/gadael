@@ -197,7 +197,7 @@ exports = module.exports = function(services, app) {
     var service = new services.save(app);
 
     /**
-     * Call the calendar save service
+     * Call the right save service
      *
      * @param {Object} params
      *
