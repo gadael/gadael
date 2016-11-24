@@ -16,7 +16,7 @@ define(['angular'], function(angular) {
 				username: $scope.username,
 				password: $scope.password
 			}))
-			.success(function(data) {
+			.then(function(data) {
 
 				$rootScope.pageAlerts = data.alert;
 
@@ -48,7 +48,7 @@ define(['angular'], function(angular) {
 				}
 			})
 
-			.error(function(data) {
+			.catch(function(data) {
 				// receive 400 bad request on missing parameters, login or password
 
 				for (var fieldname in data.errfor)
