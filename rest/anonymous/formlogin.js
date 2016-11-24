@@ -36,7 +36,7 @@ function loginPromise(req, user)
  * login with local strategie or ldap strategie
  */
 function createController() {
-    // TODO: change to /rest/annonymous/formlogin
+    // TODO: change to /rest/anonymous/formlogin
     ctrlFactory.create.call(this, '/rest/login');
 
     let controller = this;

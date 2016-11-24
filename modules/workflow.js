@@ -1,141 +1,138 @@
 'use strict';
 
 /**
- * Event workflow
- *
- * @property	{Int}		httpstatus		Response HTTP code
- * @property	{Object}	document		the processed document, will be return by the http query for save method (mongoose document)
- * @property	{Object}	outcome			client infos
- *
- *
- * the outcome object is sent to client in json format inside the document in the $outcome property
- *
- * success: workflow result
- * alert: a list of message with { type: 'success|info|warning|danger' message: '' } type is one of bootstrap alert class
- * errfor: name of fields to highlight to client (empty value)
- *
- * @return {EventEmitter}
- */
+* Event workflow
+*
+* @property	{Int}		httpstatus		Response HTTP code
+* @property	{Object}	document		the processed document, will be return by the http query for save method (mongoose document)
+* @property	{Object}	outcome			client infos
+*
+*
+* the outcome object is sent to client in json format inside the document in the $outcome property
+*
+* success: workflow result
+* alert: a list of message with { type: 'success|info|warning|danger' message: '' } type is one of bootstrap alert class
+* errfor: name of fields to highlight to client (empty value)
+*
+* @return {EventEmitter}
+*/
 exports = module.exports = function(req, res) {
-  var workflow = new (require('events').EventEmitter)();
+    var workflow = new (require('events').EventEmitter)();
 
-  workflow.httpstatus = 200;
+    workflow.httpstatus = 200;
 
-  workflow.document = null;
-
-
-  workflow.outcome = {
-    success: false,
-    alert: [],
-    errfor: {}
-  };
+    workflow.document = null;
 
 
-  /**
-   * @return {bool}
-   */
-  workflow.hasErrors = function() {
-
-	if (Object.keys(workflow.outcome.errfor).length !== 0)
-	{
-		return true;
-	}
-
-	for(var i=0; i<workflow.outcome.alert.length; i++)
-	{
-		if (workflow.outcome.alert[i].type === 'danger')
-		{
-			return true;
-		}
-	}
-
-    return false;
-  };
-
-  /**
-   * Test required fields in req.body
-   * @param {Array} list
-   * @return bool
-   */
-  workflow.needRequiredFields = function(list) {
+    workflow.outcome = {
+        success: false,
+        alert: [],
+        errfor: {}
+    };
 
 
-	 for(var i=0; i<list.length; i++)
-	 {
-		if (!req.body[list[i]]) {
-			workflow.outcome.errfor[list[i]] = 'required';
-			workflow.httpstatus = 400; // Bad Request
-		}
-	 }
+    /**
+    * @return {bool}
+    */
+    workflow.hasErrors = function() {
 
-	 return this.hasErrors();
-  };
+        if (Object.keys(workflow.outcome.errfor).length !== 0) {
+            return true;
+        }
 
-  /**
-   * emit exception if parameter contain a mongoose error
-   * @param {Error} err
-   */
-  workflow.handleMongoError = function(err) {
-	  if (err) {
+        for(var i=0; i<workflow.outcome.alert.length; i++) {
+            if (workflow.outcome.alert[i].type === 'danger')
+            {
+                return true;
+            }
+        }
 
-		  console.trace(err);
+        return false;
+    };
 
-		  workflow.httpstatus = 400; // Bad Request
-
-		  if (err.errors) {
-			  for(var field in err.errors) {
-                  if (err.errors.hasOwnProperty(field)) {
-                      var e = err.errors[field];
-                      workflow.outcome.errfor[field] = e.type;
-                      workflow.outcome.alert.push({ type:'danger' ,message: e.message});
-                  }
-			  }
-		  }
-
-		  workflow.outcome.alert.push({ type:'danger' ,message: err.message});
-
-          workflow.emit('response');
-		  return false;
-	  }
-
-	  return true;
-  };
+    /**
+    * Test required fields in req.body
+    * @param {Array} list
+    * @return bool
+    */
+    workflow.needRequiredFields = function(list) {
 
 
-  workflow.success = function(message) {
-    workflow.outcome.alert.push({
-        type: 'success',
-        message: message
+        for(var i=0; i<list.length; i++) {
+            if (!req.body[list[i]]) {
+                workflow.outcome.errfor[list[i]] = 'required';
+                workflow.httpstatus = 400; // Bad Request
+            }
+        }
+
+        return this.hasErrors();
+    };
+
+    /**
+    * emit exception if parameter contain a mongoose error
+    * @param {Error} err
+    */
+    workflow.handleMongoError = function(err) {
+        if (err) {
+
+            console.trace(err);
+
+            workflow.httpstatus = 400; // Bad Request
+
+            if (err.errors) {
+                for(var field in err.errors) {
+                    if (err.errors.hasOwnProperty(field)) {
+                        var e = err.errors[field];
+                        workflow.outcome.errfor[field] = e.type;
+                        workflow.outcome.alert.push({ type:'danger' ,message: e.message});
+                    }
+                }
+            }
+
+            workflow.outcome.alert.push({ type:'danger' ,message: err.message});
+
+            workflow.emit('response');
+            return false;
+        }
+
+        return true;
+    };
+
+
+    workflow.success = function(message) {
+        workflow.outcome.alert.push({
+            type: 'success',
+            message: message
+        });
+
+        workflow.emit('response');
+    };
+
+
+    workflow.on('exception', function(err) {
+        workflow.outcome.alert.push({ type:'danger' ,message: err});
+        return workflow.emit('response');
     });
 
-    workflow.emit('response');
-  };
 
+    workflow.on('response', function() {
+        workflow.outcome.success = !workflow.hasErrors();
 
-  workflow.on('exception', function(err) {
-    workflow.outcome.alert.push({ type:'danger' ,message: err});
-    return workflow.emit('response');
-  });
+        if (!workflow.document) {
+            workflow.document = {}; // return empty document
+        }
 
+        if (workflow.document.constructor.name === 'model') {
+            // force as a plain object to add the new property
+            workflow.document = workflow.document.toObject();
+        }
 
-  workflow.on('response', function() {
-    workflow.outcome.success = !workflow.hasErrors();
+        workflow.document.$outcome = workflow.outcome;
 
-    if (!workflow.document) {
-        workflow.document = {}; // return empty document
-    }
-
-    if (workflow.document.constructor.name === 'model') {
-        // force as a plain object to add the new property
-        workflow.document = workflow.document.toObject();
-    }
-
-    workflow.document.$outcome = workflow.outcome;
-
-    res.status(workflow.httpstatus).send(workflow.document);
-  });
+        res.status(workflow.httpstatus).send(workflow.document);
+    });
 
 
 
-  return workflow;
+    return workflow;
 };
