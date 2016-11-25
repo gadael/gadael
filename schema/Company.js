@@ -35,21 +35,22 @@ exports = module.exports = function(params) {
 
 		loginservices: { 												// local or ldap, google
 
-			local: {
-				enable: { type: Boolean, default: true }
+			form: {
+				enable: { type: Boolean, default: true },
+				ldap: {													// TODO
+					enable: { type: Boolean, default: false },			// Authenticate on ldap server
+					host: String,
+					basedn: String,
+					filter: String
+				}
 			},
 
 	        google: {
 				enable: { type: Boolean, default: false },				// configure google oAuth login in instance
 	            clientID: String,
 	            clientSecret: String
-	        },
+	        }
 
-			ldap: {
-				enable: { type: Boolean, default: false },				// Authenticate on ldap server
-				host: String,
-				basedn: String
-			}
 	    }
 	});
 
@@ -135,22 +136,6 @@ exports = module.exports = function(params) {
 		};
 	};
 
-
-	/**
-	 * Test if a login form (email or nickname/password) must be displayed
-	 * @return {Boolean}
-	 */
-	companySchema.methods.haveFormLogin = function() {
-		return (this.loginservices.local.enable || this.loginservices.ldap.enable);
-	};
-
-	/**
-	 * Test if the google login button must be displayed
-	 * @return {Boolean}
-	 */
-	companySchema.methods.haveGoogleLogin = function() {
-		return this.loginservices.google.enable;
-	};
 
 
 	params.db.model('Company', companySchema);

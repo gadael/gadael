@@ -158,8 +158,8 @@ exports.getInfos = function(req, res) {
 		maintenance: compDoc.maintenance,
 		max_users: compDoc.max_users,
         login: {
-            form: compDoc.haveFormLogin(),
-            google: compDoc.haveGoogleLogin()
+            form: compDoc.loginservices.form.enable,
+            google: compDoc.loginservices.google.enable
         }
 	};
 
