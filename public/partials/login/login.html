@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-sm-6">
 
-		<div id="login">
+		<div id="login" ng-if="company.login.form">
 			<form ng-submit="submit()" ng-controller="Login" >
 				<div class="form-group ">
 					<label class="control-label" translate>Username or Email:</label>
@@ -32,7 +32,7 @@
 	<div class="col-sm-5">
 		<br />
 
-		<div class="panel panel-default">
+		<div class="panel panel-default" ng-if="company.login.google">
 			<div class="panel-body text-center">
 				<h4>Authenticate using your google account</h4>
 				<br />

@@ -137,11 +137,19 @@ exports = module.exports = function(params) {
 
 
 	/**
-	 * Test if configuration need a login form
+	 * Test if a login form (email or nickname/password) must be displayed
 	 * @return {Boolean}
 	 */
-	companySchema.methods.haveLoginForm = function() {
+	companySchema.methods.haveFormLogin = function() {
 		return (this.loginservices.local.enable || this.loginservices.ldap.enable);
+	};
+
+	/**
+	 * Test if the google login button must be displayed
+	 * @return {Boolean}
+	 */
+	companySchema.methods.haveGoogleLogin = function() {
+		return this.loginservices.google.enable;
 	};
 
 

@@ -157,7 +157,10 @@ exports.getInfos = function(req, res) {
 		name: compDoc.name,
 		maintenance: compDoc.maintenance,
 		max_users: compDoc.max_users,
-        haveLoginForm: compDoc.haveLoginForm()
+        login: {
+            form: compDoc.haveFormLogin(),
+            google: compDoc.haveGoogleLogin()
+        }
 	};
 
 	if (sessionUser.isAuthenticated) {
