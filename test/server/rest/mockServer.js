@@ -597,7 +597,7 @@ mockServer.prototype.authenticateUser = function(account) {
     var server = this;
 
     return new Promise((resolve, reject) => {
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': account.user.email,
             'password': account.password
         }, function(res, body) {

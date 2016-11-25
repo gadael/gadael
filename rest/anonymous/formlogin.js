@@ -37,7 +37,7 @@ function loginPromise(req, user)
  */
 function createController() {
     // TODO: change to /rest/anonymous/formlogin
-    ctrlFactory.create.call(this, '/rest/login');
+    ctrlFactory.create.call(this, '/rest/anonymous/formlogin');
 
     let controller = this;
 

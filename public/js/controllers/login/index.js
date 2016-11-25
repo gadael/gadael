@@ -12,7 +12,7 @@ define(['angular'], function(angular) {
 
 		$scope.submit = function() {
 
-			catchOutcome($http.post('rest/login', {
+			catchOutcome($http.post('/rest/anonymous/formlogin', {
 				username: $scope.username,
 				password: $scope.password
 			}))

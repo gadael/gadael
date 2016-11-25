@@ -260,7 +260,7 @@ describe('beneficiaries rest service', function() {
 
 
     it('login with user1', function(done) {
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': 'beneficiary_user1@example.com',
             'password': 'secret'
         }, function(res, body) {

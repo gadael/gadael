@@ -276,7 +276,7 @@ describe('Approval on absence request', function() {
 
     it('Login with the first approver from d6', function(done) {
         expect(managersByDepartment.d6[0]).toBeDefined();
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': managersByDepartment.d6[0].user.email,
             'password': managersByDepartment.d6[0].password
         }, function(res, body) {
@@ -342,7 +342,7 @@ describe('Approval on absence request', function() {
 
     it('Login with the first approver from d4', function(done) {
         expect(managersByDepartment.d4[0]).toBeDefined();
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': managersByDepartment.d4[0].user.email,
             'password': managersByDepartment.d4[0].password
         }, function(res, body) {
@@ -417,7 +417,7 @@ describe('Approval on absence request', function() {
 
     it('Login with the second approver from d4', function(done) {
         expect(managersByDepartment.d4[1]).toBeDefined();
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': managersByDepartment.d4[1].user.email,
             'password': managersByDepartment.d4[1].password
         }, function(res, body) {
@@ -478,7 +478,7 @@ describe('Approval on absence request', function() {
 
     it('Login with the first approver from d0', function(done) {
         expect(managersByDepartment.d0[0]).toBeDefined();
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': managersByDepartment.d0[0].user.email,
             'password': managersByDepartment.d0[0].password
         }, function(res, body) {
@@ -538,7 +538,7 @@ describe('Approval on absence request', function() {
 
     it('Login with the user account from d6', function(done) {
         expect(accountsByDepartment.d6[0]).toBeDefined();
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': accountsByDepartment.d6[0].user.email,
             'password': accountsByDepartment.d6[0].password
         }, function(res, body) {

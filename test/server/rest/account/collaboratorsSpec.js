@@ -123,7 +123,7 @@ describe('Collaborators', function() {
 
     it('login with the first user from d6', function(done) {
         expect(accountsByDepartment.d6[0].user).toBeDefined();
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': accountsByDepartment.d6[0].user.email,
             'password': accountsByDepartment.d6[0].password
         }, function(res, body) {
@@ -170,7 +170,7 @@ describe('Collaborators', function() {
 
     it('login with the first user from d3', function(done) {
         expect(accountsByDepartment.d3[0].user).toBeDefined();
-        server.post('/rest/login', {
+        server.post('/rest/anonymous/formlogin', {
             'username': accountsByDepartment.d3[0].user.email,
             'password': accountsByDepartment.d3[0].password
         }, function(res, body) {

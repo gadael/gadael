@@ -70,7 +70,7 @@ exports = module.exports = function pages(server) {
     function loginAsManager() {
         return new Promise((resolve, reject) => {
 
-            server.post('/rest/login', {
+            server.post('/rest/anonymous/formlogin', {
                 username: 'manager@example.com', // Jane Doe
                 password: 'secret'
             }, function(res, body) {
@@ -88,7 +88,7 @@ exports = module.exports = function pages(server) {
     function loginAsAccount() {
         return new Promise((resolve, reject) => {
 
-            server.post('/rest/login', {
+            server.post('/rest/anonymous/formlogin', {
                 username: 'user1@example.com', // Pamila Cannella
                 password: 'secret'
             }, function(res, body) {
