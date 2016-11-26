@@ -39,7 +39,8 @@ define([], function() {
 
 
         $scope.createFirstAdmin = false;
-        if (!$scope.isAuthenticated) {
+
+        if ($scope.sessionUser && !$scope.sessionUser.isAuthenticated) {
             $http.get('/rest/anonymous/createfirstadmin').then(function(response) {
                 $scope.createFirstAdmin = response.data.allowed;
             });
