@@ -210,7 +210,7 @@
 .nav > li > a {
     position: relative;
     display: block;
-    padding: 10px 15px;
+    padding: 14px 15px;
 }
 
 .bs-sidebar .nav > .active:focus > a,
