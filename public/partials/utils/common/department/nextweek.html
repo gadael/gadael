@@ -53,7 +53,7 @@
 
             <td class="text-center"
                 ng-repeat="col in collaborator.days"
-                ng-class="{'danger': !col.free, 'success': col.free,'hidden-xs': $index>7 }"
+                ng-class="{'cal-nonworking': col.nonworkingday,'cal-notscheduled': !col.free && !col.nonworkingday, 'cal-available': col.free && col.events.length==0 && !col.nonworkingday,'hidden-xs': $index>7 }"
                 >
                 <i class="text-muted fa fa-times nonworkingday" ng-if="col.nonworkingday" data-title="{{col.nonworkingday.summary}}" bs-tooltip></i>
                 <i ng-repeat="event in col.events"

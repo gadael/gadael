@@ -302,3 +302,19 @@ http://stackoverflow.com/questions/20547819/vertical-align-with-bootstrap-3 */
 .pw-level3 { background: #fff500; }
 .pw-level4 { background: #b6d144; }
 .pw-level5 { background: #00ba00; }
+
+
+
+/* Calendar views */
+
+.cal-nonworking {
+	background: #f2d714;
+}
+
+.cal-notscheduled {
+	background: #bcb59c;
+}
+
+.cal-available {
+	background: #c5dce9;
+}
