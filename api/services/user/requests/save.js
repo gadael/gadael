@@ -20,12 +20,14 @@ function validate(service, params)
         return;
     }
 
+    if (service.app.config.company.maintenance) {
+        return service.forbidden(gt.gettext('Request modifications are not allowed in maintenance mode'));
+    }
+
     // modification of a request created by a compulsory leave is not allowed
     if (!params.id) {
         return saveRequest(service, params);
     }
-
-
 
     let Request = service.app.db.models.Request;
     Request.findOne({ _id: params.id })
