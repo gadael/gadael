@@ -67,6 +67,11 @@ exports = module.exports = function(app) {
             return false;
         }
 
+        if (0 === ctrl.path.indexOf('/rest/anonymous/') && req.isAuthenticated()) {
+            ctrl.accessDenied(gt.gettext('Access denied for logged in users'));
+            return false;
+        }
+
         return true;
     };
 };

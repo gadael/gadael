@@ -122,15 +122,13 @@ exports = module.exports = function(app, passport)
     controllers.add('./anonymous/createfirstadmin');
     controllers.add('./anonymous/formlogin');
 
-	//app.post('/rest/anonymous/formlogin', require('./login').authenticate);
 	app.post('/rest/login/forgot', require('./login').forgotPassword);
 	app.post('/rest/login/reset', require('./login').resetPassword);
 	app.get('/rest/logout', require('./logout').init);
 
 	/*
 	app.get('/login/google', passport.authenticate('google', { callbackURL: '#/login/google/callback/', scope: ['profile email'] }));
-	app.get('/login/tumblr', passport.authenticate('ldap', { callbackURL: '#/login/ldap/callback/', scope: ['profile email'] }));
-    */
+	*/
 
 	// tests
 	app.get('/rest/populate', require('./tests/index').populate);
