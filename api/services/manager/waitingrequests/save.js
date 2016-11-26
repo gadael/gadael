@@ -12,8 +12,14 @@ const requestrejected = require('../../../../modules/emails/requestrejected');
  */
 function validate(service, params)
 {
+    const gt = service.app.utility.gettext;
+
     if (service.needRequiredFields(params, ['id', 'user', 'approvalStep', 'action'])) {
         return;
+    }
+
+    if (service.app.config.company.maintenance) {
+        return service.forbidden(gt.gettext('Request modifications are not allowed in maintenance mode'));
     }
 
     if (!params.action.indexOf(['wf_accept', 'wf_reject'])) {
