@@ -3,6 +3,8 @@
 const getExpandedEra = require('../../../../modules/getExpandedEra');
 const requestdateparams = require('../../../../modules/requestdateparams');
 
+const jurassic = require('jurassic');
+
 /**
  * The collaborators list service
  * list of collaborators in same department with an account role
@@ -24,16 +26,16 @@ const requestdateparams = require('../../../../modules/requestdateparams');
  */
 exports = module.exports = function(services, app) {
 
-    var service = new services.list(app);
+    let service = new services.list(app);
 
-    var collaborators = {};
+    let collaborators = {};
 
     /**
      * @return {Promise}
      */
     function getUser(userId) {
 
-        var find = service.app.db.models.User.findOne({ _id: userId });
+        let find = service.app.db.models.User.findOne({ _id: userId });
         find.populate('department');
 
         return find.exec();
@@ -99,7 +101,6 @@ exports = module.exports = function(services, app) {
 
     function populateCollaborators(userAccounts) {
 
-        var jurassic = require('jurassic');
 
         userAccounts.forEach(function(user) {
             if (undefined === collaborators[user.id]) {
@@ -163,7 +164,7 @@ exports = module.exports = function(services, app) {
             collaborators[collaborator._id].events.push(event);
         });
 
-        var result = [];
+        let result = [];
         for(var id in collaborators) {
             if ( collaborators.hasOwnProperty(id)) {
                 result.push(collaborators[id]);
@@ -178,11 +179,9 @@ exports = module.exports = function(services, app) {
 
     function createFreeBusy(collaborators) {
 
-        var collaborator;
-
         for(var id in collaborators) {
             if (collaborators.hasOwnProperty(id)) {
-                collaborator = collaborators[id];
+                let collaborator = collaborators[id];
                 collaborator.workscheduleEra.subtractEra(collaborator.eventsEra);
                 collaborator.free = collaborator.workscheduleEra.periods;
 
@@ -211,7 +210,7 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
-        var checkParams = requestdateparams(app);
+        let checkParams = requestdateparams(app);
 
         if (!checkParams(service, params)) {
             return service.deferred.promise;
@@ -232,12 +231,12 @@ exports = module.exports = function(services, app) {
          * @return {Query}
          */
         function findEvents(users) {
-            var find = service.app.db.models.CalendarEvent.find();
+            let find = service.app.db.models.CalendarEvent.find();
 
             find.where('user.id').in(users);
             find.where('status').in(['TENTATIVE', 'CONFIRMED']);
 
-            var periodCriterion = require('../../../../modules/periodcriterion');
+            let periodCriterion = require('../../../../modules/periodcriterion');
             periodCriterion(find, params.dtstart, params.dtend);
 
 
@@ -253,7 +252,7 @@ exports = module.exports = function(services, app) {
          */
         function getEvents(userAccounts) {
 
-            var users = userAccounts.map(function(u) {
+            let users = userAccounts.map(function(u) {
                 return u.id;
             });
 
@@ -274,8 +273,8 @@ exports = module.exports = function(services, app) {
         function getWorkingTimes(userAccounts) {
 
 
-            var users = [];
-            var promisedWorkingTimes = [];
+            let users = [];
+            let promisedWorkingTimes = [];
             userAccounts.forEach(function(user) {
                 users.push(user.id);
                 promisedWorkingTimes.push(
@@ -314,10 +313,9 @@ exports = module.exports = function(services, app) {
             .then(getEvents)
             .then(groupByCollaborator)
             .then(createFreeBusy)
-            .then(function(objects) {
-
-            service.deferred.resolve(objects);
-        }, service.error);
+            .then(objects => {
+                service.deferred.resolve(objects);
+            }).catch(service.error);
 
         return service.deferred.promise;
     };
