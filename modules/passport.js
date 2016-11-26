@@ -1,87 +1,178 @@
 'use strict';
 
 const http = require('http');
+const util = require('util');
 const LocalStrategy = require('passport-local').Strategy;
-//const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GoogleStrategy = require('passport-google-oauth2' ).Strategy;
 
 exports = module.exports = function(app, passport) {
 
-  passport.db = app.db;
+    let loginservices = app.config.company.loginservices;
+    let User = app.db.models.User;
+    let gt = app.utility.gettext;
 
 
 
-  passport.use(new LocalStrategy(
-    function(username, password, done) {
 
-      var db = passport.db;
 
-      var conditions = {
-		  isActive: true,
-		  email: username
-	  };
+    /**
+     * Local strategy callback, login with form
+     * @param {String} username     User input
+     * @param {String} password     User input
+     * @param {Function} done
+     */
+    function useLocalStrategy(username, password, done) {
 
-      db.models.User
+        let conditions = {
+            isActive: true,
+            email: username
+        };
+
+        User
         .findOne(conditions)
         .select('+password')
         .exec(function(err, user) {
-        if (err) {
-          return done(err);
-        }
-
-        if (!user) {
-          return done(null, false, { message: 'Unknown user' });
-        }
-
-        db.models.User.validatePassword(password, user.password, function(err, isValid) {
             if (err) {
                 return done(err);
             }
 
-            if (!isValid) {
-                return done(null, false, { message: 'Invalid password' });
+            if (!user) {
+                return done(null, false, { message: 'Unknown user' });
             }
 
-            return done(null, user);
+            User.validatePassword(password, user.password, function(err, isValid) {
+                if (err) {
+                    return done(err);
+                }
+
+                if (!isValid) {
+                    return done(null, false, { message: 'Invalid password' });
+                }
+
+                return done(null, user);
+            });
         });
-      });
     }
-  ));
 
 
-    /*
-  if (app.config.oauth.google.key) {
-    passport.use(new GoogleStrategy({
-        clientID: app.config.oauth.google.key,
-        clientSecret: app.config.oauth.google.secret
-      },
-      function(accessToken, refreshToken, profile, done) {
-        done(null, false, {
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          profile: profile
+
+
+
+
+    /**
+     * Check if the account can be created from google profile
+     * @param {Object} profile
+     * @param {Function} callback
+     */
+    function canCreateProfile(profile, callback) {
+
+        let email = profile.emails[0].value;
+
+        if (!email) {
+            return callback(new Error(gt.gettext('Google API problem: Email is mandatory')));
+        }
+
+        let domain = loginservices.google.domain;
+
+        if (!domain) {
+            return callback(new Error(gt.gettext('Creation of a new account is not allowed on this application')));
+        }
+
+        if (-1 === '@'+domain.indexOf(email)) {
+            return callback(new Error(util.format(gt.gettext('Only email from %s are allowed'), domain)));
+        }
+
+        // if the email allready exists
+
+        User.findOne({ email: email }).exec()
+        .then(user => {
+            if (null === user) {
+                return callback(null);
+            }
+        })
+        .catch(callback);
+    }
+
+
+
+    /**
+    * Google strategy callback
+    * @param {ClientRequest} request
+    * @param {String} accessToken
+    * @param {String} refreshToken
+    * @param {Object} profile          Contain google user profile
+    * @param {Function} done           Callback, wait for error and user object
+    */
+    function useGoogleStrategy(request, accessToken, refreshToken, profile, done) {
+
+        if (request.user) {
+            // Allready authenticated, but not linked to google account
+            if (undefined === request.user.google) {
+                request.user.google = {};
+            }
+            request.user.google.profile = profile.id;
+            request.user.save(done);
+            return;
+        }
+
+
+        User.findOne({ 'google.profile': profile.id }, (err, user) => {
+            if (!user) {
+                // user not found, create from profile
+                return canCreateProfile(profile, err => {
+
+                    if (err) {
+                      return done(err);
+                    }
+
+                    user = new User();
+                    user.initFromGoogle(profile);
+                    user.save(done);
+                });
+            }
+            return done(err, user);
         });
-      }
-    ));
-  }
-*/
+    }
 
-  /**
-   * Serialize user once connected
-   */
-  passport.serializeUser((user, done) => {
-      let company = app.config.company;
-      if (company) {
-          company.lastLogin = new Date();
-          company.save();
-      }
 
-      done(null, user._id);
-  });
+    if (loginservices.form.enabled) {
+        passport.use(new LocalStrategy(useLocalStrategy));
+    }
 
-  passport.deserializeUser((id, done) => {
 
-    var db = passport.db;
-    db.models.User.findOne({ _id: id })
+
+
+    if (loginservices.google.clientID) {
+
+        const googleOptions = {
+            clientID: loginservices.google.clientID,
+            clientSecret: loginservices.google.clientSecret,
+            callbackURL: app.config.url+'/fr/google-callback',
+            passReqToCallback: true
+        };
+
+        passport.use(new GoogleStrategy(googleOptions, useGoogleStrategy));
+    }
+
+
+
+
+    /**
+     * Serialize user once connected
+     */
+    passport.serializeUser((user, done) => {
+        let company = app.config.company;
+        if (company) {
+            company.lastLogin = new Date();
+            company.save();
+        }
+
+        done(null, user._id);
+    });
+
+    passport.deserializeUser((id, done) => {
+
+        User.findOne({ _id: id })
         .populate('department')
         .populate('roles.admin')
         .populate('roles.manager')
@@ -94,7 +185,7 @@ exports = module.exports = function(app, passport) {
 
             done(err, user);
         });
-  });
+    });
 
 
    let req = http.IncomingMessage.prototype;
@@ -109,7 +200,7 @@ exports = module.exports = function(app, passport) {
         }
 
         var workflow = req.app.utility.workflow(req, res);
-        var gt = req.app.utility.gettext;
+
 
         workflow.httpstatus = 401;
         workflow.emit('exception', gt.gettext('Access denied for anonymous users'));
@@ -126,15 +217,15 @@ exports = module.exports = function(app, passport) {
 
 
 
-	  if (req.isAuthenticated() && req.user.canPlayRoleOf('admin')) {
-		return next(req, res);
-	  }
+        if (req.isAuthenticated() && req.user.canPlayRoleOf('admin')) {
+            return next(req, res);
+        }
 
-      var workflow = req.app.utility.workflow(req, res);
-      var gt = req.app.utility.gettext;
+        let workflow = req.app.utility.workflow(req, res);
+        let gt = req.app.utility.gettext;
 
-      workflow.httpstatus = 401;
-      workflow.emit('exception', gt.gettext('Access denied for non administrators'));
+        workflow.httpstatus = 401;
+        workflow.emit('exception', gt.gettext('Access denied for non administrators'));
 	};
 
 

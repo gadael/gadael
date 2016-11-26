@@ -61,6 +61,7 @@ function createController() {
             workflow.success(gt.gettext('You are now loged in'));
         })
         .catch(err => {
+            console.log(err.stack);
             workflow.httpstatus = 400;
             workflow.emit('exception', err.message);
         });

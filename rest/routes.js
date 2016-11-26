@@ -126,9 +126,24 @@ exports = module.exports = function(app, passport)
 	app.post('/rest/login/reset', require('./login').resetPassword);
 	app.get('/rest/logout', require('./logout').init);
 
-	/*
-	app.get('/login/google', passport.authenticate('google', { callbackURL: '#/login/google/callback/', scope: ['profile email'] }));
-	*/
+	// redirect
+    app.get('/login/google', (req, res, next) => {
+        passport.authenticate('google', {
+            scope: [
+                'https://www.googleapis.com/auth/plus.login',
+                'https://www.googleapis.com/auth/plus.profile.emails.read'
+            ]
+        })(req, res, next);
+    });
+
+    app.get( '/login/google-callback', (req, res, next) => {
+        app.passport.authenticate( 'google', {
+            successRedirect: '/',
+            failureRedirect: '/#/login',
+            failureFlash: true
+        })(req, res, next);
+    });
+
 
 	// tests
 	app.get('/rest/populate', require('./tests/index').populate);

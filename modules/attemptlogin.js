@@ -27,7 +27,9 @@ exports = module.exports = function attemptLogin(strategy, req, res) {
             if (err) {
                 return reject(err);
             }
+
             resolve(user);
+
         })(req, res);
     });
 

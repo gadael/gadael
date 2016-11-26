@@ -34,7 +34,8 @@ exports = module.exports = function(params) {
 		resetPasswordToken: String,
 		resetPasswordExpires: Date,
 		google: {
-            accessToken: String,
+			profile: String,		// Authentication
+            accessToken: String,	// permanent connexion with calendar
             refreshToken: String,
             expire_in: Date,
             calendar: String
@@ -973,6 +974,20 @@ exports = module.exports = function(params) {
 
         });
     };
+
+
+	userSchema.methods.initFromGoogle = function(profile) {
+		this.google.profile = profile.id;
+		this.email = profile.email;
+		this.lastname = profile.name.familyName;
+		this.firstname = profile.name.givenName;
+
+		if (!this.lastname) {
+			// no google+ account
+			this.lastname = this.email.split('@')[0];
+		}
+
+	};
 
 
 

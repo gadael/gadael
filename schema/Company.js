@@ -48,7 +48,8 @@ exports = module.exports = function(params) {
 	        google: {
 				enable: { type: Boolean, default: false },				// configure google oAuth login in instance
 	            clientID: String,
-	            clientSecret: String
+	            clientSecret: String,
+				domain: String											// Accounts will be created on login only if email match with the domain
 	        }
 
 	    }

@@ -28,9 +28,9 @@ exports = module.exports = function createConfiguration() {
     // used for sessions
     config.cryptoKey = 'k8yb0brda2t';
     config.loginAttempts = {
-      forIp: 50,
-      forIpAndUser: 7,
-      logExpiration: '20m'
+        forIp: 50,
+        forIpAndUser: 7,
+        logExpiration: '20m'
     };
     config.requireAccountVerification = false;
 
