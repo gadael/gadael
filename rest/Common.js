@@ -179,7 +179,8 @@ exports.getInfos = function(req, res) {
             long: 'EEEE d MMMM yyyy',
             shortTime: 'dd-MM-yyyy HH:mm Z',
             longTime: 'EEEE d MMMM yyyy HH:mm Z'
-        }
+        },
+        errors: req.flash('error')
     });
 
 

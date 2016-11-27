@@ -122,7 +122,7 @@ exports = module.exports = function(app, passport) {
                 return canCreateProfile(profile, err => {
 
                     if (err) {
-                      return done(err);
+                        return done(err);
                     }
 
                     user = new User();

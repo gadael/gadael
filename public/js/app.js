@@ -75,6 +75,22 @@ define([
 
 			$http.get('/rest/common').success(function(response) {
 
+				if (response.errors) {
+
+					if (undefined === $rootScope.pageAlerts) {
+						$rootScope.pageAlerts = [];
+					}
+
+					for (var i=0; i<response.errors.length; i++) {
+						$rootScope.pageAlerts.push({
+		                    message: response.errors[i],
+		                    type: 'danger'
+		                });
+					}
+
+					delete response.errors;
+				}
+
 				for(var prop in response) {
                     if (response.hasOwnProperty(prop)) {
                         $rootScope[prop] = response[prop];

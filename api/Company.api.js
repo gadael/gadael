@@ -20,7 +20,7 @@ let serveStatic = require('serve-static');
 let cookieParser = require('cookie-parser');
 let http = require('http');
 let gadaelMiddleware = require('../modules/gadaelMiddleware');
-
+const flash = require('connect-flash-plus');
 
 
 /**
@@ -464,7 +464,7 @@ exports = module.exports = {
           resave: true
         }));
 
-
+		app.use(flash());
         app.use(passport.initialize());
         app.use(passport.session());
 

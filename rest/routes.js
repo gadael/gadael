@@ -52,6 +52,17 @@ function fileControllers(app)
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
 /**
  * Load routes for the REST services
  * @param {express|object} app
@@ -136,11 +147,23 @@ exports = module.exports = function(app, passport)
         })(req, res, next);
     });
 
-    app.get( '/login/google-callback', (req, res, next) => {
-        app.passport.authenticate( 'google', {
+    app.get('/login/google-callback', (req, res, next) => {
+        passport.authenticate( 'google', {
             successRedirect: '/',
-            failureRedirect: '/#/login',
+            failureRedirect: '/',
             failureFlash: true
+        },function(err, user, info) {
+            if (err) {
+                req.flash('error', err.message);
+                return res.redirect('/#/login');
+            }
+
+            req.login(user, loginErr => {
+                if (loginErr) {
+                    return next(loginErr);
+                }
+                return res.send({ success : true, message : 'authentication succeeded' });
+            });
         })(req, res, next);
     });
 
