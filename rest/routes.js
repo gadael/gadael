@@ -13,9 +13,9 @@ function ControllerFactory(model) {
     this.model = model;
     var factory = this;
 
-    this.onRequest = function(req, res) {
+    this.onRequest = function(req, res, next) {
         var actionController = new factory.model();
-        actionController.onRequest(req, res);
+        actionController.onRequest(req, res, next);
     };
 }
 

@@ -60,7 +60,7 @@
     "passport-oauth": "~1.0.0",
     "passport-google-oauth": "~0.1",
     "passport-oauth2-refresh": "~1.0.0",
-    "restitute": "git://github.com/polo2ro/restitute.git#62eb5733990f2f5a5d23b6fc949defd87e288ca5",
+    "restitute": "~0.1.1",
     "rrule": "git://github.com/jkbrzt/rrule.git#9a540ad5193a5df9542d569c44cb8400b3575cb8",
     "serve-static": "~1.1.0",
     "sprintf-js": "~1.0.3",

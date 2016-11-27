@@ -135,19 +135,19 @@ exports = module.exports = function(app, passport) {
     }
 
 
-    if (loginservices.form.enabled) {
+    if (loginservices.form.enable) {
         passport.use(new LocalStrategy(useLocalStrategy));
     }
 
 
 
 
-    if (loginservices.google.clientID) {
+    if (loginservices.google.enable) {
 
         const googleOptions = {
             clientID: loginservices.google.clientID,
             clientSecret: loginservices.google.clientSecret,
-            callbackURL: app.config.url+'/fr/google-callback',
+            callbackURL: app.config.url+'login/google-callback',
             passReqToCallback: true
         };
 

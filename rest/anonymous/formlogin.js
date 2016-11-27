@@ -52,7 +52,7 @@ function createController() {
 
         return abuseFilter(controller.req)
         .then(() => {
-            return attemptLogin('local', controller.req, controller.res);
+            return attemptLogin('local', controller);
         })
         .then(user => {
             return loginPromise(controller.req, user);

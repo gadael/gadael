@@ -10,12 +10,12 @@
  * Attempt a login
  * Resolve to a user document
  * @param {String} strategy
- * @param {ClientRequest} req
- * @param {ClientResponse} res
+ * @param {restController} controller
  * @return {Promise}
  */
-exports = module.exports = function attemptLogin(strategy, req, res) {
+exports = module.exports = function attemptLogin(strategy, controller) {
 
+    let req = controller.req;
     let gt = req.app.utility.gettext;
     let loginAttempt = req.app.db.models.LoginAttempt;
 
@@ -30,7 +30,7 @@ exports = module.exports = function attemptLogin(strategy, req, res) {
 
             resolve(user);
 
-        })(req, res);
+        })(req, controller.res, controller.next);
     });
 
     return userPromise
