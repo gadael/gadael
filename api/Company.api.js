@@ -488,6 +488,8 @@ exports = module.exports = {
             next();
         });
 
+
+
         //setup routes
         routes(app, passport);
 
@@ -513,8 +515,8 @@ exports = module.exports = {
 	    companyModel.findOne({}, (err, company) => {
 	        app.config.company = company;
 
-	        //setup passport
-	        passportHelper(app, passport);
+			//setup passport
+			passportHelper(app, passport);
 
 
 			server.listen(app.config.port, app.config.host);
