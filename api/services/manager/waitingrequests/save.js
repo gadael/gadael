@@ -18,7 +18,7 @@ function validate(service, params)
         return;
     }
 
-    if (service.app.config.company.maintenance) {
+    if (null !== service.app.config.company && service.app.config.company.maintenance) {
         return service.forbidden(gt.gettext('Request modifications are not allowed in maintenance mode'));
     }
 
