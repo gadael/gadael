@@ -11,7 +11,7 @@ exports = module.exports = function(app, passport) {
     let User = app.db.models.User;
     let gt = app.utility.gettext;
 
-
+    passport.db = app.db;
 
 
 
@@ -172,7 +172,8 @@ exports = module.exports = function(app, passport) {
 
     passport.deserializeUser((id, done) => {
 
-        User.findOne({ _id: id })
+        // here, if i use app.db instead of passport.db, tests fail with a socket hangup
+        passport.db.models.User.findOne({ _id: id })
         .populate('department')
         .populate('roles.admin')
         .populate('roles.manager')
