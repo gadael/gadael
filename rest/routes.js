@@ -164,7 +164,7 @@ exports = module.exports = function(app, passport)
                 if (loginErr) {
                     return next(loginErr);
                 }
-                return res.send({ success : true, message : 'authentication succeeded' });
+                return res.redirect('/');
             });
         })(req, res, next);
     });

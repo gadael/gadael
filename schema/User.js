@@ -15,7 +15,7 @@ exports = module.exports = function(params) {
 
 	var mongoose = params.mongoose;
 	var userSchema = new mongoose.Schema({
-		password: { type: String, required: true, select: false },
+		password: { type: String, select: false },
 		email: { type: String, required: true },
 		lastname: { type: String, required: true },
 		firstname: { type: String },

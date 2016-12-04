@@ -57,8 +57,6 @@ exports = module.exports = function(app, passport) {
 
 
 
-
-
     /**
      * Check if the account can be created from google profile
      * @param {Object} profile
@@ -67,11 +65,6 @@ exports = module.exports = function(app, passport) {
     function canCreateProfile(profile, callback) {
 
         let email = profile.emails[0].value;
-
-        if (!email) {
-            return callback(new Error(gt.gettext('Google API problem: Email is mandatory')));
-        }
-
         let domain = loginservices.google.domain;
 
         if (!domain) {
@@ -116,9 +109,19 @@ exports = module.exports = function(app, passport) {
         }
 
 
-        User.findOne({ 'google.profile': profile.id }, (err, user) => {
+        if (!profile.emails[0].value) {
+            return done(new Error(gt.gettext('Google API problem: Email is mandatory')));
+        }
+
+
+        User.findOne({ $or: [
+            { 'google.profile': profile.id },
+            { 'email': profile.emails[0].value }
+        ] }).exec()
+        .then(user => {
             if (!user) {
-                // user not found, create from profile
+                // user not found by profile ID or by email
+                // create from profile
                 return canCreateProfile(profile, err => {
 
                     if (err) {
@@ -130,8 +133,13 @@ exports = module.exports = function(app, passport) {
                     user.save(done);
                 });
             }
-            return done(err, user);
-        });
+
+            // user found
+
+            return done(null, user);
+        })
+        .catch(done);
+
     }
 
 
