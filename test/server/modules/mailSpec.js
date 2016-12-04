@@ -10,6 +10,8 @@ const pendingapproval = require('../../../modules/emails/pendingapproval');
 const requestaccepted = require('../../../modules/emails/requestaccepted');
 const requestrejected = require('../../../modules/emails/requestrejected');
 const requestcreated = require('../../../modules/emails/requestcreated');
+const usercreated = require('../../../modules/emails/usercreated');
+const rolesupdated = require('../../../modules/emails/rolesupdated');
 
 const api = {
     company: require('../../../api/Company.api.js'),
@@ -221,6 +223,45 @@ describe('Mail object', function() {
         .then(wp => {
             return requestcreated(server.app, wp);
         })
+        .then(mail => {
+            return mail.send();
+        })
+        .then(message => {
+            expect(message._id).toBeDefined();
+            expect(message.emailSent).toBeTruthy();
+            done();
+        })
+        .catch(err => {
+            console.log(err);
+            done(err);
+        });
+    });
+
+
+
+
+
+
+    it('send user created', function(done) {
+        usercreated(server.app, user)
+        .then(mail => {
+            return mail.send();
+        })
+        .then(message => {
+            expect(message._id).toBeDefined();
+            expect(message.emailSent).toBeTruthy();
+            done();
+        })
+        .catch(err => {
+            console.log(err);
+            done(err);
+        });
+    });
+
+
+
+    it('send roles updated', function(done) {
+        rolesupdated(server.app, user, ['Absence account'])
         .then(mail => {
             return mail.send();
         })
