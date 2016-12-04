@@ -131,6 +131,9 @@ exports = module.exports = function(app, passport) {
                     user = new User();
                     user.initFromGoogle(profile);
                     user.save(done);
+
+                    // TODO: send an email to admins because of the new user without absence account
+
                 });
             }
 

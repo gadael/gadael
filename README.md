@@ -52,8 +52,8 @@ grunt test
 
 ## TODO
 
-- [ ] Login with a google account
-- [ ] Login from ldap server
+- [x] Login with a google account
+- [ ] Send a mail to admins when a google account is created by login
 - [ ] Disable password modification on settings page if not local login
 - [ ] Disable password modification for mananger if not local login
 - [ ] Get managed services on home page
