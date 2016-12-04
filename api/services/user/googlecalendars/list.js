@@ -67,9 +67,13 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
+        if (!app.config.company.calendar.google.enable) {
+            service.forbidden(gt.gettext('Google calendar link service is disabled'));
+            return service.deferred.promise;
+        }
 
         if (!params.user.google || !params.user.google.accessToken) {
-            service.forbidden(gt.gettext('Not connected to a google calendar'));
+            service.error(gt.gettext('Not connected to a google calendar'));
             return service.deferred.promise;
         }
 

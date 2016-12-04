@@ -23,6 +23,8 @@ define([], function() {
             }
         });
 
+        catchOutcome($scope.calendars.$promise);
+
         $scope.calendars.$promise.finally(function() {
             $scope.loaded = true;
         });

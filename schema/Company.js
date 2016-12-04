@@ -52,7 +52,15 @@ exports = module.exports = function(params) {
 				domain: String											// Accounts will be created on login only if email match with the domain
 	        }
 
-	    }
+	    },
+
+		calendar: {														// user events synchronization with a calendar
+			google: {
+				enable: { type: Boolean, default: false },
+				clientID: String,
+	            clientSecret: String
+			}
+		}
 	});
 
 	companySchema.index({ name: 1 });

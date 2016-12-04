@@ -1,16 +1,28 @@
 'use strict';
 
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const config   = require('../config')();
 
-exports = module.exports = function getStrategy() {
 
-    if (!config.oauth.google.key) {
-        throw new Error('Missing key for oauth connexion');
+
+/**
+ * This module export a google strategy used to link the google calendar with the user events
+ */
+exports = module.exports = function getStrategy(config) {
+
+    if (undefined === config.company || undefined === config.company.calendar || undefined === config.company.calendar.google) {
+        throw new Error('Wrong company configuration');
     }
 
-    if (!config.oauth.google.secret) {
-        throw new Error('Missing secret for oauth connexion');
+    if (!config.company.calendar.google.enable) {
+        throw new Error('Google synchronization has been disabled');
+    }
+
+    if (!config.company.calendar.google.clientID) {
+        throw new Error('Missing client ID for oauth connexion');
+    }
+
+    if (!config.company.calendar.google.clientSecret) {
+        throw new Error('Missing client secret for oauth connexion');
     }
 
     if (!config.url) {
@@ -18,8 +30,8 @@ exports = module.exports = function getStrategy() {
     }
 
     return new GoogleStrategy({
-            clientID: config.oauth.google.key,
-            clientSecret: config.oauth.google.secret,
+            clientID: config.company.calendar.google.clientID,
+            clientSecret: config.company.calendar.google.clientSecret,
             callbackURL: config.url+'rest/user/googlecalendar/callback',
             scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
         },

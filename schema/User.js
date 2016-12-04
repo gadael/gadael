@@ -875,7 +875,7 @@ exports = module.exports = function(params) {
 
         return new Promise((resolve, reject) => {
 
-            oauthrefresh.use(getStrategy());
+            oauthrefresh.use(getStrategy(params.app.config));
 
             oauthrefresh.requestNewAccessToken('google', user.google.refreshToken, function(err, accessToken, refreshToken) {
 

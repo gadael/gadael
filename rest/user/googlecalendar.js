@@ -6,22 +6,32 @@ const passport = require('passport');
 const getStrategy = require('./../../modules/gcalstrategy');
 
 
-try {
-    passport.use(getStrategy());
-} catch(e) {
-    // ignore error
-}
+
+/**
+ * Initialize passport object if possible
+ */
+exports.init = function(config) {
+    try {
+        passport.use(getStrategy(config));
+    } catch(e) {
+        // ignore error
+    }
+};
+
+
 
 
 
 /**
  * First click. call the google interface
  */
-exports.login = passport.authenticate('google', {
-    session: false,
-    accessType: 'offline',
-    approvalPrompt: 'force'
-});
+exports.login = function(req, res, next) {
+    return passport.authenticate('google', {
+        session: false,
+        accessType: 'offline',
+        approvalPrompt: 'force'
+    })(req, res, next);
+};
 
 /**
  * Google reply on this callback
