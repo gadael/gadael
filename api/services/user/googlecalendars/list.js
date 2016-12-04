@@ -67,6 +67,11 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
+        if (undefined === app.config.company.calendar) {
+            service.forbidden(gt.gettext('Wrong company configuration'));
+            return service.deferred.promise;
+        }
+
         if (!app.config.company.calendar.google.enable) {
             service.forbidden(gt.gettext('Google calendar link service is disabled'));
             return service.deferred.promise;
