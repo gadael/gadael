@@ -53,8 +53,8 @@ grunt test
 ## TODO
 
 - [x] Login with a google account
-- [ ] Send a mail to admins when a google account is created by login
-- [ ] Send an email when a role is given to a user
+- [ ] Send the mail "usercreated" to admins when a google account is created by login
+- [ ] Send the email "rolesupdated" when a role is given to a user
 - [ ] Disable password modification on settings page if not local login
 - [ ] Disable password modification for mananger if not local login
 - [ ] Get managed services on home page
