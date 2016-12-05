@@ -1,5 +1,6 @@
 'use strict';
 
+const rolesupdated = require('../../../../modules/emails/rolesupdated');
 
 /**
  * Validate params fields
@@ -154,6 +155,19 @@ function saveUserRoles(service, params, userDocument) {
     }
 
 
+    let newRoles = [];
+    if (!userDocument.roles.account && null !== account) {
+        newRoles.push(gt.gettext('Absence account'));
+    }
+
+    if (!userDocument.roles.manager && null !== manager) {
+        newRoles.push(gt.gettext('Department manager'));
+    }
+
+    if (!userDocument.roles.admin && null !== admin) {
+        newRoles.push(gt.gettext('Application administrator'));
+    }
+
     saveRoles(
         service.app.db.models,
         userDocument,
@@ -176,6 +190,12 @@ function saveUserRoles(service, params, userDocument) {
             }
         }
     );
+
+
+    // notify about the new roles
+    if (newRoles.length > 0) {
+        rolesupdated(service.app, userDocument, newRoles);
+    }
 }
 
 
