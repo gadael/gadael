@@ -4,6 +4,8 @@ const http = require('http');
 const util = require('util');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth2' ).Strategy;
+const usercreated = require('./emails/usercreated');
+
 
 exports = module.exports = function(app, passport) {
 
@@ -130,10 +132,12 @@ exports = module.exports = function(app, passport) {
 
                     user = new User();
                     user.initFromGoogle(profile);
-                    user.save(done);
-
-                    // TODO: send an email to admins because of the new user without absence account
-
+                    user.save()
+                    .then(savedUser => {
+                        done(savedUser);
+                        // send an email to admins because of the new user without absence account
+                        usercreated(request.app, savedUser);
+                    });
                 });
             }
 
