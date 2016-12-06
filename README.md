@@ -54,7 +54,8 @@ grunt test
 
 - [x] Login with a google account
 - [ ] Send the mail "usercreated" to admins when a google account is created by login
-- [ ] Send the email "rolesupdated" when a role is given to a user
+- [x] Send the email "rolesupdated" when a role is given to a user
+- [ ] Account initialization by google login, copy google image is google+ available
 - [ ] Disable password modification on settings page if not local login
 - [ ] Disable password modification for mananger if not local login
 - [ ] Get managed services on home page
@@ -62,7 +63,7 @@ grunt test
 - [ ] Decrease RTT depending on the illness leaves
 - [ ] ICSDB integration for non working days calendars
 - [ ] After first admin created, redirect to login form
-- [ ] Display error message on disabled site for all routes
+- [x] Display error message on disabled site for all routes
 - [ ] ICS Export
 - [ ] Compulsory leaves management, fix problem when requests are deleted
 - [x] do not display quantity field if readonly by special right, because initial quantity can be variable by user
