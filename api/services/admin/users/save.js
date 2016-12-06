@@ -117,6 +117,20 @@ function saveUser(service, params) {
 }
 
 
+function getRoleObject(checked, object) {
+
+    if (!checked) {
+        return null;
+    }
+
+    if (undefined === object) {
+        object = {};
+    }
+
+    return object;
+}
+
+
 /**
  *
  */
@@ -128,31 +142,15 @@ function saveUserRoles(service, params, userDocument) {
         return service.notFound(gt.gettext('No user document to save roles on'));
     }
 
-    var saveRoles = require('../../../../modules/roles');
+    const saveRoles = require('../../../../modules/roles');
 
-    var account = null;
-
-    if (params.roles !== undefined && params.roles.account !== undefined) {
-        account = params.roles.account;
+    if (undefined === params.roles) {
+        params.roles = {};
     }
 
-    if (undefined !== params.isAccount && !params.isAccount) {
-        // account was unchecked
-        account = null;
-    }
-
-
-    var admin = params.isAdmin ? {} : null;
-
-    var manager = null;
-
-    if (params.roles !== undefined && params.roles.manager !== undefined) {
-        manager = params.roles.manager;
-    }
-
-    if (undefined !== params.isManager && !params.isManager) {
-        manager = null;
-    }
+    let account = getRoleObject(params.isAccount, params.roles.account);
+    let admin = getRoleObject(params.isAdmin, {});
+    let manager = getRoleObject(params.isManager, params.roles.manager);
 
 
     let newRoles = [];
@@ -194,7 +192,10 @@ function saveUserRoles(service, params, userDocument) {
 
     // notify about the new roles
     if (newRoles.length > 0) {
-        rolesupdated(service.app, userDocument, newRoles);
+        rolesupdated(service.app, userDocument, newRoles)
+        .then(mail => {
+            mail.send();
+        });
     }
 }
 

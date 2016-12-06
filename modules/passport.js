@@ -136,7 +136,10 @@ exports = module.exports = function(app, passport) {
                     .then(savedUser => {
                         done(savedUser);
                         // send an email to admins because of the new user without absence account
-                        usercreated(request.app, savedUser);
+                        return usercreated(request.app, savedUser);
+                    })
+                    .then(mail => {
+                        mail.send();
                     });
                 });
             }
