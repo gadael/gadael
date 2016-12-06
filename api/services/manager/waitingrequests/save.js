@@ -40,19 +40,29 @@ function validate(service, params)
  */
 function sendEmail(app, request, remainingApprovers)
 {
-    if ('accepted' === request.status.created || 'accepted' === request.status.deleted) {
-        return requestaccepted(app, request).send();
+    function getPromise() {
+        if ('accepted' === request.status.created || 'accepted' === request.status.deleted) {
+            return requestaccepted(app, request);
+        }
+
+        if ('rejected' === request.status.created || 'rejected' === request.status.deleted) {
+            return requestrejected(app, request);
+        }
+
+        if (remainingApprovers > 0) {
+            return pendingapproval(app, request);
+        }
+
+        throw new Error('Unexpected request, there are no remaining approvers but the request is not accepted nor rejected');
     }
 
-    if ('rejected' === request.status.created || 'rejected' === request.status.deleted) {
-        return requestrejected(app, request).send();
-    }
 
-    if (remainingApprovers > 0) {
-        return pendingapproval(app, request).send();
-    }
+    return getPromise()
+    .then(mail => {
+        return mail.send();
+    });
 
-    throw new Error('Unexpected request, there are no remaining approvers but the request is not accepted nor rejected');
+
 }
 
 
