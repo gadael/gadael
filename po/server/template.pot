@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-01 23:09+0200\n"
+"POT-Creation-Date: 2016-12-07 19:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,76 +18,242 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: modules/dispunits.js:19
+#: modules/dispunits.js:20
 msgid "day"
 msgid_plural "days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/dispunits.js:21
+#: modules/dispunits.js:22
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/apputil.js:45 modules/passport.js:128
+#: modules/apputil.js:51 modules/passport.js:247
 msgid "Access denied for non administrators"
 msgstr ""
 
-#: modules/apputil.js:50
+#: modules/apputil.js:56
 msgid "Access denied for users without vacation account"
 msgstr ""
 
-#: modules/apputil.js:55
+#: modules/apputil.js:61
 msgid "Access denied for non managers"
 msgstr ""
 
-#: modules/apputil.js:60 modules/passport.js:106
+#: modules/apputil.js:66 modules/passport.js:225
 msgid "Access denied for anonymous users"
 msgstr ""
 
-#: modules/requestdateparams.js:22
+#: modules/apputil.js:71
+msgid "Access denied for logged in users"
+msgstr ""
+
+#: modules/emails/pendingapproval.js:21
+#, javascript-format
+msgid "%s: a request is waiting for your approval"
+msgstr ""
+
+#: modules/emails/pendingapproval.js:42
+msgid "Approval request"
+msgstr ""
+
+#: modules/emails/pendingapproval.js:43
+#, javascript-format
+msgid "%s request for %s is %s"
+msgstr ""
+
+#: modules/emails/pendingapproval.js:45
+msgid "Please, accept of reject after login into the application"
+msgstr ""
+
+#: modules/emails/pendingapproval.js:47 modules/emails/requestaccepted.js:60
+#: modules/emails/requestrejected.js:40 modules/emails/requestcreated.js:38
+msgid "View request"
+msgstr ""
+
+#: modules/emails/pendingapproval.js:57 modules/emails/requestaccepted.js:65
+#, javascript-format
+msgid "Workflow initiated by %s the %s"
+msgstr ""
+
+#: modules/emails/rolesupdated.js:20 modules/emails/usercreated.js:19
+#, javascript-format
+msgid "%s: new user created"
+msgstr ""
+
+#: modules/emails/rolesupdated.js:23
+msgid "The following roles where added to your accout:"
+msgstr ""
+
+#: modules/emails/rolesupdated.js:30
+msgid ""
+"You can connecto to the application to see your new roles attributions on "
+"the home page"
+msgstr ""
+
+#: modules/emails/rolesupdated.js:32
+msgid "View home page"
+msgstr ""
+
+#: modules/emails/resetpassword.js:20
+#, javascript-format
+msgid "%s: reset your password"
+msgstr ""
+
+#: modules/emails/resetpassword.js:29
+msgid "Forgot your password?"
+msgstr ""
+
+#: modules/emails/resetpassword.js:30
+#, javascript-format
+msgid "We received a request to reset the password for your account (%s)"
+msgstr ""
+
+#: modules/emails/resetpassword.js:33
+msgid ""
+"To reset your password, click on this link (or copy and paste the URL into "
+"your browser)"
+msgstr ""
+
+#: modules/emails/resetpassword.js:35
+msgid "Reset your password"
+msgstr ""
+
+#: modules/emails/resetpassword.js:39
+msgid ""
+"If you do not have requested a password modification, just ignore this email"
+msgstr ""
+
+#: modules/emails/requestaccepted.js:29
+#, javascript-format
+msgid "%s: request accepted"
+msgstr ""
+
+#: modules/emails/requestaccepted.js:30
+#, javascript-format
+msgid "Your %s has been accepted"
+msgstr ""
+
+#: modules/emails/requestaccepted.js:35
+#, javascript-format
+msgid "%s: request canceled"
+msgstr ""
+
+#: modules/emails/requestaccepted.js:37
+#, javascript-format
+msgid "As requested by %s, the %s request has been canceled"
+msgstr ""
+
+#: modules/emails/requestaccepted.js:58 modules/emails/requestrejected.js:38
+msgid "Consult the request actions history after login into the application"
+msgstr ""
+
+#: modules/emails/requestrejected.js:19
+#, javascript-format
+msgid "%s: request rejected"
+msgstr ""
+
+#: modules/emails/requestrejected.js:36
+#, javascript-format
+msgid "Your %s has been rejected"
+msgstr ""
+
+#: modules/emails/requestcreated.js:23
+#, javascript-format
+msgid "%s: request created"
+msgstr ""
+
+#: modules/emails/requestcreated.js:34
+#, javascript-format
+msgid "A %s has been created on your account by %s"
+msgstr ""
+
+#: modules/emails/requestcreated.js:36
+msgid "Consult the details after login into the application"
+msgstr ""
+
+#: modules/emails/usercreated.js:27
+#, javascript-format
+msgid "A new user has been created on %s"
+msgstr ""
+
+#: modules/emails/usercreated.js:29
+msgid ""
+"The new user has been created but does not have any role or absence rights, "
+"you must give the user the necessary rights to use the application normally"
+msgstr ""
+
+#: modules/emails/usercreated.js:31
+msgid "View the new user"
+msgstr ""
+
+#: modules/emails/usercreated.js:35
+msgid "If you do not recognize this user, you can delete it"
+msgstr ""
+
+#: modules/attemptlogin.js:48
+msgid ""
+"Username and password combination not found or your account is inactive."
+msgstr ""
+
+#: modules/requestdateparams.js:29
 msgid "dtstart, dtend are mandatory parameters"
 msgstr ""
 
-#: modules/requestdateparams.js:33
+#: modules/requestdateparams.js:40
 msgid "dtend must be greater than dtstart"
 msgstr ""
 
-#: modules/requestdateparams.js:38
+#: modules/requestdateparams.js:45
 msgid "Dates interval must be less than 2 years"
 msgstr ""
 
-#: modules/passport.js:144
+#: modules/passport.js:73
+msgid "Creation of a new account is not allowed on this application"
+msgstr ""
+
+#: modules/passport.js:77
+#, javascript-format
+msgid "Only email from %s are allowed"
+msgstr ""
+
+#: modules/passport.js:115
+msgid "Google API problem: Email is mandatory"
+msgstr ""
+
+#: modules/passport.js:263
 msgid "Access denied"
 msgstr ""
 
-#: rest/Common.js:42
-msgid "Logout"
+#: modules/abusefilter.js:30
+msgid ""
+"You've reached the maximum number of login attempts. Please try again later."
 msgstr ""
 
 #: rest/Common.js:46
+msgid "Logout"
+msgstr ""
+
+#: rest/Common.js:50
 msgid "Settings"
 msgstr ""
 
-#: rest/Common.js:56
+#: rest/Common.js:60
 msgid "Calendar"
 msgstr ""
 
-#: rest/Common.js:60
+#: rest/Common.js:64
 msgid "My requests"
 msgstr ""
 
-#: rest/Common.js:64
+#: rest/Common.js:68
 msgid "My rights"
 msgstr ""
 
-#: rest/Common.js:73
+#: rest/Common.js:77
 msgid "Waiting requests"
-msgstr ""
-
-#: rest/Common.js:84
-msgid "Admin summary"
 msgstr ""
 
 #: rest/Common.js:88
@@ -95,100 +261,76 @@ msgid "Requests"
 msgstr ""
 
 #: rest/Common.js:92
+msgid "Compulsory leaves"
+msgstr ""
+
+#: rest/Common.js:96
 msgid "Exports"
 msgstr ""
 
-#: rest/Common.js:99
+#: rest/Common.js:103
 msgid "Users list"
 msgstr ""
 
-#: rest/Common.js:103
+#: rest/Common.js:107
 msgid "Departments list"
 msgstr ""
 
-#: rest/Common.js:107
+#: rest/Common.js:111
 msgid "Collections list"
 msgstr ""
 
-#: rest/Common.js:111
+#: rest/Common.js:115
 msgid "Calendars list"
 msgstr ""
 
-#: rest/Common.js:118
+#: rest/Common.js:122
 msgid "Right types"
 msgstr ""
 
-#: rest/Common.js:122
+#: rest/Common.js:126
 msgid "Rights configuration"
 msgstr ""
 
-#: rest/Common.js:126
+#: rest/Common.js:130
+msgid "Sort rights and types"
+msgstr ""
+
+#: rest/Common.js:134
 msgid "Recover quantities"
 msgstr ""
 
-#: rest/anonymous/createfirstadmin.js:59
-msgid "The first admin allready exists"
-msgstr ""
-
-#: rest/login.js:54
-msgid ""
-"You've reached the maximum number of login attempts. Please try again later."
-msgstr ""
-
-#: rest/login.js:85
-msgid ""
-"Username and password combination not found or your account is inactive."
-msgstr ""
-
-#: rest/login.js:98
+#: rest/anonymous/formlogin.js:61
 msgid "You are now loged in"
 msgstr ""
 
-#: rest/login.js:165
+#: rest/anonymous/createfirstadmin.js:60
+msgid "The first admin allready exists"
+msgstr ""
+
+#: rest/login.js:64
 #, javascript-format
 msgid "No user found with email %s"
 msgstr ""
 
-#: rest/login.js:192
-#, javascript-format
-msgid ""
-"Forgot your password?\n"
-"---------------------\n"
-"\n"
-"We received a request to reset the password for your account (%s).\n"
-"\n"
-"To reset your password, click on this [link][1] (or copy and paste the URL "
-"into your browser):\n"
-"\n"
-"[1]: %s\n"
-"\n"
-"Thanks,\n"
-"%s"
-msgstr ""
-
-#: rest/login.js:213
-#, javascript-format
-msgid "Reset your %s password"
-msgstr ""
-
-#: rest/login.js:223
+#: rest/login.js:83
 #, javascript-format
 msgid "An email has been sent to %s"
 msgstr ""
 
-#: rest/login.js:271
+#: rest/login.js:132
 msgid "The password confirmation does not match the new password field"
 msgstr ""
 
-#: rest/login.js:297
+#: rest/login.js:159
 msgid "Invalid request. user not found"
 msgstr ""
 
-#: rest/login.js:310
+#: rest/login.js:172
 msgid "Invalid request."
 msgstr ""
 
-#: rest/login.js:334
+#: rest/login.js:196
 msgid "The password has been modified"
 msgstr ""
 
@@ -196,194 +338,332 @@ msgstr ""
 msgid "You must be logged in"
 msgstr ""
 
-#: schema/Request.js:95
+#: rest/user/googlecalendar.js:92
+msgid "You are disconnected from your google calendar"
+msgstr ""
+
+#: schema/Request.js:297
+msgid "Leave"
+msgstr ""
+
+#: schema/Request.js:301
+msgid "Time saving deposit"
+msgstr ""
+
+#: schema/Request.js:305
+msgid "Workperiod recover"
+msgstr ""
+
+#: schema/Request.js:308
+msgid "Unknown"
+msgstr ""
+
+#: schema/Request.js:323
 msgid "Waiting approval"
 msgstr ""
 
-#: schema/Request.js:97
+#: schema/Request.js:325
 msgid "Accepted"
 msgstr ""
 
-#: schema/Request.js:99 schema/ApprovalStep.js:58
+#: schema/Request.js:327 schema/ApprovalStep.js:74
 msgid "Rejected"
 msgstr ""
 
-#: schema/Request.js:107
+#: schema/Request.js:335
 msgid "Waiting deletion approval"
 msgstr ""
 
-#: schema/Request.js:109
+#: schema/Request.js:337
 msgid "Deleted"
 msgstr ""
 
-#: schema/Request.js:111
+#: schema/Request.js:339
 msgid "Deletion rejected"
 msgstr ""
 
-#: schema/Request.js:115
+#: schema/Request.js:343
 msgid "Undefined"
 msgstr ""
 
-#: schema/Type.js:40
+#: schema/User.js:127
+#, javascript-format
+msgid "The total number of active users cannot exceed %d"
+msgstr ""
+
+#: schema/Type.js:55 schema/data/fr.js:12 schema/data/ch.js:10
+#: schema/data/be.js:12 schema/data/uk.js:12
 msgid "Paid annual leave"
 msgstr ""
 
-#: schema/Type.js:41
+#: schema/Type.js:56
 msgid "Seniority leave"
 msgstr ""
 
-#: schema/Type.js:42
-msgid "RTT"
-msgstr ""
-
-#: schema/Type.js:43
+#: schema/Type.js:57
 msgid "Recovery"
 msgstr ""
 
-#: schema/Type.js:44
-msgid "Time savings account"
-msgstr ""
-
-#: schema/Type.js:45
+#: schema/Type.js:58
 msgid "sickness absence"
 msgstr ""
 
-#: schema/Type.js:46
+#: schema/Type.js:59
 msgid "Work accident"
 msgstr ""
 
-#: schema/Type.js:47
+#: schema/Type.js:60
 msgid "Parental leave"
 msgstr ""
 
-#: schema/Type.js:48
+#: schema/Type.js:61 schema/data/fr.js:63 schema/data/ch.js:57
+#: schema/data/be.js:37
 msgid "Maternity"
 msgstr ""
 
-#: schema/Type.js:49
+#: schema/Type.js:62
 msgid "Paternity"
 msgstr ""
 
-#: schema/Type.js:50
+#: schema/Type.js:63
 msgid "Sick child"
 msgstr ""
 
-#: schema/Type.js:51
+#: schema/Type.js:64
 msgid "Wedding"
 msgstr ""
 
-#: schema/Type.js:52
+#: schema/Type.js:65
 msgid "Birth"
 msgstr ""
 
-#: schema/Type.js:53
+#: schema/Type.js:66
 msgid "Decease"
 msgstr ""
 
-#: schema/Type.js:54
+#: schema/Type.js:67
 msgid "Training"
 msgstr ""
 
-#: schema/Type.js:55
+#: schema/Type.js:68
 msgid "Relocation"
 msgstr ""
 
-#: schema/Type.js:56
+#: schema/Type.js:69
 msgid "Unpaid leave"
 msgstr ""
 
-#: schema/Type.js:57
+#: schema/Type.js:70
 msgid "Strike"
 msgstr ""
 
-#: schema/Type.js:58
+#: schema/Type.js:71
 msgid "Leave for results"
 msgstr ""
 
-#: schema/Type.js:59
+#: schema/Type.js:72
 msgid "Union representation"
 msgstr ""
 
-#: schema/Type.js:60
+#: schema/Type.js:73
 msgid "Absence as an elected official"
 msgstr ""
 
-#: schema/Type.js:61
+#: schema/Type.js:74
 msgid "Reservist leave"
 msgstr ""
 
-#: schema/Type.js:62
+#: schema/Type.js:75
+msgid "Presence in court"
+msgstr ""
+
+#: schema/Type.js:79
+msgid "RTT"
+msgstr ""
+
+#: schema/Type.js:80
+msgid "Time savings account"
+msgstr ""
+
+#: schema/Type.js:81
 msgid "Fractionating leave"
 msgstr ""
 
-#: schema/RightCollection.js:111
+#: schema/RightCollection.js:127
 msgid "General regime 100%"
 msgstr ""
 
-#: schema/RightCollection.js:112
+#: schema/RightCollection.js:128
+msgid "Part-time 90%"
+msgstr ""
+
+#: schema/RightCollection.js:129
 msgid "Part-time 80%"
 msgstr ""
 
-#: schema/RightCollection.js:113
+#: schema/RightCollection.js:130
+msgid "Part-time 70%"
+msgstr ""
+
+#: schema/RightCollection.js:131
 msgid "Part-time 50%"
 msgstr ""
 
-#: schema/RequestLog.js:39
+#: schema/RequestLog.js:40
 msgid "Create request"
 msgstr ""
 
-#: schema/RequestLog.js:41
+#: schema/RequestLog.js:42
 msgid "Send request to approval"
 msgstr ""
 
-#: schema/RequestLog.js:43
+#: schema/RequestLog.js:44
 msgid "Approval step accepted"
 msgstr ""
 
-#: schema/RequestLog.js:45
+#: schema/RequestLog.js:46
 msgid "Approval step rejected"
 msgstr ""
 
-#: schema/RequestLog.js:47
+#: schema/RequestLog.js:48
 msgid "Approval workflow end"
 msgstr ""
 
-#: schema/RequestLog.js:49
+#: schema/RequestLog.js:50
 msgid "Modify request"
 msgstr ""
 
-#: schema/RequestLog.js:51
+#: schema/RequestLog.js:52
 msgid "Delete request"
 msgstr ""
 
-#: schema/RequestLog.js:54
+#: schema/RequestLog.js:55
 msgid "Unknown action"
 msgstr ""
 
-#: schema/Right_Rule.js:72
+#: schema/data/fr.js:18 schema/data/fr.js:44 schema/data/be.js:18
+#: schema/data/uk.js:18
+msgid ""
+"The creation of the request can be made in the period of renewal, with 30 "
+"days of tolerance"
+msgstr ""
+
+#: schema/data/fr.js:24 schema/data/fr.js:50 schema/data/be.js:24
+#: schema/data/uk.js:24
+msgid "The absence must be within the renewal period"
+msgstr ""
+
+#: schema/data/ch.js:16 schema/data/ch.js:36
+msgid ""
+"The absence must be made after the renewal start date, and within 5 years "
+"following the end of the renewal period"
+msgstr ""
+
+#: schema/data/ch.js:30
+msgid "Paid annual leave until the age of 20 years old"
+msgstr ""
+
+#: schema/data/ch.js:43
+msgid "Under 21 at the time of the absence"
+msgstr ""
+
+#: schema/data/uk.js:37
+msgid "Ordinary Maternity Leave"
+msgstr ""
+
+#: schema/data/uk.js:43
+msgid "Additional Maternity Leave"
+msgstr ""
+
+#: schema/Right_Rule.js:79
 msgid "Interval values must be numbers of years"
 msgstr ""
 
-#: schema/Right_Rule.js:77
+#: schema/Right_Rule.js:84
 msgid "Interval values must be set in a correct order"
 msgstr ""
 
-#: schema/ApprovalStep.js:56 schema/ApprovalStep.js:57
+#: schema/ApprovalStep.js:72 schema/ApprovalStep.js:73
 msgid "Waiting"
 msgstr ""
 
-#: schema/RecoverQuantity.js:27
+#: schema/RecoverQuantity.js:29
 msgid "Half-day"
 msgstr ""
 
-#: schema/RecoverQuantity.js:32
+#: schema/RecoverQuantity.js:35
 msgid "A day"
 msgstr ""
 
-#: schema/RecoverQuantity.js:37
+#: schema/RecoverQuantity.js:41
 msgid "One hour"
 msgstr ""
 
-#: schema/RecoverQuantity.js:42
+#: schema/RecoverQuantity.js:47
 msgid "A week-end"
+msgstr ""
+
+#: schema/Calendar.js:233
+msgid "5 days 40H - 8H 12H / 14H 18H"
+msgstr ""
+
+#: schema/Calendar.js:240
+msgid "5 days 39H - 8H 12H / 14H 18H, 17H on friday"
+msgstr ""
+
+#: schema/Calendar.js:254
+msgid "Guadeloupe non working days"
+msgstr ""
+
+#: schema/Calendar.js:260
+msgid "Guyane non working days"
+msgstr ""
+
+#: schema/Calendar.js:266
+msgid "Martinique non working days"
+msgstr ""
+
+#: schema/Calendar.js:272
+msgid "Moselle, Bas-Rhin, Haut-Rhin non working days"
+msgstr ""
+
+#: schema/Calendar.js:279
+msgid "French non working days (metropolis)"
+msgstr ""
+
+#: schema/Calendar.js:285
+msgid "French polynesia non working days"
+msgstr ""
+
+#: schema/Calendar.js:291
+msgid "Reunion island non working days"
+msgstr ""
+
+#: schema/Calendar.js:297
+msgid "Wallis and Futuna non working days"
+msgstr ""
+
+#: schema/Calendar.js:312
+msgid "Belgium non working days"
+msgstr ""
+
+#: schema/Calendar.js:324
+msgid "Ireland non working days"
+msgstr ""
+
+#: schema/Calendar.js:365 schema/Calendar.js:465
+#, javascript-format
+msgid "%s non working days"
+msgstr ""
+
+#: schema/Calendar.js:383
+msgid "England and Wales legal holidays"
+msgstr ""
+
+#: schema/Calendar.js:389
+msgid "North Ireland legal holidays"
+msgstr ""
+
+#: schema/Calendar.js:395
+msgid "Scotland legal holidays"
 msgstr ""

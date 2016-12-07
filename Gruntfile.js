@@ -244,11 +244,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-codeclimate-reporter');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-  grunt.registerTask('default', [ 'jshint', 'nodemon']);
-  grunt.registerTask('build', ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
-  grunt.registerTask('allpot', ['shell:pot_server', 'nggettext_extract']);
-  grunt.registerTask('lint', ['jshint']);
-  grunt.registerTask('test', ['jasmine_node:all']);
-  grunt.registerTask('coverage', ['jasmine_node:jasmine_coverage']);
-  grunt.registerTask('travis', ['copy:config', 'jasmine_node:jasmine_coverage']);
+  grunt.registerTask('default'  , 'Developpement mode',
+                                [ 'jshint', 'nodemon']);
+
+  grunt.registerTask('build'    , 'minify css, create translations files from po, aggregate js files',
+                                ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
+
+  grunt.registerTask('allpot'   , 'Create all POT files from source',
+                                ['shell:pot_server', 'nggettext_extract']);
+
+  grunt.registerTask('lint'     , ['jshint']);
+  grunt.registerTask('test'     , ['jasmine_node:all']);
+  grunt.registerTask('coverage' , ['jasmine_node:jasmine_coverage']);
+  grunt.registerTask('travis'   , ['copy:config', 'jasmine_node:jasmine_coverage']);
 };
