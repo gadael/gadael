@@ -18,14 +18,14 @@
         <div class="col-sm-7 top17">
             <ng-include src="'partials/utils/common/request/periodselect.html'"></ng-include>
         </div>
-        
+
         <div class="col-sm-5">
             <h4 translate>Selected duration:</h4>
             <p>{{selection.duration}}</p>
-            
+
             <p translate>Consumption on the selected period: {{selection.days}} or {{selection.hours}}</p>
         </div>
-        
+
         <div class="col-sm-12 top30">
             <button class="btn btn-primary" ng-disabled="!selection.end || !selection.begin" ng-click="next()" translate>Continue</button>
         </div>
@@ -33,17 +33,17 @@
 </div>
 
 <div ng-if="assignments">
-    
+
     <div class="top30">
-        <p translate>From to {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}</p>
+        <p translate>From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}</p>
         <p translate>Collection on the selected period: {{collection.name}}</p>
         <p class="text-primary" translate>Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights</p>
     </div>
 
     <form class="top30 form-horizontal" role="form">
-        
+
         <table class="table absence-edit-distribution">
-        
+
 
             <tbody ng-repeat="listItem in types">
                 <tr class="active">
@@ -58,7 +58,7 @@
                         <input id="ar{{accountRight.renewal._id}}" type="number" class="form-control" ng-model="distribution.renewal[accountRight.renewal._id].quantity" step="any" min="0" />
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
                     </td>
-                    
+
                     <td>
                         <label for="ar{{accountRight.renewal._id}}" class="control-label">{{accountRight.name}}</label><br />
                         <small translate>From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}</small>
@@ -78,20 +78,20 @@
                     <th class="hidden-xs" translate>Available quantity</th>
                 </tr>
             </thead>
-            
+
             <tfoot>
                 <tr>
-                    
+
                     <td>{{distribution.total}}</td>
                     <td></td>
                     <td class="hidden-xs">{{available.total}}</td>
                 </tr>
             </tfoot>
-            
+
         </table>
 
         <button class="btn btn-primary" ng-click="saveAbsence()" ng-disabled="!distribution.completed" translate>Save</button>
         <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
-        
+
     </form>
 </div>

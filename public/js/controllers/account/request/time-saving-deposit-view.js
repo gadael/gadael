@@ -30,7 +30,7 @@ define([], function() {
          * Delete
          */
 		$scope.delete = function() {
-            if (confirm('Are you sure you whant to delete the time saving deposit request?')) {
+            if (confirm('Are you sure you want to delete the time saving deposit request?')) {
 
                 $scope.request.gadaDelete($scope.backToList);
             }
@@ -39,4 +39,3 @@ define([], function() {
 
 	}];
 });
-

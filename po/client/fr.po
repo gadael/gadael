@@ -9,8 +9,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: public/partials/admin/users.html
+msgid "{{usersstat.activeUsers}} users / {{company.max_users}} Max"
+msgstr "{{usersstat.activeUsers}} utilisateurs / {{company.max_users}} Max"
 
 #: public/partials/utils/common/request/request-list-type.html
 msgid "1 day"
@@ -24,13 +28,12 @@ msgid_plural "{{deposit.quantity| number}} hours"
 msgstr[0] "1 heure"
 msgstr[1] "{{deposit.quantity| number}} heures"
 
-#: public/partials/admin/request/requests.html
+#: public/partials/admin/popover-users.html
 msgid "A user account is required to continue"
 msgstr "Un compte utilisateur est requis pour continuer"
 
 #: public/partials/account/request/requests.html
 #: public/partials/admin/request/requests.html
-#: public/partials/manager/waitingrequests.html
 #: public/partials/utils/common/request/request-list-type.html
 msgid "Absence"
 msgstr "Absence"
@@ -39,15 +42,14 @@ msgstr "Absence"
 msgid "Absence request"
 msgstr "Demande d'absence"
 
+#: public/js/controllers/account/beneficiaries.js
+#: public/js/controllers/admin/rights.js
+msgid "Absence rights"
+msgstr "Droit d'absences"
+
 #: public/partials/admin/users.html
 msgid "Absences account"
 msgstr "Compte utilisateur \"Absences\""
-
-#: public/partials/admin/calendar-edit.html
-msgid "Absences or vacations requests can not be reserved over these periods"
-msgstr ""
-"Les absences et demandes de congés ne peuvent pas êtres réservées sur ces "
-"périodes"
 
 #: public/partials/admin/user-edit.html public/partials/admin/user-view.html
 msgid "Absences user account"
@@ -68,12 +70,24 @@ msgid "Account"
 msgstr "Compte"
 
 #: public/partials/admin/rightrule-edit.html
+msgid "Activate the right according to the age"
+msgstr "Activer le droit en fonction de l'age"
+
+#: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to the entry creation date"
 msgstr "Activer le droit en fonction de la date de création de la demande"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to the request period"
 msgstr "Activer le droit en fonction de la période demandée"
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Activate the right according to the seniority"
+msgstr "Activer le droit en fonction de l'ancienneté"
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Activate the right according to the user age"
+msgstr "Activer le droit en fonction de l'age de l'utilisateur"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to the user seniority"
@@ -87,6 +101,11 @@ msgstr "Actif pour :"
 msgid "Actual quantity:"
 msgstr "Quantité actuelle :"
 
+#: public/partials/user/settings-calendar.html
+msgid "Add"
+msgstr "Ajouter"
+
+#: public/partials/admin/account-nwdayscalendars-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/calendars.html
 msgid "Add a calendar"
@@ -108,21 +127,21 @@ msgstr "Ajouter une demande"
 msgid "Add a request..."
 msgstr "Ajouter une demande..."
 
-#: public/partials/admin/rights.html
-msgid "Add absences right"
-msgstr "Ajouter un droit de congés"
-
 #: public/partials/admin/collections.html
 msgid "Add Collection"
 msgstr "Ajouter un régime"
+
+#: public/partials/admin/compulsoryleaves.html
+msgid "Add compulsory leave"
+msgstr "Ajouter un congé obligatoire"
 
 #: public/partials/admin/departments.html
 msgid "Add Department"
 msgstr "Ajouter un service"
 
-#: public/partials/admin/rightrule-edit.html
-msgid "Add quantity to the right according to the seniority"
-msgstr "Ajouter la quantité au droit en fonction de l'ancienneté"
+#: public/partials/admin/rights.html
+msgid "Add right"
+msgstr "Ajouter un droit"
 
 #: public/partials/admin/account-collections-edit.html
 msgid "Add right collection"
@@ -164,9 +183,17 @@ msgstr "Administrateur, se substituant à l'un de ces subordonnés"
 msgid "Administrator"
 msgstr "Administrateur"
 
+#: public/js/optimized.js public/js/services.js
+msgid "Age"
+msgstr "Age"
+
 #: public/partials/admin/department-edit.html
 msgid "All managers must confirm approval step"
 msgstr "Tout les gestionnaires doivent confirmer l'étape d'approbation"
+
+#: public/partials/admin/right-edit.html
+msgid "Allow to save quantity from this right to the time deposit account"
+msgstr "Autoriser l'épargne de ce droit vers les comptes épargne temps"
 
 #: public/partials/admin/user-edit.html public/partials/admin/user-view.html
 msgid "Application administrator"
@@ -176,10 +203,23 @@ msgstr "Administrateur de l'application"
 msgid "Approvers"
 msgstr "Approbateurs"
 
+#: public/js/controllers/account/request/absence-view.js
+msgid "Are you sure you whant to delete the absence request?"
+msgstr "Êtes-vous sûr de vouloir supprimer cette demande d'absence?"
+
+#: public/js/controllers/admin/compulsoryleave-view.js
+msgid "Are you sure you whant to delete this compulsory leave?"
+msgstr ""
+
+#: public/js/controllers/admin/user-view.js
+msgid "Are you sure you whant to delete this user?"
+msgstr ""
+
 #: public/partials/admin/user-edit-account.html
 msgid "Arrival date"
 msgstr "Date d'arrivée"
 
+#: public/partials/admin/account-renewalquantity-edit.html
 #: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/user-view-account.html
 msgid "Arrival date:"
@@ -189,9 +229,17 @@ msgstr "Date d'arrivée :"
 msgid "At least one manager must confirm approval step"
 msgstr "Au moins un approbateur doit approuver l'étape"
 
+#: public/js/controllers/admin/export/export-edit-sage.js
+msgid "At least one type must be selected"
+msgstr "Au moins un type doit être sélectionné"
+
 #: public/partials/admin/collection-edit.html
-msgid "Attendance"
-msgstr "Présence"
+msgid "Attendance (percentage relative to full-time)"
+msgstr "Présence (pourcentage relatif au temps complet)"
+
+#: public/js/optimized.js public/js/services/beneficiary.js
+msgid "Auto monthly update"
+msgstr "Mise à jour mensuelles automatiques"
 
 #: public/partials/admin/right-edit.html
 msgid "Automatic distribution of this right when creating a request"
@@ -199,8 +247,29 @@ msgstr ""
 "Répartition automatique de la quantité sur ce droit lors de la création "
 "d'une demande"
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Availability duration after the renewal end date:"
+msgstr "Jours supplémentaires après la date de fin du renouvellement :"
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Availability duration before the renewal start date:"
+msgstr "Jours supplémentaires avant la date de début du renouvellement :"
+
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Available for booking"
+msgstr "Disponible à la réservation"
+
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Available on period"
+msgstr "Disponible sur la période"
+
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Available on right"
+msgstr "Disponibilité du droit"
+
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
+#: public/partials/utils/common/request/absence-edit.html
 msgid "Available quantity"
 msgstr "Quantité disponible"
 
@@ -209,17 +278,33 @@ msgstr "Quantité disponible"
 msgid "Available:"
 msgstr "Disponible :"
 
+#: public/partials/admin/calendar-edit.html
+msgid "Average hours per day"
+msgstr "Moyenne du nombre d'heures par jour"
+
 #: public/partials/login/forgot.html public/partials/login/reset.html
 msgid "Back to Login"
 msgstr "Retour à l'authentification"
 
-#: public/partials/utils/common/exports/export-edit.html
-#: public/partials/utils/common/request/absence-edit.html
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Balance state the:"
+msgstr ""
+
+#: public/partials/admin/compulsoryleave-edit.html
+#: public/partials/utils/common/request/periodselect.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Begin date"
 msgstr "Date de début"
 
-#: public/partials/admin/users.html
+#: public/partials/admin/user-edit-account.html
+msgid "Birth date"
+msgstr "Date de naissance"
+
+#: public/partials/admin/user-view-account.html
+msgid "Birth date:"
+msgstr "Date de naissance :"
+
+#: public/partials/admin/rights.html public/partials/admin/users.html
 msgid "By collection:"
 msgstr "Par régime :"
 
@@ -228,12 +313,18 @@ msgid "By department:"
 msgstr "Par service :"
 
 #: public/partials/admin/calendars.html public/partials/admin/collections.html
+#: public/partials/admin/compulsoryleaves.html
 #: public/partials/admin/departments.html
 #: public/partials/admin/recoverquantities.html
 #: public/partials/admin/rights.html public/partials/admin/types.html
 #: public/partials/admin/users.html
 msgid "By name:"
 msgstr "Par nom :"
+
+#: public/partials/admin/collections.html
+#: public/partials/admin/compulsoryleaves.html
+msgid "By right:"
+msgstr "Par droit :"
 
 #: public/partials/account/request/requests.html
 #: public/partials/admin/request/requests.html
@@ -251,19 +342,41 @@ msgstr "Par type :"
 msgid "By user name:"
 msgstr "Par nom d'utilisateur :"
 
+#: public/partials/admin/calendar.html
+#: public/js/controllers/admin/calendar-view.js
+msgid "calendar"
+msgstr "agenda"
+
+#: public/partials/utils/common/settings/menu.html
+msgid "Calendar"
+msgstr "Agenda"
+
 #: public/partials/admin/calendar-edit.html
+#: public/partials/admin/user-view-account.html
 msgid "Calendar name"
 msgstr "Nom de l'agenda"
+
+#: public/partials/user/settings-calendar-new.html
+#, fuzzy
+msgid "Calendar summary"
+msgstr "Agendas"
 
 #: public/partials/admin/calendar-edit.html
 msgid "Calendar type:"
 msgstr "Type d'agenda :"
 
+#: public/js/controllers/admin/calendars.js
+msgid "Calendars"
+msgstr "Agendas"
+
 #: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-nwdayscalendars-edit.html
+#: public/partials/admin/account-renewalquantity-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/adjustment-edit.html
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
+#: public/partials/admin/compulsoryleave-edit.html
 #: public/partials/admin/department-edit.html
 #: public/partials/admin/export/export-edit-sage.html
 #: public/partials/admin/export/export-edit-xlsx.html
@@ -272,7 +385,7 @@ msgstr "Type d'agenda :"
 #: public/partials/admin/rightrenewal-edit.html
 #: public/partials/admin/rightrule-edit.html
 #: public/partials/admin/type-edit.html public/partials/admin/user-edit.html
-#: public/partials/user/settings.html
+#: public/partials/user/settings-calendar-new.html
 #: public/partials/utils/common/request/absence-edit.html
 msgid "Cancel"
 msgstr "Annuler"
@@ -281,9 +394,17 @@ msgstr "Annuler"
 msgid "Change the initial quantity"
 msgstr "Modifier la quantité initiale"
 
+#: public/partials/user/settings-password.html
+msgid "Change your password"
+msgstr "Modifier votre mot de passe"
+
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 msgid "Choose from your remnant quantity"
 msgstr "Choisir à partir de votre quantité restante"
+
+#: public/partials/admin/rights-sort.html
+msgid "Classification used for the creation of leave requests"
+msgstr "Classification utilisée pour la création des périodes de congé"
 
 #: public/partials/admin/user-view-manager.html
 msgid "Collaborators to supervise with request approvals"
@@ -305,7 +426,17 @@ msgstr "Régime :"
 msgid "Color"
 msgstr "Couleur"
 
-#: public/partials/admin/user-edit.html public/partials/user/settings.html
+#: public/partials/admin/compulsoryleave-edit.html
+#, fuzzy
+msgid "Compulsory leave name (this will be visible on users calendars)"
+msgstr "Titre de la règle, ceci sera visible par les utilisateurs"
+
+#: public/js/controllers/admin/compulsoryleaves.js
+msgid "Compulsory leaves"
+msgstr "Congés obligatoires"
+
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings-password.html
 msgid "Confirm new password"
 msgstr "Confirmer le nouveau mot de passe"
 
@@ -321,6 +452,24 @@ msgstr "Confirmer le mot de passe :"
 msgid "Confirmed"
 msgstr "Confirmé"
 
+#: public/partials/user/settings-calendar.html
+#, fuzzy
+msgid "Connect"
+msgstr "Se connecter"
+
+#: public/partials/admin/right-edit.html
+msgid "Consume next business days"
+msgstr "Consommer le jour travaillé suivant"
+
+#: public/partials/admin/right-edit.html
+#, fuzzy
+msgid "Consume worked days"
+msgstr "Jours fériés"
+
+#: public/partials/admin/account-renewalquantity-edit.html
+msgid "Consumed quantity"
+msgstr "Quantité consommée"
+
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
 msgid "Consumed:"
@@ -334,13 +483,34 @@ msgstr ""
 "Consommation sur la période sélectionnée : {{selection.days}} ou {{selection."
 "hours}}"
 
+#: public/partials/admin/modal-specialrights.html
 #: public/partials/utils/common/request/absence-edit.html
 msgid "Continue"
 msgstr "Continuer"
 
+#: public/partials/admin/compulsoryleave-edit.html
+msgid "Create a compulsory leave"
+msgstr "Créer un congé obligatoire"
+
 #: public/partials/admin/department-edit.html
 msgid "Create a department"
 msgstr "Créer un service"
+
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Create a leave on all valid users"
+msgstr "Créer un congé sur tous les utilisateurs valides"
+
+#: public/partials/admin/right-edit.html
+msgid "Create a leave right"
+msgstr "Créer un droit d'absence"
+
+#: public/partials/user/settings-calendar-new.html
+msgid ""
+"Create a new secondary calendar in your google account to host a copy of "
+"your leave periods."
+msgstr ""
+"Créer un nouvel agenda secondaire sur votre compte google pour héberger une "
+"copie de vos périodes de congés."
 
 #: public/partials/account/request/time-saving-deposit-edit.html
 msgid "Create a new time saving deposit request"
@@ -358,6 +528,30 @@ msgstr ""
 #: public/partials/admin/recoverquantity-edit.html
 msgid "Create a recover quantity"
 msgstr "Créer une quantité à récupérer"
+
+#: public/partials/admin/request/spoof-user-modal.html
+msgid "Create a request on behalf of a user"
+msgstr "Créer une demande à la place de l'utilisateur"
+
+#: public/partials/admin/collection-edit.html
+msgid "Create a right collection"
+msgstr "Créer un régime de congés"
+
+#: public/partials/admin/rightrenewal-edit.html
+msgid "Create a right renewal"
+msgstr "Créer un renouvellement de droit"
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Create a right rule"
+msgstr "Créer un règle de droit"
+
+#: public/partials/admin/type-edit.html
+msgid "Create a right type"
+msgstr "Créer un type de droit"
+
+#: public/partials/admin/user-edit.html
+msgid "Create a user"
+msgstr "Créer un utilisateur"
 
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid ""
@@ -380,14 +574,24 @@ msgstr "Régime de congés en cours :"
 msgid "Current workschedule calendar:"
 msgstr "Agenda du rythme de travail en cours :"
 
+#: public/partials/admin/compulsoryleave-view.html
 #: public/partials/admin/recoverquantities.html public/partials/home.html
+#: public/js/optimized.js public/js/services/request-edit.js
 msgid "day"
 msgid_plural "days"
 msgstr[0] "jour"
 msgstr[1] "jours"
 
+#: public/js/optimized.js public/js/services/renewalChart.js
+msgid "Day"
+msgid_plural "Days"
+msgstr[0] "Jour"
+msgstr[1] "Jours"
+
+#: public/partials/admin/collection-edit.html
 #: public/partials/admin/right-edit.html
 #: public/partials/admin/rightrule-edit.html
+#: public/partials/utils/common/request/absence-view.html
 msgid "Days"
 msgstr "Jours"
 
@@ -401,6 +605,7 @@ msgstr ""
 "et vous fera bénéficier de droits de congés supplémentaires."
 
 #: public/partials/admin/right-edit.html
+#: public/partials/admin/user-view-account.html
 msgid "Default quantity"
 msgstr "Quantité par défaut"
 
@@ -410,12 +615,14 @@ msgstr "Quantité par défaut"
 msgid "Default quantity on start renewal:"
 msgstr "Quantité par défaut au début du renouvellement :"
 
+#: public/partials/admin/compulsoryleave-view.html
+#: public/partials/admin/right-view.html
 #: public/partials/admin/rightrule-edit.html
+#: public/partials/admin/user-view.html
 msgid "Delete"
 msgstr "Supprimer"
 
-#: public/partials/admin/request/absence-view.html
-#: public/partials/admin/request/workperiod-recover-view.html
+#: public/partials/admin/request/owner.html
 #: public/partials/admin/user-edit.html
 #: public/partials/utils/common/request/request-view-embed.html
 msgid "Department"
@@ -430,11 +637,16 @@ msgstr "Chef de service"
 msgid "Department name"
 msgstr "Nom du service"
 
+#: public/partials/admin/account-renewalquantity-edit.html
 #: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/request/spoof-user-modal.html
 #: public/partials/admin/user-view.html
 msgid "Department:"
 msgstr "Service :"
+
+#: public/js/controllers/admin/departments.js
+msgid "Departments"
+msgstr "Services"
 
 #: public/index.html
 msgid "Departments supervision"
@@ -444,13 +656,22 @@ msgstr "Supervision des services"
 msgid "Departments to supervise with request approvals"
 msgstr "Services à superviser lors des demandes d'approbation"
 
-#: public/partials/admin/right-edit.html
-msgid "Deposits limit per renewals"
-msgstr "Limite de dépôts par renouvellements"
-
+#: public/partials/admin/compulsoryleave-edit.html
 #: public/partials/admin/right-edit.html
 msgid "Description"
 msgstr "Description"
+
+#: public/partials/user/settings-calendar.html
+msgid "Disconnect"
+msgstr "Se déconnecter"
+
+#: public/partials/admin/type-edit.html
+msgid "Display type folded in the request creation page"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Distribution"
+msgstr "Répartition"
 
 #: public/partials/admin/right-edit.html
 msgid "Do not add monthly quantity if renewal quantity greater than"
@@ -477,6 +698,7 @@ msgid "Download"
 msgstr "Téléchargement"
 
 #: public/partials/admin/calendars.html public/partials/admin/collections.html
+#: public/partials/admin/compulsoryleave-view.html
 #: public/partials/admin/department-view.html
 #: public/partials/admin/recoverquantities.html
 #: public/partials/admin/right-view.html public/partials/admin/types.html
@@ -513,8 +735,8 @@ msgstr ""
 msgid "Email"
 msgstr "Email"
 
-#: public/partials/utils/common/exports/export-edit.html
-#: public/partials/utils/common/request/absence-edit.html
+#: public/partials/admin/compulsoryleave-edit.html
+#: public/partials/utils/common/request/periodselect.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "End date"
 msgstr "Date de fin"
@@ -527,13 +749,55 @@ msgstr "Entrez votre email :"
 msgid "Entitlement quantity:"
 msgstr ""
 
+#: public/js/optimized.js public/js/services.js
+#, fuzzy
+msgid "Entry date"
+msgstr "Date d'écriture"
+
+#: public/partials/admin/user-view-account.html
+msgid "Exceptional quantity modifications"
+msgstr "Modification exceptionnelle de la quantité"
+
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Export balance"
+msgstr "Export des soldes"
+
 #: public/partials/admin/export/export-edit-sage.html
 msgid "Export for Sage"
 msgstr "Export pour Sage"
 
+#: public/js/controllers/admin/export/export-edit-sage.js
+msgid "Export in sage format"
+msgstr "Export dans le format Sage"
+
+#: public/js/controllers/admin/export/export-edit-xlsx.js
+msgid "Export in XLSX file"
+msgstr "Exporter dans une feuille de calcul XLSX"
+
 #: public/partials/admin/export/export-edit-xlsx.html
 msgid "Export in XLSX spreadsheet"
 msgstr "Exporter dans une feuille de calcul XLSX"
+
+#: public/partials/admin/export/export-edit-xlsx.html
+msgid "Export requests"
+msgstr "Exporter les demandes"
+
+#: public/partials/admin/export/exports.html
+msgid ""
+"Export requests between two dates for all your users or a balance status of "
+"all your users rights on a specific date. The output format is a spreadsheet "
+"in the Office Open XML format (.xlsx)"
+msgstr ""
+
+#: public/partials/admin/export/exports.html
+msgid ""
+"Export requests for your monthy payroll in sage, only users with the sage "
+"registration number set will be exported"
+msgstr ""
+
+#: public/js/controllers/admin/exports.js
+msgid "Exports"
+msgstr "Exports"
 
 #: public/partials/admin/rightrenewal-edit.html
 msgid "Finish"
@@ -544,6 +808,10 @@ msgstr "Fin"
 #: public/partials/user/settings.html
 msgid "Firstname"
 msgstr "Prénom"
+
+#: public/partials/admin/types.html
+msgid "Folded"
+msgstr "Plié"
 
 #: public/partials/admin/rightrule-edit.html
 msgid ""
@@ -563,17 +831,20 @@ msgstr "Mot de passe oublié?"
 msgid "Forgot Your Password?"
 msgstr "Mot de passe oublié?"
 
+#: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Friday"
 msgstr "Vendredi"
 
-#: public/partials/admin/rightrule-edit.html
+#: public/partials/utils/common/right/right-panel.html
 msgid "from"
 msgstr "de"
 
 #: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-nwdayscalendars-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/rights.html
+#: public/partials/admin/user-view-account.html
 #: public/partials/manager/waitingrequests.html
 #: public/partials/utils/common/calendar/popover-event.html
 #: public/partials/utils/common/request/request-list-type.html
@@ -585,6 +856,12 @@ msgid ""
 "From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|"
 "date}}"
 msgstr ""
+"Du {{accountRight.renewal.start|date}} au {{accountRight.renewal.finish|"
+"date}}"
+
+#: public/partials/admin/account-renewalquantity-edit.html
+msgid "From date:"
+msgstr "Depuis le :"
 
 #: public/partials/utils/common/request/time-saving-deposit-view.html
 msgid "From right:"
@@ -595,32 +872,50 @@ msgid ""
 "From to {{selection.begin|date:'medium'}}, to the {{selection.end|"
 "date:'medium'}}"
 msgstr ""
+"From to {{selection.begin|date:'medium'}}, to the {{selection.end|"
+"date:'medium'}}"
 
+#: public/partials/admin/compulsoryleave-view.html
 #: public/partials/utils/common/request/absence-view.html
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 #: public/partials/utils/common/request/workperiod-recover-view.html
 msgid "From:"
 msgstr "De :"
 
-#: public/partials/admin/type-edit.html
-msgid "Group rights in a foldable subtree"
-msgstr "Droits du groupe dans un arbre repliable"
+#: public/js/app.js public/js/optimized.js
+msgid "Gadael - %s"
+msgstr "Gadael - %s"
 
-#: public/partials/admin/types.html
-msgid "Grouped rights"
-msgstr "Droits groupés"
+#: public/partials/admin/export/export-edit-sage.html
+msgid "Get only periods from the following types:"
+msgstr "Sélectionner seulement les périodes depuis les types :"
+
+#: public/partials/login/login.html
+msgid "Google login"
+msgstr "Se connecter par Google"
+
+#: public/partials/admin/type-edit.html
+msgid "Group title for rights (plural form)"
+msgstr ""
 
 #: public/partials/admin/calendar-edit.html
 msgid "Half day hour"
-msgstr ""
+msgstr "Heure de la demie-journée"
 
+#: public/js/controllers/home.js
+msgid "Home"
+msgstr "Accueil"
+
+#: public/partials/admin/compulsoryleave-view.html
 #: public/partials/admin/recoverquantities.html public/partials/home.html
+#: public/js/optimized.js public/js/services/request-edit.js
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heures"
 
-#: public/partials/utils/common/request/absence-edit.html
+#: public/partials/admin/compulsoryleave-edit.html
+#: public/partials/utils/common/request/periodselect.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Hour"
 msgstr "Heure"
@@ -654,6 +949,16 @@ msgstr ""
 "Si la règle n'est pas vérifiée, le droit ne sera pas visible par "
 "l'utilisateur dans la liste de ces droits et lors de la répartition :"
 
+#: public/partials/admin/account-renewalquantity-edit.html
+#, fuzzy
+msgid "Initial quantity on renewal creation"
+msgstr "Quantité par défaut au début du renouvellement :"
+
+#: public/partials/admin/account-renewalquantity-edit.html
+#, fuzzy
+msgid "Initial quantity without this user personal adjustments"
+msgstr "Justificatif à propos de cet ajustement manuel"
+
 #: public/partials/account/beneficiary-view.html
 msgid "Initial quantity:"
 msgstr "Quantité initiale :"
@@ -666,11 +971,12 @@ msgstr "Initiale :"
 msgid "Interventions history"
 msgstr "Historique des interventions"
 
+#: public/partials/admin/account-renewalquantity-edit.html
 #: public/partials/admin/adjustment-edit.html
 msgid "Justification, write about this manual adjustment"
 msgstr "Justificatif à propos de cet ajustement manuel"
 
-#: public/partials/admin/rightrule-edit.html
+#: public/partials/utils/common/right/right-panel.html
 msgid "Last renewal:"
 msgstr "Dernier renouvellement :"
 
@@ -680,9 +986,46 @@ msgstr "Dernier renouvellement :"
 msgid "Lastname"
 msgstr "Nom"
 
+#: public/partials/admin/compulsoryleave-edit.html
+msgid "Leave period"
+msgstr "Période de congé"
+
+#: public/js/controllers/user/settings-calendar.js
+msgid "Leave periods"
+msgstr "Périodes de congé"
+
+#: public/partials/admin/compulsoryleave-edit.html
+msgid "Leave right"
+msgstr "Droit de congé"
+
+#: public/js/app.js public/js/optimized.js
+msgid "Leaves managment"
+msgstr "Gestion des absences"
+
+#: public/partials/admin/calendar-edit.html
+#, fuzzy
+msgid "Leaves requests can not be reserved over these periods"
+msgstr ""
+"Les absences et demandes de congés ne peuvent pas êtres réservées sur ces "
+"périodes"
+
+#: public/partials/admin/right-edit.html
+msgid "Limit in additional business days consuption in one renewal"
+msgstr ""
+"Limite des jours travaillés supplémentaires consommés dans un renouvellement"
+
+#: public/partials/user/settings-calendar.html
+msgid "Link with your google calendar"
+msgstr "Lien vers votre agenda Google"
+
+#: public/partials/user/settings-calendar.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Loading..."
 msgstr "Chargement..."
+
+#: public/js/controllers/login/index.js
+msgid "Login"
+msgstr "Connexion"
 
 #: public/partials/home.html
 msgid "Manager"
@@ -708,14 +1051,43 @@ msgstr ""
 "Nombre minimal de jours entre la date de la demande et la date de début de "
 "la période demandée"
 
+#: public/partials/admin/compulsoryleave-edit.html
+msgid "Modify a compulsory leave"
+msgstr "Modifier un congé obligatoire"
+
 #: public/partials/admin/department-edit.html
 msgid "Modify a department"
 msgstr "Modifier un service"
+
+#: public/partials/admin/right-edit.html
+msgid "Modify a leave right"
+msgstr "Modifier un droit de congés"
 
 #: public/partials/admin/recoverquantity-edit.html
 msgid "Modify a recover quantity"
 msgstr "Modifier une quantité récupérée"
 
+#: public/partials/admin/collection-edit.html
+msgid "Modify a right collection"
+msgstr "Modifier un régime de congés"
+
+#: public/partials/admin/rightrenewal-edit.html
+msgid "Modify a right renewal"
+msgstr "Modifier un renouvellement de droit"
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Modify a right rule"
+msgstr "Modifier une règle de droit"
+
+#: public/partials/admin/type-edit.html
+msgid "Modify a right type"
+msgstr "Modifier un type de droit"
+
+#: public/partials/admin/user-edit.html
+msgid "Modify a user"
+msgstr "Modifier un utilisateur"
+
+#: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Monday"
 msgstr "Lundi"
@@ -742,6 +1114,10 @@ msgstr "Mon compte"
 msgid "My department: {{sessionUser.department.name}}"
 msgstr "Mon service : {{sessionUser.department.name}}"
 
+#: public/partials/utils/common/request/absence-edit.html
+msgid "My rights"
+msgstr "Mes droits"
+
 #: public/index.html
 msgid "My vacations"
 msgstr "Mes congés"
@@ -754,7 +1130,12 @@ msgstr "Nom"
 msgid "Name of the event to recover"
 msgstr "Nom de l'événement à récupérer"
 
-#: public/partials/admin/user-edit.html public/partials/user/settings.html
+#: public/partials/home.html
+msgid "New account created"
+msgstr "Nouveau compte créé"
+
+#: public/partials/admin/user-edit.html
+#: public/partials/user/settings-password.html
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
@@ -766,21 +1147,45 @@ msgstr "Nouveau mot de passe :"
 msgid "New request for {{request.user.name}}"
 msgstr "Nouvelle demande pour {{request.user.name}}"
 
-#: public/partials/admin/rightrule-edit.html
-msgid "Next"
-msgstr "Suivant"
+#: public/partials/admin/account-renewalquantity-edit.html
+msgid "Next collection"
+msgstr "Régime suivant"
+
+#: public/partials/utils/common/department/nextweek.html
+msgid "Next page"
+msgstr "Page suivante"
 
 #: public/partials/admin/rights.html
 msgid "No active renewal"
 msgstr "Pas de renouvellement actif"
 
+#: public/partials/admin/modal-specialrights.html
+msgid "No constraints on right parameters"
+msgstr "Pas de contraintes sur les paramètres du droit"
+
 #: public/partials/account/beneficiaries.html
 msgid "No open period"
 msgstr "pas de période ouverte"
 
+#: public/partials/admin/modal-specialrights.html
+msgid "No special behaviour"
+msgstr "Pas de comportement spécifique"
+
 #: public/partials/admin/calendar-edit.html
 msgid "Non working days"
 msgstr "Jours fériés"
+
+#: public/partials/admin/account-nwdayscalendars-edit.html
+msgid "Non-working days calendar"
+msgstr "Agenda des jours fériés"
+
+#: public/partials/admin/user-view-account.html
+msgid "Non-working days planning"
+msgstr "Agenda des jours fériés"
+
+#: public/partials/admin/account-nwdayscalendars-edit.html
+msgid "Non-working days scheduling for {{user.lastname}} {{user.firstname}}"
+msgstr ""
 
 #: public/partials/admin/calendars.html
 msgid "Nonworking days"
@@ -830,6 +1235,12 @@ msgstr ""
 "la période :"
 
 #: public/partials/admin/user-view-account.html
+msgid "One year old"
+msgid_plural "{{$count}} years old"
+msgstr[0] "un an d'ancienneté"
+msgstr[1] "{{$count}} ans d'anciennetée"
+
+#: public/partials/admin/user-view-account.html
 msgid "One year seniority"
 msgid_plural "{{$count}} years seniority"
 msgstr[0] "un an d'ancienneté"
@@ -847,18 +1258,25 @@ msgstr "Options"
 msgid "Or set the available quantity"
 msgstr "Ou définir la quantité disponible"
 
-#: public/partials/admin/request/absence-view.html
-#: public/partials/admin/request/workperiod-recover-view.html
+#: public/partials/admin/request/owner.html
 msgid "Owner user account"
 msgstr "Compte utilisateur du propriétaire"
+
+#: public/partials/admin/collection-edit.html
+msgid "Package agreement worked days"
+msgstr "Jours travaillés de la convention collective"
 
 #: public/partials/admin/department-edit.html
 msgid "Parent department"
 msgstr "Service parent"
 
+#: public/partials/utils/common/settings/menu.html
+msgid "Password"
+msgstr "Mot de passe"
+
 #: public/partials/admin/user-edit.html
 #: public/partials/login/createfirstadmin.html
-#: public/partials/user/settings.html
+#: public/partials/user/settings-password.html
 msgid "Password Strength:"
 msgstr "Solidité du mot de passe :"
 
@@ -870,7 +1288,15 @@ msgstr "Mot de passe :"
 msgid "Period end"
 msgstr "Fin de période"
 
+#: public/partials/admin/compulsoryleave-view.html
+msgid ""
+"Period is booked\n"
+"                    <span class=\"badge\">{{compulsoryLeaveRequest."
+"quantity}} {{compulsoryLeaveRequest.disp_unit}}</span>"
+msgstr ""
+
 #: public/partials/account/calendar.html
+#: public/js/controllers/account/calendar-view.js
 msgid "Personal calendar"
 msgstr "Agenda personnel"
 
@@ -884,9 +1310,58 @@ msgstr ""
 "Veuillez vous connecter à l'application pour voir les informations de votre "
 "compte"
 
+#: public/partials/admin/account-renewalquantity-edit.html
+msgid "Previous collection"
+msgstr "Régime de congés précédent"
+
+#: public/partials/utils/common/department/nextweek.html
+msgid "Previous page"
+msgstr "Page précédente"
+
 #: public/partials/utils/common/request/request-create-select-type.html
-msgid "Proceed to the request creation with one of the following:"
-msgstr "Procéder à la création de la demande avec un des éléments suivants :"
+msgid ""
+"Proceed to the request creation with one of the following:\n"
+"\n"
+"\n"
+"    <div class=\"top30\">\n"
+"\n"
+"        <p translate=\"\">Create absence request between two dates, the "
+"request will be sent to your supervisor for approval</p>\n"
+"\n"
+"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click="
+"\"$hide(); goto('absence')\" translate=\"\">Absence request</button>\n"
+"    </div>\n"
+"\n"
+"    <div class=\"top30\">\n"
+"\n"
+"        <p translate=\"\">Move some of your vacation rights to your time "
+"saving account, the request will be sent to your supervisor for approval</"
+"p>\n"
+"\n"
+"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click="
+"\"$hide(); goto('time-saving-deposit')\" translate=\"\">Time saving account "
+"deposit</button>\n"
+"    </div>\n"
+"\n"
+"    <div class=\"top30\">\n"
+"\n"
+"        <p translate=\"\">Declare a worked period outside of your working "
+"hours, the request will be sent to your supervisor for approval benefit from "
+"additional vacations rights</p>\n"
+"\n"
+"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click="
+"\"$hide(); goto('workperiod-recover')\" translate=\"\">Working time recover "
+"request</button>\n"
+"    </div>"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Proportional to attendance"
+msgstr "Proportionnel à la présence"
+
+#: public/partials/admin/right-edit.html
+msgid "Quantity consuption for part-time right collections"
+msgstr ""
 
 #: public/partials/admin/right-edit.html
 msgid "Quantity provided on each renewals"
@@ -904,6 +1379,14 @@ msgstr "Quantité à récupérer pour l'événement"
 #, fuzzy
 msgid "Quantity to spare"
 msgstr "Quantité"
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Quantity unit to use in interval modification:"
+msgstr "Unité à utiliser pour la modification de l'intervalle :"
+
+#: public/js/controllers/admin/recoverquantities.js
+msgid "Recover quantities"
+msgstr "Quantités à récupérer"
 
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Recovery claimed"
@@ -924,10 +1407,19 @@ msgid "Rejected"
 msgstr "Refusée"
 
 #: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-nwdayscalendars-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/collection-edit.html
 msgid "Remove"
 msgstr "Enlever"
+
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Remove the leave on all users with a booked period"
+msgstr "Retirer le congé pour tous les utilisateurs avec un période réservée"
+
+#: public/partials/admin/user-view-account.html
+msgid "Renewal"
+msgstr "Renouvellement"
 
 #: public/partials/admin/right-view.html
 msgid "Renewals"
@@ -937,9 +1429,14 @@ msgstr "Renouvellements"
 msgid "Renewals with remaining quantity"
 msgstr "Renouvellements avec une quantité restante"
 
-#: public/partials/manager/waitingrequest.html
-msgid "Request approval"
-msgstr "Requiert une approbation"
+#: public/js/optimized.js public/js/services.js
+msgid "Request period"
+msgstr "Période de la demande"
+
+#: public/js/controllers/account/request/requests.js
+#: public/js/controllers/admin/request/requests.js
+msgid "Requests"
+msgstr "Demandes"
 
 #: public/partials/home.html
 msgid "Requests waiting for approval"
@@ -954,6 +1451,11 @@ msgstr "Requiert une approbation"
 #: public/partials/login/reset.html
 msgid "Reset Your Password?"
 msgstr "Réinitialiser votre mot de passe?"
+
+#: public/partials/admin/right-view.html
+#: public/js/controllers/admin/collections.js
+msgid "Right collections"
+msgstr "Régimes de congés"
 
 #: public/partials/utils/common/request/workperiod-recover-view.html
 msgid "Right given name:"
@@ -972,10 +1474,20 @@ msgstr ""
 "période du renouvellement"
 
 #: public/partials/admin/rightrule-edit.html
+#, fuzzy
+msgid ""
+"Right is visible when the request period is in a period relative to the user "
+"birth date"
+msgstr ""
+"Le droit est visible quand la demande est dans la période du renouvellement"
+
+#: public/partials/admin/rightrule-edit.html
 msgid ""
 "Right is visible when the request period is in a period relative to the user "
 "seniority date"
 msgstr ""
+"Le droit est visible quand la période de la demande est dans une période "
+"relative à la date d'ancienneté de l'utilisateur"
 
 #: public/partials/admin/user-view-account.html
 msgid "Right name"
@@ -984,6 +1496,10 @@ msgstr "Nom du droit"
 #: public/partials/admin/type-edit.html
 msgid "Right type name"
 msgstr "Nom du type de droit"
+
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Right:"
+msgstr "Droit :"
 
 #: public/partials/admin/account-collections-edit.html
 msgid "Rights collection"
@@ -997,9 +1513,13 @@ msgstr "Régimes de congés"
 msgid "Rights distribution"
 msgstr "Répartition des droits"
 
-#: public/partials/admin/right-view.html
+#: public/partials/admin/right-view.html public/partials/admin/rights-sort.html
 msgid "Rights list"
 msgstr "Liste des droits"
+
+#: public/partials/admin/rights-sort.html public/js/controllers/admin/types.js
+msgid "Rights types"
+msgstr "Types de droits"
 
 #: public/partials/admin/user-view.html
 msgid "Roles"
@@ -1021,15 +1541,27 @@ msgstr "Type de règle :"
 msgid "Rules"
 msgstr "Règles"
 
+#: public/partials/admin/user-edit-account.html
+msgid "Sage registration number"
+msgstr "Numéro de matricule Sage"
+
+#: public/partials/admin/user-view-account.html
+msgid "Sage registration number:"
+msgstr "Numéro de matricule Sage :"
+
+#: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Saturday"
 msgstr "Samedi"
 
 #: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-nwdayscalendars-edit.html
+#: public/partials/admin/account-renewalquantity-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/adjustment-edit.html
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/collection-edit.html
+#: public/partials/admin/compulsoryleave-edit.html
 #: public/partials/admin/department-edit.html
 #: public/partials/admin/recoverquantity-edit.html
 #: public/partials/admin/right-edit.html
@@ -1037,6 +1569,9 @@ msgstr "Samedi"
 #: public/partials/admin/rightrule-edit.html
 #: public/partials/admin/type-edit.html public/partials/admin/user-edit.html
 #: public/partials/login/createfirstadmin.html
+#: public/partials/user/settings-calendar-new.html
+#: public/partials/user/settings-calendar.html
+#: public/partials/user/settings-password.html
 #: public/partials/user/settings.html
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
@@ -1048,9 +1583,18 @@ msgstr "Enregistrer"
 msgid "Save in account"
 msgstr "Enregistrer dans le compte"
 
+#: public/partials/user/settings-calendar.html
+msgid "Save leave periods to"
+msgstr ""
+
 #: public/partials/utils/common/request/time-saving-deposit-view.html
 msgid "Saved quantity:"
 msgstr "Quantité épargnée :"
+
+#: public/partials/admin/right-edit.html
+#, fuzzy
+msgid "Saving limit per renewals"
+msgstr "Limite de dépôts par renouvellements"
 
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 msgid "Saving period"
@@ -1076,6 +1620,11 @@ msgstr "Rechercher dans les agendas"
 
 #: public/partials/admin/collections.html
 msgid "Search in collections"
+msgstr "Rechercher dans les régimes"
+
+#: public/partials/admin/compulsoryleaves.html
+#, fuzzy
+msgid "Search in compulsory leaves"
 msgstr "Rechercher dans les régimes"
 
 #: public/partials/admin/departments.html
@@ -1120,6 +1669,10 @@ msgstr "Récupération sélectionnée :"
 msgid "Send Reset"
 msgstr "Réinitialiser"
 
+#: public/js/optimized.js public/js/services.js
+msgid "Seniority"
+msgstr "Ancienneté"
+
 #: public/partials/admin/user-view-account.html
 msgid "Seniority date:"
 msgstr "Date d'anciennetée"
@@ -1128,7 +1681,7 @@ msgstr "Date d'anciennetée"
 msgid "Seniority start date"
 msgstr "Date de début d'anciennetée"
 
-#: public/partials/admin/user-edit.html public/partials/user/settings.html
+#: public/partials/admin/user-edit.html
 msgid "Set a new password"
 msgstr "Définir un nouveau mot de passe"
 
@@ -1144,9 +1697,29 @@ msgstr "Définir le mot de passe"
 msgid "Set the adjustment quantity"
 msgstr "Définir la quantité de l'ajustement"
 
+#: public/partials/utils/common/settings/menu.html
+msgid "Settings"
+msgstr "Paramètres"
+
 #: public/index.html public/partials/login/login.html
 msgid "Sign In"
 msgstr "Connexion"
+
+#: public/js/controllers/admin/rights-sort.js
+msgid "Sort absence rights"
+msgstr "Ordonner les droits d'absence"
+
+#: public/partials/admin/right-view.html
+msgid "Sort rights"
+msgstr "Ordonner les droits"
+
+#: public/partials/admin/rights-sort.html
+msgid "Sort rights in type"
+msgstr "Ordonner les droits dans le type"
+
+#: public/partials/admin/right-view.html
+msgid "Special right:"
+msgstr "Droit spécial :"
 
 #: public/partials/admin/rightrenewal-edit.html
 msgid "Start"
@@ -1162,17 +1735,21 @@ msgstr "État"
 msgid "Status:"
 msgstr "État :"
 
+#: public/partials/admin/department-view.html
+#: public/partials/utils/common/department/listpopover.html
+msgid "Sub-departments"
+msgstr "Sous-services"
+
+#: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Sunday"
 msgstr "Dimanche"
 
-#: public/partials/admin/request/absence-view.html
-#: public/partials/admin/request/workperiod-recover-view.html
+#: public/partials/admin/request/owner.html
 msgid "Supervisor"
 msgstr "Supérieur hiérarchique"
 
-#: public/partials/admin/request/absence-view.html
-#: public/partials/admin/request/workperiod-recover-view.html
+#: public/partials/admin/request/owner.html
 msgid "Supervisors"
 msgstr "Chefs de service"
 
@@ -1182,6 +1759,29 @@ msgid ""
 "if a period end before the half day hour, a duration of 0,5 day will be "
 "retained."
 msgstr ""
+
+#: public/partials/admin/export/export-edit-sage.html
+msgid ""
+"The leave periods overlapping the extracting period will be modified to fit "
+"in the extracting period, the reported number of days will adjusted "
+"accordingly"
+msgstr ""
+
+#: public/partials/admin/users.html
+msgid "The number of active users is limited by your plan level"
+msgstr ""
+"Le nombre d'utilisateurs actifs est limité par le niveau de votre abonnement"
+
+#: public/partials/admin/rightrule-edit.html
+msgid ""
+"The right will be available only if the user is beetween {{rightrule."
+"interval.min}} years old and {{rightrule.interval.max}} years old on the "
+"first day of the requested leave."
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "The start renewal quantity is dynamicaly computed"
+msgstr "La quantité initiale d'un renouvellement est calculée dynamiquement"
 
 #: public/partials/admin/user-edit.html public/partials/admin/user-view.html
 msgid ""
@@ -1215,6 +1815,14 @@ msgstr ""
 msgid "This manager has no departments configured for approval"
 msgstr "Ce gestionnaire n'a aucun régime configuré pour l'approbation"
 
+#: public/partials/admin/right-view.html
+msgid "This right has no configured rules"
+msgstr "Le droit n'a pas de règles configurées"
+
+#: public/partials/admin/user-view.html
+msgid "This user can not connect to the application"
+msgstr "Cet utilisateur ne peut pas se connecter à l'application"
+
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
 msgid "This user has no configured vacation rights for the current period"
@@ -1238,13 +1846,16 @@ msgstr ""
 "Cet utilisateur n'a pas de d'horaires de travail, vérifiez le planning des "
 "horaires de travail pour corriger cela."
 
+#: public/partials/admin/calendar-edit.html
+msgid ""
+"This value is used to establish a proportionality beetween rights in days "
+"and rights in hours"
+msgstr ""
+
+#: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Thursday"
 msgstr "Jeudi"
-
-#: public/partials/utils/common/calendar/listdays.html
-msgid "Thusday"
-msgstr "mardi"
 
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid "Time saving account deposit"
@@ -1257,15 +1868,19 @@ msgid "Time saving deposit"
 msgstr "Dépôt d'épargne Temps"
 
 #: public/partials/account/request/time-saving-deposit-view.html
+#: public/partials/admin/request/time-saving-deposit-view.html
 msgid "Time saving deposit request"
 msgstr "Demande de dépôt sur le compte épargne temps"
 
-#: public/partials/admin/rightrule-edit.html public/partials/admin/rights.html
+#: public/partials/admin/rights.html
+#: public/partials/utils/common/right/right-panel.html
 msgid "to"
 msgstr ""
 
 #: public/partials/admin/account-collections-edit.html
+#: public/partials/admin/account-nwdayscalendars-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
+#: public/partials/admin/user-view-account.html
 #: public/partials/manager/waitingrequests.html
 #: public/partials/utils/common/calendar/popover-event.html
 #: public/partials/utils/common/request/request-list-type.html
@@ -1280,6 +1895,14 @@ msgstr ""
 msgid "To right:"
 msgstr "Vers le droit :"
 
+#: public/partials/admin/user-view-manager.html
+msgid ""
+"To supervise collaborators, a department with members must be associated to "
+"user first"
+msgstr ""
+
+#: public/partials/admin/account-renewalquantity-edit.html
+#: public/partials/admin/compulsoryleave-view.html
 #: public/partials/utils/common/request/absence-view.html
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 #: public/partials/utils/common/request/workperiod-recover-view.html
@@ -1294,6 +1917,11 @@ msgstr "Consommation totale :"
 msgid "Total duration:"
 msgstr "Durée totale :"
 
+#: public/partials/admin/collection-edit.html
+#: public/partials/utils/common/calendar/listdays.html
+msgid "Tuesday"
+msgstr "Mardi"
+
 #: public/partials/admin/right-edit.html
 msgid "Type"
 msgstr "Type"
@@ -1301,8 +1929,7 @@ msgstr "Type"
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/right-view.html
-#: public/partials/admin/rightrenewal-edit.html
-#: public/partials/admin/rightrule-edit.html
+#: public/partials/utils/common/right/right-panel.html
 msgid "Type:"
 msgstr "Type :"
 
@@ -1326,11 +1953,9 @@ msgstr "Utiliser la période d'ouverture par défaut"
 msgid "Use default saving interval (renewal interval)"
 msgstr "Utiliser la période d'épargne par défaut (période du renouvellement)"
 
-#: public/partials/admin/right-edit.html
-msgid "Use this right as a deposit target for time saving deposits requests"
-msgstr ""
-"Utiliser ce droit comme la cible du dépôt des versements sur le compte "
-"épargne temps"
+#: public/partials/admin/user-view-account.html
+msgid "User quantity"
+msgstr "Quantité de l'utilisateur"
 
 #: public/partials/admin/user-view.html
 msgid "User requests"
@@ -1339,6 +1964,10 @@ msgstr "Demandes de l'utilisateur"
 #: public/partials/login/login.html
 msgid "Username or Email:"
 msgstr "Identifiant ou email :"
+
+#: public/js/controllers/admin/users.js
+msgid "Users"
+msgstr "Utilisateurs"
 
 #: public/partials/admin/user-view.html
 msgid "Users list"
@@ -1377,14 +2006,24 @@ msgstr "Planning des régimes de congés"
 msgid "Vacations rights"
 msgstr "Droits d'absences"
 
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Valid users:"
+msgstr "Utilisateurs valides :"
+
 #: public/partials/account/request/requests.html
+#: public/partials/admin/compulsoryleaves.html
 #: public/partials/admin/department-view.html
 #: public/partials/admin/departments.html
 #: public/partials/admin/request/requests.html
 #: public/partials/admin/rights.html public/partials/admin/users.html
 #: public/partials/manager/waitingrequests.html
+#: public/partials/utils/common/right/right-panel.html
 msgid "View"
 msgstr "Voir"
+
+#: public/partials/admin/user-view.html
+msgid "View calendar"
+msgstr "Voir l'agenda"
 
 #: public/partials/utils/common/calendar/popover-event.html
 msgid "View more"
@@ -1399,10 +2038,15 @@ msgstr "Voir les sous-services"
 msgid "Waiting"
 msgstr "En attente"
 
+#: public/partials/manager/waitingrequest.html
+msgid "Waiting {{request.dispType}} request"
+msgstr ""
+
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Waiting approval"
 msgstr "En attente d'approbation"
 
+#: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Wednesday"
 msgstr "Mercredi"
@@ -1439,7 +2083,7 @@ msgid "Workperiod recover request"
 msgstr "Demande de récupération de jours travaillés"
 
 #: public/partials/admin/user-view-account.html
-msgid "Workschedule calendars planning"
+msgid "Workschedule planning"
 msgstr "Planning des heures travaillées"
 
 #: public/partials/utils/common/request/request-list-type.html
@@ -1449,6 +2093,15 @@ msgstr "Récupération de jours travaillés"
 #: public/partials/admin/rightrule-edit.html
 msgid "Years"
 msgstr "ans"
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Years after the birth date to set the period end:"
+msgstr "Années après la date naissance pour définir la fin de la période :"
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Years after the birth date to set the period start:"
+msgstr ""
+"Années après la date de naissance pour définir le début de la période :"
 
 #: public/partials/admin/right-edit.html
 msgid "Years before renewal end date"
@@ -1464,9 +2117,25 @@ msgstr ""
 "Années avant la date de début de la demande pour définir le début de la "
 "période :"
 
+#: public/partials/home.html
+msgid ""
+"Your account have no access to a rôle in this application,\n"
+"            the administrators have been made aware of the problem. You will "
+"be notified by email when they give you access\n"
+"            to your absences rights account."
+msgstr ""
+
 #: public/partials/user/settings.html
 msgid "Your account parameters"
 msgstr "Les paramètres de votre compte"
+
+#: public/partials/user/settings-calendar.html
+msgid "Your calendar is connected"
+msgstr "Votre agenda est connecté"
+
+#: public/partials/user/settings-calendar.html
+msgid "Your calendar is not connected"
+msgstr "Votre agenda n'est pas connecté"
 
 #: public/partials/utils/common/request/absence-edit.html
 msgid ""
@@ -1476,61 +2145,26 @@ msgstr ""
 "Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
 "doit être répartie parmis les droits de congés suivants"
 
-#: public/js/app.js:59
-#, javascript-format
-msgid "Gadael - %s"
-msgstr "Gadael - %s"
+#~ msgid "Add quantity to the right according to the seniority"
+#~ msgstr "Ajouter la quantité au droit en fonction de l'ancienneté"
 
-#: public/js/app.js:111
-msgid "Absence managment"
-msgstr "Gestion des absences"
+#~ msgid "Attendance"
+#~ msgstr "Présence"
 
-#: public/js/controllers/home.js:11
-msgid "Home"
-msgstr "Accueil"
+#~ msgid "Group rights in a foldable subtree"
+#~ msgstr "Droits du groupe dans un arbre repliable"
 
-#: public/js/controllers/login/index.js:8
-msgid "Login"
-msgstr "Connexion"
+#~ msgid "Grouped rights"
+#~ msgstr "Droits groupés"
 
-#: public/js/controllers/admin/calendars.js:8
-msgid "Calendars"
-msgstr "Agendas"
+#~ msgid "Proceed to the request creation with one of the following:"
+#~ msgstr ""
+#~ "Procéder à la création de la demande avec un des éléments suivants :"
 
-#: public/js/controllers/admin/users.js:11
-#: public/js/controllers/admin/request/requests.js:14
-#: public/js/controllers/account/request/requests.js:14
-msgid "Requests"
-msgstr "Demandes"
-
-#: public/js/controllers/admin/rights.js:9
-#: public/js/controllers/account/beneficiaries.js:11
-msgid "Absence rights"
-msgstr "Droit d'absences"
-
-#: public/js/controllers/admin/recoverquantities.js:7
-msgid "Recover quantities"
-msgstr "Quantités à récupérer"
-
-#: public/js/controllers/admin/types.js:6
-msgid "Rights types"
-msgstr "Types de droits"
-
-#: public/js/controllers/admin/collections.js:8
-msgid "Right collections"
-msgstr "Régimes de congés"
-
-#: public/js/controllers/admin/exports.js:7
-msgid "Exports"
-msgstr "Exports"
-
-#: public/js/controllers/admin/departments.js:7
-msgid "Departments"
-msgstr "Services"
-
-#: public/js/services/beneficiary.js:222
-msgid "Auto monthly update"
-msgstr "Mise à jour mensuelles automatiques"
+#~ msgid "Use this right as a deposit target for time saving deposits requests"
+#~ msgstr ""
+#~ "Utiliser ce droit comme la cible du dépôt des versements sur le compte "
+#~ "épargne temps"
 
 #~ msgid "Montly additions:"
 #~ msgstr "Ajouts mensuels :"
@@ -1553,9 +2187,6 @@ msgstr "Mise à jour mensuelles automatiques"
 #~ msgid "Logout"
 #~ msgstr "Se déconnecter"
 
-#~ msgid "Non Working days calendar"
-#~ msgstr "Agenda des jours fériés"
-
 #~ msgid "Or sign in using..."
 #~ msgstr "Ou connectez-vous avec..."
 
@@ -1565,11 +2196,5 @@ msgstr "Mise à jour mensuelles automatiques"
 #~ msgid "Rights configuration"
 #~ msgstr "Configuration des droits"
 
-#~ msgid "Settings"
-#~ msgstr "Paramètres"
-
 #~ msgid "Sign up"
 #~ msgstr "S'inscrire"
-
-#~ msgid "Users"
-#~ msgstr "Utilisateurs"

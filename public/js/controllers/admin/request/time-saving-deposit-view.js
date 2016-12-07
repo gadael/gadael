@@ -29,7 +29,7 @@ define([], function() {
          * Cancel the request
          */
 		$scope.delete = function() {
-            if (confirm('Are you sure you whant to delete the time saving deposit request?')) {
+            if (confirm('Are you sure you want to delete the time saving deposit request?')) {
                 $location.path('/admin/requests');
             }
 

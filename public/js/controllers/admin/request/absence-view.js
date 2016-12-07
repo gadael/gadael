@@ -34,7 +34,7 @@ define([], function() {
          * Cancel the absence request
          */
 		$scope.delete = function() {
-            if (confirm('Are you sure you whant to delete the absence request?')) {
+            if (confirm('Are you sure you want to delete the absence request?')) {
                 $scope.request.gadaDelete($scope.backToList);
             }
 

@@ -328,14 +328,14 @@ define([], function() {
             for (var i=0; i<$scope.compRequest.length; i++) {
                 $scope.compRequest[i].requests = null;
             }
-            
+
             $scope.compulsoryleave.requests = [];
             $scope.compulsoryleave.gadaSave().then($route.reload);
         };
 
 
         $scope.delete = function() {
-            if (confirm(gettext('Are you sure you whant to delete this compulsory leave?'))) {
+            if (confirm(gettext('Are you sure you want to delete this compulsory leave?'))) {
                 $scope.compulsoryleave.gadaDelete($location.path('/admin/compulsoryleaves'));
             }
         };

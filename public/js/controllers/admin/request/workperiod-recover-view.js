@@ -29,7 +29,7 @@ define([], function() {
          * Cancel the request
          */
 		$scope.delete = function() {
-            if (confirm('Are you sure you whant to delete the workperiod recover request?')) {
+            if (confirm('Are you sure you want to delete the workperiod recover request?')) {
                 $location.path('/admin/requests');
             }
 
