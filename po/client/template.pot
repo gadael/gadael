@@ -199,15 +199,15 @@ msgid "Approvers"
 msgstr ""
 
 #: public/js/controllers/account/request/absence-view.js
-msgid "Are you sure you whant to delete the absence request?"
+msgid "Are you sure you want to delete the absence request?"
 msgstr ""
 
 #: public/js/controllers/admin/compulsoryleave-view.js
-msgid "Are you sure you whant to delete this compulsory leave?"
+msgid "Are you sure you want to delete this compulsory leave?"
 msgstr ""
 
 #: public/js/controllers/admin/user-view.js
-msgid "Are you sure you whant to delete this user?"
+msgid "Are you sure you want to delete this user?"
 msgstr ""
 
 #: public/partials/admin/user-edit-account.html
@@ -825,16 +825,16 @@ msgstr ""
 msgid "From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}"
 msgstr ""
 
+#: public/partials/utils/common/request/absence-edit.html
+msgid "From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}"
+msgstr ""
+
 #: public/partials/admin/account-renewalquantity-edit.html
 msgid "From date:"
 msgstr ""
 
 #: public/partials/utils/common/request/time-saving-deposit-view.html
 msgid "From right:"
-msgstr ""
-
-#: public/partials/utils/common/request/absence-edit.html
-msgid "From to {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-view.html
@@ -1226,9 +1226,7 @@ msgid "Period end"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-view.html
-msgid ""
-"Period is booked\n"
-"                    <span class=\"badge\">{{compulsoryLeaveRequest.quantity}} {{compulsoryLeaveRequest.disp_unit}}</span>"
+msgid "Period is booked"
 msgstr ""
 
 #: public/partials/account/calendar.html
@@ -1253,30 +1251,7 @@ msgid "Previous page"
 msgstr ""
 
 #: public/partials/utils/common/request/request-create-select-type.html
-msgid ""
-"Proceed to the request creation with one of the following:\n"
-"\n"
-"\n"
-"    <div class=\"top30\">\n"
-"\n"
-"        <p translate=\"\">Create absence request between two dates, the request will be sent to your supervisor for approval</p>\n"
-"\n"
-"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click=\"$hide(); goto('absence')\" translate=\"\">Absence request</button>\n"
-"    </div>\n"
-"\n"
-"    <div class=\"top30\">\n"
-"\n"
-"        <p translate=\"\">Move some of your vacation rights to your time saving account, the request will be sent to your supervisor for approval</p>\n"
-"\n"
-"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click=\"$hide(); goto('time-saving-deposit')\" translate=\"\">Time saving account deposit</button>\n"
-"    </div>\n"
-"\n"
-"    <div class=\"top30\">\n"
-"\n"
-"        <p translate=\"\">Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights</p>\n"
-"\n"
-"        <button type=\"button\" class=\"btn btn-primary btn-block\" ng-click=\"$hide(); goto('workperiod-recover')\" translate=\"\">Working time recover request</button>\n"
-"    </div>"
+msgid "Proceed to the request creation with one of the following:"
 msgstr ""
 
 #: public/partials/admin/right-edit.html

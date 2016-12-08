@@ -12,7 +12,5 @@ public/fonts/*.woff*
 po/*.mo
 /doc/jsdoc/
 /coverage/
-/public/js/optimized.js
-/public/js/translation.js
 .tags
 /doc/screenshots/*
