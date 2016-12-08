@@ -113,7 +113,7 @@ msgstr "Ajouter un agenda"
 
 #: public/partials/admin/beneficiary-edit.html
 msgid "Add a quantity adjustment"
-msgstr "Ajouter un ajustement de la quantité"
+msgstr "Ajouter un ajustement"
 
 #: public/partials/admin/recoverquantities.html
 msgid "Add a recover quantity"
@@ -1183,7 +1183,7 @@ msgstr "Agenda des jours fériés"
 
 #: public/partials/admin/account-nwdayscalendars-edit.html
 msgid "Non-working days scheduling for {{user.lastname}} {{user.firstname}}"
-msgstr "Agendades jours fériés pour {{user.lastname}} {{user.firstname}}"
+msgstr "Agenda des jours fériés pour {{user.lastname}} {{user.firstname}}"
 
 #: public/partials/admin/calendars.html
 msgid "Nonworking days"
