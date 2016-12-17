@@ -14,6 +14,7 @@ function addWebshotMethod(server, languageCode)
           defaultWhiteBackground: true,
           customHeaders: o.headers,
           renderDelay: 5000,
+          timeout: 8000,
           errorIfStatusIsNot200: true,
           errorIfJSException: true,
           windowSize: {

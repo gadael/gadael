@@ -2,6 +2,7 @@
 
 const helpers = require('./screenServer');
 const pages = require('./pages');
+const site = require('./site');
 
 let language='fr';
 let country='FR';
@@ -13,4 +14,10 @@ if ('en' === language) {
     country = 'UK';
 }
 
-helpers.screenServer('docScreenshots_'+language, country, language, pages);
+Promise.all([
+//    helpers.screenServer('docScreenshots_'+language, country, language, pages),
+    site(language)
+])
+.catch(err => {
+    console.log(err.stack);
+});

@@ -8,6 +8,7 @@ const api = {
 
 
 
+
 exports = module.exports = function pages(server) {
 
     function createUser() {
@@ -184,8 +185,6 @@ exports = module.exports = function pages(server) {
             .then(server.webshot('/manager/waitingrequests', 'manager-waiting-requests'));
         });
     })
-
-
     .then(function() {
         return true;
     })
