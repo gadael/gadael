@@ -15,7 +15,7 @@ if ('en' === language) {
 }
 
 Promise.all([
-//    helpers.screenServer('docScreenshots_'+language, country, language, pages),
+    helpers.screenServer('docScreenshots_'+language, country, language, pages),
     site(language)
 ])
 .catch(err => {
