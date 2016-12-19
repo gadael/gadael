@@ -62,7 +62,7 @@ exports = module.exports = function site(languageCode) {
 
 
         return new Promise((resolve, reject) => {
-            console.log('screen '+url);
+            //console.log('screen '+url);
             webshot(url, './doc/screenshots/'+languageCode+'/saas-'+filename+'.png', options, function(err) {
                 if (err) {
                     return reject(err);
@@ -198,7 +198,7 @@ exports = module.exports = function site(languageCode) {
         .then(checkStatus)
         .then(() => {
             // screenshot private space
-            return shotcom('account/', 'account')
+            return shotcom('account/', 'app-start')
             .then(shotcom('account/company-settings/', 'company-settings'));
         });
 
