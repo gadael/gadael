@@ -7,7 +7,13 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concurrent: {
             dev: {
-                tasks: ['nodemon', 'watch'],
+                tasks: ['nodemon:dev', 'watch:serverJS'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            },
+            com: {
+                tasks: ['watch:com', 'nodemon:com'],
                 options: {
                     logConcurrentOutput: true
                 }
@@ -277,5 +283,5 @@ module.exports = function(grunt) {
     grunt.registerTask('travis'   , ['copy:config', 'jasmine_node:jasmine_coverage']);
 
     grunt.registerTask('com'      , 'run devloppement server for gadael.com website (require gadael.com and gadmanager repositories)',
-    ['nodemon:com', 'watch:com']);
+    ['concurrent:com']);
 };
