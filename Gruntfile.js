@@ -275,5 +275,7 @@ module.exports = function(grunt) {
     grunt.registerTask('test'     , ['jasmine_node:all']);
     grunt.registerTask('coverage' , ['jasmine_node:jasmine_coverage']);
     grunt.registerTask('travis'   , ['copy:config', 'jasmine_node:jasmine_coverage']);
-    grunt.registerTask('com'      , ['nodemon:com', 'watch:com']);
+
+    grunt.registerTask('com'      , 'run devloppement server for gadael.com website (require gadael.com and gadmanager repositories)',
+    ['nodemon:com', 'watch:com']);
 };
