@@ -72,9 +72,9 @@ define([], function() {
 
                 $scope.right.autoAdjustementActive = (
                     $scope.right.autoAdjustement.quantity !== undefined &&
-                    $scope.right.autoAdjustement.quantity !== 0
+                    $scope.right.autoAdjustement.quantity !== null
                 );
-                
+
             });
         } else {
 
@@ -109,6 +109,16 @@ define([], function() {
 		};
 
 		$scope.saveRight = function() {
+
+            // remove autoadjustement if not active
+            if (!$scope.right.autoAdjustementActive) {
+                $scope.right.autoAdjustement = {
+                    quantity: null,
+                    step: null,
+                    types: []
+                };
+            }
+
 			$scope.right.gadaSave($scope.back);
 	    };
 
