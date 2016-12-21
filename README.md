@@ -71,6 +71,7 @@ grunt test
 - [ ] Display pending delete status on planning
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
+- [ ] Manager substitute one of his subordinates to create request
 
 
 ## Main packages used

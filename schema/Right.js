@@ -50,6 +50,17 @@ exports = module.exports = function(params) {
             max: { type: Number, min:0 }
         },
 
+        /**
+         * Auto create adjustements
+         * Create one adjustement of "quantity" for every "step" of consumed quantity in the types "types"
+         * list of adjustements will be computed on each modification of consumed quantity for each beneficiary of this right.
+         */
+        autoAdjustement: {
+            types: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Type' }],
+            quantity: Number,
+            step: Number
+        },
+
         timeSaving: {
             active: { type: Boolean, default: false },              // The right quantity can be saved to CET or not
             max: { type: Number, min:1 }                            // max saveable quantity from renewal

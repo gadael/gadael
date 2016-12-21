@@ -223,7 +223,7 @@ module.exports = function(grunt) {
                 command: 'touch public/js/translation.js'
             },
             hexo: {
-                command: 'cd ../gadael.com && hexo generate'
+                command: 'cd ../gadael.com && hexo generate -f'
             }
         },
 
