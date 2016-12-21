@@ -122,6 +122,7 @@ function saveRight(service, params) {
         activeFor: params.activeFor,
         rules: params.rules,
         addMonthly: params.addMonthly,
+        autoAdjustement: params.autoAdjustement,
         timeSaving: params.timeSaving,
         timeSavingAccount: params.timeSavingAccount,
         sortkey: params.sortkey,

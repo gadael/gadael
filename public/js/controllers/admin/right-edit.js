@@ -1,5 +1,5 @@
 define([], function() {
-    
+
     'use strict';
 
 	return ['$scope', '$location' ,'$routeParams', 'Rest', '$modal',
@@ -69,6 +69,12 @@ define([], function() {
 
                     console.log($scope.right.special);
                 }
+
+                $scope.right.autoAdjustementActive = (
+                    $scope.right.autoAdjustement.quantity !== undefined &&
+                    $scope.right.autoAdjustement.quantity !== 0
+                );
+                
             });
         } else {
 
@@ -101,11 +107,10 @@ define([], function() {
 		$scope.back = function() {
 			$location.path('/admin/rights');
 		};
-		
+
 		$scope.saveRight = function() {
 			$scope.right.gadaSave($scope.back);
 	    };
 
 	}];
 });
-
