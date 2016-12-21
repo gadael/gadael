@@ -63,7 +63,15 @@ module.exports = exports = function(app) {
                 name: gt.gettext("Maternity"),
                 type: '5740adf51cf1a569643cc50e',
                 quantity: 80,
-                activeFor: {  account: false }
+                activeFor: {  account: false },
+                autoDistribution: false
+            },
+            {
+                name: gt.gettext('Sickness absence'),
+                type: '5740adf51cf1a569643cc50b',
+                quantity: 0,
+                activeFor: { account: false },
+                autoDistribution: false
             }
         ]
     };
