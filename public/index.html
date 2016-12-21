@@ -6,7 +6,8 @@
   <title>{{pageTitle}}</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/merged.min.css">
+  <link rel="stylesheet" href="/css/merged.min.css">
+  <link rel="manifest" href="/manifest.json">
 </head>
 <body role="document">
     <div class="navbar navbar-default" role="navigation" bs-navbar>
@@ -31,13 +32,13 @@
             <li class="dropdown" ng-if="sessionUser.isManager">
                 <a href="" class="dropdown-toggle" bs-dropdown="menu.manager"><span translate>Departments supervision</span> <b class="caret"></b></a>
             </li>
-            
+
             <li class="dropdown" ng-if="sessionUser.isAdmin">
                 <a href="" class="dropdown-toggle" bs-dropdown="menu.admin"><span translate>Admin</span> <b class="caret"></b></a>
             </li>
           </ul>
-          
-          
+
+
 			<ul class="nav navbar-nav navbar-right" ng-switch on="sessionUser.intAuthenticated">
 				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-sign-in"></i> <span translate>Sign In</span></a></li>
 				<li class="dropdown" ng-switch-when="1">
@@ -49,24 +50,24 @@
                     </a>
 				</li>
 			</ul>
-          
+
         </div>
       </div>
     </div>
-    
-    
-    
+
+
+
     <div class="container" role="main">
 	  <!--[if lt IE 7]>
 	      <p class="browsehappy"><span translate>You are using an outdated browser.</span> <a href="http://browsehappy.com/" translate>Please upgrade your browser to improve your experience.</a></p>
 	  <![endif]-->
 
-	  
+
 	  <div ng-repeat="alert in pageAlerts" class="container alert alert-{{alert.type}} alert-dismissable">
 		  <button type="button" class="close" ng-click="closeAlert($index)" aria-hidden="true">&times;</button>
 		  {{alert.message}}
 	  </div>
-	  
+
 	  <div ng-view gadael-auth></div>
 
   </div>
