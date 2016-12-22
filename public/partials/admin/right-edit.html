@@ -61,30 +61,30 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.autoAdjustementActive" /><span translate>Adjust the quantity automatically</span></label>
+                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.autoAdjustmentActive" /><span translate>Adjust the quantity automatically</span></label>
                     </div>
 
-                    <div class="form-group" ng-if="right.autoAdjustementActive">
-                        <label for="autoAdjustement_quantity" translate>Adjustements quantity</label>
+                    <div class="form-group" ng-if="right.autoAdjustmentActive">
+                        <label for="autoAdjustment_quantity" translate>Adjustements quantity</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="autoAdjustement_quantity" ng-model="right.autoAdjustement.quantity" step="any" />
+                            <input type="number" class="form-control" id="autoAdjustment_quantity" ng-model="right.autoAdjustment.quantity" step="any" />
                             <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>
                             <span class="input-group-addon" ng-if="right.quantity_unit=='H'"><span translate>Hours</span></span>
                         </div>
                     </div>
 
-                    <div class="form-group" ng-if="right.autoAdjustementActive">
-                        <label for="autoAdjustement_step" translate>Create an adjustment every</label>
+                    <div class="form-group" ng-if="right.autoAdjustmentActive">
+                        <label for="autoAdjustment_step" translate>Create an adjustment every</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="autoAdjustement_step" ng-model="right.autoAdjustement.step" step="any" />
+                            <input type="number" class="form-control" id="autoAdjustment_step" ng-model="right.autoAdjustment.step" step="any" />
                             <span class="input-group-addon" ng-if="right.quantity_unit=='D'"><span translate>Days</span></span>
                             <span class="input-group-addon" ng-if="right.quantity_unit=='H'"><span translate>Hours</span></span>
                         </div>
                     </div>
 
-                    <div class="form-group" ng-if="right.autoAdjustementActive">
-                        <label for="autoAdjustement_types" translate>Consumed on types</label>
-                        <button id="autoAdjustement_types" type="button" class="form-control btn btn-default" ng-model="right.autoAdjustement.types" data-multiple="1" bs-options="type._id as type.name for type in types" bs-select>
+                    <div class="form-group" ng-if="right.autoAdjustmentActive">
+                        <label for="autoAdjustment_types" translate>Consumed on types</label>
+                        <button id="autoAdjustment_types" type="button" class="form-control btn btn-default" ng-model="right.autoAdjustment.types" data-multiple="1" bs-options="type._id as type.name for type in types" bs-select>
                           Action <span class="caret"></span>
                         </button>
                     </div>

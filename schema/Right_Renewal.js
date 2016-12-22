@@ -72,8 +72,84 @@ exports = module.exports = function(params) {
     };
 
 
+
+	/**
+	 * Get list of absence elem used for the consuption on this renewal
+	 * elements are sorted by first dtstart
+	 *
+	 * @param {User} user
+	 * @param {Array} types		list of types ID
+	 *
+	 * @return {Array}
+	 */
+	rightRenewalSchema.methods.getConsuptionHistory = function(user, types) {
+		let renewal = this;
+
+		/**
+		 * @param {AbsenceElem} e1
+		 * @param {AbsenceElem} e2
+		 * @return {Int}
+		 */
+		function sortElement(e1, e2) {
+			if (e1.events[0].dtstart < e2.events[0].dtstart) {
+				return -1;
+			}
+
+			if (e1.events[0].dtstart > e2.events[0].dtstart) {
+				return 1;
+			}
+
+			return 0;
+		}
+
+		return renewal.getRightPromise()
+		.then(right => {
+
+			if (undefined === right.autoAdjustment ||
+				undefined === right.autoAdjustment.quantity ||
+				null === right.autoAdjustment.quantity) {
+				return 0;
+			}
+
+			let AbsenceElem = params.db.models.AbsenceElem;
+
+			return AbsenceElem.find()
+			.where('user.id').equals(user._id)
+			.where('right.type.id').in(right.autoAdjustment.types)
+			.populate('events', 'dtstart')
+			.select('consumedQuantity events')
+			.exec()
+			.then(elements => {
+				elements.sort(sortElement);
+				return elements;
+			});
+		});
+	};
+
+
+	/**
+	 * Update the auto adjustements list for one user
+	 *
+	 * if autoAdjustment configured on right
+	 * get the consuption quantity on all selected types
+	 * create the adjustements with timeCreated match the consuption date
+	 *
+	 * consuption is from consumedQuantity field in absence elements
+	 * moved quantity to time saving account is not considered as a consuption
+	 *
+	 * @param {User} user
+	 *
+	 * @return {Promise}	 Promise the number of modified adjustments
+	 */
+	rightRenewalSchema.methods.updateAutoAdjustments = function(user) {
+
+		
+	};
+
+
     /**
-     * The last renewal end date
+     * Update the rightAdjustment object linked to this right renewal
+	 * Do not change ajustements in the past
      * @return {Promise}
      */
     rightRenewalSchema.methods.updateMonthlyAdjustment = function()
@@ -88,8 +164,8 @@ exports = module.exports = function(params) {
 
         renewal.getRightPromise().then(function(right) {
 
-            renewal.removeFutureAdjustments();
-            renewal.createAdjustments(right);
+            renewal.removeFutureRightAdjustments();
+            renewal.createRightAdjustments(right);
             deferred.resolve(true);
         }).catch(deferred.reject);
 
@@ -100,13 +176,13 @@ exports = module.exports = function(params) {
     /**
      * remove future adjustments in the monthly adjustments
      */
-    rightRenewalSchema.methods.removeFutureAdjustments = function() {
+    rightRenewalSchema.methods.removeFutureRightAdjustments = function() {
 
         if (undefined === this.adjustments) {
             return;
         }
 
-        var now = new Date();
+        let now = new Date();
 
         for (var i = this.adjustments.length - 1; i >= 0; i--) {
             if (this.adjustments[i].from >= now) {
@@ -120,7 +196,7 @@ exports = module.exports = function(params) {
      * Create adjustments from the next month 1st day to the limit
      * @return {bool}
      */
-    rightRenewalSchema.methods.createAdjustments = function(right) {
+    rightRenewalSchema.methods.createRightAdjustments = function(right) {
 
         var renewal = this;
 

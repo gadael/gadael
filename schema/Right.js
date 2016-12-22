@@ -55,7 +55,7 @@ exports = module.exports = function(params) {
          * Create one adjustement of "quantity" for every "step" of consumed quantity in the types "types"
          * list of adjustements will be computed on each modification of consumed quantity for each beneficiary of this right.
          */
-        autoAdjustement: {
+        autoAdjustment: {
             types: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Type' }],
             quantity: Number,
             step: Number
@@ -234,8 +234,8 @@ exports = module.exports = function(params) {
 
             async.each(arr,function(renewal, renewalDone) {
 
-                renewal.removeFutureAdjustments();
-                if (renewal.createAdjustments(right)) {
+                renewal.removeFutureRightAdjustments();
+                if (renewal.createRightAdjustments(right)) {
 
                     // do not call pre save hook on renewal
                     rightRenewalSchema

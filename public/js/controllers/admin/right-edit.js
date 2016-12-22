@@ -70,9 +70,9 @@ define([], function() {
                     console.log($scope.right.special);
                 }
 
-                $scope.right.autoAdjustementActive = (
-                    $scope.right.autoAdjustement.quantity !== undefined &&
-                    $scope.right.autoAdjustement.quantity !== null
+                $scope.right.autoAdjustmentActive = (
+                    $scope.right.autoAdjustment.quantity !== undefined &&
+                    $scope.right.autoAdjustment.quantity !== null
                 );
 
             });
@@ -111,8 +111,8 @@ define([], function() {
 		$scope.saveRight = function() {
 
             // remove autoadjustement if not active
-            if (!$scope.right.autoAdjustementActive) {
-                $scope.right.autoAdjustement = {
+            if (!$scope.right.autoAdjustmentActive) {
+                $scope.right.autoAdjustment = {
                     quantity: null,
                     step: null,
                     types: []

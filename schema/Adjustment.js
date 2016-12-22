@@ -11,9 +11,9 @@
  * @param {Object} params
  */
 exports = module.exports = function(params) {
-    
+
     var mongoose = params.mongoose;
-    
+
     var adjustmentSchema = new params.mongoose.Schema({
         rightRenewal: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal', required: true },
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -23,12 +23,15 @@ exports = module.exports = function(params) {
           id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
           name: { type: String, default: '' }
         },
-        comment: { type: String, default: '' }
+        comment: { type: String, default: '' },
+
+        // If this is an auto adjustement, created because the the right configuration
+        autoAdjustment: { type: Boolean, default: false }
     });
 
-  
+
     adjustmentSchema.set('autoIndex', params.autoIndex);
-  
+
     adjustmentSchema.index({ name: 1 });
     params.db.model('Adjustment', adjustmentSchema);
 };
