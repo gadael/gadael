@@ -117,6 +117,7 @@ api.createCollection = function(app, collectionProps, rightProps) {
  * @param {Express} app
  * @param {User}    user        Account
  * @param {Object}  collection  Collection properties
+ * @param {Object}  right       Right properties
  * @return {Promise} collection
  */
 api.addTestRight = function(app, user, collection, right) {
@@ -140,4 +141,3 @@ api.addTestRight = function(app, user, collection, right) {
 
     });
 };
-

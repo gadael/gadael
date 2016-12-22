@@ -6,7 +6,8 @@ const helpers = require('../rest/mockServer');
 
 const api = {
     company: require('../../../api/Company.api.js'),
-    user: require('../../../api/User.api.js')
+    user: require('../../../api/User.api.js'),
+    request: require('../../../api/Request.api')
 };
 
 describe('Right renewal', function() {
@@ -39,9 +40,9 @@ describe('Right renewal', function() {
 
     it('create renewal on default annual leaves right', function(done) {
 
-        let RightRenewal = server.app.db.models.RightRenewal;
-        let renewal1 = new RightRenewal();
-        let renewal2 = new RightRenewal();
+
+        let renewal1 = new renewalModel();
+        let renewal2 = new renewalModel();
 
         renewal1.right = '577225e3f3c65dd800257bdc';
         renewal2.right = '577225e3f3c65dd800257bdc';
@@ -94,6 +95,37 @@ describe('Right renewal', function() {
                 }).catch(done);
             });
         });
+    });
+
+
+    it('verify getConsuptionHistory method', function(done) {
+
+        let monday = new Date(2016,3,11,0,0,0,0);
+        var ObjectId = require('mongoose').Types.ObjectId;
+        let type = new ObjectId('5740adf51cf1a569643cc508');
+
+        api.user.createRandomAccountRequest(server.app, {
+            name: 'test getConsuptionHistory'
+        }, {
+            name: 'test getConsuptionHistory',
+            type: type
+        },
+        monday
+        ).then(elem => {
+            // get the renewal back as a document
+            return renewalModel
+            .findOne({ _id: elem.right.renewal.id })
+            .populate('right')
+            .exec()
+            .then(renewal => {
+                return renewal.getConsuptionHistory(elem.user.id, [type]);
+
+            })
+            .then(history => {
+                expect(history.length).toEqual(1);
+                done();
+            });
+        }).catch(done);
     });
 
 

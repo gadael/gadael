@@ -77,13 +77,12 @@ exports = module.exports = function(params) {
 	 * Get list of absence elem used for the consuption on this renewal
 	 * elements are sorted by first dtstart
 	 *
-	 * @param {User} user
-	 * @param {Array} types		list of types ID
+	 * @param {User|ObjectId} user
+	 * @param {Array} types		list of types ObjectId
 	 *
 	 * @return {Array}
 	 */
 	rightRenewalSchema.methods.getConsuptionHistory = function(user, types) {
-		let renewal = this;
 
 		/**
 		 * @param {AbsenceElem} e1
@@ -102,28 +101,21 @@ exports = module.exports = function(params) {
 			return 0;
 		}
 
-		return renewal.getRightPromise()
-		.then(right => {
+		let userId = undefined === user._id ? user : user._id;
+		let AbsenceElem = params.db.models.AbsenceElem;
 
-			if (undefined === right.autoAdjustment ||
-				undefined === right.autoAdjustment.quantity ||
-				null === right.autoAdjustment.quantity) {
-				return 0;
-			}
 
-			let AbsenceElem = params.db.models.AbsenceElem;
-
-			return AbsenceElem.find()
-			.where('user.id').equals(user._id)
-			.where('right.type.id').in(right.autoAdjustment.types)
-			.populate('events', 'dtstart')
-			.select('consumedQuantity events')
-			.exec()
-			.then(elements => {
-				elements.sort(sortElement);
-				return elements;
-			});
+		return AbsenceElem.find()
+		.where('user.id').equals(userId)
+		.where('right.type.id').in(types)
+		.populate('events', 'dtstart')
+		.select('consumedQuantity events right.type.id')
+		.exec()
+		.then(elements => {
+			elements.sort(sortElement);
+			return elements;
 		});
+
 	};
 
 
@@ -143,7 +135,7 @@ exports = module.exports = function(params) {
 	 */
 	rightRenewalSchema.methods.updateAutoAdjustments = function(user) {
 
-		
+
 	};
 
 

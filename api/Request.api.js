@@ -5,6 +5,57 @@ exports = module.exports = api;
 
 
 
+function createOnRenewal(app, rightDocument, renewal, user, dtstart, dtend, nbdays) {
+
+    let save = app.getService('user/requests/save');
+
+    let params = { // parameters given to the service
+        user: user._id,
+        createdBy: user,
+        absence: {
+            distribution: [
+                {
+                    events: [{
+                        dtstart: dtstart,
+                        dtend: dtend
+                    }],
+                    quantity: nbdays,
+                    right: {
+                        id: rightDocument._id,
+                        renewal:renewal._id
+                    }
+                }
+            ]
+        }
+    };
+
+    return save.getResultPromise(params);
+}
+
+
+
+/**
+ * Create a request on renewal
+ *
+ * @param 	{Express}	app   App or headless mock app
+ * @param   {RightRenewal} renewal
+ * @param   {User} user  Appliquant
+ * @param   {Date} dtstart
+ * @param   {Date} dtend
+ * @param   {Int} nbdays
+ *
+ * @return {Promise}
+ */
+api.createAbsenceOnRenewal = function(app, renewal, user, dtstart, dtend, nbdays) {
+
+    return renewal.getRightPromise()
+    .then(rightDocument => {
+        return createOnRenewal(app, rightDocument, renewal, user, dtstart, dtend, nbdays);
+    });
+};
+
+
+
 /**
  * Create random absence request for one user on the first right found
  * using the user/requests service
@@ -19,8 +70,6 @@ exports = module.exports = api;
  */
 api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
 
-    let save = app.getService('user/requests/save');
-
 
     function createOnRight(rightDocument) {
         return rightDocument.getPeriodRenewal(dtstart, dtend)
@@ -31,27 +80,7 @@ api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
                 return null;
             }
 
-            let params = { // parameters given to the service
-                user: user._id,
-                createdBy: user,
-                absence: {
-                    distribution: [
-                        {
-                            events: [{
-                                dtstart: dtstart,
-                                dtend: dtend
-                            }],
-                            quantity: nbdays,
-                            right: {
-                                id: rightDocument._id,
-                                renewal:renewal._id
-                            }
-                        }
-                    ]
-                }
-            };
-
-            return save.getResultPromise(params);
+            return createOnRenewal(app, rightDocument, renewal, user, dtstart, dtend, nbdays);
         });
     }
 
