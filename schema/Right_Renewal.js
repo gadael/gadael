@@ -101,7 +101,7 @@ exports = module.exports = function(params) {
 			return 0;
 		}
 
-		let userId = undefined === user._id ? user : user._id;
+		let userId = (undefined === user._id) ? user : user._id;
 		let AbsenceElem = params.db.models.AbsenceElem;
 
 
