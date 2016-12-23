@@ -78,7 +78,7 @@ exports = module.exports = function(params) {
 	 * elements are sorted by first dtstart
 	 *
 	 * @param {User|ObjectId} user
-	 * @param {Array} types		list of types ObjectId
+	 * @param {ObjectId[]} types
 	 *
 	 * @return {Array}
 	 */
