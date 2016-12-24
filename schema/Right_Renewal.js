@@ -120,6 +120,29 @@ exports = module.exports = function(params) {
 
 
 	/**
+	 * Add adjustement for one user
+	 * @param {User} user
+	 * @param {Date} moment
+	 * @param {Number} quantity
+	 *
+	 * @return {Promise}
+	 */
+	rightRenewalSchema.methods.addUserAdjustment = function(user, moment, quantity) {
+
+		let Adjustment = params.db.models.Adjustment;
+
+		let adjust = new Adjustment();
+
+		adjust.rightRenewal = this._id;
+		adjust.user = user._id;
+		adjust.timeCreated = moment;	// TODO: use a different field name
+		adjust.quantity = quantity;
+
+		adjust.save();
+	};
+
+
+	/**
 	 * Update the auto adjustements list for one user
 	 *
 	 * if autoAdjustment configured on right
@@ -135,7 +158,35 @@ exports = module.exports = function(params) {
 	 */
 	rightRenewalSchema.methods.updateAutoAdjustments = function(user) {
 
+		let renewal = this;
 
+		return renewal.getRightPromise()
+		.then(right => {
+
+			// TODO remove the current adujustements
+
+
+			if (undefined !== right.autoAdjustment &&
+			undefined !== right.autoAdjustment.quantity &&
+			null !== right.autoAdjustment.quantity) {
+				renewal.getConsuptionHistory(user, right.autoAdjustment.types)
+				.then(history => {
+
+					let current = 0;
+					let promises = [];
+
+					history.forEach(h => {
+						current += h.consumedQuantity;
+						if (current >= right.autoAdjustment.step) {
+							current = 0;
+							promises.push(rightRenewalSchema.methods.addUserAdjustment(user, h.events[0].dtstart,right.autoAdjustment.quantity));
+						}
+					});
+
+					return Promise.all(promises);
+				});
+			}
+		});
 	};
 
 
