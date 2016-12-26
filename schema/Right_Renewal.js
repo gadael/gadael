@@ -196,7 +196,8 @@ exports = module.exports = function(params) {
 			if (undefined !== right.autoAdjustment &&
 			undefined !== right.autoAdjustment.quantity &&
 			null !== right.autoAdjustment.quantity) {
-				renewal.getConsuptionHistory(user, right.autoAdjustment.types)
+				
+				return renewal.getConsuptionHistory(user, right.autoAdjustment.types)
 				.then(history => {
 
 					let current = 0;
@@ -213,6 +214,8 @@ exports = module.exports = function(params) {
 					return Promise.all(promises);
 				});
 			}
+
+			return Promise.resolve([]);
 		});
 	};
 

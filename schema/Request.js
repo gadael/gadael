@@ -100,6 +100,28 @@ exports = module.exports = function(params) {
         .catch(next);
     });
 
+
+    requestSchema.post('save', function postSaveHook(request) {
+        request.updateAutoAdjustments();
+    });
+
+    requestSchema.post('remove', function postSaveHook(request) {
+        request.updateAutoAdjustments();
+    });
+
+
+    /**
+     * Update auto adjustments for all rights associated to request recipient
+     * @return {Promise}
+     */
+    requestSchema.methods.updateAutoAdjustments = function() {
+        return this.getUser()
+        .then(user => {
+            return user.updateAutoAdjustments();
+        });
+    };
+
+
     /**
      * Get request owner user
      * @return {User}
