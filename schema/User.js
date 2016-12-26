@@ -170,6 +170,43 @@ exports = module.exports = function(params) {
         }
     };
 
+
+	/**
+	 * Update auto adjustments for all rights renewals associated to user
+	 * @param {Date} moment
+	 * @return {Promise}
+	 */
+	userSchema.methods.updateAutoAdjustments = function(moment) {
+		if (!moment) {
+            moment = new Date();
+        }
+
+		let user = this;
+
+		return user.getAccount()
+		.then(account => {
+			return account.getRights();
+		})
+		.then(rights => {
+			let promises = [];
+			rights.forEach(right => {
+				promises.push(right.getMomentRenewal(moment));
+			});
+
+			return Promise.all(promises);
+		})
+		.then(renewals => {
+			let promises = [];
+			renewals.forEach(renewal => {
+				promises.push(renewal.updateAutoAdjustments(user));
+			});
+
+			return Promise.all(promises);
+		});
+	};
+
+
+
     /**
      * Get department name if exists
      * @return {String}
