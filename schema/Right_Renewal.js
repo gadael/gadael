@@ -125,17 +125,15 @@ exports = module.exports = function(params) {
 	 * @param {User} user
 	 * @return {Promise}
 	 */
-	rightRenewalSchema.removeAutoAdjustement = function(user) {
+	rightRenewalSchema.methods.removeAutoAdjustement = function(user) {
 
 		let Adjustment = params.db.models.Adjustment;
-
 
 		return Adjustment.find()
 		.where('rightRenewal').equals(this._id)
 		.where('autoAdjustment').equals(true)
 		.exec()
 		.then(adjustments => {
-
 			let promises = [];
 
 			adjustments.forEach(a => {
@@ -167,7 +165,7 @@ exports = module.exports = function(params) {
 		adjust.quantity = quantity;
 		adjust.autoAdjustment = true;
 
-		adjust.save();
+		return adjust.save();
 	};
 
 
@@ -190,13 +188,15 @@ exports = module.exports = function(params) {
 		let renewal = this;
 
 		return renewal.removeAutoAdjustement()
-		.then(renewal.getRightPromise)
+		.then(() => {
+			return renewal.getRightPromise();
+		})
 		.then(right => {
 
 			if (undefined !== right.autoAdjustment &&
 			undefined !== right.autoAdjustment.quantity &&
 			null !== right.autoAdjustment.quantity) {
-				
+
 				return renewal.getConsuptionHistory(user, right.autoAdjustment.types)
 				.then(history => {
 
@@ -207,7 +207,7 @@ exports = module.exports = function(params) {
 						current += h.consumedQuantity;
 						if (current >= right.autoAdjustment.step) {
 							current = 0;
-							promises.push(rightRenewalSchema.methods.addAutoAdjustment(user, h.events[0].dtstart,right.autoAdjustment.quantity));
+							promises.push(rightRenewalSchema.methods.addAutoAdjustment(user, h.events[0].dtstart, right.autoAdjustment.quantity));
 						}
 					});
 
