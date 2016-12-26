@@ -119,6 +119,34 @@ exports = module.exports = function(params) {
 	};
 
 
+
+	/**
+	 * Remove auto adjustments linked to this right renewal
+	 * @param {User} user
+	 * @return {Promise}
+	 */
+	rightRenewalSchema.removeAutoAdjustement = function(user) {
+
+		let Adjustment = params.db.models.Adjustment;
+
+
+		return Adjustment.find()
+		.where('rightRenewal').equals(this._id)
+		.where('autoAdjustment').equals(true)
+		.exec()
+		.then(adjustments => {
+
+			let promises = [];
+
+			adjustments.forEach(a => {
+				promises.push(a.remove());
+			});
+
+			return Promise.all(promises);
+		});
+	};
+
+
 	/**
 	 * Add adjustement for one user
 	 * @param {User} user
@@ -127,7 +155,7 @@ exports = module.exports = function(params) {
 	 *
 	 * @return {Promise}
 	 */
-	rightRenewalSchema.methods.addUserAdjustment = function(user, moment, quantity) {
+	rightRenewalSchema.methods.addAutoAdjustment = function(user, moment, quantity) {
 
 		let Adjustment = params.db.models.Adjustment;
 
@@ -137,6 +165,7 @@ exports = module.exports = function(params) {
 		adjust.user = user._id;
 		adjust.timeCreated = moment;	// TODO: use a different field name
 		adjust.quantity = quantity;
+		adjust.autoAdjustment = true;
 
 		adjust.save();
 	};
@@ -160,11 +189,9 @@ exports = module.exports = function(params) {
 
 		let renewal = this;
 
-		return renewal.getRightPromise()
+		return renewal.removeAutoAdjustement()
+		.then(renewal.getRightPromise)
 		.then(right => {
-
-			// TODO remove the current adujustements
-
 
 			if (undefined !== right.autoAdjustment &&
 			undefined !== right.autoAdjustment.quantity &&
@@ -179,7 +206,7 @@ exports = module.exports = function(params) {
 						current += h.consumedQuantity;
 						if (current >= right.autoAdjustment.step) {
 							current = 0;
-							promises.push(rightRenewalSchema.methods.addUserAdjustment(user, h.events[0].dtstart,right.autoAdjustment.quantity));
+							promises.push(rightRenewalSchema.methods.addAutoAdjustment(user, h.events[0].dtstart,right.autoAdjustment.quantity));
 						}
 					});
 
