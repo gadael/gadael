@@ -2,7 +2,7 @@
 
 
 const helpers = require('../rest/mockServer');
-
+const mongoose = require('mongoose');
 
 const api = {
     company: require('../../../api/Company.api.js'),
@@ -101,7 +101,7 @@ describe('Right renewal', function() {
     it('verify getConsuptionHistory method', function(done) {
 
         let monday = new Date(2016,3,11,0,0,0,0);
-        var ObjectId = require('mongoose').Types.ObjectId;
+        let ObjectId = mongoose.Types.ObjectId;
         let type = new ObjectId('5740adf51cf1a569643cc508');
 
         api.user.createRandomAccountRequest(server.app, {
@@ -119,7 +119,6 @@ describe('Right renewal', function() {
             .exec()
             .then(renewal => {
                 return renewal.getConsuptionHistory(elem.user.id, [type]);
-
             })
             .then(history => {
                 expect(history.length).toEqual(1);

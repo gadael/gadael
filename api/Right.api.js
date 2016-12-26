@@ -6,7 +6,7 @@ exports = module.exports = api;
 
 
 /**
- * Create a random right
+ * Create a random right with renewal from 2016,0,1
  * @param {Express} app
  * @param {object} props
  * @returns {Promise}
