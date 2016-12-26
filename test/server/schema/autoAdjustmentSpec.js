@@ -9,22 +9,45 @@ let api = {
 
 describe('Auto adjustment', function() {
 
-    let app, sick, rtt;
-
+    let app, user, sick, sickRenewal, rtt, rttRenewal;
+    let dbName = 'rightAutoAdjustmentSpec';
 
     beforeEach(function(done) {
-        helpers.mockDatabase('rightAutoAdjustmentSpec', function(mockapp) {
+        helpers.mockDatabase(dbName, function(mockapp) {
             app = mockapp;
             done();
         });
     });
 
+    it('create a test user', function(done) {
+        api.user.createRandomAccount(app).then(function(randomAccount) {
+            expect(randomAccount.user.email).toBeDefined();
+            expect(randomAccount.user.roles.account).toBeDefined();
+            user = randomAccount.user;
+
+            return api.user.linkToDefaultCollection(app, randomAccount);
+		})
+        .then(() => {
+            done();
+        })
+        .catch(done);
+    });
+
     it('create sick leave right', function(done) {
         api.right.createRight(app, {
-            name: 'Sick leave'
+            name: 'Sick leave test',
+            quantity: 0,
+            type: '5740adf51cf1a569643cc50b'
         })
         .then(right => {
             sick = right;
+            return api.right.linkToDefaultCollection(app, sick)
+            .then(() => {
+                return sick.getLastRenewal();
+            });
+        })
+        .then(renewal => {
+            sickRenewal = renewal;
             done();
         })
         .catch(done);
@@ -32,21 +55,68 @@ describe('Auto adjustment', function() {
 
     it('create right with auto adjustment from sick leave', function(done) {
         api.right.createRight(app, {
-            name: 'RTT'
+            name: 'RTT test',
+            quantity: 10,
+            autoAdjustment: {
+                types: ['5740adf51cf1a569643cc50b'],
+                quantity: -0.5,
+                step: 5
+            } // Remove 0.5 days every 5 consumed day of sick leave
         })
         .then(right => {
             rtt = right;
+            return api.right.linkToDefaultCollection(app, rtt)
+            .then(() => {
+                return rtt.getLastRenewal();
+            });
+        })
+        .then(renewal => {
+            rttRenewal = renewal;
             done();
         })
         .catch(done);
+    });
 
+
+    it('create 4 day of sickness', function (done) {
+
+        let dtstart = new Date(2016,0,10,8 ,0,0,0);
+        let dtend   = new Date(2016,0,14,19,0,0,0);
+        api.request.createAbsenceOnRenewal(app, sickRenewal, user, dtstart, dtend, 4)
+        .then(request => {
+            expect(request.absence.distribution[0].quantity).toEqual(4);
+            done();
+        })
+        .catch(done);
+    });
+
+
+    it('create 1 day of sickness', function (done) {
+        let dtstart = new Date(2016,0,15,8 ,0,0,0);
+        let dtend   = new Date(2016,0,15,19,0,0,0);
+        api.request.createAbsenceOnRenewal(app, sickRenewal, user, dtstart, dtend, 1)
+        .then(request => {
+            expect(request.absence.distribution[0].quantity).toEqual(1);
+            done();
+        })
+        .catch(done);
+    });
+
+
+    it('Check availability on RTT right', function(done) {
+        rttRenewal.getUserAvailableQuantity(user)
+        .then(quantity => {
+            expect(quantity).toBe(9.5);
+            done();
+        })
+        .catch(done);
     });
 
 
     it("should disconnect from the database", function(done) {
         app.disconnect(function() {
             // and delete the test db
-            helpers.dropDb('rightConsumptionSpec', done);
+            helpers.dropDb(dbName, done);
         });
 	});
 

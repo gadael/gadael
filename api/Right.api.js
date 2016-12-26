@@ -112,6 +112,21 @@ api.createCollection = function(app, collectionProps, rightProps) {
 };
 
 
+api.linkToDefaultCollection = function(app, right) {
+
+    let beneficiaryModel = app.db.models.Beneficiary;
+
+    let beneficiary = new beneficiaryModel();
+    beneficiary.right = right._id;
+    beneficiary.ref = 'RightCollection';
+    beneficiary.document = '5740adf51cf1a569643cc520';
+
+    return beneficiary.save();
+
+};
+
+
+
 /**
  * Add a test right to the user
  * @param {Express} app
