@@ -115,9 +115,20 @@ exports = module.exports = function(params) {
      * @return {Promise}
      */
     requestSchema.methods.updateAutoAdjustments = function() {
-        return this.getUser()
+
+        let request = this;
+
+        return request.getUser()
         .then(user => {
             return user.updateAutoAdjustments();
+        })
+        .then(() => {
+            let Model = request.constructor;
+            if (undefined !== Model.autoAdjustmentUpdated) {
+                // this is for tests
+                return Model.autoAdjustmentUpdated();
+            }
+            return true;
         });
     };
 
@@ -127,7 +138,9 @@ exports = module.exports = function(params) {
      * @return {User}
      */
     requestSchema.methods.getUser = function() {
-        return this.populate('user.id').execPopulate().then(populatedRequest => {
+        return this.populate('user.id')
+        .execPopulate()
+        .then(populatedRequest => {
             return populatedRequest.user.id;
         });
     };

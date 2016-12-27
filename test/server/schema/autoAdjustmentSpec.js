@@ -104,12 +104,16 @@ describe('Auto adjustment', function() {
 
 
     it('Check availability on RTT right', function(done) {
-        rttRenewal.getUserAvailableQuantity(user)
-        .then(quantity => {
-            expect(quantity).toBe(9.5);
-            done();
-        })
-        .catch(done);
+
+        app.db.models.Request.autoAdjustmentUpdated = function() {
+            // wait for execution of all post hooks
+            return rttRenewal.getUserAvailableQuantity(user)
+            .then(quantity => {
+                expect(quantity).toBe(9.5);
+                done();
+            })
+            .catch(done);
+        };
     });
 
 

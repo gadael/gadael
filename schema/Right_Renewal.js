@@ -155,11 +155,12 @@ exports = module.exports = function(params) {
 	 */
 	rightRenewalSchema.methods.addAutoAdjustment = function(user, moment, quantity) {
 
+		let renewal = this;
 		let Adjustment = params.db.models.Adjustment;
 
 		let adjust = new Adjustment();
 
-		adjust.rightRenewal = this._id;
+		adjust.rightRenewal = renewal._id;
 		adjust.user = user._id;
 		adjust.timeCreated = moment;	// TODO: use a different field name
 		adjust.quantity = quantity;
@@ -207,7 +208,7 @@ exports = module.exports = function(params) {
 						current += h.consumedQuantity;
 						if (current >= right.autoAdjustment.step) {
 							current = 0;
-							promises.push(rightRenewalSchema.methods.addAutoAdjustment(user, h.events[0].dtstart, right.autoAdjustment.quantity));
+							promises.push(renewal.addAutoAdjustment(user, h.events[0].dtstart, right.autoAdjustment.quantity));
 						}
 					});
 
@@ -354,30 +355,20 @@ exports = module.exports = function(params) {
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserAdjustmentQuantity = function(user) {
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
 
-        var model = params.db.models.Adjustment;
-        var renewal = this;
+        let Adjustment = params.db.models.Adjustment;
+        let renewal = this;
 
-        model.find({ rightRenewal: renewal._id, user: user._id }, 'quantity', function (err, docs) {
-
-            if (err) {
-                deferred.reject(err);
-            }
-
-            var adjustments = 0;
-            for(var i=0; i<docs.length; i++) {
+        return Adjustment.find({ rightRenewal: renewal._id, user: user._id }, 'quantity')
+		.then(docs => {
+            let adjustments = 0, i;
+            for (i=0; i<docs.length; i++) {
                 adjustments += docs[i].quantity;
             }
 
-            deferred.resolve(adjustments);
+            return adjustments;
         });
 
-        return deferred.promise;
     };
 
 
