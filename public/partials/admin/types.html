@@ -3,31 +3,35 @@
 
 <div class="row">
 	<div class="col-xs-12 col-sm-9">
-		
+
 		<div class="row gadael-list-header">
 			<div class="col-sm-3 text-center">
 				<a ng-href="#/admin/type-edit" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add Type</span></a>
 			</div>
-			
+
 			<div class="col-xs-12 col-sm-8 text-center">
 				<bgf-pagination
-					per-page="25" 
-					collection="types" 
-					url="'/rest/admin/types'" 
-					url-params="search" 
+					per-page="25"
+					collection="types"
+					url="'/rest/admin/types'"
+					url-params="search"
 					template-url="partials/utils/paginate-anything.html">
 				</bgf-pagination>
 			</div>
 		</div>
-		
+
 		<div class="gadael-list-rows">
 			<div class="row" ng-repeat="type in types">
 				<div class="col-md-8">
-					<a ng-href="#/admin/types/{{type._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
+					<a ng-href="#/admin/types/{{type._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
 					 &nbsp; <i class="fa fa-asterisk" style="color:{{type.color}}"></i> {{type.name}}
 				</div>
 
-                <div class="col-md-4">
+				<div class="col-md-2 text-right">
+					<a href="#/admin/rights?type={{type._id}}" translate>View rights</a>
+				</div>
+
+                <div class="col-md-2 text-right">
                     <span ng-if="type.groupFolded">
                         <i class="fa fa-check-square-o"></i> <span translate>Folded</span>
                     </span>
@@ -35,17 +39,17 @@
 			</div>
 		</div>
 
-		
+
 	</div>
-	
+
 	<div role="search" class="col-xs-12 col-sm-3">
-		
+
 		<h2><i class="fa fa-search"></i> <span translate>Search in right types</span></h2>
-		
+
 		<div class="form-group">
 			<label for="search_name" translate>By name:</label><br />
 			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
 		</div>
-		
+
 	</div>
 </div>
