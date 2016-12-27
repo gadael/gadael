@@ -60,7 +60,7 @@ grunt test
 - [ ] Disable password modification for mananger if not local login
 - [ ] Get managed services on home page
 - [ ] View time saving deposit by admin
-- [ ] Decrease RTT depending on the illness leaves
+- [x] Decrease RTT depending on the illness leaves
 - [ ] ICSDB integration for non working days calendars
 - [ ] After first admin created, redirect to login form
 - [x] Display error message on disabled site for all routes

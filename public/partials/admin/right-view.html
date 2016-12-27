@@ -38,6 +38,10 @@
                     </span>
                 </p>
                 <p ng-if="right.addMonthly.quantity>0"><span translate>Monthly additions:</span> {{right.addMonthly.quantity | number}} {{right.disp_unit}}</p>
+
+                <div class="top15 bottom15" ng-if="right.autoAdjustment.quantity"><div translate>An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on </div>
+                    <div ng-repeat="t in right.autoAdjustment.types"> &nbsp; <a href="#/admin/rights?type={{t._id}}"><i class="fa fa-asterisk" style="color:{{t.color}}"></i> {{t.name}}</a></div>
+                </div>
             </div>
 
             <div class="col-xs-4 text-right">

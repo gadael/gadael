@@ -19,6 +19,7 @@ exports = module.exports = function(services, app) {
         service.app.db.models.Right
         .findOne({ '_id' : params.id})
         .populate('type')
+        .populate('autoAdjustment.types')
         .exec(function(err, document) {
             if (service.handleMongoError(err))
             {
