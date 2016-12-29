@@ -4,6 +4,7 @@ const helpers = require('../../test/server/rest/mockServer');
 const webshot = require('webshot');
 const getOptions = require('./options');
 const sharp = require('sharp');
+const fs = require('fs');
 
 function addWebshotMethod(server, languageCode)
 {
@@ -14,12 +15,25 @@ function addWebshotMethod(server, languageCode)
         options.customHeaders = o.headers;
 
         return new Promise((resolve, reject) => {
-            webshot(url, './doc/screenshots/'+languageCode+'/'+filename+'.png', options, function(err) {
+            let filepathFull = './doc/screenshots/'+languageCode+'/'+filename+'.full.png';
+            let filepath = './doc/screenshots/'+languageCode+'/'+filename+'.png';
+
+            webshot(url, filepathFull, options, function(err) {
                 if (err) {
                     return reject(err);
                 }
 
-                resolve(true);
+                sharp(filepathFull)
+                .resize(600)
+                .toFile(filepath, (err, info) => {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    fs.unlink(filepathFull);
+                    resolve(true);
+                });
+
             });
 
         });
