@@ -91,6 +91,7 @@
     "grunt-shell": "~1.1.2",
     "jasmine-node": "~1.14.3",
     "nodemailer-stub-transport": "~1.0.0",
+    "sharp": "^0.17.0",
     "shelljs": "^0.2.6",
     "webshot": "~0.18.0"
   }

@@ -2,40 +2,26 @@
 
 const helpers = require('../../test/server/rest/mockServer');
 const webshot = require('webshot');
-
+const getOptions = require('./options');
+const sharp = require('sharp');
 
 function addWebshotMethod(server, languageCode)
 {
     server.webshot = function(angularPath, filename, done) {
         let o = server.getUrlOptions();
         let url = 'http://'+o.hostname+':'+o.port+'/#'+angularPath;
+        let options = getOptions();
+        options.customHeaders = o.headers;
 
-        let options = {
-          defaultWhiteBackground: true,
-          customHeaders: o.headers,
-          renderDelay: 5000,
-          timeout: 8000,
-          errorIfStatusIsNot200: true,
-          errorIfJSException: true,
-          windowSize: {
-              width: 1024,
-              height: null
-          },
-          shotSize: {
-              width: 'window',
-              height: 'all'
-          }
-        };
-
-        return new Promise((accept, reject) => {
-
+        return new Promise((resolve, reject) => {
             webshot(url, './doc/screenshots/'+languageCode+'/'+filename+'.png', options, function(err) {
                 if (err) {
                     return reject(err);
                 }
 
-                accept(null);
+                resolve(true);
             });
+
         });
 
 

@@ -4,7 +4,7 @@
 const webshot = require('webshot');
 const https = require('https');
 const querystring = require('querystring');
-
+const getOptions = require('./options');
 
 
 
@@ -41,25 +41,8 @@ exports = module.exports = function site(languageCode) {
             headers.Cookie = sessionCookie;
         }
 
-        let options = {
-            defaultWhiteBackground: true,
-            customHeaders: headers,
-            cookies: sessionCookie,
-            renderDelay: 4000,
-            timeout: 8000,
-            errorIfStatusIsNot200: false,
-            errorIfJSException: true,
-            windowSize: {
-                width: 1280,
-                height: null
-            },
-            shotSize: {
-                width: 'window',
-                height: 'all'
-            }
-        };
-
-
+        let options = getOptions();
+        options.customHeaders = headers;
 
         return new Promise((resolve, reject) => {
             //console.log('screen '+url);
