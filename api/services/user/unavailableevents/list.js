@@ -66,11 +66,11 @@ exports = module.exports = function(services, app) {
             return service.deferred.promise;
         }
 
-        getEvents(service, params).then(function(era) {
+        getEvents(service, params)
+        .then(function(era) {
             return service.deferred.resolve(era.periods);
-
-
-        }, service.deferred.reject);
+        })
+        .catch(service.error);
 
 
         return service.deferred.promise;

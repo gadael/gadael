@@ -512,7 +512,14 @@ exports = module.exports = function(params) {
             .where('status').ne('CANCELED');
 
         return find.exec().then(events => {
-            events.map(leaves.addPeriod);
+            events.forEach(evt => {
+                try {
+                    leaves.addPeriod(evt.toObject());
+                } catch(e) {
+                    // ignore invalid periods
+                    console.log(e, evt);
+                }
+            });
             return leaves;
         });
 
