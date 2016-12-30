@@ -44,7 +44,7 @@ define([], function() {
         beneficiaries.$promise.then(function(b) {
             b.forEach(function(beneficiary) {
 
-                if (beneficiary.right.isTimeSavingAccount()) {
+                if ('timesavingaccount' === beneficiary.right.special) {
                     return;
                 }
 
@@ -140,4 +140,3 @@ define([], function() {
 
 	}];
 });
-

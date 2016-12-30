@@ -1,7 +1,7 @@
 'use strict';
 
-const helpers = require('./screenServer');
-const pages = require('./pages');
+const screenServer = require('./screenServer');
+
 const site = require('./site');
 
 let language='fr';
@@ -15,7 +15,7 @@ if ('en' === language) {
 }
 
 Promise.all([
-    helpers.screenServer('docScreenshots_'+language, country, language, pages),
+    screenServer('docScreenshots_'+language, country, language),
     site(language)
 ])
 .catch(err => {

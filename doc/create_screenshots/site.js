@@ -11,6 +11,8 @@ const getOptions = require('./options');
 /**
  * Screenshot on gadael.com
  * @param {String} languageCode     language code to use in path
+ *
+ * @return {Promise}
  */
 exports = module.exports = function site(languageCode) {
 

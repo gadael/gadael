@@ -1,6 +1,7 @@
 'use strict';
 
 const helpers = require('../../test/server/rest/mockServer');
+const pages = require('./pages');
 const webshot = require('webshot');
 const getOptions = require('./options');
 const sharp = require('sharp');
@@ -20,8 +21,11 @@ function addWebshotMethod(server, languageCode)
 
             webshot(url, filepathFull, options, function(err) {
                 if (err) {
+                    console.log(filepathFull);
+                    console.log(err);
                     return reject(err);
                 }
+
 
                 sharp(filepathFull)
                 .resize(600)
@@ -46,25 +50,23 @@ function addWebshotMethod(server, languageCode)
 
 
 
-exports = module.exports = {
 
-    /**
-     * Function loaded in a beforeEach to ensure the server is started for every test
-     * This start only one instance
-     *
-     * @param {String} [dbname]     optionnal database name
-     * @param {String} countryCode  Database will be initialized with this country UK|FR|...
-     * @param {String} languageCode en|fr|...
-     * @param {function} ready      callback
-     */
-    screenServer: function(dbname, countryCode, languageCode, ready) {
+/**
+ * Function loaded in a beforeEach to ensure the server is started for every test
+ * This start only one instance
+ *
+ * @param {String} [dbname]     optionnal database name
+ * @param {String} countryCode  Database will be initialized with this country UK|FR|...
+ * @param {String} languageCode en|fr|...
+ *
+ * @return {Promise}
+ */
+exports = module.exports = function(dbname, countryCode, languageCode) {
 
+    return new Promise(resolve => {
         helpers.mockServer(dbname, function(_mockServer) {
             addWebshotMethod(_mockServer, languageCode);
-            ready(_mockServer).catch(err => {
-                console.error(err);
-                console.log(err.stack);
-            });
+            resolve(pages(_mockServer));
         }, countryCode, languageCode);
-    }
+    });
 };
