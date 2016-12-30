@@ -89,6 +89,7 @@
     "grunt-newer": "^0.7.0",
     "grunt-nodemon": "^0.4.2",
     "grunt-shell": "~1.1.2",
+    "image-size": "^0.5.1",
     "jasmine-node": "~1.14.3",
     "nodemailer-stub-transport": "~1.0.0",
     "sharp": "^0.17.0",

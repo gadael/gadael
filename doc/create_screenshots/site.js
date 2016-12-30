@@ -5,7 +5,7 @@ const webshot = require('webshot');
 const https = require('https');
 const querystring = require('querystring');
 const getOptions = require('./options');
-
+const resize = require('./resize');
 
 
 /**
@@ -47,13 +47,14 @@ exports = module.exports = function site(languageCode) {
         options.customHeaders = headers;
 
         return new Promise((resolve, reject) => {
-            //console.log('screen '+url);
-            webshot(url, './doc/screenshots/'+languageCode+'/saas-'+filename+'.png', options, function(err) {
+            let filepathFull = './doc/screenshots/'+languageCode+'/saas-'+filename+'.full.png';
+            let filepath = './doc/screenshots/'+languageCode+'/saas-'+filename+'.png';
+            webshot(url, filepathFull, options, function(err) {
                 if (err) {
                     return reject(err);
                 }
 
-                resolve(true);
+                resolve(resize(filepathFull, filepath));
             });
         });
     }
@@ -160,6 +161,11 @@ exports = module.exports = function site(languageCode) {
     }
 
 
+    function login() {
+        return request('POST', {}, '/fr/local-signin', testAccount);
+    }
+
+
     function deleteAccount() {
         return request('POST', {}, '/fr/deleteaccount', {});
     }
@@ -175,12 +181,17 @@ exports = module.exports = function site(languageCode) {
         });
     }
 
-
+    function loginOnFail(promise) {
+        return promise.catch(() => {
+            return login();
+        })
+        .then(checkStatus);
+    }
 
     return shotcom('signup/', 'signup')
     .then(() => {
         return createAccount()
-        .then(checkStatus)
+        .then(loginOnFail(checkStatus()))
         .then(() => {
             // screenshot private space
             return shotcom('account/', 'app-start')

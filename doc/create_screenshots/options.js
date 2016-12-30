@@ -4,7 +4,7 @@ exports = module.exports = function() {
     return {
         defaultWhiteBackground: true,
         renderDelay: 5000,
-        timeout: 8000,
+        timeout: 10000,
         errorIfStatusIsNot200: false,
         errorIfJSException: true,
         windowSize: {

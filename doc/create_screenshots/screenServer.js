@@ -4,8 +4,8 @@ const helpers = require('../../test/server/rest/mockServer');
 const pages = require('./pages');
 const webshot = require('webshot');
 const getOptions = require('./options');
-const sharp = require('sharp');
-const fs = require('fs');
+const resize = require('./resize');
+
 
 function addWebshotMethod(server, languageCode)
 {
@@ -27,16 +27,7 @@ function addWebshotMethod(server, languageCode)
                 }
 
 
-                sharp(filepathFull)
-                .resize(600)
-                .toFile(filepath, (err, info) => {
-                    if (err) {
-                        return reject(err);
-                    }
-
-                    fs.unlink(filepathFull);
-                    resolve(true);
-                });
+                resolve(resize(filepathFull, filepath));
 
             });
 
