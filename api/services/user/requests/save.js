@@ -128,14 +128,16 @@ function prepareRequestFields(service, params, user)
                 throw new Error('Unsupported parameter for time_saving_deposit');
             }
 
-            if (params.time_saving_deposit.length === 1) {
-                return saveTimeSavingDeposit
-                .getFieldsToSet(service, params.time_saving_deposit[0])
-                .then(function(tsdFields) {
-                    fieldsToSet.time_saving_deposit = [tsdFields];
-                    return fieldsToSet;
-                });
+            if (params.time_saving_deposit.length !== 1) {
+                throw new Error('Wrong length for time_saving_deposit');
             }
+
+            return saveTimeSavingDeposit
+            .getFieldsToSet(service, params.time_saving_deposit[0])
+            .then(function(tsdFields) {
+                fieldsToSet.time_saving_deposit = [tsdFields];
+                return fieldsToSet;
+            });
         }
 
         if (undefined !== params.workperiod_recover) {
@@ -144,21 +146,26 @@ function prepareRequestFields(service, params, user)
                 throw new Error('Unsupported parameter for workperiod_recover');
             }
 
-            if (params.workperiod_recover.length === 1) {
-                return saveWorkperiodRecover
-                .getEventsPromise(service, params.events)
-                .then(function(events) {
-                    fieldsToSet.events = events;
-
-                    return saveWorkperiodRecover
-                    .getFieldsToSet(service, params.workperiod_recover[0])
-                    .then(function(wpFields) {
-                        fieldsToSet.workperiod_recover = [wpFields];
-                        return fieldsToSet;
-                    });
-                });
+            if (params.workperiod_recover.length !== 1) {
+                throw new Error('Wrong length for workperiod_recover');
             }
+
+            return saveWorkperiodRecover
+            .getEventsPromise(service, params.events)
+            .then(function(events) {
+                fieldsToSet.events = events;
+
+                return saveWorkperiodRecover
+                .getFieldsToSet(service, params.workperiod_recover[0])
+                .then(function(wpFields) {
+                    fieldsToSet.workperiod_recover = [wpFields];
+                    return fieldsToSet;
+                });
+            });
         }
+
+
+        throw new Error('Request type is missing');
 
     });
 

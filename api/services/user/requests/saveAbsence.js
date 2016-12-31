@@ -24,7 +24,7 @@ function createEvents(service, user, elem, events)
 
     /**
      * Set event properties
-     * 
+     *
      * @param {CalendarEvent} eventDocument     new event document to save or event document to update on request modification
      * @param {object} event                    Object with user given informations for event
      *                                          summary and description are set here for compulsory leaves but not for regular leaves
@@ -296,8 +296,8 @@ function createElement(service, user, elem, collection)
 
 /**
  * Check element validity of one element
- * @param {object} contain, element is stored in contain.element
- * @return {Promise}   Resolve to contain or throw Error
+ * @param {object} contain element is stored in contain.element
+ * @return {Promise}   Resolve to contain
  */
 function checkElement(contain)
 {
@@ -311,11 +311,11 @@ function checkElement(contain)
 
 
     if (!rightDocument.validateRules(renewalDocument, userDocument._id, dtstart, dtend)) {
-        throw new Error('This renewal is not valid on the period: '+rightDocument.name+' ('+renewalDocument.start+' - '+renewalDocument.finish+')');
+        return Promise.reject('This renewal is not valid on the period: '+rightDocument.name+' ('+renewalDocument.start+' - '+renewalDocument.finish+')');
     }
 
     if (userDocument.roles.account.arrival > renewalDocument.finish) {
-        throw new Error('Arrival date must be before renewal finish');
+        return Promise.reject('Arrival date must be before renewal finish');
     }
 
 
@@ -372,7 +372,7 @@ function saveAbsenceDistribution(service, user, params, collection) {
 
 
     if (params.absence.distribution === undefined || params.absence.distribution.length === 0) {
-        throw new Error('right distribution is mandatory to save an absence request');
+        return Promise.reject('right distribution is mandatory to save an absence request');
     }
 
     let i, elem,
