@@ -732,6 +732,7 @@ exports = module.exports = function(params) {
                 period.finish = new Date(period.start);
                 period.finish.setFullYear(period.finish.getFullYear()+1);
                 period.finish.setDate(period.finish.getDate()-1);
+                period.finish.setHours(23,59,59,999);
 
                 return period;
             }
