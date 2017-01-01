@@ -72,7 +72,8 @@ grunt test
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request
-
+- [ ] In the create first admin form, redirect to login form after admin creation instead of the same form
+- [ ] Add a default content on home page if the user is only administrator
 
 ## Main packages used
 
