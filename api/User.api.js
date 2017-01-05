@@ -1,5 +1,7 @@
 'use strict';
 
+const Charlatan = require('charlatan');
+
 var api = {};
 exports = module.exports = api;
 
@@ -33,6 +35,29 @@ api.populate = function(app, count, callback) {
 	});
 };
 
+/**
+ * Create user with encrypted password
+ * @param {Express} app
+ * @param {string} email
+ * @param {string} password		Encrypted password
+ * @param {string} lastname
+ * @param {string} firstname
+ *
+ * @return {User}
+ */
+api.createEncUser = function(app, email, password, lastname, firstname) {
+
+	let userModel = app.db.models.User;
+	let user = new userModel();
+
+	user.password = password;
+	user.email = email;
+	user.lastname = lastname;
+	user.firstname = firstname;
+
+	return user;
+};
+
 
 /**
  * Create random user
@@ -54,9 +79,8 @@ api.createRandomUser = function(app, email, password, lastname, firstname) {
         deferred.reject = reject;
     });
 
-    var Charlatan = require('charlatan');
-    var userModel = app.db.models.User;
-    var user = new userModel();
+	let userModel = app.db.models.User;
+	let user = new userModel();
 
     var clearPassword = password || Charlatan.Internet.password();
 
@@ -83,6 +107,22 @@ api.createRandomUser = function(app, email, password, lastname, firstname) {
     return deferred.promise;
 };
 
+
+
+/**
+ * Create an admin user from encrypted password
+ * @param {Express} app
+ * @param {string} email
+ * @param {string} password		Encrypted password
+ * @param {string} lastname
+ * @param {string} firstname
+ * @return {Promise}
+ */
+api.createRandomAdmin = function(app, email, password, lastname, firstname) {
+
+	let user = api.createEncUser(app, email, password, lastname, firstname);
+    return user.saveAdmin();
+};
 
 
 /**
