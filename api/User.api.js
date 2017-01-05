@@ -36,10 +36,11 @@ api.populate = function(app, count, callback) {
 
 /**
  * Create random user
+ * If all parameters are provided, there is no randomness
  *
  * @param {Express} app
  * @param {string} [email]
- * @param {string} [password]
+ * @param {string} [password]		Clear text password
  * @param {string} [lastname]
  * @param {string} [firstname]
  *
@@ -88,16 +89,18 @@ api.createRandomUser = function(app, email, password, lastname, firstname) {
  * Create an admin user
  * @param {Express} app
  * @param {string} [email]
- * @param {string} [password]
+ * @param {string} [password]		Clear text password
+ * @param {string} [lastname]
+ * @param {string} [firstname]
  * @return {Promise}
  */
-api.createRandomAdmin = function(app, email, password) {
+api.createRandomAdmin = function(app, email, password, lastname, firstname) {
 
-    return new Promise(function(resolve, reject) {
-         api.createRandomUser(app, email, password).then(function(randomUser) {
-            randomUser.user.saveAdmin().then(function() {
-                resolve(randomUser);
-            }).catch(reject);
+    return api.createRandomUser(app, email, password, lastname, firstname)
+	 .then(randomUser => {
+        return randomUser.user.saveAdmin()
+		.then(() => {
+            return randomUser;
         });
     });
 };
@@ -112,12 +115,12 @@ api.createRandomAdmin = function(app, email, password) {
  */
 api.createRandomDisabledAdmin = function(app, email, password) {
 
-    return new Promise(function(resolve, reject) {
-         api.createRandomUser(app, email, password).then(function(randomUser) {
-            randomUser.user.isActive = false;
-            randomUser.user.saveAdmin().then(function() {
-                resolve(randomUser);
-            }).catch(reject);
+    return api.createRandomUser(app, email, password)
+	.then(randomUser => {
+        randomUser.user.isActive = false;
+        randomUser.user.saveAdmin()
+		.then(() => {
+            return randomUser;
         });
     });
 };
@@ -134,7 +137,7 @@ api.createRandomDisabledAdmin = function(app, email, password) {
 api.createRandomAccount = function(app, email, password, lastname, firstname) {
 
     return api.createRandomUser(app, email, password, lastname, firstname)
-    .then(function(randomUser) {
+    .then(randomUser => {
         return randomUser.user.saveAccount()
 		.then(user => {
 			return user.getAccount();
