@@ -118,7 +118,8 @@ api.createRandomDisabledAdmin = function(app, email, password) {
     return api.createRandomUser(app, email, password)
 	.then(randomUser => {
         randomUser.user.isActive = false;
-        randomUser.user.saveAdmin()
+
+		return randomUser.user.saveAdmin()
 		.then(() => {
             return randomUser;
         });

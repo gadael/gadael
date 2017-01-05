@@ -262,9 +262,29 @@ exports = module.exports = {
     },
 
 
+	/**
+	 * Get the db object in a promise
+	 * @return {Promise}
+	 */
+	getOpenDbPromise: function getOpenDbPromise(app, dbName) {
+		let db;
+		return new Promise((resolve, reject) => {
+            db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
+            db.on('error', err => {
+                return reject('CompanyApi mongoose connection error: '+err, null);
+            });
+
+            db.once('open', () => {
+				gadael_loadMockModels(app, db);
+                resolve(db);
+            });
+        });
+	},
+
 
     /**
      * Open the company document in a spcific database object
+	 * the db object is not closed
      * @returns {Promise} database object and company document
      */
     openCompany: function openCompany(app, dbName) {
@@ -274,30 +294,28 @@ exports = module.exports = {
             company: null
         };
 
-        return new Promise((resolve, reject) => {
-            output.db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
-            output.db.on('error', err => {
-                return reject('CompanyApi.getCompany mongoose connection error: '+err, null);
-            });
+		return this.getOpenDbPromise(app, dbName)
+		.then(db => {
+			output.db = db;
 
-            output.db.once('open', () => {
-                gadael_loadMockModels(app, output.db);
+			let promise = db.models.Company.find().exec()
+			.then(docs => {
 
-                output.db.models.Company.find().exec(function (err, docs) {
-                    if (err) {
-                        output.db.close();
-                        return reject(err);
-                    }
+				if (docs.length === 0) {
+					return output;
+				}
 
-                    if (docs.length === 0) {
-                        return resolve(output);
-                    }
+				output.company = docs[0];
+				return output;
+			});
 
-                    output.company = docs[0];
-                    resolve(output);
-                });
-            });
-        });
+			promise.catch(err => {
+				db.close();
+				throw err;
+			});
+
+			return promise;
+		});
     },
 
 
@@ -308,7 +326,8 @@ exports = module.exports = {
      */
     getCompany: function getCompany(app, dbName, callback) {
 
-        this.openCompany(app, dbName).then(o => {
+        this.openCompany(app, dbName)
+		.then(o => {
             callback(null, o.company);
             o.db.close();
         }).catch(err => {

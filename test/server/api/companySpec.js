@@ -3,24 +3,24 @@
 var api = require('../../../api/Company.api.js');
 var app = require('../../../api/Headless.api.js');
 
-var company = { 
+var company = {
 			name: 'The Fake Company',
-			port: 3001 
+			port: 3001
 		};
 
 
 
 describe("Company API", function CompanyTestSuite() {
-	
+
 	it("should connect to the database", function(done) {
 		app.connect(function() {
 			done();
 		});
 	});
-	
-	
+
+
 	var existingName = null;
-	
+
 	it("fetch databases in array", function(done) {
 		api.listDatabases(app, function(databases) {
 			expect(databases[0].name).not.toBe(null);
@@ -28,12 +28,12 @@ describe("Company API", function CompanyTestSuite() {
 			done();
 		});
 	});
-	
-	
+
+
 	it("forbid creation of an existing database", function(done) {
-		
+
 		expect(existingName).not.toBeNull();
-		
+
 		api.isDbNameValid(app, existingName, function(status) {
 			expect(status).toBeFalsy();
 			done();
@@ -41,20 +41,20 @@ describe("Company API", function CompanyTestSuite() {
 
 		done();
 	});
-	
-	
-	
+
+
+
 	var testDbName = 'testDatabase';
-	
+
 	it("check the absence of the test database", function(done) {
 		api.isDbNameValid(app, testDbName, function(status) {
 			expect(status).toBeTruthy();
 			done();
 		});
 	});
-	
-	
-	
+
+
+
 	it("create a test company", function(done) {
 		api.createDb(app, testDbName, company, function() {
 			api.getCompany(app, testDbName, function(err, companyDoc) {
@@ -66,26 +66,19 @@ describe("Company API", function CompanyTestSuite() {
 	});
 
 
-	
+
 	it("drop the test database", function(done) {
 		api.dropDb(app, testDbName, function() {
 			done();
 		});
 	});
-	
-	
-	
+
+
+
 	it("should disconnect from the database", function(done) {
 		app.disconnect(function() {
 			done();
 		});
 	});
-	
+
 });
-
-
-
-
-
-
-
