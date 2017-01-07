@@ -118,9 +118,13 @@ exports = module.exports = function(params) {
 
         let request = this;
 
+        if (!request.absence || !request.absence.dtstart) {
+            return Promise.resolve(true);
+        }
+
         return request.getUser()
         .then(user => {
-            return user.updateAutoAdjustments();
+            return user.updateAutoAdjustments(request.absence.dtstart);
         })
         .then(() => {
             let Model = request.constructor;

@@ -198,6 +198,10 @@ exports = module.exports = function(params) {
 		.then(renewals => {
 			let promises = [];
 			renewals.forEach(renewal => {
+				if (null === renewal) {
+					console.log('No active renewal on '+moment);
+					return;
+				}
 				promises.push(renewal.updateAutoAdjustments(user));
 			});
 

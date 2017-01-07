@@ -193,14 +193,13 @@ exports = module.exports = function(params) {
 			return renewal.getRightPromise();
 		})
 		.then(right => {
-
 			if (undefined !== right.autoAdjustment &&
 			undefined !== right.autoAdjustment.quantity &&
 			null !== right.autoAdjustment.quantity) {
 
 				return renewal.getConsuptionHistory(user, right.autoAdjustment.types)
 				.then(history => {
-
+					
 					let current = 0;
 					let promises = [];
 
