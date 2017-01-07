@@ -55,10 +55,13 @@
       </div>
     </div>
 
+
+
     <div class="container" role="main">
 	  <!--[if lt IE 7]>
 	      <p class="browsehappy"><span translate>You are using an outdated browser.</span> <a href="http://browsehappy.com/" translate>Please upgrade your browser to improve your experience.</a></p>
 	  <![endif]-->
+
 
 	  <div ng-repeat="alert in pageAlerts" class="container alert alert-{{alert.type}} alert-dismissable">
 		  <button type="button" class="close" ng-click="closeAlert($index)" aria-hidden="true">&times;</button>
@@ -66,9 +69,9 @@
 	  </div>
 
 	  <div ng-view gadael-auth></div>
+
   </div>
 
-
-  <script data-main="js/optimized" src="bower_components/requirejs/require.js"></script>
+  <script data-main="js/main" src="bower_components/requirejs/require.js"></script>
 </body>
 </html>

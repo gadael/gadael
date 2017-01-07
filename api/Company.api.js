@@ -467,7 +467,10 @@ exports = module.exports = {
 
         app.use(compression());
 		app.use(gadaelMiddleware(app));
-        app.use(serveStatic(config.staticPath));
+        app.use(serveStatic(config.staticPath, {
+			'index': [config.indexFile]
+		}));
+
         app.use(bodyParser.json());
         app.use(cookieParser());
 

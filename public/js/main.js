@@ -6,7 +6,7 @@ require.config({
 		angularResource: 		'../bower_components/angular-resource/angular-resource.min',
     	angularstrap:			'../bower_components/angular-strap/dist/angular-strap',
     	angularstraptpl:		'../bower_components/angular-strap/dist/angular-strap.tpl',
-    	angular_frfr:			'../bower_components/angular-i18n/angular-locale_fr-fr',	
+    	angular_frfr:			'../bower_components/angular-i18n/angular-locale_fr-fr',
     	angularGettext: 		'../bower_components/angular-gettext/dist/angular-gettext',
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',
 		paginateAnything:		'../bower_components/angular-paginate-anything/dist/paginate-anything',
@@ -20,15 +20,7 @@ require.config({
         d3:                     '../bower_components/d3/d3.min',
         nvd3:                   '../bower_components/nvd3/nv.d3.min',
         angularnvd3:            '../bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min',
-
         teleperiod:             '../bower_components/teleperiod/dist/teleperiod.min',
-        /*
-        tp_mousedrag:           '../bower_components/teleperiod/src/mousedrag',
-        tp_selection:           '../bower_components/teleperiod/src/selection',
-        tp_timeline:            '../bower_components/teleperiod/src/timeline',
-        tp_timespanboundary:    '../bower_components/teleperiod/src/timespan-boundary',
-        teleperiod:          '../bower_components/teleperiod/src/teleperiod',
-        */
         angularTeleperiod:      '../bower_components/angular-teleperiod/src/angular-teleperiod',
         angularColorpicker:     '../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min',
         angularImageCrop:       '../bower_components/angular-image-crop/image-crop',
@@ -79,7 +71,7 @@ require( [
 	'angularstraptpl',
 	'angular_frfr',
     'angularTeleperiod'
-	], 
+	],
 	function(angular, app, Q) {
 
 		'use strict';
@@ -89,7 +81,5 @@ require( [
 
 		angular.element().ready(function() {
 			angular.resumeBootstrap([app.name]);
-		});	
+		});
 	});
-
-

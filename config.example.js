@@ -53,6 +53,9 @@ exports = module.exports = function createConfiguration() {
     };
 
     config.staticPath = require('path').join(__dirname, 'public');
+    config.indexFile = 'index.html'; // This file load the optimized requirejs file,
+                                     // index-dev.html will load main.js, without optimization
+
 
     config.inactivityTimeout = null; // Minutes
 
