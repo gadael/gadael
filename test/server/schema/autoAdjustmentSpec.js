@@ -91,30 +91,35 @@ describe('Auto adjustment', function() {
     });
 
 
-    it('create 1 day of sickness', function (done) {
+    it('create 1 day of sickness && Check availability on RTT right', function (done) {
         let dtstart = new Date(2016,0,15,8 ,0,0,0);
         let dtend   = new Date(2016,0,15,19,0,0,0);
-        api.request.createAbsenceOnRenewal(app, sickRenewal, user, dtstart, dtend, 1)
-        .then(request => {
+
+        let calls = 0;
+        let update = new Promise(resolve => {
+            app.db.models.Request.autoAdjustmentUpdated = function() {
+                // wait for execution of all post hooks
+                // console.trace('Resolve post hook');
+                calls++;
+                if (2 === calls) { // the save service call save twice
+                    resolve(rttRenewal.getUserAvailableQuantity(user));
+                }
+            };
+        });
+
+        let save = api.request.createAbsenceOnRenewal(app, sickRenewal, user, dtstart, dtend, 1);
+
+        Promise.all([save, update])
+        .then(arr => {
+            let request = arr[0];
+            let quantity = arr[1];
             expect(request.absence.distribution[0].quantity).toEqual(1);
+            expect(quantity).toBe(9.5);
             done();
         })
         .catch(done);
     });
 
-
-    it('Check availability on RTT right', function(done) {
-
-        app.db.models.Request.autoAdjustmentUpdated = function() {
-            // wait for execution of all post hooks
-            return rttRenewal.getUserAvailableQuantity(user)
-            .then(quantity => {
-                expect(quantity).toBe(9.5);
-                done();
-            })
-            .catch(done);
-        };
-    });
 
 
     it("should disconnect from the database", function(done) {
