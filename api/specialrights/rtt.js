@@ -54,6 +54,10 @@ Rtt.prototype.getQuantity = function(renewal, user) {
     })
     .then(all => {
 
+        if (null === all[1]) {
+            throw new Error('No collection on the renewal start date '+renewal.start);
+        }
+
         // all[0] number of potential worked days in the renewal of the annual leave
         // all[1].workedDays agreement worked days
 
