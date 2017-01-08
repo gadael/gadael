@@ -34,6 +34,7 @@ exports = module.exports = function(user, account) {
     function processRenewals(rightDocument, beneficiary, renewals, callback)
     {
         beneficiary.daysRatio = 1;
+        beneficiary.errors = [];
 
         async.each(renewals, function(renewalDocument, renewalCallback) {
             var p = getRenewalQuantity(rightDocument, renewalDocument);
@@ -68,7 +69,16 @@ exports = module.exports = function(user, account) {
 
                 renewalCallback();
 
-            }, renewalCallback);
+            })
+            .catch(err => {
+
+                beneficiary.errors.push({
+                    renewal: renewalDocument,
+                    error: err.message
+                });
+
+                renewalCallback();
+            });
 
         }, callback);
     }

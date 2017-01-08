@@ -49,7 +49,7 @@ Rtt.prototype.getQuantity = function(renewal, user) {
         return Promise.all([
         //    account.getWeekHours(renewal.start, renewal.finish),
             renewal.getPlannedWorkDayNumber(user), // without week-ends, annual leaves and non working days
-            account.getCollection(renewal.start) // collection on period start
+            account.getIntersectCollection(renewal.start, renewal.finish) // collection on period start
         ]);
     })
     .then(all => {

@@ -456,7 +456,7 @@ exports = module.exports = function(params) {
         .then(all => {
 
             if (0 === all.length) {
-                // ne renewals found in period
+                // no renewals found in period
                 return 0;
             }
 

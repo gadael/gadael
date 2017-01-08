@@ -156,6 +156,85 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Get the collection crossing the period in dtstart - dtend
+     * if multiple accountCollection match, get the nearest account collection from moment
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @param {Date} moment     Optional
+     * @return {Promise}        Resolve to one collection
+     */
+    accountSchema.methods.getIntersectCollection = function(dtstart, dtend, moment) {
+
+        if (!moment) {
+            moment = new Date();
+        }
+
+        let account = this;
+        let position = moment.getTime();
+
+        /**
+         * Get distance from position
+         * @param {Int} t Milliseconds
+         * @return {Int}
+         */
+        function getTimeDist(t) {
+            return Math.abs(position - t);
+        }
+
+        /**
+         * @param {accountCollection} accountCollection
+         * @return {Int}
+         */
+        function getDistance(accountCollection) {
+            let s = accountCollection.from.getTime();
+            let e;
+            if (!accountCollection.to) {
+                e = Infinity;
+            } else {
+                e = accountCollection.to.getTime();
+            }
+
+            return Math.min(getTimeDist(s), getTimeDist(e));
+        }
+
+        let criterion = {
+            $and: [
+                { from: { $lt: dtend }},
+                { $or: [
+                    { to: { $gt: dtstart }},
+                    { to: null }
+                ]}
+            ]
+        };
+
+
+        return account.getAccountCollectionQuery()
+        .where(criterion)
+        .populate('rightCollection')
+        .exec()
+        .then(arr => {
+
+            if (0 === arr.length) {
+                return null;
+            }
+
+            if (1 === arr.length) {
+                return arr[0].rightCollection;
+            }
+
+            let nearest = arr[0];
+            for (let i=1; i<arr.length; i++) {
+                if (getDistance(nearest) > getDistance(arr[i])) {
+                    nearest = arr[i];
+                }
+            }
+
+            return nearest.rightCollection;
+        });
+    };
+
+
 
     /**
      * Get the right collection for a specific date

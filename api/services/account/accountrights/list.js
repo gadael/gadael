@@ -83,6 +83,8 @@ exports = module.exports = function(services, app)
          */
         function processRenewals(rightDocument, right, renewals, callback)
         {
+            right.errors = [];
+
             async.each(renewals, function(renewalDocument, renewalCallback) {
                 var p = getRenewalAvailableQuantity(rightDocument, renewalDocument);
 
@@ -100,7 +102,16 @@ exports = module.exports = function(services, app)
 
                     renewalCallback();
 
-                }, renewalCallback);
+                })
+                .catch(err => {
+                    // if one renewal fail, we will have an error on the right object
+                    right.errors.push({
+                        renewal: renewalDocument,
+                        error: err.message
+                    });
+                    
+                    renewalCallback();
+                });
 
             }, callback);
         }
