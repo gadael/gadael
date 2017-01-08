@@ -33,14 +33,12 @@ app.deferredDbConnect.promise = new Promise(function(resolve, reject) {
 app.connect = function(callback) {
 
 	if (undefined !== app.db) {
-		console.warn('Call on connect but app.db allready initialized');
-		return callback();
+		//console.warn('Call on connect but app.db allready initialized');
+		app.deferredDbConnect.promise.then(callback);
+		return;
 	}
 
-	app.deferredDbConnect.promise.then(() => {
-		//console.log('promise resolution');
-		//callback();
-	});
+
 
 	apputil(app);
 
@@ -61,7 +59,7 @@ app.connect = function(callback) {
 
 		models.load();
 		app.deferredDbConnect.resolve(app.db.models);
-		//console.log('callback');
+
 		callback();
 	});
 };
