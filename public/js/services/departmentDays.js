@@ -41,7 +41,15 @@ define(function() {
             }
 
             scopeOutput.adminLink = adminLink;
-            scopeOutput.collaborators = collaboratorsResource.query(collaboratorsParams);
+
+            var promises = [];
+
+            if (undefined !== collaboratorsResource) {
+                scopeOutput.collaborators = collaboratorsResource.query(collaboratorsParams);
+                promises.push(scopeOutput.collaborators.$promise);
+            } else {
+                promises.push($q.resolve([]));
+            }
 
             scopeOutput.viewCollaborator = function(collaborator) {
                 if (!scopeOutput.adminLink) {
@@ -57,11 +65,10 @@ define(function() {
                 dtend: endDate
             });
 
+            promises.push(nonworkingdaysQuery.$promise);
 
-            return $q.all([
-                scopeOutput.collaborators.$promise,
-                nonworkingdaysQuery.$promise
-            ])
+
+            return $q.all(promises)
             .then(function(results) {
 
                 var collaborators = results[0];
