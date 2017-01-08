@@ -107,9 +107,24 @@
 
     </div>
 
+
+
+    <div class="top30" ng-if="sessionUser.isAdmin && !sessionUser.isManager && !sessionUser.isAccount">
+
+        <h2 translate>Wellcome</h2>
+
+        <p>Your only role on the application is administrator, you can update your own account using the administration -> users menu</p>
+
+        <p class="top30">
+            <a href="#/admin/user-edit" class="btn btn-default"><i class="fa fa-plus"></i> <span translate>New user</span></a>
+            <a href="#/admin/department-edit" class="btn btn-default"><i class="fa fa-plus"></i> <span translate>New department</span></a>
+            <a href="#/admin/right-edit" class="btn btn-default"><i class="fa fa-plus"></i> <span translate>New absence right</span></a>
+        </p>
+    </div>
+
 </div>
 
-<div class="top30 gadael-department" ng-if="sessionUser.department">
+<div class="top30 gadael-department" ng-if="department.days.collaborators.length>0">
 
     <h3><i class="fa fa-calendar text-info"></i> <span translate>My department: {{sessionUser.department.name}}</span></h3>
 
