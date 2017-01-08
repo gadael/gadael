@@ -67,6 +67,12 @@ app.connect = function(callback) {
 };
 
 app.disconnect = function(callback) {
+
+	if (undefined === app.db) {
+		// allready closed
+		return callback();
+	}
+
 	app.db.close(function () {
 		delete app.db;
         if (callback) {
