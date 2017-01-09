@@ -1,7 +1,7 @@
 'use strict';
 
 const SpecialRight = require('./specialright');
-
+const util = require('util');
 
 /**
  * Right for "reduction du temps de travail"
@@ -55,7 +55,8 @@ Rtt.prototype.getQuantity = function(renewal, user) {
     .then(all => {
 
         if (null === all[1]) {
-            throw new Error('No collection on the renewal start date '+renewal.start);
+            // TODO: return 0 instead of error message if getIntersectCollection work correctly
+            throw new Error(util.format('No collection found on the renewal period from %s to %s', renewal.start, renewal.finish));
         }
 
         // all[0] number of potential worked days in the renewal of the annual leave
