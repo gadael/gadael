@@ -1,7 +1,7 @@
 <div role="navigation">
     <div class="list-group">
         <a class="list-group-item" ng-href="#/user/settings"><i class="fa fa-gear"></i> <span translate>Settings</span></a>
-        <a class="list-group-item" ng-href="#/user/settings/password"><i class="fa fa-key"></i> <span translate>Password</span></a>
+        <a ng-if="company.login.form" class="list-group-item" ng-href="#/user/settings/password"><i class="fa fa-key"></i> <span translate>Password</span></a>
         <a class="list-group-item" ng-href="#/user/settings/calendar"><i class="fa fa-calendar"></i> <span translate>Calendar</span></a>
     </div>
 </div>

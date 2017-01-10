@@ -55,8 +55,8 @@ grunt test
 - [x] Exceptional quantity modification, message if there are no rights
 - [ ] Send the mail "usercreated" to admins when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
-- [ ] Disable password modification on settings page if not local login
-- [ ] Disable password modification for mananger if not local login
+- [x] Disable password modification on settings page if not local login
+- [ ] Disable password modification for admin if not local login
 - [ ] Get managed services on home page
 - [ ] View time saving deposit by admin
 - [ ] ICSDB integration for non working days calendars
