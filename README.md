@@ -52,6 +52,8 @@ grunt test
 
 ## TODO
 
+- [ ] Lock request delete by user in maintenance model
+- [ ] Display duration in the request second step
 - [x] Exceptional quantity modification, message if there are no rights
 - [ ] Send the mail "usercreated" to admins when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
