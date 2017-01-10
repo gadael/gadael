@@ -59,7 +59,7 @@ var query = function(service, params) {
                 break;
 
             case 'time_saving_deposit':
-                find.where(params.type).ne(undefined);
+                find.where('time_saving_deposit', {$exists: true, $not: {$size: 0}});
                 break;
 
             case 'workperiod_recover':
