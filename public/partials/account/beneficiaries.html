@@ -39,7 +39,6 @@
 
     </div>
 
-    <div class="alert alert-danger" role="alert" ng-if="!beneficiaries.length">
+    <div class="alert alert-danger" role="alert" ng-if="beneficiaries.$resolved && !beneficiaries.length">
         <span translate>This user has no configured vacation rights for the current period</span>
     </div>
-

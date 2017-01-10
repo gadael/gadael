@@ -60,15 +60,15 @@ grunt test
 - [ ] Get managed services on home page
 - [ ] View time saving deposit by admin
 - [ ] ICSDB integration for non working days calendars
-- [ ] After first admin created, redirect to login form
+- [x] After first admin created, redirect to login form
 - [ ] ICS Export
 - [ ] Compulsory leaves management, fix problem when requests are deleted
 - [ ] Display pending delete status on planning
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request
-- [ ] In the create first admin form, redirect to login form after admin creation instead of the same form
-- [ ] Add a default content on home page if the user is only administrator
+- [x] In the create first admin form, redirect to login form after admin creation instead of the same form
+- [x] Add a default content on home page if the user is only administrator
 
 ## Main packages used
 

@@ -80,7 +80,7 @@
 
     </table>
 
-    <div class="alert alert-danger" role="alert" ng-if="!beneficiaries.length">
+    <div class="alert alert-danger" role="alert" ng-if="beneficiaries.$resolved && !beneficiaries.length">
         <span translate>This user has no configured vacation rights for the current period</span>
     </div>
 </div>
@@ -182,7 +182,7 @@
 
     </table>
 
-    <div class="alert alert-danger" role="alert" ng-if="!accountNWDaysCalendars.length">
+    <div class="alert alert-danger" role="alert" ng-if="accountNWDaysCalendars.$resolved && !accountNWDaysCalendars.length">
         <span>This user has no configured non-working days</span>
     </div>
 </div>
@@ -219,7 +219,7 @@
 
     </table>
 
-    <div class="alert alert-success" role="alert" ng-if="!adjustments">
+    <div class="alert alert-success" role="alert" ng-if="adjustedRenewals.$resolved && !adjustedRenewals.length">
         <span>This user has no configured specific quantity, rights are set by collection only</span>
     </div>
 </div>
