@@ -12,6 +12,7 @@ define([], function() {
         'gettext',
         function($scope, $routeParams, Calendar, $anchorScroll, $location, Rest, gettext) {
 
+            $scope.who = 'account';
             $scope.setPageTitle(gettext('Personal calendar'));
 
 

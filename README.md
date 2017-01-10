@@ -60,7 +60,7 @@ grunt test
 - [x] Disable password modification on settings page if not local login
 - [x] Disable password modification for admin if not local login
 - [ ] Get managed services on home page
-- [ ] View time saving deposit by admin
+- [x] View time saving deposit by admin
 - [ ] ICSDB integration for non working days calendars
 - [x] After first admin created, redirect to login form
 - [ ] ICS Export
