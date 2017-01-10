@@ -40,6 +40,10 @@
         <form role="form" name="accountRenewalQuantityEdit">
 
 
+            <div class="alert alert-danger" role="alert" ng-if="beneficiairesLoaded && !beneficiaries.length">
+                <span translate>There are no configured rights to display</span>
+            </div>
+
 
             <div ng-repeat="beneficiary in beneficiaries" class="form-inline">
 

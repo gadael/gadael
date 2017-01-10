@@ -221,6 +221,8 @@ define([], function() {
 
                     $scope.beneficiaries.push(b);
                 });
+
+                $scope.beneficiairesLoaded = true;
             });
         }
 
@@ -336,4 +338,3 @@ define([], function() {
 
 	}];
 });
-

@@ -145,7 +145,7 @@
 
     </table>
 
-    <div class="alert alert-danger" role="alert" ng-if="!accountScheduleCalendars.length">
+    <div class="alert alert-danger" role="alert" ng-if="accountScheduleCalendars.$resolved && !accountScheduleCalendars.length">
         <span>This user has no configured work schedule</span>
     </div>
 </div>
