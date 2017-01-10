@@ -54,6 +54,7 @@ grunt test
 
 - [ ] Lock request delete by user in maintenance model
 - [ ] Display duration in the request second step
+- [ ] Estimate the consumed quantity on the fly for part-times users
 - [x] Exceptional quantity modification, message if there are no rights
 - [ ] Send the mail "usercreated" to admins when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
@@ -71,6 +72,7 @@ grunt test
 - [ ] Manager substitute one of his subordinates to create request
 - [x] In the create first admin form, redirect to login form after admin creation instead of the same form
 - [x] Add a default content on home page if the user is only administrator
+
 
 ## Main packages used
 

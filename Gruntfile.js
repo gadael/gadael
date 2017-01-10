@@ -271,7 +271,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default'  , 'Developpement mode',
     [ 'jshint', 'nodemon']);
 
-    grunt.registerTask('build'    , 'minify css, create translations files from po, aggregate js files',
+    grunt.registerTask('build'    , 'minify css, create translations files from po, aggregate js files, copy fonts',
     ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
 
     grunt.registerTask('allpot'   , 'Create all POT files from source',
