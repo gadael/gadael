@@ -23,7 +23,11 @@ exports = module.exports = function(params) {
 		rrule: String,
         rdate: [Date],
 		transp: String,
-        status: { type: String, enum:['TENTATIVE', 'CONFIRMED', 'CANCELLED'], default: 'CONFIRMED' },
+        status: { type: String, enum:['TENTATIVE', 'CONFIRMED', 'CANCELLED', 'PRECANCEL'], default: 'CONFIRMED' },
+			// TENTATIVE: Waiting for approval
+			// CONFIRMED: Approval accepted
+			// CANCELLED: Leave cancelled after approval
+			// PRECANCEL: Non-standard; waiting for approval of a delete
 
 		calendar: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
 		user: { // for events linked requests there is no link to calendar but a link to user, owner of event

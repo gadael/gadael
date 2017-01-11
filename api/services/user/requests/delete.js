@@ -33,7 +33,7 @@ exports = module.exports = function(services, app) {
                 if (service.handleMongoError(err)) {
 
                     // cancel all events associated to the request
-                    document.setEventsStatus('CANCELLED');
+                    document.setEventsStatus('PRECANCEL');
                     var request = document.toObject();
 
                     service.resolveSuccess(

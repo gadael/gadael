@@ -66,7 +66,7 @@ grunt test
 - [x] After first admin created, redirect to login form
 - [ ] ICS Export
 - [ ] Compulsory leaves management, fix problem when requests are deleted
-- [ ] Display pending delete status on planning
+- [x] Display pending delete status on planning
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request

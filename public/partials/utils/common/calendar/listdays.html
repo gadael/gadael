@@ -49,6 +49,7 @@
 
                         <i ng-if="event.status=='CONFIRMED'" class="hidden-xs fa fa-check-circle text-success" ng-attr-title="{{'Confirmed'|translate}}"></i>
                         <i ng-if="event.status=='TENTATIVE'" class="hidden-xs fa fa-hourglass-half text-warning" ng-attr-title="{{'Waiting approval'|translate}}"></i>
+                        <i ng-if="event.status=='PRECANCEL'" class="hidden-xs fa fa-hourglass-half text-danger" ng-attr-title="{{'Waiting approval for delete'|translate}}"></i>
 
 
                         <span class="hidden-sm hidden-xs">

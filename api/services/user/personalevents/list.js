@@ -30,11 +30,10 @@ function getEvents(service, params)
     }
 
     if (undefined === params.status) {
-        params.status = ['TENTATIVE', 'CONFIRMED'];
+        params.status = ['TENTATIVE', 'CONFIRMED', 'PRECANCEL'];
     }
 
     find.where('user.id').equals(params.user);
-
     find.where('status').in(params.status);
 
     var periodCriterion = require('../../../../modules/periodcriterion');
