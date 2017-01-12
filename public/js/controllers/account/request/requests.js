@@ -1,31 +1,17 @@
 define([], function() {
-    
+
     'use strict';
-    
+
 	return [
-        '$scope', 
-        '$location', 
-        'Rest', 
-        '$modal',
+        '$scope',
+        'getCreateRequest',
         'getRequestStat',
         'gettext',
-        function($scope, $location, Rest, $modal, getRequestStat, gettext) {
+        function($scope, getCreateRequest, getRequestStat, gettext) {
 
         $scope.setPageTitle(gettext('Requests'));
- 
-        $scope.typeSelection = function() {
-            var modalscope = $scope.$new();
-            modalscope.goto = function(requestType) {
-                $location.url('/account/requests/'+requestType+'-edit');
-            };
-            
-            $modal({
-                scope: modalscope,
-                templateUrl: 'partials/account/request/request-create-modal.html',
-                show: true
-            });
-            
-        };
+
+        $scope.typeSelection = getCreateRequest($scope);
 
         $scope.getViewUrl = function(request) {
             if (request.absence.distribution.length > 0) {

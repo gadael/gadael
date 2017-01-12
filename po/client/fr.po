@@ -1315,7 +1315,7 @@ msgstr "Page précédente"
 
 #: public/partials/utils/common/request/request-create-select-type.html
 msgid "Proceed to the request creation with one of the following:"
-msgstr "Procéder à la création de la demande avec un des éléments suivants :"
+msgstr "Procéder à la création de la demande avec un des boutons suivants :"
 
 #: public/partials/admin/right-edit.html
 msgid "Proportional to attendance"

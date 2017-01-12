@@ -17,7 +17,7 @@ exports = module.exports = function getMail(app, user, roles) {
 
     let mail = new Mail(app);
 
-    mail.setSubject(util.format(gt.gettext('%s: new user created'), app.config.company.name));
+    mail.setSubject(util.format(gt.gettext('%s, your roles where updated'), app.config.company.name));
     mail.addTo(user);
 
     let intro = [gt.gettext('The following roles where added to your accout:')].concat(roles);

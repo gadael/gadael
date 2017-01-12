@@ -56,7 +56,7 @@ grunt test
 - [ ] Display duration in the request second step
 - [ ] Estimate the consumed quantity on the fly for part-times users
 - [x] Exceptional quantity modification, message if there are no rights
-- [ ] Send the mail "usercreated" to admins when a google account is created by login
+- [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [x] Disable password modification on settings page if not local login
 - [x] Disable password modification for admin if not local login
@@ -65,7 +65,6 @@ grunt test
 - [ ] ICSDB integration for non working days calendars
 - [x] After first admin created, redirect to login form
 - [ ] ICS Export
-- [ ] Compulsory leaves management, fix problem when requests are deleted
 - [x] Display pending delete status on planning
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)

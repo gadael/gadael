@@ -371,6 +371,31 @@ define([
         };
     })
 
+    /**
+     * Get a function to open the create request popup
+     */
+    .factory('getCreateRequest', ['$location', '$modal', function($location, $modal) {
+
+        /**
+         * @param {Object} $scope
+         * @return {Function}
+         */
+        return function getCreateRequest($scope) {
+            return function() {
+                var modalscope = $scope.$new();
+                modalscope.goto = function(requestType) {
+                    $location.url('/account/requests/'+requestType+'-edit');
+                };
+
+                $modal({
+                    scope: modalscope,
+                    templateUrl: 'partials/account/request/request-create-modal.html',
+                    show: true
+                });
+            };
+        };
+    }])
+
 
     /**
      * Load the Beneficiary service
