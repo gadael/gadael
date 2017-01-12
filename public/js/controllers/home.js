@@ -2,15 +2,19 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', 'Rest', '$q', 'departmentReload', 'renewalChart', 'gettext', '$http',
-            function($scope, Rest, $q, departmentReload, renewalChart, gettext, $http) {
+	return ['$scope', 'Rest', '$q', 'departmentReload', 'renewalChart', 'gettext', '$http', 'getCreateRequest',
+            function($scope, Rest, $q, departmentReload, renewalChart, gettext, $http, getCreateRequest) {
 
         var collaboratorsResource;
         var calendareventsResource = Rest.user.calendarevents.getResource();
 
         $scope.setPageTitle($scope.company.name+' - '+gettext('Home'));
 
+
+
         if ($scope.sessionUser.isAccount) {
+
+            $scope.createRequest = getCreateRequest($scope);
 
             var beneficiariesResource = Rest.account.beneficiaries.getResource();
             collaboratorsResource = Rest.account.collaborators.getResource();

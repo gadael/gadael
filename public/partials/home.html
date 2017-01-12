@@ -29,9 +29,15 @@
 
 
     <div ng-if="sessionUser.isAccount">
+
+
+
+
         <h2 translate>My account</h2>
 
         <div class="col-lg-8 col-sm-6 col-xs-12">
+
+
             <div class="gadael-list-rows">
                 <div class="row" ng-repeat="renewal in renewals">
                     <strong translate>Up to {{renewal.finish|date}}</strong>
@@ -46,12 +52,21 @@
                     </div>
                 </div>
             </div>
+
+            <div class="top30">
+                <button type="button" class="btn btn-primary" ng-click="createRequest()">
+                    <i class="fa fa-plus"></i> <span translate>Add a request...</span>
+                </button>
+            </div>
         </div>
 
 
 
 
         <div class="col-lg-4 col-sm-6 hidden-xs">
+
+
+
             <h3 class="text-info text-center donutcharttitle">
                 <span ng-if="renewalChart.availableDays!=0">
                     {{renewalChart.availableDays|number}}
