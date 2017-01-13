@@ -37,7 +37,7 @@ module.exports = function(grunt) {
                 options: {
                     args: ['3000'],
                     watch: [
-                        '../gadmanager/src/gadael.com/',
+                        '../gadmanager/src/',
                         '../gadael.com/public/'
                     ]
                 }
