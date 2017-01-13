@@ -58,10 +58,49 @@ api.createEncUser = function(app, email, password, lastname, firstname) {
 	return user;
 };
 
+/**
+ * Update password by email
+ * resolve to a randomUser object with a password property
+ *
+ * @param {Express} app
+ * @param {String} email
+ * @param {String} [password] Optional clear password
+ *
+ * @return {Promise}
+ */
+api.updatePassword = function(app, email, password) {
+
+	let User = app.db.models.User;
+	let clearPassword = password || Charlatan.Internet.password();
+
+	return User.findOne()
+	.where('email')
+	.equals(email)
+	.exec()
+	.then(user => {
+		if (!user) {
+			throw new Error('No user with the email '+email);
+		}
+
+		return User.encryptPassword(clearPassword)
+		.then(hash => {
+			user.password = hash;
+			return user.save();
+		});
+	})
+	.then(user => {
+		return {
+            user: user,
+            password: clearPassword
+        };
+	});
+};
+
 
 /**
  * Create random user
  * If all parameters are provided, there is no randomness
+ * The user is not saved
  *
  * @param {Express} app
  * @param {string} [email]
@@ -73,38 +112,26 @@ api.createEncUser = function(app, email, password, lastname, firstname) {
  */
 api.createRandomUser = function(app, email, password, lastname, firstname) {
 
-    let deferred = {};
-    deferred.promise = new Promise(function(resolve, reject) {
-        deferred.resolve = resolve;
-        deferred.reject = reject;
-    });
 
 	let userModel = app.db.models.User;
 	let user = new userModel();
 
     var clearPassword = password || Charlatan.Internet.password();
 
-    userModel.encryptPassword(clearPassword, function(err, hash) {
-
-        if (err) {
-            deferred.reject(new Error(err));
-            return;
-        }
+    return userModel.encryptPassword(clearPassword)
+	.then(hash => {
 
         user.password = hash;
         user.email = email || Charlatan.Internet.safeEmail();
         user.lastname = lastname || Charlatan.Name.lastName();
 		user.firstname = firstname || Charlatan.Name.firstName();
 
-        deferred.resolve({
+        return {
             user: user,
             password: clearPassword
-        });
-
+        };
     });
 
-
-    return deferred.promise;
 };
 
 
