@@ -145,7 +145,7 @@ api.createRandomUser = function(app, email, password, lastname, firstname) {
  * @param {string} firstname
  * @return {Promise}
  */
-api.createRandomAdmin = function(app, email, password, lastname, firstname) {
+api.createEncAdmin = function(app, email, password, lastname, firstname) {
 
 	let user = api.createEncUser(app, email, password, lastname, firstname);
     return user.saveAdmin();
