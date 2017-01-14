@@ -26,9 +26,12 @@ const flash = require('connect-flash-plus');
 /**
  * Load models into an external mongo connexion
  * for actions on databases
+ * Resolve when indexation is done on models
  *
  * @param	object	app 	the headless mock app
  * @param	object	db		Mongoose connexion
+ *
+ * @return {Promise}
  */
 function gadael_loadMockModels(app, db)
 {
@@ -38,12 +41,13 @@ function gadael_loadMockModels(app, db)
 		mongoose: app.mongoose,
 		db: db,
 		autoIndex: true,
+		removeIndex: false,
         embeddedSchemas: [],
 		app: app
 	};
 
 	apputil(app);
-	models.load();
+	return models.load();
 }
 
 
@@ -174,42 +178,43 @@ exports = module.exports = {
 
         db.once('open', function() {
 
-            gadael_loadMockModels(app, db);
+            gadael_loadMockModels(app, db)
+			.then(() => {
 
-            let m = db.models;
+				let m = db.models;
 
+	            m.Company.count({}, (err, count) => {
 
+	                if (0 !== count) {
+	                    console.error('Database allready initialized with company object: '+dbName);
+	                    callback(null);
+	                    return db.close();
+	                }
 
-            m.Company.count({}, (err, count) => {
+	                // create the company entry
+	                var companyDoc = new m.Company(company);
 
-                if (0 !== count) {
-                    console.error('Database allready initialized with company object: '+dbName);
-                    callback(null);
-                    return db.close();
-                }
+	                async.parallel([
+	                    companyDoc.save.bind(companyDoc),
+	                    m.Type.getInitTask(companyDoc).bind(m.Type),
+	                    m.Calendar.getInitTask(companyDoc).bind(m.Calendar),
+	                    m.RightCollection.getInitTask(companyDoc).bind(m.RightCollection),
+	                    m.RecoverQuantity.getInitTask(companyDoc).bind(m.RecoverQuantity),
+	                    m.Right.getInitTask(companyDoc).bind(m.Right)
+	                ],
+	                function(err) {
+	                    if (err) {
+	                        console.error('api.createDb '+err);
+	                    } else {
+	                        callback();
+	                    }
 
-                // create the company entry
-                var companyDoc = new m.Company(company);
+	                    db.close();
+	                });
 
-                async.parallel([
-                    companyDoc.save.bind(companyDoc),
-                    m.Type.getInitTask(companyDoc).bind(m.Type),
-                    m.Calendar.getInitTask(companyDoc).bind(m.Calendar),
-                    m.RightCollection.getInitTask(companyDoc).bind(m.RightCollection),
-                    m.RecoverQuantity.getInitTask(companyDoc).bind(m.RecoverQuantity),
-                    m.Right.getInitTask(companyDoc).bind(m.Right)
-                ],
-                function(err) {
-                    if (err) {
-                        console.error('api.createDb '+err);
-                    } else {
-                        callback();
-                    }
+	            });
 
-                    db.close();
-                });
-
-            });
+			});
         });
 
     },
@@ -275,8 +280,10 @@ exports = module.exports = {
             });
 
             db.once('open', () => {
-				gadael_loadMockModels(app, db);
-                resolve(db);
+				gadael_loadMockModels(app, db)
+				.then(() => {
+					resolve(db);
+				});
             });
         });
 	},
@@ -447,6 +454,7 @@ exports = module.exports = {
             mongoose: app.mongoose,
             db: app.db,
             autoIndex: (app.get('env') === 'development'),
+			removeIndex: (app.get('env') === 'development'),
             embeddedSchemas: [],
 			app: app
         };

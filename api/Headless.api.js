@@ -53,14 +53,23 @@ app.connect = function(callback) {
 			mongoose: mongoose,
 			db: app.db,
 			autoIndex: true,
+			removeIndex: false,
             embeddedSchemas: {},
             app: app
 		};
 
-		models.load();
-		app.deferredDbConnect.resolve(app.db.models);
-
-		callback();
+		models.load()
+		.then(() => {
+			// indexation done
+			app.deferredDbConnect.resolve(app.db.models);
+			callback();
+		})
+		.catch(err => {
+			// indexation fail
+			console.log(err);
+			app.deferredDbConnect.resolve(app.db.models);
+			callback();
+		});
 	});
 };
 
