@@ -19,7 +19,10 @@ exports = module.exports = function createConfiguration() {
     config.port = process.argv[2] || 3000;
     config.mongodb = {
         prefix: 'localhost/',
-        dbname: process.argv[3] || 'gadael'
+        dbname: process.argv[3] || 'gadael',
+        autoIndex: true,
+        removeIndex: false                      // Remove index on start, autoIndex must be
+                                                // true to recreate the index in background
     };
 
     config.company = null;      // The company document will be here after server start

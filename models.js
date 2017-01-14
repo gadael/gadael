@@ -4,7 +4,8 @@ var models = {};
 
 exports = module.exports = models;
 
-//
+// Default set of options used when loading models
+// the requirements are overwritten defferently in company api and in tests
 models.requirements = {
 	mongoose: null,		 // the mongoose object
 	db: null,			 // database connexion to link with shemas
@@ -105,7 +106,7 @@ models.load = function() {
                 if (err) {
                     console.error(err);
                 }
-                console.log('config.mongodb.removeIndex=true Indexes where removed on '+name);
+                console.log('removeIndex=true Indexes where removed on '+name);
             });
         }
     });

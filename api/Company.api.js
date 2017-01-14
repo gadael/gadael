@@ -453,8 +453,8 @@ exports = module.exports = {
         models.requirements = {
             mongoose: app.mongoose,
             db: app.db,
-            autoIndex: (app.get('env') === 'development'),
-			removeIndex: (app.get('env') === 'development'),
+            autoIndex: config.mongodb.autoIndex,
+			removeIndex: config.mongodb.removeIndex,
             embeddedSchemas: [],
 			app: app
         };
