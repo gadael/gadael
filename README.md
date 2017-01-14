@@ -52,7 +52,7 @@ grunt test
 
 ## TODO
 
-- [ ] Lock request delete by user in maintenance model
+- [x] Lock request delete by user in maintenance mode
 - [ ] Display duration in the request second step
 - [ ] Estimate the consumed quantity on the fly for part-times users
 - [x] Exceptional quantity modification, message if there are no rights

@@ -17,6 +17,10 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params) {
 
+        if (null !== service.app.config.company && service.app.config.company.maintenance) {
+            return service.forbidden(gt.gettext('Request modifications are not allowed in maintenance mode'));
+        }
+
 
         var filter = {
             _id: params.id,
