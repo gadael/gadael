@@ -23,7 +23,7 @@ exports = module.exports = function getMail(app, user) {
 
     mail.setMailgenData({
         body: {
-            name: user.getName(),
+            title: user.getName(),
             intro: util.format(gt.gettext('A new user has been created on %s'), app.config.url),
             action: {
                 instructions: gt.gettext('The new user has been created but does not have any role or absence rights, you must give the user the necessary rights to use the application normally'),
@@ -32,7 +32,8 @@ exports = module.exports = function getMail(app, user) {
                     link: userLink
                 }
             },
-            outro: gt.gettext('If you do not recognize this user, you can delete it')
+            outro: gt.gettext('If you do not recognize this user, you can delete it'),
+            signature: gt.gettext('Yours truly')
         }
     });
 

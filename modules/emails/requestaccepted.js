@@ -52,7 +52,7 @@ exports = module.exports = function getMail(app, request) {
 
         mail.setMailgenData({
             body: {
-                name: request.user.name,
+                title: request.user.name,
                 intro: intro,
                 action: {
                     instructions: gt.gettext('Consult the request actions history after login into the application'),
@@ -65,7 +65,8 @@ exports = module.exports = function getMail(app, request) {
                     gt.gettext('Workflow initiated by %s the %s'),
                     workflowCreation.userCreated.name,
                     workflowCreation.timeCreated.toLocaleString()
-                )
+                ),
+                signature: gt.gettext('Yours truly')
             }
         });
 

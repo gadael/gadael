@@ -24,7 +24,7 @@ exports = module.exports = function getMail(app, user, roles) {
 
     mail.setMailgenData({
         body: {
-            name: user.getName(),
+            title: user.getName(),
             intro: intro,
             action: {
                 instructions: gt.gettext('You can connecto to the application to see your new roles attributions on the home page'),
@@ -32,7 +32,8 @@ exports = module.exports = function getMail(app, user, roles) {
                     text: gt.gettext('View home page'),
                     link: app.config.url
                 }
-            }
+            },
+            signature: gt.gettext('Yours truly')
         }
     });
 

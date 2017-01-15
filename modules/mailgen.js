@@ -15,9 +15,10 @@ exports = module.exports = function(app) {
         product: {
             // Appears in header & footer of e-mails
             name: app.config.company.name,
-            link: app.config.url
+            link: app.config.url,
             // Optional product logo
-            // logo: 'https://mailgen.js/img/logo.png'
+            // logo: 'https://mailgen.js/img/logo.png',
+            copyright: '&copy; '+new Date().getFullYear()+' '+app.config.company.name
         }
     });
 };

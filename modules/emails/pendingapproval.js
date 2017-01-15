@@ -47,7 +47,8 @@ exports = module.exports = function getMail(app, request) {
                     text: gt.gettext('View request'),
                     link: requestLink
                 }
-            }
+            },
+            signature: gt.gettext('Yours truly')
         };
 
         let requestLog = request.getLastNonApprovalRequestLog();

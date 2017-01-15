@@ -24,7 +24,7 @@ exports = module.exports = function getMail(app, token, user) {
 
     mail.setMailgenData({
         body: {
-            name: user.getName(),
+            title: user.getName(),
             intro: [
                 gt.gettext('Forgot your password?'),
                 util.format(gt.gettext('We received a request to reset the password for your account (%s)'), user.email)
@@ -36,7 +36,8 @@ exports = module.exports = function getMail(app, token, user) {
                     link: resetLink
                 }
             },
-            outro: gt.gettext('If you do not have requested a password modification, just ignore this email')
+            outro: gt.gettext('If you do not have requested a password modification, just ignore this email'),
+            signature: gt.gettext('Yours truly')
         }
     });
 

@@ -32,7 +32,7 @@ exports = module.exports = function getMail(app, request) {
 
         mail.setMailgenData({
             body: {
-                name: request.user.name,
+                title: request.user.name,
                 intro: util.format(gt.gettext('Your %s has been rejected'), request.getDispType()),
                 action: {
                     instructions: gt.gettext('Consult the request actions history after login into the application'),
@@ -40,7 +40,8 @@ exports = module.exports = function getMail(app, request) {
                         text: gt.gettext('View request'),
                         link: requestLink
                     }
-                }
+                },
+                signature: gt.gettext('Yours truly')
             }
         });
 
