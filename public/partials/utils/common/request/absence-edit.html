@@ -42,10 +42,28 @@
 
         <table class="table absence-edit-distribution">
 
+            <thead>
+                <tr>
+                    <th class="col-sm-2" translate>Distribution</th>
+                    <th translate>Consuption</th>
+                    <th translate>My rights</th>
+                    <th class="hidden-xs" translate>Available quantity</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <td>{{distribution.total}}</td>
+                    <td>{{distribution.totalConsuption}}</td>
+                    <td></td>
+                    <td class="hidden-xs">{{available.total}}</td>
+                </tr>
+            </tfoot>
+
 
             <tbody ng-repeat="listItem in types">
                 <tr class="active">
-                    <th colspan="2"><i role="button" class="btn btn-default fa" ng-class="getIcon(listItem)" ng-click="listItem.fold = !listItem.fold"></i> &nbsp; <i class="fa fa-asterisk" style="color:{{listItem.type.color}}"></i> {{listItem.type.groupTitle}}</th>
+                    <th colspan="3"><i role="button" class="btn btn-default fa" ng-class="getIcon(listItem)" ng-click="listItem.fold = !listItem.fold"></i> &nbsp; <i class="fa fa-asterisk" style="color:{{listItem.type.color}}"></i> {{listItem.type.groupTitle}}</th>
                     <td class="hidden-xs" style="vertical-align:middle">
                         <span ng-show="!listItem.fold" class="badge">{{listItem.available.display}}</span>
                     </td>
@@ -53,8 +71,12 @@
                 <tr class="form-group" ng-show="listItem.fold" ng-repeat="accountRight in listItem.accountRightsRenewals track by accountRight.renewal._id">
 
                     <td ng-class="distribution.class[accountRight.renewal._id]" class="input-group">
+
                         <input id="ar{{accountRight.renewal._id}}" type="number" class="form-control" ng-model="distribution.renewal[accountRight.renewal._id].quantity" step="any" min="0" />
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
+                    </td>
+                    <td>
+                        {{distribution.renewal[accountRight.renewal._id].consumedQuantity}} {{accountRight.disp_unit}}
                     </td>
 
                     <td>
@@ -69,22 +91,6 @@
                 </tr>
             </tbody>
 
-            <thead>
-                <tr>
-                    <th class="col-sm-2" translate>Distribution</th>
-                    <th translate>My rights</th>
-                    <th class="hidden-xs" translate>Available quantity</th>
-                </tr>
-            </thead>
-
-            <tfoot>
-                <tr>
-
-                    <td>{{distribution.total}}</td>
-                    <td></td>
-                    <td class="hidden-xs">{{available.total}}</td>
-                </tr>
-            </tfoot>
 
         </table>
 

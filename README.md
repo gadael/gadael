@@ -53,24 +53,17 @@ grunt test
 ## TODO
 
 - [x] Lock request delete by user in maintenance mode
-- [ ] Display duration in the request second step
+- [x] Display duration in the request second step
 - [ ] Estimate the consumed quantity on the fly for part-times users
-- [x] Exceptional quantity modification, message if there are no rights
+- [ ] Use the estimed consuption to test against the avilable quantity on the second step of the request
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
-- [x] Disable password modification on settings page if not local login
-- [x] Disable password modification for admin if not local login
 - [ ] Get managed services on home page
-- [x] View time saving deposit by admin
-- [ ] ICSDB integration for non working days calendars
-- [x] After first admin created, redirect to login form
+- [ ] ICSDB integration for non working days calendar
 - [ ] ICS Export
-- [x] Display pending delete status on planning
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request
-- [x] In the create first admin form, redirect to login form after admin creation instead of the same form
-- [x] Add a default content on home page if the user is only administrator
 
 
 ## Main packages used

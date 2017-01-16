@@ -137,6 +137,10 @@
     font-weight:bold;
 }
 
+/* Overwrite default from bootstrap */
+.absence-edit-distribution td label {
+	padding-top:0 !important;
+}
 
 
 .navbar-nav > li > .user-dropdown-menu img {
