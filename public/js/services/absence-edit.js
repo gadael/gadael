@@ -227,8 +227,9 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                     $scope.setConsumedQuantity = function(renewalId) {
 
+                        // TODO: filter out the renewals without distribution
+
                         var params = {
-                            renewal: renewalId,
                             selection: {
                                 begin: $scope.selection.begin,
                                 end: $scope.selection.end

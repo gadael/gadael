@@ -3,8 +3,96 @@
 const util = require('util');
 
 
+/**
+ * Get a function used to set properties on a element object
+ * @return {Function}
+ */
+function getElementIgniter(service, elem, collection, user)
+{
+    let RightModel = service.app.db.models.Right;
+    let rightDocument, renewalDocument;
+    let elemPeriod = getElemPeriod(elem);
 
 
+
+    /**
+     * Set properties of an element object
+     * @param   {object}   element [[Description]]
+     * @returns {Promise}  Resolve to the element object
+     */
+    return function setElemProperties(element) {
+        element.quantity = elem.quantity;
+
+        return RightModel.findOne({ _id: elem.right.id })
+        .populate('type')
+        .exec()
+        .then(right => {
+            rightDocument = right;
+            // get renewal to save in element
+            if (elem.right.renewal) {
+                // a specific renewal is given as parameter
+                return rightDocument.getRenewal(elem.right.renewal);
+            } else {
+                // use the renewal from period (default)
+                return rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend);
+            }
+        })
+        .then(renewal => {
+
+            if (null === renewal) {
+                throw new Error('No available renewal for the element');
+            }
+
+            renewalDocument = renewal;
+
+            element.right = {
+                id: elem.right.id,
+                name: rightDocument.name,
+                quantity_unit: rightDocument.quantity_unit,
+                renewal: {
+                    id: renewal._id,
+                    start: renewal.start,
+                    finish: renewal.finish
+                },
+                consuption: rightDocument.consuption,
+                consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
+            };
+
+            if (undefined !== rightDocument.type) {
+                element.right.type = {
+                    id: rightDocument.type._id,
+                    name: rightDocument.type.name,
+                    color: rightDocument.type.color
+                };
+            }
+
+
+            element.user = {
+                id: user._id,
+                name: user.getName()
+            };
+
+
+            return createEvents(service, user, element, elem.events);
+
+
+        }).then(events => {
+            element.events = events;
+            return rightDocument.getConsumedQuantity(collection, element);
+
+        }).then(consumed => {
+            element.consumedQuantity = consumed;
+
+            return {
+                element: element,
+                user: user,
+                right: rightDocument,
+                renewal: renewalDocument
+            };
+        });
+    };
+
+}
 
 
 
@@ -30,7 +118,7 @@ function createEvents(service, user, elem, events)
      *                                          summary and description are set here for compulsory leaves but not for regular leaves
      * @param {function} callback
      */
-    function setProperties(eventDocument, event)
+    function setEventProperties(eventDocument, event)
     {
         eventDocument.summary = event.summary;
 
@@ -65,7 +153,7 @@ function createEvents(service, user, elem, events)
 
         if (undefined === postedEvent._id || null === postedEvent._id) {
             // new event
-            allEvents.push(setProperties(new EventModel(), postedEvent));
+            allEvents.push(setEventProperties(new EventModel(), postedEvent));
             continue;
         }
 
@@ -93,9 +181,9 @@ function createEvents(service, user, elem, events)
             let postedEvent = oldPostedEvents[i];
 
             if (existingEvent) {
-                allEvents.push(setProperties(existingEvent, postedEvent));
+                allEvents.push(setEventProperties(existingEvent, postedEvent));
             } else {
-                allEvents.push(setProperties(new EventModel(), postedEvent));
+                allEvents.push(setEventProperties(new EventModel(), postedEvent));
             }
         }
 
@@ -190,89 +278,10 @@ function createElement(service, user, elem, collection)
     }
 
     let ElementModel = service.app.db.models.AbsenceElem;
-    let RightModel = service.app.db.models.Right;
-
-    let elemPeriod = getElemPeriod(elem);
-    let rightDocument, renewalDocument;
-
-    /**
-     * Set properties of an element object
-     * @param   {object}   element [[Description]]
-     * @returns {Promise}  Resolve to the element object
-     */
-    function setProperties(element) {
-        element.quantity = elem.quantity;
-
-        return RightModel.findOne({ _id: elem.right.id })
-        .populate('type')
-        .exec()
-        .then(right => {
-            rightDocument = right;
-            // get renewal to save in element
-            if (elem.right.renewal) {
-                // a specific renewal is given as parameter
-                return rightDocument.getRenewal(elem.right.renewal);
-            } else {
-                // use the renewal from period (default)
-                return rightDocument.getPeriodRenewal(elemPeriod.dtstart, elemPeriod.dtend);
-            }
-        })
-        .then(renewal => {
-
-            if (null === renewal) {
-                throw new Error('No available renewal for the element');
-            }
-
-            renewalDocument = renewal;
-
-            element.right = {
-                id: elem.right.id,
-                name: rightDocument.name,
-                quantity_unit: rightDocument.quantity_unit,
-                renewal: {
-                    id: renewal._id,
-                    start: renewal.start,
-                    finish: renewal.finish
-                },
-                consuption: rightDocument.consuption,
-                consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
-            };
-
-            if (undefined !== rightDocument.type) {
-                element.right.type = {
-                    id: rightDocument.type._id,
-                    name: rightDocument.type.name,
-                    color: rightDocument.type.color
-                };
-            }
 
 
-            element.user = {
-                id: user._id,
-                name: user.getName()
-            };
 
-
-            return createEvents(service, user, element, elem.events);
-
-
-        }).then(events => {
-            element.events = events;
-            return rightDocument.getConsumedQuantity(collection, element);
-
-        }).then(consumed => {
-            element.consumedQuantity = consumed;
-
-            return {
-                element: element,
-                user: user,
-                right: rightDocument,
-                renewal: renewalDocument
-            };
-        });
-    }
-
-
+    let setProperties = getElementIgniter(service, elem, collection, user);
 
     if (elem._id) {
         // updated existing element
