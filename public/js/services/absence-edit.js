@@ -225,6 +225,29 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     });
 
 
+                    $scope.setConsumedQuantity = function(renewalId) {
+
+                        var params = {
+                            renewal: renewalId,
+                            selection: {
+                                begin: $scope.selection.begin,
+                                end: $scope.selection.end
+                            },
+                            distribution: $scope.distribution.renewal
+                        };
+
+                        var row = $scope.distribution.renewal[renewalId];
+
+                        // TODO: eval the consumed quantity with a request from server
+                        // update the consumedQuantity prop on renewal
+
+                        row.isLoading = true;
+
+
+
+                        console.log(params);
+
+                    };
 
                     function createAccountRenewal(item, renewalIndex)
                     {

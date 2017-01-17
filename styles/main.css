@@ -142,6 +142,10 @@
 	padding-top:0 !important;
 }
 
+.absence-edit-distribution > tbody > tr > th,
+.absence-edit-distribution > tbody > tr > td {
+     vertical-align: middle;
+}
 
 .navbar-nav > li > .user-dropdown-menu img {
     margin-top:-10px;
