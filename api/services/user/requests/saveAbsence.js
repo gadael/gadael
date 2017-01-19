@@ -7,20 +7,23 @@ const util = require('util');
  * Get a function used to set properties on a element object
  * @return {Function}
  */
-function getElementIgniter(service, elem, collection, user)
+function getElementIgniter(service, collection, user)
 {
     let RightModel = service.app.db.models.Right;
     let rightDocument, renewalDocument;
-    let elemPeriod = getElemPeriod(elem);
 
 
 
     /**
      * Set properties of an element object
-     * @param   {object}   element [[Description]]
+     * @param   {AbsenceElem}   element Mongoose document
+     * @param   {Object}        elem    Posted informations
      * @returns {Promise}  Resolve to the element object
      */
-    return function setElemProperties(element) {
+    return function setElemProperties(element, elem) {
+
+        let elemPeriod = getElemPeriod(elem);
+
         element.quantity = elem.quantity;
 
         return RightModel.findOne({ _id: elem.right.id })
@@ -247,9 +250,10 @@ function getElemPeriod(elem)
  * @param {User} user                   The user document
  * @param {object} elem                 elem object from params
  * @param {RightCollection} collection
+ * @param {Function} setElemProperties
  * @return {Promise}
  */
-function createElement(service, user, elem, collection)
+function createElement(service, user, elem, collection, setElemProperties)
 {
 
     if (undefined === elem.right) {
@@ -281,7 +285,7 @@ function createElement(service, user, elem, collection)
 
 
 
-    let setProperties = getElementIgniter(service, elem, collection, user);
+
 
     if (elem._id) {
         // updated existing element
@@ -289,16 +293,16 @@ function createElement(service, user, elem, collection)
         .then(existingElement => {
 
             if (existingElement) {
-                return setProperties(existingElement);
+                return setElemProperties(existingElement);
             }
 
             // Not found
-            return setProperties(new ElementModel());
+            return setElemProperties(new ElementModel());
         });
     }
 
     // create new element
-    return setProperties(new ElementModel());
+    return setElemProperties(new ElementModel());
 }
 
 
@@ -387,12 +391,13 @@ function saveAbsenceDistribution(service, user, params, collection) {
     let i, elem,
         containsPromises = [];
 
+    let setElemProperties = getElementIgniter(service, collection, user);
 
     // promisify all elements in the contain objects
 
     for(i=0; i<params.absence.distribution.length; i++) {
         elem = params.absence.distribution[i];
-        containsPromises.push(createElement(service, user, elem, collection));
+        containsPromises.push(createElement(service, user, elem, collection, setElemProperties));
     }
 
     return deleteElements(service, params)
@@ -550,5 +555,6 @@ exports = module.exports = {
     saveAbsenceDistribution: saveAbsenceDistribution,
     getCollectionFromDistribution: getCollectionFromDistribution,
     saveEmbedEvents: saveEmbedEvents,
-    getEventsFromDistribution: getEventsFromDistribution
+    getEventsFromDistribution: getEventsFromDistribution,
+    getElementIgniter: getElementIgniter
 };
