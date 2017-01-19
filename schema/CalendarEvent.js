@@ -1,5 +1,7 @@
 'use strict';
 
+const rruleAlt = require('rrule-alt');
+
 /**
  * periods to display on calendar or exported to icalendar format
  *
@@ -234,16 +236,16 @@ exports = module.exports = function(params) {
      */
     eventSchema.methods.getRruleSet = function() {
 
-        var document = this;
+        let document = this;
 
-        var RRule = require('rrule').RRule;
-        var RRuleSet = require('rrule').RRuleSet;
+        let RRule = rruleAlt.RRule;
+        let RRuleSet = rruleAlt.RRuleSet;
 
 
-        var rruleSet = new RRuleSet();
+        let rruleSet = new RRuleSet();
 
-        var setRRULE = false;
-        var setRDATE = false;
+        let setRRULE = false;
+        let setRDATE = false;
 
 
         if (undefined !== document.rrule && null !== document.rrule) {

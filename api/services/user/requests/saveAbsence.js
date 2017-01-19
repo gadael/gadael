@@ -293,16 +293,16 @@ function createElement(service, user, elem, collection, setElemProperties)
         .then(existingElement => {
 
             if (existingElement) {
-                return setElemProperties(existingElement);
+                return setElemProperties(existingElement, elem);
             }
 
             // Not found
-            return setElemProperties(new ElementModel());
+            return setElemProperties(new ElementModel(), elem);
         });
     }
 
     // create new element
-    return setElemProperties(new ElementModel());
+    return setElemProperties(new ElementModel(), elem);
 }
 
 
