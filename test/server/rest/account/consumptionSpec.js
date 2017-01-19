@@ -53,10 +53,11 @@ describe('consumption account rest service', function() {
 
     it('Create a collection', function(done) {
         server.post('/rest/admin/collections', {
-            name: 'Test collection',
-            attendance: 100
+            name: 'Part-time collection',
+            attendance: 75
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body.businessDays.MO).toEqual(true);
             collection = body;
             delete collection.$outcome;
             done();
@@ -69,6 +70,7 @@ describe('consumption account rest service', function() {
             name: 'Right 1',
             quantity: 25,
             quantity_unit: 'D',
+            consuption: 'proportion',
             rules: [{
                 type: 'request_period',
                 'title': 'Request period must be in the renewal period, with a 7 day tolerance at the end of period',
@@ -118,6 +120,7 @@ describe('consumption account rest service', function() {
             name: 'Right 2',
             quantity: 10,
             quantity_unit: 'D',
+            consuption: 'businessDays',
             rules: [] // no rules, always available
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -216,24 +219,38 @@ describe('consumption account rest service', function() {
 
     it('Check consumption on a period', function(done) {
 
-        let begin = new Date(2014, 2, 1, 8, 0, 0, 0).toString();
-        let end   = new Date(2014, 2, 1, 12, 0, 0, 0).toString();
+        let am_start = new Date(2014, 2, 1, 8, 0, 0, 0).toString();
+        let am_end   = new Date(2014, 2, 1, 12, 0, 0, 0).toString();
+        let pm_start = new Date(2014, 2, 1, 13, 0, 0, 0).toString();
+        let pm_end   = new Date(2014, 2, 1, 18, 0, 0, 0).toString();
 
         let params = {
             selection: {
-                begin: begin,
-                end: end
+                begin: am_start,
+                end: pm_end
             },
             distribution: [
                 {
                     right: {
                         id: right1._id
                     },
-                    quantity: 1,
+                    quantity: 0.5,
                     events: [
                         {
-                            dtstart: begin,
-                            dtend: end
+                            dtstart: am_start,
+                            dtend: am_end
+                        }
+                    ]
+                },
+                {
+                    right: {
+                        id: right2._id
+                    },
+                    quantity: 0.5,
+                    events: [
+                        {
+                            dtstart: pm_start,
+                            dtend: pm_end
                         }
                     ]
                 }
@@ -243,7 +260,7 @@ describe('consumption account rest service', function() {
 
         server.post('/rest/account/consumption', params, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            console.log(body);
+            console.log(body.$outcome);
             done();
         });
 
