@@ -98,6 +98,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./account/beneficiaries');
     controllers.add('./account/recoverquantities');
     controllers.add('./account/timesavingaccounts');
+    controllers.add('./account/consumption');
 
 
     controllers.add('./manager/waitingrequests');
@@ -131,6 +132,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/recoverquantities');
     controllers.add('./admin/timesavingaccounts');
     controllers.add('./admin/export');
+    controllers.add('./admin/consumption');
 
     controllers.add('./anonymous/createfirstadmin');
     controllers.add('./anonymous/formlogin');

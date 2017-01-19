@@ -52,6 +52,7 @@ grunt test
 
 ## TODO
 
+- [ ] Bug: The reset password by mail button does not work
 - [x] Lock request delete by user in maintenance mode
 - [x] Display duration in the request second step
 - [ ] Estimate the consumed quantity on the fly for part-times users

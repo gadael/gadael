@@ -1,6 +1,6 @@
 'use strict';
 
-const saveAbsence = require('../../user/requests/saveAbsence');
+const saveAbsence = require('../requests/saveAbsence');
 
 
 
@@ -13,6 +13,7 @@ exports = module.exports = function(services, app) {
 
 
     function checkParams(params) {
+
         if (!params.user) {
             throw new Error(gt.gettext('user parameter is mandatory'));
         }
@@ -129,10 +130,23 @@ exports = module.exports = function(services, app) {
                 promises.push(createElement(elem, setElemProperties));
             }
 
+            /*
+             createElement resolve to a list of
+                 {
+                     element: element,
+                     user: user,
+                     right: rightDocument,
+                     renewal: renewalDocument
+                 }
+            */
+
             Promise.all(promises)
-            .then(elements => {
-                // TODO remove unnecessary data
-                service.deferred.resolve(elements);
+            .then(objects => {
+                let consumption = {};
+                objects.forEach(o => {
+                    consumption[o.renewal.id] = o.element.consumedQuantity;
+                });
+                service.deferred.resolve(consumption);
             })
             .catch(service.error);
         })

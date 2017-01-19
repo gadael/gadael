@@ -31,7 +31,7 @@ function getController() {
     ctrl.method = 'post';
 
     ctrl.controllerAction = function() {
-        ctrl.jsonService(ctrl.service('user/consumption/get', { user: this.req.user.id }));
+        ctrl.jsonService(ctrl.service('user/consumption/get'));
     };
 }
 getController.prototype = new ctrlFactory.get();
