@@ -10,9 +10,15 @@ exports = module.exports = function(services, app) {
 
     const gt = app.utility.gettext;
 
+
+
     function checkParams(params) {
         if (!params.user) {
             throw new Error(gt.gettext('user parameter is mandatory'));
+        }
+
+        if (!params.collection) {
+            throw new Error(gt.gettext('collection parameter is mandatory'));
         }
 
         if (!params.selection.begin) {
@@ -23,45 +29,85 @@ exports = module.exports = function(services, app) {
             throw new Error(gt.gettext('selection.end parameter is mandatory'));
         }
 
+        if (!params.distribution) {
+            throw new Error(gt.gettext('distribution parameter is mandatory'));
+        }
+
         return true;
     }
 
 
 
+
+
     /**
-     * create fake elements from the distribution parameter
+     * Create element object from posted informations
      * @param {apiService} service
+     * @param {User} user                   The user document
+     * @param {object} elem                 elem object from params
      * @param {RightCollection} collection
-     * @param {Object} distribution
+     * @param {Function} setElemProperties
      * @return {Promise}
      */
-    function getElements(service, collection, distribution)
+    function createElement(elem, setElemProperties)
     {
-        let renewals = [];
-        let elements = [];
-        const RightRenewal = service.app.db.models.RightRenewal;
-        const Element = service.app.db.models.Element;
 
-        for (var id in distribution) {
-            if (distribution.hasOwnProperty(id)) {
-                renewals.push(id);
-            }
+        if (undefined === elem.right) {
+            throw new Error('element must contain a right property');
         }
 
-        return RightRenewal.find()
-        .where('_id').in(renewals)
-        .populate('right')
+        if (undefined === elem.right.id) {
+            throw new Error('element must contain a right.id property');
+        }
+
+        if (undefined === elem.events) {
+            throw new Error('element must contain an events property');
+        }
+
+        if (0 === elem.events.length) {
+            throw new Error('element.events must contain one event');
+        }
+
+        if (undefined === elem.quantity) {
+            throw new Error('element must contain a quantity property');
+        }
+
+        let ElementModel = service.app.db.models.AbsenceElem;
+
+        // create new element
+        return setElemProperties(new ElementModel(), elem);
+    }
+
+
+
+
+
+    function getUser(id)
+    {
+        return service.app.db.models.User.findOne()
+        .where('_id', id)
+        .populate('roles.account')
         .exec()
-        .then(arr => {
+        .then(user => {
+            if (!user) {
+                throw new Error(gt.gettext('Failed to load the user document'));
+            }
 
-            arr.forEach(renewal => {
-                let element = new Element();
-                element.quantity = distribution[renewal.id].quantity;
-                renewal.right.getConsumedQuantity(collection, element);
-            });
+            return user;
+        });
+    }
 
+    function getCollection(id)
+    {
+        return service.app.db.models.RightCollection.findOne()
+        .where('_id', id)
+        .exec()
+        .then(collection => {
+            if (!collection) {
+                throw new Error(gt.gettext('Failed to load the collection document'));
+            }
 
-            return elements;
+            return collection;
         });
     }
 
@@ -69,20 +115,29 @@ exports = module.exports = function(services, app) {
     /**
      *
      */
-    function getConsumption(service, params) {
+    function getConsumption(params) {
 
-        service.app.db.models.User.findOne()
-        .where('_id', params.user)
-        .populate('roles.account')
-        .exec()
-        .then(user => {
-            if (!user) {
-                service.notFound(gt.gettext('Failed to load the user document'));
+        Promise.all([getUser(params.user), getCollection(params.collection)])
+        .then(arr => {
+            let user = arr[0];
+            let collection = arr[1];
+            let setElemProperties = saveAbsence.getElementIgniter(service, collection, user);
+            let promises = [];
+
+            for(let i=0; i<params.distribution.length; i++) {
+                let elem = params.distribution[i];
+                promises.push(createElement(elem, setElemProperties));
             }
 
-
+            Promise.all(promises)
+            .then(elements => {
+                // TODO remove unnecessary data
+                service.deferred.resolve(elements);
+            })
+            .catch(service.error);
         })
-        .catch(service.error);
+        .catch(service.notFound);
+
     }
 
 
@@ -100,10 +155,11 @@ exports = module.exports = function(services, app) {
 
         try {
             checkParams(params);
-            getConsumption(service, params);
         } catch(e) {
             service.error(e.message);
         }
+
+        getConsumption(params);
 
         return service.deferred.promise;
     };
