@@ -1,5 +1,6 @@
 'use strict';
 
+const util = require('util');
 
 /**
  *
@@ -186,26 +187,37 @@ exports = module.exports = function(params) {
 
         let elem = this;
 
-        return new Promise((resolve, reject) => {
+        if (!elem.events) {
+            Promise.reject(new Error('Missing events property'));
+        }
 
-            if (!elem.events) {
-                throw new Error('Missing events property');
-            }
+        if (elem.populated('events')) {
+            return Promise.resolve(elem.events);
+        }
 
-            if (elem.populated('events')) {
-                return resolve(elem.events);
-            }
-
-            elem.populate('events', err => {
-
-                if (err) {
-                    return reject(err);
-                }
-
-                resolve(elem.events);
-            });
+		return elem.populate('events')
+		.execPopulate()
+		.then(populatedElement => {
+            return populatedElement.events;
         });
     };
+
+
+	/**
+	 * Get element dates boundaries
+	 * @return {Promise}
+	 */
+	absenceElemSchema.methods.getBoundaries = function() {
+		let elem = this;
+
+		return elem.getEvents()
+		.then(events => {
+			return {
+				dtstart: events[0].dtstart,
+				dtend: events[events.length-1].dtend
+			};
+		});
+	};
 
 
 
@@ -225,14 +237,15 @@ exports = module.exports = function(params) {
         let accountModel = elem.model('Account');
 
         let accountsPromise = accountModel.find().where('user.id', elem.user.id).exec();
-        let eventsPromise = elem.getEvents();
+        let eventsPromise = elem.getBoundaries();
 
         let dtend;
 
-        return Promise.all([accountsPromise, eventsPromise]).then(all => {
+        return Promise.all([accountsPromise, eventsPromise])
+		.then(all => {
 
             let accounts = all[0];
-            let elemEvents = all[1];
+            let boundaries = all[1];
 
             if (0 === accounts.length) {
                 throw new Error('No account found for user '+elem.user.id);
@@ -240,10 +253,9 @@ exports = module.exports = function(params) {
 
 
 
-            let dtstart = new Date(elemEvents[0].dtstart);
+            let dtstart = new Date(boundaries.dtstart);
             dtstart.setHours(0,0,0,0);
-
-            dtend = elemEvents[elemEvents.length-1].dtend;
+            dtend = boundaries.dtend;
 
             // we add one week to the end date to get the back to work day
             let endSearch = new Date(dtend);
@@ -283,18 +295,20 @@ exports = module.exports = function(params) {
      * @return {Promise}    Date
      */
     absenceElemSchema.methods.getBackDate = function() {
-        return new Promise((resolve, reject) => {
-            this.getWorkingDaysUntilBack().then(events => {
 
-                if (events.length === 0) {
-                    throw new Error('Invalid back to work date from the getWorkingDaysUntilBack method');
-                }
+		let elem = this;
 
-                let backDate = new Date(events[events.length-1].dtstart);
-                backDate.setHours(0,0,0,0);
-                resolve(backDate);
-            })
-            .catch(reject);
+        return elem.getWorkingDaysUntilBack().then(events => {
+
+            if (events.length === 0) {
+				return elem.getBoundaries().then(b => {
+					throw new Error(util.format('There are no working periods beetween %s and %s', b.dtstart, b.dtend));
+				});
+            }
+
+            let backDate = new Date(events[events.length-1].dtstart);
+            backDate.setHours(0,0,0,0);
+            return backDate;
         });
     };
 
