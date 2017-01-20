@@ -10,7 +10,7 @@ const util = require('util');
 function getElementIgniter(service, collection, user)
 {
     let RightModel = service.app.db.models.Right;
-    let rightDocument, renewalDocument;
+
 
 
 
@@ -23,6 +23,7 @@ function getElementIgniter(service, collection, user)
     return function setElemProperties(element, elem) {
 
         let elemPeriod = getElemPeriod(elem);
+        let rightDocument, renewalDocument;
 
         element.quantity = elem.quantity;
 

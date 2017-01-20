@@ -11,6 +11,9 @@ describe('consumption account rest service', function() {
         right1,         // distribution in request
         right2,
 
+        renewal1,
+        renewal2,
+
         department,     // department associated to userManager
         collection;     // user account collection, contain right1 & 2
 
@@ -107,6 +110,8 @@ describe('consumption account rest service', function() {
             finish: new Date(2015,1,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            renewal1 = body;
+            delete renewal1.$outcome;
             done();
         });
     });
@@ -152,6 +157,8 @@ describe('consumption account rest service', function() {
             finish: new Date(2015,1,1).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            renewal2 = body;
+            delete renewal2.$outcome;
             done();
         });
     });
@@ -170,15 +177,32 @@ describe('consumption account rest service', function() {
     });
 
 
-    it('create the user account', function(done) {
+    it('create the user account and set default workschedule calendar', function(done) {
         server.createUserAccount(department)
         .then(function(account) {
             userAccount = account;
-            done();
+
+            var find = server.app.db.models.Calendar.findOne({ type: 'workschedule' });
+            find.exec(function(err, calendar) {
+                var from = new Date(2014,1,1);
+                var to = new Date(2015,1,1);
+
+                server.post('/rest/admin/accountschedulecalendars', {
+                    user: userAccount.user._id,
+                    calendar: { _id: calendar._id },
+                    from: from,
+                    to: to
+                }, function(res, body) {
+                    expect(res.statusCode).toEqual(200);
+                    server.expectSuccess(body);
+                    done();
+                });
+            });
 
         });
 
     });
+
 
 
 
@@ -219,10 +243,10 @@ describe('consumption account rest service', function() {
 
     it('Check consumption on a period', function(done) {
 
-        let am_start = new Date(2014, 2, 1, 8, 0, 0, 0).toString();
-        let am_end   = new Date(2014, 2, 1, 12, 0, 0, 0).toString();
-        let pm_start = new Date(2014, 2, 1, 13, 0, 0, 0).toString();
-        let pm_end   = new Date(2014, 2, 1, 18, 0, 0, 0).toString();
+        let am_start = new Date(2014, 2, 3, 8, 0, 0, 0).toString();
+        let am_end   = new Date(2014, 2, 3, 12, 0, 0, 0).toString();
+        let pm_start = new Date(2014, 2, 3, 13, 0, 0, 0).toString();
+        let pm_end   = new Date(2014, 2, 3, 18, 0, 0, 0).toString();
 
         let params = {
             selection: {
@@ -260,7 +284,13 @@ describe('consumption account rest service', function() {
 
         server.post('/rest/account/consumption', params, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            console.log(body.$outcome);
+            
+            expect(body[renewal1._id]).toBeDefined();
+            expect(body[renewal2._id]).toBeDefined();
+
+            expect(body[renewal1._id]).toBeCloseTo(0.67);
+            expect(body[renewal2._id]).toBeCloseTo(1);
+
             done();
         });
 
