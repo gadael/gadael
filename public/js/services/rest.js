@@ -83,7 +83,8 @@ define(function() {
                 adjustments             : init('account/adjustments/:id'),
                 recoverquantities       : init('account/recoverquantities/:id'),
                 timesavingaccounts      : init('account/timesavingaccounts/:id'),
-                collaborators           : init('account/collaborators/:id')
+                collaborators           : init('account/collaborators/:id'),
+                consumption             : init('account/consumption')
             },
 
             manager: {

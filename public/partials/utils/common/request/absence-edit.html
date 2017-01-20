@@ -75,7 +75,7 @@
                         <input id="ar{{accountRight.renewal._id}}" type="number" class="form-control" ng-model="distribution.renewal[accountRight.renewal._id].quantity" step="any" min="0" />
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
                     </td>
-                    <td ng-init="setConsumedQuantity(accountRight.renewal._id)">
+                    <td>
                         <i ng-if="distribution.renewal[accountRight.renewal._id].isLoading" class="fa fa-spinner fa-pulse fa-fw"></i> {{distribution.renewal[accountRight.renewal._id].consumedQuantity}} {{accountRight.disp_unit}}
                     </td>
 

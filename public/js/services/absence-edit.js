@@ -155,6 +155,204 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
         }
 
 
+
+        /**
+         * Create distribution to post for a absence request
+         * @param {object} renewals   Rights renenwals distribution with renewal id as property, right id and quantity (the form input) in the value
+         * @param {object} periods    The list of selected periods, provided by the period picker widget
+         * @return {Array}
+         */
+        function createDistribution(renewals, periods, accountRights) {
+
+            var totalSeconds = 0;
+            var totalDays = 0;
+
+            for(var j=0; j<periods.length; j++) {
+                if (undefined === periods[j].businessDays) {
+                    throw new Error('Missing businessDays on period from '+periods[j].dtstart+' to '+periods[j].dtend);
+                }
+
+                totalDays += periods[j].businessDays;
+                totalSeconds += (periods[j].dtend.getTime() - periods[j].dtstart.getTime()) / 1000;
+            }
+
+
+
+            /**
+             * @param {object} selectePeriod    selected working period
+             * @param {Date} startDate          Start date for the element
+             * @param {Number} secQuantity      Duration for the element
+             *
+             *
+             * @return {object}
+             */
+            function extractEvent(selectedPeriod, startDate, secQuantity)
+            {
+                if (selectedPeriod.dtstart > startDate) {
+                    // this ignore gaps between selected periods
+                    startDate = selectedPeriod.dtstart;
+                }
+
+                if (selectedPeriod.dtend <= startDate) {
+                    return null;
+                }
+
+                var endDate = new Date(startDate);
+                endDate.setTime(endDate.getTime() + (1000* secQuantity));
+
+                if (selectedPeriod.dtstart >= endDate) {
+                    return null;
+                }
+
+                console.log({
+                    selectedPeriod: selectedPeriod,
+                    startDate: startDate,
+                    endDate: endDate,
+                    secQuantity: secQuantity
+                });
+
+
+                var dtstart = selectedPeriod.dtstart > startDate ? selectedPeriod.dtstart : startDate;
+                var dtend = selectedPeriod.dtend < endDate ? selectedPeriod.dtend : endDate;
+
+                return {
+                    dtstart: dtstart,
+                    dtend: dtend
+                };
+            }
+
+
+            /**
+             * create events to embed in distribution
+             * One event per working period
+             *
+             * @param {Number} secQuantity      Duration for the element
+             * @param {Date} startDate          Start date for the element
+             * @return {array}
+             */
+            function createEvents(secQuantity, startDate)
+            {
+
+                var event, events = [], consumed;
+
+                periods.forEach(function(selectedPeriod) {
+                    event = extractEvent(selectedPeriod, startDate, secQuantity);
+                    if (null !== event) {
+                        events.push(event);
+                        consumed = Math.round((event.dtend.getTime() - event.dtstart.getTime())/1000);
+                        //console.log('consumed='+consumed+' secQuantity='+secQuantity);
+                        startDate = event.dtend;
+                        secQuantity = secQuantity - consumed;
+
+                    }
+                });
+
+                if (0 === events.length) {
+                    throw new Error('Wrong events count for quantity='+secQuantity+' startDate='+startDate);
+                }
+
+                if (0 !== secQuantity) {
+                    throw new Error(secQuantity+ ' seconds remain unconsumed after creation of '+events.length+' events');
+                }
+
+                return events;
+            }
+
+            /**
+             * Get quantity unit from right ID
+             * @return {String} D|H
+             */
+            function getQuantityUnit(rightId)
+            {
+                for(var i=0; i<accountRights.length; i++) {
+                    if (accountRights[i]._id === rightId) {
+                        return accountRights[i].quantity_unit;
+                    }
+                }
+
+                if (0 === accountRights.length) {
+                    throw new Error('No accountRights');
+                }
+
+                //console.log(accountRights);
+                throw new Error('Right '+rightId+' not found in available accountRights');
+            }
+
+
+            /**
+             * Get quantity in seconds
+             * @param {String} rightId
+             * @param {Number} inputQuantity
+             * @return {Int}
+             */
+            function getSecQuantity(rightId, inputQuantity)
+            {
+                if (null === inputQuantity) {
+                    throw new Error('Input quantity must be set');
+                }
+
+                var u = getQuantityUnit(rightId);
+
+                if ('H' === u) {
+                    return Math.round(inputQuantity*3600);
+                }
+
+                if ('D' === u) {
+
+                    if (0 === totalDays || isNaN(totalDays)) {
+                        throw new Error('Conversion not appliquable, totalDays must be greater than 0');
+                    }
+
+                    return (totalSeconds * inputQuantity / totalDays);
+                }
+
+                throw new Error('Invalid quantity unit');
+            }
+
+
+            var distribution = [];
+            var startDate = periods[0].dtstart;
+            var rightId, quantity, elem;
+
+
+
+            for(var renewalId in renewals) {
+                if (renewals.hasOwnProperty(renewalId)) {
+
+                    quantity = renewals[renewalId].quantity;
+
+                    if (undefined === quantity || null === quantity || 0 === quantity) {
+                        continue;
+                    }
+
+                    rightId = renewals[renewalId].right;
+
+                    elem = {
+                        right: {
+                            id: rightId,
+                            renewal:renewalId
+                        },
+                        quantity: quantity,
+                        events: createEvents(getSecQuantity(rightId, quantity), startDate)
+                    };
+
+                    distribution.push(elem);
+
+                    // set startDate for the next element
+                    startDate = elem.events[elem.events.length-1].dtend;
+                }
+            }
+
+            if (0 === distribution.length) {
+                throw new Error('Nothing to save');
+            }
+
+            return distribution;
+        }
+
+
+
+
         // Service to edit an absence,
         // shared by account/request/absence-edit and admin/request/absence-edit
 
@@ -168,6 +366,8 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             getLoadNonWorkingDaysEvents: RequestEdit.getLoadNonWorkingDaysEvents,
             getLoadEvents: RequestEdit.getLoadEvents,
             getLoadScholarHolidays: RequestEdit.getLoadScholarHolidays,
+
+            createDistribution: createDistribution,
 
             cleanDocument: function cleanDocument(request) {
                 delete request.requestLog;
@@ -184,7 +384,58 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             },
 
 
+            /**
+             * @param {Object} $scope
+             * @param {Resource} consumption
+             * @param {String} renewalId
+             */
+            setConsumedQuantity: function($scope, consumption, renewalId) {
 
+                var renewals = $scope.distribution.renewal;
+                var periods = $scope.selection.periods;
+                var distribution;
+
+                try {
+                    distribution = createDistribution(renewals, periods, $scope.accountRights);
+                } catch(e) {
+                    return;
+                }
+
+                var params = {
+                    selection: {
+                        begin: $scope.selection.begin,
+                        end: $scope.selection.end
+                    },
+                    distribution: distribution,
+                    collection: $scope.collection._id
+                };
+
+
+
+                // eval the consumed quantity with a request from server
+                // update the consumedQuantity prop on renewal
+                //
+                var row = $scope.distribution.renewal[renewalId];
+                row.isLoading = true;
+
+                // this is a GET in POST:
+                consumption.create(params).$promise.then(function(renewalCons) {
+                    for (var id in renewalCons) {
+                        if (!renewalCons.hasOwnProperty(id)) {
+                            continue;
+                        }
+
+                        row = $scope.distribution.renewal[id];
+                        if (undefined === row) {
+                            continue;
+                        }
+                        row.consumedQuantity = Math.round(10*renewalCons[id])/10;
+                        row.isLoading = false;
+                    }
+
+                });
+
+            },
 
             /**
              * The next button, from the period selection to the right distribution interface
@@ -192,6 +443,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
              * @param {object} $scope
              * @param {object} user
              * @param {Resource} accountRights
+             *
              */
             getNextButtonJob: function getNextButtonJob($scope, user, accountRights) {
                 return function() {
@@ -225,30 +477,9 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     });
 
 
-                    $scope.setConsumedQuantity = function(renewalId) {
-
-                        // TODO: filter out the renewals without distribution
-
-                        var params = {
-                            selection: {
-                                begin: $scope.selection.begin,
-                                end: $scope.selection.end
-                            },
-                            distribution: $scope.distribution.renewal
-                        };
-
-                        var row = $scope.distribution.renewal[renewalId];
-
-                        // TODO: eval the consumed quantity with a request from server
-                        // update the consumedQuantity prop on renewal
-
-                        row.isLoading = true;
 
 
 
-                        console.log(params);
-
-                    };
 
                     function createAccountRenewal(item, renewalIndex)
                     {
@@ -444,203 +675,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                     return calendarEvents.query(queryParams).$promise;
                 };
-            },
-
-
-
-
-            /**
-             * Create distribution to post for a absence request
-             * @param {object} renewals   Rights renenwals distribution with renewal id as property, right id and quantity (the form input) in the value
-             * @param {object} periods    The list of selected periods, provided by the period picker widget
-             * @return {Array}
-             */
-            createDistribution: function(renewals, periods, accountRights) {
-
-                var totalSeconds = 0;
-                var totalDays = 0;
-
-                for(var j=0; j<periods.length; j++) {
-                    if (undefined === periods[j].businessDays) {
-                        throw new Error('Missing businessDays on period from '+periods[j].dtstart+' to '+periods[j].dtend);
-                    }
-
-                    totalDays += periods[j].businessDays;
-                    totalSeconds += (periods[j].dtend.getTime() - periods[j].dtstart.getTime()) / 1000;
-                }
-
-
-
-                /**
-                 * @param {object} selectePeriod    selected working period
-                 * @param {Date} startDate          Start date for the element
-                 * @param {Number} secQuantity      Duration for the element
-                 *
-                 *
-                 * @return {object}
-                 */
-                function extractEvent(selectedPeriod, startDate, secQuantity)
-                {
-                    if (selectedPeriod.dtstart > startDate) {
-                        // this ignore gaps between selected periods
-                        startDate = selectedPeriod.dtstart;
-                    }
-
-                    if (selectedPeriod.dtend <= startDate) {
-                        return null;
-                    }
-
-                    var endDate = new Date(startDate);
-                    endDate.setTime(endDate.getTime() + (1000* secQuantity));
-
-                    if (selectedPeriod.dtstart >= endDate) {
-                        return null;
-                    }
-
-                    console.log({
-                        selectedPeriod: selectedPeriod,
-                        startDate: startDate,
-                        endDate: endDate,
-                        secQuantity: secQuantity
-                    });
-
-
-                    var dtstart = selectedPeriod.dtstart > startDate ? selectedPeriod.dtstart : startDate;
-                    var dtend = selectedPeriod.dtend < endDate ? selectedPeriod.dtend : endDate;
-
-                    return {
-                        dtstart: dtstart,
-                        dtend: dtend
-                    };
-                }
-
-
-                /**
-                 * create events to embed in distribution
-                 * One event per working period
-                 *
-                 * @param {Number} secQuantity      Duration for the element
-                 * @param {Date} startDate          Start date for the element
-                 * @return {array}
-                 */
-                function createEvents(secQuantity, startDate)
-                {
-
-                    var event, events = [], consumed;
-
-                    periods.forEach(function(selectedPeriod) {
-                        event = extractEvent(selectedPeriod, startDate, secQuantity);
-                        if (null !== event) {
-                            events.push(event);
-                            consumed = Math.round((event.dtend.getTime() - event.dtstart.getTime())/1000);
-                            console.log('consumed='+consumed+' secQuantity='+secQuantity);
-                            startDate = event.dtend;
-                            secQuantity = secQuantity - consumed;
-
-                        }
-                    });
-
-                    if (0 === events.length) {
-                        throw new Error('Wrong events count for quantity='+secQuantity+' startDate='+startDate);
-                    }
-
-                    if (0 !== secQuantity) {
-                        throw new Error(secQuantity+ ' seconds remain unconsumed after creation of '+events.length+' events');
-                    }
-
-                    return events;
-                }
-
-                /**
-                 * Get quantity unit from right ID
-                 * @return {String} D|H
-                 */
-                function getQuantityUnit(rightId)
-                {
-                    for(var i=0; i<accountRights.length; i++) {
-                        if (accountRights[i]._id === rightId) {
-                            return accountRights[i].quantity_unit;
-                        }
-                    }
-
-                    if (0 === accountRights.length) {
-                        throw new Error('No accountRights');
-                    }
-
-                    //console.log(accountRights);
-                    throw new Error('Right '+rightId+' not found in available accountRights');
-                }
-
-
-                /**
-                 * Get quantity in seconds
-                 * @param {String} rightId
-                 * @param {Number} inputQuantity
-                 * @return {Int}
-                 */
-                function getSecQuantity(rightId, inputQuantity)
-                {
-                    if (null === inputQuantity) {
-                        throw new Error('Input quantity must be set');
-                    }
-
-                    var u = getQuantityUnit(rightId);
-
-                    if ('H' === u) {
-                        return Math.round(inputQuantity*3600);
-                    }
-
-                    if ('D' === u) {
-
-                        if (0 === totalDays || isNaN(totalDays)) {
-                            throw new Error('Conversion not appliquable, totalDays must be greater than 0');
-                        }
-
-                        return (totalSeconds * inputQuantity / totalDays);
-                    }
-
-                    throw new Error('Invalid quantity unit');
-                }
-
-
-                var distribution = [];
-                var startDate = periods[0].dtstart;
-                var rightId, quantity, elem;
-
-
-
-                for(var renewalId in renewals) {
-                    if (renewals.hasOwnProperty(renewalId)) {
-
-                        quantity = renewals[renewalId].quantity;
-
-                        if (undefined === quantity || null === quantity || 0 === quantity) {
-                            continue;
-                        }
-
-                        rightId = renewals[renewalId].right;
-
-                        elem = {
-                            right: {
-                                id: rightId,
-                                renewal:renewalId
-                            },
-                            quantity: quantity,
-                            events: createEvents(getSecQuantity(rightId, quantity), startDate)
-                        };
-
-                        distribution.push(elem);
-
-                        // set startDate for the next element
-                        startDate = elem.events[elem.events.length-1].dtend;
-                    }
-                }
-
-                if (0 === distribution.length) {
-                    throw new Error('Nothing to save');
-                }
-
-                return distribution;
             }
 
         };

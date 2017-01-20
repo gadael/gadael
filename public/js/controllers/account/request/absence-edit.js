@@ -17,6 +17,7 @@ define(['q'], function(Q) {
         var accountCollection = Rest.account.collection.getResource();
         var accountRights = Rest.account.accountrights.getResource();
         var users = Rest.user.user.getResource();
+        var consumption = Rest.account.consumption.getResource();
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
@@ -81,6 +82,18 @@ define(['q'], function(Q) {
             };
         }
 
+
+
+        $scope.$watch('distribution.renewal', function(newValue, oldValue) {
+            // detect modified renewal
+            for (var rId in oldValue) {
+                if (oldValue.hasOwnProperty(rId)) {
+                    if (newValue[rId].quantity !== oldValue[rId].quantity) {
+                        AbsenceEdit.setConsumedQuantity($scope, consumption, rId);
+                    }
+                }
+            }
+        }, true);
 
 
 
