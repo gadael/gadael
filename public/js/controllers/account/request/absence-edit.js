@@ -85,6 +85,7 @@ define(['q'], function(Q) {
 
 
         $scope.$watch('distribution.renewal', function(newValue, oldValue) {
+
             // detect modified renewal
             for (var rId in oldValue) {
                 if (oldValue.hasOwnProperty(rId)) {
@@ -138,7 +139,7 @@ define(['q'], function(Q) {
 
             try {
 
-                $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights);
+                $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights, true);
                 $scope.request.gadaSave($scope.back);
             } catch(e) {
                 $rootScope.pageAlerts.push({

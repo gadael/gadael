@@ -160,9 +160,10 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
          * Create distribution to post for a absence request
          * @param {object} renewals   Rights renenwals distribution with renewal id as property, right id and quantity (the form input) in the value
          * @param {object} periods    The list of selected periods, provided by the period picker widget
+         * @param {Boolean} matchQuantity   If true, throw Error if events duration does not match input quantity
          * @return {Array}
          */
-        function createDistribution(renewals, periods, accountRights) {
+        function createDistribution(renewals, periods, accountRights, matchQuantity) {
 
             var totalSeconds = 0;
             var totalDays = 0;
@@ -204,13 +205,14 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     return null;
                 }
 
+                /*
                 console.log({
                     selectedPeriod: selectedPeriod,
                     startDate: startDate,
                     endDate: endDate,
                     secQuantity: secQuantity
                 });
-
+                */
 
                 var dtstart = selectedPeriod.dtstart > startDate ? selectedPeriod.dtstart : startDate;
                 var dtend = selectedPeriod.dtend < endDate ? selectedPeriod.dtend : endDate;
@@ -228,6 +230,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
              *
              * @param {Number} secQuantity      Duration for the element
              * @param {Date} startDate          Start date for the element
+             *
              * @return {array}
              */
             function createEvents(secQuantity, startDate)
@@ -251,7 +254,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     throw new Error('Wrong events count for quantity='+secQuantity+' startDate='+startDate);
                 }
 
-                if (0 !== secQuantity) {
+                if (matchQuantity && (0 !== secQuantity)) {
                     throw new Error(secQuantity+ ' seconds remain unconsumed after creation of '+events.length+' events');
                 }
 
@@ -394,10 +397,12 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 var renewals = $scope.distribution.renewal;
                 var periods = $scope.selection.periods;
                 var distribution;
+                var row = $scope.distribution.renewal[renewalId];
 
                 try {
-                    distribution = createDistribution(renewals, periods, $scope.accountRights);
+                    distribution = createDistribution(renewals, periods, $scope.accountRights, false);
                 } catch(e) {
+                    row.consumedQuantity = 0;
                     return;
                 }
 
@@ -412,10 +417,8 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
 
 
-                // eval the consumed quantity with a request from server
-                // update the consumedQuantity prop on renewal
-                //
-                var row = $scope.distribution.renewal[renewalId];
+
+
                 row.isLoading = true;
 
                 // this is a GET in POST:

@@ -143,7 +143,7 @@ define(['q'], function(Q) {
 
             try {
 
-                $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights);
+                $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights, true);
                 $scope.request.gadaSave($scope.back);
             } catch(e) {
                 $rootScope.pageAlerts.push({

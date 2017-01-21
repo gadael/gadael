@@ -76,7 +76,9 @@
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
                     </td>
                     <td>
-                        <i ng-if="distribution.renewal[accountRight.renewal._id].isLoading" class="fa fa-spinner fa-pulse fa-fw"></i> {{distribution.renewal[accountRight.renewal._id].consumedQuantity}} {{accountRight.disp_unit}}
+                        <span ng-if="distribution.renewal[accountRight.renewal._id].consumedQuantity">
+                            <i ng-if="distribution.renewal[accountRight.renewal._id].isLoading" class="fa fa-spinner fa-pulse fa-fw"></i> {{distribution.renewal[accountRight.renewal._id].consumedQuantity}} {{accountRight.disp_unit}}
+                        </span>
                     </td>
 
                     <td>
