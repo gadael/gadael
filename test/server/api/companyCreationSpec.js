@@ -1,11 +1,12 @@
 'use strict';
 
-
+const fs = require('fs');
 const headless = require('../../../api/Headless.api.js');
 const api = require('../../../api/Company.api.js');
 let config = require('../../../config')();
 let models = require('../../../models');
 
+let icsCalendars = fs.readdirSync(require('path').join(config.staticPath, 'calendars'));
 
 
 function createCompany(dbname, company, ready) {
@@ -75,13 +76,16 @@ describe("Test company creation", function companyCreation() {
 
 
 
+
+
+
     it("verify initialization with no country set on company", function(done) {
 
         countRows('companyCreationNoCountry', {
             port: 2800,
             name: 'No country'
         }).then(count => {
-            expect(count[0]).toEqual(2); // Calendar
+            expect(count[0]).toEqual(icsCalendars.length); // Calendar
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
@@ -100,7 +104,7 @@ describe("Test company creation", function companyCreation() {
             name: 'FR',
             country: 'FR'
         }).then(count => {
-            expect(count[0]).toBeGreaterThan(2); // Calendar
+            expect(count[0]).toBeGreaterThan(icsCalendars.length); // Calendar
             expect(count[1]).toBeGreaterThan(23); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
@@ -118,7 +122,7 @@ describe("Test company creation", function companyCreation() {
             name: 'UK',
             country: 'UK'
         }).then(count => {
-            expect(count[0]).toEqual(5); // Calendar
+            expect(count[0]).toEqual(icsCalendars.length + 3); // Calendar
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
@@ -137,7 +141,7 @@ describe("Test company creation", function companyCreation() {
             name: 'BE',
             country: 'BE'
         }).then(count => {
-            expect(count[0]).toEqual(3); // Calendar
+            expect(count[0]).toEqual(icsCalendars.length + 1); // Calendar
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
@@ -156,7 +160,7 @@ describe("Test company creation", function companyCreation() {
             name: 'CH',
             country: 'CH'
         }).then(count => {
-            expect(count[0]).toEqual(28); // Calendar (one per canton + working times)
+            expect(count[0]).toEqual(icsCalendars.length + 26); // Calendar (one per canton + working times)
             expect(count[1]).toEqual(21); // Type
             expect(count[2]).toEqual(4); // RecoverQuantity
             expect(count[3]).toEqual(5); // RightCollection
