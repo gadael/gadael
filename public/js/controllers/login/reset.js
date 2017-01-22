@@ -1,33 +1,29 @@
 define(['angular'], function(angular) {
-    
+
     'use strict';
-    
+
 	return ['$scope', '$http', '$rootScope', '$routeParams', function($scope, $http, $rootScope, $routeParams) {
-		
+
 
 		$scope.submit = function() {
-			
-			$http.post('rest/login/reset', { 
+
+			$http.post('rest/login/reset', {
 				password: $scope.password,
 				confirm: $scope.confirm,
 				email: $routeParams.email,
-				token: $routeParams.token  
+				token: $routeParams.token
 			})
-			
+
 			.success(function(data) {
-			
-				$rootScope.pageAlerts = data.alert;
-				// if (data.success)
-				// {
-				// 	password reseted
-				// }
+                console.log(data);
+				$rootScope.pageAlerts = data.$outcome.alert;
 			})
-			
+
 			.error(function(data) {
 				// receive 400 bad request on missing parameters
-				
-				$rootScope.pageAlerts = data.alert;
-				
+
+				$rootScope.pageAlerts = data.$outcome.alert;
+
 				for (var fieldname in data.errfor)
 				{
                     if (data.errfor.hasOwnProperty(fieldname)) {

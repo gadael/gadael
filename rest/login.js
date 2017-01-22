@@ -75,9 +75,10 @@ exports.forgotPassword = function(req, res, next) {
 	workflow.on('sendEmail', function(token, user) {
 
 		resetpassword(req.app, token, user)
-		.send()
+		.then(mail => {
+			return mail.send();
+		})
 		.then(() => {
-
 			workflow.outcome.alert.push({
 				type: 'info',
 				message: util.format(gt.gettext('An email has been sent to %s'), user.email)
