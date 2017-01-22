@@ -241,6 +241,27 @@ exports = module.exports = function(params) {
                 url: 'calendars/5d-39h-1.ics',
                 type: 'workschedule',
                 locked: true
+            },
+            {
+                _id: '5740adf51cf1a569643cc103',
+                name: gt.gettext('5 days 35H - 8H 12H / 14H 17H'),
+                url: 'calendars/5d-35h-1.ics',
+                type: 'workschedule',
+                locked: true
+            },
+            {
+                _id: '5740adf51cf1a569643cc104',
+                name: gt.gettext('5 days 36H - 8H 12H / 14H 18H, no friday afternoon'),
+                url: 'calendars/5d-36h-half-FR-1.ics',
+                type: 'workschedule',
+                locked: true
+            },
+            {
+                _id: '5740adf51cf1a569643cc105',
+                name: gt.gettext('5 days 36H - 8H 12H / 14H 18H, no wednesday afternoon'),
+                url: 'calendars/5d-36h-half-WE-1.ics',
+                type: 'workschedule',
+                locked: true
             }
             ];
 
