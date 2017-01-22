@@ -2,8 +2,8 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$location' ,'$routeParams', 'Rest', '$modal',
-            function($scope, $location, $routeParams, Rest, $modal) {
+	return ['$scope', '$location' ,'$routeParams', 'Rest', '$modal', 'getOnlyIds',
+            function($scope, $location, $routeParams, Rest, $modal, getOnlyIds) {
 
         // if there is createable special right
         // open a popup to define special only if right not saved
@@ -64,17 +64,22 @@ define([], function() {
         if ($scope.right.$promise) {
             // right modification
             $scope.right.$promise.then(function() {
-                if ($scope.right.special) {
-                    // TODO: get special status for namereadonly
 
-                    console.log($scope.right.special);
-                }
+                //if ($scope.right.special) {
+                    // TODO: get special status for namereadonly
+                    // console.log($scope.right.special);
+                //}
 
                 $scope.right.autoAdjustmentActive = (
                     $scope.right.autoAdjustment.quantity !== undefined &&
                     $scope.right.autoAdjustment.quantity !== null
                 );
 
+
+                // In modification we need only the ID but not in visualisation
+                if (undefined !== $scope.right.autoAdjustment.types) {
+                    $scope.right.autoAdjustment.types = getOnlyIds($scope.right.autoAdjustment.types);
+                }
             });
         } else {
 

@@ -415,6 +415,21 @@ define([
 
 
 
+    .factory('getOnlyIds', function() {
+
+        /**
+         * Convert array of objects to array of ID
+         * @param {Array} arr
+         * @return {Array}
+         */
+        return function(arr) {
+            return arr.map(function(d) {
+                return d._id;
+            });
+        };
+    })
+
+
     /**
      * Load the Beneficiary service
      */
@@ -434,4 +449,5 @@ define([
             return getCalendar(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll);
         }
     ]);
+
 });
