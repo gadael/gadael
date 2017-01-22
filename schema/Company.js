@@ -3,7 +3,7 @@
 exports = module.exports = function(params) {
 	var companySchema = new params.mongoose.Schema({
 		name: { type: String, required: true, unique: true },			// company name, site title
-		port: { type: Number, required: true },							// server port
+		port: { type: Number, default: 3000 },							// server port
 		lastname: String,												// system owner
 		firstname: String,												// system owner
 		email: String,													// system owner email, fallback

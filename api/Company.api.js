@@ -543,7 +543,16 @@ exports = module.exports = {
 		let companyModel = app.db.models.Company;
 
 	    companyModel.findOne({}, (err, company) => {
-	        app.config.company = company;
+
+			if (err) {
+				throw err;
+			}
+
+			if (null === company) {
+				throw new Error('The company document is required to start the server');
+			}
+
+			app.config.company = company;
 
 			//setup passport
 			passportHelper(app, passport);

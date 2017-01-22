@@ -37,6 +37,16 @@ grunt build
 grunt
 ```
 
+
+A script in provided to initialize the database:
+
+```bash
+node install.js gadael "Your company name" FR
+```
+First argument is the database name, default is gadael.
+Second argument is your company name, default is "Gadael". 
+Third argument is the country code used to initialize the database, if not provided the leave rights list will be empty.
+
 open http://localhost:3000 in your browser
 
 Application listen on localhost only, an https reverse proxy will be necessary to open access to users.
