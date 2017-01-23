@@ -44,7 +44,7 @@ A script in provided to initialize the database:
 node install.js gadael "Your company name" FR
 ```
 First argument is the database name, default is gadael.
-Second argument is your company name, default is "Gadael". 
+Second argument is your company name, default is "Gadael".
 Third argument is the country code used to initialize the database, if not provided the leave rights list will be empty.
 
 open http://localhost:3000 in your browser
@@ -63,6 +63,8 @@ grunt test
 ## TODO
 
 - [ ] Bug: The reset password by mail button does not work
+- [ ] Notification checkbox for the new rights notifications (remove or make it work)
+- [ ] Notification checkbox for approval (remove or make it work)
 - [x] Lock request delete by user in maintenance mode
 - [x] Display duration in the request second step
 - [x] Estimate the consumed quantity on the fly for part-times users

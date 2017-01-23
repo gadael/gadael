@@ -280,14 +280,14 @@ exports = module.exports = function(params) {
             {
                 _id: '5740adf51cf1a569643cc108',
                 name: gt.gettext('4 days 32H - 8H 12H / 14H 18H, no friday'),
-                url: 'calendars/4d-20h-no-FR-1.ics',
+                url: 'calendars/4d-32h-no-FR-1.ics',
                 type: 'workschedule',
                 locked: true
             },
             {
                 _id: '5740adf51cf1a569643cc109',
                 name: gt.gettext('4 days 32H - 8H 12H / 14H 18H, no wednesday'),
-                url: 'calendars/4d-20h-no-WE-1.ics',
+                url: 'calendars/4d-32h-no-WE-1.ics',
                 type: 'workschedule',
                 locked: true
             }

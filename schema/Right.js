@@ -700,6 +700,42 @@ exports = module.exports = function(params) {
 
 
 
+        /**
+         * Link to specified collectionId or all existing collections if not set
+         * @param {Right} right
+         * @param {String} collectionId
+         * @return {Promise}
+         */
+        function linkToCollection(right, collectionId) {
+
+            let CollectionModel = right.model('RightCollection');
+            let beneficiaryModel = right.model('Beneficiary');
+
+            function link(id) {
+                let beneficiary = new beneficiaryModel();
+
+                beneficiary.right = right._id;
+                beneficiary.ref = 'RightCollection';
+                beneficiary.document = id;
+                return beneficiary.save();
+            }
+
+
+            if (undefined !== collectionId) {
+                return link(collectionId);
+            }
+
+            return CollectionModel.find({})
+            .exec()
+            .then(all => {
+                return Promise.all(all.map(collection => {
+                    return link(collection._id);
+                }));
+            });
+        }
+
+
+
 
 
         /**
@@ -755,16 +791,7 @@ exports = module.exports = function(params) {
                 right.save().then(right => {
 
                     let promises = [];
-
-                    // put right in collection
-
-                    let beneficiaryModel = right.model('Beneficiary');
-                    let beneficiary = new beneficiaryModel();
-
-                    beneficiary.right = right._id;
-                    beneficiary.ref = 'RightCollection';
-                    beneficiary.document = rightData.collection || '5740adf51cf1a569643cc520';
-                    promises.push(beneficiary.save());
+                    promises.push(linkToCollection(right, rightData.collection));
 
                     // create renewal
 
