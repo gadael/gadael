@@ -81,7 +81,7 @@ exports = module.exports = function(services, app)
          * @param {Array} renewals
          * @param {function} callback
          */
-        function processRenewals(rightDocument, right, renewals, callback)
+        function processRiRenewals(rightDocument, right, renewals, callback)
         {
             right.errors = [];
 
@@ -109,7 +109,7 @@ exports = module.exports = function(services, app)
                         renewal: renewalDocument,
                         error: err.message
                     });
-                    
+
                     renewalCallback();
                 });
 
@@ -138,7 +138,7 @@ exports = module.exports = function(services, app)
                  */
                 right.available_quantity = 0;
 
-                processRenewals(rightDocument, right, renewals, function done(err) {
+                processRiRenewals(rightDocument, right, renewals, function done(err) {
 
                     if (err) {
                         return cb(err);

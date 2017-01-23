@@ -92,11 +92,9 @@ exports = module.exports = function(services, app) {
      */
     function resolveAccountRights(account, user, beneficiaries)
     {
-
-
-        var output = [];
-
-        var processRenewals = renewalsMod(user, account);
+        let moment = new Date();
+        let output = [];
+        let processRenewals = renewalsMod(user, account);
 
 
         async.each(beneficiaries, function(beneficiaryDocument, cb) {
@@ -121,7 +119,7 @@ exports = module.exports = function(services, app) {
                 beneficiary.available_quantity = 0;
                 beneficiary.consumed_quantity = 0;
 
-                processRenewals(rightDocument, beneficiary, renewals, function done(err) {
+                processRenewals(rightDocument, beneficiary, renewals, moment, function done(err) {
 
                     if (err) {
                         return cb(err);

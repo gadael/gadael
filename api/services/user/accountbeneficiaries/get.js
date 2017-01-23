@@ -29,7 +29,10 @@ exports = module.exports = function(services, app) {
             return service.deferred.promise;
         }
 
-
+        let moment = new Date();
+        if (undefined !== params && params.moment) {
+            moment = new Date(params.moment);
+        }
 
 
         service.app.db.models.Account
@@ -80,7 +83,7 @@ exports = module.exports = function(services, app) {
                                      */
                                     beneficiary.available_quantity = 0;
 
-                                    processRenewals(rightDocument, beneficiary, renewals, function done(err) {
+                                    processRenewals(rightDocument, beneficiary, renewals, moment, function done(err) {
 
                                         if (err) {
                                             return service.error(err);

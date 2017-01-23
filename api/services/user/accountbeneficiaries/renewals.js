@@ -29,12 +29,22 @@ exports = module.exports = function(user, account) {
      * @param {Right} rightDocument
      * @param {object} right
      * @param {Array} renewals
+     * @param {Date} moment
      * @param {function} callback
      */
-    function processRenewals(rightDocument, beneficiary, renewals, callback)
+    function processRenewals(rightDocument, beneficiary, renewals, moment, callback)
     {
         beneficiary.daysRatio = 1;
         beneficiary.errors = [];
+
+
+
+        /**
+         * Test if the renewal is accounted in beneficiary total
+         */
+        function inTotal(renewal) {
+            return (renewal.start <= moment && renewal.finish >= moment);
+        }
 
         async.each(renewals, function(renewalDocument, renewalCallback) {
             var p = getRenewalQuantity(rightDocument, renewalDocument);
@@ -58,14 +68,15 @@ exports = module.exports = function(user, account) {
 
                 beneficiary.renewals.push(renewalObj);
 
-                beneficiary.initial_quantity += stat.initial;
-                beneficiary.consumed_quantity += stat.consumed;
-                beneficiary.available_quantity += stat.available;
+                if (inTotal(renewalDocument)) {
+                    beneficiary.initial_quantity += stat.initial;
+                    beneficiary.consumed_quantity += stat.consumed;
+                    beneficiary.available_quantity += stat.available;
 
-                if (stat.daysratio && (!beneficiary.daysRatio || renewalObj.finish > new Date())) {
-                    beneficiary.daysRatio = stat.daysratio;
+                    if (stat.daysratio && (!beneficiary.daysRatio || renewalObj.finish > new Date())) {
+                        beneficiary.daysRatio = stat.daysratio;
+                    }
                 }
-
 
                 renewalCallback();
 

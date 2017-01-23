@@ -43,6 +43,8 @@ Rtt.prototype.getDescription = function() {
  */
 Rtt.prototype.getQuantity = function(renewal, user) {
 
+    const gt = this.app.utility.gettext;
+
     return user.getAccount()
     .then(account => {
 
@@ -56,14 +58,14 @@ Rtt.prototype.getQuantity = function(renewal, user) {
 
         if (null === all[1]) {
             // TODO: return 0 instead of error message if getIntersectCollection work correctly
-            throw new Error(util.format('No collection found on the renewal period from %s to %s', renewal.start, renewal.finish));
+            throw new Error(util.format(gt.gettext('No collection found on the renewal period from %s to %s'), renewal.start, renewal.finish));
         }
 
         // all[0] number of potential worked days in the renewal of the annual leave
         // all[1].workedDays agreement worked days
 
         if (undefined === all[1].workedDays) {
-            throw new Error('missing workdays on collection');
+            throw new Error(gt.gettext('The collection does not contain the number of days from the collective agreement'));
         }
 
         return Math.abs(all[0] - all[1].workedDays);
