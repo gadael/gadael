@@ -217,7 +217,7 @@ module.exports = function(grunt) {
                 command: 'node node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server/'
             },
             pot_server: {
-                command: 'find modules/ rest/ schema/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/server/template.pot'
+                command: 'find api/ modules/ rest/ schema/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/server/template.pot'
             },
             translation: {
                 command: 'touch public/js/translation.js'
