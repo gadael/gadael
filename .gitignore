@@ -1,10 +1,5 @@
 public/bower_components/*
 node_modules/*
-public/fonts/*.ttf
-public/fonts/*.woff*
-*.min.js
-*.min.js.map
-*.min.css
 /config.js
 .nodemonignore
 /bower_components
