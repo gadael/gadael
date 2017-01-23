@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-08 08:18+0100\n"
+"POT-Creation-Date: 2017-01-23 20:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,14 +73,21 @@ msgstr ""
 msgid "View request"
 msgstr ""
 
-#: modules/emails/pendingapproval.js:57 modules/emails/requestaccepted.js:65
+#: modules/emails/pendingapproval.js:51 modules/emails/rolesupdated.js:36
+#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:69
+#: modules/emails/requestrejected.js:44 modules/emails/requestcreated.js:42
+#: modules/emails/usercreated.js:36
+msgid "Yours truly"
+msgstr ""
+
+#: modules/emails/pendingapproval.js:58 modules/emails/requestaccepted.js:65
 #, javascript-format
 msgid "Workflow initiated by %s the %s"
 msgstr ""
 
-#: modules/emails/rolesupdated.js:20 modules/emails/usercreated.js:19
+#: modules/emails/rolesupdated.js:20
 #, javascript-format
-msgid "%s: new user created"
+msgid "%s, your roles where updated"
 msgstr ""
 
 #: modules/emails/rolesupdated.js:23
@@ -172,6 +179,11 @@ msgstr ""
 
 #: modules/emails/requestcreated.js:36
 msgid "Consult the details after login into the application"
+msgstr ""
+
+#: modules/emails/usercreated.js:19
+#, javascript-format
+msgid "%s: new user created"
 msgstr ""
 
 #: modules/emails/usercreated.js:27
@@ -313,24 +325,24 @@ msgstr ""
 msgid "No user found with email %s"
 msgstr ""
 
-#: rest/login.js:83
+#: rest/login.js:84
 #, javascript-format
 msgid "An email has been sent to %s"
 msgstr ""
 
-#: rest/login.js:132
+#: rest/login.js:133
 msgid "The password confirmation does not match the new password field"
 msgstr ""
 
-#: rest/login.js:159
+#: rest/login.js:160
 msgid "Invalid request. user not found"
 msgstr ""
 
-#: rest/login.js:172
+#: rest/login.js:173
 msgid "Invalid request."
 msgstr ""
 
-#: rest/login.js:196
+#: rest/login.js:197
 msgid "The password has been modified"
 msgstr ""
 
@@ -342,47 +354,47 @@ msgstr ""
 msgid "You are disconnected from your google calendar"
 msgstr ""
 
-#: schema/Request.js:297
+#: schema/Request.js:336
 msgid "Leave"
 msgstr ""
 
-#: schema/Request.js:301
+#: schema/Request.js:340
 msgid "Time saving deposit"
 msgstr ""
 
-#: schema/Request.js:305
+#: schema/Request.js:344
 msgid "Workperiod recover"
 msgstr ""
 
-#: schema/Request.js:308
+#: schema/Request.js:347
 msgid "Unknown"
 msgstr ""
 
-#: schema/Request.js:323
+#: schema/Request.js:362
 msgid "Waiting approval"
 msgstr ""
 
-#: schema/Request.js:325
+#: schema/Request.js:364
 msgid "Accepted"
 msgstr ""
 
-#: schema/Request.js:327 schema/ApprovalStep.js:74
+#: schema/Request.js:366 schema/ApprovalStep.js:74
 msgid "Rejected"
 msgstr ""
 
-#: schema/Request.js:335
+#: schema/Request.js:374
 msgid "Waiting deletion approval"
 msgstr ""
 
-#: schema/Request.js:337
+#: schema/Request.js:376
 msgid "Deleted"
 msgstr ""
 
-#: schema/Request.js:339
+#: schema/Request.js:378
 msgid "Deletion rejected"
 msgstr ""
 
-#: schema/Request.js:343
+#: schema/Request.js:382
 msgid "Undefined"
 msgstr ""
 
@@ -553,6 +565,10 @@ msgstr ""
 msgid "The absence must be within the renewal period"
 msgstr ""
 
+#: schema/data/fr.js:70
+msgid "Sickness absence"
+msgstr ""
+
 #: schema/data/ch.js:16 schema/data/ch.js:36
 msgid ""
 "The absence must be made after the renewal start date, and within 5 years "
@@ -611,59 +627,87 @@ msgstr ""
 msgid "5 days 39H - 8H 12H / 14H 18H, 17H on friday"
 msgstr ""
 
+#: schema/Calendar.js:247
+msgid "5 days 35H - 8H 12H / 14H 17H"
+msgstr ""
+
 #: schema/Calendar.js:254
+msgid "5 days 36H - 8H 12H / 14H 18H, no friday afternoon"
+msgstr ""
+
+#: schema/Calendar.js:261
+msgid "5 days 36H - 8H 12H / 14H 18H, no wednesday afternoon"
+msgstr ""
+
+#: schema/Calendar.js:268
+msgid "5 days 20H - 14H 18H"
+msgstr ""
+
+#: schema/Calendar.js:275
+msgid "5 days 20H - 8H 12H"
+msgstr ""
+
+#: schema/Calendar.js:282
+msgid "4 days 32H - 8H 12H / 14H 18H, no friday"
+msgstr ""
+
+#: schema/Calendar.js:289
+msgid "4 days 32H - 8H 12H / 14H 18H, no wednesday"
+msgstr ""
+
+#: schema/Calendar.js:303
 msgid "Guadeloupe non working days"
 msgstr ""
 
-#: schema/Calendar.js:260
+#: schema/Calendar.js:309
 msgid "Guyane non working days"
 msgstr ""
 
-#: schema/Calendar.js:266
+#: schema/Calendar.js:315
 msgid "Martinique non working days"
 msgstr ""
 
-#: schema/Calendar.js:272
+#: schema/Calendar.js:321
 msgid "Moselle, Bas-Rhin, Haut-Rhin non working days"
 msgstr ""
 
-#: schema/Calendar.js:279
+#: schema/Calendar.js:328
 msgid "French non working days (metropolis)"
 msgstr ""
 
-#: schema/Calendar.js:285
+#: schema/Calendar.js:334
 msgid "French polynesia non working days"
 msgstr ""
 
-#: schema/Calendar.js:291
+#: schema/Calendar.js:340
 msgid "Reunion island non working days"
 msgstr ""
 
-#: schema/Calendar.js:297
+#: schema/Calendar.js:346
 msgid "Wallis and Futuna non working days"
 msgstr ""
 
-#: schema/Calendar.js:312
+#: schema/Calendar.js:361
 msgid "Belgium non working days"
 msgstr ""
 
-#: schema/Calendar.js:324
+#: schema/Calendar.js:373
 msgid "Ireland non working days"
 msgstr ""
 
-#: schema/Calendar.js:365 schema/Calendar.js:465
+#: schema/Calendar.js:414 schema/Calendar.js:514
 #, javascript-format
 msgid "%s non working days"
 msgstr ""
 
-#: schema/Calendar.js:383
+#: schema/Calendar.js:432
 msgid "England and Wales legal holidays"
 msgstr ""
 
-#: schema/Calendar.js:389
+#: schema/Calendar.js:438
 msgid "North Ireland legal holidays"
 msgstr ""
 
-#: schema/Calendar.js:395
+#: schema/Calendar.js:444
 msgid "Scotland legal holidays"
 msgstr ""

@@ -62,7 +62,7 @@ grunt test
 
 ## TODO
 
-- [ ] Bug: The reset password by mail button does not work
+- [x] Bug: The reset password by mail button does not work
 - [ ] Notification checkbox for the new rights notifications (remove or make it work)
 - [ ] Notification checkbox for approval (remove or make it work)
 - [x] Lock request delete by user in maintenance mode
