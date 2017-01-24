@@ -199,7 +199,7 @@ exports = module.exports = function(params) {
 
 				return renewal.getConsuptionHistory(user, right.autoAdjustment.types)
 				.then(history => {
-					
+
 					let current = 0;
 					let promises = [];
 
@@ -911,7 +911,7 @@ exports = module.exports = function(params) {
         }
 
         var millisecondsPerDay = 24 * 60 * 60 * 1000;
-        return (1 + (treatAsUTC(this.finish) - treatAsUTC(this.start)) / millisecondsPerDay);
+        return Math.round(1 + (treatAsUTC(this.finish) - treatAsUTC(this.start)) / millisecondsPerDay);
     };
 
 
@@ -968,6 +968,10 @@ exports = module.exports = function(params) {
                 throw new Error('To compute the number of planned working days, the annual leave initial quantity is required');
             }
 
+			// Number of days on the renewal period 	~365
+			// - Number of weeks-ends days 				~104
+			// - Initial quantity of annual paid leaves ~25
+			// - Non working days 					    ~8
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });
 
