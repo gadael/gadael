@@ -196,7 +196,8 @@ describe('Compulsory leaves admin rest service', function() {
             randomUser.user.getAccount()
             .then(account => {
                 server.get('/rest/admin/accountbeneficiaries', {
-                    account: account._id.toString()
+                    account: account._id.toString(),
+                    moment: new Date(2015,0,2).toJSON()
                 }, function(res, body) {
 
                     if (!Array.isArray(body)) {
@@ -204,7 +205,7 @@ describe('Compulsory leaves admin rest service', function() {
                     }
 
                     resolve(body.find(ar => {
-                        return (ar.right.id === right1.id);
+                        return (ar.right._id === right1._id.toString());
                     }));
                 });
             }).catch(reject);

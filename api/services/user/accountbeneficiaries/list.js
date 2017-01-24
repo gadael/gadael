@@ -90,9 +90,8 @@ exports = module.exports = function(services, app) {
      * @param {Account} account
      * @param {Array} rights array of mongoose documents
      */
-    function resolveAccountRights(account, user, beneficiaries)
+    function resolveAccountRights(account, user, beneficiaries, moment)
     {
-        let moment = new Date();
         let output = [];
         let processRenewals = renewalsMod(user, account);
 
@@ -170,7 +169,10 @@ exports = module.exports = function(services, app) {
             return service.deferred.promise;
         }
 
-
+        let moment = new Date();
+        if (undefined !== params.moment) {
+            moment = new Date(params.moment);
+        }
 
         getQuery(params, function(query, account) {
 
@@ -196,7 +198,7 @@ exports = module.exports = function(services, app) {
 
                         Promise.all(populatedTypePromises).then(function() {
 
-                            resolveAccountRights(account, account.user.id, docs);
+                            resolveAccountRights(account, account.user.id, docs, moment);
 
                         }).catch(function(err) {
                             service.error(err.message);
