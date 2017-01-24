@@ -63,12 +63,9 @@ grunt test
 ## TODO
 
 - [ ] Display maintenance status on home page
-- [x] Bug: The reset password by mail button does not work
+- [ ] Ignore RTT quantity if less than 35H
 - [ ] Notification checkbox for the new rights notifications (remove or make it work)
 - [ ] Notification checkbox for approval (remove or make it work)
-- [x] Lock request delete by user in maintenance mode
-- [x] Display duration in the request second step
-- [x] Estimate the consumed quantity on the fly for part-times users
 - [ ] Use the estimed consuption to test against the available quantity on the second step of the request
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
