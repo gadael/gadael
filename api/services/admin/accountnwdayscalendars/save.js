@@ -48,7 +48,7 @@ function getAccount(service, params, next) {
             }
 
             if (!user.roles.account) {
-                service.forbidden(gt.gettext('The user has no vacation account, non working days calendars are only linkable to accounts'));
+                service.forbidden(gt.gettext('The user has no absence account, non working days calendars are only linkable to accounts'));
                 return;
             }
 

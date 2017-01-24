@@ -53,7 +53,7 @@ exports = module.exports = function(app) {
         }
 
         if (0 === ctrl.path.indexOf('/rest/account/') && (!req.isAuthenticated() || !req.user.canPlayRoleOf('account'))) {
-            ctrl.accessDenied(gt.gettext('Access denied for users without vacation account'));
+            ctrl.accessDenied(gt.gettext('Access denied for users without absences account'));
             return false;
         }
 

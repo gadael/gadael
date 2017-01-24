@@ -36,7 +36,7 @@ function validate(service, params)
     .then(request => {
 
         if (request && request.absence && request.absence.compulsoryLeave && request.absence.compulsoryLeave._id) {
-            return service.forbidden(gt.gettext('This has been created in a compulsory leave, modification is not allowed'));
+            return service.forbidden(gt.gettext('This leave has been created in a compulsory leave, modification is not allowed'));
         }
 
         saveRequest(service, params);

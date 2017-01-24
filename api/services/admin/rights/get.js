@@ -48,7 +48,7 @@ exports = module.exports = function(services, app) {
 
 
                 } else {
-                    service.notFound(gt.gettext('This vacation right does not exists'));
+                    service.notFound(gt.gettext('This absence right does not exists'));
                 }
             }
         });

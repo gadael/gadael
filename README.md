@@ -62,6 +62,7 @@ grunt test
 
 ## TODO
 
+- [ ] Display maintenance status on home page
 - [x] Bug: The reset password by mail button does not work
 - [ ] Notification checkbox for the new rights notifications (remove or make it work)
 - [ ] Notification checkbox for approval (remove or make it work)

@@ -66,7 +66,7 @@ exports = module.exports = function(services, app) {
                 }
 
                 if (document.absence && document.absence.compulsoryLeave) {
-                    return service.forbidden(gt.gettext('This has been created in a compulsory leave, deletion is not allowed'));
+                    return service.forbidden(gt.gettext('This leave has been created in a compulsory leave, deletion is not allowed'));
                 }
 
 

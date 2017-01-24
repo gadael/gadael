@@ -32,7 +32,7 @@ Rtt.prototype.getName = function() {
 
 Rtt.prototype.getDescription = function() {
     const gt = this.app.utility.gettext;
-    return gt.gettext('Working time reduction right, this right require an annual leave with same renewal period');
+    return gt.gettext('Working time reduction right, this right require an annual leave right overlapping the renewal period');
 };
 
 

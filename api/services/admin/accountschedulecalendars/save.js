@@ -48,7 +48,7 @@ function getAccount(service, params, next) {
             }
 
             if (!user.roles.account) {
-                service.forbidden(gt.gettext('The user has no vacation account, schedule calendars are only linkable to accounts'));
+                service.forbidden(gt.gettext('The user has no absences account, schedule calendars are only linkable to accounts'));
                 return;
             }
 
@@ -91,7 +91,7 @@ function saveAccountScheduleCalendar(service, params) {
                     if (service.handleMongoError(err)) {
                         service.resolveSuccessGet(
                             document._id,
-                            gt.gettext('The account schedule calendar period has been modified')
+                            gt.gettext('The account schedule period has been modified')
                         );
                     }
                 });
