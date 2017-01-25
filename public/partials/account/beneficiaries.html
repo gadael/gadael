@@ -20,7 +20,7 @@
                     <li ng-repeat="rule in beneficiary.right.rules">{{rule.title}}</li>
                 </ol>
 
-                <div class="col-xs-12" ng-repeat="err in beneficiary.errors">
+                <div class="col-xs-12 top15" ng-repeat="err in beneficiary.errors">
                     <i class="fa fa-warning fa-3x fa-pull-left text-danger"></i>
                     {{err.renewal.start|date}} <i class="fa fa-long-arrow-right text-primary"></i> {{err.renewal.finish|date}}<br />
                     <strong class="text-danger">{{err.error}}</strong>

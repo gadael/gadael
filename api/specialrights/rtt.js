@@ -49,15 +49,18 @@ Rtt.prototype.getQuantity = function(renewal, user) {
     .then(account => {
 
         return Promise.all([
-        //    account.getWeekHours(renewal.start, renewal.finish),
             renewal.getPlannedWorkDayNumber(user), // without week-ends, annual leaves and non working days
-            account.getIntersectCollection(renewal.start, renewal.finish) // collection on period start
+            account.getIntersectCollection(renewal.start, renewal.finish), // collection on period start
+            account.getWeekHours(renewal.start, renewal.finish)
         ]);
     })
     .then(all => {
 
+        if (35 >= all[2].hours) {
+            throw new Error(gt.gettext('Less than 35 hours per week of work where found on the renewal period'));
+        }
+
         if (null === all[1]) {
-            // TODO: return 0 instead of error message if getIntersectCollection work correctly
             throw new Error(util.format(gt.gettext('No collection found on the renewal period from %s to %s'), renewal.start, renewal.finish));
         }
 
