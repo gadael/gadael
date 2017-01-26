@@ -123,7 +123,7 @@ msgstr "Ajouter une quantité à récupérer"
 msgid "Add a request"
 msgstr "Ajouter une demande"
 
-#: public/partials/account/request/requests.html
+#: public/partials/account/request/requests.html public/partials/home.html
 msgid "Add a request..."
 msgstr "Ajouter une demande..."
 
@@ -167,11 +167,23 @@ msgstr "Jours supplémentaires après la date de fin du renouvellement :"
 msgid "Additional days before the renewal start date:"
 msgstr "Jours supplémentaires avant la date de début du renouvellement :"
 
+#: public/partials/admin/right-edit.html
+msgid ""
+"Adjust the available quantity automatically from the consuption of other "
+"rights"
+msgstr ""
+"Ajuster la quantité disponible à partir de la consommation sur d'autres "
+"droits"
+
+#: public/partials/admin/right-edit.html
+msgid "Adjustements quantity"
+msgstr "Quantité des ajustements"
+
 #: public/partials/admin/beneficiary-edit.html
 msgid "adjustments included"
 msgstr "Ajustements inclus"
 
-#: public/index.html
+#: public/index-dev.html public/index.html
 msgid "Admin"
 msgstr "Administration"
 
@@ -194,6 +206,16 @@ msgstr "Tout les gestionnaires doivent confirmer l'étape d'approbation"
 #: public/partials/admin/right-edit.html
 msgid "Allow to save quantity from this right to the time deposit account"
 msgstr "Autoriser l'épargne de ce droit vers les comptes épargne temps"
+
+#: public/partials/admin/right-view.html
+msgid ""
+"An adjustment of {{right.autoAdjustment.quantity | number}} {{right."
+"disp_unit}} is automatically created every {{right.autoAdjustment.step | "
+"number}} {{right.disp_unit}} consumed on"
+msgstr ""
+"Un ajustement de {{right.autoAdjustment.quantity | number}} {{right."
+"disp_unit}} est automatiquement créé tous les {{right.autoAdjustment.step | "
+"number}} {{right.disp_unit}} consommés sur"
 
 #: public/partials/admin/user-edit.html public/partials/admin/user-view.html
 msgid "Application administrator"
@@ -463,6 +485,10 @@ msgstr "Consommer le jour travaillé suivant"
 msgid "Consume worked days"
 msgstr "Utiliser les jours travaillés"
 
+#: public/partials/admin/right-edit.html
+msgid "Consumed on types"
+msgstr "Consommée sur les types"
+
 #: public/partials/admin/account-renewalquantity-edit.html
 msgid "Consumed quantity"
 msgstr "Quantité consommée"
@@ -473,6 +499,9 @@ msgid "Consumed:"
 msgstr "Consommé :"
 
 #: public/partials/utils/common/request/absence-edit.html
+msgid "Consumption"
+msgstr "Consommation"
+
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid ""
 "Consumption on the selected period: {{selection.days}} or {{selection.hours}}"
@@ -480,6 +509,7 @@ msgstr ""
 "Consommation sur la période sélectionnée : {{selection.days}} ou {{selection."
 "hours}}"
 
+#: public/partials/admin/export/exports.html
 #: public/partials/admin/modal-specialrights.html
 #: public/partials/utils/common/request/absence-edit.html
 msgid "Continue"
@@ -557,6 +587,10 @@ msgid ""
 msgstr ""
 "Créer une demande d'absence entre deux dates, la demande sera envoyée à "
 "votre supérieur hiérarchique pour approbation."
+
+#: public/partials/admin/right-edit.html
+msgid "Create an adjustment every"
+msgstr "Créer un ajustement tous les"
 
 #: public/partials/account/request/requests.html
 #: public/partials/manager/waitingrequests.html
@@ -645,7 +679,7 @@ msgstr "Service :"
 msgid "Departments"
 msgstr "Services"
 
-#: public/index.html
+#: public/index-dev.html public/index.html
 msgid "Departments supervision"
 msgstr "Supervision des services"
 
@@ -852,7 +886,7 @@ msgstr "de"
 #: public/partials/utils/common/calendar/popover-event.html
 #: public/partials/utils/common/request/request-list-type.html
 msgid "From"
-msgstr "De"
+msgstr "Du"
 
 #: public/partials/utils/common/request/absence-edit.html
 msgid ""
@@ -1116,7 +1150,7 @@ msgstr "Mon service : {{sessionUser.department.name}}"
 msgid "My rights"
 msgstr "Mes droits"
 
-#: public/index.html
+#: public/index-dev.html public/index.html
 msgid "My vacations"
 msgstr "Mes congés"
 
@@ -1129,8 +1163,16 @@ msgid "Name of the event to recover"
 msgstr "Nom de l'événement à récupérer"
 
 #: public/partials/home.html
+msgid "New absence right"
+msgstr "Nouveau droit d'absence"
+
+#: public/partials/home.html
 msgid "New account created"
 msgstr "Nouveau compte créé"
+
+#: public/partials/home.html
+msgid "New department"
+msgstr "Nouveau service"
 
 #: public/partials/admin/user-edit.html
 #: public/partials/user/settings-password.html
@@ -1144,6 +1186,10 @@ msgstr "Nouveau mot de passe :"
 #: public/partials/admin/request/absence-edit.html
 msgid "New request for {{request.user.name}}"
 msgstr "Nouvelle demande pour {{request.user.name}}"
+
+#: public/partials/home.html
+msgid "New user"
+msgstr "Nouvel utilisateur"
 
 #: public/partials/admin/account-renewalquantity-edit.html
 msgid "Next collection"
@@ -1251,6 +1297,10 @@ msgstr "étapes d'approbation en cours"
 #: public/partials/admin/right-edit.html
 msgid "Options"
 msgstr "Options"
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "or"
+msgstr "ou"
 
 #: public/partials/admin/adjustment-edit.html
 msgid "Or set the available quantity"
@@ -1660,9 +1710,13 @@ msgstr "Définir la quantité de l'ajustement"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: public/index.html public/partials/login/login.html
+#: public/index-dev.html public/index.html public/partials/login/login.html
 msgid "Sign In"
 msgstr "Connexion"
+
+#: public/partials/admin/user-view-account.html
+msgid "Some renewals are invalids"
+msgstr "Certains renouvellements ne sont pas valides"
 
 #: public/js/controllers/admin/rights-sort.js
 msgid "Sort absence rights"
@@ -1778,6 +1832,10 @@ msgid ""
 msgstr ""
 "L'utilisateur peut être impliqué dans la validation des demandes des membres "
 "de son service"
+
+#: public/partials/admin/account-renewalquantity-edit.html
+msgid "There are no configured rights to display"
+msgstr "Il n'y a pas de droits configurés à afficher"
 
 #: public/partials/admin/user-view-manager.html
 msgid "This manager has no departments configured for approval"
@@ -2001,6 +2059,10 @@ msgstr "Voir l'agenda"
 msgid "View more"
 msgstr "Voir plus"
 
+#: public/partials/admin/types.html
+msgid "View rights"
+msgstr "Voir les droits"
+
 #: public/partials/admin/departments.html
 msgid "View sub-departments"
 msgstr "Voir les sous-services"
@@ -2018,12 +2080,16 @@ msgstr "Demande de {{request.dispType}} en attente d'approbation"
 msgid "Waiting approval"
 msgstr "En attente d'approbation"
 
+#: public/partials/utils/common/calendar/listdays.html
+msgid "Waiting approval for delete"
+msgstr "En attente d'approbation de suppression"
+
 #: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: public/partials/login/createfirstadmin.html
+#: public/partials/home.html public/partials/login/createfirstadmin.html
 msgid "Wellcome"
 msgstr "Bienvenue"
 

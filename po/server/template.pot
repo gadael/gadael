@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-23 22:28+0100\n"
+"POT-Creation-Date: 2017-01-26 16:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,22 +40,26 @@ msgstr ""
 
 #: api/specialrights/rtt.js:35
 msgid ""
-"Working time reduction right, this right require an annual leave with same "
-"renewal period"
+"Working time reduction right, this right require an annual leave right "
+"overlapping the renewal period"
 msgstr ""
 
-#: api/specialrights/rtt.js:61
+#: api/specialrights/rtt.js:60
+msgid "Less than 35 hours per week of work where found on the renewal period"
+msgstr ""
+
+#: api/specialrights/rtt.js:64
 #, javascript-format
 msgid "No collection found on the renewal period from %s to %s"
 msgstr ""
 
-#: api/specialrights/rtt.js:68
+#: api/specialrights/rtt.js:71
 msgid ""
 "The collection does not contain the number of days from the collective "
 "agreement"
 msgstr ""
 
-#: api/specialrights/rtt.js:79
+#: api/specialrights/rtt.js:82
 msgid "RTT is computed from the user time schedule on the renewal period"
 msgstr ""
 
@@ -102,7 +106,7 @@ msgstr ""
 
 #: api/services/admin/accountnwdayscalendars/save.js:51
 msgid ""
-"The user has no vacation account, non working days calendars are only "
+"The user has no absence account, non working days calendars are only "
 "linkable to accounts"
 msgstr ""
 
@@ -227,7 +231,7 @@ msgstr ""
 
 #: api/services/admin/accountschedulecalendars/save.js:51
 msgid ""
-"The user has no vacation account, schedule calendars are only linkable to "
+"The user has no absences account, schedule calendars are only linkable to "
 "accounts"
 msgstr ""
 
@@ -237,7 +241,7 @@ msgid "AccountScheduleCalendar document not found for id %s"
 msgstr ""
 
 #: api/services/admin/accountschedulecalendars/save.js:94
-msgid "The account schedule calendar period has been modified"
+msgid "The account schedule period has been modified"
 msgstr ""
 
 #: api/services/admin/accountschedulecalendars/save.js:116
@@ -428,7 +432,7 @@ msgid "The right renewal period has been created"
 msgstr ""
 
 #: api/services/admin/rights/get.js:51
-msgid "This vacation right does not exists"
+msgid "This absence right does not exists"
 msgstr ""
 
 #: api/services/admin/rights/delete.js:29
@@ -470,7 +474,7 @@ msgstr ""
 
 #: api/services/admin/accountcollections/save.js:53
 msgid ""
-"The user has no vacation account, collections are only linkable to accounts"
+"The user has no absence account, collections are only linkable to accounts"
 msgstr ""
 
 #: api/services/admin/accountcollections/save.js:96
@@ -540,7 +544,8 @@ msgid "The request is not accessible"
 msgstr ""
 
 #: api/services/user/requests/delete.js:69
-msgid "This has been created in a compulsory leave, deletion is not allowed"
+msgid ""
+"This leave has been created in a compulsory leave, deletion is not allowed"
 msgstr ""
 
 #: api/services/user/requests/delete.js:87
@@ -549,14 +554,15 @@ msgstr ""
 
 #: api/services/user/requests/save.js:39
 msgid ""
-"This has been created in a compulsory leave, modification is not allowed"
+"This leave has been created in a compulsory leave, modification is not "
+"allowed"
 msgstr ""
 
-#: api/services/user/requests/save.js:334
+#: api/services/user/requests/save.js:339
 msgid "The request has been modified"
 msgstr ""
 
-#: api/services/user/requests/save.js:370
+#: api/services/user/requests/save.js:375
 msgid "The request has been created"
 msgstr ""
 
@@ -619,7 +625,7 @@ msgid "A secondary calendar has been created"
 msgstr ""
 
 #: api/services/user/googlecalendars/save.js:40
-msgid "Leave periods provided by gadael.com"
+msgid "Leave periods provided by gadael"
 msgstr ""
 
 #: api/services/manager/waitingrequests/save.js:142
@@ -687,7 +693,7 @@ msgid "Access denied for non administrators"
 msgstr ""
 
 #: modules/apputil.js:56
-msgid "Access denied for users without vacation account"
+msgid "Access denied for users without absences account"
 msgstr ""
 
 #: modules/apputil.js:61
@@ -1006,47 +1012,47 @@ msgstr ""
 msgid "You are disconnected from your google calendar"
 msgstr ""
 
-#: schema/Request.js:336
+#: schema/Request.js:337
 msgid "Leave"
 msgstr ""
 
-#: schema/Request.js:340
+#: schema/Request.js:341
 msgid "Time saving deposit"
 msgstr ""
 
-#: schema/Request.js:344
+#: schema/Request.js:345
 msgid "Workperiod recover"
 msgstr ""
 
-#: schema/Request.js:347
+#: schema/Request.js:348
 msgid "Unknown"
 msgstr ""
 
-#: schema/Request.js:362
+#: schema/Request.js:363
 msgid "Waiting approval"
 msgstr ""
 
-#: schema/Request.js:364
+#: schema/Request.js:365
 msgid "Accepted"
 msgstr ""
 
-#: schema/Request.js:366 schema/ApprovalStep.js:74
+#: schema/Request.js:367 schema/ApprovalStep.js:74
 msgid "Rejected"
 msgstr ""
 
-#: schema/Request.js:374
+#: schema/Request.js:375
 msgid "Waiting deletion approval"
 msgstr ""
 
-#: schema/Request.js:376
+#: schema/Request.js:377
 msgid "Deleted"
 msgstr ""
 
-#: schema/Request.js:378
+#: schema/Request.js:379
 msgid "Deletion rejected"
 msgstr ""
 
-#: schema/Request.js:382
+#: schema/Request.js:383
 msgid "Undefined"
 msgstr ""
 
