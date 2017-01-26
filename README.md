@@ -62,7 +62,7 @@ grunt test
 
 ## TODO
 
-- [ ] Bug: Consuption is not visible on graph
+- [x] Bug: Consuption is not visible on graph
 - [ ] Auto distribution on rights when possible
 - [ ] Display maintenance status on home page
 - [x] Ignore RTT quantity if less than 35H

@@ -87,6 +87,11 @@ function prepareRequestFields(service, params, user)
                 created: 'accepted'
             };
 
+            fieldsToSet.validInterval = [{
+                start: new Date(),
+                finish: null
+            }];
+
         } else {
 
             fieldsToSet.status = {

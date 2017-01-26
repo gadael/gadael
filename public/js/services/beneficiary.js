@@ -130,6 +130,8 @@ define(['q', 'async'], function(Q, async) {
                  */
                 function addHistoryQuantity(request, quantity)
                 {
+                    console.log(request.validInterval);
+
                     if (undefined === request.validInterval) {
                         return;
                     }
@@ -157,6 +159,7 @@ define(['q', 'async'], function(Q, async) {
 
                 requestsPromise.then(function(requests) {
                     requests.forEach(function(r) {
+
                         var elem = getElem(r);
                         if (null !== elem) {
                             addHistoryQuantity(r, (-1 * elem.consumedQuantity));

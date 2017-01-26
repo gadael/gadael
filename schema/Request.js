@@ -110,6 +110,7 @@ exports = module.exports = function(params) {
     });
 
 
+
     /**
      * Update auto adjustments for all rights associated to request recipient
      * @return {Promise}
