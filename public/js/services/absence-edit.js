@@ -80,7 +80,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
             /**
              * Get a classname for the input field
-             * @param {Number} value
+             * @param {Number} value            Consumed quantity
              * @param {Number} availableQte
              * @param {Boolean} completed
              * @return string
@@ -145,8 +145,8 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                 // second pass, apply styles on cells
                 browseInputValue(function(renewalId) {
-                    var inputValue = distribution.renewal[renewalId].quantity;
-                    $scope.distribution.class[renewalId] = getValueClass(inputValue, available[renewalId], completed);
+                    var consumedQuantity = distribution.renewal[renewalId].consumedQuantity;
+                    $scope.distribution.class[renewalId] = getValueClass(consumedQuantity, available[renewalId], completed);
                 });
 
                 // Assigned duration to display to the user
