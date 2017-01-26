@@ -1,4 +1,4 @@
-<div class="row panel panel-primary">
+<div class="row panel panel-primary line4">
 
     <div class="col-md-6 top10">
 
@@ -17,7 +17,9 @@
 
 
         <dl class="dl-horizontal">
-            <dt translate>Status:</dt>              <dd>{{request.status.title}}</dd>
+            <dt translate>Status:</dt>              <dd><span ng-class="[{ 'label label-success': request.status.created=='accepted' }, { 'label label-danger': request.status.created=='rejected' }]">
+                <i ng-class="[{ 'fa fa-thumbs-up': request.status.created=='accepted' }, { 'fa fa-thumbs-down': request.status.created=='rejected' }]"></i> {{request.status.title}}
+            </span></dd>
             <dt translate>Total consumption:</dt>   <dd>{{stat.consumed.D| number}} <span translate>Days</span></dd>
             <dt translate>Total duration:</dt>      <dd>{{stat.duration.D| number}} <span translate>Days</span></dd>
         </dl>

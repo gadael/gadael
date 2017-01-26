@@ -432,7 +432,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         if (undefined === row) {
                             continue;
                         }
-                        row.consumedQuantity = Math.round(10*renewalCons[id])/10;
+                        row.consumedQuantity = renewalCons[id];
                         row.isLoading = false;
                     }
 

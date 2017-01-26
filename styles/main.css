@@ -331,3 +331,11 @@ http://stackoverflow.com/questions/20547819/vertical-align-with-bootstrap-3 */
 .pw-level3 { background: #fff500; }
 .pw-level4 { background: #b6d144; }
 .pw-level5 { background: #00ba00; }
+
+
+body .line1 * { line-height: 1.4em }
+body .line2 * { line-height: 1.6em }
+body .line3 * { line-height: 1.8em }
+body .line4 * { line-height: 2em }
+body .line5 * { line-height: 2.2em }
+body .line6 * { line-height: 2.4em }
