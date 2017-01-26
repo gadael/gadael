@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-26 16:57+0100\n"
+"POT-Creation-Date: 2017-01-26 21:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1010,6 +1010,22 @@ msgstr ""
 
 #: rest/user/googlecalendar.js:92
 msgid "You are disconnected from your google calendar"
+msgstr ""
+
+#: schema/Right_Renewal.js:67
+msgid "The renewals periods must not overlap"
+msgstr ""
+
+#: schema/Right_Renewal.js:963
+msgid ""
+"To compute the number of planned working days, the annual leave type is "
+"required"
+msgstr ""
+
+#: schema/Right_Renewal.js:972
+msgid ""
+"To compute the number of planned working days, the annual leave initial "
+"quantity is required"
 msgstr ""
 
 #: schema/Request.js:337

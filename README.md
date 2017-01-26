@@ -33,8 +33,6 @@ git clone https://github.com/gadael/gadael
 cd gadael
 npm install
 bower install
-grunt build
-grunt
 ```
 
 
@@ -47,22 +45,38 @@ First argument is the database name, default is gadael.
 Second argument is your company name, default is "Gadael".
 Third argument is the country code used to initialize the database, if not provided the leave rights list will be empty.
 
-open http://localhost:3000 in your browser
+Run server
+
+```bash
+node app.js 3000 gadael
+```
+
+First argument is the http port
+second argument is the database name
+
+open http://localhost:3000 in your browser, you will be required to create an admin account on the first page.
 
 Application listen on localhost only, an https reverse proxy will be necessary to open access to users.
 
 The file config.example.js can be copied to config.js for futher modifications.
 
 
-## Tests
+## Developpement
 
+Install grunt as root
 ```bash
-grunt test
+npm install -g grunt-cli
+```
+
+List of supported command for developpement:
+```bash
+grunt --help
 ```
 
 ## TODO
 
-- [x] Bug: Consuption is not visible on graph
+- [ ] Bug: The first email shoud notify about the account creation, not role modification
+- [x] Bug: Consumption is not visible on graph
 - [ ] Auto distribution on rights when possible
 - [ ] Display maintenance status on home page
 - [x] Ignore RTT quantity if less than 35H

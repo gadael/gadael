@@ -398,7 +398,7 @@ define([
 
 
     /**
-     * Load the Beneficiary service
+     * Load the getRightRuleType service
      */
     .factory('getRightRuleType', ['gettext',
         function(gettext) {

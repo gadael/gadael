@@ -125,10 +125,10 @@ exports = module.exports = function(params) {
 
             let collections = [
                 { _id: '5740adf51cf1a569643cc520', name: gt.gettext('General regime 100%'), attendance: 100, workedDays: 218 },
-                { _id: '5740adf51cf1a569643cc521', name: gt.gettext('Part-time 90%'), attendance: 90 },
-                { _id: '5740adf51cf1a569643cc522', name: gt.gettext('Part-time 80%'), attendance: 80 },
-                { _id: '5740adf51cf1a569643cc523', name: gt.gettext('Part-time 70%'), attendance: 70 },
-                { _id: '5740adf51cf1a569643cc524', name: gt.gettext('Part-time 50%'), attendance: 50 }
+                { _id: '5740adf51cf1a569643cc521', name: gt.gettext('Part-time 90%'), attendance: 90, workedDays: 218 },
+                { _id: '5740adf51cf1a569643cc522', name: gt.gettext('Part-time 80%'), attendance: 80, workedDays: 218 },
+                { _id: '5740adf51cf1a569643cc523', name: gt.gettext('Part-time 70%'), attendance: 70, workedDays: 218 },
+                { _id: '5740adf51cf1a569643cc524', name: gt.gettext('Part-time 50%'), attendance: 50, workedDays: 218 }
             ];
 
 

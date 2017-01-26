@@ -288,10 +288,10 @@ define(['q', 'async'], function(Q, async) {
 
 
 
-                    createGraphValues(beneficiary.renewals, requests.$promise, function(values) {
+                    createGraphValues(beneficiary.renewals, requests.$promise, function(value) {
                         $scope.timedAvailableQuantity = [{
-                            "key": "Available quantity",
-                            "values": values
+                            "key": gettext('Available quantity'),
+                            "values": value
                         }];
                     });
                 });

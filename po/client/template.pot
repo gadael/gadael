@@ -278,6 +278,7 @@ msgstr ""
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
 #: public/partials/utils/common/request/absence-edit.html
+#: public/js/services/beneficiary.js
 msgid "Available quantity"
 msgstr ""
 

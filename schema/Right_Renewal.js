@@ -6,6 +6,7 @@ exports = module.exports = function(params) {
 
 	var mongoose = params.mongoose;
 
+
 	var rightRenewalSchema = new mongoose.Schema({
 
         right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
@@ -43,6 +44,8 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.checkOverlap = function()
     {
+		const gt = params.app.utility.gettext;
+
         var deferred = {};
         deferred.promise = new Promise(function(resolve, reject) {
             deferred.resolve = resolve;
@@ -61,7 +64,7 @@ exports = module.exports = function(params) {
                 }
 
                 if (renewals > 0) {
-                    return deferred.reject(new Error('The renewals periods must not overlap'));
+                    return deferred.reject(new Error(gt.gettext('The renewals periods must not overlap')));
                 }
 
                 deferred.resolve(true);
@@ -932,6 +935,7 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getPlannedWorkDayNumber = function(user) {
 
+		const gt = params.app.utility.gettext;
         let renewal = this;
         let weekEnds, nonWorkingDays;
 
@@ -956,7 +960,7 @@ exports = module.exports = function(params) {
             return Type.findOne({ _id: '5740adf51cf1a569643cc508'}).exec()
             .then(type => {
                 if (null === type) {
-                    throw new Error('To compute the number of planned working days, the annual leave type is required');
+                    throw new Error(gt.gettext('To compute the number of planned working days, the annual leave type is required'));
                 }
 
                 return type.getInitialQuantityInPeriod(user, renewal.start, renewal.finish);
@@ -965,7 +969,7 @@ exports = module.exports = function(params) {
 
         }).then(initalQuantity => {
             if (0 === initalQuantity) {
-                throw new Error('To compute the number of planned working days, the annual leave initial quantity is required');
+                throw new Error(gt.gettext('To compute the number of planned working days, the annual leave initial quantity is required'));
             }
 
 			// Number of days on the renewal period 	~365
