@@ -52,7 +52,7 @@
                         <i class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}" title="{{beneficiary.right.type.name}}"></i>
                         {{beneficiary.right.name}}
                     </h3>
-                    <div class="col-sm-4 text-right top30 text-info">
+                    <div class="col-sm-4 text-right top30 text-info" ng-if="beneficiary.right.quantity">
                         <small title="{{'Initial quantity on renewal creation'|translate}}">{{beneficiary.right.quantity|number}} {{beneficiary.initial_quantity_dispUnit}}</small>
                     </div>
                 </div>

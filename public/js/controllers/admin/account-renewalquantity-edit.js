@@ -172,13 +172,14 @@ define([], function() {
          */
         function setNewAdjustment(renewal, quantity) {
 
+            removeFromNewAdjustments(renewal);
+
             var adjustment = new adjustmentResource();
 
             adjustment.user = $scope.user._id;
             adjustment.rightRenewal = renewal;
             adjustment.quantity = quantity;
             adjustment.comment = null;  // must be set on save
-
             newAdjustments.push(adjustment);
         }
 
