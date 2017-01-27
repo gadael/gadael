@@ -75,7 +75,7 @@ grunt --help
 
 ## TODO
 
-- [ ] Bug: The first email shoud notify about the account creation, not role modification
+- [x] Bug: The first email shoud notify about the account creation, not role modification
 - [x] Bug: Consumption is not visible on graph
 - [x] Auto distribution on rights when possible
 - [x] Display maintenance status on home page
