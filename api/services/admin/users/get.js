@@ -18,7 +18,7 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
 
         service.app.db.models.User
-        .findOne({ '_id' : params.id }, 'lastname firstname email image isActive department roles timeCreated validInterval')
+        .findOne({ '_id' : params.id }, 'lastname firstname email isActive department roles timeCreated validInterval')
         .populate('department')
         .populate('roles.account')
         .populate('roles.admin')

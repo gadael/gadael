@@ -11,7 +11,7 @@
 
 /**
  * Create the query with filters
- * 
+ *
  * @param {listItemsService} service
  * @param {array} params      query parameters if called by controller
  * @param {function} next
@@ -30,7 +30,7 @@ var query = function(service, params, next) {
         .populate('roles.account')
         .populate('roles.admin')
         .populate('roles.manager');
-    
+
     if (!params) {
         return next(find);
     }
@@ -41,15 +41,15 @@ var query = function(service, params, next) {
             { lastname: new RegExp('^'+params.name, 'i') }
         ]);
     }
-    
+
     if (params.isAccount) {
         find.where('roles.account').exists();
     }
-    
+
     if (params.isAdmin) {
         find.where('roles.admin').exists();
     }
-    
+
     if (params.isManager) {
         find.where('roles.manager').exists();
     }
@@ -101,34 +101,34 @@ var query = function(service, params, next) {
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.list(app);
-    
+
     /**
      * Call the users list service
-     * 
+     *
      * @param {Object} params
      * @param {function} [paginate]  Optional parameter to paginate the results
      *
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-        
+
         query(service, params, function(find) {
-            
-            find.select('lastname firstname email image roles isActive department validInterval').sort('lastname');
-            
+
+            find.select('lastname firstname email roles isActive department validInterval').sort('lastname');
+
             service.resolveQuery(find, paginate, function(err, docs) {
                 if (service.handleMongoError(err)) {
-                    
+
                     var promises = [];
                     var userComplete= require('../../../../modules/userComplete');
-                    
+
                     for(var i=0; i<docs.length; i++) {
                         promises.push(userComplete(docs[i]));
                     }
 
-                    
+
                     Promise.all(promises).then(function(objects) {
                         service.outcome.success = true;
                         service.deferred.resolve(objects);
@@ -136,15 +136,11 @@ exports = module.exports = function(services, app) {
                 }
             });
         });
-        
-        
+
+
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
-
-

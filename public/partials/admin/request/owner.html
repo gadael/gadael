@@ -4,7 +4,7 @@
     </div>
     <div class="panel-body">
         <div class="text-center">
-            <img ng-src="{{request.user.id.image}}" class="img-rounded" />
+            <img ng-src="{{request.user.id.imageUrl}}" class="img-rounded" />
             <h4><a href="#/admin/users/{{request.user.id._id}}">{{request.user.name}}</a></h4>
         </div>
 
@@ -18,7 +18,7 @@
             <dt ng-if="1 < request.approvalSteps[0].approvers.length"><span translate>Supervisors</span></dt>
             <dd ng-repeat="approver in request.approvalSteps[0].approvers">
                 <a href="#/admin/users/{{approver._id}}">
-                    <img ng-if="approver.image" ng-src="{{approver.image}}" height="20" />
+                    <img ng-if="approver.imageUrl" ng-src="{{approver.imageUrl}}" height="20" />
                     {{approver.lastname}} {{approver.firstname}}
                 </a>
             </dd>

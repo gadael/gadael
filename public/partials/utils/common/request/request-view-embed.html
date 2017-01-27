@@ -21,8 +21,8 @@
             <td class="hidden-xs hidden-sm">{{step.department}}</td>
             <td>
                 <div class="bottom5" ng-repeat="approver in step.approvers">
-                    <i class="fa fa-user" ng-if="!approver.image"></i>
-                    <img ng-if="approver.image" ng-src="{{approver.image}}" class="img-rounded" height="30" />
+                    <i class="fa fa-user" ng-if="!approver.imageUrl"></i>
+                    <img ng-if="approver.imageUrl" ng-src="{{approver.imageUrl}}" class="img-rounded" height="30" />
                     &nbsp; {{approver.lastname}} {{approver.firstname}}
                 </div>
             </td>
@@ -37,8 +37,8 @@
     <div class="gadael-list-rows">
         <div class="row" ng-repeat="log in request.requestLog">
             <div class="col-md-2 hidden-xs hidden-sm text-center">
-                <i class="fa fa-user fa-2x" ng-if="!log.userCreated.id.image"></i>
-                <img ng-if="log.userCreated.id.image" ng-src="{{log.userCreated.id.image}}" class="img-rounded" height="50" />
+                <i class="fa fa-user fa-2x" ng-if="!log.userCreated.id.imageUrl"></i>
+                <img ng-if="log.userCreated.id.imageUrl" ng-src="{{log.userCreated.id.imageUrl}}" class="img-rounded" height="50" />
                 <br />
                 {{log.userCreated.name}}
             </div>

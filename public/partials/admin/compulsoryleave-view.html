@@ -57,8 +57,8 @@
     <div class="row" ng-repeat="compulsoryLeaveRequest in compRequest">
 
         <div class="col-sm-4">
-            <img ng-src="{{compulsoryLeaveRequest.user.image}}" ng-if="compulsoryLeaveRequest.user.image" height="35" class="img-rounded" />
-            <i class="user-35 fa fa-user text-muted fa-2x" ng-if="!compulsoryLeaveRequest.user.image"></i>
+            <img ng-src="{{compulsoryLeaveRequest.user.imageUrl}}" ng-if="compulsoryLeaveRequest.user.imageUrl" height="35" class="img-rounded" />
+            <i class="user-35 fa fa-user text-muted fa-2x" ng-if="!compulsoryLeaveRequest.user.imageUrl"></i>
             <a ng-href="#/admin/users/{{compulsoryLeaveRequest.user.id}}">{{compulsoryLeaveRequest.user.name}}</a>
         </div>
 

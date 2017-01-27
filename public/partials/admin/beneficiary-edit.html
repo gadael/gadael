@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-sm-3">
 
-        <img class="img-rounded" ng-if="user.image" ng-src="{{user.image}}" />
-        <i class="top15 glyphicon glyphicon-user text-muted fa-5x" ng-if="!user.image"></i>
+        <img class="img-rounded" ng-if="user.imageUrl" ng-src="{{user.imageUrl}}" />
+        <i class="top15 glyphicon glyphicon-user text-muted fa-5x" ng-if="!user.imageUrl"></i>
 
         <h3><a ng-href="#/admin/users/{{user._id}}">{{user.lastname}} {{user.firstname}}</a></h3>
 

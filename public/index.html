@@ -43,8 +43,8 @@
 				<li ng-switch-when="0"><a href="#/login"><i class="fa fa-sign-in"></i> <span translate>Sign In</span></a></li>
 				<li class="dropdown" ng-switch-when="1">
 					<a href="" class="dropdown-toggle user-dropdown-menu" bs-dropdown="menu.user">
-                        <img class="img-rounded" ng-src="{{sessionUser.image}}" height="35" />
-                        <i class="fa fa-user" ng-if="!sessionUser.image"></i>
+                        <img class="img-rounded" ng-src="{{sessionUser.imageUrl}}" height="35" />
+                        <i class="fa fa-user" ng-if="!sessionUser.imageUrl"></i>
                         &nbsp; {{sessionUser.firstname}} {{sessionUser.lastname}}
                         <b class="caret"></b>
                     </a>

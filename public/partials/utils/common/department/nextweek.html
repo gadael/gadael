@@ -46,8 +46,8 @@
     <tbody>
         <tr ng-repeat="collaborator in department.days.collaborators">
             <th class="active" ng-class="{ 'btn-link': department.days.adminLink }" ng-click="department.days.viewCollaborator(collaborator)">
-                <img class="img-rounded" ng-src="{{collaborator.image}}" data-title="{{collaborator.lastname}} {{collaborator.firstname}}" height="35" bs-tooltip />
-                <i class="user-35 fa fa-user fa-2x" ng-if="!collaborator.image" title="{{collaborator.lastname}} {{collaborator.firstname}}" bs-tooltip></i>
+                <img class="img-rounded" ng-src="{{collaborator.imageUrl}}" data-title="{{collaborator.lastname}} {{collaborator.firstname}}" height="35" bs-tooltip />
+                <i class="user-35 fa fa-user fa-2x" ng-if="!collaborator.imageUrl" title="{{collaborator.lastname}} {{collaborator.firstname}}" bs-tooltip></i>
                 <span class="hidden-sm hidden-xs">{{collaborator.lastname}} {{collaborator.firstname}}</span>
             </th>
 
