@@ -122,7 +122,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             } else {
 
 
-                var value, days = 0, hours = 0;
+                var inputQuantity, days = 0, hours = 0, daysConsumed = 0, hoursConsumed = 0;
 
                 // first pass, compute total
                 browseInputValue(function(renewalId, rightId) {
@@ -131,11 +131,19 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         return;
                     }
 
-                    value = parseFloat(inputValue);
+                    inputQuantity = parseFloat(inputValue);
+                    var inputConsumption = distribution.renewal[renewalId].consumedQuantity;
 
                     switch(quantity_unit[rightId]) {
-                        case 'D': days  += value; break;
-                        case 'H': hours += value; break;
+                        case 'D':
+                            days  += inputQuantity;
+                            daysConsumed += inputConsumption;
+                            break;
+
+                        case 'H':
+                            hours += inputQuantity;
+                            hoursConsumed += inputConsumption;
+                            break;
                     }
                 });
 
@@ -151,6 +159,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                 // Assigned duration to display to the user
                 distribution.total = RequestEdit.getDuration(days, hours);
+                distribution.totalConsuption = RequestEdit.getDuration(daysConsumed, hoursConsumed);
             }
         }
 
