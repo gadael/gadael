@@ -3,7 +3,7 @@
 const nodemailer = require('nodemailer');
 const Mailgen = require('./mailgen');
 const url = require('url');
-
+let transporter = null;
 
 
 function getUserAddress(user) {
@@ -22,7 +22,10 @@ function Mail(app) {
 
     this.app = app;
 
-    this.transporter = nodemailer.createTransport(app.config.mailtransport);
+    if (null === transporter) {
+        transporter = nodemailer.createTransport(app.config.mailtransport);
+    }
+    this.transporter = transporter;
 
     let company = app.config.company;
 
