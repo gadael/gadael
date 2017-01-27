@@ -251,11 +251,15 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 });
 
                 if (0 === events.length) {
-                    throw new Error('Wrong events count for quantity='+secQuantity+' startDate='+startDate);
+                    throw new Error(gettextCatalog.getString('Wrong events count'));
                 }
 
                 if (matchQuantity && (0 !== secQuantity)) {
-                    throw new Error(secQuantity+ ' seconds remain unconsumed after creation of '+events.length+' events');
+                    throw new Error(
+                        gettextCatalog.getString('Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave')
+                        .replace(/\{duration\}/, secQuantity /3600)
+                        .replace(/\{nbEvents\}/,events.length)
+                    );
                 }
 
                 return events;
@@ -291,7 +295,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             function getSecQuantity(rightId, inputQuantity)
             {
                 if (null === inputQuantity) {
-                    throw new Error('Input quantity must be set');
+                    throw new Error(gettextCatalog.getString('Input quantity must be set'));
                 }
 
                 var u = getQuantityUnit(rightId);
@@ -347,7 +351,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             }
 
             if (0 === distribution.length) {
-                throw new Error('Nothing to save');
+                throw new Error(gettextCatalog.getString('Nothing to save'));
             }
 
             return distribution;
