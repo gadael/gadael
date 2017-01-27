@@ -30,8 +30,7 @@ function saveAccount(service, params, user) {
 
     let fieldsToSet = {
         notify: {
-            approvals: params.roles.account.notify.approvals,
-            allocations: params.roles.account.notify.allocations
+            approvals: params.roles.account.notify.approvals
         }
     };
 
