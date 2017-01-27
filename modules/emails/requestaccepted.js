@@ -42,35 +42,43 @@ exports = module.exports = function getMail(app, request) {
 
     return request.getUser()
     .then(user => {
-        mail.addTo(user);
-
-        let log = request.getLastApprovalRequestLog();
-
-        if ('wf_accept' !== log.action) {
-            throw new Error('Unexpected last approval request log');
-        }
-
-        mail.setMailgenData({
-            body: {
-                title: request.user.name,
-                intro: intro,
-                action: {
-                    instructions: gt.gettext('Consult the request actions history after login into the application'),
-                    button: {
-                        text: gt.gettext('View request'),
-                        link: requestLink
-                    }
-                },
-                outro: util.format(
-                    gt.gettext('Workflow initiated by %s the %s'),
-                    workflowCreation.userCreated.name,
-                    workflowCreation.timeCreated.toLocaleString()
-                ),
-                signature: gt.gettext('Yours truly')
+        return user.getAccount()
+        .then(account => {
+            if (!account.notify.approvals) {
+                throw new Error('This email is disabled in user settings');
             }
-        });
 
-        return mail;
+            mail.addTo(user);
+
+            let log = request.getLastApprovalRequestLog();
+
+            if ('wf_accept' !== log.action) {
+                throw new Error('Unexpected last approval request log');
+            }
+
+            mail.setMailgenData({
+                body: {
+                    title: request.user.name,
+                    intro: intro,
+                    action: {
+                        instructions: gt.gettext('Consult the request actions history after login into the application'),
+                        button: {
+                            text: gt.gettext('View request'),
+                            link: requestLink
+                        }
+                    },
+                    outro: util.format(
+                        gt.gettext('Workflow initiated by %s the %s'),
+                        workflowCreation.userCreated.name,
+                        workflowCreation.timeCreated.toLocaleString()
+                    ),
+                    signature: gt.gettext('Yours truly')
+                }
+            });
+
+            return mail;
+        })
+
     });
 
 

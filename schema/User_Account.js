@@ -45,7 +45,7 @@ exports = module.exports = function(params) {
         },
 
         notify: {
-            approvals: { type: Boolean, default: false }
+            approvals: { type: Boolean, default: true }
         },
 
         sage: {

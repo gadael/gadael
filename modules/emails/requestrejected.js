@@ -22,30 +22,37 @@ exports = module.exports = function getMail(app, request) {
 
     return request.getUser()
     .then(user => {
-        mail.addTo(user);
-
-        let log = request.getLastApprovalRequestLog();
-
-        if ('wf_reject' !== log.action) {
-            throw new Error('Unexpected last approval request log');
-        }
-
-        mail.setMailgenData({
-            body: {
-                title: request.user.name,
-                intro: util.format(gt.gettext('Your %s has been rejected'), request.getDispType()),
-                action: {
-                    instructions: gt.gettext('Consult the request actions history after login into the application'),
-                    button: {
-                        text: gt.gettext('View request'),
-                        link: requestLink
-                    }
-                },
-                signature: gt.gettext('Yours truly')
+        return user.getAccount()
+        .then(account => {
+            if (!account.notify.approvals) {
+                throw new Error('This email is disabled in user settings');
             }
-        });
 
-        return mail;
+            mail.addTo(user);
+
+            let log = request.getLastApprovalRequestLog();
+
+            if ('wf_reject' !== log.action) {
+                throw new Error('Unexpected last approval request log');
+            }
+
+            mail.setMailgenData({
+                body: {
+                    title: request.user.name,
+                    intro: util.format(gt.gettext('Your %s has been rejected'), request.getDispType()),
+                    action: {
+                        instructions: gt.gettext('Consult the request actions history after login into the application'),
+                        button: {
+                            text: gt.gettext('View request'),
+                            link: requestLink
+                        }
+                    },
+                    signature: gt.gettext('Yours truly')
+                }
+            });
+
+            return mail;
+        });
     });
 
 
