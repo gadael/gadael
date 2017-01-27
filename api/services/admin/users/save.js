@@ -89,14 +89,22 @@ function saveUser(service, params) {
             {
                 user.set(fieldsToSet);
 
-                user.save(function(err) {
-                    if (service.handleMongoError(err)) {
+                user.save()
+                .then(function(user) {
+                    return saveUserRoles(service, params, user);
+                })
+                .then(newRoles => {
 
-                        service.success(gt.gettext('The user has been modified'));
+                    service.success(gt.gettext('The user has been modified'));
 
-                        saveUserRoles(service, params, user);
-                    }
-                });
+                    let output = user.toObject();
+                    output.$outcome = service.outcome;
+                    service.deferred.resolve(output);
+
+                    // Notify the user about is roles updates
+                    return sendRolesUpdates(service.app, user, newRoles);
+                })
+                .catch(service.error);
             }
         });
 
@@ -106,11 +114,17 @@ function saveUser(service, params) {
         user.set(fieldsToSet);
 
         user.save()
-        .then(userDocument => {
-
+        .then(user => {
+            return saveUserRoles(service, params, user);
+        })
+        .then(() => {
             service.success(gt.gettext('The user has been created'));
-            saveUserRoles(service, params, userDocument);
 
+            let output = user.toObject();
+            output.$outcome = service.outcome;
+            service.deferred.resolve(output);
+
+            //TODO: send email for user creation?
         })
         .catch(service.error);
     }
@@ -132,7 +146,7 @@ function getRoleObject(checked, object) {
 
 
 /**
- *
+ * @return {Promise}
  */
 function saveUserRoles(service, params, userDocument) {
 
@@ -166,37 +180,54 @@ function saveUserRoles(service, params, userDocument) {
         newRoles.push(gt.gettext('Application administrator'));
     }
 
-    saveRoles(
-        service.app.db.models,
-        userDocument,
-        account,
-        admin,
-        manager,
-        function updateUserWithSavedRoles(err, results) {
+    return new Promise((resolve, reject) => {
+        saveRoles(
+            service.app.db.models,
+            userDocument,
+            account,
+            admin,
+            manager,
+            function updateUserWithSavedRoles(err, results) {
 
-            if (service.handleMongoError(err)) { // error forwarded by async
+                if (err) {
+                    return reject(err);
+                }
+
 
                 userDocument.save(function(err) {
-                    if (service.handleMongoError(err)) { // error for user document
-
-                        var output = userDocument.toObject();
-                        output.$outcome = service.outcome;
-
-                        service.deferred.resolve(output);
+                    if (err) {
+                        return reject(err);
                     }
+
+                    resolve(newRoles);
+
                 });
             }
-        }
-    );
+        );
+    });
+
+
 
 
     // notify about the new roles
+
+}
+
+
+/**
+ * Send roles update emails
+ * @return {Promise}
+ */
+function sendRolesUpdates(app, userDocument, newRoles) {
     if (newRoles.length > 0) {
-        rolesupdated(service.app, userDocument, newRoles)
+        return rolesupdated(app, userDocument, newRoles)
         .then(mail => {
-            mail.send();
+            return mail.send();
         });
     }
+
+    // Nothing to notify
+    return Promise.resolve(true);
 }
 
 
