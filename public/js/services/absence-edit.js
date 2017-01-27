@@ -366,6 +366,69 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             return distribution;
         }
 
+        /**
+         * Initialize distribution using data from the request
+         */
+        function setDistributionRequest($scope) {
+            var ai, aj;
+            var accessiblesRenewals = [];
+            for (ai=0; ai<$scope.accountRights.length; ai++) {
+                for (aj=0; aj<$scope.accountRights[ai].renewals.length; aj++) {
+                    accessiblesRenewals.push($scope.accountRights[ai].renewals[aj]._id);
+                }
+            }
+
+            $scope.request.absence.distribution.forEach(function(element) {
+
+                // add renewal only if exists in accountRights
+
+                if (-1 !== accessiblesRenewals.indexOf(element.right.renewal.id)) {
+
+                    $scope.distribution.renewal[element.right.renewal.id] = {
+                        quantity: element.quantity,
+                        right: element.right.id
+                    };
+                }
+            });
+        }
+
+
+
+        /**
+         * Initialize distribution for rights where it has been allowed
+         */
+        function initializeDistribution($scope) {
+
+            //days
+            var dispatch = $scope.selection.businessDays;
+
+            var ai, aj;
+            for (ai=0; ai<$scope.accountRights.length; ai++) {
+                for (aj=0; aj<$scope.accountRights[ai].renewals.length; aj++) {
+                    var renewalId = $scope.accountRights[ai].renewals[aj]._id;
+                    var right = $scope.accountRights[ai].renewals[aj].right;
+
+                    if (!right.autoDistribution) {
+                        continue;
+                    }
+
+                    if ('D' !== $scope.accountRights[ai].quantity_unit) {
+                        continue;
+                    }
+
+                    var quantity = Math.min(dispatch, $scope.accountRights[ai].available_quantity);
+
+                    dispatch -= quantity;
+
+                    $scope.distribution.renewal[renewalId] = {
+                        quantity: quantity,
+                        right: right._id
+                    };
+
+                }
+            }
+        }
+
 
 
 
@@ -594,31 +657,17 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                             total: RequestEdit.getDuration(days, hours)
                         };
 
+
+
                         // load distribution if this is a request modification
                         if (undefined !== $scope.request.absence && $scope.request.absence.distribution.length > 0) {
 
-                            var ai, aj;
-                            var accessiblesRenewals = [];
-                            for (ai=0; ai<$scope.accountRights.length; ai++) {
-                                for (aj=0; aj<$scope.accountRights[ai].renewals.length; aj++) {
-                                    accessiblesRenewals.push($scope.accountRights[ai].renewals[aj]._id);
-                                }
-                            }
-
-                            $scope.request.absence.distribution.forEach(function(element) {
-
-                                // add renewal only if exists in accountRights
-
-                                if (-1 !== accessiblesRenewals.indexOf(element.right.renewal.id)) {
-
-                                    $scope.distribution.renewal[element.right.renewal.id] = {
-                                        quantity: element.quantity,
-                                        right: element.right.id
-                                    };
-                                }
-                            });
-
+                            setDistributionRequest($scope);
                             distributionWatch($scope.distribution, $scope);
+                        }
+                        else {
+                            // This is a new request, set input quantity for rights where it is allowed
+                            initializeDistribution($scope);
                         }
 
 
