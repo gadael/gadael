@@ -77,7 +77,7 @@ exports = module.exports = function getMail(app, request) {
             });
 
             return mail;
-        })
+        });
 
     });
 

@@ -137,6 +137,8 @@ exports = module.exports = function(app, passport)
     controllers.add('./anonymous/createfirstadmin');
     controllers.add('./anonymous/formlogin');
 
+
+
 	app.post('/rest/login/forgot', require('./login').forgotPassword);
 	app.post('/rest/login/reset', require('./login').resetPassword);
 	app.get('/rest/logout', require('./logout').init);
@@ -171,9 +173,11 @@ exports = module.exports = function(app, passport)
         })(req, res, next);
     });
 
+    // avatars
+    app.get('/users/:userid/image', require('./image').getUserImage);
 
 	// tests
-	app.get('/rest/populate', require('./tests/index').populate);
+	//app.get('/rest/populate', require('./tests/index').populate);
 
 
 

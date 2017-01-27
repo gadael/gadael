@@ -2,15 +2,15 @@
 
     <p><span translate>Current rights collection:</span> {{user.roles.account.currentCollection.name}}</p>
 
-    <div class="alert alert-danger" role="alert" ng-if="!user.roles.account.currentCollection">
-        <span translate>This user has no ongoing right collection, check the vacations collections planning to fix it</span>
-    </div>
+    <p class="text-warning" role="alert" ng-if="!user.roles.account.currentCollection">
+        <i class="fa fa-warning fa-2x fa-pull-left"></i> <span translate>This user has no ongoing right collection, check the vacations collections planning to fix it</span>
+    </p>
 
     <p><span translate>Current workschedule calendar:</span> {{user.roles.account.currentScheduleCalendar.name}}</p>
 
-    <div class="alert alert-danger" role="alert" ng-if="!user.roles.account.currentScheduleCalendar">
-        <span translate>This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it</span>
-    </div>
+    <p class="text-warning" role="alert" ng-if="!user.roles.account.currentScheduleCalendar">
+        <i class="fa fa-warning fa-2x fa-pull-left"></i> <span translate>This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it</span>
+    </p>
 
     <p ng-if="user.roles.account.birth">
         <span translate>Birth date:</span>
@@ -74,7 +74,7 @@
     </table>
 
     <div class="alert alert-danger" role="alert" ng-if="beneficiaries.$resolved && !beneficiaries.length">
-        <span translate>This user has no configured vacation rights for the current period</span>
+        <i class="fa fa-times-circle fa-2x fa-pull-left"></i> <span translate>This user has no configured vacation rights for the current period</span>
     </div>
 </div>
 
@@ -139,7 +139,7 @@
     </table>
 
     <div class="alert alert-danger" role="alert" ng-if="accountScheduleCalendars.$resolved && !accountScheduleCalendars.length">
-        <span>This user has no configured work schedule</span>
+        <i class="fa fa-times-circle fa-2x fa-pull-left"></i> <span translate>This user has no configured work schedule</span>
     </div>
 </div>
 
@@ -176,7 +176,7 @@
     </table>
 
     <div class="alert alert-danger" role="alert" ng-if="accountNWDaysCalendars.$resolved && !accountNWDaysCalendars.length">
-        <span>This user has no configured non-working days</span>
+        <i class="fa fa-times-circle fa-2x fa-pull-left"></i> <span translate>This user has no configured non-working days</span>
     </div>
 </div>
 
@@ -213,6 +213,6 @@
     </table>
 
     <div class="alert alert-success" role="alert" ng-if="adjustedRenewals.$resolved && !adjustedRenewals.length">
-        <span>This user has no configured specific quantity, rights are set by collection only</span>
+        <i class="fa fa-times-circle fa-2x"></i> <span translate>This user has no configured specific quantity, rights are set by collection only</span>
     </div>
 </div>

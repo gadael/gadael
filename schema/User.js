@@ -19,7 +19,7 @@ exports = module.exports = function(params) {
 		email: { type: String, required: true },
 		lastname: { type: String, required: true },
 		firstname: { type: String },
-        image: String, // avatar base64 url with image content
+        image: { type:String, select: false }, // avatar base64 url with image content
 		roles: {
 		  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
 		  account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
@@ -82,6 +82,11 @@ exports = module.exports = function(params) {
 	   var emailRegex = /^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/;
 	   return emailRegex.test(value);
 	}, 'The e-mail field cannot be empty.');
+
+
+	userSchema.virtual('imageUrl').get(function() {
+	    return '/users/'+this._id+'/image';
+	});
 
 
     /**
@@ -1039,6 +1044,8 @@ exports = module.exports = function(params) {
     userSchema.index({ 'facebook.id': 1 });
     userSchema.index({ 'google.id': 1 });
     userSchema.set('autoIndex', params.autoIndex);
+	userSchema.set('toJSON', { virtuals: true });
+	userSchema.set('toObject', { virtuals: true });
 
     params.db.model('User', userSchema);
 
