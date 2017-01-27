@@ -245,6 +245,11 @@ exports = module.exports = function(services, app) {
                 return false;
             }
 
+            if (undefined === params.user && 'nonworkingday' === params.type) {
+                service.forbidden('The user parameter is mandatory for the workschedule type');
+                return false;
+            }
+
             return true;
         }
 
@@ -254,18 +259,18 @@ exports = module.exports = function(services, app) {
         }
 
 
-        getAccount(service, params.user).then(function(account) {
+        getAccount(service, params.user)
+        .then(account => {
 
-
-            getEraFromType(account, params.dtstart, params.dtend, params.type)
+            // account can be null if params.type=holiday
+            return getEraFromType(account, params.dtstart, params.dtend, params.type)
                 .then(substractNonWorkingDays)
-                .then(substractPersonalEvents)
-                .then(function(era) {
-                    service.mongOutcome(null, era.periods);
-                })
-                .catch(service.error);
-
-        }, service.error);
+                .then(substractPersonalEvents);
+        })
+        .then(era => {
+            service.mongOutcome(null, era.periods);
+        })
+        .catch(service.error);
 
 
 

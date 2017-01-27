@@ -37,7 +37,7 @@ exports.getInfos = function(req, res) {
 			lastname: req.user.lastname,
 			firstname: req.user.firstname,
 			email: req.user.email,
-            image: req.user.image,
+            imageUrl: req.user.imageUrl,
             department: req.user.department
 		};
 
