@@ -292,6 +292,7 @@ msgstr "Disponibilité du droit"
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
 #: public/partials/utils/common/request/absence-edit.html
+#: public/js/services/beneficiary.js
 msgid "Available quantity"
 msgstr "Quantité disponible"
 
@@ -728,6 +729,16 @@ msgstr "Ne requiert pas d'approbation"
 msgid "Download"
 msgstr "Téléchargement"
 
+#: public/js/services/absence-edit.js
+msgid ""
+"Duration mismatch: {duration} hours remain unconsumed after the creation of "
+"{nbEvents} events, please check your absence period, it must not overlap "
+"another leave"
+msgstr ""
+"La durée ne correspond pas : {duration} heures restent non consommées après "
+"la création de {nbEvents} événements, veuillez vérifier votre période "
+"d'absence, elle ne doit pas être à cheval sur un autre congé."
+
 #: public/partials/admin/calendars.html public/partials/admin/collections.html
 #: public/partials/admin/compulsoryleave-view.html
 #: public/partials/admin/department-view.html
@@ -1001,6 +1012,10 @@ msgstr "Quantité initiale :"
 msgid "Initial:"
 msgstr "Initiale :"
 
+#: public/js/services/absence-edit.js
+msgid "Input quantity must be set"
+msgstr "La quantité saisie doit être définie"
+
 #: public/partials/utils/common/request/request-view-embed.html
 msgid "Interventions history"
 msgstr "Historique des interventions"
@@ -1238,6 +1253,10 @@ msgstr "Jours fériés"
 #: public/partials/home.html public/partials/manager/waitingrequests.html
 msgid "Nothing to approve"
 msgstr "Rien à approuver"
+
+#: public/js/services/absence-edit.js
+msgid "Nothing to save"
+msgstr "Rien à enregistrer"
 
 #: public/partials/admin/user-view-account.html
 msgid "Notifications options:"
@@ -1766,6 +1785,11 @@ msgstr "Supérieur hiérarchique"
 msgid "Supervisors"
 msgstr "Chefs de service"
 
+#: public/partials/home.html
+msgid "The application is in maintenance, requests will not be modifiables"
+msgstr ""
+"L'application est en maintenance, les demandes ne serons pas modifiables"
+
 #: public/partials/admin/calendar-edit.html
 msgid ""
 "The half day hour is used to convert hours in days durations, for example, "
@@ -2127,6 +2151,10 @@ msgstr "Planning des heures travaillées"
 #: public/partials/utils/common/request/request-list-type.html
 msgid "Worperiod recover"
 msgstr "Récupération de jours travaillés"
+
+#: public/js/services/absence-edit.js
+msgid "Wrong events count"
+msgstr "Le nombre d'événements n'est pas correct"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Years"

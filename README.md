@@ -78,7 +78,7 @@ grunt --help
 - [ ] Bug: The first email shoud notify about the account creation, not role modification
 - [x] Bug: Consumption is not visible on graph
 - [ ] Auto distribution on rights when possible
-- [ ] Display maintenance status on home page
+- [x] Display maintenance status on home page
 - [x] Ignore RTT quantity if less than 35H
 - [ ] Notification checkbox for the new rights notifications (remove or make it work)
 - [ ] Notification checkbox for approval (remove or make it work)

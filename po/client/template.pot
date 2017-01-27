@@ -706,6 +706,10 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
+#: public/js/services/absence-edit.js
+msgid "Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave"
+msgstr ""
+
 #: public/partials/admin/calendars.html
 #: public/partials/admin/collections.html
 #: public/partials/admin/compulsoryleave-view.html
@@ -945,6 +949,10 @@ msgstr ""
 msgid "Initial:"
 msgstr ""
 
+#: public/js/services/absence-edit.js
+msgid "Input quantity must be set"
+msgstr ""
+
 #: public/partials/utils/common/request/request-view-embed.html
 msgid "Interventions history"
 msgstr ""
@@ -1174,6 +1182,10 @@ msgstr ""
 #: public/partials/home.html
 #: public/partials/manager/waitingrequests.html
 msgid "Nothing to approve"
+msgstr ""
+
+#: public/js/services/absence-edit.js
+msgid "Nothing to save"
 msgstr ""
 
 #: public/partials/admin/user-view-account.html
@@ -1691,6 +1703,10 @@ msgstr ""
 msgid "Supervisors"
 msgstr ""
 
+#: public/partials/home.html
+msgid "The application is in maintenance, requests will not be modifiables"
+msgstr ""
+
 #: public/partials/admin/calendar-edit.html
 msgid "The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained."
 msgstr ""
@@ -2004,6 +2020,10 @@ msgstr ""
 
 #: public/partials/utils/common/request/request-list-type.html
 msgid "Worperiod recover"
+msgstr ""
+
+#: public/js/services/absence-edit.js
+msgid "Wrong events count"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
