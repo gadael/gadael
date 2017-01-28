@@ -253,18 +253,15 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
             getLoadPersonalEvents: function(userPromise, personalEvents) {
                 return function(interval) {
 
-                    var deferred = Q.defer();
+                    return userPromise
+                    .then(function(user) {
 
-                    userPromise.then(function(user) {
-
-                        personalEvents.query({
+                        return personalEvents.query({
                             user: user._id,
                             dtstart: interval.from,
                             dtend: interval.to
-                        }).$promise.then(deferred.resolve);
+                        }).$promise;
                     });
-
-                    return deferred.promise;
                 };
             },
 
@@ -274,16 +271,23 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
              * Get period picker callback for non working days
              * @param {Resource} calendars
              * @param {Resource} calendarEvents
+             * @param {Promise} userPromise
              * @return function
              */
-            getLoadNonWorkingDaysEvents: function(calendars, calendarEvents) {
+            getLoadNonWorkingDaysEvents: function(calendars, calendarEvents, userPromise) {
                 return function(interval) {
 
-                    return calendarEvents.query({
-                        type: 'nonworkingday',
-                        dtstart: interval.from,
-                        dtend: interval.to
-                    }).$promise;
+                    return userPromise
+                    .then(function(user) {
+
+                        return calendarEvents.query({
+                            type: 'nonworkingday',
+                            dtstart: interval.from,
+                            dtend: interval.to,
+                            user: user._id
+                        }).$promise;
+
+                    });
                 };
             },
 
@@ -291,7 +295,7 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
             getLoadEvents: function(userPromise, personalEvents, calendars, calendarEvents) {
 
                 var loadPersonalEvents = this.getLoadPersonalEvents(userPromise, personalEvents);
-                var loadNonWorkingDaysEvents = this.getLoadNonWorkingDaysEvents(calendars, calendarEvents);
+                var loadNonWorkingDaysEvents = this.getLoadNonWorkingDaysEvents(calendars, calendarEvents, userPromise);
 
 
 

@@ -75,6 +75,8 @@ grunt --help
 
 ## TODO
 
+- [ ] Bug, comption on absence created by admin on a user
+- [ ] Bug, save absence by admin on a user
 - [ ] Bug absence modification by admin
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
@@ -84,6 +86,8 @@ grunt --help
 - [ ] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request
+- [ ] Admin create a request from the user page
+- [ ] Add checkbox on absence creation to bypass approval when the admin create the request on behalf
 
 
 ## Main packages used
