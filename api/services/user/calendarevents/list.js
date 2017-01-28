@@ -151,8 +151,8 @@ exports = module.exports = function(services, app) {
         {
 
             return getTypeCalendar(service, type)
-            .then(function(calendars) {
-                var calId = calendars.map(function(cal) {
+            .then(calendars => {
+                var calId = calendars.map(cal => {
                     return cal._id;
                 });
 
@@ -187,20 +187,6 @@ exports = module.exports = function(services, app) {
         }
 
 
-        /**
-         * @return {Promise}
-         */
-        function substractNonWorkingDays(era)
-        {
-            if (undefined === params.substractNonWorkingDays || false === params.substractNonWorkingDays) {
-                return Promise.resolve(era);
-            }
-
-            return getEventsTypeEra('nonworkingday', params.dtstart, params.dtend)
-            .then(function(nwEra) {
-                return era.subtractEra(nwEra);
-            });
-        }
 
 
         /**
@@ -211,7 +197,7 @@ exports = module.exports = function(services, app) {
         function substractPersonalEvents(era)
         {
 
-            if (undefined === params.substractPersonalEvents || false === params.substractPersonalEvents) {
+            if (undefined === params.substractPersonalEvents || false === params.substractPersonalEvents || 'false' === params.substractPersonalEvents) {
                 return Promise.resolve(era);
             }
 
@@ -261,6 +247,22 @@ exports = module.exports = function(services, app) {
 
         getAccount(service, params.user)
         .then(account => {
+
+
+            /**
+             * @return {Promise}
+             */
+            function substractNonWorkingDays(era)
+            {
+                if (undefined === params.substractNonWorkingDays || false === params.substractNonWorkingDays || 'false' === params.substractNonWorkingDays) {
+                    return Promise.resolve(era);
+                }
+
+                return getEraFromType(account, params.dtstart, params.dtend, 'nonworkingday')
+                .then(function(nwEra) {
+                    return era.subtractEra(nwEra);
+                });
+            }
 
             // account can be null if params.type=holiday
             return getEraFromType(account, params.dtstart, params.dtend, params.type)
