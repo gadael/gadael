@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-26 17:02+0100\n"
-"PO-Revision-Date: 2017-01-27 09:28+0100\n"
-"Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
+"PO-Revision-Date: 2017-01-28 19:35+0100\n"
+"Last-Translator: marie-laure <marie-laure@rosanbo.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.6.10\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: api/specialrights/timesavingaccount.js:25
@@ -35,8 +35,8 @@ msgid ""
 "Quantity added by the time saving account requests will be made available "
 "for each users on their available quantity"
 msgstr ""
-"La quantité ajoutée pour les demandes d'épargne serons disponibles pour "
-"chaque utilisateurs dans leur solde"
+"La quantité ajoutée pour les demandes d'épargne sera disponibles pour chaque "
+"utilisateur dans leur solde"
 
 #: api/specialrights/rtt.js:29 schema/Type.js:79
 msgid "RTT"
@@ -76,7 +76,7 @@ msgstr ""
 
 #: api/specialrights/annualleave.js:25
 msgid "Annual paid leave"
-msgstr "Congés payé annuel"
+msgstr "congé payé annuel"
 
 #: api/specialrights/annualleave.js:31
 msgid ""
@@ -143,7 +143,7 @@ msgstr "La période à été modifiée dans l'agenda des jours fériés du compt
 
 #: api/services/admin/accountnwdayscalendars/save.js:118
 msgid "The account non working days calendar period has been created"
-msgstr "La période à été créée pour l'agenda des jours fériés du compte"
+msgstr "La période a été créée pour l'agenda des jours fériés du compte"
 
 #: api/services/admin/collections/get.js:27
 msgid "This collection does not exists"
@@ -151,7 +151,7 @@ msgstr "Ce régime n'existe pas"
 
 #: api/services/admin/collections/delete.js:28
 msgid "The collection has been deleted"
-msgstr "Le régime à été supprimé"
+msgstr "Le régime a été supprimé"
 
 #: api/services/admin/collections/save.js:30
 msgid "At least one business day is required"
@@ -163,7 +163,7 @@ msgstr "Le régime a été modifié"
 
 #: api/services/admin/collections/save.js:102
 msgid "The collection has been created"
-msgstr "Le régime à été créé"
+msgstr "Le régime a été créé"
 
 #: api/services/admin/departments/get.js:82
 msgid "This department does not exists"
@@ -171,15 +171,15 @@ msgstr "Le service n'existe pas"
 
 #: api/services/admin/departments/delete.js:27
 msgid "The department has been deleted"
-msgstr "Le service à été supprimé"
+msgstr "Le service a été supprimé"
 
 #: api/services/admin/departments/save.js:59
 msgid "The department has been modified"
-msgstr "Le service à été modifié"
+msgstr "Le service a été modifié"
 
 #: api/services/admin/departments/save.js:77
 msgid "The department has been created"
-msgstr "Le service à été créé"
+msgstr "Le service a été créé"
 
 #: api/services/admin/beneficiaries/get.js:46
 msgid "This beneficiary does not exists"
@@ -191,11 +191,11 @@ msgstr "Le droit n'existe pas ou n'est pas lié au compte ou au régime"
 
 #: api/services/admin/beneficiaries/delete.js:52
 msgid "The right has been removed from user account"
-msgstr "Le droit à été retiré du compte utilisateur"
+msgstr "Le droit a été retiré du compte utilisateur"
 
 #: api/services/admin/beneficiaries/delete.js:54
 msgid "The right has been removed from the collection"
-msgstr "Le droit à été retiré du régime"
+msgstr "Le droit a été retiré du régime"
 
 #: api/services/admin/beneficiaries/save.js:45
 #, javascript-format
@@ -204,11 +204,11 @@ msgstr "Le bénéficiaire du document n'a pas été trouvé pour l'ID %s"
 
 #: api/services/admin/beneficiaries/save.js:59
 msgid "The right association has been modified"
-msgstr "La liaison avec le droit à été modifiée"
+msgstr "La liaison avec le droit a été modifiée"
 
 #: api/services/admin/beneficiaries/save.js:79
 msgid "The right association has been created"
-msgstr "Le droit associé à été créé"
+msgstr "Le droit associé a été créé"
 
 #: api/services/admin/calendars/get.js:33
 msgid "This calendar does not exists"
@@ -221,15 +221,15 @@ msgstr "Cet agenda est verrouillé"
 
 #: api/services/admin/calendars/delete.js:32
 msgid "The calendar has been deleted"
-msgstr "L'agenda à été supprimé"
+msgstr "L'agenda a été supprimé"
 
 #: api/services/admin/calendars/save.js:79
 msgid "The calendar has been modified"
-msgstr "L'agenda à été modifié"
+msgstr "L'agenda a été modifié"
 
 #: api/services/admin/calendars/save.js:93
 msgid "The calendar has been created"
-msgstr "L'agenda à été créé"
+msgstr "L'agenda a été créé"
 
 #: api/services/admin/accountschedulecalendars/get.js:30
 msgid "This schedule calendar does not exists for account"
@@ -247,7 +247,7 @@ msgstr ""
 
 #: api/services/admin/accountschedulecalendars/delete.js:56
 msgid "The calendar has been removed from account"
-msgstr "L'agenda à été retiré du compte"
+msgstr "L'agenda a été retiré du compte"
 
 #: api/services/admin/accountschedulecalendars/save.js:37
 msgid "Cant create AccountScheduleCalendar, missing user or account"
@@ -270,11 +270,11 @@ msgstr "AccountScheduleCalendar n'a pas été trouvé pour l'ID %s"
 
 #: api/services/admin/accountschedulecalendars/save.js:94
 msgid "The account schedule period has been modified"
-msgstr "La période de rythme de travail du compte à été modifiée"
+msgstr "La période de rythme de travail du compte a été modifiée"
 
 #: api/services/admin/accountschedulecalendars/save.js:116
 msgid "The account schedule calendar period has been created"
-msgstr "La période de rythme de travail du compte à été créée"
+msgstr "La période de rythme de travail du compte a été créée"
 
 #: api/services/admin/users/get.js:37 api/services/user/settings/get.js:30
 msgid "This user does not exists"
@@ -282,15 +282,15 @@ msgstr "Cet utilisateur n'existe pas"
 
 #: api/services/admin/users/delete.js:34
 msgid "The user has been deleted"
-msgstr "L'utilisateur à été supprimé"
+msgstr "L'utilisateur a été supprimé"
 
 #: api/services/admin/users/save.js:95
 msgid "The user has been modified"
-msgstr "L'utilisateur à été modifié"
+msgstr "L'utilisateur a été modifié"
 
 #: api/services/admin/users/save.js:111
 msgid "The user has been created"
-msgstr "L'utiilisateur à été créé"
+msgstr "L'utiilisateur a été créé"
 
 #: api/services/admin/users/save.js:142
 msgid "No user document to save roles on"
@@ -400,15 +400,15 @@ msgstr "Ce type est verrouillé"
 
 #: api/services/admin/types/delete.js:32
 msgid "The right type has been deleted"
-msgstr "Le type de droit à été supprimé"
+msgstr "Le type de droit a été supprimé"
 
 #: api/services/admin/types/save.js:58
 msgid "The right type has been modified"
-msgstr "Le type de droit à été modifié"
+msgstr "Le type de droit a été modifié"
 
 #: api/services/admin/types/save.js:77
 msgid "The right type has been created"
-msgstr "Le type de droit à été créé"
+msgstr "Le type de droit a été créé"
 
 #: api/services/admin/compulsoryleaves/get.js:29
 msgid "This compulsory leave does not exists"
@@ -416,7 +416,7 @@ msgstr "Ce congé imposé n'existe pas"
 
 #: api/services/admin/compulsoryleaves/delete.js:29
 msgid "The compulsory leave has been deleted"
-msgstr "Le congé imposé à été supprimé"
+msgstr "Le congé imposé a été supprimé"
 
 #: api/services/admin/compulsoryleaves/save.js:22
 #: api/services/admin/rightrenewals/save.js:18
@@ -429,7 +429,7 @@ msgstr "collections doit être de type array"
 
 #: api/services/admin/compulsoryleaves/save.js:30
 msgid "departments must be an array"
-msgstr "departments doit être de type array"
+msgstr "départements doit être de type array"
 
 #: api/services/admin/compulsoryleaves/save.js:34
 msgid "either departments or collections must contain items"
@@ -437,11 +437,11 @@ msgstr "Les régimes ou les services doivent contenir des éléments"
 
 #: api/services/admin/compulsoryleaves/save.js:529
 msgid "The compulsory leave period has been modified"
-msgstr "La période du congé imposé à été modifiée"
+msgstr "La période du congé imposé a été modifiée"
 
 #: api/services/admin/compulsoryleaves/save.js:548
 msgid "The compulsory leave period has been created"
-msgstr "La période du congé imposé à été créée"
+msgstr "La période du congé imposé a été créée"
 
 #: api/services/admin/rightrenewals/get.js:28
 msgid "This right renewal periods does not exists"
@@ -449,15 +449,15 @@ msgstr "La période de renouvellement du droit n'existe pas"
 
 #: api/services/admin/rightrenewals/delete.js:28
 msgid "The renewal has been deleted"
-msgstr "Le renouvellement à été supprimé"
+msgstr "Le renouvellement a été supprimé"
 
 #: api/services/admin/rightrenewals/save.js:83
 msgid "The right renewal period has been modified"
-msgstr "La période de renouvellement à été supprimée"
+msgstr "La période de renouvellement a été supprimée"
 
 #: api/services/admin/rightrenewals/save.js:105
 msgid "The right renewal period has been created"
-msgstr "La période de renouvellement à été créée"
+msgstr "La période de renouvellement a été créée"
 
 #: api/services/admin/rights/get.js:51
 msgid "This absence right does not exists"
@@ -470,15 +470,15 @@ msgstr "Impossible de supprimer, le droit est utilisé dans %d demandes"
 
 #: api/services/admin/rights/delete.js:39
 msgid "The leave right has been deleted"
-msgstr "Le droit de congés à été supprimé"
+msgstr "Le droit de congés a été supprimé"
 
 #: api/services/admin/rights/save.js:168
 msgid "The vacation right has been created"
-msgstr "Le droit de congés à été créé"
+msgstr "Le droit de congés a été créé"
 
 #: api/services/admin/rights/save.js:170
 msgid "The vacation right has been modified"
-msgstr "Le droit de congés à été modifié"
+msgstr "Le droit de congés a été modifié"
 
 #: api/services/admin/accountcollections/get.js:28
 msgid "This collection does not exists for account"
@@ -495,7 +495,7 @@ msgstr ""
 
 #: api/services/admin/accountcollections/delete.js:53
 msgid "The collection has been removed from account"
-msgstr "Le régime à été retiré du compte"
+msgstr "Le régime a été retiré du compte"
 
 #: api/services/admin/accountcollections/save.js:38
 msgid "Cant create accountCollection, missing user or account"
@@ -508,7 +508,7 @@ msgid ""
 "The user has no absence account, collections are only linkable to accounts"
 msgstr ""
 "Cet utilisateur n'a pas de compte absence, les régimes peuvent seulement "
-"êtres liés aux comptes"
+"être liés aux comptes"
 
 #: api/services/admin/accountcollections/save.js:96
 #, javascript-format
@@ -517,11 +517,11 @@ msgstr "le document AccountCollection n'a pas été trouvé pour l'ID %s"
 
 #: api/services/admin/accountcollections/save.js:109
 msgid "The account collection has been modified"
-msgstr "Le régime du compte à été modifié"
+msgstr "Le régime du compte a été modifié"
 
 #: api/services/admin/accountcollections/save.js:133
 msgid "The account collection has been created"
-msgstr "le régime du compte à été créé"
+msgstr "le régime du compte a été créé"
 
 #: api/services/user/consumption/get.js:18
 #: api/services/account/collection/get.js:21
@@ -572,7 +572,7 @@ msgstr ""
 
 #: api/services/user/requests/delete.js:45
 msgid "The request has been deleted"
-msgstr "La demande à été supprimée"
+msgstr "La demande a été supprimée"
 
 #: api/services/user/requests/delete.js:65
 msgid "The request is not accessible"
@@ -599,7 +599,7 @@ msgstr "La demande a été modifiée"
 
 #: api/services/user/requests/save.js:375
 msgid "The request has been created"
-msgstr "La demande à été créée"
+msgstr "La demande a été créée"
 
 #: api/services/user/recoverquantities/get.js:29
 msgid "This recover quantity does not exists"
@@ -611,15 +611,15 @@ msgstr "La récupération n'existe pas"
 
 #: api/services/user/recoverquantities/delete.js:31
 msgid "The recover quantity has been deleted"
-msgstr "Cette récupération à été supprimée"
+msgstr "Cette récupération a été supprimée"
 
 #: api/services/user/recoverquantities/save.js:46
 msgid "The recover quantity has been modified"
-msgstr "La quantité récupérée à été modifiée"
+msgstr "La quantité récupérée a été modifiée"
 
 #: api/services/user/recoverquantities/save.js:59
 msgid "The recover quantity has been created"
-msgstr "La quantité récupérée à été créée"
+msgstr "La quantité récupérée a été créée"
 
 #: api/services/user/accountbeneficiaries/get.js:104
 msgid "This beneficiary does not exists for account or collection"
@@ -636,11 +636,11 @@ msgstr "le document \"Adjustment\" n'a pas été trouvé pour l'ID %s"
 
 #: api/services/user/adjustments/save.js:59
 msgid "The adjustment has been modified"
-msgstr "L'ajustement à été modifié"
+msgstr "L'ajustement a été modifié"
 
 #: api/services/user/adjustments/save.js:84
 msgid "The quantity adjustment has been created"
-msgstr "Un ajustement de la quantité à été créé"
+msgstr "Un ajustement de la quantité a été créé"
 
 #: api/services/user/googlecalendars/get.js:36
 #: api/services/user/googlecalendars/list.js:81
@@ -657,7 +657,7 @@ msgstr "Le service de liaison avec l'agenda Google est désactivé"
 
 #: api/services/user/googlecalendars/save.js:33
 msgid "A secondary calendar has been created"
-msgstr "Un agenda secondaire à été créé"
+msgstr "Un agenda secondaire a été créé"
 
 #: api/services/user/googlecalendars/save.js:40
 msgid "Leave periods provided by gadael"
@@ -665,34 +665,34 @@ msgstr "Périodes de congés fournies par Gadael"
 
 #: api/services/manager/waitingrequests/save.js:142
 msgid "The request has been confirmed"
-msgstr "La demande à été confirmée"
+msgstr "La demande a été confirmée"
 
 #: api/services/manager/waitingrequests/save.js:152
 msgid "The request has been cancelled"
-msgstr "La demande à été annulée"
+msgstr "La demande a été annulée"
 
 #: api/services/manager/waitingrequests/save.js:163
 msgid "The appliquant has requested a delete, the request has been canceled"
-msgstr "Le demandeur à requis une suppression, la demande à été anulée"
+msgstr "Le demandeur a requis une suppression, la demande a été annulée"
 
 #: api/services/manager/waitingrequests/save.js:173
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
-"Le demandeur à requis une suppression, la demande à été supprimée malgré tout"
+"Le demandeur a requis une suppression, la demande a été supprimée malgré tout"
 
 #: api/services/manager/waitingrequests/save.js:182
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
 msgstr ""
-"Votre acceptation à été enregistrée, d'autres approbation sont requises pour "
+"Votre acceptation a été enregistrée, d'autres approbation sont requises pour "
 "que l'étape soit terminée"
 
 #: api/services/manager/waitingrequests/save.js:189
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
-"La demande à été transmise à la prochaine étape du circuit d'approbation"
+"La demande a été transmise à la prochaine étape du circuit d'approbation"
 
 #: api/services/account/collection/get.js:26
 msgid "dtstart parameter is mandatory"
@@ -857,7 +857,7 @@ msgstr "%s : demande annulée"
 #: modules/emails/requestaccepted.js:37
 #, javascript-format
 msgid "As requested by %s, the %s request has been canceled"
-msgstr "Comme demandé par %s, la demande %s à été annulée"
+msgstr "Comme demandé par %s, la demande %s a été annulée"
 
 #: modules/emails/requestaccepted.js:58 modules/emails/requestrejected.js:38
 msgid "Consult the request actions history after login into the application"
@@ -873,7 +873,7 @@ msgstr "%s : demande rejetée"
 #: modules/emails/requestrejected.js:36
 #, javascript-format
 msgid "Your %s has been rejected"
-msgstr "Vottre %s à été rejetée"
+msgstr "Votre %s a été rejetée"
 
 #: modules/emails/requestcreated.js:23
 #, javascript-format
@@ -883,7 +883,7 @@ msgstr "%s : demande créée"
 #: modules/emails/requestcreated.js:34
 #, javascript-format
 msgid "A %s has been created on your account by %s"
-msgstr "Une %s à été créé sur votre compte par %s"
+msgstr "Une %s a été créé sur votre compte par %s"
 
 #: modules/emails/requestcreated.js:36
 msgid "Consult the details after login into the application"
@@ -892,19 +892,19 @@ msgstr "Consultez les détails une fois connecté à l'application"
 #: modules/emails/usercreated.js:19
 #, javascript-format
 msgid "%s: new user created"
-msgstr "%s : un nouvel utilisateur à été créé"
+msgstr "%s : un nouvel utilisateur a été créé"
 
 #: modules/emails/usercreated.js:27
 #, javascript-format
 msgid "A new user has been created on %s"
-msgstr "Un nouvel utilisateur à été créé sur %s"
+msgstr "Un nouvel utilisateur a été créé sur %s"
 
 #: modules/emails/usercreated.js:29
 msgid ""
 "The new user has been created but does not have any role or absence rights, "
 "you must give the user the necessary rights to use the application normally"
 msgstr ""
-"Le nouvel utilisateur à été créé mais n'a pas de rôles ou de droits "
+"Le nouvel utilisateur a été créé mais n'a pas de rôles ou de droits "
 "d'absence, vous devez donner les droits nécessaires à l'utilisateur pour "
 "qu'il puisse utiliser l'application normalement"
 
@@ -1044,7 +1044,7 @@ msgstr "Pas d'utilisateur trouvé avec l'email %s"
 #: rest/login.js:84
 #, javascript-format
 msgid "An email has been sent to %s"
-msgstr "Un email à été envoyé à %s"
+msgstr "Un email a été envoyé à %s"
 
 #: rest/login.js:133
 msgid "The password confirmation does not match the new password field"
@@ -1061,7 +1061,7 @@ msgstr "Demande invalide."
 
 #: rest/login.js:197
 msgid "The password has been modified"
-msgstr "Le mot de passe à été modifié"
+msgstr "Le mot de passe a été modifié"
 
 #: rest/user/user.js:15
 msgid "You must be logged in"
@@ -1160,7 +1160,7 @@ msgstr "Enfant malade"
 
 #: schema/Type.js:64
 msgid "Wedding"
-msgstr "Marriage"
+msgstr "Mariage"
 
 #: schema/Type.js:65
 msgid "Birth"
@@ -1294,7 +1294,7 @@ msgstr ""
 
 #: schema/data/ch.js:30
 msgid "Paid annual leave until the age of 20 years old"
-msgstr "Congé payé annuel jusqu'a l'age de 20 ans"
+msgstr "Congé payé annuel jusqu'à l'âge de 20 ans"
 
 #: schema/data/ch.js:43
 msgid "Under 21 at the time of the absence"
