@@ -238,8 +238,8 @@ define([], function() {
                             calendarEventsResource.query({
                                 user: userId,
                                 type: 'workschedule',
-                                substractNonWorkingDays: true,
-                                substractPersonalEvents: true,
+                                subtractNonWorkingDays: true,
+                                subtractPersonalEvents: true,
                                 dtstart: $scope.compulsoryleave.dtstart,
                                 dtend: $scope.compulsoryleave.dtend
                             }).$promise

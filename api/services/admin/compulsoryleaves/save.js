@@ -158,8 +158,8 @@ function saveRequests(service, params) {
             dtstart: params.dtstart,
             dtend: params.dtend,
             type: 'workschedule',
-            substractNonWorkingDays: true,
-            substractPersonalEvents: true
+            subtractNonWorkingDays: true,
+            subtractPersonalEvents: true
         });
     }
 

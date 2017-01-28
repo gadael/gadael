@@ -86,9 +86,9 @@ exports = module.exports = function(services, app) {
      *                      params.dtstart                  search interval start
      *                      params.dtend                    search interval end
      *                      params.type                     workschedule|nonworkingday|holiday
-     *                      params.substractNonWorkingDays  substract non working days periods
-     *                      params.substractPersonalEvents  substract personal events
-     *                      params.subtractException       Array of personal event ID to ignore in the personal events to substract
+     *                      params.subtractNonWorkingDays  subtract non working days periods
+     *                      params.subtractPersonalEvents  subtract personal events
+     *                      params.subtractException       Array of personal event ID to ignore in the personal events to subtract
      *
      *
      * @return {Promise}
@@ -98,14 +98,14 @@ exports = module.exports = function(services, app) {
         var getExpandedEra = require('../../../../modules/getExpandedEra');
 
         /**
-         * get personal events to substract
+         * get personal events to subtract
          * @return {Promise} Era
          */
         function getPersonalEvents()
         {
 
             if (undefined === params.user) {
-                return Promise.reject('the user param is mandatory if substractPersonalEvents is used');
+                return Promise.reject('the user param is mandatory if subtractPersonalEvents is used');
             }
 
             let filter = {
@@ -115,9 +115,9 @@ exports = module.exports = function(services, app) {
 
             if (undefined !== params.subtractException) {
 
-                // Do not substract those personnal events
+                // Do not subtract those personnal events
                 // because this is the events to update with selection
-                // the others personal events will be substracted from working hours
+                // the others personal events will be subtracted from working hours
                 if (params.subtractException instanceof Array) {
                     filter._id = { $nin: params.subtractException };
                 } else {
@@ -194,10 +194,10 @@ exports = module.exports = function(services, app) {
          * @param   {Era} era [[Description]]
          * @returns {Promise} [[Description]]
          */
-        function substractPersonalEvents(era)
+        function subtractPersonalEvents(era)
         {
 
-            if (undefined === params.substractPersonalEvents || false === params.substractPersonalEvents || 'false' === params.substractPersonalEvents) {
+            if (undefined === params.subtractPersonalEvents || false === params.subtractPersonalEvents || 'false' === params.subtractPersonalEvents) {
                 return Promise.resolve(era);
             }
 
@@ -252,9 +252,9 @@ exports = module.exports = function(services, app) {
             /**
              * @return {Promise}
              */
-            function substractNonWorkingDays(era)
+            function subtractNonWorkingDays(era)
             {
-                if (undefined === params.substractNonWorkingDays || false === params.substractNonWorkingDays || 'false' === params.substractNonWorkingDays) {
+                if (undefined === params.subtractNonWorkingDays || false === params.subtractNonWorkingDays || 'false' === params.subtractNonWorkingDays) {
                     return Promise.resolve(era);
                 }
 
@@ -266,8 +266,8 @@ exports = module.exports = function(services, app) {
 
             // account can be null if params.type=holiday
             return getEraFromType(account, params.dtstart, params.dtend, params.type)
-                .then(substractNonWorkingDays)
-                .then(substractPersonalEvents);
+                .then(subtractNonWorkingDays)
+                .then(subtractPersonalEvents);
         })
         .then(era => {
             service.mongOutcome(null, era.periods);

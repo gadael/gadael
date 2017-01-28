@@ -153,7 +153,7 @@ describe('calendarevents accout rest service', function() {
     });
 
 
-    it('request workingtimes as account, with optional substractions', function(done) {
+    it('request workingtimes as account, with optional subtractions', function(done) {
 
         var dtstart, dtend, event;
 
@@ -164,8 +164,8 @@ describe('calendarevents accout rest service', function() {
             dtstart: dtstart,
             dtend: dtend,
             type: 'workschedule',
-            substractNonWorkingDays: true,
-            substractPersonalEvents: true
+            subtractNonWorkingDays: true,
+            subtractPersonalEvents: true
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeGreaterThan(0); // at least for the working periods
@@ -194,8 +194,8 @@ describe('calendarevents accout rest service', function() {
             dtstart: '2015-10-24T22:00:00.000Z',
             dtend: '2015-10-31T23:00:00.000Z',
             type: 'workschedule',
-            substractNonWorkingDays: true,
-            substractPersonalEvents: true,
+            subtractNonWorkingDays: true,
+            subtractPersonalEvents: true,
             subtractException: '5636712ff350ada4143117f5'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -219,4 +219,3 @@ describe('calendarevents accout rest service', function() {
 
 
 });
-

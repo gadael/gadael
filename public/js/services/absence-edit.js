@@ -723,8 +723,8 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         type: 'workschedule',
                         dtstart: interval.from,
                         dtend: interval.to,
-                        substractNonWorkingDays: true,
-                        substractPersonalEvents: true
+                        subtractNonWorkingDays: true,
+                        subtractPersonalEvents: true
                     };
 
                     if (user) {

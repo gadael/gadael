@@ -246,7 +246,7 @@ define(['q', 'async'], function(Q, async) {
          *
          * @param {Scope} $scope
          * @param beneficiaryContainer
-         * @param requests                  absences to be substracted on quantity
+         * @param requests                  absences to be subtracted on quantity
          *                                  time saving deposits to be added on quantity (for time saving account)
          * @param adjustmentResourceQuery
          *
