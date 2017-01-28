@@ -75,7 +75,7 @@ grunt --help
 
 ## TODO
 
-- [ ] Bug: department page, nonworkingday query, the user parameter is missing
+- [x] Bug: department page, nonworkingday query, the user parameter is missing
 - [x] Bug: The first email shoud notify about the account creation, not role modification
 - [x] Bug: Consumption is not visible on graph
 - [x] Auto distribution on rights when possible

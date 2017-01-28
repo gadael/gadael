@@ -18,25 +18,24 @@
 
 
 
-<div class="row" ng-if="department.managers.length > 0">
+<div class="top30" ng-if="department.managers.length > 0">
 
-    <h3>Managers</h3>
+    <div class="row top30" ng-repeat="appdep in approval" ng-init="step=$index + 1">
 
-
-    <div class="col-md-12" ng-repeat="appdep in approval">
-        <h4>
-            <i class="text-primary fa fa-arrow-circle-o-down"></i>
-            <span>Approval step {{$index + 1}}</span><br />
-            <small>{{appdep.name}}</small></h4>
-        <div ng-repeat="user in appdep.managers" class="col-md-3 col-sm-6 col-xs-12">
-            <div class="thumbnail">
-                <img ng-src="{{user.imageUrl}}" ng-if="user.imageUrl" class="hidden-xs" />
-                <div class="caption">
-                    <p>
-                        <strong>{{user.lastname}} {{user.firstname}}</strong><br />
-                        <small>{{user.email}}</small>
-                    </p>
-                    <div class="text-right">
+        <div ng-repeat="user in appdep.managers" class="col-md-6 col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-xs-3">
+                        <img ng-src="{{user.imageUrl}}" style="max-width:100%" />
+                    </div>
+                    <div class="col-xs-7">
+                        <h4><span translate>Step {{step}} approver</span></h4>
+                        <p>
+                            <strong>{{user.lastname}} {{user.firstname}}</strong><br />
+                            <small><span translate>Managed department:</span> {{appdep.name}}</small>
+                        </p>
+                    </div>
+                    <div class="col-xs-2 text-right">
                         <a class="btn btn-primary btn-xs hidden-print" ng-href="#/admin/users/{{user._id}}" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs" translate>View</span></a>
                     </div>
                 </div>
@@ -48,7 +47,7 @@
 
 
 
-<div class="row gadael-department" ng-repeat="department in allDepartments">
+<div class="gadael-department" ng-repeat="department in allDepartments">
     <div ng-include="'partials/utils/common/department/nextweek.html'"></div>
 </div>
 

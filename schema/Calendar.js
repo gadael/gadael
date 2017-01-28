@@ -23,7 +23,7 @@ exports = module.exports = function(params) {
 		name: { type: String, required: true },
 		url: { type: String, required: true },
 		type: { type: String, enum:['workschedule', 'nonworkingday', 'holiday'], required: true },
-		lastUpdate: { type: Date }, // date for last modification or last copy of events from ics to database
+		lastUpdate: { type: Date }, // date for last copy of events from ics to database
 		timeCreated: { type: Date, default: Date.now },
 
 		// used for the default ics embeded in the app
@@ -110,7 +110,14 @@ exports = module.exports = function(params) {
                         }
 
                         resolve(results.length);
-                    });
+                    })
+					.then(nb => {
+						calendar.lastUpdate = new Date();
+						return calendar.save()
+						.then(() => {
+							return nb;
+						});
+					});
                 });
             }
 
