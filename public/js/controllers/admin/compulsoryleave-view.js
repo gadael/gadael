@@ -106,7 +106,7 @@ define([], function() {
                     user: {
                         id: users[i]._id,
                         name: users[i].lastname+' '+users[i].firstname,
-                        image: users[i].image
+                        imageUrl: users[i].imageUrl
                     },
                     quantity: null,
                     request: null,

@@ -153,9 +153,9 @@ define(function() {
                 $scope.renewals = sortedRenewals;
 
                 var consumedRight = {
-                            name: 'Consumed',
+                            name: gettextCatalog.getString('Consumed'),
                             type: {
-                                color:'#ccc'
+                                color:'#ddd'
                             }
                         };
 

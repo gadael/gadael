@@ -75,15 +75,7 @@ grunt --help
 
 ## TODO
 
-- [x] Bug: department page, nonworkingday query, the user parameter is missing
-- [x] Bug: The first email shoud notify about the account creation, not role modification
-- [x] Bug: Consumption is not visible on graph
-- [x] Auto distribution on rights when possible
-- [x] Display maintenance status on home page
-- [x] Ignore RTT quantity if less than 35H
-- [x] Notification checkbox for the new rights notifications (remove or make it work)
-- [x] Notification checkbox for approval (remove or make it work)
-- [x] Use the estimed consuption to test against the available quantity on the second step of the request
+- [ ] Bug absence modification by admin
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] Get managed services on home page
