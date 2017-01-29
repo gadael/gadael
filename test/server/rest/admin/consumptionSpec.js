@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('consumption account rest service', function() {
+describe('consumption admin rest service', function() {
 
 
     var server,
@@ -21,7 +21,7 @@ describe('consumption account rest service', function() {
     beforeEach(function(done) {
         var helpers = require('../mockServer');
 
-        helpers.mockServer('accountConsumption', function(_mockServer) {
+        helpers.mockServer('adminConsumption', function(_mockServer) {
             server = _mockServer;
             done();
         });
