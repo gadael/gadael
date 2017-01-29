@@ -24,7 +24,7 @@ var ctrlFactory = require('restitute').controller;
  *
  */
 function getController() {
-    ctrlFactory.get.call(this, '/rest/account/consumption');
+    ctrlFactory.get.call(this, '/rest/admin/consumption');
     var ctrl = this;
 
     // overwrite default method

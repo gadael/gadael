@@ -17,6 +17,7 @@ define(['q'], function(Q) {
         var users = Rest.admin.users.getResource();
         var collections = Rest.admin.collections.getResource();
         // TODO fix accountCollection, not the same as account/request
+        var consumption = Rest.admin.consumption.getResource();
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
 
@@ -87,6 +88,18 @@ define(['q'], function(Q) {
         $scope.loadEvents = AbsenceEdit.getLoadEvents(loadRequestAndUserPromise(), personalEvents, calendars, calendarEvents);
         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
 
+
+        $scope.$watch('distribution.renewal', function(newValue, oldValue) {
+
+            // detect modified renewal
+            for (var rId in oldValue) {
+                if (oldValue.hasOwnProperty(rId)) {
+                    if (newValue[rId].quantity !== oldValue[rId].quantity) {
+                        AbsenceEdit.setConsumedQuantity($scope, consumption, rId);
+                    }
+                }
+            }
+        }, true);
 
 
         /**
