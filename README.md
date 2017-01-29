@@ -75,8 +75,9 @@ grunt --help
 
 ## TODO
 
+- [ ] Summary on absence event
 - [x] Sort departments on department view
-- [ ] cell color for absence on department planning
+- [x] cell color for absence on department planning
 - [ ] Bug, comsuption on absence created by admin on a user
 - [x] Bug, save absence by admin on a user
 - [ ] Bug absence modification by admin

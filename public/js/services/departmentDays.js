@@ -15,7 +15,12 @@ define(function() {
                 date: new Date(loopDate),
                 free: false,
                 events: [],
-                nonworkingday: null
+                nonworkingday: null,
+                className: 'cal-notscheduled' // possibles values are:
+                                              // cal-notscheduled
+                                              // cal-available
+                                              // cal-event
+                                              // cal-nonworking
             };
 
 
@@ -36,6 +41,7 @@ define(function() {
             }
 
             collaborator.days[pos.getTime()].free = true;
+            collaborator.days[pos.getTime()].className = 'cal-available';
         }
 
         for (var e=0; e<collaborator.events.length; e++) {
@@ -48,6 +54,7 @@ define(function() {
             }
 
             collaborator.days[pos.getTime()].events.push(event);
+            collaborator.days[pos.getTime()].className = 'cal-event';
         }
     }
 
@@ -119,7 +126,7 @@ define(function() {
 
                     createCollaboratorDays(collaborator, startDate, nbdays);
 
-                    
+
                     var nonworkingdaysQuery = calendareventsResource.query({
                         type: 'nonworkingday',
                         dtstart: startDate,
@@ -151,6 +158,7 @@ define(function() {
 
                             collaborator.days[pos.getTime()].free = false;
                             collaborator.days[pos.getTime()].nonworkingday = event;
+                            collaborator.days[pos.getTime()].className = 'cal-nonworking';
                         }
 
                     }
