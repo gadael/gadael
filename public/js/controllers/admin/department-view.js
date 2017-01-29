@@ -75,6 +75,18 @@ define([], function() {
             }
 
             return getSubDepartments($scope.department);
+        })
+        .then(function() {
+
+            $scope.allDepartments.sort(function(d1, d2) {
+                if ( d1.path < d2.path ) {
+                    return -1;
+                }
+                if ( d1.path > d2.path ) {
+                    return 1;
+                }
+                return 0;
+            });
         });
 
 

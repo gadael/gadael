@@ -75,7 +75,7 @@ grunt --help
 
 ## TODO
 
-- [ ] Sort departments on department view
+- [x] Sort departments on department view
 - [ ] cell color for absence on department planning
 - [ ] Bug, comsuption on absence created by admin on a user
 - [x] Bug, save absence by admin on a user
