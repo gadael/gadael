@@ -475,6 +475,10 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 var distribution;
                 var row = $scope.distribution.renewal[renewalId];
 
+                if (0 === periods.length) {
+                    throw new Error('No periods in selection');
+                }
+
                 try {
                     distribution = createDistribution(renewals, periods, $scope.accountRights, false);
                 } catch(e) {

@@ -113,6 +113,7 @@ define(['q'], function(Q) {
 
         $scope.$watch('distribution.renewal', function(newValue, oldValue) {
 
+
             // detect modified renewal
             for (var rId in oldValue) {
                 if (oldValue.hasOwnProperty(rId)) {
