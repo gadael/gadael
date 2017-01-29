@@ -54,6 +54,7 @@ define(function() {
                 calendarevents          : init('admin/calendarevents/:id'),
                 personalevents          : init('admin/personalevents/:id'),
                 unavailableevents       : init('admin/unavailableevents/:id'),
+                collection              : init('admin/collection'),
                 collections             : init('admin/collections/:id'),
                 departments             : init('admin/departments/:id'),
                 adjustments             : init('admin/adjustments/:id'),

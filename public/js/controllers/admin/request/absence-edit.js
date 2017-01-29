@@ -2,8 +2,8 @@ define(['q'], function(Q) {
 
     'use strict';
 
-	return ['$scope', '$location', 'Rest', 'AbsenceEdit', '$rootScope',
-    function($scope, $location, Rest, AbsenceEdit, $rootScope) {
+	return ['$scope', '$location', 'Rest', 'AbsenceEdit', '$rootScope', '$routeParams',
+    function($scope, $location, Rest, AbsenceEdit, $rootScope, $routeParams) {
 
 
 
@@ -15,8 +15,7 @@ define(['q'], function(Q) {
         var personalEvents = Rest.admin.personalevents.getResource();
         var accountRights = Rest.admin.accountrights.getResource();
         var users = Rest.admin.users.getResource();
-        var collections = Rest.admin.collections.getResource();
-        // TODO fix accountCollection, not the same as account/request
+        var accountCollection = Rest.admin.collection.getResource();
         var consumption = Rest.admin.consumption.getResource();
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
@@ -85,8 +84,31 @@ define(['q'], function(Q) {
          * Period picker callbacks
          */
 
-        $scope.loadEvents = AbsenceEdit.getLoadEvents(loadRequestAndUserPromise(), personalEvents, calendars, calendarEvents);
-        $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
+         $scope.loadScholarHolidays = AbsenceEdit.getLoadScholarHolidays(calendars, calendarEvents);
+
+         var loadEvents = AbsenceEdit.getLoadEvents(loadRequestAndUserPromise(), personalEvents, calendars, calendarEvents);
+
+         if (undefined === $routeParams.id) {
+             $scope.loadEvents = loadEvents;
+
+         } else {
+
+
+             $scope.loadEvents = function(interval) {
+                 var deferred = Q.defer();
+                 loadEvents(interval).then(function(events) {
+
+                     events = events.filter(function(e) {
+                         return (e.request !== $routeParams.id);
+                     });
+
+                     deferred.resolve(events);
+                 });
+
+                 return deferred.promise;
+             };
+         }
+
 
 
         $scope.$watch('distribution.renewal', function(newValue, oldValue) {
@@ -95,7 +117,7 @@ define(['q'], function(Q) {
             for (var rId in oldValue) {
                 if (oldValue.hasOwnProperty(rId)) {
                     if (newValue[rId].quantity !== oldValue[rId].quantity) {
-                        AbsenceEdit.setConsumedQuantity($scope, consumption, rId);
+                        AbsenceEdit.setConsumedQuantity($scope, consumption, rId, $location.search().user);
                     }
                 }
             }
@@ -115,28 +137,16 @@ define(['q'], function(Q) {
          */
         $scope.next = function() {
 
+
             /**
              * Load collection
              * The collection available on the selected period
              */
-
-            collections.get({
-                user: $scope.user._id,
+            $scope.collection = accountCollection.get({
+                user: $scope.user.id,
                 dtstart: $scope.selection.begin,
                 dtend: $scope.selection.end
-            }).$promise.then(function(collectionList) {
-                if (0 === collectionList.length) {
-                    throw new Error('No active collection for this user');
-                }
-
-                if (1 !== collectionList.length) {
-                    throw new Error('More than one collection found for the user');
-                }
-
-                $scope.collection = collectionList[0];
             });
-
-
 
             var serviceAction = AbsenceEdit.getNextButtonJob($scope, $scope.user, accountRights);
 

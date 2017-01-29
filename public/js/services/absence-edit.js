@@ -468,7 +468,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
              * @param {Resource} consumption
              * @param {String} renewalId
              */
-            setConsumedQuantity: function($scope, consumption, renewalId) {
+            setConsumedQuantity: function($scope, consumption, renewalId, user) {
 
                 var renewals = $scope.distribution.renewal;
                 var periods = $scope.selection.periods;
@@ -492,7 +492,9 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 };
 
 
-
+                if (user) {
+                    params.user = user;
+                }
 
 
                 row.isLoading = true;
