@@ -118,7 +118,7 @@ define(['q'], function(Q) {
             for (var rId in oldValue) {
                 if (oldValue.hasOwnProperty(rId)) {
                     if (newValue[rId].quantity !== oldValue[rId].quantity) {
-                        AbsenceEdit.setConsumedQuantity($scope, consumption, rId, $location.search().user);
+                        AbsenceEdit.setConsumedQuantity($scope, consumption, rId, $scope.user._id);
                     }
                 }
             }

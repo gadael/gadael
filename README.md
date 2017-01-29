@@ -75,8 +75,10 @@ grunt --help
 
 ## TODO
 
-- [ ] Bug, comption on absence created by admin on a user
-- [ ] Bug, save absence by admin on a user
+- [ ] Sort departments on department view
+- [ ] cell color for absence on department planning
+- [ ] Bug, comsuption on absence created by admin on a user
+- [x] Bug, save absence by admin on a user
 - [ ] Bug absence modification by admin
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
