@@ -91,7 +91,7 @@ api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
     function loop(rights) {
 
         if (rights.length === 0) {
-            throw new Error('no renewals rights');
+            throw new Error('no rights with renewal on user '+user._id);
         }
 
         return createOnRight(rights[0])
