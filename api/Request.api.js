@@ -70,7 +70,6 @@ api.createAbsenceOnRenewal = function(app, renewal, user, dtstart, dtend, nbdays
  */
 api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
 
-
     function createOnRight(rightDocument) {
         return rightDocument.getPeriodRenewal(dtstart, dtend)
 
@@ -91,7 +90,7 @@ api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
     function loop(rights) {
 
         if (rights.length === 0) {
-            throw new Error('no rights with renewal on user '+user._id);
+            throw new Error('no rights with renewal on user '+user._id+' '+user.getName());
         }
 
         return createOnRight(rights[0])
