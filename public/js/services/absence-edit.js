@@ -38,9 +38,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
 
 
-
-
-
         /**
          * Callback used to watch the distribution object in scope
          * @param {object} distribution
@@ -467,6 +464,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
              * @param {Object} $scope
              * @param {Resource} consumption
              * @param {String} renewalId
+             * @param {String} user             User ID when admin create/modify absence for another user
              */
             setConsumedQuantity: function($scope, consumption, renewalId, user) {
 
@@ -530,7 +528,10 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
              * @param {Resource} accountRights
              *
              */
-            getNextButtonJob: function getNextButtonJob($scope, user, accountRights) {
+            getNextButtonJob: function getNextButtonJob($scope, user, accountRights, consumption) {
+
+                var AbsenceEdit = this;
+
                 return function() {
 
                     // hide the period selection
@@ -670,6 +671,12 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                             setDistributionRequest($scope);
                             distributionWatch($scope.distribution, $scope);
+
+                            // Initialize consumed quantity from initialized duration
+                            var distribution = $scope.request.absence.distribution;
+                            for (var d=0; d< distribution.length; d++) {
+                                AbsenceEdit.setConsumedQuantity($scope, consumption, distribution[d].right.renewal.id, user._id);
+                            }
                         }
                         else {
                             // This is a new request, set input quantity for rights where it is allowed
@@ -688,13 +695,16 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
             /**
              * Process scope once the user document is available
-             * @param   {Object}   $scope
-             * @param   {Object}   user           user document as object
-             * @param   {Resource} calendarEvents
+             * Add the watchs
              *
+             * @param   {Object} $scope
+             * @param   {Object} user           user document as object
+             * @param   {Resource} calendarEvents
+             * @param   {Resource} consumption
              */
-            onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents)
+            onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents, consumption)
             {
+                var AbsenceEdit = this;
 
                 if (!user.roles.account) {
                     throw new Error('the user must have a vacation account');
@@ -704,6 +714,20 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                 $scope.$watch('distribution', function(distribution) {
                     distributionWatch(distribution, $scope);
+                }, true);
+
+
+
+                $scope.$watch('distribution.renewal', function(newValue, oldValue) {
+
+                    // detect modified renewal
+                    for (var rId in oldValue) {
+                        if (oldValue.hasOwnProperty(rId)) {
+                            if (newValue[rId].quantity !== oldValue[rId].quantity) {
+                                AbsenceEdit.setConsumedQuantity($scope, consumption, rId, user._id);
+                            }
+                        }
+                    }
                 }, true);
             },
 

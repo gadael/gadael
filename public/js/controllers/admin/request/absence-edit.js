@@ -63,7 +63,7 @@ define(['q'], function(Q) {
 
                 $scope.user = user;
 
-                AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
+                AbsenceEdit.onceUserLoaded($scope, user, calendarEvents, consumption);
 
                 $scope.request.user = {
                     id: user._id,
@@ -111,20 +111,6 @@ define(['q'], function(Q) {
 
 
 
-        $scope.$watch('distribution.renewal', function(newValue, oldValue) {
-
-
-            // detect modified renewal
-            for (var rId in oldValue) {
-                if (oldValue.hasOwnProperty(rId)) {
-                    if (newValue[rId].quantity !== oldValue[rId].quantity) {
-                        AbsenceEdit.setConsumedQuantity($scope, consumption, rId, $scope.user._id);
-                    }
-                }
-            }
-        }, true);
-
-
         /**
          * Go back to requests list, admin view
          */
@@ -149,7 +135,7 @@ define(['q'], function(Q) {
                 dtend: $scope.selection.end
             });
 
-            var serviceAction = AbsenceEdit.getNextButtonJob($scope, $scope.user, accountRights);
+            var serviceAction = AbsenceEdit.getNextButtonJob($scope, $scope.user, accountRights, consumption);
 
             serviceAction();
         };

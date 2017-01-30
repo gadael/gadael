@@ -53,7 +53,7 @@ define(['q'], function(Q) {
         userPromise.then(function(user) {
 
             requestUser = user;
-            AbsenceEdit.onceUserLoaded($scope, user, calendarEvents);
+            AbsenceEdit.onceUserLoaded($scope, user, calendarEvents, consumption);
         });
 
 
@@ -84,17 +84,7 @@ define(['q'], function(Q) {
 
 
 
-        $scope.$watch('distribution.renewal', function(newValue, oldValue) {
 
-            // detect modified renewal
-            for (var rId in oldValue) {
-                if (oldValue.hasOwnProperty(rId)) {
-                    if (newValue[rId].quantity !== oldValue[rId].quantity) {
-                        AbsenceEdit.setConsumedQuantity($scope, consumption, rId);
-                    }
-                }
-            }
-        }, true);
 
 
 
@@ -121,7 +111,7 @@ define(['q'], function(Q) {
                 dtend: $scope.selection.end
             });
 
-            var serviceAction = AbsenceEdit.getNextButtonJob($scope, requestUser, accountRights);
+            var serviceAction = AbsenceEdit.getNextButtonJob($scope, requestUser, accountRights, consumption);
 
             serviceAction();
         };
