@@ -75,13 +75,9 @@ grunt --help
 
 ## TODO
 
-- [ ] Display error message if admin try to modify a compulsory leave absence in the regular interface
+- [ ] Message if no time saving account on request creation
 - [ ] Summary on absence event
-- [x] Sort departments on department view
-- [x] cell color for absence on department planning
 - [ ] Bug, comsuption on absence created by admin on a user
-- [x] Bug, save absence by admin on a user
-- [x] Bug absence modification by admin
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] Get managed services on home page

@@ -17,8 +17,8 @@ define([], function() {
 
 
 
-	return ['$scope', '$location', 'Rest', '$routeParams', '$rootScope',
-            function($scope, $location, Rest, $routeParams, $rootScope) {
+	return ['$scope', '$location', 'Rest', '$routeParams', '$rootScope', 'gettext', 'decimalAdjust',
+            function($scope, $location, Rest, $routeParams, $rootScope, gettext, decimalAdjust) {
 
 
         $scope.request = Rest.account.requests.getFromUrl().loadRouteId();
@@ -58,13 +58,17 @@ define([], function() {
                         return;
                     }
 
+                    var label = gettext('{quantity} up to {date}')
+                        .replace(/\{quantity\}/, decimalAdjust('round', available, -1)+' '+renewal.available_quantity_dispUnit)
+                        .replace(/\{date\}/, renewal.finish.toLocaleDateString());
+
                     $scope.rightBeneficiaries.push({
                         value: {
                             right: beneficiary.right,
                             renewal: renewal
                         },
                         group: beneficiary.right.name,
-                        label: available+' '+renewal.available_quantity_dispUnit+' up to '+renewal.finish.toLocaleDateString()
+                        label: label
                     });
                 });
             });
