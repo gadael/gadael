@@ -1,38 +1,37 @@
-<div class="row panel panel-primary line4">
-
-    <div class="col-md-6 top10">
-
-        <h3 ng-if="request.absence.compulsoryLeave.name">{{request.absence.compulsoryLeave.name}}</h3>
-
-        <dl class="dl-horizontal">
-            <dt translate>From:</dt>
-            <dd>{{request.events[0].dtstart|date:'medium'}}</dd>
-            <dt translate>To:</dt>
-            <dd>{{request.events[request.events.length-1].dtend|date:'medium'}}</dd>
-        </dl>
-        <br />
+<div class="row panel panel-default line4 top10">
+    <div ng-if="request.absence.compulsoryLeave.name" class="panel-heading">
+        <h3 class="panel-title">{{request.absence.compulsoryLeave.name}}</h3>
     </div>
+    <div class="panel-body top10">
+        <div class="col-md-6">
+            <p ng-if="request.absence.compulsoryLeave._id" translate>Compulsory leave</p>
+            <dl class="dl-horizontal">
+                <dt translate>From:</dt>
+                <dd>{{request.events[0].dtstart|date:'medium'}}</dd>
+                <dt translate>To:</dt>
+                <dd>{{request.events[request.events.length-1].dtend|date:'medium'}}</dd>
+            </dl>
+        </div>
 
-    <div class="col-md-6 top10">
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt translate>Status:</dt>              <dd><span ng-class="[{ 'label label-success': request.status.created=='accepted' }, { 'label label-danger': request.status.created=='rejected' }]">
+                    <i ng-class="[{ 'fa fa-thumbs-up': request.status.created=='accepted' }, { 'fa fa-thumbs-down': request.status.created=='rejected' }]"></i> {{request.status.title}}
+                </span></dd>
+                <dt translate>Total consumption:</dt>   <dd>{{stat.consumed.D| number}} <span translate>Days</span></dd>
+                <dt translate>Total duration:</dt>      <dd>{{stat.duration.D| number}} <span translate>Days</span></dd>
+            </dl>
 
-
-        <dl class="dl-horizontal">
-            <dt translate>Status:</dt>              <dd><span ng-class="[{ 'label label-success': request.status.created=='accepted' }, { 'label label-danger': request.status.created=='rejected' }]">
-                <i ng-class="[{ 'fa fa-thumbs-up': request.status.created=='accepted' }, { 'fa fa-thumbs-down': request.status.created=='rejected' }]"></i> {{request.status.title}}
-            </span></dd>
-            <dt translate>Total consumption:</dt>   <dd>{{stat.consumed.D| number}} <span translate>Days</span></dd>
-            <dt translate>Total duration:</dt>      <dd>{{stat.duration.D| number}} <span translate>Days</span></dd>
-        </dl>
-
-        <dl class="dl-horizontal" ng-if="request.absence.distribution.length===1">
-            <dt translate>Vacation right:</dt>
-            <dd>
-                <i class="fa fa-asterisk"
-                   style="color:{{request.absence.distribution[0].right.type.color}}"
-                   title="{{request.absence.distribution[0].right.type.name}}"></i>
-                {{request.absence.distribution[0].right.name}}
-            </dd>
-        </dl>
+            <dl class="dl-horizontal" ng-if="request.absence.distribution.length===1">
+                <dt translate>Vacation right:</dt>
+                <dd>
+                    <i class="fa fa-asterisk"
+                       style="color:{{request.absence.distribution[0].right.type.color}}"
+                       title="{{request.absence.distribution[0].right.type.name}}"></i>
+                    {{request.absence.distribution[0].right.name}}
+                </dd>
+            </dl>
+        </div>
     </div>
 </div>
 

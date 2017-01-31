@@ -8,10 +8,7 @@
 		<div class="row">
 			<h1 class="col-md-6"><i class="fa fa-calendar text-muted"></i> <span translate>Vacation request</span></h1>
 
-			<div class="col-md-6 text-right top30" ng-if="canEdit">
-				<button class="btn btn-primary" ng-click="edit()"><i class="glyphicon glyphicon-edit"></i> <span>Edit</span></button>
-				<button class="btn btn-danger" ng-click="delete()"><i class="glyphicon glyphicon-remove"></i> <span>Delete</span></button>
-			</div>
+			<ng-include src="'partials/utils/common/request/request-buttons.html'"></ng-include>
 		</div>
 
         <ng-include src="'partials/utils/common/request/absence-view.html'"></ng-include>

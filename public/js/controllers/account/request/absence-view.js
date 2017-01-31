@@ -5,24 +5,21 @@ define([], function() {
 		'$location',
 		'Rest',
         'getRequestStat',
+        'canEditRequest',
         'gettext',
             function(
 			$scope,
 			$location,
 			Rest,
             getRequestStat,
+            canEditRequest,
             gettext
 		) {
 
 
 		$scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
-        $scope.request.$promise.then(function() {
-            var status = $scope.request.status.created;
-            $scope.canEdit = ('accepted' === status || 'waiting' === status);
-        });
-
-
+        $scope.canEdit = canEditRequest($scope.request);
         $scope.stat = getRequestStat($scope.request);
 
         $scope.backToList = function() {

@@ -4,16 +4,20 @@ define([], function() {
 	return ['$scope',
 		'$location',
 		'Rest',
-        'getRequestStat', function(
+        'getRequestStat',
+        'canEditRequest',
+        function(
 			$scope,
 			$location,
 			Rest,
-            getRequestStat
+            getRequestStat,
+            canEditRequest
 		) {
 
 
 		$scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
+        $scope.canEdit = canEditRequest($scope.request);
         $scope.stat = getRequestStat($scope.request);
 
         $scope.backToList = function() {

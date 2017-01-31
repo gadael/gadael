@@ -154,6 +154,25 @@ define([
         }
     )
 
+    /**
+     * return a bool for the canEdit status
+     */
+    .factory('canEditRequest',
+        function() {
+            /**
+             * @param {Resource} request The request not yet loaded
+             */
+            return function(request) {
+                var canEdit;
+                request.$promise.then(function() {
+                    var status = request.status.created;
+                    canEdit = ('accepted' === status || 'waiting' === status);
+                });
+                return canEdit;
+            };
+        }
+    )
+
 
     /**
      *
