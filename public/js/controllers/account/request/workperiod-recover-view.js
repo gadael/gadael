@@ -17,7 +17,7 @@ define([], function() {
 
 		$scope.request = Rest.account.requests.getFromUrl().loadRouteId();
 
-        $scope.canEdit = canEditRequest($scope.request);
+        canEditRequest($scope);
         $scope.stat = getRequestStat($scope.request);
 
         $scope.backToList = function() {

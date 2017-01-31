@@ -162,13 +162,15 @@ define([
             /**
              * @param {Resource} request The request not yet loaded
              */
-            return function(request) {
-                var canEdit;
-                request.$promise.then(function() {
-                    var status = request.status.created;
-                    canEdit = ('accepted' === status || 'waiting' === status);
+            return function($scope) {
+                $scope.canEdit = false;
+                $scope.request.$promise.then(function() {
+                    var status = $scope.request.status.created;
+                    var compulsoryLeave = $scope.request.absence.compulsoryLeave && $scope.request.absence.compulsoryLeave._id;
+                    if (!compulsoryLeave) {
+                        $scope.canEdit = ('accepted' === status || 'waiting' === status);
+                    }
                 });
-                return canEdit;
             };
         }
     )
