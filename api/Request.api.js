@@ -81,6 +81,7 @@ api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays, timeCreate
             }
 
             return createOnRenewal(app, rightDocument, renewal, user, dtstart, dtend, nbdays, timeCreated);
+
         });
     }
 
@@ -123,7 +124,8 @@ api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays, timeCreate
             throw new Error('This user is not an account');
         }
 
-        return account.getRights().then(rights => {
+        return account.getRights()
+        .then(rights => {
 
             if (rights.length < 1) {
                 throw new Error('No rights associated to the user');

@@ -969,7 +969,7 @@ exports = module.exports = function(params) {
 
         }).then(initalQuantity => {
             if (0 === initalQuantity) {
-                throw new Error(gt.gettext('To compute the number of planned working days, the annual leave initial quantity is required'));
+                throw new Error(gt.gettext('To compute the number of planned working days on a year, the annual leave initial quantity is required'));
             }
 
 			// Number of days on the renewal period 	~365

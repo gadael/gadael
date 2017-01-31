@@ -1,7 +1,7 @@
 'use strict';
 
 const async = require('async');
-
+const util = require('util');
 
 exports = module.exports = function(params) {
 
@@ -125,6 +125,7 @@ exports = module.exports = function(params) {
      * @returns {Promise}
      */
     typeSchema.methods.getInitialQuantityInPeriod = function(user, dtstart, dtend) {
+		const gt = params.app.utility.gettext;
         let Right = this.model('Right');
         let type = this;
 
@@ -139,6 +140,11 @@ exports = module.exports = function(params) {
             return Promise.all(promises);
         })
         .then(all => {
+
+			if (0 === all.length) {
+				throw new Error(util.format(gt.gettext('No rights found in type "%s"'), type.name));
+			}
+
             return all.reduce((sum, initialQuantity) => {
                 return sum + initialQuantity;
             });

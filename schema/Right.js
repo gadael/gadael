@@ -434,12 +434,20 @@ exports = module.exports = function(params) {
      *
      * @returns {Promise}
      */
-    rightSchema.methods.getInitialQuantityInPeriod = function(user, dtstart, dtend) {
+    rightSchema.methods.getInitialQuantityInPeriod = function(user, dtstart, dtend, field) {
+
+        let right = this;
+
+        if (undefined === field) {
+            // Will take first the renewal overlapping the start date
+            field = 'start';
+        }
+
+        let criterion = {};
+        criterion[field] = { $gte: dtstart, $lt: dtend };
 
         return this.getRenewalsQuery()
-        .where({
-            start: { $gte: dtstart, $lt: dtend }
-        })
+        .where(criterion)
         .exec()
         .then(arr => {
 
@@ -457,7 +465,8 @@ exports = module.exports = function(params) {
 
             if (0 === all.length) {
                 // no renewals found in period
-                return 0;
+                // retry with renewal end date as a second option
+                return right.getInitialQuantityInPeriod(user, dtstart, dtend, 'finish');
             }
 
             return all.reduce((sum, initialQuantity) => {
