@@ -11,9 +11,12 @@ let config = require('../../../config')();
  * @param {Integer} port
  * @param {Function} readyCallback
  * @param {String} countryCode          Database initialization
- * @param {String} languageCode         Language code (mo file)
+ * @param {String} languageCode         Language code (the mo file to use)
+ * @param {Date} [timeCreated]          Optional creation date of the company document
+ *                                      The date is used in Shema initTasks, ex: for rights renewals initialisation
+ *
  */
-function mockServer(dbname, port, readyCallback, countryCode, languageCode) {
+function mockServer(dbname, port, readyCallback, countryCode, languageCode, timeCreated) {
 
     var mockServerDbName = dbname+port;
 
@@ -46,7 +49,8 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode) {
         var company = {
             name: 'The Fake Company REST service',
             port: port,
-            country: countryCode
+            country: countryCode,
+            timeCreated: timeCreated
         };
 
         api.createDb(headless, serverInst.dbname, company, function() {
@@ -648,8 +652,10 @@ exports = module.exports = {
      * @param {function} ready      callback
      * @param {String} countryCode
      * @param {String} languageCode
+     * @param {Date} [timeCreated]          Optional creation date of the company document
+     *                                      The date is used in Shema initTasks, ex: for rights renewals initialisation
      */
-    mockServer: function(dbname, ready, countryCode, languageCode) {
+    mockServer: function(dbname, ready, countryCode, languageCode, timeCreated) {
 
         if (ready === undefined && typeof(dbname) === 'function') {
             ready = dbname;
@@ -662,7 +668,7 @@ exports = module.exports = {
             new mockServer(dbname, port, function(server) {
                 serverList[dbname] = server;
                 ready(server);
-            }, countryCode, languageCode);
+            }, countryCode, languageCode, timeCreated);
 
         } else {
 

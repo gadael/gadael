@@ -5,13 +5,14 @@ exports = module.exports = api;
 
 
 
-function createOnRenewal(app, rightDocument, renewal, user, dtstart, dtend, nbdays) {
+function createOnRenewal(app, rightDocument, renewal, user, dtstart, dtend, nbdays, timeCreated) {
 
     let save = app.getService('user/requests/save');
 
     let params = { // parameters given to the service
         user: user._id,
         createdBy: user,
+        timeCreated: timeCreated,
         absence: {
             distribution: [
                 {
@@ -68,7 +69,7 @@ api.createAbsenceOnRenewal = function(app, renewal, user, dtstart, dtend, nbdays
  *
  * @return {Promise}
  */
-api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
+api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays, timeCreated) {
 
     function createOnRight(rightDocument) {
         return rightDocument.getPeriodRenewal(dtstart, dtend)
@@ -79,7 +80,7 @@ api.createRandomAbsence = function(app, user, dtstart, dtend, nbdays) {
                 return null;
             }
 
-            return createOnRenewal(app, rightDocument, renewal, user, dtstart, dtend, nbdays);
+            return createOnRenewal(app, rightDocument, renewal, user, dtstart, dtend, nbdays, timeCreated);
         });
     }
 

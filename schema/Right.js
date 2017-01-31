@@ -535,7 +535,7 @@ exports = module.exports = function(params) {
      * @param {Date}         dtstart        Request start date
      * @param {Date}         dtend          Request end date
      * @param {Date}         [timeCreated]  Request creation date
-     * @return {boolean}
+     * @return {true|RightRule}
      */
     rightSchema.methods.validateRules = function(renewal, user, dtstart, dtend, timeCreated) {
 
@@ -545,7 +545,7 @@ exports = module.exports = function(params) {
 
         for(var i=0; i<this.rules.length; i++) {
             if (!this.rules[i].validateRule(renewal, user, dtstart, dtend, timeCreated)) {
-                return false;
+                return this.rules[i];
             }
         }
 
@@ -752,8 +752,10 @@ exports = module.exports = function(params) {
 
                 let period = {};
 
-                let now = new Date();
-                period.start = new Date();
+                // company.timeCreated can be set to another date for tests
+                // or screenshots generation
+                let now = new Date(company.timeCreated);
+                period.start = new Date(company.timeCreated);
                 period.start.setHours(0,0,0,0);
 
 

@@ -163,7 +163,7 @@ exports = module.exports = function pages(server) {
         .then(() => {
             let dtstart = new Date(2016, 6, 2, 8,0,0,0);
             let dtend = new Date(2016, 6, 2, 18,0,0,0);
-            return api.request.createRandomAbsence(server.app, user1, dtstart, dtend, 1)
+            return api.request.createRandomAbsence(server.app, user1, dtstart, dtend, 1, new Date(2016, 6, 1, 12,0,0,0))
             .then(() => {
                 return server.webshot('/home', 'account-home')
                 .then(server.webshot('/account/calendar', 'account-calendar'))

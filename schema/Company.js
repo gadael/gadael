@@ -18,11 +18,6 @@ exports = module.exports = function(params) {
 		disabled:  { type: Boolean, default: false },					// Application disabled, no access
 		approb_alert: { type: Number, default: 15 },					// number of days after no action on request approbation
 
-		renewal: {														// default renewal date for each year
-			day: { type: Number, default: 1 },
-			month: { type: Number, default: 1 }
-		},
-
         max_users: Number,                                              // max number of active users
 
         manager_options: {

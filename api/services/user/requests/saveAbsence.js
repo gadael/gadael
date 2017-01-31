@@ -310,11 +310,15 @@ function createElement(service, user, elem, collection, setElemProperties)
 
 /**
  * Check element validity of one element
- * @param {object} contain element is stored in contain.element
+ * @param {apiService} service
+ * @param {object} contain      element is stored in contain.element
+ * @param {Date} timeCreated    Creation date on the request used to check rules based on current date
  * @return {Promise}   Resolve to contain
  */
-function checkElement(contain)
+function checkElement(service, contain, timeCreated)
 {
+    const gt = service.app.utility.gettext;
+
     let rightDocument = contain.right;
     let renewalDocument = contain.renewal;
     let userDocument = contain.user;
@@ -323,20 +327,35 @@ function checkElement(contain)
     let dtstart = element.events[0].dtstart;
     let dtend = element.events[element.events.length-1].dtend;
 
+    let falsyRule = rightDocument.validateRules(renewalDocument, userDocument._id, dtstart, dtend, timeCreated);
 
-    if (!rightDocument.validateRules(renewalDocument, userDocument._id, dtstart, dtend)) {
-        return Promise.reject('This renewal is not valid on the period: '+rightDocument.name+' ('+renewalDocument.start+' - '+renewalDocument.finish+')');
+    if (true !== falsyRule) {
+        return Promise.reject(
+            util.format(
+                gt.gettext('The rule "%s" cannot be verified when saving absence event from %s to %s on the renewal from %s to %s from the right %s'),
+                falsyRule.title,
+                dtstart,
+                dtend,
+                renewalDocument.start,
+                renewalDocument.finish,
+                rightDocument.name
+            )
+        );
     }
 
     if (userDocument.roles.account.arrival > renewalDocument.finish) {
-        return Promise.reject('Arrival date must be before renewal finish');
+        return Promise.reject(gt.gettext('Arrival date must be before renewal finish'));
     }
 
 
     return renewalDocument.getUserAvailableQuantity(userDocument, rightDocument, dtstart, dtend)
     .then(availableQuantity => {
         if (availableQuantity < element.consumedQuantity) {
-            throw new Error(util.format('The quantity requested on right "%s" is not available, available quantity is %s', rightDocument.name, availableQuantity));
+            throw new Error(util.format(
+                gt.gettext('The quantity requested on right "%s" is not available, available quantity is %s'),
+                rightDocument.name,
+                availableQuantity
+            ));
         }
 
         return contain;
@@ -411,7 +430,7 @@ function saveAbsenceDistribution(service, user, params, collection) {
 
         let checkPromises = [];
         contains.forEach(contain => {
-            checkPromises.push(checkElement(contain));
+            checkPromises.push(checkElement(service, contain, params.timeCreated));
         });
 
         return Promise.all(checkPromises);

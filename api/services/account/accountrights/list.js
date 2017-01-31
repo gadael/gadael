@@ -53,7 +53,7 @@ exports = module.exports = function(services, app)
 
 
 
-            if (!right.validateRules(renewal, user, dtstart, dtend)) {
+            if (true !== right.validateRules(renewal, user, dtstart, dtend)) {
                 return null;
             }
 

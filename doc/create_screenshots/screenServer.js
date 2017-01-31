@@ -49,15 +49,18 @@ function addWebshotMethod(server, languageCode)
  * @param {String} [dbname]     optionnal database name
  * @param {String} countryCode  Database will be initialized with this country UK|FR|...
  * @param {String} languageCode en|fr|...
- *
+ * @param {Date} [timeCreated]          Optional creation date of the company document
+ *                                      The date is used in Shema initTasks, ex: for rights renewals initialisation
  * @return {Promise}
  */
 exports = module.exports = function(dbname, countryCode, languageCode) {
+
+    let timeCreated = new Date(2016, 2, 27, 14, 0, 0, 0);
 
     return new Promise(resolve => {
         helpers.mockServer(dbname, function(_mockServer) {
             addWebshotMethod(_mockServer, languageCode);
             resolve(pages(_mockServer));
-        }, countryCode, languageCode);
+        }, countryCode, languageCode, timeCreated);
     });
 };

@@ -340,8 +340,7 @@ function saveRequest(service, params) {
             });
         }
 
-
-
+        // Initialize fieldsToSet for creation
 
         if (params.createdBy === undefined) {
             throw new Error('The createdBy parameter is missing');
@@ -351,6 +350,10 @@ function saveRequest(service, params) {
             id: params.createdBy._id,
             name: params.createdBy.getName()
         };
+
+        // This can be set only by administrator to fake the creation date
+        // to overcome a rule or for unit tests or for screenshots generation
+        fieldsToSet.timeCreated = params.timeCreated;
 
         // save events, because of a mongoose bug
         // if events are not saved before, mongoose set a wrong id in the request document
