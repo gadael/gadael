@@ -30,6 +30,15 @@ define([], function() {
         $scope.timeSavingAccounts = timeSavingAccountsResource.query();
 
         $scope.timeSavingAccounts.$promise.then(function(timeSavingAccounts) {
+
+            if (0 === timeSavingAccounts.length) {
+                $rootScope.pageAlerts.push({
+                    message: gettext('No available time saving account'),
+                    type: 'danger'
+                });
+                return;
+            }
+
             // default to first available time saving account
             $scope.target = timeSavingAccounts[0];
         });
@@ -123,21 +132,8 @@ define([], function() {
                 renewal: $scope.target.renewal
             };
 
+            $scope.request.gadaSave($scope.back);
 
-
-            try {
-                $scope.request.gadaSave($scope.back);
-            } catch(e) {
-
-                if (undefined === $rootScope.pageAlerts) {
-                    $rootScope.pageAlerts = [];
-                }
-
-                $rootScope.pageAlerts.push({
-                    message: e.message,
-                    type: 'danger'
-                });
-            }
 
 
         };

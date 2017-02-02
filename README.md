@@ -75,7 +75,7 @@ grunt --help
 
 ## TODO
 
-- [ ] Message if no time saving account on request creation
+- [x] Message if no time saving account on request creation
 - [ ] Summary on absence event
 - [ ] Bug, comsuption on absence created by admin on a user
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
