@@ -378,6 +378,12 @@ describe('request absence account rest service', function() {
                 expect(body.absence.distribution).toBeDefined();
                 expect(body._id).toEqual(request1._id);
                 expect(body.absence.distribution[0].consumedQuantity).toEqual(1);
+                expect(body.events.length).toEqual(2);
+
+                let event = body.events[0];
+
+                expect(event.summary).toBeDefined();
+                expect(event.summary.length).toBeGreaterThan(0);
             }
             done();
         });
