@@ -196,6 +196,12 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                             return setDuration($scope, duration);
                         }
 
+                        if (!calendarEvents) {
+                            duration = end.getTime() - begin.getTime();
+                            $scope.selection.businessDays = duration / (3600000*8);
+                            return setDuration($scope, duration);
+                        }
+
                         var params = {
                             type: 'workschedule',
                             dtstart: begin,

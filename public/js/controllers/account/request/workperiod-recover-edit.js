@@ -48,7 +48,7 @@ define([], function() {
         userPromise.then(function(user) {
 
             requestUser = user;
-            WorkperiodRecoverEdit.onceUserLoaded($scope, user, calendarEvents);
+            WorkperiodRecoverEdit.onceUserLoaded($scope, user); // calendarEvents not set to get interval without workschedule
         });
 
         $scope.loadEvents = WorkperiodRecoverEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
