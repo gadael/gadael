@@ -82,19 +82,15 @@ define([], function() {
                 q = $scope.selection.days.split(' ')[0];
             }
 
+            q = q.replace(',', '.');
+
             $scope.request.workperiod_recover[0].quantity = q;
 
-            try {
-                $scope.request.events = $scope.selection.periods;
-                $scope.request.gadaSave($scope.back);
-            } catch(e) {
-                $rootScope.pageAlerts.push({
-                    message: e.message,
-                    type: 'danger'
-                });
-            }
+
+            $scope.request.events = $scope.selection.periods;
+            $scope.request.gadaSave($scope.back);
+
         };
 
 	}];
 });
-

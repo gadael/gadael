@@ -9,7 +9,8 @@
                       periods="selection.periods"
                       selectedevents="request.events"
                       dayFirstMinute="0"
-                      dayLastMinute="1320"></tp-period-picker>
+                      dayLastMinute="1320"
+                      ></tp-period-picker>
 </div>
 
 <form class="" role="form">
@@ -61,15 +62,12 @@
             <div class="panel-body">
                 <h4 translate>Selected duration:</h4>
                 <p>{{selection.duration}}</p>
-                <p translate>Consumption on the selected period: {{selection.days}} or {{selection.hours}}</p>
             </div>
         </div>
 
-
-
         <div class="panel  panel-primary top30">
             <div class="panel-body bg-primary">
-                <h4>Right quantity claimed by recovery:</h4>
+                <h4 translate>Right quantity claimed by recovery:</h4>
                 <p>{{request.workperiod_recover[0].recoverQuantity.quantity}} {{request.workperiod_recover[0].recoverQuantity.quantity_dispUnit}}</p>
             </div>
         </div>
@@ -79,4 +77,3 @@
         <button class="btn btn-primary" ng-disabled="!selection.end || !selection.begin" ng-click="save()" translate>Save</button>
     </div>
 </form>
-
