@@ -30214,7 +30214,12 @@ define('services/departmentDays',[],function() {
                 date: new Date(loopDate),
                 free: false,
                 events: [],
-                nonworkingday: null
+                nonworkingday: null,
+                className: 'cal-notscheduled' // possibles values are:
+                                              // cal-notscheduled
+                                              // cal-available
+                                              // cal-event
+                                              // cal-nonworking
             };
 
 
@@ -30235,6 +30240,7 @@ define('services/departmentDays',[],function() {
             }
 
             collaborator.days[pos.getTime()].free = true;
+            collaborator.days[pos.getTime()].className = 'cal-available';
         }
 
         for (var e=0; e<collaborator.events.length; e++) {
@@ -30247,6 +30253,7 @@ define('services/departmentDays',[],function() {
             }
 
             collaborator.days[pos.getTime()].events.push(event);
+            collaborator.days[pos.getTime()].className = 'cal-event';
         }
     }
 
@@ -30318,7 +30325,7 @@ define('services/departmentDays',[],function() {
 
                     createCollaboratorDays(collaborator, startDate, nbdays);
 
-                    
+
                     var nonworkingdaysQuery = calendareventsResource.query({
                         type: 'nonworkingday',
                         dtstart: startDate,
@@ -30350,6 +30357,7 @@ define('services/departmentDays',[],function() {
 
                             collaborator.days[pos.getTime()].free = false;
                             collaborator.days[pos.getTime()].nonworkingday = event;
+                            collaborator.days[pos.getTime()].className = 'cal-nonworking';
                         }
 
                     }
@@ -30559,9 +30567,9 @@ define('services/renewalChart',[],function() {
                 $scope.renewals = sortedRenewals;
 
                 var consumedRight = {
-                            name: 'Consumed',
+                            name: gettextCatalog.getString('Consumed'),
                             type: {
-                                color:'#ccc'
+                                color:'#ddd'
                             }
                         };
 
@@ -30639,6 +30647,7 @@ define('services/rest',[],function() {
                 calendarevents          : init('admin/calendarevents/:id'),
                 personalevents          : init('admin/personalevents/:id'),
                 unavailableevents       : init('admin/unavailableevents/:id'),
+                collection              : init('admin/collection'),
                 collections             : init('admin/collections/:id'),
                 departments             : init('admin/departments/:id'),
                 adjustments             : init('admin/adjustments/:id'),
@@ -30654,7 +30663,8 @@ define('services/rest',[],function() {
                 recoverquantities       : init('admin/recoverquantities/:id'),
                 timesavingaccounts      : init('admin/timesavingaccounts/:id'),
                 collaborators           : init('admin/collaborators/:id'),
-                export                  : init('admin/export')
+                export                  : init('admin/export'),
+                consumption             : init('admin/consumption')
             },
 
             account: {
@@ -33503,6 +33513,12 @@ define('services/request-edit',['moment', 'momentDurationFormat', 'q'], function
                             return setDuration($scope, duration);
                         }
 
+                        if (!calendarEvents) {
+                            duration = end.getTime() - begin.getTime();
+                            $scope.selection.businessDays = duration / (3600000*8);
+                            return setDuration($scope, duration);
+                        }
+
                         var params = {
                             type: 'workschedule',
                             dtstart: begin,
@@ -33560,18 +33576,15 @@ define('services/request-edit',['moment', 'momentDurationFormat', 'q'], function
             getLoadPersonalEvents: function(userPromise, personalEvents) {
                 return function(interval) {
 
-                    var deferred = Q.defer();
+                    return userPromise
+                    .then(function(user) {
 
-                    userPromise.then(function(user) {
-
-                        personalEvents.query({
+                        return personalEvents.query({
                             user: user._id,
                             dtstart: interval.from,
                             dtend: interval.to
-                        }).$promise.then(deferred.resolve);
+                        }).$promise;
                     });
-
-                    return deferred.promise;
                 };
             },
 
@@ -33581,16 +33594,23 @@ define('services/request-edit',['moment', 'momentDurationFormat', 'q'], function
              * Get period picker callback for non working days
              * @param {Resource} calendars
              * @param {Resource} calendarEvents
+             * @param {Promise} userPromise
              * @return function
              */
-            getLoadNonWorkingDaysEvents: function(calendars, calendarEvents) {
+            getLoadNonWorkingDaysEvents: function(calendars, calendarEvents, userPromise) {
                 return function(interval) {
 
-                    return calendarEvents.query({
-                        type: 'nonworkingday',
-                        dtstart: interval.from,
-                        dtend: interval.to
-                    }).$promise;
+                    return userPromise
+                    .then(function(user) {
+
+                        return calendarEvents.query({
+                            type: 'nonworkingday',
+                            dtstart: interval.from,
+                            dtend: interval.to,
+                            user: user._id
+                        }).$promise;
+
+                    });
                 };
             },
 
@@ -33598,7 +33618,7 @@ define('services/request-edit',['moment', 'momentDurationFormat', 'q'], function
             getLoadEvents: function(userPromise, personalEvents, calendars, calendarEvents) {
 
                 var loadPersonalEvents = this.getLoadPersonalEvents(userPromise, personalEvents);
-                var loadNonWorkingDaysEvents = this.getLoadNonWorkingDaysEvents(calendars, calendarEvents);
+                var loadNonWorkingDaysEvents = this.getLoadNonWorkingDaysEvents(calendars, calendarEvents, userPromise);
 
 
 
@@ -33672,9 +33692,6 @@ define('services/absence-edit',['angular', 'services/request-edit'], function(an
          * @var {object}
          */
         var available = {};
-
-
-
 
 
 
@@ -34108,13 +34125,18 @@ define('services/absence-edit',['angular', 'services/request-edit'], function(an
              * @param {Object} $scope
              * @param {Resource} consumption
              * @param {String} renewalId
+             * @param {String} user             User ID when admin create/modify absence for another user
              */
-            setConsumedQuantity: function($scope, consumption, renewalId) {
+            setConsumedQuantity: function($scope, consumption, renewalId, user) {
 
                 var renewals = $scope.distribution.renewal;
                 var periods = $scope.selection.periods;
                 var distribution;
                 var row = $scope.distribution.renewal[renewalId];
+
+                if (0 === periods.length) {
+                    throw new Error('No periods in selection');
+                }
 
                 try {
                     distribution = createDistribution(renewals, periods, $scope.accountRights, false);
@@ -34133,7 +34155,9 @@ define('services/absence-edit',['angular', 'services/request-edit'], function(an
                 };
 
 
-
+                if (user) {
+                    params.user = user;
+                }
 
 
                 row.isLoading = true;
@@ -34165,7 +34189,10 @@ define('services/absence-edit',['angular', 'services/request-edit'], function(an
              * @param {Resource} accountRights
              *
              */
-            getNextButtonJob: function getNextButtonJob($scope, user, accountRights) {
+            getNextButtonJob: function getNextButtonJob($scope, user, accountRights, consumption) {
+
+                var AbsenceEdit = this;
+
                 return function() {
 
                     // hide the period selection
@@ -34305,6 +34332,12 @@ define('services/absence-edit',['angular', 'services/request-edit'], function(an
 
                             setDistributionRequest($scope);
                             distributionWatch($scope.distribution, $scope);
+
+                            // Initialize consumed quantity from initialized duration
+                            var distribution = $scope.request.absence.distribution;
+                            for (var d=0; d< distribution.length; d++) {
+                                AbsenceEdit.setConsumedQuantity($scope, consumption, distribution[d].right.renewal.id, user._id);
+                            }
                         }
                         else {
                             // This is a new request, set input quantity for rights where it is allowed
@@ -34323,13 +34356,16 @@ define('services/absence-edit',['angular', 'services/request-edit'], function(an
 
             /**
              * Process scope once the user document is available
-             * @param   {Object}   $scope
-             * @param   {Object}   user           user document as object
-             * @param   {Resource} calendarEvents
+             * Add the watchs
              *
+             * @param   {Object} $scope
+             * @param   {Object} user           user document as object
+             * @param   {Resource} calendarEvents
+             * @param   {Resource} consumption
              */
-            onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents)
+            onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents, consumption)
             {
+                var AbsenceEdit = this;
 
                 if (!user.roles.account) {
                     throw new Error('the user must have a vacation account');
@@ -34339,6 +34375,20 @@ define('services/absence-edit',['angular', 'services/request-edit'], function(an
 
                 $scope.$watch('distribution', function(distribution) {
                     distributionWatch(distribution, $scope);
+                }, true);
+
+
+
+                $scope.$watch('distribution.renewal', function(newValue, oldValue) {
+
+                    // detect modified renewal
+                    for (var rId in oldValue) {
+                        if (oldValue.hasOwnProperty(rId)) {
+                            if (newValue[rId].quantity !== oldValue[rId].quantity) {
+                                AbsenceEdit.setConsumedQuantity($scope, consumption, rId, user._id);
+                            }
+                        }
+                    }
                 }, true);
             },
 
@@ -35312,9 +35362,12 @@ define('services/calendar',['moment', 'angular'], function(moment, angular) {
         function initLoadMoreData($scope, calendarEventsResource, personalEventsResource, requestsResource) {
 
             var year, month, now = new Date();
+            var routeSet = false;
+
 
             if (undefined !== $routeParams.year) {
                 year = parseInt($routeParams.year, 10);
+                routeSet = true;
             } else {
                 year = now.getFullYear();
             }
@@ -35323,6 +35376,7 @@ define('services/calendar',['moment', 'angular'], function(moment, angular) {
 
             if (undefined !== $routeParams.month) {
                 month = parseInt($routeParams.month, 10);
+                routeSet = true;
             } else {
                 month = now.getMonth();
             }
@@ -35335,6 +35389,12 @@ define('services/calendar',['moment', 'angular'], function(moment, angular) {
             $scope.scrollTo = function(id) {
                 $anchorScroll(id);
             };
+
+            if (!routeSet) {
+                setTimeout(function() {
+                    $anchorScroll('month'+now.getFullYear()+now.getMonth());
+                }, 500);
+            }
 
 
             $scope.isLoading = false;
@@ -35548,6 +35608,27 @@ define('services',[
     .factory('getRequestStat',
         function() {
             return getRequestStat;
+        }
+    )
+
+    /**
+     * return a bool for the canEdit status
+     */
+    .factory('canEditRequest',
+        function() {
+            /**
+             * @param {Resource} request The request not yet loaded
+             */
+            return function($scope) {
+                $scope.canEdit = false;
+                $scope.request.$promise.then(function() {
+                    var status = $scope.request.status.created;
+                    var compulsoryLeave = $scope.request.absence.compulsoryLeave && $scope.request.absence.compulsoryLeave._id;
+                    if (!compulsoryLeave) {
+                        $scope.canEdit = ('accepted' === status || 'waiting' === status);
+                    }
+                });
+            };
         }
     )
 
@@ -35845,7 +35926,28 @@ define('services',[
         function(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll) {
             return getCalendar(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll);
         }
-    ]);
+    ])
+
+
+    .factory('AdminCreateRequest', ['$location', '$modal', function($location, $modal) {
+        return function($scope) {
+            return function(user) {
+
+                var modalscope = $scope.$new();
+                modalscope.user = user;
+                modalscope.goto = function(requestType) {
+                    $location.url('/admin/requests/'+requestType+'-edit?user='+user._id);
+                };
+
+                $modal({
+                    scope: modalscope,
+                    templateUrl: 'partials/admin/request/spoof-user-modal.html',
+                    show: true
+                });
+
+            };
+        };
+    }]);
 
 });
 
@@ -46541,6 +46643,9 @@ define("teleperiod", ["q","d3"], function(){});
                      */
                     function initTeleperiod(editList)
                     {
+                        if (teleperiodScope.d3Svg) {
+                            return;
+                        }
 
                         teleperiodScope.d3Svg = d3.select(scope.svg[0]);
 
@@ -46594,7 +46699,6 @@ define("teleperiod", ["q","d3"], function(){});
                             options.dayLastMinute = $parse(attrs.daylastminute)(scope);
                         }
 
-
                         teleperiodScope.teleperiod = new Teleperiod(options);
 
 
@@ -46614,14 +46718,14 @@ define("teleperiod", ["q","d3"], function(){});
                         }
                     }, true);
 
-                    
-                    
+
+
                     scope.$watch(attrs.refreshevents, function(newValue) {
 
                         if (newValue && undefined !== teleperiodScope.teleperiod) {
                             teleperiodScope.teleperiod.refreshEvents();
                         }
-                        
+
                         scope[attrs.refreshevents] = false;
                     }, true);
 

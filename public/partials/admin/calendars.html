@@ -1,29 +1,29 @@
 
 <div class="row">
 	<div class="col-xs-12 col-sm-9">
-		
+
 		<div class="row gadael-list-header">
 			<div class="col-sm-3 text-center">
 				<a ng-href="#/admin/calendar-edit" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> <span translate>Add a calendar</span></a>
 			</div>
-			
+
 			<div class="col-xs-12 col-sm-8 text-center">
 				<bgf-pagination
-					per-page="25" 
-					collection="calendars" 
-					url="'/rest/admin/calendars'" 
-					url-params="search" 
+					per-page="25"
+					collection="calendars"
+					url="'/rest/admin/calendars'"
+					url-params="search"
 					template-url="partials/utils/paginate-anything.html">
 				</bgf-pagination>
 			</div>
 		</div>
-		
-		
+
+
 		<div class="gadael-list-rows">
 			<div class="row" ng-repeat="calendar in calendars">
 				<div class="col-md-9">
-					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/calendars/{{calendar._id}}" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a> 
-					
+					<a class="btn btn-info btn-xs hidden-print" ng-href="#/admin/calendars/{{calendar._id}}" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
+
 					&nbsp;
 					<span ng-switch="calendar.type">
 						<i ng-switch-when="nonworkingday" class="fa fa-plane"></i>
@@ -33,24 +33,24 @@
 					{{calendar.name}}
 				</div>
 				<div class="col-md-3">
-					<small transalte>Last update:</small> <br />
+					<small translate>Last update:</small> <br />
 					{{calendar.lastUpdate | date : 'short'}}
 				</div>
 			</div>
 		</div>
 
-		
+
 	</div>
-	
+
 	<div role="search" class="col-xs-12 col-sm-3">
-		
+
 		<h2><i class="fa fa-search"></i> <span translate>Search in calendars</span></h2>
-		
+
 		<div class="form-group">
 			<label for="search_name" translate>By name:</label><br />
 			<input type="text" class="form-control" id="search_name" ng-model="search.name" ng-model-options="{ debounce: 500 }" />
 		</div>
-		
+
 		<div class="form-group">
 			<label for="search_type" translate>By type:</label><br />
 			<select class="form-control" id="search_type" ng-model="search.type">

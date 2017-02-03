@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-26 17:02+0100\n"
-"PO-Revision-Date: 2017-01-28 19:35+0100\n"
-"Last-Translator: marie-laure <marie-laure@rosanbo.com>\n"
+"POT-Creation-Date: 2017-02-03 17:35+0100\n"
+"PO-Revision-Date: 2017-02-03 17:41+0100\n"
+"Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: api/specialrights/timesavingaccount.js:25
@@ -284,27 +284,27 @@ msgstr "Cet utilisateur n'existe pas"
 msgid "The user has been deleted"
 msgstr "L'utilisateur a été supprimé"
 
-#: api/services/admin/users/save.js:95
+#: api/services/admin/users/save.js:98
 msgid "The user has been modified"
 msgstr "L'utilisateur a été modifié"
 
-#: api/services/admin/users/save.js:111
+#: api/services/admin/users/save.js:121
 msgid "The user has been created"
 msgstr "L'utiilisateur a été créé"
 
-#: api/services/admin/users/save.js:142
+#: api/services/admin/users/save.js:156
 msgid "No user document to save roles on"
 msgstr "Pas de document utilisateur pour effectuer l'enregistrement des rôles"
 
-#: api/services/admin/users/save.js:158
+#: api/services/admin/users/save.js:172
 msgid "Absence account"
 msgstr "Compte absence"
 
-#: api/services/admin/users/save.js:162
+#: api/services/admin/users/save.js:176
 msgid "Department manager"
 msgstr "Chef de service"
 
-#: api/services/admin/users/save.js:166
+#: api/services/admin/users/save.js:180
 msgid "Application administrator"
 msgstr "Administrateur de l'application"
 
@@ -553,6 +553,28 @@ msgstr "Impossible de charger le document user"
 msgid "Failed to load the collection document"
 msgstr "Impossible de charger le document du régime"
 
+#: api/services/user/requests/saveAbsence.js:335
+#, javascript-format
+msgid ""
+"The rule \"%s\" cannot be verified when saving absence event from %s to %s "
+"on the renewal from %s to %s from the right %s"
+msgstr ""
+"La règle \"%s\" ne peut pas être vérifiée lors de l'enregistrement de "
+"l'absence du %s au %s sur le renouvellement du %s au %s avec le droit %s"
+
+#: api/services/user/requests/saveAbsence.js:347
+msgid "Arrival date must be before renewal finish"
+msgstr "La date d'arrivée doit être avant la date de fin du renouvellement"
+
+#: api/services/user/requests/saveAbsence.js:355
+#, javascript-format
+msgid ""
+"The quantity requested on right \"%s\" is not available, available quantity "
+"is %s"
+msgstr ""
+"La quantité demandée sur le droit \"%s\" n'est pas disponible, le solde est "
+"de %s"
+
 #: api/services/user/requests/get.js:49
 #: api/services/manager/waitingrequests/get.js:54
 msgid "This request does not exists"
@@ -597,7 +619,7 @@ msgstr "Ce congé est un congé imposé, la modification n'est pas permise"
 msgid "The request has been modified"
 msgstr "La demande a été modifiée"
 
-#: api/services/user/requests/save.js:375
+#: api/services/user/requests/save.js:378
 msgid "The request has been created"
 msgstr "La demande a été créée"
 
@@ -625,7 +647,7 @@ msgstr "La quantité récupérée a été créée"
 msgid "This beneficiary does not exists for account or collection"
 msgstr "LE bénéficiaire n'existe pas pour le compte ou le régime"
 
-#: api/services/user/settings/save.js:87
+#: api/services/user/settings/save.js:86
 msgid "Your settings has been modified"
 msgstr "Vos paramètres ont été enregistrés"
 
@@ -766,19 +788,19 @@ msgstr "%s demande pour %s est %s"
 msgid "Please, accept of reject after login into the application"
 msgstr "Vous pouvez accepter ou rejeter une fois connecté à l'application"
 
-#: modules/emails/pendingapproval.js:47 modules/emails/requestaccepted.js:60
-#: modules/emails/requestrejected.js:40 modules/emails/requestcreated.js:38
+#: modules/emails/pendingapproval.js:47 modules/emails/requestaccepted.js:66
+#: modules/emails/requestrejected.js:46 modules/emails/requestcreated.js:38
 msgid "View request"
 msgstr "Voir la demande"
 
 #: modules/emails/pendingapproval.js:51 modules/emails/rolesupdated.js:36
-#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:69
-#: modules/emails/requestrejected.js:44 modules/emails/requestcreated.js:42
+#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:75
+#: modules/emails/requestrejected.js:50 modules/emails/requestcreated.js:42
 #: modules/emails/usercreated.js:36
 msgid "Yours truly"
 msgstr "Cordialement"
 
-#: modules/emails/pendingapproval.js:58 modules/emails/requestaccepted.js:65
+#: modules/emails/pendingapproval.js:58 modules/emails/requestaccepted.js:71
 #, javascript-format
 msgid "Workflow initiated by %s the %s"
 msgstr "Circuit de validation initialisé par %s le %s"
@@ -859,7 +881,7 @@ msgstr "%s : demande annulée"
 msgid "As requested by %s, the %s request has been canceled"
 msgstr "Comme demandé par %s, la demande %s a été annulée"
 
-#: modules/emails/requestaccepted.js:58 modules/emails/requestrejected.js:38
+#: modules/emails/requestaccepted.js:64 modules/emails/requestrejected.js:44
 msgid "Consult the request actions history after login into the application"
 msgstr ""
 "Consultez l'historique des actions sur la demande une fois connecté à "
@@ -870,7 +892,7 @@ msgstr ""
 msgid "%s: request rejected"
 msgstr "%s : demande rejetée"
 
-#: modules/emails/requestrejected.js:36
+#: modules/emails/requestrejected.js:42
 #, javascript-format
 msgid "Your %s has been rejected"
 msgstr "Votre %s a été rejetée"
@@ -1071,6 +1093,26 @@ msgstr "Vous devez être connecté"
 msgid "You are disconnected from your google calendar"
 msgstr "Vous êtes déconnecté de votre agenda Google"
 
+#: schema/Right_Renewal.js:67
+msgid "The renewals periods must not overlap"
+msgstr "Les périodes de renouvellements ne doivent pas se superposer"
+
+#: schema/Right_Renewal.js:963
+msgid ""
+"To compute the number of planned working days, the annual leave type is "
+"required"
+msgstr ""
+"Pour calculer le nombre de jours travaillés planifiés sur une année, le type "
+"congés payés annuels est requis"
+
+#: schema/Right_Renewal.js:972
+msgid ""
+"To compute the number of planned working days on a year, the annual leave "
+"initial quantity is required"
+msgstr ""
+"Pour calculer le nombre de jours travaillés planifiés sur une année, la "
+"quantité de congés payés annuels est requise"
+
 #: schema/Request.js:337
 msgid "Leave"
 msgstr "Congé"
@@ -1115,7 +1157,7 @@ msgstr "Suppression rejectée"
 msgid "Undefined"
 msgstr "Non défini"
 
-#: schema/User.js:127
+#: schema/User.js:132
 #, javascript-format
 msgid "The total number of active users cannot exceed %d"
 msgstr "Le nombre total d'utilisateurs actif ne peut excéder %d"
@@ -1213,6 +1255,11 @@ msgstr "Compte Épargne Temps"
 #: schema/Type.js:81
 msgid "Fractionating leave"
 msgstr "Congés de fractionnement"
+
+#: schema/Type.js:145
+#, javascript-format
+msgid "No rights found in type \"%s\""
+msgstr "Pas de droits trouvés pour le type \"%s\""
 
 #: schema/RightCollection.js:127
 msgid "General regime 100%"
@@ -1336,96 +1383,96 @@ msgstr "Une heure"
 msgid "A week-end"
 msgstr "Un week-end"
 
-#: schema/Calendar.js:233
+#: schema/Calendar.js:240
 msgid "5 days 40H - 8H 12H / 14H 18H"
 msgstr "5 jours 40H - 8H 12H / 14H 18H"
 
-#: schema/Calendar.js:240
+#: schema/Calendar.js:247
 msgid "5 days 39H - 8H 12H / 14H 18H, 17H on friday"
 msgstr "5 jours 39H - 8H 12H / 14H 18H, 17H le vendredi"
 
-#: schema/Calendar.js:247
+#: schema/Calendar.js:254
 msgid "5 days 35H - 8H 12H / 14H 17H"
 msgstr "5 jours 35H - 8H 12H / 14H 17H"
 
-#: schema/Calendar.js:254
+#: schema/Calendar.js:261
 msgid "5 days 36H - 8H 12H / 14H 18H, no friday afternoon"
 msgstr "5 jours 36H - 8H 12H / 14H 18H, pas de vendredi après-midi"
 
-#: schema/Calendar.js:261
+#: schema/Calendar.js:268
 msgid "5 days 36H - 8H 12H / 14H 18H, no wednesday afternoon"
 msgstr "5 jours 36H - 8H 12H / 14H 18H, pas de mercredi après-midi"
 
-#: schema/Calendar.js:268
+#: schema/Calendar.js:275
 msgid "5 days 20H - 14H 18H"
 msgstr "5 jours 20H - 14H 18H"
 
-#: schema/Calendar.js:275
+#: schema/Calendar.js:282
 msgid "5 days 20H - 8H 12H"
 msgstr "5 jours 20H - 8H 12H"
 
-#: schema/Calendar.js:282
+#: schema/Calendar.js:289
 msgid "4 days 32H - 8H 12H / 14H 18H, no friday"
 msgstr "4 jours 32H - 8H 12H / 14H 18H, pas de vendredi"
 
-#: schema/Calendar.js:289
+#: schema/Calendar.js:296
 msgid "4 days 32H - 8H 12H / 14H 18H, no wednesday"
 msgstr "4 jours 32H - 8H 12H / 14H 18H, pas de mercredi"
 
-#: schema/Calendar.js:303
+#: schema/Calendar.js:310
 msgid "Guadeloupe non working days"
 msgstr "Jours fériés en Guadeloupe"
 
-#: schema/Calendar.js:309
+#: schema/Calendar.js:316
 msgid "Guyane non working days"
 msgstr "Jours fériés en Guyane"
 
-#: schema/Calendar.js:315
+#: schema/Calendar.js:322
 msgid "Martinique non working days"
 msgstr "Jours fériés en Martinique"
 
-#: schema/Calendar.js:321
+#: schema/Calendar.js:328
 msgid "Moselle, Bas-Rhin, Haut-Rhin non working days"
 msgstr "Jours fériés pour la Moselle, Bas-Rhin, Haut-Rhin"
 
-#: schema/Calendar.js:328
+#: schema/Calendar.js:335
 msgid "French non working days (metropolis)"
 msgstr "Jours fériés en France métropolitaine"
 
-#: schema/Calendar.js:334
+#: schema/Calendar.js:341
 msgid "French polynesia non working days"
 msgstr "Jours fériés en Polynésie Française"
 
-#: schema/Calendar.js:340
+#: schema/Calendar.js:347
 msgid "Reunion island non working days"
 msgstr "Jours fériés sur l'Île de la Réunion"
 
-#: schema/Calendar.js:346
+#: schema/Calendar.js:353
 msgid "Wallis and Futuna non working days"
 msgstr "Jours fériés de Wallis et Futuna"
 
-#: schema/Calendar.js:361
+#: schema/Calendar.js:368
 msgid "Belgium non working days"
 msgstr "Jours fériés en Belgique"
 
-#: schema/Calendar.js:373
+#: schema/Calendar.js:380
 msgid "Ireland non working days"
 msgstr "Jours fériés en Irlande"
 
-#: schema/Calendar.js:414 schema/Calendar.js:514
+#: schema/Calendar.js:421 schema/Calendar.js:521
 #, javascript-format
 msgid "%s non working days"
 msgstr "%s jours fériés"
 
-#: schema/Calendar.js:432
+#: schema/Calendar.js:439
 msgid "England and Wales legal holidays"
 msgstr "Jours fériés en Angleterre et Pays de Galles"
 
-#: schema/Calendar.js:438
+#: schema/Calendar.js:445
 msgid "North Ireland legal holidays"
 msgstr "Jours fériés en Irlande du Nord"
 
-#: schema/Calendar.js:444
+#: schema/Calendar.js:451
 msgid "Scotland legal holidays"
 msgstr "Jours fériés en Écosse"
 

@@ -4,8 +4,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: public/partials/home.html
+msgid "{{renewalChart.percentDays|number}}% consumed"
+msgstr ""
+
 #: public/partials/admin/users.html
 msgid "{{usersstat.activeUsers}} users / {{company.max_users}} Max"
+msgstr ""
+
+#: public/js/controllers/account/request/time-saving-deposit-edit.js
+msgid "{quantity} up to {date}"
 msgstr ""
 
 #: public/partials/utils/common/request/request-list-type.html
@@ -278,6 +286,7 @@ msgstr ""
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
 #: public/partials/utils/common/request/absence-edit.html
+#: public/js/optimized.js
 #: public/js/services/beneficiary.js
 msgid "Available quantity"
 msgstr ""
@@ -421,6 +430,10 @@ msgid "Classification used for the creation of leave requests"
 msgstr ""
 
 #: public/partials/admin/user-view-manager.html
+msgid "Collaborators"
+msgstr ""
+
+#: public/partials/admin/user-view-manager.html
 msgid "Collaborators to supervise with request approvals"
 msgstr ""
 
@@ -438,6 +451,10 @@ msgstr ""
 
 #: public/partials/admin/type-edit.html
 msgid "Color"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-view.html
+msgid "Compulsory leave"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-edit.html
@@ -477,6 +494,10 @@ msgstr ""
 msgid "Consume worked days"
 msgstr ""
 
+#: public/js/services/renewalChart.js
+msgid "Consumed"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Consumed on types"
 msgstr ""
@@ -492,10 +513,6 @@ msgstr ""
 
 #: public/partials/utils/common/request/absence-edit.html
 msgid "Consumption"
-msgstr ""
-
-#: public/partials/utils/common/request/workperiod-recover-edit.html
-msgid "Consumption on the selected period: {{selection.days}} or {{selection.hours}}"
 msgstr ""
 
 #: public/partials/admin/export/exports.html
@@ -572,6 +589,10 @@ msgstr ""
 msgid "Create an adjustment every"
 msgstr ""
 
+#: public/partials/admin/user-view.html
+msgid "Create new request"
+msgstr ""
+
 #: public/partials/account/request/requests.html
 #: public/partials/manager/waitingrequests.html
 msgid "Created the"
@@ -644,6 +665,7 @@ msgid "Department manager"
 msgstr ""
 
 #: public/partials/admin/department-edit.html
+#: public/partials/admin/user-view-manager.html
 msgid "Department name"
 msgstr ""
 
@@ -689,11 +711,7 @@ msgid "Do not add monthly quantity if renewal quantity greater than"
 msgstr ""
 
 #: public/partials/admin/user-view-account.html
-msgid "Do not notify on approvals"
-msgstr ""
-
-#: public/partials/admin/user-view-account.html
-msgid "Do not notify on new rights allocations"
+msgid "Do not notify the user when a request is accepted or rejected"
 msgstr ""
 
 #: public/partials/account/beneficiary-view.html
@@ -706,6 +724,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
+#: public/js/optimized.js
 #: public/js/services/absence-edit.js
 msgid "Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave"
 msgstr ""
@@ -742,9 +761,8 @@ msgstr ""
 msgid "Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|date}}"
 msgstr ""
 
-#: public/partials/admin/user-edit.html
 #: public/partials/login/createfirstadmin.html
-#: public/partials/user/settings.html
+#: public/partials/utils/common/user/user-edit-head.html
 msgid "Email"
 msgstr ""
 
@@ -811,9 +829,8 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
-#: public/partials/admin/user-edit.html
 #: public/partials/login/createfirstadmin.html
-#: public/partials/user/settings.html
+#: public/partials/utils/common/user/user-edit-head.html
 msgid "Firstname"
 msgstr ""
 
@@ -949,6 +966,7 @@ msgstr ""
 msgid "Initial:"
 msgstr ""
 
+#: public/js/optimized.js
 #: public/js/services/absence-edit.js
 msgid "Input quantity must be set"
 msgstr ""
@@ -966,9 +984,12 @@ msgstr ""
 msgid "Last renewal:"
 msgstr ""
 
-#: public/partials/admin/user-edit.html
+#: public/partials/admin/calendars.html
+msgid "Last update:"
+msgstr ""
+
 #: public/partials/login/createfirstadmin.html
-#: public/partials/user/settings.html
+#: public/partials/utils/common/user/user-edit-head.html
 msgid "Lastname"
 msgstr ""
 
@@ -1008,6 +1029,10 @@ msgstr ""
 
 #: public/js/controllers/login/index.js
 msgid "Login"
+msgstr ""
+
+#: public/partials/admin/department-view.html
+msgid "Managed department:"
 msgstr ""
 
 #: public/partials/home.html
@@ -1147,6 +1172,10 @@ msgstr ""
 msgid "No active renewal"
 msgstr ""
 
+#: public/js/controllers/account/request/time-saving-deposit-edit.js
+msgid "No available time saving account"
+msgstr ""
+
 #: public/partials/admin/modal-specialrights.html
 msgid "No constraints on right parameters"
 msgstr ""
@@ -1184,6 +1213,7 @@ msgstr ""
 msgid "Nothing to approve"
 msgstr ""
 
+#: public/js/optimized.js
 #: public/js/services/absence-edit.js
 msgid "Nothing to save"
 msgstr ""
@@ -1200,29 +1230,20 @@ msgstr ""
 msgid "Notify me when a request is accepted or rejected"
 msgstr ""
 
-#: public/partials/user/settings-account.html
-msgid "Notify me when new vacation rights are opened or closed for my account"
-msgstr ""
-
 #: public/partials/admin/user-edit-account.html
-msgid "Notify on approval"
-msgstr ""
-
 #: public/partials/admin/user-view-account.html
-msgid "Notify on approvals"
-msgstr ""
-
-#: public/partials/admin/user-view-account.html
-msgid "Notify on new rights allocations"
-msgstr ""
-
-#: public/partials/admin/user-edit-account.html
-msgid "Notify on vacation rights allocation"
+msgid "Notify the user when a request is accepted or rejected"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Number of years before the entry start date to set the period end:"
 msgstr ""
+
+#: public/partials/admin/collections.html
+msgid "One right"
+msgid_plural "{{$count}} rights"
+msgstr[0] ""
+msgstr[1] ""
 
 #: public/partials/admin/user-view-account.html
 msgid "One year old"
@@ -1245,6 +1266,7 @@ msgid "Options"
 msgstr ""
 
 #: public/partials/utils/common/request/absence-edit.html
+#: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "or"
 msgstr ""
 
@@ -1435,6 +1457,10 @@ msgstr ""
 
 #: public/partials/admin/user-view-account.html
 msgid "Right name"
+msgstr ""
+
+#: public/partials/utils/common/request/workperiod-recover-edit.html
+msgid "Right quantity claimed by recovery:"
 msgstr ""
 
 #: public/partials/admin/type-edit.html
@@ -1686,6 +1712,10 @@ msgid "Status:"
 msgstr ""
 
 #: public/partials/admin/department-view.html
+msgid "Step {{step}} approver"
+msgstr ""
+
+#: public/partials/admin/department-view.html
 #: public/partials/utils/common/department/listpopover.html
 msgid "Sub-departments"
 msgstr ""
@@ -1750,6 +1780,10 @@ msgstr ""
 msgid "There are no configured rights to display"
 msgstr ""
 
+#: public/partials/admin/right-edit.html
+msgid "This functionality is not yet available"
+msgstr ""
+
 #: public/partials/admin/user-view-manager.html
 msgid "This manager has no departments configured for approval"
 msgstr ""
@@ -1762,9 +1796,21 @@ msgstr ""
 msgid "This user can not connect to the application"
 msgstr ""
 
+#: public/partials/admin/user-view-account.html
+msgid "This user has no configured non-working days"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "This user has no configured specific quantity, rights are set by collection only"
+msgstr ""
+
 #: public/partials/account/beneficiaries.html
 #: public/partials/admin/user-view-account.html
 msgid "This user has no configured vacation rights for the current period"
+msgstr ""
+
+#: public/partials/admin/user-view-account.html
+msgid "This user has no configured work schedule"
 msgstr ""
 
 #: public/partials/admin/user-view-account.html
@@ -2022,6 +2068,7 @@ msgstr ""
 msgid "Worperiod recover"
 msgstr ""
 
+#: public/js/optimized.js
 #: public/js/services/absence-edit.js
 msgid "Wrong events count"
 msgstr ""
