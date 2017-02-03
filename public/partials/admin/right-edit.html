@@ -98,10 +98,10 @@
                 <div class="panel-body">
 
                     <h4 translate>Active for:</h4>
-                    <div class="form-group">
+                    <div class="form-group" style="margin-left:2em">
 
                         <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.account" /><span translate>Account</span></label><br />
-                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.manager" /><span translate>Manager, substituting one of his subordinates</span></label><br />
+                        <label class="checkbox-inline" bs-tooltip title="{{'This functionality is not yet available'|translate}}"><input type="checkbox" ng-model="right.activeFor.manager" disabled="disabled" /><span translate>Manager, substituting one of his subordinates</span></label><br />
                         <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.admin" /><span translate>Admin, substituting one of his subordinates</span></label>
                     </div>
 
