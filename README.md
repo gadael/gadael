@@ -84,7 +84,7 @@ grunt --help
 - [ ] Get managed services on home page
 - [ ] ICSDB integration for non working days calendar
 - [ ] ICS Export
-- [ ] Start calendar view on current date
+- [x] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request
 - [ ] Admin create a request from the user page

@@ -435,9 +435,12 @@ define(['moment', 'angular'], function(moment, angular) {
         function initLoadMoreData($scope, calendarEventsResource, personalEventsResource, requestsResource) {
 
             var year, month, now = new Date();
+            var routeSet = false;
+
 
             if (undefined !== $routeParams.year) {
                 year = parseInt($routeParams.year, 10);
+                routeSet = true;
             } else {
                 year = now.getFullYear();
             }
@@ -446,6 +449,7 @@ define(['moment', 'angular'], function(moment, angular) {
 
             if (undefined !== $routeParams.month) {
                 month = parseInt($routeParams.month, 10);
+                routeSet = true;
             } else {
                 month = now.getMonth();
             }
@@ -458,6 +462,12 @@ define(['moment', 'angular'], function(moment, angular) {
             $scope.scrollTo = function(id) {
                 $anchorScroll(id);
             };
+
+            if (!routeSet) {
+                setTimeout(function() {
+                    $anchorScroll('month'+now.getFullYear()+now.getMonth());
+                }, 500);
+            }
 
 
             $scope.isLoading = false;
