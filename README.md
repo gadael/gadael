@@ -76,7 +76,8 @@ grunt --help
 ## TODO
 
 - [x] Message if no time saving account on request creation
-- [ ] Selection informations on workperiod recover requests
+- [ ] After right creation, redirect to visualisation
+- [x] Selection informations on workperiod recover requests
 - [ ] Bug, comsuption on absence created by admin on a user
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available

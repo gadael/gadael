@@ -110,6 +110,8 @@ define([], function() {
         }];
 
 		$scope.back = function() {
+            // TODO: redirect to visualisation instead of list
+            // when possible
 			$location.path('/admin/rights');
 		};
 
