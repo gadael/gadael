@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-12 col-sm-3">
-        
-        
+
+
         <div class="panel panel-info hidden-xs">
             <div class="panel-heading">
                 <h3 class="panel-title" translate>Roles</h3>
@@ -23,19 +23,20 @@
                 </p>
             </div>
         </div>
-        
+
         <div role="navigation">
             <div class="list-group">
                 <a class="list-group-item" ng-href="#/admin/users/{{user._id}}/calendar"><i class="fa fa-calendar"></i> <span translate>View calendar</span></a>
                 <a class="list-group-item" ng-href="#/admin/requests?user.name={{user.lastname}} {{user.firstname}}"><i class="fa fa-folder text-primary"></i> <span translate>User requests</span></a>
+                <a class="list-group-item" ng-click="createRequest(user)"><i class="fa fa-plus"></i> <span translate>Create new request</span></a>
                 <a class="list-group-item" ng-href="#/admin/users"><i class="fa fa-user"></i> <span translate>Users list</span></a>
             </div>
         </div>
-        
+
     </div>
-    
+
     <div class="col-xs-12 col-sm-9">
-        
+
         <div class="row panel panel-primary">
             <div class="col-xs-2 top15 text-center">
                 <img class="img-rounded" ng-if="user.imageUrl" ng-src="{{user.imageUrl}}" />
@@ -60,11 +61,11 @@
 
             </div>
         </div>
-        
+
         <div ng-if="user.isAccount" ng-include="'partials/admin/user-view-account.html'"></div>
         <div ng-if="user.isManager" ng-include="'partials/admin/user-view-manager.html'"></div>
-        
+
     </div>
-        
-    
+
+
 </div>

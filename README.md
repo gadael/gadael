@@ -87,7 +87,7 @@ grunt --help
 - [x] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request
-- [ ] Admin create a request from the user page
+- [x] Admin create a request from the user page
 - [ ] Add checkbox on absence creation to bypass approval when the admin create the request on behalf
 
 

@@ -344,3 +344,10 @@ body .line3 * { line-height: 1.8em }
 body .line4 * { line-height: 2em }
 body .line5 * { line-height: 2.2em }
 body .line6 * { line-height: 2.4em }
+
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
+}

@@ -6,10 +6,10 @@ define([], function() {
         '$scope',
         '$location',
         'Rest',
-        '$modal',
         'getRequestStat',
         'gettext',
-        function($scope, $location, Rest, $modal, getRequestStat, gettext) {
+        'AdminCreateRequest',
+        function($scope, $location, Rest, getRequestStat, gettext, AdminCreateRequest) {
 
 
         $scope.setPageTitle(gettext('Requests'));
@@ -52,21 +52,7 @@ define([], function() {
          *
          * @param {Object} user
          */
-        $scope.popoverSelect = function(user) {
-
-            var modalscope = $scope.$new();
-            modalscope.user = user;
-            modalscope.goto = function(requestType) {
-                $location.url('/admin/requests/'+requestType+'-edit?user='+user._id);
-            };
-
-            $modal({
-                scope: modalscope,
-                templateUrl: 'partials/admin/request/spoof-user-modal.html',
-                show: true
-            });
-
-        };
+        $scope.popoverSelect = AdminCreateRequest($scope);
 
         $scope.departments = Rest.admin.departments.getResource().query();
 

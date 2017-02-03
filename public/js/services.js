@@ -469,6 +469,27 @@ define([
         function(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll) {
             return getCalendar(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll);
         }
-    ]);
+    ])
+
+
+    .factory('AdminCreateRequest', ['$location', '$modal', function($location, $modal) {
+        return function($scope) {
+            return function(user) {
+
+                var modalscope = $scope.$new();
+                modalscope.user = user;
+                modalscope.goto = function(requestType) {
+                    $location.url('/admin/requests/'+requestType+'-edit?user='+user._id);
+                };
+
+                $modal({
+                    scope: modalscope,
+                    templateUrl: 'partials/admin/request/spoof-user-modal.html',
+                    show: true
+                });
+
+            };
+        };
+    }]);
 
 });
