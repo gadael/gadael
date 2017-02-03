@@ -47,21 +47,23 @@ exports = module.exports = function(services, app)
          * Get the promise for the available quantity
          * @param   {Right} right
          * @param   {RightRenewal} renewal
-         * @returns {Promise} resolve to a number
+         * @returns {Promise|null} resolve to a number
          */
         function getRenewalAvailableQuantity(right, renewal) {
-
-
-
-            if (true !== right.validateRules(renewal, user, dtstart, dtend)) {
-                return null;
-            }
 
             if (user.roles.account.arrival > renewal.finish) {
                 return null;
             }
 
-            return renewal.getUserAvailableQuantity(user);
+
+            return right.validateRules(renewal, user, dtstart, dtend)
+            .then(result => {
+                if (true !== result) {
+                    return null;
+                }
+
+                return renewal.getUserAvailableQuantity(user);
+            });
         }
 
 
@@ -95,11 +97,13 @@ exports = module.exports = function(services, app)
 
                 p.then(function(quantity) {
 
-                    var renewalObj = renewalDocument.toObject();
-                    renewalObj.available_quantity = quantity;
-                    right.renewals.push(renewalObj);
-                    right.available_quantity += quantity;
-
+                    if (null !== quantity) {
+                        var renewalObj = renewalDocument.toObject();
+                        renewalObj.available_quantity = quantity;
+                        right.renewals.push(renewalObj);
+                        right.available_quantity += quantity;
+                    }
+                    
                     renewalCallback();
 
                 })

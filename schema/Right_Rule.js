@@ -1,6 +1,6 @@
 'use strict';
 
-
+const consuptionHistory = require('../modules/consuptionHistory');
 
 /**
  * Right rules embeded into right document
@@ -23,8 +23,17 @@ exports = module.exports = function(params) {
                             // is in the interval, min and max are in years before
                             // the entry date
 
-        'age'               // Right is visible if the user age is in the interval
+        'age',              // Right is visible if the user age is in the interval
                             // min and max are in years after the birth date
+
+		'consuption'		// Right is visible if the user have consumed between
+							// min and max quantity on the specified right type
+							// interval.unit can be H or D
+							// rights from consuption.type not in the same unit will
+							// ignored
+							// The interval consuption.dtstart <=> consuption.dtend
+							// is computed with the specified month and day and the year
+							// of the current request.timeCreated
     ];
 
 
@@ -39,8 +48,14 @@ exports = module.exports = function(params) {
         interval: {
             min: { type: Number, default: 0 }, // number of days or number of years
             max: { type: Number, default: 0 }, // number of days or number of years
-            unit: { type: String, enum: ['D', 'Y'], default: 'D' }
+            unit: { type: String, enum: ['H', 'D', 'Y'], default: 'D' }
         },
+
+		consuption: {
+			dtstart: Date,	// The year is ignored
+			dtend: Date,	// The year is ignored
+			type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' }
+		},
 
         timeCreated: { type: Date, default: Date.now },
         lastUpdate: { type: Date, default: Date.now }
@@ -141,27 +156,60 @@ exports = module.exports = function(params) {
      * @param {Date}         dtstart        Request start date
      * @param {Date}         dtend          Request end date
      * @param {Date}         [timeCreated]  Request creation date
-     * @return {boolean}
+     * @return {Promise}	 Resolve to a boolean
      */
     rightRuleSchema.methods.validateRule = function(renewal, user, dtstart, dtend, timeCreated) {
 
-        switch(this.type) {
-            case 'seniority':       return this.validateSeniority(dtstart, dtend, user);
-            case 'entry_date':      return this.validateEntryDate(timeCreated, renewal);
-            case 'request_period':  return this.validateRequestDate(dtstart, dtend, renewal);
-            case 'age':             return this.validateAge(dtstart, dtend, user);
+		let rule = this;
+
+        switch(rule.type) {
+            case 'seniority':       return Promise.resolve(rule.validateSeniority(dtstart, dtend, user));
+            case 'entry_date':      return Promise.resolve(rule.validateEntryDate(timeCreated, renewal));
+            case 'request_period':  return Promise.resolve(rule.validateRequestDate(dtstart, dtend, renewal));
+            case 'age':             return Promise.resolve(rule.validateAge(dtstart, dtend, user));
+			case 'consuption':		return rule.validateConsuption(timeCreated, user);
         }
 
-        return false;
+        return Promise.resolve(false);
     };
+
+
+	/**
+	 * Test validity for consuption
+	 *
+	 * @param {Date} moment		The moment of the request
+	 * @param {User} user		The appliquant
+	 *
+	 * @returns {Promise}  resolve to a boolean
+	 */
+	rightRuleSchema.methods.validateConsuption = function(moment, user) {
+
+		let rule = this;
+
+		let dtstart = new Date(rule.consuption.dtstart);
+		dtstart.setFullYear(moment.getFullYear());
+
+		let dtend = new Date(rule.consuption.dtend);
+		dtend.setFullYear(moment.getFullYear());
+
+		return consuptionHistory.getConsumedQuantityBetween(user, [rule.consuption.type], dtstart, dtend, rule.interval.unit)
+		.then(quantity => {
+			if (quantity < rule.interval.min || quantity > rule.interval.max) {
+				return false;
+			}
+
+			return true;
+		});
+	};
+
 
 
     /**
      * Create interval from one date
-     * @throws {Error} If the interval unit is not year
-     * @param   {Date}   d          reference date, ex birth date
+     * @throws {Error} 				If the interval unit is not year
+     * @param   {Date} d          	reference date, ex birth date
      * @param   {String} operator   operator to use on date year
-     * @returns {Array}  min and max
+     * @returns {Array} 			min and max
      */
     rightRuleSchema.methods.getIntervalFromDate = function(d, operator) {
 
@@ -196,9 +244,9 @@ exports = module.exports = function(params) {
     /**
      * test validity from the birth date
      *
-     * @param {Date}         dtstart        Request start date
-     * @param {Date}         dtend          Request end date
-     * @param {User}         user
+     * @param {Date} dtstart        Request start date
+     * @param {Date} dtend          Request end date
+     * @param {User} user
      *
      * @return {boolean}
      */
@@ -243,9 +291,9 @@ exports = module.exports = function(params) {
     /**
      * test validity from the seniority date
      * the seniority date is the previsional retirment date
-     * @param {Date}         dtstart        Request start date
-     * @param {Date}         dtend          Request end date
-     * @param {User}         user
+     * @param {Date} dtstart        Request start date
+     * @param {Date} dtend          Request end date
+     * @param {User} user
      *
      * @return {boolean}
      */

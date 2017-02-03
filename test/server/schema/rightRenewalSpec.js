@@ -98,35 +98,6 @@ describe('Right renewal', function() {
     });
 
 
-    it('verify getConsuptionHistory method', function(done) {
-
-        let monday = new Date(2016,3,11,0,0,0,0);
-        let ObjectId = mongoose.Types.ObjectId;
-        let type = new ObjectId('5740adf51cf1a569643cc508');
-
-        api.user.createRandomAccountRequest(server.app, {
-            name: 'test getConsuptionHistory'
-        }, {
-            name: 'test getConsuptionHistory',
-            type: type
-        },
-        monday
-        ).then(elem => {
-            // get the renewal back as a document
-            return renewalModel
-            .findOne({ _id: elem.right.renewal.id })
-            .populate('right')
-            .exec()
-            .then(renewal => {
-                return renewal.getConsuptionHistory(elem.user.id, [type]);
-            })
-            .then(history => {
-                expect(history.length).toEqual(1);
-                done();
-            });
-        }).catch(done);
-    });
-
 
     it('close the mock server', function(done) {
         server.close(done);

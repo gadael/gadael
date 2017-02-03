@@ -1,5 +1,6 @@
 'use strict';
 
+const consuptionHistory = require('../modules/consuptionHistory');
 
 
 exports = module.exports = function(params) {
@@ -76,50 +77,6 @@ exports = module.exports = function(params) {
 
 
 
-	/**
-	 * Get list of absence elem used for the consuption on this renewal
-	 * elements are sorted by first dtstart
-	 *
-	 * @param {User|ObjectId} user
-	 * @param {ObjectId[]} types
-	 *
-	 * @return {Array}
-	 */
-	rightRenewalSchema.methods.getConsuptionHistory = function(user, types) {
-
-		/**
-		 * @param {AbsenceElem} e1
-		 * @param {AbsenceElem} e2
-		 * @return {Int}
-		 */
-		function sortElement(e1, e2) {
-			if (e1.events[0].dtstart < e2.events[0].dtstart) {
-				return -1;
-			}
-
-			if (e1.events[0].dtstart > e2.events[0].dtstart) {
-				return 1;
-			}
-
-			return 0;
-		}
-
-		let userId = (undefined === user._id) ? user : user._id;
-		let AbsenceElem = params.db.models.AbsenceElem;
-
-
-		return AbsenceElem.find()
-		.where('user.id').equals(userId)
-		.where('right.type.id').in(types)
-		.populate('events', 'dtstart')
-		.select('consumedQuantity events right.type.id')
-		.exec()
-		.then(elements => {
-			elements.sort(sortElement);
-			return elements;
-		});
-
-	};
 
 
 
@@ -173,6 +130,7 @@ exports = module.exports = function(params) {
 	};
 
 
+
 	/**
 	 * Update the auto adjustements list for one user
 	 *
@@ -200,7 +158,7 @@ exports = module.exports = function(params) {
 			undefined !== right.autoAdjustment.quantity &&
 			null !== right.autoAdjustment.quantity) {
 
-				return renewal.getConsuptionHistory(user, right.autoAdjustment.types)
+				return consuptionHistory.getConsuptionHistory(user, right.autoAdjustment.types)
 				.then(history => {
 
 					let current = 0;

@@ -544,7 +544,8 @@ exports = module.exports = function(params) {
      * @param {Date}         dtstart        Request start date
      * @param {Date}         dtend          Request end date
      * @param {Date}         [timeCreated]  Request creation date
-     * @return {true|RightRule}
+     * 
+     * @return {Promise}        Resolve to true or RightRule
      */
     rightSchema.methods.validateRules = function(renewal, user, dtstart, dtend, timeCreated) {
 
@@ -552,13 +553,21 @@ exports = module.exports = function(params) {
             timeCreated = new Date();
         }
 
-        for(var i=0; i<this.rules.length; i++) {
-            if (!this.rules[i].validateRule(renewal, user, dtstart, dtend, timeCreated)) {
-                return this.rules[i];
-            }
-        }
+        let promises = this.rules.map(rule => {
+            return rule.validateRule(renewal, user, dtstart, dtend, timeCreated);
+        });
 
-        return true;
+        return Promise.all(promises)
+        .then(all => {
+            for(let i=0; i<all.length; i++) {
+                if (!all[i]) {
+                    return this.rules[i];
+                }
+            }
+
+            return true;
+        });
+
     };
 
 

@@ -27,14 +27,14 @@ describe('Right consumption', function() {
 
     it('verify default consuption type', function(done) {
         api.user.createRandomAccountRequest(app, {
-            name: 'default consuption'
-        }, {
-            name: 'default consuption'
-        },
-        monday
-        ).then(elem => {
-            expect(elem.quantity).toEqual(1);
-            expect(elem.consumedQuantity).toEqual(elem.quantity);
+                name: 'default consuption'
+            }, {
+                name: 'default consuption'
+            },
+            monday
+        ).then(o => {
+            expect(o.elem.quantity).toEqual(1);
+            expect(o.elem.consumedQuantity).toEqual(o.elem.quantity);
             done();
         }).catch(done);
     });

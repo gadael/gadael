@@ -289,27 +289,30 @@ api.createRandomManager = function(app, email, password, lastname, firstname) {
  * @param   {Date}    dtstart         Start date of the request
  * @param   {Date}    dtend           end date of the request
  * @param   {Number}  nbdays          Duration in worked days
- * @returns {Promise} Resolve to absence element
+ * @returns {Promise} 			      Resolve to object
  */
 api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtstart, dtend, nbdays) {
 
     let rightApi = require('./Right.api');
     let requestApi = require('./Request.api');
 
-    return new Promise(function(resolve, reject) {
-        api.createRandomAccount(app).then(function(randomUser) {
-            rightApi.addTestRight(app, randomUser.user, collectionProps, rightProps).then(() => {
-                randomUser.user.populate('roles.account', (err) => {
-                    if (err) {
-                        return reject(err);
-                    }
-
-                    requestApi.createRandomAbsence(app, randomUser.user, dtstart, dtend, nbdays).then(request => {
-                        resolve(request.absence.distribution[0]);
-                    }).catch(reject);
+    return api.createRandomAccount(app)
+	.then(randomUser => {
+        return rightApi.addTestRight(app, randomUser.user, collectionProps, rightProps)
+		.then(() => {
+            return randomUser.user.populate('roles.account')
+			.execPopulate()
+			.then(() => {
+                return requestApi.createRandomAbsence(app, randomUser.user, dtstart, dtend, nbdays)
+				.then(request => {
+                    return {
+						request: request,
+						elem: request.absence.distribution[0],
+						randomUser: randomUser
+					};
                 });
-            }).catch(reject);
-        }).catch(reject);
+            });
+        });
     });
 };
 
@@ -330,14 +333,17 @@ api.createProportionConsRequest = function(app, attendance, dtstart, dtend, nbda
     return api.createRandomAccountRequest(app, {
         name: uniqueName,
         attendance: attendance
-    }, {
-        name: uniqueName,
-        consuption: 'proportion'
-    },
-    dtstart,
-    dtend,
-    nbdays
-    );
+	    }, {
+	        name: uniqueName,
+	        consuption: 'proportion'
+	    },
+	    dtstart,
+	    dtend,
+	    nbdays
+    )
+	.then(o => {
+		return o.elem;
+	});
 };
 
 
@@ -370,7 +376,9 @@ api.createBusinessDaysConsRequest = function(app, dtstart, dtend, nbdays, availa
     dtstart,
     dtend,
     nbdays
-    );
+    ).then(o => {
+		return o.elem;
+	});
 };
 
 
@@ -394,5 +402,7 @@ api.createWorkingDaysConsRequest = function(app, dtstart, dtend, nbdays) {
     dtstart,
     dtend,
     nbdays
-    );
+    ).then(o => {
+		return o.elem;
+	});
 };

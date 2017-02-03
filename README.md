@@ -79,6 +79,8 @@ grunt --help
 - [ ] After right creation, redirect to visualisation
 - [x] Selection informations on workperiod recover requests
 - [ ] Bug, comsuption on absence created by admin on a user
+- [ ] Test rule type consuption
+- [ ] Create UI for rule type consuption
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] Get managed services on home page

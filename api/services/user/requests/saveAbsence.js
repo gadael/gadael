@@ -327,38 +327,40 @@ function checkElement(service, contain, timeCreated)
     let dtstart = element.events[0].dtstart;
     let dtend = element.events[element.events.length-1].dtend;
 
-    let falsyRule = rightDocument.validateRules(renewalDocument, userDocument._id, dtstart, dtend, timeCreated);
+    return rightDocument.validateRules(renewalDocument, userDocument._id, dtstart, dtend, timeCreated)
+    .then(falsyRule => {
 
-    if (true !== falsyRule) {
-        return Promise.reject(
-            util.format(
-                gt.gettext('The rule "%s" cannot be verified when saving absence event from %s to %s on the renewal from %s to %s from the right %s'),
-                falsyRule.title,
-                dtstart,
-                dtend,
-                renewalDocument.start,
-                renewalDocument.finish,
-                rightDocument.name
-            )
-        );
-    }
-
-    if (userDocument.roles.account.arrival > renewalDocument.finish) {
-        return Promise.reject(gt.gettext('Arrival date must be before renewal finish'));
-    }
-
-
-    return renewalDocument.getUserAvailableQuantity(userDocument, rightDocument, dtstart, dtend)
-    .then(availableQuantity => {
-        if (availableQuantity < element.consumedQuantity) {
-            throw new Error(util.format(
-                gt.gettext('The quantity requested on right "%s" is not available, available quantity is %s'),
-                rightDocument.name,
-                availableQuantity
-            ));
+        if (true !== falsyRule) {
+            throw new Error(
+                util.format(
+                    gt.gettext('The rule "%s" cannot be verified when saving absence event from %s to %s on the renewal from %s to %s from the right %s'),
+                    falsyRule.title,
+                    dtstart,
+                    dtend,
+                    renewalDocument.start,
+                    renewalDocument.finish,
+                    rightDocument.name
+                )
+            );
         }
 
-        return contain;
+        if (userDocument.roles.account.arrival > renewalDocument.finish) {
+            throw new Error(gt.gettext('Arrival date must be before renewal finish'));
+        }
+
+
+        return renewalDocument.getUserAvailableQuantity(userDocument, rightDocument, dtstart, dtend)
+        .then(availableQuantity => {
+            if (availableQuantity < element.consumedQuantity) {
+                throw new Error(util.format(
+                    gt.gettext('The quantity requested on right "%s" is not available, available quantity is %s'),
+                    rightDocument.name,
+                    availableQuantity
+                ));
+            }
+
+            return contain;
+        });
     });
 }
 
