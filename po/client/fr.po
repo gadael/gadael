@@ -2254,7 +2254,7 @@ msgid ""
 "Your period selection of {{selection.days}} (or {{selection.hours}}) must be "
 "distribued into the following vacation rights"
 msgstr ""
-"Votre période sélectionnée de {{selection.days}} (ou {{sélection.hours}}) "
+"Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
 "doit être répartie parmi les droits de congés suivants"
 
 #~ msgid ""
