@@ -75,8 +75,10 @@ grunt --help
 
 ## TODO
 
+
+- [ ] Working time recovery option
 - [x] Message if no time saving account on request creation
-- [ ] After right creation, redirect to visualisation
+- [ ] After user or right creation, redirect to visualisation
 - [x] Selection informations on workperiod recover requests
 - [ ] Bug, comsuption on absence created by admin on a user
 - [ ] Test rule type consuption
@@ -91,6 +93,7 @@ grunt --help
 - [ ] Manager substitute one of his subordinates to create request
 - [x] Admin create a request from the user page
 - [ ] Add checkbox on absence creation to bypass approval when the admin create the request on behalf
+- [ ] Hide time saving account option if not available
 
 
 ## Main packages used

@@ -1,5 +1,5 @@
 define([], function() {
-    
+
     'use strict';
 
 	return [
@@ -11,10 +11,11 @@ define([], function() {
         'setSubDocument',
         'removeSubDocument', function($scope, $location, $routeParams, Rest, catchOutcome, setSubDocument, removeSubDocument) {
 
-            
+
         var rightResource = Rest.admin.rights.getResource();
         var rightRenewal = Rest.admin.rightrenewals.getResource();
-            
+        var rightTypesResource = Rest.admin.types.getResource();
+
         function onRightLoaded(right) {
 
             // load last renewal for right
@@ -37,8 +38,9 @@ define([], function() {
                 $scope.step = 2;
             }
         }
-            
 
+        // This is used for the consuption type
+        $scope.righttypes = rightTypesResource.query();
 
 
         // estimation for the seniority rule via $scope.estimated
@@ -61,12 +63,12 @@ define([], function() {
             };
         });
 
-            
+
         if ($location.search().right) {
             $scope.right = rightResource.get({id: $location.search().right});
             $scope.right.$promise.then(onRightLoaded);
         }
-            
+
 
         $scope.step = 1;
         $scope.rightrule = {
@@ -74,7 +76,8 @@ define([], function() {
             title: '',
             interval: {
                 min:0,
-                max:0
+                max:0,
+                unit: 'D'
             }
         };
 
@@ -85,9 +88,9 @@ define([], function() {
 		$scope.back = function() {
 			$location.url('/admin/rights/'+$scope.right._id);
 		};
-		
+
 		$scope.saveRightrule = function() {
-            
+
             $scope.right.rules = setSubDocument($scope.right.rules, $scope.rightrule);
 			catchOutcome($scope.right.$save()).then($scope.back);
 	    };
@@ -100,4 +103,3 @@ define([], function() {
         };
 	}];
 });
-
