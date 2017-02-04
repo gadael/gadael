@@ -19,6 +19,24 @@ function sortElement(e1, e2) {
 }
 
 
+
+
+function getElementsPromise(user, types)
+{
+    let AbsenceElem = user.model('AbsenceElem');
+
+
+    return AbsenceElem.find()
+    .where('user.id').equals(user._id)
+    .where('right.type.id').in(types)
+    .populate('events', 'dtstart dtend')
+    .select('consumedQuantity events right.type.id right.quantity_unit')
+    .exec();
+}
+
+
+
+
 /**
  * Get list of absence elem used for the consuption
  * elements are sorted by first dtstart
@@ -30,19 +48,7 @@ function sortElement(e1, e2) {
  */
 function getConsuptionHistory(user, types) {
 
-
-
-    let userId = (undefined === user._id) ? user : user._id;
-
-    let AbsenceElem = user.model('AbsenceElem');
-
-
-    return AbsenceElem.find()
-    .where('user.id').equals(userId)
-    .where('right.type.id').in(types)
-    .populate('events', 'dtstart dtend')
-    .select('consumedQuantity events right.type.id right.quantity_unit')
-    .exec()
+    return getElementsPromise(user, types)
     .then(elements => {
         elements.sort(sortElement);
         return elements;
@@ -56,7 +62,7 @@ function getConsuptionHistory(user, types) {
 /**
  * Get list of absence elem used for the consuption on this renewal
  *
- * @param {User|ObjectId} user
+ * @param {User} user
  * @param {ObjectId[]} types
  * @param {Date} start
  * @param {Date} finish
@@ -65,17 +71,7 @@ function getConsuptionHistory(user, types) {
  */
 function getElementsOnPeriod(user, types, start, finish) {
 
-
-    let userId = (undefined === user._id) ? user : user._id;
-
-    let AbsenceElem = user.model('AbsenceElem');
-
-    return AbsenceElem.find()
-    .where('user.id').equals(userId)
-    .where('right.type.id').in(types)
-    .populate('events', 'dtstart dtend')
-    .select('consumedQuantity events right.type.id right.quantity_unit')
-    .exec()
+    return getElementsPromise(user, types)
     .then(elements => {
         return elements.filter(elem => {
             let dtstart = elem.events[0].dtstart;
