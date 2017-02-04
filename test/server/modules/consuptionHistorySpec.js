@@ -17,8 +17,9 @@ describe('Consuption history module', function() {
 
     let server;
     let ObjectId = mongoose.Types.ObjectId;
-    let type = new ObjectId('5740adf51cf1a569643cc508');
+    let type = new ObjectId('5740adf51cf1a569643cc508'); // annual paid leave
     let user;
+    let renewal;
     let consumedElement;
 
     beforeEach(function(done) {
@@ -49,6 +50,7 @@ describe('Consuption history module', function() {
         )
         .then(o => {
             user = o.randomUser.user;
+            renewal = o.elem.right.renewal.id;
             return consuptionHistory.getConsuptionHistory(user, [type])
             .then(history => {
                 expect(history.length).toEqual(1);
@@ -69,10 +71,16 @@ describe('Consuption history module', function() {
             }
         ];
 
-        consuptionHistory.getConsumedQuantityBetween(user, [type], periods, 'D')
-        .then(total => {
-            expect(total).toEqual(consumedElement.consumedQuantity);
-            done();
+        let RightRenewal = server.app.db.models.RightRenewal;
+
+        RightRenewal.findOne({ _id: renewal })
+        .exec()
+        .then(renewal => {
+            return consuptionHistory.getConsumedQuantityBetween(user, [type], periods, 'D', renewal, 24)
+            .then(total => {
+                expect(total).toEqual(consumedElement.consumedQuantity);
+                done();
+            });
         })
         .catch(done);
     });

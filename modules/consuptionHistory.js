@@ -70,15 +70,20 @@ function getElementsOnPeriod(user, types, start, finish) {
 
     let AbsenceElem = user.model('AbsenceElem');
 
-
     return AbsenceElem.find()
     .where('user.id').equals(userId)
     .where('right.type.id').in(types)
-    .where('events.dtstart').gt(start)
-    .where('events.dtend').lt(finish)
     .populate('events', 'dtstart dtend')
     .select('consumedQuantity events right.type.id right.quantity_unit')
-    .exec();
+    .exec()
+    .then(elements => {
+        return elements.filter(elem => {
+            let dtstart = elem.events[0].dtstart;
+            let dtend = elem.events[elem.events.length-1].dtend;
+
+            return (dtstart >= start && dtend <= finish);
+        });
+    });
 }
 
 
@@ -121,6 +126,7 @@ function getConsumedQuantityBetween(user, types, periods, quantityUnit, renewal,
 
 	return getElementsOnPeriod(user, types, renewal.start, renewal.finish)
 	.then(history => {
+
 		return history.reduce((quantity, elem) => {
 
             renewalConsuption += elem.consumedQuantity;
