@@ -31,8 +31,8 @@ exports = module.exports = function(params) {
 							// interval.unit can be H or D
 							// rights from consuption.type not in the same unit will
 							// ignored
-							// The interval consuption.dtstart <=> consuption.dtend
-							// is computed with the specified month and day and the year
+							// All intervals consuption.periods.dtstart <=> consuption.periods.dtend
+							// are computed with the specified month and day and the year
 							// of the current request.timeCreated
     ];
 
@@ -52,8 +52,10 @@ exports = module.exports = function(params) {
         },
 
 		consuption: {
-			dtstart: Date,	// The year is ignored
-			dtend: Date,	// The year is ignored
+			periods: [{
+				dtstart: Date,	// The year is ignored
+				dtend: Date,	// The year is ignored
+			}],
 			type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' }
 		},
 

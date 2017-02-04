@@ -78,12 +78,23 @@ define([], function() {
                 min:0,
                 max:0,
                 unit: 'D'
+            },
+            consuption: {
+                periods: []
             }
         };
 
         $scope.next = function() {
             $scope.step = 2;
         };
+
+        $scope.addPeriod = function() {
+            $scope.rightrule.consuption.periods.push({});
+        };
+
+		$scope.removePeriod = function(index) {
+            $scope.rightrule.consuption.periods.splice(index, 1);
+		};
 
 		$scope.back = function() {
 			$location.url('/admin/rights/'+$scope.right._id);
