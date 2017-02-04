@@ -1,7 +1,7 @@
 'use strict';
 
 const consuptionHistory = require('../modules/consuptionHistory');
-
+const util = require('util');
 
 exports = module.exports = function(params) {
 
@@ -939,6 +939,33 @@ exports = module.exports = function(params) {
 
     };
 
+
+
+	/**
+	 * Create a new date using day and month of the date in parameter
+	 * the date must match the renewal period
+	 *
+	 * @param {Date} dayMonth
+	 *
+	 * @return {Date}
+	 */
+	rightRenewalSchema.methods.createDateFromDayMonth = function(dayMonth) {
+		let renewal = this;
+		const gt = params.app.utility.gettext;
+
+		let d = new Date(dayMonth);
+		d.setFullYear(renewal.start.getFullYear());
+
+		if (d.getTime() < renewal.start.getTime()) {
+			d.setFullYear(renewal.finish.getFullYear());
+		}
+
+		if (d.getTime() > renewal.finish.getTime()) {
+			throw new Error(util.format(gt.gettext('Invalid renewal, the renewal is too short and does not contain the requested date: %s'), d.toString()));
+		}
+
+		return d;
+	};
 
 
 

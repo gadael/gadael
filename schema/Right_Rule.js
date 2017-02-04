@@ -169,7 +169,7 @@ exports = module.exports = function(params) {
             case 'entry_date':      return Promise.resolve(rule.validateEntryDate(timeCreated, renewal));
             case 'request_period':  return Promise.resolve(rule.validateRequestDate(dtstart, dtend, renewal));
             case 'age':             return Promise.resolve(rule.validateAge(dtstart, dtend, user));
-			case 'consuption':		return rule.validateConsuption(timeCreated, user);
+			case 'consuption':		return rule.validateConsuption(renewal, user);
         }
 
         return Promise.resolve(false);
@@ -179,21 +179,18 @@ exports = module.exports = function(params) {
 	/**
 	 * Test validity for consuption
 	 *
-	 * @param {Date} moment		The moment of the request
+	 * @param {Renewal} renewal		The moment of the request
 	 * @param {User} user		The appliquant
 	 *
 	 * @returns {Promise}  resolve to a boolean
 	 */
-	rightRuleSchema.methods.validateConsuption = function(moment, user) {
+	rightRuleSchema.methods.validateConsuption = function(renewal, user) {
 
 		let rule = this;
 
 		let periods = rule.consumtion.periods.map(period => {
-			let dtstart = new Date(rule.consuption.dtstart);
-			dtstart.setFullYear(moment.getFullYear());
-
-			let dtend = new Date(rule.consuption.dtend);
-			dtend.setFullYear(moment.getFullYear());
+			let dtstart = renewal.createDateFromDayMonth(rule.consuption.dtstart);
+			let dtend = renewal.createDateFromDayMonth(rule.consuption.dtend);
 			dtend.setHours(23,59,59,999);
 
 			return {

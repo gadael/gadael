@@ -66,7 +66,7 @@
 
                 <span ng-if="beneficiary.errors.length>0"><i class="fa fa-warning text-danger" title="{{'Some renewals are invalids'|translate}}"></i></span>
             </td>
-            <td>{{beneficiary.available_quantity}} {{beneficiary.available_quantity_dispUnit}}</td>
+            <td>{{beneficiary.available_quantity|number}} {{beneficiary.available_quantity_dispUnit}}</td>
             <td>{{beneficiary.renewals.length}}</td>
         </tr>
         </tbody>
