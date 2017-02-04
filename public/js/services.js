@@ -429,6 +429,7 @@ define([
                     case 'request_period':  return gettext('Request period');
                     case 'seniority':       return gettext('Seniority');
                     case 'age':             return gettext('Age');
+                    case 'consuption':      return gettext('Consuption');
                 }
             };
         }

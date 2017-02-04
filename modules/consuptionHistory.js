@@ -2,7 +2,25 @@
 
 
 /**
- * Get list of absence elem used for the consuption on this renewal
+ * @param {AbsenceElem} e1
+ * @param {AbsenceElem} e2
+ * @return {Int}
+ */
+function sortElement(e1, e2) {
+    if (e1.events[0].dtstart < e2.events[0].dtstart) {
+        return -1;
+    }
+
+    if (e1.events[0].dtstart > e2.events[0].dtstart) {
+        return 1;
+    }
+
+    return 0;
+}
+
+
+/**
+ * Get list of absence elem used for the consuption
  * elements are sorted by first dtstart
  *
  * @param {User} user
@@ -12,22 +30,7 @@
  */
 function getConsuptionHistory(user, types) {
 
-    /**
-     * @param {AbsenceElem} e1
-     * @param {AbsenceElem} e2
-     * @return {Int}
-     */
-    function sortElement(e1, e2) {
-        if (e1.events[0].dtstart < e2.events[0].dtstart) {
-            return -1;
-        }
 
-        if (e1.events[0].dtstart > e2.events[0].dtstart) {
-            return 1;
-        }
-
-        return 0;
-    }
 
     let userId = (undefined === user._id) ? user : user._id;
 
@@ -51,15 +54,49 @@ function getConsuptionHistory(user, types) {
 
 
 /**
+ * Get list of absence elem used for the consuption on this renewal
+ *
+ * @param {User|ObjectId} user
+ * @param {ObjectId[]} types
+ * @param {Date} start
+ * @param {Date} finish
+ *
+ * @return {Promise}		resolve to array of absence element
+ */
+function getElementsOnPeriod(user, types, start, finish) {
+
+
+    let userId = (undefined === user._id) ? user : user._id;
+
+    let AbsenceElem = user.model('AbsenceElem');
+
+
+    return AbsenceElem.find()
+    .where('user.id').equals(userId)
+    .where('right.type.id').in(types)
+    .where('events.dtstart').gt(start)
+    .where('events.dtend').lt(finish)
+    .populate('events', 'dtstart dtend')
+    .select('consumedQuantity events right.type.id right.quantity_unit')
+    .exec();
+}
+
+
+
+
+
+/**
  * Get consuption for a list of right types and on a list of periods
  * @param {User} user
  * @param {Array} types         Select rights by types
  * @param {Array} periods       each period contain dtstart and dtend
  * @param {String} quantityUnit H or D rights with other units are ignored
+ * @param {Renewal} renewal
+ * @param {Number} cap          Cap on renewal consuption
  *
  * @return {Promise}	 Resolve to a number
  */
-function getConsumedQuantityBetween(user, types, periods, quantityUnit) {
+function getConsumedQuantityBetween(user, types, periods, quantityUnit, renewal, cap) {
 
     /**
      * test if element match at least one period in list
@@ -80,9 +117,17 @@ function getConsumedQuantityBetween(user, types, periods, quantityUnit) {
         return false;
     }
 
-	return getConsuptionHistory(user, types)
+    let renewalConsuption = 0;
+
+	return getElementsOnPeriod(user, types, renewal.start, renewal.finish)
 	.then(history => {
 		return history.reduce((quantity, elem) => {
+
+            renewalConsuption += elem.consumedQuantity;
+
+            if (renewalConsuption >= cap) {
+                return quantity;
+            }
 
 			if (!matchPeriods(elem)) {
 				return quantity;

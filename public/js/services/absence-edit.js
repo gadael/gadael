@@ -685,8 +685,13 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
 
                     }, function(err) {
-                        // TODO: display message is rootscope
-                        alert(err.data.$outcome.alert[0].message);
+                        err.data.$outcome.alert.forEach(function(e) {
+                            $scope.pageAlerts.push({
+                                message: e.message,
+                                type: 'danger'
+                            });
+                        });
+
                     });
 
                 };

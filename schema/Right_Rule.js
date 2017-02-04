@@ -56,7 +56,9 @@ exports = module.exports = function(params) {
 				dtstart: Date,	// The year is ignored
 				dtend: Date,	// The year is ignored
 			}],
-			type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' }
+			type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
+			cap: Number			// Ignore consuption of the next elements
+								// if this quantity is allready consumed
 		},
 
         timeCreated: { type: Date, default: Date.now },
@@ -188,7 +190,7 @@ exports = module.exports = function(params) {
 
 		let rule = this;
 
-		let periods = rule.consumtion.periods.map(period => {
+		let periods = rule.consuption.periods.map(period => {
 			let dtstart = renewal.createDateFromDayMonth(rule.consuption.dtstart);
 			let dtend = renewal.createDateFromDayMonth(rule.consuption.dtend);
 			dtend.setHours(23,59,59,999);
@@ -199,7 +201,7 @@ exports = module.exports = function(params) {
 			};
 		});
 
-		return consuptionHistory.getConsumedQuantityBetween(user, [rule.consuption.type], periods, rule.interval.unit)
+		return consuptionHistory.getConsumedQuantityBetween(user, [rule.consuption.type], periods, rule.interval.unit, renewal, rule.consuption.cap)
 		.then(quantity => {
 			if (quantity < rule.interval.min || quantity > rule.interval.max) {
 				return false;
