@@ -188,13 +188,21 @@ exports = module.exports = function(params) {
 
 		let rule = this;
 
-		let dtstart = new Date(rule.consuption.dtstart);
-		dtstart.setFullYear(moment.getFullYear());
+		let periods = rule.consumtion.periods.map(period => {
+			let dtstart = new Date(rule.consuption.dtstart);
+			dtstart.setFullYear(moment.getFullYear());
 
-		let dtend = new Date(rule.consuption.dtend);
-		dtend.setFullYear(moment.getFullYear());
+			let dtend = new Date(rule.consuption.dtend);
+			dtend.setFullYear(moment.getFullYear());
+			dtend.setHours(23,59,59,999);
 
-		return consuptionHistory.getConsumedQuantityBetween(user, [rule.consuption.type], dtstart, dtend, rule.interval.unit)
+			return {
+				dtstart: dtstart,
+				dtend: dtend
+			};
+		});
+
+		return consuptionHistory.getConsumedQuantityBetween(user, [rule.consuption.type], periods, rule.interval.unit)
 		.then(quantity => {
 			if (quantity < rule.interval.min || quantity > rule.interval.max) {
 				return false;
