@@ -52,10 +52,13 @@ function saveRenewal(service, params) {
         rightId = params.right._id;
     }
 
+    let finish = new Date(params.finish);
+    finish.setHours(23,59,59,999);
+
     var fieldsToSet = {
         right: rightId,
         start: params.start,
-        finish: params.finish,
+        finish: finish,
         lastUpdate: new Date()
     };
 
