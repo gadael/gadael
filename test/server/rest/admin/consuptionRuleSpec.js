@@ -1,22 +1,22 @@
 'use strict';
 
 
-describe('RTT right on admin rest service', function() {
+describe('consuption rule on admin admin rest service', function() {
 
 
     let server,
         userAdmin,      // create the account, the manager
         userAccount,    // create the request
-        right,          // RTT right to test
+        right,          // right to test
         schedule,
-        department;     // department associated to userManager
-
+        department,     // department associated to userManager
+        renewal;
 
 
     beforeEach(function(done) {
         var helpers = require('../mockServer');
 
-        helpers.mockServer('adminRtt', function(_mockServer) {
+        helpers.mockServer('adminConsputionRule', function(_mockServer) {
             server = _mockServer;
             done();
         });
@@ -43,19 +43,62 @@ describe('RTT right on admin rest service', function() {
             finish: new Date(2015,4,31).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            renewal = body;
+            delete renewal.$outcome;
+            done();
+        });
+    });
+
+
+    it('create new right', function(done) {
+        server.post('/rest/admin/rights', {
+            name: 'Rest right test',
+            quantity: 1,
+            quantity_unit: 'D',
+            rules: [{
+                title: 'Available if 3 days consumed out of the legal period',
+                type: 'consuption',
+                consuption: {
+                    type: '5740adf51cf1a569643cc508', //Annual paid leaves
+                    cap: 24,
+                    periods: [
+                        {
+                            dtstart: new Date(2009, 3, 30), // year should be ignored in tests
+                            dtend: new Date(2009, 4,30)
+                        },
+                        {
+                            dtstart: new Date(2009, 9, 31),
+                            dtend: new Date(2010, 3, 29)
+                        }
+                    ]
+                },
+                interval : {
+                    unit : "D",
+                    max : 24,
+                    min : 3
+                }
+            }]
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body._id).toBeDefined();
+            server.expectSuccess(body);
+
+            right = body;
+
             done();
         });
     });
 
 
 
-    it('create renewal on default RTT right', function(done) {
+
+    it('create renewal on test right', function(done) {
         server.post('/rest/admin/rightrenewals', {
             right: {
-                _id: '5770cad63fccf8da5150e7da'
+                _id: right._id
             },
-            start: new Date(2014,0,1).toJSON(),
-            finish: new Date(2014,11,31).toJSON()
+            start: new Date(2014,5,1).toJSON(),
+            finish: new Date(2015,4,31).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -63,12 +106,14 @@ describe('RTT right on admin rest service', function() {
     });
 
 
-    it('verify renewals list for RTT', function(done) {
-        server.get('/rest/admin/rightrenewals', {
-            right: '5770cad63fccf8da5150e7da'
+
+    it('link test right to default collection', function(done) {
+        server.post('/rest/admin/beneficiaries', {
+            right: right,
+            ref: 'RightCollection',
+            document: '5740adf51cf1a569643cc520'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(2);
             done();
         });
     });
@@ -113,56 +158,22 @@ describe('RTT right on admin rest service', function() {
 
 
 
-
-    var where;
-
-    it('request account current collection for a period', function(done) {
-
-        where = {
-            user: userAccount.user._id.toString(),
-            dtstart: new Date(2014,1,1, 8).toJSON(),
-            dtend: new Date(2014,1,2, 18).toJSON()
-        };
-
-        server.get('/rest/admin/collection', where, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            expect(body.name).toBeDefined();
-            done();
-        });
-    });
-
-
-    it('request account collection content', function(done) {
-
-
-        server.get('/rest/admin/beneficiaries', {
-            document: '5740adf51cf1a569643cc520',
-            ref: 'RightCollection'
-        }, function(res, body) {
-            expect(res.statusCode).toEqual(200);
-            // FR default
-            body.forEach(beneficiary => {
-                if (beneficiary.right.special === 'rtt') {
-                    right = beneficiary.right;
-                }
-            });
-
-            done();
-        });
-    });
-
-
     it('remove entry_date rule to make it testable', function(done) {
 
-        right.rules = right.rules.filter(rule => {
-            return (rule.type !== 'entry_date');
-        });
-
-        server.put('/rest/admin/rights/'+right._id , right, function(res, body) {
+        server.get('/rest/admin/rights/577225e3f3c65dd800257bdc', {}, function(res, paidleave) {
             expect(res.statusCode).toEqual(200);
-            done();
+            paidleave.rules = paidleave.rules.filter(rule => {
+                return (rule.type !== 'entry_date');
+            });
+
+            server.put('/rest/admin/rights/577225e3f3c65dd800257bdc' , paidleave, function(res, body) {
+                expect(res.statusCode).toEqual(200);
+                done();
+            });
         });
     });
+
+
 
 
 
@@ -183,47 +194,59 @@ describe('RTT right on admin rest service', function() {
         });
     });
 
+    let where;
 
-    it('request list of accessibles rights for a period', function(done) {
+    it('request list of accessibles rights before request creation', function(done) {
+
+        where = {
+            user: userAccount.user._id.toString(),
+            dtstart: new Date(2014,6,1, 8).toJSON(),
+            dtend: new Date(2014,6,2, 18).toJSON()
+        };
+
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
-            if (body.length > 0) {
-                expect(body[0].available_quantity).toEqual(9);
-            }
             done();
         });
     });
 
 
+    it('Create absence', function(done) {
 
-    it('Set a 39H workshedule', function(done) {
-        server.put('/rest/admin/accountschedulecalendars/'+schedule, {
-            user: userAccount.user._id,
-            calendar: {
-                _id: '5740adf51cf1a569643cc102'
-            },
-            from: new Date(2014,0,1).toJSON()
+        var distribution = [
+            {
+                right: {
+                    id: '577225e3f3c65dd800257bdc',
+                    renewal:renewal._id
+                },
+                quantity: 3,
+                events: [{
+                    dtstart: new Date(2014,11,1, 8).toJSON(),
+                    dtend: new Date(2014,11,1, 18).toJSON()
+                }]
+            }
+        ];
+
+        server.post('/rest/admin/requests', {
+            user: userAccount.user._id.toString(),
+            absence: { distribution: distribution }
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-
-            schedule = body._id;
-
             done();
         });
     });
 
 
-    it('request list of accessibles rights for a period', function(done) {
+    it('request list of accessibles rights after request creation', function(done) {
+
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(1);
-            if (body.length === 1) {
-                expect(body[0].available_quantity).toEqual(9);
-            }
+            expect(body.length).toEqual(2);
             done();
         });
     });
+
 
 
     it('logout', function(done) {

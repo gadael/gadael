@@ -191,8 +191,8 @@ exports = module.exports = function(params) {
 		let rule = this;
 
 		let periods = rule.consuption.periods.map(period => {
-			let dtstart = renewal.createDateFromDayMonth(rule.consuption.dtstart);
-			let dtend = renewal.createDateFromDayMonth(rule.consuption.dtend);
+			let dtstart = renewal.createDateFromDayMonth(period.dtstart);
+			let dtend = renewal.createDateFromDayMonth(period.dtend);
 			dtend.setHours(23,59,59,999);
 
 			return {
