@@ -258,7 +258,7 @@
 										<label class="sr-only" for="testBeginDate{{$index}}">Begin date</label>
 										<div class="input-group">
 								            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-								            <input id="testBeginDate{{$index}}" class="form-control" ng-model="period.dtstart" placeholder="{{'Begin date'|translate}}" bs-datepicker type="text" data-autoclose="1" />
+								            <input id="testBeginDate{{$index}}" class="form-control" ng-model="period.dtstart" placeholder="{{'Begin date'|translate}}" bs-datepicker type="text" data-autoclose="1" data-date-format="d MMMM" />
 								        </div>
 									</div>
 								</div>
@@ -268,12 +268,19 @@
 										<label class="sr-only" for="testEndDate{{$index}}">End date</label>
 										<div class="input-group">
 								            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-								            <input id="testEndDate{{$index}}" class="form-control" ng-model="period.dtend" placeholder="{{'End date'|translate}}" bs-datepicker type="text" data-autoclose="1" />
+								            <input id="testEndDate{{$index}}" class="form-control" ng-model="period.dtend" placeholder="{{'End date'|translate}}" bs-datepicker type="text" data-autoclose="1" data-date-format="d MMMM" />
 								        </div>
 									</div>
 								</div>
 
 
+							</div>
+
+							<div class="row">
+								<div class="col-md-2"></div>
+								<div class="col-md-10 text-muted">
+									<em translate>Years are ignored and computed back to fit in the renewal period, as a consequence, this rule type will work only with yearly or less renewal periods.</em>
+								</div>
 							</div>
 					</div>
 
