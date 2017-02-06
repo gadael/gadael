@@ -169,7 +169,7 @@ describe('vacations right renewals admin rest service', function() {
 
     it('Update the second renewal period', function(done) {
 
-        let newFinishDate = new Date(2016,11,30,23,59,59,0);
+        let newFinishDate = new Date(2016,11,30,23,59,59,999);
 
         server.put('/rest/admin/rightrenewals/'+renewal, {
             start: new Date(2016,0,1,0,0,0,0),
@@ -199,4 +199,3 @@ describe('vacations right renewals admin rest service', function() {
 
 
 });
-

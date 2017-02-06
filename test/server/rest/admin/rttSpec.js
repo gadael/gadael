@@ -39,8 +39,8 @@ describe('RTT right on admin rest service', function() {
             right: {
                 _id: '577225e3f3c65dd800257bdc'
             },
-            start: new Date(2014,5,1).toJSON(),
-            finish: new Date(2015,4,31).toJSON()
+            start: new Date(2014,5,1,0,0,0,0).toJSON(),
+            finish: new Date(2015,4,31,23,59,59,999).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -54,8 +54,8 @@ describe('RTT right on admin rest service', function() {
             right: {
                 _id: '5770cad63fccf8da5150e7da'
             },
-            start: new Date(2014,0,1).toJSON(),
-            finish: new Date(2014,11,31).toJSON()
+            start: new Date(2014,0,1,0,0,0,0).toJSON(),
+            finish: new Date(2014,11,31,23,59,59,999).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -189,7 +189,7 @@ describe('RTT right on admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             if (body.length > 0) {
-                expect(body[0].available_quantity).toEqual(9);
+                expect(body[0].available_quantity).toEqual(10);
             }
             done();
         });
@@ -219,7 +219,7 @@ describe('RTT right on admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
             if (body.length === 1) {
-                expect(body[0].available_quantity).toEqual(9);
+                expect(body[0].available_quantity).toEqual(10);
             }
             done();
         });

@@ -123,24 +123,29 @@ function getConsumedQuantityBetween(user, types, periods, quantityUnit, renewal,
 	return getElementsOnPeriod(user, types, renewal.start, renewal.finish)
 	.then(history => {
 
-		return history.reduce((quantity, elem) => {
+        let quantity = 0;
 
+        for (let i=0; i<history.length; i++) {
+            let elem = history[i];
+            let last = (cap - renewalConsuption);
             renewalConsuption += elem.consumedQuantity;
 
             if (renewalConsuption >= cap) {
-                return quantity;
+                return quantity + last;
             }
 
 			if (!matchPeriods(elem)) {
-				return quantity;
+				continue;
 			}
 
             if (elem.right.quantity_unit !== quantityUnit) {
-                return quantity;
+                continue;
             }
 
-			return quantity + elem.consumedQuantity;
-		}, 0);
+			quantity += elem.consumedQuantity;
+        }
+
+		return quantity;
 	});
 }
 

@@ -101,8 +101,8 @@ describe('account right rest service', function() {
     it('create renewal 1', function(done) {
         server.post('/rest/admin/rightrenewals', {
             right: right1._id,
-            start: new Date(2015,1,1).toJSON(),
-            finish: new Date(2016,1,1).toJSON()
+            start: new Date(2015,0,1).toJSON(),
+            finish: new Date(2015,11,31).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -113,8 +113,8 @@ describe('account right rest service', function() {
     it('create renewal 2', function(done) {
         server.post('/rest/admin/rightrenewals', {
             right: right1._id,
-            start: new Date(2016,1,1).toJSON(),
-            finish: new Date(2017,1,1).toJSON()
+            start: new Date(2016,0,1).toJSON(),
+            finish: new Date(2016,11,31).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -154,8 +154,8 @@ describe('account right rest service', function() {
     it('create renewal 3', function(done) {
         server.post('/rest/admin/rightrenewals', {
             right: right2._id,
-            start: new Date(2015,1,1).toJSON(),
-            finish: new Date(2016,1,1).toJSON()
+            start: new Date(2015,0,1).toJSON(),
+            finish: new Date(2015,11,31).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -165,8 +165,8 @@ describe('account right rest service', function() {
     it('create renewal 4', function(done) {
         server.post('/rest/admin/rightrenewals', {
             right: right2._id,
-            start: new Date(2016,1,1).toJSON(),
-            finish: new Date(2017,1,1).toJSON()
+            start: new Date(2016,0,1).toJSON(),
+            finish: new Date(2016,11,31).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -284,8 +284,8 @@ describe('account right rest service', function() {
 
     it('request list of accessibles rights in the 7 day tolerance period (end of the renewal 1)', function(done) {
         server.get('/rest/account/accountrights', {
-            dtstart: new Date(2016,1,1).toJSON(),
-            dtend: new Date(2016,1,2).toJSON(),
+            dtstart: new Date(2016,0,1).toJSON(),
+            dtend: new Date(2016,0,2).toJSON(),
             user: '012345678' // ensure the user property is ignored with the account service
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -309,8 +309,8 @@ describe('account right rest service', function() {
 
     it('check account rights before the renewal start', function(done) {
         server.get('/rest/account/accountrights', {
-            dtstart: new Date(2015,0,1).toJSON(),
-            dtend: new Date(2015,0,2).toJSON()
+            dtstart: new Date(2014,11,31,8,0,0,0).toJSON(),
+            dtend: new Date(2014,11,31,23,59,59,999).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
@@ -322,8 +322,8 @@ describe('account right rest service', function() {
 
     it('check account rights after the renewal 2 end, in the tolerance period', function(done) {
         server.get('/rest/account/accountrights', {
-            dtstart: new Date(2017,1,5).toJSON(),
-            dtend: new Date(2017,1,6).toJSON()
+            dtstart: new Date(2017,0,5).toJSON(),
+            dtend: new Date(2017,0,6).toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(2);
