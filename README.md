@@ -76,11 +76,13 @@ grunt --help
 ## TODO
 
 
+- [ ] Bug on http://localhost:3000/#/account/requests/absence-edit/588a5534aed725e3061f2b6c
 - [ ] Working time recovery option
 - [x] Message if no time saving account on request creation
 - [ ] After user or right creation, redirect to visualisation
 - [x] Selection informations on workperiod recover requests
 - [ ] Bug, comsuption on absence created by admin on a user
+- [x] Bug, consuption is not initialized on right with quantity set by default
 - [ ] Test rule type consuption
 - [ ] Create UI for rule type consuption
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login

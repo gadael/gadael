@@ -671,16 +671,18 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                             setDistributionRequest($scope);
                             distributionWatch($scope.distribution, $scope);
-
-                            // Initialize consumed quantity from initialized duration
-                            var distribution = $scope.request.absence.distribution;
-                            for (var d=0; d< distribution.length; d++) {
-                                AbsenceEdit.setConsumedQuantity($scope, consumption, distribution[d].right.renewal.id, user._id);
-                            }
                         }
                         else {
                             // This is a new request, set input quantity for rights where it is allowed
                             initializeDistribution($scope);
+                        }
+
+                        // Initialize consumed quantity from initialized duration
+                        // either from default values or for loaded request
+                        for (var renewalId in $scope.distribution.renewal) {
+                            if ($scope.distribution.renewal.hasOwnProperty(renewalId)) {
+                                AbsenceEdit.setConsumedQuantity($scope, consumption, renewalId, user._id);
+                            }
                         }
 
 
