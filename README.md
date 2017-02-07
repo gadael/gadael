@@ -75,24 +75,17 @@ grunt --help
 
 ## TODO
 
-
-- [ ] Working time recovery option
-- [x] Message if no time saving account on request creation
+- [ ] Fix creation of all request types by admin
+- [ ] Working time recovery option in company doc
 - [ ] After user or right creation, redirect to visualisation
-- [x] Selection informations on workperiod recover requests
 - [ ] Bug, comsuption on absence created by admin on a user
-- [x] Bug, consuption is not initialized on right with quantity set by default
-- [ ] Test rule type consuption
-- [ ] Create UI for rule type consuption
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] Get managed services on home page
 - [ ] ICSDB integration for non working days calendar
 - [ ] ICS Export
-- [x] Start calendar view on current date
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request
-- [x] Admin create a request from the user page
 - [ ] Add checkbox on absence creation to bypass approval when the admin create the request on behalf
 - [ ] Hide time saving account option if not available
 
