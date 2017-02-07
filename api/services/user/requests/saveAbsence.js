@@ -335,10 +335,10 @@ function checkElement(service, contain, timeCreated)
                 util.format(
                     gt.gettext('The rule "%s" cannot be verified when saving absence event from %s to %s on the renewal from %s to %s from the right %s'),
                     falsyRule.title,
-                    dtstart,
-                    dtend,
-                    renewalDocument.start,
-                    renewalDocument.finish,
+                    gt.getLocalDateTimeString(dtstart),
+                    gt.getLocalDateTimeString(dtend),
+                    gt.getLocalDateString(renewalDocument.start),
+                    gt.getLocalDateString(renewalDocument.finish),
                     rightDocument.name
                 )
             );
