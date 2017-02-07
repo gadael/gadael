@@ -312,10 +312,10 @@ function createElement(service, user, elem, collection, setElemProperties)
  * Check element validity of one element
  * @param {apiService} service
  * @param {object} contain      element is stored in contain.element
- * @param {Date} timeCreated    Creation date on the request used to check rules based on current date
+ * @param {Date} moment    Creation date on the request used to check rules based on current date
  * @return {Promise}   Resolve to contain
  */
-function checkElement(service, contain, timeCreated)
+function checkElement(service, contain, moment)
 {
     const gt = service.app.utility.gettext;
 
@@ -327,7 +327,7 @@ function checkElement(service, contain, timeCreated)
     let dtstart = element.events[0].dtstart;
     let dtend = element.events[element.events.length-1].dtend;
 
-    return rightDocument.validateRules(renewalDocument, userDocument._id, dtstart, dtend, timeCreated)
+    return rightDocument.validateRules(renewalDocument, userDocument._id, dtstart, dtend, moment)
     .then(falsyRule => {
 
         if (true !== falsyRule) {
@@ -422,6 +422,14 @@ function saveAbsenceDistribution(service, user, params, collection) {
         containsPromises.push(createElement(service, user, elem, collection, setElemProperties));
     }
 
+
+    let moment;
+    if (!params.id) {
+        // request creation
+        moment = new Date(params.timeCreated);
+    }
+
+
     return deleteElements(service, params)
     .then(() => {
         return Promise.all(containsPromises);
@@ -432,7 +440,7 @@ function saveAbsenceDistribution(service, user, params, collection) {
 
         let checkPromises = [];
         contains.forEach(contain => {
-            checkPromises.push(checkElement(service, contain, params.timeCreated));
+            checkPromises.push(checkElement(service, contain, moment));
         });
 
         return Promise.all(checkPromises);

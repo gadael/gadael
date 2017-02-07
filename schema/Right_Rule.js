@@ -159,16 +159,16 @@ exports = module.exports = function(params) {
      * @param {User}         user         Request appliquant
      * @param {Date}         dtstart        Request start date
      * @param {Date}         dtend          Request end date
-     * @param {Date}         [timeCreated]  Request creation date
+     * @param {Date}         [moment]  		Request creation date
      * @return {Promise}	 Resolve to a boolean
      */
-    rightRuleSchema.methods.validateRule = function(renewal, user, dtstart, dtend, timeCreated) {
+    rightRuleSchema.methods.validateRule = function(renewal, user, dtstart, dtend, moment) {
 
 		let rule = this;
 
         switch(rule.type) {
             case 'seniority':       return Promise.resolve(rule.validateSeniority(dtstart, dtend, user));
-            case 'entry_date':      return Promise.resolve(rule.validateEntryDate(timeCreated, renewal));
+            case 'entry_date':      return Promise.resolve(rule.validateEntryDate(moment, renewal));
             case 'request_period':  return Promise.resolve(rule.validateRequestDate(dtstart, dtend, renewal));
             case 'age':             return Promise.resolve(rule.validateAge(dtstart, dtend, user));
 			case 'consuption':		return rule.validateConsuption(renewal, user);
@@ -338,14 +338,18 @@ exports = module.exports = function(params) {
 
     /**
      * Test validity from the request creation date
-     * @param {Date}            timeCreated
+     * @param {Date}            moment
      * @param {RightRenewal}    renewal
      * @return {boolean}
      */
-    rightRuleSchema.methods.validateEntryDate = function(timeCreated, renewal) {
-        var interval = this.getInterval(renewal);
+    rightRuleSchema.methods.validateEntryDate = function(moment, renewal) {
+        let interval = this.getInterval(renewal);
 
-        if (timeCreated >= interval.dtstart && timeCreated <= interval.dtend) {
+		if (!(moment instanceof Date)) {
+			throw new Error('moment must be a date');
+		}
+
+        if (moment >= interval.dtstart && moment <= interval.dtend) {
             return true;
         }
 

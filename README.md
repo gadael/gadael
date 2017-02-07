@@ -76,7 +76,6 @@ grunt --help
 ## TODO
 
 
-- [ ] Bug on http://localhost:3000/#/account/requests/absence-edit/588a5534aed725e3061f2b6c
 - [ ] Working time recovery option
 - [x] Message if no time saving account on request creation
 - [ ] After user or right creation, redirect to visualisation
