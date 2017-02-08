@@ -13,7 +13,7 @@ exports = module.exports = function(params) {
         private_text: String,                                           // Text to display one homepage for users logged in
         country: { type: String, maxlength: 2, minlength: 2 },          // Country code used for database initialisation ISO 3166-1 alpha-2
 
-		workperiod_recover_request: { type: Boolean, default: false },	// allow creation of workperiod recover requests
+		workperiod_recover_request: { type: Boolean, default: true },	// allow creation of workperiod recover requests
 		maintenance:  { type: Boolean, default: false },				// maintenance mode, the app is read only
 		disabled:  { type: Boolean, default: false },					// Application disabled, no access
 		approb_alert: { type: Number, default: 15 },					// number of days after no action on request approbation

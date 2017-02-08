@@ -157,6 +157,7 @@ exports.getInfos = function(req, res) {
 		name: compDoc.name,
 		maintenance: compDoc.maintenance,
 		max_users: compDoc.max_users,
+        workperiod_recover_request: compDoc.workperiod_recover_request,
         login: {
             form: compDoc.loginservices.form.enable,
             google: compDoc.loginservices.google.enable

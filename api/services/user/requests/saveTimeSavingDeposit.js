@@ -1,5 +1,7 @@
 'use strict';
 
+const async = require('async');
+
 /**
  * @throws Error
  * @param {Object}  tsdParams        Worperiod recover request parmeters from post|put request
@@ -44,13 +46,17 @@ function testRequired(tsdParams)
  */
 function getFieldsToSet(service, tsdParams)
 {
+    const gt = service.app.utility.gettext;
 
-    var async = require('async');
 
     try {
         testRequired(tsdParams);
     } catch (e) {
         return Promise.reject(e);
+    }
+
+    if (!service.app.config.company.workperiod_recover_request) {
+        return Promise.reject(new Error(gt.gettext('Workperiod recover requests are disabled by administrator')));
     }
 
     function setRenewal(obj, renewal) {
@@ -92,8 +98,7 @@ function getFieldsToSet(service, tsdParams)
         to: to
     };
 
-
-    var renewalModel = service.app.db.models.RightRenewal;
+    let renewalModel = service.app.db.models.RightRenewal;
 
 
     /**
