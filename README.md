@@ -76,10 +76,10 @@ grunt --help
 ## TODO
 
 - [ ] Fix creation of all request types by admin
+- [ ] Bug, comsuption on absence created by admin on a user
 - [ ] Application need to be reloaded if company doc is modified
 - [x] Working time recovery option in company doc
 - [ ] After user or right creation, redirect to visualisation
-- [ ] Bug, comsuption on absence created by admin on a user
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] Get managed services on home page

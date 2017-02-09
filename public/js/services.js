@@ -8,6 +8,7 @@ define([
     'services/rest',
     'services/absence-edit',
     'services/workperiod-recover-edit',
+    'services/timesavingdeposit-edit',
     'services/user-edit',
     'services/request-stat',
     'services/beneficiary',
@@ -23,6 +24,7 @@ define([
         rest,
         AbsenceEdit,
         WorkperiodRecoverEdit,
+        TimeSavingDepositEdit,
         UserEdit,
         getRequestStat,
         initBeneficiary,
@@ -189,6 +191,12 @@ define([
     .factory('WorkperiodRecoverEdit',
         function(gettextCatalog) {
             return WorkperiodRecoverEdit(gettextCatalog);
+        }
+    )
+
+    .factory('TimeSavingDepositEdit',
+        function(gettextCatalog, decimalAdjust) {
+            return TimeSavingDepositEdit(gettextCatalog, decimalAdjust);
         }
     )
 

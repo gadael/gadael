@@ -1983,7 +1983,7 @@ msgstr "Au"
 
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 msgid "To pick-up on right"
-msgstr "À épargner sur le droit"
+msgstr "À prendre sur le droit"
 
 #: public/partials/utils/common/request/time-saving-deposit-view.html
 msgid "To right:"

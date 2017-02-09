@@ -44,6 +44,9 @@
 
                 <dl class="dl-horizontal">
                     <dt translate>Actual quantity:</dt><dd>{{target.availableQuantity}} {{target.availableQuantity_dispUnit}}</dd>
+                </dl>
+
+                <dl class="dl-horizontal" ng-if="target.beneficiary.right.timeSaving.max>0">
                     <dt translate>Max quantity:</dt><dd>{{target.beneficiary.right.timeSaving.max}} {{target.beneficiary.right.timeSaving.max_dispUnit}}</dd>
                 </dl>
 
