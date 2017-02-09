@@ -41,6 +41,7 @@ function testRequired(wrParams)
  */
 function getFieldsToSet(service, wrParams)
 {
+    const gt = service.app.utility.gettext;
 
     try {
         testRequired(wrParams);
@@ -48,6 +49,9 @@ function getFieldsToSet(service, wrParams)
         return Promise.reject(e);
     }
 
+    if (!service.app.config.company.workperiod_recover_request) {
+        return Promise.reject(new Error(gt.gettext('Workperiod recover requests are disabled by administrator')));
+    }
 
     var fieldsToSet = {
         right: {}

@@ -46,17 +46,11 @@ function testRequired(tsdParams)
  */
 function getFieldsToSet(service, tsdParams)
 {
-    const gt = service.app.utility.gettext;
-
 
     try {
         testRequired(tsdParams);
     } catch (e) {
         return Promise.reject(e);
-    }
-
-    if (!service.app.config.company.workperiod_recover_request) {
-        return Promise.reject(new Error(gt.gettext('Workperiod recover requests are disabled by administrator')));
     }
 
     function setRenewal(obj, renewal) {
