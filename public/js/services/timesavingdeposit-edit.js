@@ -26,8 +26,22 @@ define([], function() {
         // shared by account/request/time-saving-deposit-edit and admin/request/time-saving-deposit-edit
 
 
-        function setTimeSavingAccounts($scope, timeSavingAccountsResource) {
-            $scope.timeSavingAccounts = timeSavingAccountsResource.query();
+        /**
+         * @param {Object} $scope
+         * @param {Resource} timeSavingAccountsResource
+         * @param {Object} [user]
+         */
+        function setTimeSavingAccounts($scope, timeSavingAccountsResource, user) {
+
+            var params;
+
+            if (undefined !== user) {
+                params = {
+                    account: user.roles.account._id
+                };
+            }
+
+            $scope.timeSavingAccounts = timeSavingAccountsResource.query(params);
 
             $scope.timeSavingAccounts.$promise.then(function(timeSavingAccounts) {
 
@@ -50,10 +64,23 @@ define([], function() {
 
         }
 
+        /**
+         * @param {Object} $scope
+         * @param {Resource} beneficiariesResource
+         * @param {Object} [collection]
+         */
+        function setRightBeneficiaries($scope, beneficiariesResource, collection) {
 
-        function setRightBeneficiaries($scope, beneficiariesResource) {
+            var params;
 
-            var beneficiaries = beneficiariesResource.query();
+            if (undefined !== collection) {
+                params = {
+                    ref: 'RightCollection',
+                    document: collection._id
+                };
+            }
+
+            var beneficiaries = beneficiariesResource.query(params);
 
             // prepare select
             $scope.rightBeneficiaries = [];
