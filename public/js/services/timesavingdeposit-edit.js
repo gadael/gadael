@@ -29,7 +29,7 @@ define([], function() {
         /**
          * @param {Object} $scope
          * @param {Resource} timeSavingAccountsResource
-         * @param {Object} [user]
+         * @param {Object} [user]   This is for admin
          */
         function setTimeSavingAccounts($scope, timeSavingAccountsResource, user) {
 
@@ -67,16 +67,15 @@ define([], function() {
         /**
          * @param {Object} $scope
          * @param {Resource} beneficiariesResource
-         * @param {Object} [collection]
+         * @param {Object} [user]       This is for admin
          */
-        function setRightBeneficiaries($scope, beneficiariesResource, collection) {
+        function setRightBeneficiaries($scope, beneficiariesResource, user) {
 
             var params;
 
-            if (undefined !== collection) {
+            if (undefined !== user) {
                 params = {
-                    ref: 'RightCollection',
-                    document: collection._id
+                    account: user.roles.account._id
                 };
             }
 
@@ -88,6 +87,10 @@ define([], function() {
                 b.forEach(function(beneficiary) {
 
                     if ('timesavingaccount' === beneficiary.right.special) {
+                        return;
+                    }
+
+                    if (undefined === beneficiary.renewals) {
                         return;
                     }
 
@@ -116,7 +119,9 @@ define([], function() {
                     });
                 });
 
-                $scope.from = $scope.rightBeneficiaries[0].value;
+                if (undefined !== $scope.rightBeneficiaries[0]) {
+                    $scope.from = $scope.rightBeneficiaries[0].value;
+                }
             });
 
         }

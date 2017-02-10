@@ -2,40 +2,19 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$location', 'Rest', 'TimeSavingDepositEdit', 'gettext',
-            function($scope, $location, Rest, TimeSavingDepositEdit, gettext) {
+	return ['$scope', '$location', 'Rest', 'TimeSavingDepositEdit',
+            function($scope, $location, Rest, TimeSavingDepositEdit) {
 
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
 
-        var beneficiariesResource = Rest.admin.beneficiaries.getResource();
+        var beneficiariesResource = Rest.admin.accountbeneficiaries.getResource();
         var timeSavingAccountsResource = Rest.admin.timesavingaccounts.getResource();
         var usersResource = Rest.admin.users.getResource();
-        var collectionResource = Rest.admin.collection.getResource();
 
         function onceUserLoaded(user) {
             TimeSavingDepositEdit.setTimeSavingAccounts($scope, timeSavingAccountsResource, user);
-
-            var dtstart = new Date();
-            var dtend = new Date(dtstart);
-
-            var collection = collectionResource.get({
-                user: user.id,
-                dtstart: dtstart,
-                dtend: dtend
-            });
-
-            collection.$promise.then(function() {
-                if (!collection._id) {
-                    $scope.pageAlerts.push({
-                        message: gettext('No active collection found'),
-                        type: 'danger'
-                    });
-                    return;
-                }
-                TimeSavingDepositEdit.setRightBeneficiaries($scope, beneficiariesResource, collection);
-            });
-
+            TimeSavingDepositEdit.setRightBeneficiaries($scope, beneficiariesResource, user);
         }
 
         TimeSavingDepositEdit.initRequest($scope);
