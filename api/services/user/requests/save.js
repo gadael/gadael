@@ -227,7 +227,7 @@ function getUserId(params)
         return params.user.id._id;
     }
 
-    throw new Error('Unexpected object, user.id neet to be populated');
+    throw new Error('Unexpected object, user.id need to be populated');
 }
 
 
