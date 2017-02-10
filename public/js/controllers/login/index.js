@@ -18,9 +18,6 @@ define(['angular'], function(angular) {
 			}))
 			.then(function(data) {
 
-				$rootScope.pageAlerts = data.alert;
-
-
 				if (data.$outcome.success)
 				{
 					// change the sign in button to the user parameters menu
@@ -45,17 +42,6 @@ define(['angular'], function(angular) {
 						angular.element(document.querySelector('[gadael-auth]')).css('display', 'block');
 						angular.element(document.querySelector('.gadael-auth-form')).css('display', 'none');
 					}
-				}
-			})
-
-			.catch(function(data) {
-				// receive 400 bad request on missing parameters, login or password
-
-				for (var fieldname in data.errfor)
-				{
-                    if (data.errfor.hasOwnProperty(fieldname)) {
-                        angular.element(document.querySelector('input[name="'+fieldname+'"]')).closest('.form-group').addClass('has-error');
-                    }
 				}
 			});
 	    };

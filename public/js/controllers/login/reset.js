@@ -1,35 +1,22 @@
-define(['angular'], function(angular) {
+define([], function() {
 
     'use strict';
 
-	return ['$scope', '$http', '$rootScope', '$routeParams', function($scope, $http, $rootScope, $routeParams) {
+	return ['$scope', '$http', '$location', '$routeParams', 'catchOutcome', function($scope, $http, $location, $routeParams, catchOutcome) {
 
 
 		$scope.submit = function() {
 
-			$http.post('rest/login/reset', {
-				password: $scope.password,
-				confirm: $scope.confirm,
-				email: $routeParams.email,
-				token: $routeParams.token
-			})
-
-			.success(function(data) {
-                console.log(data);
-				$rootScope.pageAlerts = data.$outcome.alert;
-			})
-
-			.error(function(data) {
-				// receive 400 bad request on missing parameters
-
-				$rootScope.pageAlerts = data.$outcome.alert;
-
-				for (var fieldname in data.errfor)
-				{
-                    if (data.errfor.hasOwnProperty(fieldname)) {
-                        angular.element('input[name="'+fieldname+'"]').closest('.form-group').addClass('has-error');
-                    }
-				}
+			catchOutcome(
+                $http.post('rest/login/reset', {
+    				password: $scope.password,
+    				confirm: $scope.confirm,
+    				email: $routeParams.email,
+    				token: $routeParams.token
+    			})
+            )
+			.then(function() {
+                $location.path('/login');
 			});
 	    };
 	}];
