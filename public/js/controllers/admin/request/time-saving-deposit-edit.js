@@ -13,8 +13,23 @@ define([], function() {
         var usersResource = Rest.admin.users.getResource();
 
         function onceUserLoaded(user) {
+
+            $scope.request.user = {
+                id: user,
+                name: user.lastname+' '+user.firstname
+            };
+
             TimeSavingDepositEdit.setTimeSavingAccounts($scope, timeSavingAccountsResource, user);
             TimeSavingDepositEdit.setRightBeneficiaries($scope, beneficiariesResource, user);
+
+            /**
+             * Go back to the user visualisation page
+             */
+            $scope.back = function() {
+                $location.path('/admin/users/'+user._id);
+            };
+
+            $scope.save = TimeSavingDepositEdit.getSaveRequest($scope, user);
         }
 
         TimeSavingDepositEdit.initRequest($scope);
@@ -44,14 +59,9 @@ define([], function() {
         }
 
 
-        /**
-         * Go back to requests list, admin view
-         */
-        $scope.back = function() {
-            $location.path('/admin/requests');
-        };
 
-        $scope.save = TimeSavingDepositEdit.getSaveRequest($scope);
+
+
 
 	}];
 });
