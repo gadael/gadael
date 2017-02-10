@@ -148,11 +148,10 @@ define([], function() {
         /**
          *
          * @param {Object} $scope
-         * @param {Object} user     This is for the admin
          *
          * @return {Function}
          */
-        function getSaveRequest($scope, user) {
+        function getSaveRequest($scope) {
 
             return function() {
 

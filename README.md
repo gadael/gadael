@@ -75,6 +75,7 @@ grunt --help
 
 ## TODO
 
+- [ ] After password reset, go to home page or login page
 - [ ] Fix creation of all request types by admin
 - [ ] Bug, comsuption on absence created by admin on a user
 - [ ] Application need to be reloaded if company doc is modified
