@@ -31,19 +31,15 @@ define([], function() {
                 // edit this request
                 $scope.editRequest = true;
                 WorkperiodRecoverEdit.setSelectionFromRequest($scope);
-                $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents, $scope.request.events);
             });
         } else {
 
             // create a new request
             $scope.newRequest = true;
-
-            $scope.request.events = [];
-            $scope.request.timeCreated = new Date();
-            $scope.request.workperiod_recover = [];
-
-            $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents, $scope.request.events);
+            WorkperiodRecoverEdit.initNewRequest($scope);
         }
+
+        $scope.loadNonWorkingTimes = WorkperiodRecoverEdit.getLoadNonWorkingTimes(unavailableEvents);
 
         userPromise.then(function(user) {
 
@@ -54,11 +50,6 @@ define([], function() {
         $scope.loadEvents = WorkperiodRecoverEdit.getLoadEvents(userPromise, personalEvents, calendars, calendarEvents);
 
 
-
-
-
-
-
         /**
          * Go back to requests list, admin view
          */
@@ -66,31 +57,7 @@ define([], function() {
             $location.path('/account/requests');
         };
 
-
-
-        $scope.save = function() {
-
-
-            // cleanup object
-            delete $scope.request.requestLog;
-            delete $scope.request.approvalSteps;
-
-            var q;
-            if ('H' === $scope.request.workperiod_recover[0].recoverQuantity.quantity_unit) {
-                q = $scope.selection.hours.split(' ')[0];
-            } else {
-                q = $scope.selection.days.split(' ')[0];
-            }
-
-            q = q.replace(',', '.');
-
-            $scope.request.workperiod_recover[0].quantity = q;
-
-
-            $scope.request.events = $scope.selection.periods;
-            $scope.request.gadaSave($scope.back);
-
-        };
+        $scope.save = WorkperiodRecoverEdit.getSave($scope);
 
 	}];
 });
