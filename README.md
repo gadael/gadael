@@ -75,9 +75,9 @@ grunt --help
 
 ## TODO
 
-- [ ] After password reset, go to home page or login page
-- [ ] Fix creation of all request types by admin
-- [ ] Bug, comsuption on absence created by admin on a user
+- [x] After password reset, go to home page or login page
+- [x] Fix creation of all request types by admin
+- [x] Bug, comsuption on absence created by admin on a user
 - [ ] Application need to be reloaded if company doc is modified
 - [x] Working time recovery option in company doc
 - [ ] After user or right creation, redirect to visualisation

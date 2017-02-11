@@ -3,8 +3,8 @@ define(['q'], function(Q) {
     'use strict';
 
 
-	return ['$scope', '$location', 'Rest', 'AbsenceEdit', '$routeParams', '$rootScope',
-            function($scope, $location, Rest, AbsenceEdit, $routeParams, $rootScope) {
+	return ['$scope', '$location', 'Rest', 'AbsenceEdit', '$routeParams',
+            function($scope, $location, Rest, AbsenceEdit, $routeParams) {
 
 
 
