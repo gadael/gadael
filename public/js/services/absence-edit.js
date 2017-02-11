@@ -426,6 +426,357 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             }
         }
 
+        function cleanDocument(request) {
+
+            if (!request) {
+                throw new Error('The request does not exists');
+            }
+
+            delete request.requestLog;
+            delete request.approvalSteps;
+
+            if (undefined !== request.time_saving_deposit) {
+                delete request.time_saving_deposit;
+            }
+
+            if (undefined !== request.workperiod_recover) {
+                delete request.workperiod_recover;
+            }
+
+        }
+
+
+
+
+        /**
+         * @param {Object} $scope
+         * @param {Resource} consumption
+         * @param {String} renewalId
+         * @param {String} user             User ID when admin create/modify absence for another user
+         */
+        function setConsumedQuantity($scope, consumption, renewalId, user) {
+
+            var renewals = $scope.distribution.renewal;
+            var periods = $scope.selection.periods;
+            var distribution;
+            var row = $scope.distribution.renewal[renewalId];
+
+            if (0 === periods.length) {
+                throw new Error('No periods in selection');
+            }
+
+            try {
+                distribution = createDistribution(renewals, periods, $scope.accountRights, false);
+            } catch(e) {
+                row.consumedQuantity = 0;
+                return;
+            }
+
+            var params = {
+                selection: {
+                    begin: $scope.selection.begin,
+                    end: $scope.selection.end
+                },
+                distribution: distribution,
+                collection: $scope.collection._id
+            };
+
+
+            if (user) {
+                params.user = user;
+            }
+
+
+            row.isLoading = true;
+
+            // this is a GET in POST:
+            consumption.create(params).$promise.then(function(renewalCons) {
+                for (var id in renewalCons) {
+                    if (!renewalCons.hasOwnProperty(id)) {
+                        continue;
+                    }
+
+                    row = $scope.distribution.renewal[id];
+                    if (undefined === row) {
+                        continue;
+                    }
+                    row.consumedQuantity = renewalCons[id];
+                    row.isLoading = false;
+                }
+
+            });
+
+        }
+
+
+
+
+        /**
+         * The next button, from the period selection to the right distribution interface
+         *
+         * @param {object} $scope
+         * @param {object} user
+         * @param {Resource} accountRights
+         *
+         */
+        function getNextButtonJob($scope, user, accountRights, consumption) {
+
+            return function() {
+
+                // hide the period selection
+                $scope.periodSelection = false;
+
+                // show the right assignement
+                $scope.assignments = true;
+
+                // init distribution if this is a request modification after accountRights.$promise
+                $scope.distribution = {
+                    class: {},
+                    renewal: {},
+                    total: 0,
+                    completed: false
+                };
+
+
+
+
+                /**
+                 * Load accountRights
+                 * the list of rights accessible on the selected period
+                 */
+
+                $scope.accountRights = accountRights.query({
+                    user: user._id, // need that if the request is created by the admin, ignored if created by the user
+                    dtstart: $scope.selection.begin,
+                    dtend: $scope.selection.end
+                });
+
+
+
+
+
+
+                function createAccountRenewal(item, renewalIndex)
+                {
+                    var accountRightRenewal = Object.create(item);
+                    accountRightRenewal.renewal = item.renewals[renewalIndex];
+
+                    $scope.distribution.renewal[accountRightRenewal.renewal._id] = {
+                        quantity: null,
+                        right: item._id
+                    };
+
+                    return accountRightRenewal;
+                }
+
+
+
+
+                $scope.getIcon = function(listItem) {
+                    if (listItem.fold) {
+                        return 'fa-minus-square';
+                    } else {
+                        return 'fa-plus-square';
+                    }
+                };
+
+
+
+
+                $scope.accountRights.$promise.then(function(ar) {
+                    // loaded
+
+                    var days=0, hours=0;
+
+
+                    function updateTotal(right, accountRightRenewal, groupAvailable) {
+                        available[accountRightRenewal.renewal._id] = ar[i].available_quantity;
+                        quantity_unit[accountRightRenewal._id] = ar[i].quantity_unit;
+
+                        switch (accountRightRenewal.quantity_unit) {
+                            case 'D':
+                                groupAvailable.days  += accountRightRenewal.renewal.available_quantity;
+                                days                 += accountRightRenewal.renewal.available_quantity;
+                                break;
+
+                            case 'H':
+                                groupAvailable.hours += accountRightRenewal.renewal.available_quantity;
+                                hours                += accountRightRenewal.renewal.available_quantity;
+                                break;
+                        }
+                    }
+
+
+                    // Group by types
+
+                    var typesIndex = {};
+                    $scope.types = [];
+                    var accountRightRenewal;
+
+                    for (var i=0; i<ar.length; i++) {
+
+                        var type = ar[i].type;
+
+                        if (ar[i].renewals.length > 0) {
+
+                            if (undefined === typesIndex[type._id]) {
+                                $scope.types.push({
+                                    fold: !type.group,
+                                    type: type,
+                                    accountRightsRenewals: [],
+                                    available: {
+                                        days: 0,
+                                        hours: 0
+                                    }
+                                });
+                                typesIndex[type._id] = $scope.types.length-1;
+                            }
+
+                            for(var j=0; j<ar[i].renewals.length; j++) {
+                                accountRightRenewal = createAccountRenewal(ar[i], j);
+                                $scope.types[typesIndex[type._id]].accountRightsRenewals.push(accountRightRenewal);
+                                updateTotal(ar[i], accountRightRenewal, $scope.types[typesIndex[type._id]].available);
+                            }
+                        }
+                    }
+
+                    // total on each type group
+
+                    $scope.types.forEach(function(item) {
+                        item.available.display = RequestEdit.getDuration(item.available.days, item.available.hours);
+                    });
+
+
+                    // grand total
+
+                    $scope.available = {
+                        total: RequestEdit.getDuration(days, hours)
+                    };
+
+
+
+                    // load distribution if this is a request modification
+                    if (undefined !== $scope.request.absence && $scope.request.absence.distribution.length > 0) {
+
+                        setDistributionRequest($scope);
+                        distributionWatch($scope.distribution, $scope);
+                    }
+                    else {
+                        // This is a new request, set input quantity for rights where it is allowed
+                        initializeDistribution($scope);
+                    }
+
+                    // Initialize consumed quantity from initialized duration
+                    // either from default values or for loaded request
+                    for (var renewalId in $scope.distribution.renewal) {
+                        if ($scope.distribution.renewal.hasOwnProperty(renewalId)) {
+                            setConsumedQuantity($scope, consumption, renewalId, user._id);
+                        }
+                    }
+
+
+                }, function(err) {
+                    err.data.$outcome.alert.forEach(function(e) {
+                        $scope.pageAlerts.push({
+                            message: e.message,
+                            type: 'danger'
+                        });
+                    });
+
+                });
+
+            };
+        }
+
+
+
+
+
+
+
+        /**
+         * Process scope once the user document is available
+         * Add the watchs
+         *
+         * @param   {Object} $scope
+         * @param   {Object} user           user document as object
+         * @param   {Resource} calendarEvents
+         * @param   {Resource} consumption
+         */
+        function onceUserLoaded($scope, user, calendarEvents, consumption)
+        {
+            if (!user.roles.account) {
+                throw new Error('the user must have a vacation account');
+            }
+
+            RequestEdit.onceUserLoaded($scope, user, calendarEvents);
+
+            $scope.$watch('distribution', function(distribution) {
+                distributionWatch(distribution, $scope);
+            }, true);
+
+
+
+            $scope.$watch('distribution.renewal', function(newValue, oldValue) {
+
+                // detect modified renewal
+                for (var rId in oldValue) {
+                    if (oldValue.hasOwnProperty(rId)) {
+                        if (newValue[rId].quantity !== oldValue[rId].quantity) {
+                            setConsumedQuantity($scope, consumption, rId, user._id);
+                        }
+                    }
+                }
+            }, true);
+        }
+
+
+
+
+
+
+
+        /**
+         * Get Period picker callback for working times
+         * @param {Resource} calendarEvents
+         * @param {Array} personalEventList personal events list, the list of events curently modified
+         * @param {Object} user optional parameter used for admin query
+         *
+         * @return function
+         */
+        function getLoadWorkingTimes(calendarEvents, personalEventList, user) {
+
+
+
+            return function(interval) {
+
+
+
+                var queryParams = {
+                    type: 'workschedule',
+                    dtstart: interval.from,
+                    dtend: interval.to,
+                    subtractNonWorkingDays: true,
+                    subtractPersonalEvents: true
+                };
+
+                if (user) {
+                    queryParams.user = user._id;
+                }
+
+                if (angular.isArray(personalEventList) && personalEventList.length > 0) {
+                    queryParams.subtractException = [];
+                    personalEventList.forEach(function(personalEvent) {
+                        queryParams.subtractException.push(personalEvent._id);
+                    });
+                }
+
+                return calendarEvents.query(queryParams).$promise;
+            };
+        }
+
+
+
 
 
 
@@ -444,340 +795,11 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             getLoadScholarHolidays: RequestEdit.getLoadScholarHolidays,
 
             createDistribution: createDistribution,
-
-            cleanDocument: function cleanDocument(request) {
-                delete request.requestLog;
-                delete request.approvalSteps;
-
-                if (undefined !== request.time_saving_deposit) {
-                    delete request.time_saving_deposit;
-                }
-
-                if (undefined !== request.workperiod_recover) {
-                    delete request.workperiod_recover;
-                }
-
-            },
-
-
-            /**
-             * @param {Object} $scope
-             * @param {Resource} consumption
-             * @param {String} renewalId
-             * @param {String} user             User ID when admin create/modify absence for another user
-             */
-            setConsumedQuantity: function($scope, consumption, renewalId, user) {
-
-                var renewals = $scope.distribution.renewal;
-                var periods = $scope.selection.periods;
-                var distribution;
-                var row = $scope.distribution.renewal[renewalId];
-
-                if (0 === periods.length) {
-                    throw new Error('No periods in selection');
-                }
-
-                try {
-                    distribution = createDistribution(renewals, periods, $scope.accountRights, false);
-                } catch(e) {
-                    row.consumedQuantity = 0;
-                    return;
-                }
-
-                var params = {
-                    selection: {
-                        begin: $scope.selection.begin,
-                        end: $scope.selection.end
-                    },
-                    distribution: distribution,
-                    collection: $scope.collection._id
-                };
-
-
-                if (user) {
-                    params.user = user;
-                }
-
-
-                row.isLoading = true;
-
-                // this is a GET in POST:
-                consumption.create(params).$promise.then(function(renewalCons) {
-                    for (var id in renewalCons) {
-                        if (!renewalCons.hasOwnProperty(id)) {
-                            continue;
-                        }
-
-                        row = $scope.distribution.renewal[id];
-                        if (undefined === row) {
-                            continue;
-                        }
-                        row.consumedQuantity = renewalCons[id];
-                        row.isLoading = false;
-                    }
-
-                });
-
-            },
-
-            /**
-             * The next button, from the period selection to the right distribution interface
-             *
-             * @param {object} $scope
-             * @param {object} user
-             * @param {Resource} accountRights
-             *
-             */
-            getNextButtonJob: function getNextButtonJob($scope, user, accountRights, consumption) {
-
-                var AbsenceEdit = this;
-
-                return function() {
-
-                    // hide the period selection
-                    $scope.periodSelection = false;
-
-                    // show the right assignement
-                    $scope.assignments = true;
-
-                    // init distribution if this is a request modification after accountRights.$promise
-                    $scope.distribution = {
-                        class: {},
-                        renewal: {},
-                        total: 0,
-                        completed: false
-                    };
-
-
-
-
-                    /**
-                     * Load accountRights
-                     * the list of rights accessible on the selected period
-                     */
-
-                    $scope.accountRights = accountRights.query({
-                        user: user._id, // need that if the request is created by the admin, ignored if created by the user
-                        dtstart: $scope.selection.begin,
-                        dtend: $scope.selection.end
-                    });
-
-
-
-
-
-
-                    function createAccountRenewal(item, renewalIndex)
-                    {
-                        var accountRightRenewal = Object.create(item);
-                        accountRightRenewal.renewal = item.renewals[renewalIndex];
-
-                        $scope.distribution.renewal[accountRightRenewal.renewal._id] = {
-                            quantity: null,
-                            right: item._id
-                        };
-
-                        return accountRightRenewal;
-                    }
-
-
-
-
-                    $scope.getIcon = function(listItem) {
-                        if (listItem.fold) {
-                            return 'fa-minus-square';
-                        } else {
-                            return 'fa-plus-square';
-                        }
-                    };
-
-
-
-
-                    $scope.accountRights.$promise.then(function(ar) {
-                        // loaded
-
-                        var days=0, hours=0;
-
-
-                        function updateTotal(right, accountRightRenewal, groupAvailable) {
-                            available[accountRightRenewal.renewal._id] = ar[i].available_quantity;
-                            quantity_unit[accountRightRenewal._id] = ar[i].quantity_unit;
-
-                            switch (accountRightRenewal.quantity_unit) {
-                                case 'D':
-                                    groupAvailable.days  += accountRightRenewal.renewal.available_quantity;
-                                    days                 += accountRightRenewal.renewal.available_quantity;
-                                    break;
-
-                                case 'H':
-                                    groupAvailable.hours += accountRightRenewal.renewal.available_quantity;
-                                    hours                += accountRightRenewal.renewal.available_quantity;
-                                    break;
-                            }
-                        }
-
-
-                        // Group by types
-
-                        var typesIndex = {};
-                        $scope.types = [];
-                        var accountRightRenewal;
-
-                        for (var i=0; i<ar.length; i++) {
-
-                            var type = ar[i].type;
-
-                            if (ar[i].renewals.length > 0) {
-
-                                if (undefined === typesIndex[type._id]) {
-                                    $scope.types.push({
-                                        fold: !type.group,
-                                        type: type,
-                                        accountRightsRenewals: [],
-                                        available: {
-                                            days: 0,
-                                            hours: 0
-                                        }
-                                    });
-                                    typesIndex[type._id] = $scope.types.length-1;
-                                }
-
-                                for(var j=0; j<ar[i].renewals.length; j++) {
-                                    accountRightRenewal = createAccountRenewal(ar[i], j);
-                                    $scope.types[typesIndex[type._id]].accountRightsRenewals.push(accountRightRenewal);
-                                    updateTotal(ar[i], accountRightRenewal, $scope.types[typesIndex[type._id]].available);
-                                }
-                            }
-                        }
-
-                        // total on each type group
-
-                        $scope.types.forEach(function(item) {
-                            item.available.display = RequestEdit.getDuration(item.available.days, item.available.hours);
-                        });
-
-
-                        // grand total
-
-                        $scope.available = {
-                            total: RequestEdit.getDuration(days, hours)
-                        };
-
-
-
-                        // load distribution if this is a request modification
-                        if (undefined !== $scope.request.absence && $scope.request.absence.distribution.length > 0) {
-
-                            setDistributionRequest($scope);
-                            distributionWatch($scope.distribution, $scope);
-                        }
-                        else {
-                            // This is a new request, set input quantity for rights where it is allowed
-                            initializeDistribution($scope);
-                        }
-
-                        // Initialize consumed quantity from initialized duration
-                        // either from default values or for loaded request
-                        for (var renewalId in $scope.distribution.renewal) {
-                            if ($scope.distribution.renewal.hasOwnProperty(renewalId)) {
-                                AbsenceEdit.setConsumedQuantity($scope, consumption, renewalId, user._id);
-                            }
-                        }
-
-
-                    }, function(err) {
-                        err.data.$outcome.alert.forEach(function(e) {
-                            $scope.pageAlerts.push({
-                                message: e.message,
-                                type: 'danger'
-                            });
-                        });
-
-                    });
-
-                };
-            },
-
-
-            /**
-             * Process scope once the user document is available
-             * Add the watchs
-             *
-             * @param   {Object} $scope
-             * @param   {Object} user           user document as object
-             * @param   {Resource} calendarEvents
-             * @param   {Resource} consumption
-             */
-            onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents, consumption)
-            {
-                var AbsenceEdit = this;
-
-                if (!user.roles.account) {
-                    throw new Error('the user must have a vacation account');
-                }
-
-                RequestEdit.onceUserLoaded($scope, user, calendarEvents);
-
-                $scope.$watch('distribution', function(distribution) {
-                    distributionWatch(distribution, $scope);
-                }, true);
-
-
-
-                $scope.$watch('distribution.renewal', function(newValue, oldValue) {
-
-                    // detect modified renewal
-                    for (var rId in oldValue) {
-                        if (oldValue.hasOwnProperty(rId)) {
-                            if (newValue[rId].quantity !== oldValue[rId].quantity) {
-                                AbsenceEdit.setConsumedQuantity($scope, consumption, rId, user._id);
-                            }
-                        }
-                    }
-                }, true);
-            },
-
-
-
-            /**
-             * Get Period picker callback for working times
-             * @param {Resource} calendarEvents
-             * @param {Array} personalEventList personal events list, the list of events curently modified
-             * @param {Object} user optional parameter used for admin query
-             *
-             * @return function
-             */
-            getLoadWorkingTimes: function(calendarEvents, personalEventList, user) {
-
-
-
-                return function(interval) {
-
-
-
-                    var queryParams = {
-                        type: 'workschedule',
-                        dtstart: interval.from,
-                        dtend: interval.to,
-                        subtractNonWorkingDays: true,
-                        subtractPersonalEvents: true
-                    };
-
-                    if (user) {
-                        queryParams.user = user._id;
-                    }
-
-                    if (angular.isArray(personalEventList) && personalEventList.length > 0) {
-                        queryParams.subtractException = [];
-                        personalEventList.forEach(function(personalEvent) {
-                            queryParams.subtractException.push(personalEvent._id);
-                        });
-                    }
-
-                    return calendarEvents.query(queryParams).$promise;
-                };
-            }
+            cleanDocument: cleanDocument,
+            setConsumedQuantity: setConsumedQuantity,
+            getNextButtonJob: getNextButtonJob,
+            onceUserLoaded: onceUserLoaded,
+            getLoadWorkingTimes: getLoadWorkingTimes
 
         };
     };

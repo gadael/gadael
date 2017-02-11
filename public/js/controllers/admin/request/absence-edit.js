@@ -26,7 +26,7 @@ define(['q'], function(Q) {
         /**
          * Load request and get user promise
          * @throws {Error} if the user parameter is missing on request creation
-         * @returns {Promise} [[Description]]
+         * @returns {Promise} resolve to the user promise
          */
         function loadRequestAndUserPromise()
         {
@@ -48,32 +48,45 @@ define(['q'], function(Q) {
                 });
 
                 return deferred.promise;
-            }
 
-            // create a new request
-            $scope.newRequest = true;
-            userId = $location.search().user;
 
-            if (!userId) {
-                throw new Error('the user parameter is mandatory to create a new request');
-            }
+            } else {
 
-            userPromise = users.get({ id: userId }).$promise;
-            userPromise.then(function(user) {
 
-                $scope.user = user;
+                // create a new request
+                $scope.newRequest = true;
 
-                AbsenceEdit.onceUserLoaded($scope, user, calendarEvents, consumption);
-
-                $scope.request.user = {
-                    id: user._id,
-                    name: user.lastname+' '+user.firstname
+                $scope.request.events = [];
+                $scope.request.timeCreated = new Date();
+                $scope.request.absence = {
+                        distribution: []
                 };
 
-                $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events, user);
-            });
+                $scope.selectionReady = true; // no selection
 
-            deferred.resolve(userPromise);
+                userId = $location.search().user;
+
+                if (!userId) {
+                    throw new Error('the user parameter is mandatory to create a new request');
+                }
+
+                userPromise = users.get({ id: userId }).$promise;
+                userPromise.then(function(user) {
+
+                    $scope.user = user;
+
+                    AbsenceEdit.onceUserLoaded($scope, user, calendarEvents, consumption);
+
+                    $scope.request.user = {
+                        id: user,
+                        name: user.lastname+' '+user.firstname
+                    };
+
+                    $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events, user);
+                });
+
+                deferred.resolve(userPromise);
+            }
 
             return deferred.promise;
 
@@ -148,19 +161,11 @@ define(['q'], function(Q) {
             var renewals = $scope.distribution.renewal;
             var periods = $scope.selection.periods;
 
-
             AbsenceEdit.cleanDocument($scope.request);
 
-            try {
+            $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights, true);
+            $scope.request.gadaSave($scope.back);
 
-                $scope.request.absence.distribution = AbsenceEdit.createDistribution(renewals, periods, $scope.accountRights, true);
-                $scope.request.gadaSave($scope.back);
-            } catch(e) {
-                $rootScope.pageAlerts.push({
-                    message: e.message,
-                    type: 'danger'
-                });
-            }
         };
 
 	}];
