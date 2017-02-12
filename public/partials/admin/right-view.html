@@ -61,22 +61,22 @@
             <div class="col-xs-2 text-right">
                 <br />
                 <a class="hidden-print btn btn-primary btn-sm" role="button" ng-href="#/admin/rightrule-edit?right={{right._id}}">
-                    <i class="fa fa-plus-circle"></i> Add
+                    <i class="fa fa-plus-circle"></i> <span translate>Add</span>
                 </a>
             </div>
             <table class="table" ng-if="0!==right.rules.length">
                 <thead>
                 <tr>
                     <th></th>
-                    <th>Type</th>
-                    <th>Title</th>
+                    <th translate>Type</th>
+                    <th translate>Title</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="rule in right.rules">
                     <td>
                         <a class="hidden-print" role="button" ng-href="#/admin/rightrules/{{rule._id}}?right={{right._id}}">
-                            <i class="fa fa-edit"></i> Edit
+                            <i class="fa fa-edit"></i> <span translate>Edit</span>
                         </a>
                     </td>
                     <td>{{getRightRuleType(rule.type)}}</td>
@@ -98,22 +98,22 @@
             <div class="col-xs-2 text-right">
                 <br />
                 <a class="hidden-print btn btn-primary btn-sm" role="button" ng-href="#/admin/rightrenewal-edit?right={{right._id}}">
-                    <i class="fa fa-plus-circle"></i> Add
+                    <i class="fa fa-plus-circle"></i> <span translate>Add</span>
                 </a>
             </div>
             <table class="table">
                 <thead>
                 <tr>
                     <th></th>
-                    <th>Start</th>
-                    <th>Finish</th>
+                    <th translate>Start</th>
+                    <th translate>Finish</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="renewal in rightRenewals">
                     <td>
                         <a class="hidden-print" role="button" ng-href="#/admin/rightrenewals/{{renewal._id}}">
-                            <i class="fa fa-edit"></i> Edit
+                            <i class="fa fa-edit"></i> <span translate>Edit</span>
                         </a>
                     </td>
                     <td>{{renewal.start|date}}</td>
@@ -124,7 +124,7 @@
             </table>
 
             <div class="alert alert-danger" role="alert" ng-if="!rightRenewals.length">
-                <span>This right has no configured renewals</span>
+                <span translate>This right has no configured renewals</span>
             </div>
         </div>
 
@@ -137,15 +137,15 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>Name</th>
-                    <th>Attendance</th>
+                    <th translate>Name</th>
+                    <th translate>Attendance</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="collection in collections">
                     <td>
                         <a class="hidden-print" role="button" ng-href="#/admin/collections/{{collection._id}}">
-                            <i class="fa fa-edit"></i> Edit
+                            <i class="fa fa-edit"></i> <span translate>Edit</span>
                         </a>
                     </td>
                     <td>{{collection.name}}</td>

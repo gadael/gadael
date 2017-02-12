@@ -110,9 +110,12 @@ define([], function() {
         }];
 
 		$scope.back = function() {
-            // TODO: redirect to visualisation instead of list
-            // when possible
-			$location.path('/admin/rights');
+
+            if ($scope.right._id) {
+    			return $location.path('/admin/rights/'+$scope.right._id);
+            }
+
+            return $location.path('/admin/rights');
 		};
 
 		$scope.saveRight = function() {

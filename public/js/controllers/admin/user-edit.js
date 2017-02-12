@@ -44,7 +44,10 @@ define([], function() {
 
 
 		$scope.cancel = function() {
-			$location.path('/admin/users');
+            if ($scope.user._id) {
+    			return $location.path('/admin/users/'+$scope.user._id);
+            }
+            $location.path('/admin/users');
 		};
 
 
