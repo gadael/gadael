@@ -77,7 +77,7 @@ grunt --help
 
 - [x] Update absence of a user by admin, consuption is not loading
 - [x] Translate choose amoung the following, days, hours on right edit
-- [ ] Better error message if email allready used
+- [x] Better error message if email allready used
 - [x] Saving managed account does not work
 - [x] After password reset, go to home page or login page
 - [x] Fix creation of all request types by admin

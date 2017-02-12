@@ -82,6 +82,14 @@ function saveUser(service, params) {
     }
 
 
+    function onError(err) {
+        if (err.code === 11000) {
+            err = new Error(gt.gettext('This email is allready used'));
+        }
+        service.error(err);
+    }
+
+
     if (params.id)
     {
         User.findById(params.id, function (err, user) {
@@ -104,7 +112,7 @@ function saveUser(service, params) {
                     // Notify the user about is roles updates
                     return sendRolesUpdates(service.app, user, newRoles);
                 })
-                .catch(service.error);
+                .catch(onError);
             }
         });
 
@@ -126,7 +134,7 @@ function saveUser(service, params) {
 
             //TODO: send email for user creation?
         })
-        .catch(service.error);
+        .catch(onError);
     }
 }
 
@@ -205,11 +213,6 @@ function saveUserRoles(service, params, userDocument) {
             }
         );
     });
-
-
-
-
-    // notify about the new roles
 
 }
 

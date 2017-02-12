@@ -1039,10 +1039,7 @@ exports = module.exports = function(params) {
 
     userSchema.index({ email: 1 }, { unique: true });
     userSchema.index({ timeCreated: 1 });
-    userSchema.index({ 'twitter.id': 1 });
-    userSchema.index({ 'github.id': 1 });
-    userSchema.index({ 'facebook.id': 1 });
-    userSchema.index({ 'google.id': 1 });
+	userSchema.index({ 'google.profile': 1 }, { unique: true });
     userSchema.set('autoIndex', params.autoIndex);
 	userSchema.set('toJSON', { virtuals: true });
 	userSchema.set('toObject', { virtuals: true });
