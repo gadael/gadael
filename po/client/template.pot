@@ -329,6 +329,7 @@ msgstr ""
 
 #: public/partials/admin/compulsoryleave-edit.html
 #: public/partials/admin/rightrule-edit.html
+#: public/partials/utils/common/exports/export-edit.html
 #: public/partials/utils/common/request/periodselect.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Begin date"
@@ -340,6 +341,10 @@ msgstr ""
 
 #: public/partials/admin/user-view-account.html
 msgid "Birth date:"
+msgstr ""
+
+#: public/partials/admin/collection-edit.html
+msgid "Business days for the users associated to this collection"
 msgstr ""
 
 #: public/partials/admin/rights.html
@@ -457,6 +462,7 @@ msgid "Collaborators to supervise with request approvals"
 msgstr ""
 
 #: public/partials/admin/collection-edit.html
+#: public/partials/admin/user-view-account.html
 msgid "Collection name"
 msgstr ""
 
@@ -466,6 +472,10 @@ msgstr ""
 
 #: public/partials/admin/request/spoof-user-modal.html
 msgid "Collection:"
+msgstr ""
+
+#: public/partials/admin/compulsoryleave-edit.html
+msgid "collections"
 msgstr ""
 
 #: public/partials/admin/type-edit.html
@@ -622,6 +632,10 @@ msgstr ""
 msgid "Create an adjustment every"
 msgstr ""
 
+#: public/partials/admin/compulsoryleave-edit.html
+msgid "Create leaves for users in"
+msgstr ""
+
 #: public/partials/admin/user-view.html
 msgid "Create new request"
 msgstr ""
@@ -660,6 +674,8 @@ msgstr[1] ""
 #: public/partials/admin/right-edit.html
 #: public/partials/admin/rightrule-edit.html
 #: public/partials/utils/common/request/absence-view.html
+#: public/js/controllers/admin/recoverquantity-edit.js
+#: public/js/controllers/admin/right-edit.js
 msgid "Days"
 msgstr ""
 
@@ -686,6 +702,7 @@ msgstr ""
 #: public/partials/admin/right-view.html
 #: public/partials/admin/rightrule-edit.html
 #: public/partials/admin/user-view.html
+#: public/partials/utils/common/request/request-buttons.html
 msgid "Delete"
 msgstr ""
 
@@ -711,6 +728,10 @@ msgstr ""
 #: public/partials/admin/request/spoof-user-modal.html
 #: public/partials/admin/user-view.html
 msgid "Department:"
+msgstr ""
+
+#: public/partials/admin/compulsoryleave-edit.html
+msgid "departments"
 msgstr ""
 
 #: public/js/controllers/admin/departments.js
@@ -775,6 +796,7 @@ msgstr ""
 #: public/partials/admin/types.html
 #: public/partials/admin/user-view-account.html
 #: public/partials/admin/user-view.html
+#: public/partials/utils/common/request/request-buttons.html
 msgid "Edit"
 msgstr ""
 
@@ -813,6 +835,7 @@ msgstr ""
 
 #: public/partials/admin/compulsoryleave-edit.html
 #: public/partials/admin/rightrule-edit.html
+#: public/partials/utils/common/exports/export-edit.html
 #: public/partials/utils/common/request/periodselect.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "End date"
@@ -987,6 +1010,8 @@ msgstr ""
 
 #: public/partials/admin/right-edit.html
 #: public/partials/admin/rightrule-edit.html
+#: public/js/controllers/admin/recoverquantity-edit.js
+#: public/js/controllers/admin/right-edit.js
 msgid "Hours"
 msgstr ""
 
@@ -1049,6 +1074,10 @@ msgstr ""
 msgid "Lastname"
 msgstr ""
 
+#: public/partials/admin/popover-users.html
+msgid "Lastname or firstname"
+msgstr ""
+
 #: public/partials/admin/compulsoryleave-edit.html
 msgid "Leave period"
 msgstr ""
@@ -1068,6 +1097,10 @@ msgstr ""
 
 #: public/partials/admin/calendar-edit.html
 msgid "Leaves requests can not be reserved over these periods"
+msgstr ""
+
+#: public/partials/admin/calendar-edit.html
+msgid "Leaves requests must be included in this calendar"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
@@ -1706,6 +1739,11 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Select rule type"
+msgstr ""
+
+#: public/partials/admin/recoverquantity-edit.html
+#: public/partials/admin/right-edit.html
+msgid "Select unit"
 msgstr ""
 
 #: public/partials/utils/common/request/absence-edit.html

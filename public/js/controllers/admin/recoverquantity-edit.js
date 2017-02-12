@@ -2,17 +2,18 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$location', 'Rest', function($scope, $location, Rest) {
+	return ['$scope', '$location', 'Rest', 'gettextCatalog',
+    function($scope, $location, Rest, gettextCatalog) {
 
 		$scope.recoverquantity = Rest.admin.recoverquantities.getFromUrl().loadRouteId();
 
         $scope.quantityUnits = [{
             value: 'D',
-            label: 'Days'
+            label: gettextCatalog.getString('Days')
         },
         {
             value: 'H',
-            label: 'Hours'
+            label: gettextCatalog.getString('Hours')
         }];
 
         if (undefined === $scope.recoverquantity.$promise) {
@@ -31,4 +32,3 @@ define([], function() {
 	    };
 	}];
 });
-

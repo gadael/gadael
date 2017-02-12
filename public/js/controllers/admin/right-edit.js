@@ -2,8 +2,8 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', '$location' ,'$routeParams', 'Rest', '$modal', 'getOnlyIds',
-            function($scope, $location, $routeParams, Rest, $modal, getOnlyIds) {
+	return ['$scope', '$location' ,'$routeParams', 'Rest', '$modal', 'getOnlyIds', 'gettextCatalog',
+            function($scope, $location, $routeParams, Rest, $modal, getOnlyIds, gettextCatalog) {
 
         // if there is createable special right
         // open a popup to define special only if right not saved
@@ -102,11 +102,11 @@ define([], function() {
 
         $scope.quantityUnits = [{
             value: 'D',
-            label: 'Days'
+            label: gettextCatalog.getString('Days')
         },
         {
             value: 'H',
-            label: 'Hours'
+            label: gettextCatalog.getString('Hours')
         }];
 
 		$scope.back = function() {

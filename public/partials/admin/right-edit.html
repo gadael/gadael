@@ -35,7 +35,7 @@
                             <input type="number" class="form-control" id="right_quantity" ng-model="right.quantity" step="any" />
 
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-model="right.quantity_unit" bs-options="qunit.value as qunit.label for qunit in quantityUnits" bs-select>Select unit <span class="caret"></span></button>
+                                <button type="button" class="btn btn-default" ng-model="right.quantity_unit" placeholder="{{'Select unit'|translate}}" bs-options="qunit.value as qunit.label for qunit in quantityUnits" bs-select>Select unit</button>
                             </div>
                         </div>
                     </div>
