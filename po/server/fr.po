@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 17:35+0100\n"
-"PO-Revision-Date: 2017-02-03 17:41+0100\n"
+"POT-Creation-Date: 2017-02-12 14:24+0100\n"
+"PO-Revision-Date: 2017-02-12 14:26+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -451,11 +451,11 @@ msgstr "La période de renouvellement du droit n'existe pas"
 msgid "The renewal has been deleted"
 msgstr "Le renouvellement a été supprimé"
 
-#: api/services/admin/rightrenewals/save.js:83
+#: api/services/admin/rightrenewals/save.js:86
 msgid "The right renewal period has been modified"
 msgstr "La période de renouvellement a été supprimée"
 
-#: api/services/admin/rightrenewals/save.js:105
+#: api/services/admin/rightrenewals/save.js:108
 msgid "The right renewal period has been created"
 msgstr "La période de renouvellement a été créée"
 
@@ -553,7 +553,7 @@ msgstr "Impossible de charger le document user"
 msgid "Failed to load the collection document"
 msgstr "Impossible de charger le document du régime"
 
-#: api/services/user/requests/saveAbsence.js:335
+#: api/services/user/requests/saveAbsence.js:336
 #, javascript-format
 msgid ""
 "The rule \"%s\" cannot be verified when saving absence event from %s to %s "
@@ -562,11 +562,11 @@ msgstr ""
 "La règle \"%s\" ne peut pas être vérifiée lors de l'enregistrement de "
 "l'absence du %s au %s sur le renouvellement du %s au %s avec le droit %s"
 
-#: api/services/user/requests/saveAbsence.js:347
+#: api/services/user/requests/saveAbsence.js:348
 msgid "Arrival date must be before renewal finish"
 msgstr "La date d'arrivée doit être avant la date de fin du renouvellement"
 
-#: api/services/user/requests/saveAbsence.js:355
+#: api/services/user/requests/saveAbsence.js:356
 #, javascript-format
 msgid ""
 "The quantity requested on right \"%s\" is not available, available quantity "
@@ -583,6 +583,11 @@ msgstr "Cette demande n'existe pas"
 #: api/services/user/requests/get.js:53
 msgid "This request has been deleted"
 msgstr "Cette demande à été supprimée"
+
+#: api/services/user/requests/saveWorkperiodRecover.js:53
+msgid "Workperiod recover requests are disabled by administrator"
+msgstr ""
+"Les récupérations de jours travaillés sont désactivés par l'administrateur"
 
 #: api/services/user/requests/delete.js:21
 #: api/services/user/requests/save.js:24
@@ -1093,11 +1098,11 @@ msgstr "Vous devez être connecté"
 msgid "You are disconnected from your google calendar"
 msgstr "Vous êtes déconnecté de votre agenda Google"
 
-#: schema/Right_Renewal.js:67
+#: schema/Right_Renewal.js:68
 msgid "The renewals periods must not overlap"
 msgstr "Les périodes de renouvellements ne doivent pas se superposer"
 
-#: schema/Right_Renewal.js:963
+#: schema/Right_Renewal.js:921
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
@@ -1105,13 +1110,22 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, le type "
 "congés payés annuels est requis"
 
-#: schema/Right_Renewal.js:972
+#: schema/Right_Renewal.js:930
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, la "
 "quantité de congés payés annuels est requise"
+
+#: schema/Right_Renewal.js:964
+#, javascript-format
+msgid ""
+"Invalid renewal, the renewal is too short and does not contain the requested "
+"date: %s"
+msgstr ""
+"Renouvellement non valide, le renouvellement est trop court et ne contient "
+"pas la date de la demande : %s"
 
 #: schema/Request.js:337
 msgid "Leave"
@@ -1355,11 +1369,11 @@ msgstr "Congé Maternité ordinaire"
 msgid "Additional Maternity Leave"
 msgstr "Congé Maternité supplémentaire"
 
-#: schema/Right_Rule.js:79
+#: schema/Right_Rule.js:98
 msgid "Interval values must be numbers of years"
 msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
 
-#: schema/Right_Rule.js:84
+#: schema/Right_Rule.js:103
 msgid "Interval values must be set in a correct order"
 msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 

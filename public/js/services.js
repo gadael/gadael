@@ -429,15 +429,15 @@ define([
     /**
      * Load the getRightRuleType service
      */
-    .factory('getRightRuleType', ['gettext',
-        function(gettext) {
+    .factory('getRightRuleType', ['gettextCatalog',
+        function(gettextCatalog) {
             return function getRightRuleType(type) {
                 switch(type) {
-                    case 'entry_date':      return gettext('Entry date');
-                    case 'request_period':  return gettext('Request period');
-                    case 'seniority':       return gettext('Seniority');
-                    case 'age':             return gettext('Age');
-                    case 'consuption':      return gettext('Consuption');
+                    case 'entry_date':      return gettextCatalog.getString('Entry date');
+                    case 'request_period':  return gettextCatalog.getString('Request period');
+                    case 'seniority':       return gettextCatalog.getString('Seniority');
+                    case 'age':             return gettextCatalog.getString('Age');
+                    case 'consuption':      return gettextCatalog.getString('Consuption');
                 }
             };
         }

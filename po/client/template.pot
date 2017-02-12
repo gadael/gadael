@@ -12,7 +12,8 @@ msgstr ""
 msgid "{{usersstat.activeUsers}} users / {{company.max_users}} Max"
 msgstr ""
 
-#: public/js/controllers/account/request/time-saving-deposit-edit.js
+#: public/js/optimized.js
+#: public/js/services/timesavingdeposit-edit.js
 msgid "{quantity} up to {date}"
 msgstr ""
 
@@ -71,7 +72,15 @@ msgid "Account"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
+msgid "Activate the right according to consumed quantity"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to the age"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Activate the right according to the consumed quantity on a right type"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
@@ -102,6 +111,7 @@ msgstr ""
 msgid "Actual quantity:"
 msgstr ""
 
+#: public/partials/admin/right-view.html
 #: public/partials/user/settings-calendar.html
 msgid "Add"
 msgstr ""
@@ -139,6 +149,10 @@ msgstr ""
 
 #: public/partials/admin/departments.html
 msgid "Add Department"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Add period"
 msgstr ""
 
 #: public/partials/admin/rights.html
@@ -250,6 +264,10 @@ msgstr ""
 msgid "At least one type must be selected"
 msgstr ""
 
+#: public/partials/admin/right-view.html
+msgid "Attendance"
+msgstr ""
+
 #: public/partials/admin/collection-edit.html
 msgid "Attendance (percentage relative to full-time)"
 msgstr ""
@@ -310,6 +328,7 @@ msgid "Balance state the:"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-edit.html
+#: public/partials/admin/rightrule-edit.html
 #: public/partials/utils/common/request/periodselect.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Begin date"
@@ -494,6 +513,7 @@ msgstr ""
 msgid "Consume worked days"
 msgstr ""
 
+#: public/js/optimized.js
 #: public/js/services/renewalChart.js
 msgid "Consumed"
 msgstr ""
@@ -513,6 +533,11 @@ msgstr ""
 
 #: public/partials/utils/common/request/absence-edit.html
 msgid "Consumption"
+msgstr ""
+
+#: public/js/optimized.js
+#: public/js/services.js
+msgid "Consuption"
 msgstr ""
 
 #: public/partials/admin/export/exports.html
@@ -541,6 +566,10 @@ msgstr ""
 msgid "Create a new secondary calendar in your google account to host a copy of your leave periods."
 msgstr ""
 
+#: public/partials/admin/request/time-saving-deposit-edit.html
+msgid "Create a new time saving deposit for {{request.user.name}}"
+msgstr ""
+
 #: public/partials/account/request/time-saving-deposit-edit.html
 msgid "Create a new time saving deposit request"
 msgstr ""
@@ -551,6 +580,10 @@ msgstr ""
 
 #: public/partials/account/request/workperiod-recover-edit.html
 msgid "Create a new workperiod recover request"
+msgstr ""
+
+#: public/partials/admin/request/workperiod-recover-edit.html
+msgid "Create a new workperiod recover request for {{request.user.name}}"
 msgstr ""
 
 #: public/partials/admin/recoverquantity-edit.html
@@ -643,6 +676,10 @@ msgstr ""
 #: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/right-view.html
 msgid "Default quantity on start renewal:"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Define the periods that will be used to measure the consumed quantity"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-view.html
@@ -742,7 +779,11 @@ msgid "Edit"
 msgstr ""
 
 #: public/partials/admin/request/absence-edit.html
-msgid "Edit a request from {{request.user.name}}"
+msgid "Edit a leave request from {{request.user.name}}"
+msgstr ""
+
+#: public/partials/admin/request/time-saving-deposit-edit.html
+msgid "Edit a time saving deposit for {{request.user.name}}"
 msgstr ""
 
 #: public/partials/account/request/time-saving-deposit-edit.html
@@ -757,6 +798,10 @@ msgstr ""
 msgid "Edit a workperiod recover request"
 msgstr ""
 
+#: public/partials/admin/request/workperiod-recover-edit.html
+msgid "Edit a workperiod recover request for {{request.user.name}}"
+msgstr ""
+
 #: public/partials/admin/adjustment-edit.html
 msgid "Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|date}}"
 msgstr ""
@@ -767,6 +812,7 @@ msgid "Email"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-edit.html
+#: public/partials/admin/rightrule-edit.html
 #: public/partials/utils/common/request/periodselect.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "End date"
@@ -825,6 +871,7 @@ msgstr ""
 msgid "Exports"
 msgstr ""
 
+#: public/partials/admin/right-view.html
 #: public/partials/admin/rightrenewal-edit.html
 msgid "Finish"
 msgstr ""
@@ -882,6 +929,10 @@ msgstr ""
 msgid "From date:"
 msgstr ""
 
+#: public/partials/utils/common/request/request-list-type.html
+msgid "From right"
+msgstr ""
+
 #: public/partials/utils/common/request/time-saving-deposit-view.html
 msgid "From right:"
 msgstr ""
@@ -935,6 +986,7 @@ msgid "Hour"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
+#: public/partials/admin/rightrule-edit.html
 msgid "Hours"
 msgstr ""
 
@@ -948,6 +1000,10 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Ignore consumption beyond"
 msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html
@@ -1047,8 +1103,16 @@ msgstr ""
 msgid "Max quantity:"
 msgstr ""
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Maximal consumed quantity:"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Maximal number of days between entry date and request end date"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Minimal consumed quantity:"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
@@ -1124,6 +1188,7 @@ msgid "My vacations"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
+#: public/partials/admin/right-view.html
 msgid "Name"
 msgstr ""
 
@@ -1143,6 +1208,10 @@ msgstr ""
 msgid "New department"
 msgstr ""
 
+#: public/partials/admin/request/absence-edit.html
+msgid "New leave request for {{request.user.name}}"
+msgstr ""
+
 #: public/partials/admin/user-edit.html
 #: public/partials/user/settings-password.html
 msgid "New password"
@@ -1150,10 +1219,6 @@ msgstr ""
 
 #: public/partials/login/reset.html
 msgid "New Password:"
-msgstr ""
-
-#: public/partials/admin/request/absence-edit.html
-msgid "New request for {{request.user.name}}"
 msgstr ""
 
 #: public/partials/home.html
@@ -1172,7 +1237,8 @@ msgstr ""
 msgid "No active renewal"
 msgstr ""
 
-#: public/js/controllers/account/request/time-saving-deposit-edit.js
+#: public/js/optimized.js
+#: public/js/services/timesavingdeposit-edit.js
 msgid "No available time saving account"
 msgstr ""
 
@@ -1358,6 +1424,10 @@ msgid "Quantity to spare"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
+msgid "Quantity unit"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
 msgid "Quantity unit to use in interval modification:"
 msgstr ""
 
@@ -1387,6 +1457,7 @@ msgstr ""
 #: public/partials/admin/account-nwdayscalendars-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/collection-edit.html
+#: public/partials/admin/rightrule-edit.html
 msgid "Remove"
 msgstr ""
 
@@ -1455,6 +1526,10 @@ msgstr ""
 msgid "Right is visible when the request period is in a period relative to the user seniority date"
 msgstr ""
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Right is visible when the user has consumed a quantity defined for a right type on a period"
+msgstr ""
+
 #: public/partials/admin/user-view-account.html
 msgid "Right name"
 msgstr ""
@@ -1465,6 +1540,10 @@ msgstr ""
 
 #: public/partials/admin/type-edit.html
 msgid "Right type name"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Right type to test"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-view.html
@@ -1625,6 +1704,10 @@ msgstr ""
 msgid "Search:"
 msgstr ""
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Select rule type"
+msgstr ""
+
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/workperiod-recover-edit.html
 msgid "Selected duration:"
@@ -1667,6 +1750,10 @@ msgstr ""
 msgid "Set the adjustment quantity"
 msgstr ""
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Set the consumed quantity interval where the rule will be valid"
+msgstr ""
+
 #: public/partials/utils/common/settings/menu.html
 msgid "Settings"
 msgstr ""
@@ -1697,6 +1784,7 @@ msgstr ""
 msgid "Special right:"
 msgstr ""
 
+#: public/partials/admin/right-view.html
 #: public/partials/admin/rightrenewal-edit.html
 msgid "Start"
 msgstr ""
@@ -1789,6 +1877,10 @@ msgid "This manager has no departments configured for approval"
 msgstr ""
 
 #: public/partials/admin/right-view.html
+msgid "This right has no configured renewals"
+msgstr ""
+
+#: public/partials/admin/right-view.html
 msgid "This right has no configured rules"
 msgstr ""
 
@@ -1845,6 +1937,10 @@ msgstr ""
 msgid "Time saving deposit request"
 msgstr ""
 
+#: public/partials/admin/right-view.html
+msgid "Title"
+msgstr ""
+
 #: public/partials/admin/rights.html
 #: public/partials/utils/common/right/right-panel.html
 msgid "to"
@@ -1862,6 +1958,10 @@ msgstr ""
 
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 msgid "To pick-up on right"
+msgstr ""
+
+#: public/partials/utils/common/request/request-list-type.html
+msgid "To right"
 msgstr ""
 
 #: public/partials/utils/common/request/time-saving-deposit-view.html
@@ -1894,6 +1994,7 @@ msgid "Tuesday"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
+#: public/partials/admin/right-view.html
 msgid "Type"
 msgstr ""
 
@@ -2085,6 +2186,10 @@ msgstr ""
 msgid "Years after the birth date to set the period start:"
 msgstr ""
 
+#: public/partials/admin/rightrule-edit.html
+msgid "Years are ignored and computed back to fit in the renewal period, as a consequence, this rule type will work only with yearly or less renewal periods."
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Years before renewal end date"
 msgstr ""
@@ -2114,6 +2219,10 @@ msgstr ""
 
 #: public/partials/user/settings-calendar.html
 msgid "Your calendar is not connected"
+msgstr ""
+
+#: public/partials/home.html
+msgid "Your only role on the application is administrator, you can update your own account using the administration -> users menu"
 msgstr ""
 
 #: public/partials/utils/common/request/absence-edit.html
