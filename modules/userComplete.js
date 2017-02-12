@@ -33,7 +33,10 @@ exports = module.exports = function userComplete(userDoc)
         }
 
         if (userDoc.roles.manager) {
-            departmentsPromise = userDoc.roles.manager.getManagedDepartments();
+            departmentsPromise = userDoc.roles.manager.populate('department').execPopulate()
+            .then(manager => {
+                return manager.department;
+            });
         } else {
             departmentsPromise = Promise.resolve(null);
         }
