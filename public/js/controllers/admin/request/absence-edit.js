@@ -41,7 +41,7 @@ define(['q'], function(Q) {
                     $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events, request.user.id);
                     $scope.selectionReady = true;
 
-                    AbsenceEdit.onceUserLoaded($scope, request.user.id, calendarEvents);
+                    AbsenceEdit.onceUserLoaded($scope, request.user.id, calendarEvents, consumption);
 
                     $scope.user = request.user.id;
                     deferred.resolve(request.user.id);
@@ -148,7 +148,7 @@ define(['q'], function(Q) {
                 dtend: $scope.selection.end
             });
 
-            var serviceAction = AbsenceEdit.getNextButtonJob($scope, $scope.user, accountRights, consumption);
+            var serviceAction = AbsenceEdit.getNextButtonJob($scope, $scope.user, accountRights);
 
             serviceAction();
         };

@@ -68,14 +68,14 @@ Install grunt as root
 npm install -g grunt-cli
 ```
 
-List of supported command for developpement:
+List of supported commands for developpement:
 ```bash
 grunt --help
 ```
 
 ## TODO
 
-- [ ] Update absence of a user by admin, consuption is not loading
+- [x] Update absence of a user by admin, consuption is not loading
 - [ ] Translate choose amoung the following, days, hours on right edit
 - [ ] Better error message if email allready used
 - [ ] Saving managed account does not work

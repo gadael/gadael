@@ -339,6 +339,9 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     }
 
                     rightId = renewals[renewalId].right;
+                    if (undefined !== rightId._id) {
+                        rightId = rightId._id;
+                    }
 
                     elem = {
                         right: {
@@ -465,6 +468,8 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 throw new Error('No periods in selection');
             }
 
+            console.log(row);
+
             try {
                 distribution = createDistribution(renewals, periods, $scope.accountRights, false);
             } catch(e) {
@@ -517,9 +522,9 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
          * @param {object} $scope
          * @param {object} user
          * @param {Resource} accountRights
-         *
+         * @param {Resource} consumption
          */
-        function getNextButtonJob($scope, user, accountRights, consumption) {
+        function getNextButtonJob($scope, user, accountRights) {
 
             return function() {
 
@@ -666,14 +671,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         initializeDistribution($scope);
                     }
 
-                    // Initialize consumed quantity from initialized duration
-                    // either from default values or for loaded request
-                    for (var renewalId in $scope.distribution.renewal) {
-                        if ($scope.distribution.renewal.hasOwnProperty(renewalId)) {
-                            setConsumedQuantity($scope, consumption, renewalId, user._id);
-                        }
-                    }
-
 
                 }, function(err) {
                     err.data.$outcome.alert.forEach(function(e) {
@@ -718,11 +715,10 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
 
             $scope.$watch('distribution.renewal', function(newValue, oldValue) {
-
                 // detect modified renewal
-                for (var rId in oldValue) {
-                    if (oldValue.hasOwnProperty(rId)) {
-                        if (newValue[rId].quantity !== oldValue[rId].quantity) {
+                for (var rId in newValue) {
+                    if (newValue.hasOwnProperty(rId)) {
+                        if (undefined === oldValue[rId] || (newValue[rId].quantity !== oldValue[rId].quantity)) {
                             setConsumedQuantity($scope, consumption, rId, user._id);
                         }
                     }

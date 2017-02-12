@@ -111,7 +111,7 @@ define(['q'], function(Q) {
                 dtend: $scope.selection.end
             });
 
-            var serviceAction = AbsenceEdit.getNextButtonJob($scope, requestUser, accountRights, consumption);
+            var serviceAction = AbsenceEdit.getNextButtonJob($scope, requestUser, accountRights);
 
             serviceAction();
         };
