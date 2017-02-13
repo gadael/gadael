@@ -1,16 +1,16 @@
 'use strict';
 
 exports = module.exports = function(params) {
-    
+
     var mongoose = params.mongoose;
-    
+
     var beneficiarySchema = new params.mongoose.Schema({
         right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
-        
+
         // right can be linked to a collection or to a user
         document: { type: mongoose.Schema.Types.ObjectId, required: true },
-        
-        ref: { type: String, enum: ['User', 'RightCollection'], required: true },
+
+        ref: { type: String, enum: ['User', 'RightCollection'], required: true, index: true },
         timeCreated: { type: Date, default: Date.now }
     });
 
@@ -19,14 +19,14 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to an array of users
      */
     beneficiarySchema.methods.getUsers = function() {
-        
+
         var deferred = {};
         deferred.promise = new Promise(function(resolve, reject) {
             deferred.resolve = resolve;
             deferred.reject = reject;
         });
         var ref = this.ref;
-        
+
         this.model(this.ref).findOne(this.document, function(err, document) {
             if (err) {
                 deferred.reject(err);
@@ -36,19 +36,18 @@ exports = module.exports = function(params) {
             if ('User' === ref) {
                 deferred.resolve([document]);
             }
-            
+
             if ('RightCollection' === ref) {
                 deferred.resolve(document.getUsers());
             }
         });
-        
+
         return deferred.promise;
     };
-    
+
 
 
     beneficiarySchema.set('autoIndex', params.autoIndex);
-    beneficiarySchema.index({ name: 1 });
     beneficiarySchema.index({ right: 1, document: 1 }, { unique: true });
     params.db.model('Beneficiary', beneficiarySchema);
 };

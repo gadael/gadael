@@ -16,7 +16,7 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var userSchema = new mongoose.Schema({
 		password: { type: String, select: false },
-		email: { type: String, required: true },
+		email: { type: String, required: true, index: true, unique: true },
 		lastname: { type: String, required: true },
 		firstname: { type: String },
         image: { type:String, select: false }, // avatar base64 url with image content
@@ -27,15 +27,15 @@ exports = module.exports = function(params) {
 		},
 		department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department' },
 		isActive: { type:Boolean, default:true },
-		timeCreated: { type: Date, default: Date.now },
+		timeCreated: { type: Date, default: Date.now, index: true },
 
         validInterval: [params.embeddedSchemas.ValidInterval],   // list of dates interval where the user is active
 
 		resetPasswordToken: String,
 		resetPasswordExpires: Date,
 		google: {
-			profile: String,		// Authentication
-            accessToken: String,	// permanent connexion with calendar
+			profile: { type: String, index: true },		// Authentication
+            accessToken: String,						// permanent connexion with calendar
             refreshToken: String,
             expire_in: Date,
             calendar: String
@@ -1036,10 +1036,6 @@ exports = module.exports = function(params) {
 	};
 
 
-
-    userSchema.index({ email: 1 }, { unique: true });
-    userSchema.index({ timeCreated: 1 });
-	userSchema.index({ 'google.profile': 1 }, { unique: true });
     userSchema.set('autoIndex', params.autoIndex);
 	userSchema.set('toJSON', { virtuals: true });
 	userSchema.set('toObject', { virtuals: true });

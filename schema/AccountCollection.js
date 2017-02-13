@@ -15,7 +15,7 @@ exports = module.exports = function(params) {
 	acSchema.set('autoIndex', params.autoIndex);
 
 	acSchema.index({ account: 1 });
-	acSchema.index({account: 1, rightCollection: 1, from: 1}, {unique: true});
+	acSchema.index({account: 1, rightCollection: 1, from: 1}, { unique: true });
 
 
 	params.db.model('AccountCollection', acSchema);

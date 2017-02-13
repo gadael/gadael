@@ -13,7 +13,7 @@ exports = module.exports = function(params) {
 
     var accountSchema = new mongoose.Schema({
         user: {
-          id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+          id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true, unique: true },
           name: { type: String, default: '' }
         },
         isVerified: { type: Boolean, default: false },			// email verification on change

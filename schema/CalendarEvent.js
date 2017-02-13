@@ -18,33 +18,30 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 
 	var eventSchema = new mongoose.Schema({
-		dtstart: { type: Date, required: true },
-		dtend: { type: Date }, // , required: true
+		dtstart: { type: Date, required: true, index: true },
+		dtend: { type: Date },
 		summary: String,
 		description: String,
 		rrule: String,
         rdate: [Date],
 		transp: String,
-        status: { type: String, enum:['TENTATIVE', 'CONFIRMED', 'CANCELLED', 'PRECANCEL'], default: 'CONFIRMED' },
+        status: { type: String, enum:['TENTATIVE', 'CONFIRMED', 'CANCELLED', 'PRECANCEL'], default: 'CONFIRMED', index:true },
 			// TENTATIVE: Waiting for approval
 			// CONFIRMED: Approval accepted
 			// CANCELLED: Leave cancelled after approval
 			// PRECANCEL: Non-standard; waiting for approval of a delete
 
-		calendar: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
+		calendar: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar', index: true },
 		user: { // for events linked requests there is no link to calendar but a link to user, owner of event
-			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+			id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
 			name: { type: String, default: '' }
 		},
-        absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem' }, // for absence
-        request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request' }, // for absence or workperiod_recover
+        absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem', index: true }, // for absence
+        request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request', index: true }, // for absence or workperiod_recover
 		timeCreated: { type: Date, default: Date.now }
 	});
 
 
-	eventSchema.index({ 'uid': 1 });
-	eventSchema.index({ 'dtstart': 1 });
-	eventSchema.set('autoIndex', params.autoIndex);
 
 
     /**
@@ -315,6 +312,9 @@ exports = module.exports = function(params) {
 
         return result;
 	};
+
+
+	eventSchema.set('autoIndex', params.autoIndex);
 
 	params.db.model('CalendarEvent', eventSchema);
 };

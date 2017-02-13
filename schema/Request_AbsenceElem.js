@@ -15,7 +15,7 @@ exports = module.exports = function(params) {
         events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],
 
         user: {                                     // absence owner
-          id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+          id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
           name: { type: String, required: true }
         },
 

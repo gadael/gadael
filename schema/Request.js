@@ -27,7 +27,7 @@ exports = module.exports = function(params) {
 
     var requestSchema = new mongoose.Schema({
         user: { // owner
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
             name: { type: String, required: true },
             department: String
         },
@@ -860,7 +860,6 @@ exports = module.exports = function(params) {
     };
 
 
-    requestSchema.index({ 'user.id': 1 });
     requestSchema.set('autoIndex', params.autoIndex);
 
     params.db.model('Request', requestSchema);

@@ -3,14 +3,14 @@
 /**
  * A user, department manager
  * can manage vacation requests for the departments users accounts
- */  
+ */
 exports = module.exports = function(params) {
-	
+
 	var mongoose = params.mongoose;
-	
+
 	var managerSchema = new mongoose.Schema({
 		user: {
-		  id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+		  id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true, unique: true },
 		  name: { type: String, default: '' }
 		},
 		department: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Department' }],
@@ -72,7 +72,6 @@ exports = module.exports = function(params) {
 
         return deferred.promise;
     };
-  
+
 	params.db.model('Manager', managerSchema);
 };
-

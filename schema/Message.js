@@ -9,12 +9,12 @@ exports = module.exports = function(params) {
 		html: String,
         text: String,
         from: {
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
             name: String,
             address: String
         },
 		to: [{       // recipient
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
             name: { type: String, required: true },
             address: String
         }],
@@ -34,15 +34,8 @@ exports = module.exports = function(params) {
 		timeCreated: { type: Date, default: Date.now }
 	});
 
-    /**
-     * Set message properties from the nodemailer data structure
-     * @return {String}
-     */
-    messageSchema.methods.setNodemailerData = function(data) {
-        //TODO remove
-    };
 
-	messageSchema.index({ name: 1 });
+
 	messageSchema.set('autoIndex', params.autoIndex);
 
 	params.db.model('Message', messageSchema);
