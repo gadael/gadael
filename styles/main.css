@@ -182,6 +182,17 @@
 }
 
 
+.home-text {
+	padding: 1.5em 2em 0em 2em;
+	background-image: linear-gradient(to bottom, #f9f9f9 0px, #fff 100%);
+    background-repeat: repeat-x;
+	border-radius: 6px 6px 0 0;
+	text-shadow: 1px 1px 2px #aaa;
+	color: #666;
+	font-size: 1.3em;
+}
+
+
 /* Calendar navbar */
 
 

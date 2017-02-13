@@ -511,6 +511,10 @@ msgstr ""
 msgid "Confirmed"
 msgstr ""
 
+#: public/partials/home.html
+msgid "Congratulation, this server has just been created and contain no users, please do not leave it that way."
+msgstr ""
+
 #: public/partials/user/settings-calendar.html
 msgid "Connect"
 msgstr ""
@@ -630,6 +634,10 @@ msgstr ""
 
 #: public/partials/admin/right-edit.html
 msgid "Create an adjustment every"
+msgstr ""
+
+#: public/partials/home.html
+msgid "Create first administrator"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-edit.html

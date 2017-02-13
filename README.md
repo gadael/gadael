@@ -75,6 +75,8 @@ grunt --help
 
 ## TODO
 
+- [ ] Warn in a user activation disable another user
+- [ ] For new users, check the active checkbox by default
 - [ ] Set default values for home text
 - [ ] Application need to be reloaded if company doc is modified
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login

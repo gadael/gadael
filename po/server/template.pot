@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-12 18:45+0100\n"
+"POT-Creation-Date: 2017-02-13 19:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -256,27 +256,31 @@ msgstr ""
 msgid "The user has been deleted"
 msgstr ""
 
-#: api/services/admin/users/save.js:98
+#: api/services/admin/users/save.js:87
+msgid "This email is allready used"
+msgstr ""
+
+#: api/services/admin/users/save.js:106
 msgid "The user has been modified"
 msgstr ""
 
-#: api/services/admin/users/save.js:121
+#: api/services/admin/users/save.js:129
 msgid "The user has been created"
 msgstr ""
 
-#: api/services/admin/users/save.js:156
+#: api/services/admin/users/save.js:164
 msgid "No user document to save roles on"
 msgstr ""
 
-#: api/services/admin/users/save.js:172
+#: api/services/admin/users/save.js:180
 msgid "Absence account"
 msgstr ""
 
-#: api/services/admin/users/save.js:176
+#: api/services/admin/users/save.js:184
 msgid "Department manager"
 msgstr ""
 
-#: api/services/admin/users/save.js:180
+#: api/services/admin/users/save.js:188
 msgid "Application administrator"
 msgstr ""
 
