@@ -1,5 +1,5 @@
 
-<div class="_jumbotron">
+<div>
 
     <div ng-if="company.maintenance" class="alert alert-warning" role="alert">
         <i class="fa fa-warning"></i> <span translate>The application is in maintenance, requests will not be modifiables</span>
@@ -18,7 +18,7 @@
     </div>
 
 
-    <div class="home-text">
+    <div ng-if="company.home_text.length>0" class="home-text jumbotron">
         <p ng-repeat="paragraph in company.home_text|nlToArray track by $index">{{paragraph}}</p>
     </div>
 
