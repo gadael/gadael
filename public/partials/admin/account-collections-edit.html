@@ -1,12 +1,12 @@
 
 <form role="form" name="accountCollectionsEdit">
-	
+
 
 
     <div class="row">
-        
-        <h3 class="col-md-9">Right collections scheduling for {{user.lastname}} {{user.firstname}}</h3>
-        
+
+        <h3 class="col-md-9" translate>Right collections scheduling for {{user.lastname}} {{user.firstname}}</h3>
+
         <div class="col-md-3 text-right">
             <br />
             <button class="btn btn-primary" ng-click="addAccountCollection()">
@@ -42,10 +42,10 @@
     </div>
 
 
-    
+
     <div class="col-sm-12 text-center top30">
-        <button class="btn btn-primary" ng-click="accountCollectionsEdit.$valid && saveAccountCollections()" translate>Save</button> 
+        <button class="btn btn-primary" ng-click="accountCollectionsEdit.$valid && saveAccountCollections()" translate>Save</button>
         <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
     </div>
-    
+
 </form>

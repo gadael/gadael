@@ -149,6 +149,31 @@ exports = module.exports = {
     },
 
 
+	/**
+	 * Empty collections before initialization
+	 * @param {Object} db
+	 * @return {Promise}
+	 */
+	emptyInitCollection: function(db) {
+
+		let m = db.models;
+
+		return Promise.all([
+			m.Type.remove({}),
+			m.Calendar.remove({}),
+			m.RightCollection.remove({}),
+			m.RecoverQuantity.remove({}),
+			m.Right.remove({})
+		]);
+	},
+
+
+	/**
+	 * Get list of promises for initialization
+	 * @param {Object} db
+	 * @param {Company} company
+	 * @return {Array}
+	 */
 	execInitTasks: function(db, company) {
 
 		let m = db.models;
@@ -178,8 +203,13 @@ exports = module.exports = {
 		return companyApi.getOpenDbPromise(app, dbName)
 		.then(db => {
 
-			return db.models.Company.findOne().exec()
-			.then(company => {
+			return Promise.all([
+				db.models.Company.findOne().exec(),
+				companyApi.emptyInitCollection(db)
+			])
+			.then(all => {
+
+				let company = all[0];
 
 				if (null === company) {
 					throw new Error('No company');

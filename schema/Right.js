@@ -708,7 +708,6 @@ exports = module.exports = function(params) {
             }
 
             try {
-
                 return require('./data/'+company.country.toLowerCase())(params.app);
 
             } catch(e) {

@@ -24,20 +24,27 @@
 		<div class="gadael-list-rows">
 			<div class="row" ng-repeat="user in users">
 				<div class="col-xs-1">
-					<a ng-href="#/admin/users/{{user._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs hidden-md" translate>View</span></a>
+					<a ng-href="#/admin/users/{{user._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-plus-circle"></i> <span class="hidden-xs hidden-sm hidden-md" translate>View</span></a>
 				</div>
 
                  <div class="col-md-5">
                     <i class="text-danger" ng-class="user.isActive ? '' : 'fa fa-ban'"></i>
 
-                    <strong>{{user.lastname}} {{user.firstname}}</strong><br />
-                    <span class="text-muted text-nowrap" ng-if="user.roles.account">&nbsp;<i class="text-info fa fa-male"></i>&nbsp;<span translate>Absences account</span></span>
-                    <span class="text-muted text-nowrap" ng-if="user.roles.admin">&nbsp;<i class="text-info glyphicon glyphicon-star"></i>&nbsp;<span translate>Administrator</span></span>
-                    <span class="text-muted text-nowrap" ng-if="user.roles.manager">&nbsp;<i class="text-info fa fa-sitemap"></i>&nbsp;<span translate>Department manager</span></span>
+                    <strong>{{user.lastname}} {{user.firstname}}</strong>
+					<span class="badge" ng-if="user.roles.account.currentCollection.attendance && user.roles.account.currentCollection.attendance != 100" title="{{user.roles.account.currentCollection.name}}" bs-tooltip>
+						{{user.roles.account.currentCollection.attendance}}%
+					</span><br />
+
+                    <span class="text-muted text-nowrap line4" ng-if="user.roles.account">&nbsp;<i class="text-info fa fa-male"></i>&nbsp;<span translate>Absences account</span></span>
+                    <span class="text-muted text-nowrap line4" ng-if="user.roles.admin">&nbsp;<i class="text-info glyphicon glyphicon-star"></i>&nbsp;<span translate>Administrator</span></span>
+                    <span class="text-muted text-nowrap line4" ng-if="user.roles.manager">&nbsp;<i class="text-info fa fa-sitemap"></i>&nbsp;<span translate>Department manager</span></span>
                  </div>
 
-				<div class="col-md-5 hidden-xs hidden-sm"><a href="mailto:{{user.email}}">{{user.email}}</a></div>
-                <div class="col-xs-1 hidden-xs">
+				<div class="col-md-5 hidden-xs hidden-sm line3">
+					<span class="department">{{user.department.name}}</span><br />
+					<a href="mailto:{{user.email}}">{{user.email}}</a>
+				</div>
+                <div class="col-xs-1 hidden-xs hidden-sm">
                     <img  ng-src="{{user.imageUrl}}" class="img-rounded" height="40" ng-if="user.imageUrl" />
                 </div>
 			</div>
