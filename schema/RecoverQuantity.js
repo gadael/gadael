@@ -1,7 +1,5 @@
 'use strict';
 
-var async = require('async');
-
 
 exports = module.exports = function(params) {
 
@@ -21,9 +19,12 @@ exports = module.exports = function(params) {
 		const gt = params.app.utility.gettext;
         let model = this;
 
-        function createDefaults(done) {
+		/**
+		 * @return {Promise}
+		 */
+        function createDefaults() {
 
-            async.each([
+            let all = [
                 {
                     _id: '5740adf51cf1a569643cc530',
                     name: gt.gettext('Half-day'),
@@ -49,27 +50,15 @@ exports = module.exports = function(params) {
                     quantity_unit: 'D'
                 }
 
-            ], function( type, callback) {
+            ];
 
-              model.create(type, function(err) {
-                  if (err) {
-                      callback(err);
-                      return;
-                  }
-
-                  callback();
-              });
-            }, function(err){
-                // if any of the file processing produced an error, err would equal that error
-                if(err) {
-                    console.trace(err);
-                    return;
-                }
-
-                if (done) {
-                    done();
-                }
-            });
+			return Promise.all(
+				all.map(data => {
+					let recoverQuantity = new model();
+					recoverQuantity.set(data);
+					return recoverQuantity.save();
+				})
+			);
         }
 
         return createDefaults;

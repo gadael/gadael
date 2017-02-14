@@ -71,7 +71,7 @@ exports = module.exports = {
      *
      * @todo this will be done client side
      *
-     * @return string | false
+     * @return {string | false}
      */
     dbName: function dbName(name) {
         var str = name.replace(/[^a-z0-9]/gi, '').toLowerCase();
@@ -90,7 +90,7 @@ exports = module.exports = {
      * this is the server side valididty test
      * @function
      *
-     * @return string
+     * @return {string}
      */
     isDbNameValid: function isDbNameValid(app, dbName, callback) {
 
@@ -126,10 +126,10 @@ exports = module.exports = {
      * Get all databases
      * @function
      *
-     * @param	object		app			headless application
-     * @param	function 	callback	function to receive results
+     * @param	{object}	app			headless application
+     * @param	{function} 	callback	function to receive results
      *
-     * @return Array
+     * @return {Array}
      */
     listDatabases: function listDatabases(app, callback) {
 
@@ -149,16 +149,61 @@ exports = module.exports = {
     },
 
 
+	execInitTasks: function(db, company) {
+
+		let m = db.models;
+
+		return [
+			m.Type.getInitTask(company)(),
+			m.Calendar.getInitTask(company)(),
+			m.RightCollection.getInitTask(company)(),
+			m.RecoverQuantity.getInitTask(company)(),
+			m.Right.getInitTask(company)()
+		];
+	},
+
+
+	/**
+	 * Run init scripts on alloready initialized database
+	 *
+	 * @param	{Object} 		app			express app or mock headless app variable
+     * @param	{string}		dbname		database name, verified with this.isDbNameValid
+	 *
+	 * @return {Promise}
+	 */
+	runInit: function runInit(app, dbName) {
+
+		let companyApi = this;
+
+		return companyApi.getOpenDbPromise(app, dbName)
+		.then(db => {
+
+			return db.models.Company.findOne().exec()
+			.then(company => {
+
+				if (null === company) {
+					throw new Error('No company');
+				}
+
+				return Promise.all(companyApi.execInitTasks(db, company))
+				.then(() => {
+					db.close();
+					return true;
+				});
+			});
+		});
+	},
+
 
     /**
      * Create a new virgin database with initialized Company infos
      * Additional connexion to database is used
      * @function
      *
-     * @param	Object 		app			express app or mock headless app variable
-     * @param	string		dbname		database name, verified with this.isDbNameValid
-     * @param	object		company 	A company document object
-     * @param	function	callback()	done function
+     * @param	{Object} 		app			express app or mock headless app variable
+     * @param	{string}		dbname		database name, verified with this.isDbNameValid
+     * @param	{object}		company 	A company document object
+     * @param	{function}		callback 	done function
      */
     createDb: function createDb(app, dbName, company, callback) {
 
@@ -166,7 +211,7 @@ exports = module.exports = {
 
         // createConnection
         let db = app.mongoose.createConnection();
-
+		let companyApi = this;
 
 
         db.open(app.config.mongodb.prefix+dbName);
@@ -192,25 +237,21 @@ exports = module.exports = {
 	                }
 
 	                // create the company entry
-	                var companyDoc = new m.Company(company);
+	                let companyDoc = new m.Company(company);
+					let promises = companyApi.execInitTasks(db, companyDoc);
 
-	                async.parallel([
-	                    companyDoc.save.bind(companyDoc),
-	                    m.Type.getInitTask(companyDoc).bind(m.Type),
-	                    m.Calendar.getInitTask(companyDoc).bind(m.Calendar),
-	                    m.RightCollection.getInitTask(companyDoc).bind(m.RightCollection),
-	                    m.RecoverQuantity.getInitTask(companyDoc).bind(m.RecoverQuantity),
-	                    m.Right.getInitTask(companyDoc).bind(m.Right)
-	                ],
-	                function(err) {
-	                    if (err) {
-	                        console.error('api.createDb '+err);
-	                    } else {
-	                        callback();
-	                    }
+					promises.push(companyDoc.save());
 
-	                    db.close();
-	                });
+	                Promise.all(promises)
+					.then(() => {
+						callback();
+						db.close();
+					})
+					.catch(err => {
+						console.error('api.createDb '+err);
+						callback();
+						db.close();
+					});
 
 	            });
 
@@ -224,9 +265,9 @@ exports = module.exports = {
      * Delete a database
      * @function
      *
-     * @param				app
-     * @param	string		dbName
-     * @param	function	callback
+     * @param	{Object}	app
+     * @param	{String}	dbName
+     * @param	{function}	callback
      */
     dropDb: function dropDb(app, dbName, callback) {
 
@@ -250,9 +291,9 @@ exports = module.exports = {
 
     /**
      * Use a database in the app
-     * @param	object		app			Express app or headless mock app
-     * @param	string		dbName
-     * @param	function	callback 	once connected
+     * @param	{Object}	app			Express app or headless mock app
+     * @param	{String}	dbName
+     * @param	{Function}	callback 	once connected
      *
      */
     bindToDb: function bindToDb(app, dbName, callback) {

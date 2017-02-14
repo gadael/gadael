@@ -544,7 +544,7 @@ exports = module.exports = function(params) {
      * @param {Date}         dtstart        Request start date
      * @param {Date}         dtend          Request end date
      * @param {Date}         [timeCreated]  Request creation date
-     * 
+     *
      * @return {Promise}        Resolve to true or RightRule
      */
     rightSchema.methods.validateRules = function(renewal, user, dtstart, dtend, timeCreated) {
@@ -837,24 +837,20 @@ exports = module.exports = function(params) {
 
         /**
          * initialize default rights on database creation
-         * @param {function} done   Callback
+         * @return {Promise}
          */
-        function createDefaults(done) {
-
-            let promises = [];
+        function createDefaults() {
 
             let data = getData();
             if (null === data) {
-                return done();
+                return Promise.resolve([]);
             }
 
-            data.rights.forEach(rightData => {
-                promises.push(saveRight(rightData));
-            });
-
-            Promise.all(promises)
-                .then(() => { done(); })
-                .catch(done);
+            return Promise.all(
+                data.rights.map(rightData => {
+                    return saveRight(rightData);
+                })
+            );
         }
 
         return createDefaults;

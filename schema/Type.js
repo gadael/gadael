@@ -1,6 +1,5 @@
 'use strict';
 
-const async = require('async');
 const util = require('util');
 
 exports = module.exports = function(params) {
@@ -30,9 +29,10 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Get a task to initialize types when the database is created
+     * initialize default types on database creation
+	 * The types created by default are not modifiables
      * @param   {Company}  company Company document not yet saved
-     * @returns {Function} async task function for parallels initialization of tables
+     * @returns {Function} 	task function for parallels initialization of tables
      */
     typeSchema.statics.getInitTask = function(company) {
 
@@ -40,15 +40,12 @@ exports = module.exports = function(params) {
 
 		const gt = params.app.utility.gettext;
 
-
-
         /**
-         * initialize default types on database creation
-         * The types created by default are not modifiables
          *
-         * @param {function} done   Callback
+         *
+         * @return {Promise}
          */
-        function createDefaults(done) {
+        function createDefaults() {
 
 
             let allTypes = [
@@ -81,32 +78,15 @@ exports = module.exports = function(params) {
                 allTypes.push({ _id: '5740adf51cf1a569643cc51f' , color: '#FF4081', name: gt.gettext('Fractionating leave')       , sortkey: 23, groupFolded: true });
             }
 
-            async.each(allTypes, function( fieldsToSet, callback) {
+			return Promise.all(
+				allTypes.map(fieldsToSet => {
+					let type = new model();
+	                type.set(fieldsToSet);
+					type.locked = true;
+					return type.save();
+				})
+			);
 
-                let type = new model();
-                type.set(fieldsToSet);
-                type.locked = true;
-
-                type.save(type, function(err) {
-                    if (err) {
-                        callback(err);
-                        return;
-                    }
-
-                    callback();
-                });
-
-            }, function(err){
-                // if any of the file processing produced an error, err would equal that error
-                if(err) {
-                    console.trace(err);
-                    return;
-                }
-
-                if (done) {
-                    done();
-                }
-            });
         }
 
 

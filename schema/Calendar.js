@@ -231,8 +231,9 @@ exports = module.exports = function(params) {
 
         /**
          * initialize default calendars
+		 * @return {Promise}
          */
-        function createDefaults(done) {
+        function createDefaults() {
 
             let allCalendars = [
             {
@@ -526,30 +527,20 @@ exports = module.exports = function(params) {
             }
 
 
-            let savedCal = [];
-            allCalendars.forEach(calendar => {
-                let caldoc = new model();
-                caldoc.set(calendar);
-                savedCal.push(caldoc.save());
+			return Promise.all(
+	            allCalendars.map(calendar => {
+	                let caldoc = new model();
+	                caldoc.set(calendar);
+	                return caldoc.save();
+	            })
+			)
+			.then(all => {
+                return Promise.all(
+	                all.map(calendar => {
+	                    return calendar.downloadEvents();
+	                })
+				);
             });
-
-
-            Promise.all(savedCal).then(all => {
-                let dowloadedCals = [];
-                all.forEach(calendar => {
-                    dowloadedCals.push(calendar.downloadEvents());
-                });
-
-                return Promise.all(dowloadedCals);
-            })
-            .then(() => {
-                if (done) {
-                    done();
-                }
-            })
-            .catch(console.trace);
-
-
         }
 
 

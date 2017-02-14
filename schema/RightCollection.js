@@ -1,6 +1,5 @@
 'use strict';
 
-var async = require('async');
 
 
 exports = module.exports = function(params) {
@@ -120,7 +119,10 @@ exports = module.exports = function(params) {
         const gt = params.app.utility.gettext;
 
 
-        function createDefaults(done) {
+        /**
+         * @return {Promise}
+         */
+        function createDefaults() {
 
 
             let collections = [
@@ -131,28 +133,13 @@ exports = module.exports = function(params) {
                 { _id: '5740adf51cf1a569643cc524', name: gt.gettext('Part-time 50%'), attendance: 50, workedDays: 218 }
             ];
 
-
-            async.each(collections, function( type, callback) {
-
-              model.create(type, function(err) {
-                  if (err) {
-                      callback(err);
-                      return;
-                  }
-
-                  callback();
-              });
-            }, function(err){
-                // if any of the file processing produced an error, err would equal that error
-                if(err) {
-                    console.trace(err);
-                    return;
-                }
-
-                if (done) {
-                    done();
-                }
-            });
+            return Promise.all(
+                collections.map(data => {
+                    let collection = new model();
+                    collection.set(data);
+                    return collection.save();
+                })
+            );
         }
 
 
