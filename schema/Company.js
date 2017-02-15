@@ -78,6 +78,11 @@ exports = module.exports = function(params) {
     });
 
 
+	companySchema.post('save', function(company) {
+		// Update config cache on each modification
+		params.app.config.company = company;
+	});
+
 
 
     companySchema.methods.disableForbiddenUsers = function(next) {

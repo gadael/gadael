@@ -110,7 +110,7 @@ exports = module.exports = function(params) {
         let userModel = params.db.models.User;
 		let company = params.app.config.company;
 
-        if (undefined === company.max_users || null === company.max_users) {
+        if (null === company || undefined === company.max_users || null === company.max_users) {
             return next();
         }
 
