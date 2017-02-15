@@ -70,6 +70,7 @@ exports = module.exports = function(params) {
     companySchema.pre('save', function(next) {
 
         if (undefined !== this.max_users) {
+			console.log('Call disableForbiddenUsers');
             return this.disableForbiddenUsers(next);
         }
 
