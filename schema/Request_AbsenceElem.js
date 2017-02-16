@@ -9,9 +9,9 @@ exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var absenceElemSchema = new mongoose.Schema({
         quantity: { type: Number, required: true },         // quantity equal du duration of period in the planning
-        consumedQuantity: { type: Number, required: true }, // quantity removed from vacation right according to Right.consuption
-                                                            // consuption=proportion: attendance percentage from RightCollection
-                                                            // consuption=businessDays: businessDays from RightCollection
+        consumedQuantity: { type: Number, required: true }, // quantity removed from vacation right according to Right.consumption
+                                                            // consumption=proportion: attendance percentage from RightCollection
+                                                            // consumption=businessDays: businessDays from RightCollection
         events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],
 
         user: {                                     // absence owner
@@ -33,14 +33,14 @@ exports = module.exports = function(params) {
                 start: { type: Date, required: true },
                 finish: { type: Date, required: true }
             },
-            consuption: {                             // consuption type
+            consumption: {                             // consumption type
                 type: String,
                 enum:['proportion', 'businessDays', 'workingDays'],  // proportion: use the attendance percentage defined in user right collection
-                required: true                                       // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
+                required: true                                       // businessDays: next business days are consumed up to consumptionBusinessDaysLimit
                                                                      // workingDays: full working days are consumed
             },
 
-            consuptionBusinessDaysLimit: { type: Number, default: 5 } // Used if consuption=businessDays
+            consumptionBusinessDaysLimit: { type: Number, default: 5 } // Used if consumption=businessDays
 		}
 	});
 
@@ -64,7 +64,7 @@ exports = module.exports = function(params) {
         }
 
         if (this.consumedQuantity <= 0) {
-            err = new Error('Invalid consuption on absence element, quantity='+this.quantity+' consumedQuantity='+this.consumedQuantity);
+            err = new Error('Invalid consumption on absence element, quantity='+this.quantity+' consumedQuantity='+this.consumedQuantity);
             return next(err);
         }
 
@@ -142,7 +142,7 @@ exports = module.exports = function(params) {
     /**
      * Get additional deducted quantity for part-time collections
      * this method get the number of days in base business days witch are not in applicant working days
-     * this method is used for consuption method : businessDays or WorkingDays
+     * this method is used for consumption method : businessDays or WorkingDays
      *
      * @param {Array}  baseAttendanceDays    List of business days or working days for a 100% attendance
      *

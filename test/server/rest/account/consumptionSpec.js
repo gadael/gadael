@@ -73,7 +73,7 @@ describe('consumption account rest service', function() {
             name: 'Right 1',
             quantity: 25,
             quantity_unit: 'D',
-            consuption: 'proportion',
+            consumption: 'proportion',
             rules: [{
                 type: 'request_period',
                 'title': 'Request period must be in the renewal period, with a 7 day tolerance at the end of period',
@@ -125,7 +125,7 @@ describe('consumption account rest service', function() {
             name: 'Right 2',
             quantity: 10,
             quantity_unit: 'D',
-            consuption: 'businessDays',
+            consumption: 'businessDays',
             rules: [] // no rules, always available
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);

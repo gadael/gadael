@@ -437,7 +437,7 @@ define([
                     case 'request_period':  return gettextCatalog.getString('Request period');
                     case 'seniority':       return gettextCatalog.getString('Seniority');
                     case 'age':             return gettextCatalog.getString('Age');
-                    case 'consuption':      return gettextCatalog.getString('Consuption');
+                    case 'consumption':      return gettextCatalog.getString('Consuption');
                 }
             };
         }

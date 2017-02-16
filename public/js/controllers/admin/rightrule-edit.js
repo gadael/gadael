@@ -39,7 +39,7 @@ define([], function() {
             }
         }
 
-        // This is used for the consuption type
+        // This is used for the consumption type
         $scope.righttypes = rightTypesResource.query();
 
 
@@ -79,7 +79,7 @@ define([], function() {
                 max:0,
                 unit: 'D'
             },
-            consuption: {
+            consumption: {
                 periods: []
             }
         };
@@ -89,11 +89,11 @@ define([], function() {
         };
 
         $scope.addPeriod = function() {
-            $scope.rightrule.consuption.periods.push({});
+            $scope.rightrule.consumption.periods.push({});
         };
 
 		$scope.removePeriod = function(index) {
-            $scope.rightrule.consuption.periods.splice(index, 1);
+            $scope.rightrule.consumption.periods.splice(index, 1);
 		};
 
 		$scope.back = function() {

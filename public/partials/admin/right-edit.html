@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.autoAdjustmentActive" /><span translate>Adjust the available quantity automatically from the consuption of other rights</span></label>
+                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.autoAdjustmentActive" /><span translate>Adjust the available quantity automatically from the consumption of other rights</span></label>
                     </div>
 
                     <div class="form-group" ng-if="right.autoAdjustmentActive">
@@ -173,18 +173,18 @@
 
 
                     <div class="form-group col-md-6">
-                        <label for="consuption" translate>Quantity consuption for part-time right collections</label>
-                        <select class="form-control" id="consuption" ng-model="right.consuption">
+                        <label for="consumption" translate>Quantity consumption for part-time right collections</label>
+                        <select class="form-control" id="consumption" ng-model="right.consumption">
                             <option value="proportion" translate>Proportional to attendance</option>
                             <option value="businessDays" translate>Consume next business days</option>
                             <option value="workingDays" translate>Consume worked days</option>
                         </select>
                     </div>
 
-                    <div class="form-group col-md-6" ng-if="right.consuption=='businessDays'">
-                        <label for="consuptionBusinessDaysLimit" translate>Limit in additional business days consuption in one renewal</label>
+                    <div class="form-group col-md-6" ng-if="right.consumption=='businessDays'">
+                        <label for="consumptionBusinessDaysLimit" translate>Limit in additional business days consumption in one renewal</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="consuptionBusinessDaysLimit" ng-model="right.consuptionBusinessDaysLimit" step="any" />
+                            <input type="number" class="form-control" id="consumptionBusinessDaysLimit" ng-model="right.consumptionBusinessDaysLimit" step="any" />
                             <span class="input-group-addon"><span translate>Days</span></span>
 
                         </div>

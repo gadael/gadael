@@ -65,7 +65,7 @@ exports = module.exports = function(service, from, to) {
                     row[STATUS]     = request.getDispStatus();
                     row[CONSUMED]   = request.getConsumedQuantity();
 
-                    // consuption details: one column per right for elements
+                    // consumption details: one column per right for elements
 
                     request.absence.distribution.forEach(elem => {
                         row[elem.right.name] = elem.consumedQuantity;

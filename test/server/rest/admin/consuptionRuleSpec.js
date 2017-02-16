@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe('consuption rule on admin admin rest service', function() {
+describe('consumption rule on admin admin rest service', function() {
 
 
     let server,
@@ -57,8 +57,8 @@ describe('consuption rule on admin admin rest service', function() {
             quantity_unit: 'D',
             rules: [{
                 title: 'Available if 3 days consumed out of the legal period',
-                type: 'consuption',
-                consuption: {
+                type: 'consumption',
+                consumption: {
                     type: '5740adf51cf1a569643cc508', //Annual paid leaves
                     cap: 24,
                     periods: [

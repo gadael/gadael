@@ -191,7 +191,7 @@ msgstr "Jours supplémentaires avant la date de début du renouvellement :"
 
 #: public/partials/admin/right-edit.html
 msgid ""
-"Adjust the available quantity automatically from the consuption of other "
+"Adjust the available quantity automatically from the consumption of other "
 "rights"
 msgstr ""
 "Ajuster la quantité disponible à partir de la consommation sur d'autres "
@@ -1163,7 +1163,7 @@ msgstr ""
 "Les demandes de congés doivent être créées dans les événements de cet agenda"
 
 #: public/partials/admin/right-edit.html
-msgid "Limit in additional business days consuption in one renewal"
+msgid "Limit in additional business days consumption in one renewal"
 msgstr ""
 "Limite des jours travaillés supplémentaires consommés dans un renouvellement"
 
@@ -1504,7 +1504,7 @@ msgid "Proportional to attendance"
 msgstr "Proportionnel à la présence"
 
 #: public/partials/admin/right-edit.html
-msgid "Quantity consuption for part-time right collections"
+msgid "Quantity consumption for part-time right collections"
 msgstr "Consommation pour les régimes à temps partiel"
 
 #: public/partials/admin/right-edit.html

@@ -184,7 +184,7 @@ msgid "Additional days before the renewal start date:"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
-msgid "Adjust the available quantity automatically from the consuption of other rights"
+msgid "Adjust the available quantity automatically from the consumption of other rights"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
@@ -1112,7 +1112,7 @@ msgid "Leaves requests must be included in this calendar"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
-msgid "Limit in additional business days consuption in one renewal"
+msgid "Limit in additional business days consumption in one renewal"
 msgstr ""
 
 #: public/partials/user/settings-calendar.html
@@ -1445,7 +1445,7 @@ msgid "Proportional to attendance"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
-msgid "Quantity consuption for part-time right collections"
+msgid "Quantity consumption for part-time right collections"
 msgstr ""
 
 #: public/partials/admin/right-edit.html

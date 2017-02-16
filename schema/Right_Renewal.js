@@ -1,6 +1,6 @@
 'use strict';
 
-const consuptionHistory = require('../modules/consuptionHistory');
+const consumptionHistory = require('../modules/consumptionHistory');
 const util = require('util');
 
 exports = module.exports = function(params) {
@@ -135,11 +135,11 @@ exports = module.exports = function(params) {
 	 * Update the auto adjustements list for one user
 	 *
 	 * if autoAdjustment configured on right
-	 * get the consuption quantity on all selected types
-	 * create the adjustements with timeCreated match the consuption date
+	 * get the consumption quantity on all selected types
+	 * create the adjustements with timeCreated match the consumption date
 	 *
-	 * consuption is from consumedQuantity field in absence elements
-	 * moved quantity to time saving account is not considered as a consuption
+	 * consumption is from consumedQuantity field in absence elements
+	 * moved quantity to time saving account is not considered as a consumption
 	 *
 	 * @param {User} user
 	 *
@@ -158,7 +158,7 @@ exports = module.exports = function(params) {
 			undefined !== right.autoAdjustment.quantity &&
 			null !== right.autoAdjustment.quantity) {
 
-				return consuptionHistory.getConsuptionHistory(user, right.autoAdjustment.types)
+				return consumptionHistory.getConsuptionHistory(user, right.autoAdjustment.types)
 				.then(history => {
 
 					let current = 0;

@@ -25,11 +25,11 @@ describe('Right consumption', function() {
     });
 
 
-    it('verify default consuption type', function(done) {
+    it('verify default consumption type', function(done) {
         api.user.createRandomAccountRequest(app, {
-                name: 'default consuption'
+                name: 'default consumption'
             }, {
-                name: 'default consuption'
+                name: 'default consumption'
             },
             monday
         ).then(o => {
@@ -40,7 +40,7 @@ describe('Right consumption', function() {
     });
 
 
-    it('verify proportion consuption type with 100% attendance on a monday', function(done) {
+    it('verify proportion consumption type with 100% attendance on a monday', function(done) {
         api.user.createProportionConsRequest(app, 100, monday).then(elem => {
             expect(elem.quantity).toEqual(1);
             expect(elem.consumedQuantity).toEqual(1);
@@ -48,16 +48,16 @@ describe('Right consumption', function() {
         }).catch(done);
     });
 
-    it('verify proportion consuption type with 100% attendance on a sunday', function(done) {
+    it('verify proportion consumption type with 100% attendance on a sunday', function(done) {
         api.user.createProportionConsRequest(app, 100, sunday).then(elem => {
             expect(elem.quantity).toEqual(1);
-            expect(elem.consumedQuantity).toEqual(1); // working period are not taken into account for this consuption type
+            expect(elem.consumedQuantity).toEqual(1); // working period are not taken into account for this consumption type
             done();
         }).catch(done);
     });
 
 
-    it('verify proportion consuption type with 50% attendance on a monday', function(done) {
+    it('verify proportion consumption type with 50% attendance on a monday', function(done) {
         api.user.createProportionConsRequest(app, 50, monday).then(elem => {
             expect(elem.quantity).toEqual(1);
             expect(elem.consumedQuantity).toEqual(2);
@@ -65,7 +65,7 @@ describe('Right consumption', function() {
         }).catch(done);
     });
 
-    it('verify proportion consuption type with 50% attendance on a monday and thusday', function(done) {
+    it('verify proportion consumption type with 50% attendance on a monday and thusday', function(done) {
 
         let tuesdayEnd = new Date(tuesday);
         tuesdayEnd.setHours(23);
@@ -78,7 +78,7 @@ describe('Right consumption', function() {
     });
 
 
-    it('verify proportion consuption type with 75% attendance on a monday', function(done) {
+    it('verify proportion consumption type with 75% attendance on a monday', function(done) {
         api.user.createProportionConsRequest(app, 75, monday).then(elem => {
             expect(elem.quantity).toEqual(1);
             expect(elem.consumedQuantity).toBeCloseTo(1.333);
@@ -87,7 +87,7 @@ describe('Right consumption', function() {
     });
 
 
-    it('verify businessDays consuption type on a monday', function(done) {
+    it('verify businessDays consumption type on a monday', function(done) {
 
         let mondayEnd = new Date(monday);
         mondayEnd.setHours(23);
@@ -104,7 +104,7 @@ describe('Right consumption', function() {
     });
 
 
-    it('verify businessDays consuption type on a friday', function(done) {
+    it('verify businessDays consumption type on a friday', function(done) {
 
         let fridayEnd = new Date(friday);
         fridayEnd.setHours(23);
@@ -118,7 +118,7 @@ describe('Right consumption', function() {
 
 
 
-    it('verify that consuption cannot be greater than available', function(done) {
+    it('verify that consumption cannot be greater than available', function(done) {
 
         let fridayEnd = new Date(friday);
         fridayEnd.setHours(23);
@@ -134,7 +134,7 @@ describe('Right consumption', function() {
 
 
 
-    it('verify businessDays consuption type on more than one week (monday to monday)', function(done) {
+    it('verify businessDays consumption type on more than one week (monday to monday)', function(done) {
 
         let nextMonday = new Date(monday);
         nextMonday.setDate(nextMonday.getDate()+7);
@@ -152,7 +152,7 @@ describe('Right consumption', function() {
     });
 
 
-    it('verify workingDays consuption type on more than one week (monday to monday)', function(done) {
+    it('verify workingDays consumption type on more than one week (monday to monday)', function(done) {
 
         let nextMonday = new Date(monday);
         nextMonday.setDate(nextMonday.getDate()+7);
@@ -165,7 +165,7 @@ describe('Right consumption', function() {
         }).catch(done);
     });
 
-    it('verify workingDays consuption type on a friday, rounded to days', function(done) {
+    it('verify workingDays consumption type on a friday, rounded to days', function(done) {
 
         let fridayEnd = new Date(friday);
         fridayEnd.setHours(23);
@@ -177,7 +177,7 @@ describe('Right consumption', function() {
         }).catch(done);
     });
 
-    it('verify workingDays consuption type is based on dates only', function(done) {
+    it('verify workingDays consumption type is based on dates only', function(done) {
 
         let mondayEnd = new Date(monday);
         mondayEnd.setHours(23);

@@ -96,7 +96,7 @@ define([], function() {
                 useDefault: true
             };
 
-            $scope.right.consuption = 'proportion';
+            $scope.right.consumption = 'proportion';
         }
 
 

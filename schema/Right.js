@@ -21,14 +21,14 @@ exports = module.exports = function(params) {
                                                                  // special rights are stored in api/specialrights/*
                                                                  // proposed special rights will be filtered by company.country
 
-        consuption: {                                            // consuption type
+        consumption: {                                            // consumption type
             type: String,
             enum:['proportion', 'businessDays', 'workingDays'],  // proportion: user the attendance percentage defined in user right collection
-                                                                 // businessDays: next business days are consumed up to consuptionBusinessDaysLimit
+                                                                 // businessDays: next business days are consumed up to consumptionBusinessDaysLimit
             default: 'proportion'                                // workingDays: full working days are consumed
         },
 
-        consuptionBusinessDaysLimit: { type: Number, default: 5 }, // Used if consuption=businessDays
+        consumptionBusinessDaysLimit: { type: Number, default: 5 }, // Used if consumption=businessDays
 
         // automatic distribution on this right on request creation
         autoDistribution: { type: Boolean, default:true },
@@ -663,17 +663,17 @@ exports = module.exports = function(params) {
         let right = this;
 
         return new Promise((resolve, reject) => {
-            if ('proportion' === right.consuption) {
+            if ('proportion' === right.consumption) {
                 // consume more than duration quantity if attendance percentage lower than 100
                 return resolve(right.getConsumedQuantityByAttendance(collection.attendance, elem.quantity));
             }
 
-            if ('businessDays' === right.consuption) {
+            if ('businessDays' === right.consumption) {
                 // consume number of business days up to back to work date
                 return resolve(right.getConsumedQuantityByBusinessDays(collection, elem));
             }
 
-            if ('workingDays' === right.consuption) {
+            if ('workingDays' === right.consumption) {
                 // consume exact number of working days (no half-days)
                 return resolve(elem.getWorkingDays());
             }

@@ -318,7 +318,7 @@ api.createRandomAccountRequest = function(app, collectionProps, rightProps, dtst
 
 
 /**
- * Create random account, one test right and a request on a proportion consuption type
+ * Create random account, one test right and a request on a proportion consumption type
  * @param   {Express} app
  * @param   {Number}  attendance percentage
  * @param   {Date}    dtstart    Start date of the request
@@ -335,7 +335,7 @@ api.createProportionConsRequest = function(app, attendance, dtstart, dtend, nbda
         attendance: attendance
 	    }, {
 	        name: uniqueName,
-	        consuption: 'proportion'
+	        consumption: 'proportion'
 	    },
 	    dtstart,
 	    dtend,
@@ -349,7 +349,7 @@ api.createProportionConsRequest = function(app, attendance, dtstart, dtend, nbda
 
 
 /**
- * Create random account, one test right and a request on a business days consuption type
+ * Create random account, one test right and a request on a business days consumption type
  * @param   {Express} app
  * @param   {Date}    dtstart
  * @param   {Date}    dtend
@@ -362,7 +362,7 @@ api.createBusinessDaysConsRequest = function(app, dtstart, dtend, nbdays, availa
 
     let rightProps = {
         name: uniqueName,
-        consuption: 'businessDays'
+        consumption: 'businessDays'
     };
 
     if (undefined !== availableQuantity) {
@@ -383,7 +383,7 @@ api.createBusinessDaysConsRequest = function(app, dtstart, dtend, nbdays, availa
 
 
 /**
- * Create random account, one test right and a request on a working days consuption type
+ * Create random account, one test right and a request on a working days consumption type
  * @param   {Express} app
  * @param   {Date}    dtstart
  * @param   {Date}    dtend
@@ -397,7 +397,7 @@ api.createWorkingDaysConsRequest = function(app, dtstart, dtend, nbdays) {
         name: uniqueName
     }, {
         name: uniqueName,
-        consuption: 'workingDays'
+        consumption: 'workingDays'
     },
     dtstart,
     dtend,

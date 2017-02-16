@@ -129,8 +129,8 @@ function saveRight(service, params) {
         quantity_unit: params.quantity_unit || 'D',
         quantity: params.quantity || 0,
         special: params.special,
-        consuption: params.consuption,
-        consuptionBusinessDaysLimit: params.consuptionBusinessDaysLimit
+        consumption: params.consumption,
+        consumptionBusinessDaysLimit: params.consumptionBusinessDaysLimit
     };
 
 

@@ -58,8 +58,8 @@ function getElementIgniter(service, collection, user)
                     start: renewal.start,
                     finish: renewal.finish
                 },
-                consuption: rightDocument.consuption,
-                consuptionBusinessDaysLimit: rightDocument.consuptionBusinessDaysLimit
+                consumption: rightDocument.consumption,
+                consumptionBusinessDaysLimit: rightDocument.consumptionBusinessDaysLimit
             };
 
             if (undefined !== rightDocument.type) {

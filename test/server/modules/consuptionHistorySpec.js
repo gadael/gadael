@@ -10,7 +10,7 @@ const api = {
     request: require('../../../api/Request.api')
 };
 
-const consuptionHistory = require('../../../modules/consuptionHistory');
+const consumptionHistory = require('../../../modules/consumptionHistory');
 
 
 describe('Consuption history module', function() {
@@ -23,7 +23,7 @@ describe('Consuption history module', function() {
     let consumedElement;
 
     beforeEach(function(done) {
-        helpers.mockServer('consuptionHistorySpecTestDatabase', function(_mockServer) {
+        helpers.mockServer('consumptionHistorySpecTestDatabase', function(_mockServer) {
             server = _mockServer;
 
             done();
@@ -51,7 +51,7 @@ describe('Consuption history module', function() {
         .then(o => {
             user = o.randomUser.user;
             renewal = o.elem.right.renewal.id;
-            return consuptionHistory.getConsuptionHistory(user, [type])
+            return consumptionHistory.getConsuptionHistory(user, [type])
             .then(history => {
                 expect(history.length).toEqual(1);
                 consumedElement = history[0];
@@ -76,7 +76,7 @@ describe('Consuption history module', function() {
         RightRenewal.findOne({ _id: renewal })
         .exec()
         .then(renewal => {
-            return consuptionHistory.getConsumedQuantityBetween(user, [type], periods, 'D', renewal, 24)
+            return consumptionHistory.getConsumedQuantityBetween(user, [type], periods, 'D', renewal, 24)
             .then(total => {
                 expect(total).toEqual(consumedElement.consumedQuantity);
                 done();

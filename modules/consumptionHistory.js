@@ -38,7 +38,7 @@ function getElementsPromise(user, types)
 
 
 /**
- * Get list of absence elem used for the consuption
+ * Get list of absence elem used for the consumption
  * elements are sorted by first dtstart
  *
  * @param {User} user
@@ -60,7 +60,7 @@ function getConsuptionHistory(user, types) {
 
 
 /**
- * Get list of absence elem used for the consuption on this renewal
+ * Get list of absence elem used for the consumption on this renewal
  *
  * @param {User} user
  * @param {ObjectId[]} types
@@ -87,13 +87,13 @@ function getElementsOnPeriod(user, types, start, finish) {
 
 
 /**
- * Get consuption for a list of right types and on a list of periods
+ * Get consumption for a list of right types and on a list of periods
  * @param {User} user
  * @param {Array} types         Select rights by types
  * @param {Array} periods       each period contain dtstart and dtend
  * @param {String} quantityUnit H or D rights with other units are ignored
  * @param {Renewal} renewal
- * @param {Number} cap          Cap on renewal consuption
+ * @param {Number} cap          Cap on renewal consumption
  *
  * @return {Promise}	 Resolve to a number
  */

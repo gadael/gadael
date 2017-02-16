@@ -1,6 +1,6 @@
 'use strict';
 
-const consuptionHistory = require('../modules/consuptionHistory');
+const consumptionHistory = require('../modules/consumptionHistory');
 
 /**
  * Right rules embeded into right document
@@ -26,12 +26,12 @@ exports = module.exports = function(params) {
         'age',              // Right is visible if the user age is in the interval
                             // min and max are in years after the birth date
 
-		'consuption'		// Right is visible if the user have consumed between
+		'consumption'		// Right is visible if the user have consumed between
 							// min and max quantity on the specified right type
 							// interval.unit can be H or D
-							// rights from consuption.type not in the same unit will
+							// rights from consumption.type not in the same unit will
 							// ignored
-							// All intervals consuption.periods.dtstart <=> consuption.periods.dtend
+							// All intervals consumption.periods.dtstart <=> consumption.periods.dtend
 							// are computed with the specified month and day and the year
 							// of the current request.timeCreated
     ];
@@ -51,13 +51,13 @@ exports = module.exports = function(params) {
             unit: { type: String, enum: ['H', 'D', 'Y'], default: 'D' }
         },
 
-		consuption: {
+		consumption: {
 			periods: [{
 				dtstart: Date,	// The year is ignored
 				dtend: Date,	// The year is ignored
 			}],
 			type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
-			cap: Number			// Ignore consuption of the next elements
+			cap: Number			// Ignore consumption of the next elements
 								// if this quantity is allready consumed
 		},
 
@@ -171,7 +171,7 @@ exports = module.exports = function(params) {
             case 'entry_date':      return Promise.resolve(rule.validateEntryDate(moment, renewal));
             case 'request_period':  return Promise.resolve(rule.validateRequestDate(dtstart, dtend, renewal));
             case 'age':             return Promise.resolve(rule.validateAge(dtstart, dtend, user));
-			case 'consuption':		return rule.validateConsuption(renewal, user);
+			case 'consumption':		return rule.validateConsuption(renewal, user);
         }
 
         return Promise.resolve(false);
@@ -179,7 +179,7 @@ exports = module.exports = function(params) {
 
 
 	/**
-	 * Test validity for consuption
+	 * Test validity for consumption
 	 *
 	 * @param {Renewal} renewal		The moment of the request
 	 * @param {User} user		The appliquant
@@ -190,7 +190,7 @@ exports = module.exports = function(params) {
 
 		let rule = this;
 
-		let periods = rule.consuption.periods.map(period => {
+		let periods = rule.consumption.periods.map(period => {
 			let dtstart = renewal.createDateFromDayMonth(period.dtstart);
 			let dtend = renewal.createDateFromDayMonth(period.dtend);
 			dtend.setHours(23,59,59,999);
@@ -201,7 +201,7 @@ exports = module.exports = function(params) {
 			};
 		});
 
-		return consuptionHistory.getConsumedQuantityBetween(user, [rule.consuption.type], periods, rule.interval.unit, renewal, rule.consuption.cap)
+		return consumptionHistory.getConsumedQuantityBetween(user, [rule.consumption.type], periods, rule.interval.unit, renewal, rule.consumption.cap)
 		.then(quantity => {
 			if (quantity < rule.interval.min || quantity > rule.interval.max) {
 				return false;

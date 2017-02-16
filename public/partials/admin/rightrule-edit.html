@@ -53,7 +53,7 @@
 
 				<div class="form-group">
                     <label>
-                        <input type="radio" ng-model="rightrule.type" value="consuption" />
+                        <input type="radio" ng-model="rightrule.type" value="consumption" />
                         <strong translate>Activate the right according to consumed quantity</strong>
                     </label>
                     <p translate>Right is visible when the user has consumed a quantity defined for a right type on a period</p>
@@ -197,7 +197,7 @@
 
 
 
-					<div ng-switch-when="consuption">
+					<div ng-switch-when="consumption">
 						<strong translate>Rule type:</strong>
                         <p translate>Activate the right according to the consumed quantity on a right type</p>
                         <p translate>If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:</p>
@@ -206,7 +206,7 @@
 							<div class="col-md-8">
 								<div class="form-group">
 							        <label for="right_type" translate>Right type to test</label>
-							        <select class="form-control" id="right_type" ng-model="rightrule.consuption.type" ng-options="type._id as type.name for type in righttypes">
+							        <select class="form-control" id="right_type" ng-model="rightrule.consumption.type" ng-options="type._id as type.name for type in righttypes">
 							            <option></option>
 							        </select>
 							    </div>
@@ -225,9 +225,9 @@
 
 
 						<div class="form-group">
-					        <label for="consuption_cap" translate>Ignore consumption beyond</label>
+					        <label for="consumption_cap" translate>Ignore consumption beyond</label>
 							<div class="input-group">
-								<input type="number" id="consuption_cap" class="form-control" ng-model="rightrule.consuption.cap" />
+								<input type="number" id="consumption_cap" class="form-control" ng-model="rightrule.consumption.cap" />
 								<div class="input-group-addon" ng-if="rightrule.interval.unit=='D'"><span translate>Days</span></div>
 								<div class="input-group-addon" ng-if="rightrule.interval.unit=='H'"><span translate>Hours</span></div>
 							</div>
@@ -247,7 +247,7 @@
 						</div>
 
 						<div class="top15">
-							<div class="row" ng-repeat="period in rightrule.consuption.periods">
+							<div class="row" ng-repeat="period in rightrule.consumption.periods">
 
 								<div class="col-md-2 text-right">
 						            <button type="button" class="btn btn-warning" ng-click="removePeriod($index)"><span class="glyphicon glyphicon-remove"></span><span class="sr-only" translate>Remove</span></button>
@@ -284,7 +284,7 @@
 							</div>
 					</div>
 
-						<div ng-if="rightrule.consuption.periods.length>0">
+						<div ng-if="rightrule.consumption.periods.length>0">
 							<div class="top30">
 								<p><strong translate>Set the consumed quantity interval where the rule will be valid</strong></p>
 							</div>
@@ -295,9 +295,9 @@
 
 								<div class="col-md-5">
 									<div class="form-group">
-			                            <label for="consuption_min" translate>Minimal consumed quantity:</label>
+			                            <label for="consumption_min" translate>Minimal consumed quantity:</label>
 			                            <div class="input-group">
-			                                <input type="number" id="consuption_min" class="form-control" ng-model="rightrule.interval.min" />
+			                                <input type="number" id="consumption_min" class="form-control" ng-model="rightrule.interval.min" />
 											<div class="input-group-addon" ng-if="rightrule.interval.unit=='D'"><span translate>Days</span></div>
 				                            <div class="input-group-addon" ng-if="rightrule.interval.unit=='H'"><span translate>Hours</span></div>
 			                            </div>
@@ -306,9 +306,9 @@
 
 								<div class="col-md-5">
 			                        <div class="form-group">
-			                            <label for="consuption_max" translate>Maximal consumed quantity:</label>
+			                            <label for="consumption_max" translate>Maximal consumed quantity:</label>
 			                            <div class="input-group">
-			                                <input type="number" id="consuption_max" class="form-control" ng-model="rightrule.interval.max" />
+			                                <input type="number" id="consumption_max" class="form-control" ng-model="rightrule.interval.max" />
 											<div class="input-group-addon" ng-if="rightrule.interval.unit=='D'"><span translate>Days</span></div>
 				                            <div class="input-group-addon" ng-if="rightrule.interval.unit=='H'"><span translate>Hours</span></div>
 			                            </div>
