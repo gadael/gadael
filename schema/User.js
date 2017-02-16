@@ -50,12 +50,7 @@ exports = module.exports = function(params) {
     userSchema.pre('save', function(next) {
 
         this.fixValidIntervalOnSave();
-
-        if (this.isActive) {
-            return this.checkMaxActiveUsers(next);
-        }
-
-        next();
+        return this.checkMaxActiveUsers(next);
     });
 
 
