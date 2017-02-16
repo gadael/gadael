@@ -74,13 +74,15 @@ describe("Test max users limit", function MaxUserTestSuite() {
 
 
     it("create a disabled user beyond the limit", function(done) {
-        api.user.createRandomDisabledAdmin(server.app).then(function(randomAdmin) {
+        api.user.createRandomDisabledAdmin(server.app)
+        .then(function(randomAdmin) {
             expect(randomAdmin.user.isActive).toBeFalsy();
             expect(randomAdmin.user.email).toBeDefined();
             expect(randomAdmin.user.roles.admin).toBeDefined();
             disabledUser = randomAdmin.user;
 			done();
-		});
+		})
+        .catch(done);
     });
 
     it('activate the user must fail', function(done) {
@@ -97,10 +99,3 @@ describe("Test max users limit", function MaxUserTestSuite() {
     });
 
 });
-
-
-
-
-
-
-

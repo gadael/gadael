@@ -101,6 +101,7 @@ exports = module.exports = function(params) {
 
 		const gt = params.app.utility.gettext;
 
+		let user = this;
 
         let userModel = params.db.models.User;
 		let company = params.app.config.company;
@@ -115,8 +116,7 @@ exports = module.exports = function(params) {
                 return next(err);
             }
 
-
-            if (company.max_users <= existingUsers) {
+            if (user.isActive && company.max_users <= existingUsers) {
                 let message = util.format(gt.gettext('The total number of active users cannot exceed %d'), company.max_users);
                 return next(new Error(message));
             }

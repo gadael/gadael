@@ -75,9 +75,6 @@ grunt --help
 
 ## TODO
 
-- [x] Finish companyApi.runInit
-- [x] Use promises in init scripts
-- [ ] Warn in a user activation disable another user
 - [ ] For new users, check the active checkbox by default
 - [ ] Set default values for home text
 - [ ] Application need to be reloaded if company doc is modified

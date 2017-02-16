@@ -29,6 +29,11 @@ define([], function() {
                     $scope.user.roles.manager.department = getOnlyIds($scope.user.roles.manager.department);
                 }
             });
+        } else {
+
+            // default user values
+
+            $scope.user.isActive = true;
         }
 
 
