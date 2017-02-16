@@ -28,10 +28,12 @@ define([], function() {
         if ($scope.sessionUser.isManager) {
             // load waiting requests
 
+            var departmentsResource = Rest.manager.departments.getResource();
             var waitingRequestResource = Rest.manager.waitingrequests.getResource();
             collaboratorsResource = Rest.manager.collaborators.getResource();
 
             $scope.waitingrequests = waitingRequestResource.query();
+            $scope.departments = departmentsResource.query();
         }
 
         var startDate = new Date();

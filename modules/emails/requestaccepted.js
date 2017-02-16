@@ -68,7 +68,7 @@ exports = module.exports = function getMail(app, request) {
                         }
                     },
                     outro: util.format(
-                        gt.gettext('Workflow initiated by %s the %s'),
+                        gt.gettext('Workflow step by %s the %s'),
                         workflowCreation.userCreated.name,
                         workflowCreation.timeCreated.toLocaleString()
                     ),

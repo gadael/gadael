@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-12 14:24+0100\n"
-"PO-Revision-Date: 2017-02-12 14:26+0100\n"
+"PO-Revision-Date: 2017-02-16 10:38+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -808,7 +808,7 @@ msgstr "Cordialement"
 #: modules/emails/pendingapproval.js:58 modules/emails/requestaccepted.js:71
 #, javascript-format
 msgid "Workflow initiated by %s the %s"
-msgstr "Circuit de validation initialisé par %s le %s"
+msgstr "Validation effectuée par %s le %s"
 
 #: modules/emails/rolesupdated.js:20
 #, javascript-format

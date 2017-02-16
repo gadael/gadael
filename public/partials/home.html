@@ -62,6 +62,8 @@
                 <button type="button" class="btn btn-primary" ng-click="createRequest()">
                     <i class="fa fa-plus"></i> <span translate>Add a request...</span>
                 </button>
+                <br />
+                <br />
             </div>
         </div>
 
@@ -109,27 +111,30 @@
     </div>
 
 
-    <div class="top30" ng-if="sessionUser.isManager">
+    <div ng-if="sessionUser.isManager">
 
-        <h2 translate>Manager</h2>
+        <div class="top30 row">
+            <h2 class="col-md-6 top30" translate-n="departments.length" translate-plural="Departments Management">Department Management</h2>
 
-        <div class="text-right">
-            <span ng-if="waitingrequests.length == 0"><span translate>Nothing to approve</span></span>
-            <a href="#/manager/waitingrequests" ng-if="waitingrequests.length > 0">
-              <span translate>Requests waiting for approval</span> <span class="badge">{{waitingrequests.length}}</span>
-            </a>
+            <div class="col-md-6 text-right top30">
+                <span ng-if="waitingrequests.length == 0"><span translate>Nothing to approve</span></span>
+                <a class="btn btn-default" href="#/manager/waitingrequests" ng-if="waitingrequests.length > 0">
+                  <span translate>Requests waiting for approval</span> <span class="badge">{{waitingrequests.length}}</span>
+                </a>
+            </div>
         </div>
 
-
-        <div class="">
-            Get managed services
+        <div class="row">
+            <div class="col-xs-12" ng-repeat="department in departments">
+                {{department.name}}
+            </div>
         </div>
 
     </div>
 
 
 
-    <div class="top30" ng-if="sessionUser.isAdmin && !sessionUser.isManager && !sessionUser.isAccount">
+    <div ng-if="sessionUser.isAdmin && !sessionUser.isManager && !sessionUser.isAccount">
 
         <h2 translate>Wellcome</h2>
         <p translate>Your only role on the application is administrator, you can update your own account using the administration -> users menu</p>
@@ -144,7 +149,8 @@
 </div>
 
 <div class="top30 gadael-department" ng-if="department.days.collaborators.length>0">
-
+    <br />
+    <br />
     <h3><i class="fa fa-calendar text-info"></i> <span translate>My department: {{sessionUser.department.name}}</span></h3>
 
     <ng-include src="'partials/utils/common/department/nextweek.html'"></ng-include>

@@ -34,7 +34,7 @@ exports = module.exports = function(services, app) {
         find.populate('roles.manager');
         find.exec(function(err, user) {
             if (service.handleMongoError(err)) {
-                var departments = user.roles.manager.departments;
+                var departments = user.roles.manager.department;
 
                 if (undefined === departments || null === departments || 0 === departments.length) {
                     return service.error('No managed departments');
@@ -52,7 +52,3 @@ exports = module.exports = function(services, app) {
 
     return service;
 };
-
-
-
-

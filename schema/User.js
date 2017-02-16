@@ -110,7 +110,10 @@ exports = module.exports = function(params) {
             return next();
         }
 
-        userModel.count().where('isActive', true).exec(function(err, existingUsers) {
+        userModel.count()
+		.where('isActive', true)
+		.ne('_id', user._id)
+		.exec(function(err, existingUsers) {
 
             if (err) {
                 return next(err);

@@ -39,7 +39,11 @@ exports = module.exports = function(app, passport) {
             }
 
             if (!user) {
-                return done(null, false, { message: 'Unknown user' });
+                return done(null, false, { message: gt.gettext('Unknown user') });
+            }
+
+            if (!user.password) {
+                return done(null, false, { message: gt.gettext('No password set on user') });
             }
 
             User.validatePassword(password, user.password, function(err, isValid) {
@@ -48,7 +52,7 @@ exports = module.exports = function(app, passport) {
                 }
 
                 if (!isValid) {
-                    return done(null, false, { message: 'Invalid password' });
+                    return done(null, false, { message: gt.gettext('Invalid password') });
                 }
 
                 return done(null, user);

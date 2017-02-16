@@ -55,7 +55,7 @@ exports = module.exports = function getMail(app, request) {
 
         if (null !== requestLog) {
             body.outro = util.format(
-                gt.gettext('Workflow initiated by %s the %s'),
+                gt.gettext('Previous workflow step by %s the %s'),
                 requestLog.userCreated.name,
                 requestLog.timeCreated.toLocaleString()
             );
