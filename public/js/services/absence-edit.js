@@ -176,7 +176,11 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
             for(var j=0; j<periods.length; j++) {
                 if (undefined === periods[j].businessDays) {
-                    throw new Error('Missing businessDays on period from '+periods[j].dtstart+' to '+periods[j].dtend);
+
+                    //throw new Error('Missing businessDays on period from '+periods[j].dtstart+' to '+periods[j].dtend);
+                    // This is a partial half day, this is not ideal but here we consider the half day is used
+
+                    periods[j].businessDays = 0.5;
                 }
 
                 totalDays += periods[j].businessDays;
@@ -467,8 +471,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             if (0 === periods.length) {
                 throw new Error('No periods in selection');
             }
-
-            console.log(row);
 
             try {
                 distribution = createDistribution(renewals, periods, $scope.accountRights, false);
