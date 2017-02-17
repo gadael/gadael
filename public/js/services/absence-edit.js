@@ -84,7 +84,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
              */
             function getValueClass(value, availableQte, completed) {
 
-                if (undefined === value || null === value) {
+                if (undefined === value || null === value || null === availableQte) {
                     return '';
                 }
 

@@ -75,6 +75,8 @@ grunt --help
 
 ## TODO
 
+- [ ] Fix bug on quantity consuption preview
+- [ ] Incorrect renewal.consumed_quantity on right with infinity
 - [x] Get managed services on home page
 - [x] For new users, check the active checkbox by default
 - [x] Application need to be reloaded if company doc is modified
