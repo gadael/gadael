@@ -15,8 +15,8 @@
     </div>
 
     <div class="col-sm-6">
-        <p ng-if="beneficiary.right.require_approval"><i class="fa fa-lock"></i> <span translate>Require approval</span></p>
-        <p ng-if="!beneficiary.right.require_approval"><i class="fa fa-unlock-alt"></i> <span translate>Do not require approval</span></p>
+        <p ng-if="beneficiary.right.require_approval"><i class="fa fa-lock text-danger"></i> <span translate>Require approval</span></p>
+        <p ng-if="!beneficiary.right.require_approval"><i class="fa fa-unlock-alt text-success"></i> <span translate>Do not require approval</span></p>
 
 
         <ol>

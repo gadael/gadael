@@ -46,8 +46,20 @@ function validate(service, params)
 
 
 
+/**
+ * Prepare values for an accepted request
+ * @param {Object} fieldsToSet
+ */
+function setAccepted(fieldsToSet) {
+    fieldsToSet.status = {
+        created: 'accepted'
+    };
 
-
+    fieldsToSet.validInterval = [{
+        start: new Date(),
+        finish: null
+    }];
+}
 
 
 
@@ -83,14 +95,7 @@ function prepareRequestFields(service, params, user)
         // Set the request status
 
         if (0 === approvalSteps.length) {
-            fieldsToSet.status = {
-                created: 'accepted'
-            };
-
-            fieldsToSet.validInterval = [{
-                start: new Date(),
-                finish: null
-            }];
+            setAccepted(fieldsToSet);
 
         } else {
 
@@ -106,7 +111,15 @@ function prepareRequestFields(service, params, user)
             fieldsToSet.absence = {};
 
             return saveAbsence
-            .getCollectionFromDistribution(params.absence.distribution, account)
+            .getRightsWithApproval(service, params.absence.distribution)
+            .then(rights => {
+                if (0 === rights.length) {
+                    // No rights require approval, the default status is overwritten here
+                    setAccepted(fieldsToSet);
+                }
+
+                return saveAbsence.getCollectionFromDistribution(params.absence.distribution, account);
+            })
             .then(function(rightCollection) {
 
                 if (null !== rightCollection) {

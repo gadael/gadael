@@ -339,11 +339,12 @@ describe('request absence account rest service', function() {
                 expect(body.events.length).toEqual(2);
             }
             request1 = body;
+            delete request1.$outcome;
             done();
         });
     });
 
-
+/*
     let request1_events_ids = [];
     let request1_elems_ids = [];
 
@@ -615,7 +616,7 @@ describe('request absence account rest service', function() {
     });
 
 
-
+*/
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {

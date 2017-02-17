@@ -391,6 +391,28 @@ function deleteElements(service, params) {
 
 
 
+/**
+ * Test approval requirement from distribution
+ * @return {Promise}
+ */
+function getRightsWithApproval(service, distribution) {
+
+    let Right = service.app.db.models.Right;
+
+    return Promise.all(
+        distribution.map(elem => {
+            return Right.findOne({ _id: elem.right.id })
+            .exec();
+        })
+    )
+    .then(all => {
+        return all.reduce(right => {
+            return right.require_approval;
+        });
+    });
+}
+
+
 
 
 /**
@@ -583,6 +605,7 @@ function getEventsFromDistribution(distribution) {
 
 exports = module.exports = {
     saveAbsenceDistribution: saveAbsenceDistribution,
+    getRightsWithApproval: getRightsWithApproval,
     getCollectionFromDistribution: getCollectionFromDistribution,
     saveEmbedEvents: saveEmbedEvents,
     getEventsFromDistribution: getEventsFromDistribution,
