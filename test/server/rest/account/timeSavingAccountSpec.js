@@ -76,6 +76,7 @@ describe('time saving account rest service', function() {
     it('create a time saving account', function(done) {
         server.post('/rest/admin/rights', {
             name: 'Time saving account',
+            quantity: 0,
             quantity_unit: 'D',
             special: 'timesavingaccount',
             timeSavingAccount: {
@@ -244,4 +245,3 @@ describe('time saving account rest service', function() {
 
 
 });
-
