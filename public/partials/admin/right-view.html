@@ -28,7 +28,7 @@
                     </span>
 
                     <span ng-if="!right.specialright || right.specialright.editQuantity">
-                        <span translate>Default quantity on start renewal:</span> {{right.quantity | number}} {{right.disp_unit}}
+                        <span translate>Default quantity on start renewal:</span> {{right.quantity | rightQuantity}} {{right.disp_unit}}
                     </span>
                     <span ng-if="right.specialright && !right.specialright.editQuantity">
                         {{right.specialright.quantityLabel}}

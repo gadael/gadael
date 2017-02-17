@@ -120,6 +120,12 @@ define([], function() {
 
 		$scope.saveRight = function() {
 
+            if ($scope.right.infiniteQuantity) {
+                $scope.right.quantity = null;
+            }
+
+            delete $scope.right.infiniteQuantity;
+
             // remove autoadjustement if not active
             if (!$scope.right.autoAdjustmentActive) {
                 $scope.right.autoAdjustment = {

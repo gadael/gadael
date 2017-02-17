@@ -33,8 +33,9 @@ exports = module.exports = function(params) {
         // automatic distribution on this right on request creation
         autoDistribution: { type: Boolean, default:true },
 
-        quantity: { type: Number, min:0 },                          // initial quantity for each renewal
+        quantity: Number,                                           // initial quantity for each renewal
                                                                     // this can be overwritten by special quantity from a custom rule (ex: RTT)
+                                                                    // This can be null fo infinite quantity (sickness leave)
 
         quantity_unit: { type: String, enum:['D', 'H'], required: true },   // Days our Hours
 
