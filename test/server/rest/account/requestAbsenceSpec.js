@@ -344,7 +344,7 @@ describe('request absence account rest service', function() {
         });
     });
 
-/*
+
     let request1_events_ids = [];
     let request1_elems_ids = [];
 
@@ -616,7 +616,6 @@ describe('request absence account rest service', function() {
     });
 
 
-*/
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
