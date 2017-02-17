@@ -13,7 +13,7 @@ define(function() {
 
             return function departmentReload(department, relativeDays) {
 
-                if (undefined === department) {
+                if (undefined === department || null === department) {
                     return;
                 }
 
