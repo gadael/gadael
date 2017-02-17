@@ -371,6 +371,11 @@ exports = module.exports = function(params) {
             let specialright = right.getSpecialRight();
 
             if (null === specialright) {
+
+				if (null === right.quantity) {
+					return Infinity;
+				}
+
                 return right.quantity;
             }
 
@@ -421,6 +426,12 @@ exports = module.exports = function(params) {
              * @var {Number}
              */
             var userAdjustment = arr[1];
+
+
+			if (rightQuantity === Infinity) {
+				return Infinity;
+			}
+
 
             if (user.roles.account.arrival > renewal.finish) {
                 // this will not be used via the REST API because invalid renewal are disacarded before
@@ -769,6 +780,7 @@ exports = module.exports = function(params) {
             ]);
 
         }).then(arr => {
+
             return {
                 initial: arr[0],
                 consumed: arr[1],

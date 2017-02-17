@@ -48,7 +48,7 @@
                     <strong translate>Up to {{renewal.finish|date}}</strong>
 
                     <div ng-repeat="beneficiary in renewal.beneficiaries" class="row">
-                        <div class="col-xs-3">{{beneficiary.available_quantity|number}} {{beneficiary.available_quantity_dispUnit}}</div>
+                        <div class="col-xs-3">{{beneficiary.available_quantity|rightQuantity}} {{beneficiary.available_quantity_dispUnit}}</div>
                         <div class="col-xs-9">
                             <a ng-href="#/account/beneficiaries/{{beneficiary._id}}">
                                 <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}

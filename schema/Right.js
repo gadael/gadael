@@ -439,6 +439,10 @@ exports = module.exports = function(params) {
 
         let right = this;
 
+        if (null === right.quantity) {
+            return Promise.resolve(Infinity);
+        }
+
         if (undefined === field) {
             // Will take first the renewal overlapping the start date
             field = 'start';
