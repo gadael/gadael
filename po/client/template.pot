@@ -720,6 +720,12 @@ msgstr ""
 msgid "Department"
 msgstr ""
 
+#: public/partials/home.html
+msgid "Department Management"
+msgid_plural "Departments Management"
+msgstr[0] ""
+msgstr[1] ""
+
 #: public/partials/admin/user-edit.html
 #: public/partials/admin/user-view.html
 #: public/partials/admin/users.html
@@ -1132,10 +1138,6 @@ msgstr ""
 msgid "Managed department:"
 msgstr ""
 
-#: public/partials/home.html
-msgid "Manager"
-msgstr ""
-
 #: public/partials/admin/right-edit.html
 msgid "Manager, substituting one of his subordinates"
 msgstr ""
@@ -1545,6 +1547,10 @@ msgstr ""
 #: public/partials/admin/right-view.html
 #: public/js/controllers/admin/collections.js
 msgid "Right collections"
+msgstr ""
+
+#: public/partials/admin/account-collections-edit.html
+msgid "Right collections scheduling for {{user.lastname}} {{user.firstname}}"
 msgstr ""
 
 #: public/partials/utils/common/request/workperiod-recover-view.html

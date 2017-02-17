@@ -519,6 +519,14 @@ msgstr "Confirmer le mot de passe :"
 msgid "Confirmed"
 msgstr "Confirmé"
 
+#: public/partials/home.html
+msgid ""
+"Congratulation, this server has just been created and contain no users, "
+"please do not leave it that way."
+msgstr ""
+"Félicitations, ce serveur viens d'être créé et ne contient pas "
+"d'utilisateurs, vous pouvez corriger cela!"
+
 #: public/partials/user/settings-calendar.html
 msgid "Connect"
 msgstr "Connecter"
@@ -648,6 +656,10 @@ msgstr ""
 msgid "Create an adjustment every"
 msgstr "Créer un ajustement tous les"
 
+#: public/partials/home.html
+msgid "Create first administrator"
+msgstr "Créer le premier administrateur"
+
 #: public/partials/admin/compulsoryleave-edit.html
 msgid "Create leaves for users in"
 msgstr "Créer des congés pour les utilisateurs dans un"
@@ -730,6 +742,12 @@ msgstr "Supprimer"
 #: public/partials/utils/common/request/request-view-embed.html
 msgid "Department"
 msgstr "Service"
+
+#: public/partials/home.html
+msgid "Department Management"
+msgid_plural "Departments Management"
+msgstr[0] "Gestion du service"
+msgstr[1] "Gestion des services"
 
 #: public/partials/admin/user-edit.html public/partials/admin/user-view.html
 #: public/partials/admin/users.html
@@ -1184,10 +1202,6 @@ msgstr "Connexion"
 msgid "Managed department:"
 msgstr "Service supervisés :"
 
-#: public/partials/home.html
-msgid "Manager"
-msgstr "Gestionnaire"
-
 #: public/partials/admin/right-edit.html
 msgid "Manager, substituting one of his subordinates"
 msgstr "Chef de service, se substituant à l'un de ces subordonnés"
@@ -1604,6 +1618,11 @@ msgstr "Réinitialiser votre mot de passe?"
 #: public/js/controllers/admin/collections.js
 msgid "Right collections"
 msgstr "Régimes de congés"
+
+#: public/partials/admin/account-collections-edit.html
+msgid "Right collections scheduling for {{user.lastname}} {{user.firstname}}"
+msgstr ""
+"Planification des régimes de congés pour {{user.lastname}} {{user.firstname}}"
 
 #: public/partials/utils/common/request/workperiod-recover-view.html
 msgid "Right given name:"
@@ -2416,6 +2435,9 @@ msgid ""
 msgstr ""
 "Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
 "doit être répartie parmi les droits de congés suivants"
+
+#~ msgid "Manager"
+#~ msgstr "Gestionnaire"
 
 #~ msgid ""
 #~ "Consumption on the selected period: {{selection.days}} or {{selection."
