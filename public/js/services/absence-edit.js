@@ -190,6 +190,8 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
 
             /**
+             *
+             *
              * @param {object} selectePeriod    selected working period
              * @param {Date} startDate          Start date for the element
              * @param {Number} secQuantity      Duration for the element
@@ -204,15 +206,17 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     startDate = selectedPeriod.dtstart;
                 }
 
+                var validInterval = true;
+
                 if (selectedPeriod.dtend <= startDate) {
-                    return null;
+                    validInterval = false;
                 }
 
                 var endDate = new Date(startDate);
                 endDate.setTime(endDate.getTime() + (1000* secQuantity));
 
                 if (selectedPeriod.dtstart >= endDate) {
-                    return null;
+                    validInterval = false;
                 }
 
                 /*
@@ -228,6 +232,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 var dtend = selectedPeriod.dtend < endDate ? selectedPeriod.dtend : endDate;
 
                 return {
+                    validInterval: validInterval,
                     dtstart: dtstart,
                     dtend: dtend
                 };
@@ -238,19 +243,20 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
              * create events to embed in distribution
              * One event per working period
              *
-             * @param {Number} secQuantity      Duration for the element
-             * @param {Date} startDate          Start date for the element
+             * @param {Number} secQuantity              Duration for the element
+             * @param {Date} startDate                  Start date for the element
+             * @param {Boolean} testIntervalValidity    Verify duration match periods
              *
              * @return {array}
              */
-            function createEvents(secQuantity, startDate)
+            function createEvents(secQuantity, startDate, testIntervalValidity)
             {
 
                 var event, events = [], consumed;
 
                 periods.forEach(function(selectedPeriod) {
                     event = extractEvent(selectedPeriod, startDate, secQuantity);
-                    if (null !== event) {
+                    if (event.validInterval || !testIntervalValidity) {
                         events.push(event);
                         consumed = Math.round((event.dtend.getTime() - event.dtstart.getTime())/1000);
                         //console.log('consumed='+consumed+' secQuantity='+secQuantity);
@@ -353,7 +359,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                             renewal:renewalId
                         },
                         quantity: quantity,
-                        events: createEvents(getSecQuantity(rightId, quantity), startDate)
+                        events: createEvents(getSecQuantity(rightId, quantity), startDate, matchQuantity)
                     };
 
                     distribution.push(elem);
@@ -453,20 +459,35 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
         }
 
 
+        /**
+         * remove consuption on all rows
+         */
+        function removeAllConsumptions($scope) {
+            var row;
+
+            for (var id in $scope.distribution.renewal) {
+                if (!$scope.distribution.renewal.hasOwnProperty(id)) {
+                    continue;
+                }
+
+                row = $scope.distribution.renewal[id];
+
+                row.consumedQuantity = undefined;
+                //row.isLoading = true;
+            }
+        }
 
 
         /**
          * @param {Object} $scope
          * @param {Resource} consumption
-         * @param {String} renewalId
          * @param {String} user             User ID when admin create/modify absence for another user
          */
-        function setConsumedQuantity($scope, consumption, renewalId, user) {
+        function setConsumedQuantities($scope, consumption, user) {
 
             var renewals = $scope.distribution.renewal;
             var periods = $scope.selection.periods;
             var distribution;
-            var row = $scope.distribution.renewal[renewalId];
 
             if (0 === periods.length) {
                 throw new Error('No periods in selection');
@@ -475,7 +496,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             try {
                 distribution = createDistribution(renewals, periods, $scope.accountRights, false);
             } catch(e) {
-                row.consumedQuantity = 0;
+                removeAllConsumptions($scope);
                 return;
             }
 
@@ -493,11 +514,12 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 params.user = user;
             }
 
-
-            row.isLoading = true;
+            var row;
 
             // this is a GET in POST:
-            consumption.create(params).$promise.then(function(renewalCons) {
+            consumption.create(params).$promise
+            .then(function(renewalCons) {
+                removeAllConsumptions($scope);
                 for (var id in renewalCons) {
                     if (!renewalCons.hasOwnProperty(id)) {
                         continue;
@@ -508,7 +530,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         continue;
                     }
                     row.consumedQuantity = renewalCons[id];
-                    row.isLoading = false;
+                    //row.isLoading = false;
                 }
 
             });
@@ -717,11 +739,12 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
 
             $scope.$watch('distribution.renewal', function(newValue, oldValue) {
-                // detect modified renewal
+
+                // detect renewal modifications
                 for (var rId in newValue) {
                     if (newValue.hasOwnProperty(rId)) {
                         if (undefined === oldValue[rId] || (newValue[rId].quantity !== oldValue[rId].quantity)) {
-                            setConsumedQuantity($scope, consumption, rId, user._id);
+                            return setConsumedQuantities($scope, consumption, user._id);
                         }
                     }
                 }
@@ -794,7 +817,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
             createDistribution: createDistribution,
             cleanDocument: cleanDocument,
-            setConsumedQuantity: setConsumedQuantity,
             getNextButtonJob: getNextButtonJob,
             onceUserLoaded: onceUserLoaded,
             getLoadWorkingTimes: getLoadWorkingTimes

@@ -75,7 +75,7 @@ grunt --help
 
 ## TODO
 
-- [ ] Fix bug on quantity consuption preview
+- [x] Fix bug on quantity consumption preview
 - [ ] Incorrect renewal.consumed_quantity on right with infinity
 - [x] Get managed services on home page
 - [x] For new users, check the active checkbox by default
