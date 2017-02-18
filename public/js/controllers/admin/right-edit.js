@@ -65,11 +65,6 @@ define([], function() {
             // right modification
             $scope.right.$promise.then(function() {
 
-                //if ($scope.right.special) {
-                    // TODO: get special status for namereadonly
-                    // console.log($scope.right.special);
-                //}
-
                 $scope.right.autoAdjustmentActive = (
                     $scope.right.autoAdjustment.quantity !== undefined &&
                     $scope.right.autoAdjustment.quantity !== null
@@ -80,6 +75,8 @@ define([], function() {
                 if (undefined !== $scope.right.autoAdjustment.types) {
                     $scope.right.autoAdjustment.types = getOnlyIds($scope.right.autoAdjustment.types);
                 }
+
+                $scope.right.infiniteQuantity = (null === $scope.right.quantity);
             });
         } else {
 

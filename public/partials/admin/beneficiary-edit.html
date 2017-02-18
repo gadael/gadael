@@ -24,10 +24,10 @@
                     <span translate>Type:</span> {{beneficiary.right.type.name}}
                 </p>
                 <p>
-                    <span translate>Default quantity on start renewal:</span> {{beneficiary.right.quantity | number:1}} {{beneficiary.right.quantity_dispUnit}}
+                    <span translate>Default quantity on start renewal:</span> {{beneficiary.right.quantity | rightQuantity}} {{beneficiary.right.quantity_dispUnit}}
                 </p>
                 <p ng-if="beneficiary.right.addMonthly.quantity">
-                    <span translate>Monthly additions:</span> {{beneficiary.right.addMonthly.quantity | number:1}} {{beneficiary.right.quantity_dispUnit}}
+                    <span translate>Monthly additions:</span> {{beneficiary.right.addMonthly.quantity | number}} {{beneficiary.right.quantity_dispUnit}}
                 </p>
             </div>
 
@@ -80,9 +80,9 @@
             <div class="panel-collapse" role="tabpanel" bs-collapse-target>
                 <div class="panel-body">
                     <dl class="dl-horizontal col-md-8">
-                        <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity | number:1}} {{renewal.initial_quantity_dispUnit}} (<span translate>adjustments included</span>)</dd>
-                        <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity | number:1}} {{renewal.consumed_quantity_dispUnit}}</dd>
-                        <dt translate>Available:</dt>  <dd>{{renewal.available_quantity | number:1}} {{renewal.available_quantity_dispUnit}}</dd>
+                        <dt translate>Initial:</dt>    <dd>{{renewal.initial_quantity | rightQuantity}} {{renewal.initial_quantity_dispUnit}} (<span translate>adjustments included</span>)</dd>
+                        <dt translate>Consumed:</dt>   <dd>{{renewal.consumed_quantity | number}} {{renewal.consumed_quantity_dispUnit}}</dd>
+                        <dt translate>Available:</dt>  <dd>{{renewal.available_quantity | rightQuantity}} {{renewal.available_quantity_dispUnit}}</dd>
                     </dl>
 
                     <div class="col-md-4">

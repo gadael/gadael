@@ -63,7 +63,7 @@ exports = module.exports = function(user, account) {
                 renewalObj.initial_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.initial_quantity);
                 renewalObj.consumed_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.consumed_quantity);
                 renewalObj.available_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.available_quantity);
-                
+
                 beneficiary.renewals.push(renewalObj);
 
                 if (inTotal(renewalDocument)) {

@@ -130,8 +130,6 @@ define(['q', 'async'], function(Q, async) {
                  */
                 function addHistoryQuantity(request, quantity)
                 {
-                    console.log(request.validInterval);
-
                     if (undefined === request.validInterval) {
                         return;
                     }
@@ -286,7 +284,10 @@ define(['q', 'async'], function(Q, async) {
 
                     $scope.beneficiary = beneficiary;
 
-
+                    if (beneficiary.available_quantity === null) {
+                        // No graph if unlimited right
+                        return;
+                    }
 
                     createGraphValues(beneficiary.renewals, requests.$promise, function(value) {
                         $scope.timedAvailableQuantity = [{

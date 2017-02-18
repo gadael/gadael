@@ -10,7 +10,7 @@
 
 /**
  * Create the query with filters
- * 
+ *
  * @param {listItemsService} service
  * @param {array} params      query parameters if called by controller
  * @param {function} callback
@@ -18,7 +18,7 @@
  * @return {Promise}
  */
 function query(service, params, callback) {
-    
+
     return new Promise((resolve, reject) => {
 
         let find = service.app.db.models.Right.find();
@@ -62,21 +62,29 @@ function query(service, params, callback) {
  * process the mongoose documents resultset to an array of objects with additional content
  * like the current renewal
  * @param {Array} docs mongoose documents
- * 
+ *
  */
-function getResultSet(docs, callback) {
-    var async = require('async');
-    
+function getResultSet(app, docs, callback) {
+    const async = require('async');
+    const dispunits = app.utility.dispunits;
+
     async.map(
-        docs, 
+        docs,
         function(doc, done) {
             let right = doc.toObject();
             let specialRight = doc.getSpecialRight();
+
             if (specialRight) {
                 right.specialright = specialRight.getServiceObject();
+
+
+                if (!specialRight.editQuantity) {
+                    right.quantity = undefined;
+                }
             }
 
-            
+            right.dispUnit = dispunits(right.quantity_unit, right.quantity);
+
             doc.getLastRenewal()
                 .then(function(lastRenewal) {
                     right.lastRenewal = lastRenewal;
@@ -89,7 +97,7 @@ function getResultSet(docs, callback) {
                 .catch(function(err) {
                     done(err);
                 });
-        }, 
+        },
         callback
     );
 }
@@ -97,19 +105,19 @@ function getResultSet(docs, callback) {
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.list(app);
-    
+
     /**
      * Call the vacation rights list service
-     * 
+     *
      * @param {Object} params
      * @param {function} [paginate]  Optional parameter to paginate the results
      *
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-          
+
         query(service, params,(err, listQuery) => {
 
             if (err) {
@@ -117,10 +125,10 @@ exports = module.exports = function(services, app) {
             }
 
             service.resolveQuery(
-                listQuery.select('name description type quantity quantity_unit rules sortkey').sort('name'),
+                listQuery.sort('name'),
                 paginate,
                 function(err, docs) {
-                    getResultSet(docs, service.mongOutcome);
+                    getResultSet(app, docs, service.mongOutcome);
                 }
             );
         });
@@ -128,11 +136,7 @@ exports = module.exports = function(services, app) {
 
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
-
-

@@ -37,7 +37,14 @@
                     </div>
                 </div>
 
-				<div class="col-md-5 hidden-xs hidden-sm">{{right.type.name}}</div>
+				<div class="col-md-3 hidden-xs">
+					<span title="{{right.specialright.quantityLabel}}" bs-tooltip>{{right.quantity | rightQuantity}}</span> {{right.dispUnit}}
+				</div>
+
+				<div class="col-md-2 hidden-xs hidden-sm">
+					<i ng-if="right.require_approval" class="fa fa-lock text-danger" title="{{'Require approval'|translate}}" bs-tooltip></i>
+			        <i ng-if="!right.require_approval" class="fa fa-unlock-alt text-success" title="{{'Do not require approval'|translate}}" bs-tooltip></i>
+				</div>
 			</div>
 		</div>
 

@@ -69,7 +69,7 @@ module.exports = exports = function(app) {
             {
                 name: gt.gettext('Sickness absence'),
                 type: '5740adf51cf1a569643cc50b',
-                quantity: 0,
+                quantity: null,
                 activeFor: { account: false },
                 autoDistribution: false
             }

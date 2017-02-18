@@ -35,7 +35,7 @@ exports = module.exports = function(params) {
 
         quantity: Number,                                           // initial quantity for each renewal
                                                                     // this can be overwritten by special quantity from a custom rule (ex: RTT)
-                                                                    // This can be null fo infinite quantity (sickness leave)
+                                                                    // This can be null for infinite quantity (sickness leave)
 
         quantity_unit: { type: String, enum:['D', 'H'], required: true },   // Days our Hours
 
@@ -323,11 +323,14 @@ exports = module.exports = function(params) {
 
         let index = new SpecialRightIndex(params.app);
         let list = index.objects;
+        let right = this;
 
-
-
-        if (undefined === list[this.special]) {
+        if (null === right.special || undefined === right.special) {
             return null;
+        }
+
+        if (undefined === list[right.special]) {
+            throw new Error('Undefined special right object '+right.special);
         }
 
 

@@ -38,6 +38,13 @@ module.exports = exports = function(app) {
                 type: '5740adf51cf1a569643cc50e',
                 quantity: 75,
                 activeFor: {  account: false }
+            },
+            {
+                name: gt.gettext('Sickness absence'),
+                type: '5740adf51cf1a569643cc50b',
+                quantity: null,
+                activeFor: { account: false },
+                autoDistribution: false
             }
         ]
     };

@@ -1289,6 +1289,10 @@ msgstr ""
 msgid "No constraints on right parameters"
 msgstr ""
 
+#: public/partials/admin/right-edit.html
+msgid "No initial quantity, unbounded right"
+msgstr ""
+
 #: public/partials/account/beneficiaries.html
 msgid "No open period"
 msgstr ""

@@ -1358,6 +1358,10 @@ msgstr "Pas de compte épargne temps disponible"
 msgid "No constraints on right parameters"
 msgstr "Pas de contraintes sur les paramètres du droit"
 
+#: public/partials/admin/right-edit.html
+msgid "No initial quantity, unbounded right"
+msgstr "Pas de quantité initial, droit non borné"
+
 #: public/partials/account/beneficiaries.html
 msgid "No open period"
 msgstr "pas de période ouverte"

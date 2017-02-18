@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-17 19:43+0100\n"
+"POT-Creation-Date: 2017-02-18 17:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1059,19 +1059,19 @@ msgstr ""
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:921
+#: schema/Right_Renewal.js:933
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:930
+#: schema/Right_Renewal.js:942
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 
-#: schema/Right_Renewal.js:964
+#: schema/Right_Renewal.js:976
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "

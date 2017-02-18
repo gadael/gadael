@@ -18,7 +18,13 @@ define(['angular', 'services'], function (angular) {
 		    var numberFilter = $filter('number');
 		    return function(quantity) {
 
+				if (undefined === quantity) {
+					// special rights with variable quantity
+					return '(?)';
+				}
+
 				if (null === quantity) {
+					// right with infinite quantity
 					return '∞';
 				}
 

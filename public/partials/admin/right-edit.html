@@ -46,7 +46,7 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group" ng-if="!right.infiniteQuantity">
                             <label for="addMonthly_quantity" translate>Quantity to add every month</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="addMonthly_quantity" ng-model="right.addMonthly.quantity" step="any" />
@@ -65,7 +65,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" ng-if="!right.infiniteQuantity">
                         <label class="checkbox-inline"><input type="checkbox" ng-model="right.autoAdjustmentActive" /><span translate>Adjust the available quantity automatically from the consumption of other rights</span></label>
                     </div>
 

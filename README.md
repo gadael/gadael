@@ -75,8 +75,10 @@ grunt --help
 
 ## TODO
 
+- [ ] Fix special right error, do not display quantity modification if not allowed
+- [x] Hide graph when total quantity is infinity
 - [x] Fix bug on quantity consumption preview
-- [ ] Incorrect renewal.consumed_quantity on right with infinity
+- [x] Incorrect renewal.consumed_quantity on right with infinity
 - [x] Get managed services on home page
 - [x] For new users, check the active checkbox by default
 - [x] Application need to be reloaded if company doc is modified
@@ -85,6 +87,7 @@ grunt --help
 - [ ] ICSDB integration for non working days calendar
 - [ ] ICS Export
 - [ ] Right collection modification (report quantity on new rights)
+- [ ] Show the waiting quantity to the user
 - [ ] Manager substitute one of his subordinates to create request
 - [ ] Add checkbox on absence creation to bypass approval when the admin create the request on behalf
 - [ ] Hide time saving account option if not available
