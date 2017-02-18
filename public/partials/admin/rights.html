@@ -24,13 +24,13 @@
 				</div>
 
                 <div class="col-sm-5 col-xs-9">
-                    <i class="fa fa-asterisk" style="color:{{right.type.color}}" title="{{right.type.name}}"></i> <strong>{{right.name}}</strong><br />
+                    <i class="line4 fa fa-asterisk" style="color:{{right.type.color}}" title="{{right.type.name}}"></i> <strong>{{right.name}}</strong><br />
 
-                    <div ng-if="!right.currentRenewal">
+                    <div class="line4" ng-if="!right.currentRenewal">
                         <i class="fa fa-exclamation-triangle text-warning"></i> <span translate>No active renewal</span>
                     </div>
 
-                    <div ng-if="right.currentRenewal">
+                    <div class="line4" ng-if="right.currentRenewal">
                         <i class="fa fa-calendar text-info"></i>
                         <span translate>From</span> {{right.currentRenewal.start|date}}
                         <span translate>to</span> {{right.currentRenewal.finish|date}}
@@ -44,6 +44,11 @@
 				<div class="col-md-2 hidden-xs hidden-sm">
 					<i ng-if="right.require_approval" class="fa fa-lock text-danger" title="{{'Require approval'|translate}}" bs-tooltip></i>
 			        <i ng-if="!right.require_approval" class="fa fa-unlock-alt text-success" title="{{'Do not require approval'|translate}}" bs-tooltip></i>
+
+					<div class="line4">
+						<i ng-if="right.activeFor.account" class="text-info fa fa-male" title="{{'Active for the user'|translate}}" bs-tooltip></i>
+	                    <i ng-if="right.activeFor.admin" class="text-info glyphicon glyphicon-star" title="{{'Active for the administrator'|translate}}" bs-tooltip></i>
+					</div>
 				</div>
 			</div>
 		</div>

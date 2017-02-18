@@ -77,6 +77,8 @@ define([], function() {
                 }
 
                 $scope.right.infiniteQuantity = (null === $scope.right.quantity);
+
+                $scope.setSpecialRight($scope.right.specialright);
             });
         } else {
 

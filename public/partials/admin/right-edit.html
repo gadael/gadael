@@ -89,7 +89,7 @@
 
                     <div class="form-group" ng-if="right.autoAdjustmentActive">
                         <label for="autoAdjustment_types" translate>Consumed on types</label>
-                        <button id="autoAdjustment_types" type="button" class="form-control btn btn-default" ng-model="right.autoAdjustment.types" data-multiple="1" bs-options="type._id as type.name for type in types" bs-select>
+                        <button id="autoAdjustment_types" type="button" class="form-control btn btn-default" ng-model="right.autoAdjustment.types" data-multiple="1" bs-options="type._id as type.name for type in types" placeholder="{{'Select types'|translate}}" bs-select>
                           Action <span class="caret"></span>
                         </button>
                     </div>
@@ -105,7 +105,7 @@
                     <h4 translate>Active for:</h4>
                     <div class="form-group" style="margin-left:2em">
 
-                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.account" /><span translate>Account</span></label><br />
+                        <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.account" /><span translate>User account</span></label><br />
                         <label class="checkbox-inline" bs-tooltip title="{{'This functionality is not yet available'|translate}}"><input type="checkbox" ng-model="right.activeFor.manager" disabled="disabled" /><span translate>Manager, substituting one of his subordinates</span></label><br />
                         <label class="checkbox-inline"><input type="checkbox" ng-model="right.activeFor.admin" /><span translate>Admin, substituting one of his subordinates</span></label>
                     </div>
