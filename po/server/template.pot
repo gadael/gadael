@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-18 17:34+0100\n"
+"POT-Creation-Date: 2017-02-18 20:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1290,7 +1290,8 @@ msgstr ""
 msgid "The absence must be within the renewal period"
 msgstr ""
 
-#: schema/data/fr.js:70
+#: schema/data/fr.js:70 schema/data/ch.js:63 schema/data/be.js:43
+#: schema/data/uk.js:49
 msgid "Sickness absence"
 msgstr ""
 

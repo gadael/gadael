@@ -67,10 +67,6 @@ msgstr ""
 msgid "Accepted"
 msgstr ""
 
-#: public/partials/admin/right-edit.html
-msgid "Account"
-msgstr ""
-
 #: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to consumed quantity"
 msgstr ""
@@ -101,6 +97,14 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to the user seniority"
+msgstr ""
+
+#: public/partials/admin/rights.html
+msgid "Active for the administrator"
+msgstr ""
+
+#: public/partials/admin/rights.html
+msgid "Active for the user"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
@@ -788,6 +792,7 @@ msgstr ""
 
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
+#: public/partials/admin/rights.html
 msgid "Do not require approval"
 msgstr ""
 
@@ -1541,6 +1546,7 @@ msgstr ""
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/right-edit.html
+#: public/partials/admin/rights.html
 msgid "Require approval"
 msgstr ""
 
@@ -1757,6 +1763,10 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Select rule type"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Select types"
 msgstr ""
 
 #: public/partials/admin/recoverquantity-edit.html
@@ -2079,6 +2089,10 @@ msgstr ""
 
 #: public/partials/admin/right-edit.html
 msgid "Use default saving interval (renewal interval)"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "User account"
 msgstr ""
 
 #: public/partials/admin/user-view-account.html

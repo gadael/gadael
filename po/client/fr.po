@@ -73,10 +73,6 @@ msgstr "Accepter"
 msgid "Accepted"
 msgstr "Accepté"
 
-#: public/partials/admin/right-edit.html
-msgid "Account"
-msgstr "Compte"
-
 #: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to consumed quantity"
 msgstr "Activer le droit en fonction de la quantité consommée"
@@ -109,6 +105,14 @@ msgstr "Activer le droit en fonction de l'âge de l'utilisateur"
 #: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to the user seniority"
 msgstr "Activer le droit en fonction de l'ancienneté"
+
+#: public/partials/admin/rights.html
+msgid "Active for the administrator"
+msgstr "Actif pour l'administrateur"
+
+#: public/partials/admin/rights.html
+msgid "Active for the user"
+msgstr "Actif pour l'utilisateur"
 
 #: public/partials/admin/right-edit.html
 msgid "Active for:"
@@ -812,6 +816,7 @@ msgstr ""
 
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
+#: public/partials/admin/rights.html
 msgid "Do not require approval"
 msgstr "Ne requiert pas d'approbation"
 
@@ -1610,7 +1615,7 @@ msgstr "Demandes en attente d'approbation"
 
 #: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
-#: public/partials/admin/right-edit.html
+#: public/partials/admin/right-edit.html public/partials/admin/rights.html
 msgid "Require approval"
 msgstr "Requiert une approbation"
 
@@ -1844,6 +1849,10 @@ msgstr "Rechercher :"
 #: public/partials/admin/rightrule-edit.html
 msgid "Select rule type"
 msgstr "Sélectionner le type de la règle"
+
+#: public/partials/admin/right-edit.html
+msgid "Select types"
+msgstr "Sélectionner les types"
 
 #: public/partials/admin/recoverquantity-edit.html
 #: public/partials/admin/right-edit.html
@@ -2214,6 +2223,10 @@ msgstr "Utiliser la période d'ouverture par défaut"
 msgid "Use default saving interval (renewal interval)"
 msgstr "Utiliser la période d'épargne par défaut (période du renouvellement)"
 
+#: public/partials/admin/right-edit.html
+msgid "User account"
+msgstr "Compte utilisateur"
+
 #: public/partials/admin/user-view-account.html
 msgid "User quantity"
 msgstr "Quantité de l'utilisateur"
@@ -2439,6 +2452,9 @@ msgid ""
 msgstr ""
 "Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
 "doit être répartie parmi les droits de congés suivants"
+
+#~ msgid "Account"
+#~ msgstr "Compte"
 
 #~ msgid "Manager"
 #~ msgstr "Gestionnaire"
