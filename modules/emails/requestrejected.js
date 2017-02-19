@@ -18,7 +18,7 @@ exports = module.exports = function getMail(app, request) {
 
     mail.setSubject(util.format(gt.gettext('%s: request rejected'), app.config.company.name));
 
-    let requestLink = app.config.url +'/#/account/'+request.getUrlPathType()+'/'+ request._id;
+    let requestLink = app.config.url +'#/account/requests/'+request.getUrlPathType()+'/'+ request._id;
 
     return request.getUser()
     .then(user => {

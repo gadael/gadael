@@ -18,7 +18,7 @@ exports = module.exports = function getMail(app, request) {
 
     let mail = new Mail(app);
 
-    let requestLink = app.config.url +'/#/account/'+request.getUrlPathType()+'/'+ request._id;
+    let requestLink = app.config.url +'#/account/requests/'+request.getUrlPathType()+'/'+ request._id;
 
     mail.setSubject(util.format(gt.gettext('%s: request created'), app.config.company.name));
 

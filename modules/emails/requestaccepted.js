@@ -21,7 +21,7 @@ exports = module.exports = function getMail(app, request) {
 
     let workflowCreation = request.getLastNonApprovalRequestLog();
 
-    let requestLink = app.config.url +'/#/account/'+request.getUrlPathType()+'/'+ request._id;
+    let requestLink = app.config.url +'#/account/requests/'+request.getUrlPathType()+'/'+ request._id;
 
     let intro;
 
