@@ -2235,10 +2235,6 @@ msgstr "Quantité de l'utilisateur"
 msgid "User requests"
 msgstr "Demandes de l'utilisateur"
 
-#: public/partials/login/login.html
-msgid "Username or Email:"
-msgstr "Identifiant ou email :"
-
 #: public/js/controllers/admin/users.js
 msgid "Users"
 msgstr "Utilisateurs"
@@ -2437,6 +2433,10 @@ msgstr "Votre agenda est connecté"
 msgid "Your calendar is not connected"
 msgstr "Votre agenda n'est pas connecté"
 
+#: public/partials/login/login.html
+msgid "Your email:"
+msgstr "Votre email :"
+
 #: public/partials/home.html
 msgid ""
 "Your only role on the application is administrator, you can update your own "
@@ -2452,6 +2452,9 @@ msgid ""
 msgstr ""
 "Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
 "doit être répartie parmi les droits de congés suivants"
+
+#~ msgid "Username or Email:"
+#~ msgstr "Identifiant ou email :"
 
 #~ msgid "Account"
 #~ msgstr "Compte"

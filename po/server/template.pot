@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-18 20:23+0100\n"
+"POT-Creation-Date: 2017-02-19 18:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1098,7 +1098,7 @@ msgstr ""
 msgid "Waiting approval"
 msgstr ""
 
-#: schema/Request.js:365
+#: schema/Request.js:365 schema/ApprovalStep.js:73
 msgid "Accepted"
 msgstr ""
 
@@ -1325,7 +1325,7 @@ msgstr ""
 msgid "Interval values must be set in a correct order"
 msgstr ""
 
-#: schema/ApprovalStep.js:72 schema/ApprovalStep.js:73
+#: schema/ApprovalStep.js:72
 msgid "Waiting"
 msgstr ""
 

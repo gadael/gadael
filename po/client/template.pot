@@ -2103,10 +2103,6 @@ msgstr ""
 msgid "User requests"
 msgstr ""
 
-#: public/partials/login/login.html
-msgid "Username or Email:"
-msgstr ""
-
 #: public/js/controllers/admin/users.js
 msgid "Users"
 msgstr ""
@@ -2289,6 +2285,10 @@ msgstr ""
 
 #: public/partials/user/settings-calendar.html
 msgid "Your calendar is not connected"
+msgstr ""
+
+#: public/partials/login/login.html
+msgid "Your email:"
 msgstr ""
 
 #: public/partials/home.html

@@ -75,7 +75,8 @@ grunt --help
 
 ## TODO
 
-- [ ] Fix special right error, do not display quantity modification if not allowed
+- [ ] Confirm all requests for one user msut not confirm requests from other users
+- [x] Fix special right error, do not display quantity modification if not allowed
 - [x] Hide graph when total quantity is infinity
 - [x] Fix bug on quantity consumption preview
 - [x] Incorrect renewal.consumed_quantity on right with infinity
