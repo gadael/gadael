@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-19 18:14+0100\n"
+"POT-Creation-Date: 2017-02-19 20:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1413,27 +1413,31 @@ msgstr ""
 msgid "Wallis and Futuna non working days"
 msgstr ""
 
-#: schema/Calendar.js:369
+#: schema/Calendar.js:361
+msgid "School vacation"
+msgstr ""
+
+#: schema/Calendar.js:376
 msgid "Belgium non working days"
 msgstr ""
 
-#: schema/Calendar.js:381
+#: schema/Calendar.js:388
 msgid "Ireland non working days"
 msgstr ""
 
-#: schema/Calendar.js:422 schema/Calendar.js:522
+#: schema/Calendar.js:429 schema/Calendar.js:529
 #, javascript-format
 msgid "%s non working days"
 msgstr ""
 
-#: schema/Calendar.js:440
+#: schema/Calendar.js:447
 msgid "England and Wales legal holidays"
 msgstr ""
 
-#: schema/Calendar.js:446
+#: schema/Calendar.js:453
 msgid "North Ireland legal holidays"
 msgstr ""
 
-#: schema/Calendar.js:452
+#: schema/Calendar.js:459
 msgid "Scotland legal holidays"
 msgstr ""

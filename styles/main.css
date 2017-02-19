@@ -362,3 +362,26 @@ body .line6 * { line-height: 2.4em }
 [x-ng-click] {
     cursor: pointer;
 }
+
+
+/* Teleperiod overwrite */
+
+.teleperiod .day .date, .teleperiod .day .month {
+	fill: #888;
+}
+
+.teleperiod .buttonarrow {
+	fill: #000;
+}
+
+.teleperiod .day .event {
+	fill: #ef6933;
+}
+
+.teleperiod .day .category-nonworking {
+    fill: #f2d714;
+}
+
+.teleperiod .day rect {
+	fill: #f9f9f9;
+}

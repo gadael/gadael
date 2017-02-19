@@ -955,6 +955,7 @@ msgstr ""
 #: public/partials/admin/user-view-account.html
 #: public/partials/manager/waitingrequests.html
 #: public/partials/utils/common/calendar/popover-event.html
+#: public/partials/utils/common/request/absence-view.html
 #: public/partials/utils/common/request/request-list-type.html
 msgid "From"
 msgstr ""
@@ -2018,6 +2019,7 @@ msgstr ""
 #: public/partials/admin/user-view-account.html
 #: public/partials/manager/waitingrequests.html
 #: public/partials/utils/common/calendar/popover-event.html
+#: public/partials/utils/common/request/absence-view.html
 #: public/partials/utils/common/request/request-list-type.html
 msgid "To"
 msgstr ""

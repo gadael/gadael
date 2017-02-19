@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-17 19:36+0100\n"
-"PO-Revision-Date: 2017-02-17 19:37+0100\n"
+"POT-Creation-Date: 2017-02-19 20:49+0100\n"
+"PO-Revision-Date: 2017-02-19 20:49+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1123,7 +1123,7 @@ msgstr "Vous êtes déconnecté de votre agenda Google"
 msgid "The renewals periods must not overlap"
 msgstr "Les périodes de renouvellements ne doivent pas se superposer"
 
-#: schema/Right_Renewal.js:921
+#: schema/Right_Renewal.js:933
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
@@ -1131,7 +1131,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, le type "
 "congés payés annuels est requis"
 
-#: schema/Right_Renewal.js:930
+#: schema/Right_Renewal.js:942
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
@@ -1139,7 +1139,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, la "
 "quantité de congés payés annuels est requise"
 
-#: schema/Right_Renewal.js:964
+#: schema/Right_Renewal.js:976
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1168,7 +1168,7 @@ msgstr "Inconnu"
 msgid "Waiting approval"
 msgstr "En attente d'approbation"
 
-#: schema/Request.js:365
+#: schema/Request.js:365 schema/ApprovalStep.js:73
 msgid "Accepted"
 msgstr "Accepté"
 
@@ -1362,7 +1362,8 @@ msgstr ""
 msgid "The absence must be within the renewal period"
 msgstr "La demande doit être comprise dans la période du renouvellement"
 
-#: schema/data/fr.js:70
+#: schema/data/fr.js:70 schema/data/ch.js:63 schema/data/be.js:43
+#: schema/data/uk.js:49
 msgid "Sickness absence"
 msgstr "Arrêt maladie"
 
@@ -1398,7 +1399,7 @@ msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
 msgid "Interval values must be set in a correct order"
 msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 
-#: schema/ApprovalStep.js:72 schema/ApprovalStep.js:73
+#: schema/ApprovalStep.js:72
 msgid "Waiting"
 msgstr "En attente"
 
@@ -1486,28 +1487,32 @@ msgstr "Jours fériés sur l'Île de la Réunion"
 msgid "Wallis and Futuna non working days"
 msgstr "Jours fériés de Wallis et Futuna"
 
-#: schema/Calendar.js:369
+#: schema/Calendar.js:361
+msgid "School vacation"
+msgstr "Vacances scolaires"
+
+#: schema/Calendar.js:376
 msgid "Belgium non working days"
 msgstr "Jours fériés en Belgique"
 
-#: schema/Calendar.js:381
+#: schema/Calendar.js:388
 msgid "Ireland non working days"
 msgstr "Jours fériés en Irlande"
 
-#: schema/Calendar.js:422 schema/Calendar.js:522
+#: schema/Calendar.js:429 schema/Calendar.js:529
 #, javascript-format
 msgid "%s non working days"
 msgstr "%s jours fériés"
 
-#: schema/Calendar.js:440
+#: schema/Calendar.js:447
 msgid "England and Wales legal holidays"
 msgstr "Jours fériés en Angleterre et Pays de Galles"
 
-#: schema/Calendar.js:446
+#: schema/Calendar.js:453
 msgid "North Ireland legal holidays"
 msgstr "Jours fériés en Irlande du Nord"
 
-#: schema/Calendar.js:452
+#: schema/Calendar.js:459
 msgid "Scotland legal holidays"
 msgstr "Jours fériés en Écosse"
 

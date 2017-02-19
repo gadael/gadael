@@ -355,6 +355,13 @@ exports = module.exports = function(params) {
                     url: icsdbBaseUrl+'france-wallis-futuna-nonworkingdays.ics',
                     type: 'nonworkingday'
                 });
+
+
+				allCalendars.push({
+                    name: gt.gettext('School vacation'),
+                    url: 'http://www.education.gouv.fr/download.php?file=http%3A%2F%2Fcache.media.education.gouv.fr%2Fics%2FCalendrier_Scolaire_Zones_A_B_C.ics',
+                    type: 'holiday'
+                });
             }
 
 
