@@ -6,7 +6,7 @@
 
 nodejs leaves management application
 
-In developpement, not ready for production
+
 
 This application help you manage presence of your employees in your company. The staff can do requests, access to their planning, the department planning, the remaining vacation rights...
 
@@ -16,6 +16,14 @@ This application help you manage presence of your employees in your company. The
 
 Approval by managers is following hierachical departments structure.
 
+
+Video preview:
+
+[![Video](https://img.youtube.com/vi/UFmf0DnBlDw/0.jpg)](https://www.youtube.com/watch?v=UFmf0DnBlDw)
+
+Admin view screenshoot:
+
+![View a right](https://www.gadael.com/fr/docs/version-master/images/right-view-annual-leave.png)
 
 ## Install on a debian system
 
