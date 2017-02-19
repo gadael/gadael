@@ -49,7 +49,8 @@ define([], function() {
                 if ('waiting' !== request.approvalSteps[i].status) {
                     continue;
                 }
-                stat.approval.position = i+1;
+
+                stat.approval.position = Math.abs(i-total);
 
                 if (undefined !== request.approvalSteps[i]) {
                     stat.approval.department = request.approvalSteps[i].department;
@@ -58,6 +59,7 @@ define([], function() {
             }
 
             stat.approval.steps = total;
+
 
         }
 

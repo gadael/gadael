@@ -33,6 +33,7 @@ exports = module.exports = function getApprovalStepsModule(user) {
     /**
      * Get approval steps from the departments and ancestors
      * bypass steps with no approvers (departments without manager)
+     * last array item is the first approval step
      *
      * @param {Array} departments
      * @return {Promise} resolve to the list of steps
