@@ -75,14 +75,6 @@ grunt --help
 
 ## TODO
 
-- [ ] Confirm all requests for one user msut not confirm requests from other users
-- [x] Fix special right error, do not display quantity modification if not allowed
-- [x] Hide graph when total quantity is infinity
-- [x] Fix bug on quantity consumption preview
-- [x] Incorrect renewal.consumed_quantity on right with infinity
-- [x] Get managed services on home page
-- [x] For new users, check the active checkbox by default
-- [x] Application need to be reloaded if company doc is modified
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] ICSDB integration for non working days calendar

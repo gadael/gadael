@@ -13,11 +13,11 @@
         </h2>
 
         <div class="col-xs-4 text-right top30">
-            <button class="btn btn-primary" type="button" ng-click="accept()">
+            <button class="btn btn-primary" type="button" ng-click="accept(user.requests)">
                 <i class="fa fa-thumbs-up"></i>
                 <span class="hidden-xs"> <span translate>Accept</span> <span class="badge">{{user.requests.length}}</span></span>
             </button>
-            <button class="btn btn-danger" type="button" ng-click="reject()">
+            <button class="btn btn-danger" type="button" ng-click="reject(user.requests)">
                 <i class="fa fa-thumbs-down"></i>
                 <span  class="hidden-xs"> <span translate>Reject</span> <span class="badge">{{user.requests.length}}</span></span>
             </button>
