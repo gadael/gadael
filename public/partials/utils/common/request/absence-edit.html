@@ -30,12 +30,21 @@
     </form>
 </div>
 
-<div ng-if="assignments">
+<div class="top30" ng-if="assignments">
 
-    <div class="top30">
-        <p translate>From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}</p>
-        <p translate>Collection on the selected period: {{collection.name}}</p>
-        <p class="text-primary" translate>Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights</p>
+    <div class="row">
+        <div class="col-sm-7">
+            <p translate>From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}</p>
+            <p translate>Collection on the selected period: {{collection.name}}</p>
+
+        </div>
+
+        <div class="col-sm-5">
+            <div class="bg-info pad10">
+                <i class="fa fa-question-circle fa-pull-left fa-3x" style="color:white"></i>
+                <p translate>Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights</p>
+            </div>
+        </div>
     </div>
 
     <form class="top30 form-horizontal" role="form">
@@ -45,7 +54,7 @@
             <thead>
                 <tr>
                     <th class="col-sm-2" translate>Distribution</th>
-                    <th translate>Consumption</th>
+                    <th class="hidden-xs" translate>Consumption</th>
                     <th translate>My rights</th>
                     <th class="hidden-xs" translate>Available quantity</th>
                 </tr>
@@ -54,7 +63,7 @@
             <tfoot>
                 <tr>
                     <td>{{distribution.total}}</td>
-                    <td>{{distribution.totalConsuption}}</td>
+                    <td class="hidden-xs">{{distribution.totalConsuption}}</td>
                     <td></td>
                     <td class="hidden-xs">{{available.total}}</td>
                 </tr>
@@ -75,7 +84,7 @@
                         <input id="ar{{accountRight.renewal._id}}" type="number" class="form-control" ng-model="distribution.renewal[accountRight.renewal._id].quantity" step="any" min="0" />
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
                     </td>
-                    <td>
+                    <td class="hidden-xs">
                         <span ng-if="distribution.renewal[accountRight.renewal._id].consumedQuantity">
                             <i ng-if="distribution.renewal[accountRight.renewal._id].isLoading" class="fa fa-spinner fa-pulse fa-fw"></i> {{distribution.renewal[accountRight.renewal._id].consumedQuantity|number}} {{accountRight.disp_unit}}
                         </span>
@@ -92,12 +101,16 @@
                     </td>
                 </tr>
             </tbody>
-
-
         </table>
 
-        <button class="btn btn-primary" ng-click="saveAbsence()" ng-disabled="!distribution.completed" translate>Save</button>
-        <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
 
+        <div class="hidden-lg hidden-md hidden-sm">
+            <span translate>Total consumption:</span> <strong>{{distribution.totalConsuption}}</strong>
+        </div>
+
+        <div class="top15">
+            <button class="btn btn-primary" ng-click="saveAbsence()" ng-disabled="!distribution.completed" translate>Save</button>
+            <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+        </div>
     </form>
 </div>
