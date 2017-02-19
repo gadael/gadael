@@ -70,7 +70,7 @@ exports = module.exports = function(params) {
 
         switch(this.status) {
             case 'waiting':     return gt.gettext('Waiting');
-            case 'accepted':    return gt.gettext('Waiting');
+            case 'accepted':    return gt.gettext('Accepted');
             case 'rejected':    return gt.gettext('Rejected');
         }
 
