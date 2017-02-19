@@ -1058,7 +1058,7 @@ msgstr "Titre du groupe de droits (forme plurielle)"
 
 #: public/partials/admin/calendar-edit.html
 msgid "Half day hour"
-msgstr "Heure de la demie-journée"
+msgstr "Heure de la demi-journée"
 
 #: public/js/controllers/home.js
 msgid "Home"

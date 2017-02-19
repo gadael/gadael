@@ -41,11 +41,11 @@
     <h4 class="text-info"><i class="fa fa-book"></i> <span translate>Rights distribution</span></h4>
     <div class="gadael-list-rows">
         <div class="row" ng-repeat="element in request.absence.distribution">
-            <div class="col-md-1">{{element.quantity| number}} {{element.right.dispUnit}}</div>
-            <div class="col-md-5"><i class="fa fa-asterisk" style="color:{{element.right.type.color}}" title="{{element.right.type.name}}"></i> {{element.right.name}}</div>
-            <div class="col-md-6 hidden-xs hidden-sm">
-                <span class="col-md-2">From</span> <span class="col-md-10">{{element.events[0].dtstart|date:'medium'}}</span>
-                <span class="col-md-2">To</span>   <span class="col-md-10">{{element.events[element.events.length-1].dtend|date:'medium'}}</span>
+            <div class="col-sm-1">{{element.quantity| number}} {{element.right.dispUnit}}</div>
+            <div class="col-sm-5"><i class="fa fa-asterisk" style="color:{{element.right.type.color}}" title="{{element.right.type.name}}"></i> {{element.right.name}}</div>
+            <div class="col-sm-6 hidden-xs">
+                <span class="col-sm-2 text-right" translate>From</span> <span class="col-sm-10">{{element.events[0].dtstart|date:'medium'}}</span>
+                <span class="col-sm-2 text-right" translate>To</span>   <span class="col-sm-10">{{element.events[element.events.length-1].dtend|date:'medium'}}</span>
             </div>
         </div>
     </div>
