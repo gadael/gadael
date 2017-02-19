@@ -11,7 +11,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="step in request.approvalSteps">
+        <tr ng-repeat="step in request.approvalSteps | reverse">
             <td>
                 <span ng-class="[{ 'label label-success': step.status=='accepted' }, { 'label label-danger': step.status=='rejected' }]">
                     <i ng-class="[{ 'fa fa-thumbs-up': step.status=='accepted' }, { 'fa fa-thumbs-down': step.status=='rejected' }]"></i>
