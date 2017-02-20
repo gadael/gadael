@@ -22,6 +22,9 @@ exports = module.exports = function(filepathFull, filepath)
             sharp(filepathFull)
             .extract({ left: 0, top: 0, width: size.width, height: maxHeight })
             .resize(800)
+            .png({
+                compressionLevel: 9
+            })
             .toFile(filepath, (err, info) => {
                 if (err) {
                     return reject(err);

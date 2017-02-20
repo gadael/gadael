@@ -1,25 +1,25 @@
 'use strict';
 
 
-let models = require('../models');
-let helmet = require('helmet');
-let routes = require('../rest/routes');
-let apputil = require('../modules/apputil');
-let passportHelper = require('../modules/passport');
-let connectMongodbSession = require('connect-mongodb-session');
-let passport = require('passport');
-let express = require('express');
-let session = require('express-session');
-let async = require('async');
-var mongoose = require('mongoose');
-let csrf = require('csurf');
-let bodyParser = require('body-parser');
-let morgan = require('morgan');
-let compression = require('compression');
-let serveStatic = require('serve-static');
-let cookieParser = require('cookie-parser');
-let http = require('http');
-let gadaelMiddleware = require('../modules/gadaelMiddleware');
+const models = require('../models');
+const helmet = require('helmet');
+const routes = require('../rest/routes');
+const apputil = require('../modules/apputil');
+const passportHelper = require('../modules/passport');
+const connectMongodbSession = require('connect-mongodb-session');
+const passport = require('passport');
+const express = require('express');
+const session = require('express-session');
+const async = require('async');
+const mongoose = require('mongoose');
+const csrf = require('csurf');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const compression = require('compression');
+const serveStatic = require('serve-static');
+const cookieParser = require('cookie-parser');
+const http = require('http');
+const gadaelMiddleware = require('../modules/gadaelMiddleware');
 const flash = require('connect-flash-plus');
 
 
