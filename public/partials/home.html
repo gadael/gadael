@@ -15,12 +15,27 @@
             <a class="btn btn-primary" ng-href="#/login/createfirstadmin" translate>Create first administrator</a>
         </div>
 
+        <div class="public-home-app-infos">
+            <h3>{{company.name}}</h3>
+            <div class="icon-position">
+                <i class="fa fa-book fa-5x"></i>
+            </div>
+        </div>
+
     </div>
 
 
     <div ng-if="company.home_text.length>0" class="home-text text-center">
         <p ng-repeat="paragraph in company.home_text|nlToArray track by $index">{{paragraph}}</p>
     </div>
+
+
+    <div class="public-footer" ng-if="!sessionUser.isAuthenticated">
+        <a href="https://www.gadael.com">gadael.com</a> &nbsp;
+        <a href="https://www.github.com/gadael/gadael"><i class="fa fa-github"></i></a> &nbsp; 
+        <a href="https://www.youtube.com/channel/UC14z7x6iP79ATmeS0xA9CoA"><i class="fa fa-youtube"></i></a>
+    </div>
+
 
     <div class="jumbotron" ng-if="sessionUser.isAuthenticated && !sessionUser.isAccount && !sessionUser.isManager && !sessionUser.isAdmin">
 

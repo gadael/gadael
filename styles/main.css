@@ -182,14 +182,60 @@
 }
 
 
-.home-text {
-	padding: 1.5em 2em 0em 2em;
-	background-image: linear-gradient(to bottom, #f9f9f9 0px, #fff 100%);
-    background-repeat: repeat-x;
-	border-radius: 6px 6px 0 0;
+.public-home-app-infos {
+	height: 15em;
+	background: #98cee8;
+	color: #fff;
+	padding: 2em;
+	position: relative;
+	margin-top: 3em;
+	margin-bottom: 3em;
+}
+
+.public-home-app-infos h3 {
+	font-size: 3em;
 	text-shadow: 1px 1px 2px #aaa;
+	margin-top: 0;
+}
+
+.public-home-app-infos .icon-position {
+	position: absolute;
+	top: -3em;
+	right: 6em;
+	border-radius: 8px;
+	background: #bcb59c;
+	color: #fff;
+	text-align: center;
+	width: 128px;
+	border: #fff 5px solid;
+	padding-top: 2em;
+	padding-bottom: 2em;
+}
+
+
+.home-text {
+	padding: 1.5em 1em 2em 1em;
 	color: #666;
 	font-size: 1.3em;
+}
+
+
+.public-footer {
+	margin-top: 4em;
+	background: #f9f9f9;
+	color: #999;
+	padding: .5em 1em .5em 1em;
+	text-align: right;
+	border-top: #bcb59c 1px solid;
+}
+
+.public-footer a {
+	color: #ef6933;
+}
+
+.public-footer i {
+	font-size: 2em;
+	color: #ef6933;
 }
 
 
