@@ -230,12 +230,15 @@
 }
 
 .public-footer a {
+	color: #bcb59c;
+}
+
+.public-footer a:hover {
 	color: #ef6933;
 }
 
 .public-footer i {
 	font-size: 2em;
-	color: #ef6933;
 }
 
 
