@@ -6,35 +6,35 @@
     </div>
 
 
-    <div ng-if="!sessionUser.isAuthenticated">
-        <h2 translate>Wellcome to your absence manager</h2>
-        <p translate>Please log into the application to see your account informations</p>
+    <div class="public-home" ng-if="!sessionUser.isAuthenticated">
+        <div class="top-gradiant">
+            <div class="public-header-text">
+                <h2 translate>Wellcome to your absence manager</h2>
+                <p translate>Please log into the application to see your account informations</p>
+            </div>
 
-        <div class="top30" ng-if="createFirstAdmin">
-            <p translate>Congratulation, this server has just been created and contain no users, please do not leave it that way.</p>
-            <a class="btn btn-primary" ng-href="#/login/createfirstadmin" translate>Create first administrator</a>
+            <div class="top30" ng-if="createFirstAdmin">
+                <p translate>Congratulation, this server has just been created and contain no users, please do not leave it that way.</p>
+                <a class="btn btn-primary" ng-href="#/login/createfirstadmin" translate>Create first administrator</a>
+            </div>
         </div>
-
         <div class="public-home-app-infos">
             <h3>{{company.name}}</h3>
             <div class="icon-position">
                 <i class="fa fa-book fa-5x"></i>
             </div>
         </div>
+        <div class="bottom-gradiant">
 
-    </div>
+            <div ng-if="company.home_text.length>0" class="home-text text-center">
+                <p ng-repeat="paragraph in company.home_text|nlToArray track by $index">{{paragraph}}</p>
+            </div>
 
+            <div class="devices text-center">
+                <img src="images/devices.png" />
 
-    <div ng-if="company.home_text.length>0" class="home-text text-center">
-        <p ng-repeat="paragraph in company.home_text|nlToArray track by $index">{{paragraph}}</p>
-    </div>
-
-    <div ng-if="!sessionUser.isAuthenticated">
-
-        <div class="devices text-center">
-            <img src="images/devices.png" />
-
-            <h4><a href="https://www.gadael.com">gadael.com</a></h4>
+                <p><a class="btn btn-default btn-lg" target="_blank" href="https://www.gadael.com">gadael.com</a></p>
+            </div>
         </div>
 
         <div class="public-footer">
@@ -50,6 +50,17 @@
                 <a href="https://www.github.com/gadael/gadael" title="Github"><i class="fa fa-github"></i></a>
             </div>
         </div>
+
+    </div>
+
+
+
+
+    <div ng-if="sessionUser.isAuthenticated">
+
+        <div ng-if="company.home_text.length>0" class="home-text text-center">
+            <p ng-repeat="paragraph in company.home_text|nlToArray track by $index">{{paragraph}}</p>
+        </div>
     </div>
 
     <div class="jumbotron" ng-if="sessionUser.isAuthenticated && !sessionUser.isAccount && !sessionUser.isManager && !sessionUser.isAdmin">
@@ -64,9 +75,6 @@
 
 
     <div ng-if="sessionUser.isAccount">
-
-
-
 
         <h2 translate>My account</h2>
 

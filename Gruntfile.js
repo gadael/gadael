@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concurrent: {
             dev: {
-                tasks: ['nodemon:dev', 'watch:serverJS'],
+                tasks: ['nodemon:dev', 'watch:serverJS', 'watch:css'],
                 options: {
                     logConcurrentOutput: true
                 }
@@ -48,6 +48,11 @@ module.exports = function(grunt) {
             serverJS: {
                 files: ['api/**/*.js', 'modules/**/*.js', 'schema/**/*.js', 'rest/**/*.js'],
                 tasks: ['newer:jshint:server']
+            },
+
+            css: {
+                files: ['styles/*.css'],
+                tasks: ['cssmin']
             },
 
             com: {
@@ -269,7 +274,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
     grunt.registerTask('default'  , 'Developpement mode',
-    [ 'jshint', 'nodemon']);
+    [ 'jshint', 'concurrent:dev']);
 
     grunt.registerTask('build'    , 'minify css, create translations files from po, aggregate js files, copy fonts',
     ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);

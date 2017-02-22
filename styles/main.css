@@ -182,14 +182,30 @@
 }
 
 
+.public-home {
+	background: #f9f9f9;
+}
+
+.public-home .top-gradiant {
+	background: linear-gradient(to bottom, transparent 0%,transparent 85%,#eee 100%);
+	padding-bottom: 2em;
+}
+
+.public-home .bottom-gradiant {
+	background: linear-gradient(to bottom, #eee 0%,transparent 5%,transparent 100%);
+	padding-top: 3em;
+}
+
+.public-header-text {
+	padding: 1em 2em;
+}
+
 .public-home-app-infos {
 	height: 15em;
 	background: #98cee8;
 	color: #fff;
 	padding: 2em;
 	position: relative;
-	margin-top: 3em;
-	margin-bottom: 3em;
 }
 
 .public-home-app-infos h3 {
@@ -222,11 +238,9 @@
 
 .public-footer {
 	margin-top: 4em;
-	background: #f9f9f9;
 	color: #999;
-	padding: .5em 1em .5em 1em;
+	padding: 1em 2em 1em 2em;
 	text-align: right;
-	border-top: #bcb59c 1px solid;
 }
 
 .public-footer a {
@@ -240,6 +254,7 @@
 .public-footer i {
 	font-size: 2em;
 }
+
 
 
 /* Calendar navbar */
@@ -411,7 +426,6 @@ body .line6 * { line-height: 2.4em }
 [x-ng-click] {
     cursor: pointer;
 }
-
 
 /* Teleperiod overwrite */
 
