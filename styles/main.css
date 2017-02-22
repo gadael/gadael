@@ -184,6 +184,8 @@
 
 .public-home {
 	background: #f9f9f9;
+	box-shadow: 0px 0px 30px 0px #cfcfcf;
+	margin-top: 2em;
 }
 
 .public-home .top-gradiant {
