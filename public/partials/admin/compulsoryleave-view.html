@@ -42,11 +42,11 @@
         </dl>
 
         <p>
-            <button ng-disabled="!quantitiesLoaded||0===validUsers" class="btn btn-primary btn-xs" ng-click="savePeriods()">Book available periods</button><br />
+            <button ng-disabled="!quantitiesLoaded||0===validUsers" class="btn btn-primary btn-xs" ng-click="savePeriods()" translate>Book available periods</button><br />
             <em translate>Create a leave on all valid users</em>
         </p>
         <p>
-            <button class="btn btn-danger btn-xs" ng-click="removePeriods()">Remove booked periods</button><br />
+            <button class="btn btn-danger btn-xs" ng-click="removePeriods()" translate>Remove booked periods</button><br />
             <em translate>Remove the leave on all users with a booked period</em>
         </p>
     </div>
