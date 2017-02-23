@@ -11,14 +11,27 @@
                         <i title="{{beneficiary.right.type.name}}" class="fa fa-asterisk" style="color:{{beneficiary.right.type.color}}"></i> {{beneficiary.right.name}}
                     </a>
                 </h4>
-                <dl class="dl-horizontal">
-                    <dt translate>Available quantity</dt>
-                    <dd>{{beneficiary.available_quantity|rightQuantity}} {{beneficiary.available_quantity_dispUnit}}</dd>
-                </dl>
 
                 <ol>
                     <li ng-repeat="rule in beneficiary.right.rules">{{rule.title}}</li>
                 </ol>
+
+                <div class="top15 row">
+                    <dl class="col-md-4">
+                        <dt translate>Available quantity</dt>
+                        <dd>{{beneficiary.available_quantity|rightQuantity}} {{beneficiary.available_quantity_dispUnit}}</dd>
+                    </dl>
+
+                    <dl class="col-md-4" ng-if="beneficiary.waiting_quantity.created > 0">
+                        <dt translate>Waiting approval</dt>
+                        <dd class="text-success">{{beneficiary.waiting_quantity.created|rightQuantity}} {{beneficiary.waiting_quantity.created_dispUnit}}</dd>
+                    </dl>
+
+                    <dl class="col-md-4" ng-if="beneficiary.waiting_quantity.deleted > 0">
+                        <dt translate>Waiting delete approval</dt>
+                        <dd class="text-danger">{{beneficiary.waiting_quantity.deleted|rightQuantity}} {{beneficiary.waiting_quantity.deleted_dispUnit}}</dd>
+                    </dl>
+                </div>
 
                 <div class="col-xs-12 top15" ng-repeat="err in beneficiary.errors">
                     <i class="fa fa-warning fa-3x fa-pull-left text-danger"></i>

@@ -88,7 +88,7 @@ grunt --help
 - [ ] ICSDB integration for non working days calendar
 - [ ] ICS Export
 - [ ] Right collection modification (report quantity on new rights)
-- [ ] Show the waiting quantity to the user
+- [x] Show the waiting quantity to the user
 - [ ] Manager substitute one of his subordinates to create request
 - [ ] Add checkbox on absence creation to bypass approval when the admin create the request on behalf
 - [ ] Hide time saving account option if not available
