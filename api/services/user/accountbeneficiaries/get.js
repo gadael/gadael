@@ -1,6 +1,6 @@
 'use strict';
 
-const renewals = require('./renewals');
+const renewalsMod = require('./renewals');
 
 
 exports = module.exports = function(services, app) {
@@ -52,7 +52,7 @@ exports = module.exports = function(services, app) {
 
                             document.right.populate('type', function() {
 
-                                var processRenewals = renewals(account.user.id, account);
+                                var processRenewals = renewalsMod(account.user.id, account);
 
 
                                 var rightDocument = document.right;
@@ -83,18 +83,15 @@ exports = module.exports = function(services, app) {
                                      */
                                     beneficiary.available_quantity = 0;
 
-                                    processRenewals(rightDocument, beneficiary, renewals, moment, function done(err) {
-
-                                        if (err) {
-                                            return service.error(err);
-                                        }
+                                    processRenewals(rightDocument, beneficiary, renewals, moment)
+                                    .then(beneficiary => {
 
                                         beneficiary.right.quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.quantity);
 
-
                                         service.outcome.success = true;
                                         service.deferred.resolve(beneficiary);
-                                    });
+                                    })
+                                    .catch(service.error);
 
                                 });
 

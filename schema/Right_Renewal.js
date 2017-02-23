@@ -776,7 +776,8 @@ exports = module.exports = function(params) {
                 renewal.getUserQuantity(user),
                 renewal.getUserConsumedQuantity(user),
                 renewal.getUserTimeSavingDepositsQuantity(user),
-                renewal.getDaysRatio(user)
+                renewal.getDaysRatio(user),
+				renewal.getUserWaitingQuantity(user)
             ]);
 
         }).then(arr => {
@@ -785,7 +786,8 @@ exports = module.exports = function(params) {
                 initial: arr[0],
                 consumed: arr[1],
                 deposits: arr[2],
-                available: (arr[0] - arr[1] + arr[2]),
+                available: (arr[0] - arr[1] - arr[4].created + arr[2]),
+				waiting: arr[4],
                 daysratio: arr[3]
             };
         });

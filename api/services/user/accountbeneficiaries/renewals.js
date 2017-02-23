@@ -1,6 +1,5 @@
 'use strict';
 
-let async = require('async');
 
 exports = module.exports = function(user, account) {
 
@@ -27,12 +26,12 @@ exports = module.exports = function(user, account) {
     /**
      * add renewals into the right object
      * @param {Right} rightDocument
-     * @param {object} right
+     * @param {object} beneficiary      The object will be modified
      * @param {Array} renewals
      * @param {Date} moment
-     * @param {function} callback
+     * @returns {Promise}               Resolve to
      */
-    function processRenewals(rightDocument, beneficiary, renewals, moment, callback)
+    function processRenewals(rightDocument, beneficiary, renewals, moment)
     {
         beneficiary.daysRatio = 1;
         beneficiary.errors = [];
@@ -44,25 +43,29 @@ exports = module.exports = function(user, account) {
             return (renewal.start <= moment && renewal.finish >= moment);
         }
 
-        async.each(renewals, function(renewalDocument, renewalCallback) {
-            var p = getRenewalQuantity(rightDocument, renewalDocument);
+        let promises = renewals.map(renewalDocument => {
+            return getRenewalQuantity(rightDocument, renewalDocument);
+        });
 
-            if (null === p) {
-                // no error but the right is discarded in this renewal because of the rules or missing renewal
-                return renewalCallback();
-            }
+        return Promise.all(promises)
+        .then(stats => {
 
-            p.then(function(stat) {
+            for (let i=0; i<renewals.length; i++) {
+                let renewalDocument = renewals[i];
+                let stat = stats[i];
 
-                var renewalObj = renewalDocument.toObject();
+                let renewalObj = renewalDocument.toObject();
                 renewalObj.initial_quantity = stat.initial;
                 renewalObj.consumed_quantity = stat.consumed;
                 renewalObj.available_quantity = stat.available;
+                renewalObj.waiting_quantity = stat.waiting;
                 renewalObj.daysRatio = stat.daysratio;
 
                 renewalObj.initial_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.initial_quantity);
                 renewalObj.consumed_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.consumed_quantity);
                 renewalObj.available_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.available_quantity);
+                renewalObj.waiting_quantity.created_dispUnit = rightDocument.getDispUnit(renewalObj.waiting_quantity.created);
+                renewalObj.waiting_quantity.deleted_dispUnit = rightDocument.getDispUnit(renewalObj.waiting_quantity.deleted);
 
                 beneficiary.renewals.push(renewalObj);
 
@@ -70,26 +73,19 @@ exports = module.exports = function(user, account) {
                     beneficiary.initial_quantity += stat.initial;
                     beneficiary.consumed_quantity += stat.consumed;
                     beneficiary.available_quantity += stat.available;
+                    beneficiary.waiting_quantity.created += stat.waiting.created;
+                    beneficiary.waiting_quantity.deleted += stat.waiting.deleted;
 
                     if (stat.daysratio && (!beneficiary.daysRatio || renewalObj.finish > new Date())) {
                         beneficiary.daysRatio = stat.daysratio;
                     }
                 }
+            }
 
-                renewalCallback();
 
-            })
-            .catch(err => {
+            return beneficiary;
+        });
 
-                beneficiary.errors.push({
-                    renewal: renewalDocument,
-                    error: err.message
-                });
-
-                renewalCallback();
-            });
-
-        }, callback);
     }
 
 

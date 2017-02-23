@@ -1,7 +1,6 @@
 'use strict';
 
-let async = require('async');
-let renewalsMod = require('./renewals');
+const renewalsMod = require('./renewals');
 
 
 /**
@@ -88,22 +87,24 @@ exports = module.exports = function(services, app) {
      /**
      *
      * @param {Account} account
-     * @param {Array} rights array of mongoose documents
+     * @param {User} user
+     * @param {Array} beneficiaries array of mongoose documents
+     * @param {Date} moment
+     *
+     * @return {Promise}    resolve to array of beneficiaries objects
      */
     function resolveAccountRights(account, user, beneficiaries, moment)
     {
-        let output = [];
+
         let processRenewals = renewalsMod(user, account);
 
-
-        async.each(beneficiaries, function(beneficiaryDocument, cb) {
-
-            var rightDocument = beneficiaryDocument.right;
-            var beneficiary = beneficiaryDocument.toObject();
+        let promises = beneficiaries.map(beneficiaryDocument => {
+            let rightDocument = beneficiaryDocument.right;
+            let beneficiary = beneficiaryDocument.toObject();
             beneficiary.disp_unit = rightDocument.getDispUnit();
 
-
-            rightDocument.getAllRenewals().then(function(renewals) {
+            return rightDocument.getAllRenewals()
+            .then(renewals => {
 
                 /**
                  * Store available quantity for each accessibles renewals
@@ -117,36 +118,27 @@ exports = module.exports = function(services, app) {
                 beneficiary.initial_quantity = 0;
                 beneficiary.available_quantity = 0;
                 beneficiary.consumed_quantity = 0;
+                beneficiary.waiting_quantity = {
+                    created: 0,
+                    deleted: 0
+                };
 
-                processRenewals(rightDocument, beneficiary, renewals, moment, function done(err) {
-
-                    if (err) {
-                        return cb(err);
-                    }
+                return processRenewals(rightDocument, beneficiary, renewals, moment)
+                .then(beneficiary => {
 
                     beneficiary.initial_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.initial_quantity);
                     beneficiary.consumed_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.consumed_quantity);
                     beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.available_quantity);
+                    beneficiary.waiting_quantity.created_dispUnit = rightDocument.getDispUnit(beneficiary.waiting_quantity.created);
+                    beneficiary.waiting_quantity.deleted_dispUnit = rightDocument.getDispUnit(beneficiary.waiting_quantity.deleted);
 
-                    output.push(beneficiary);
+                    return beneficiary;
 
-                    cb();
                 });
-
             });
-
-
-        }, function(err) {
-
-            if (err) {
-                return service.error(err);
-            }
-
-
-
-            service.outcome.success = true;
-            service.deferred.resolve(output);
         });
+
+        return Promise.all(promises);
     }
 
 
@@ -197,10 +189,13 @@ exports = module.exports = function(services, app) {
                         }
 
                         Promise.all(populatedTypePromises).then(function() {
-
-                            resolveAccountRights(account, account.user.id, docs, moment);
-
-                        }).catch(function(err) {
+                            return resolveAccountRights(account, account.user.id, docs, moment);
+                        })
+                        .then(beneficiaries => {
+                            service.outcome.success = true;
+                            service.deferred.resolve(beneficiaries);
+                        })
+                        .catch(function(err) {
                             service.error(err.message);
                         });
                     }
