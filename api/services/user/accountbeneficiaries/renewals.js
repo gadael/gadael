@@ -33,8 +33,17 @@ exports = module.exports = function(user, account) {
      */
     function processRenewals(rightDocument, beneficiary, renewals, moment)
     {
+        beneficiary.renewals = [];
         beneficiary.daysRatio = 1;
         beneficiary.errors = [];
+        beneficiary.initial_quantity = 0;
+        beneficiary.consumed_quantity = 0;
+        beneficiary.available_quantity = 0;
+        beneficiary.waiting_quantity = {
+            created: 0,
+            deleted: 0
+        };
+
 
         /**
          * Test if the renewal is accounted in beneficiary total
@@ -81,6 +90,13 @@ exports = module.exports = function(user, account) {
                     }
                 }
             }
+
+            beneficiary.right.quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.quantity);
+            beneficiary.initial_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.initial_quantity);
+            beneficiary.consumed_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.consumed_quantity);
+            beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.available_quantity);
+            beneficiary.waiting_quantity.created_dispUnit = rightDocument.getDispUnit(beneficiary.waiting_quantity.created);
+            beneficiary.waiting_quantity.deleted_dispUnit = rightDocument.getDispUnit(beneficiary.waiting_quantity.deleted);
 
 
             return beneficiary;

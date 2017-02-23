@@ -62,32 +62,9 @@ exports = module.exports = function(services, app) {
 
                                 rightDocument.getAllRenewals().then(function(renewals) {
 
-                                    /**
-                                     * Store available quantity for each accessibles renewals
-                                     * renewals with right rules not verified will not be included
-                                     */
-                                    beneficiary.renewals = [];
-
-                                    /**
-                                     * Sum of quantities from the accessibles renewals
-                                     */
-                                    beneficiary.initial_quantity = 0;
-
-                                    /**
-                                     * Sum of quantities from the accessibles renewals
-                                     */
-                                    beneficiary.consumed_quantity = 0;
-
-                                    /**
-                                     * Sum of quantities from the accessibles renewals
-                                     */
-                                    beneficiary.available_quantity = 0;
 
                                     processRenewals(rightDocument, beneficiary, renewals, moment)
                                     .then(beneficiary => {
-
-                                        beneficiary.right.quantity_dispUnit = rightDocument.getDispUnit(beneficiary.right.quantity);
-
                                         service.outcome.success = true;
                                         service.deferred.resolve(beneficiary);
                                     })
