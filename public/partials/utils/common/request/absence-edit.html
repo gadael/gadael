@@ -98,6 +98,9 @@
                     <td class="hidden-xs">
                         {{accountRight.renewal.available_quantity | rightQuantity}} {{accountRight.available_quantity_dispUnit}}
 
+                        <span ng-if="initialQuantity[accountRight.renewal._id] > 0" title="{{'Quantity from the request in modification'|translate}}" bs-tooltip>
+                            (+ {{initialQuantity[accountRight.renewal._id]}} {{accountRight.available_quantity_dispUnit}})
+                        </span>
                     </td>
                 </tr>
             </tbody>

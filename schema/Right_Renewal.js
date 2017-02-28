@@ -10,7 +10,7 @@ exports = module.exports = function(params) {
 
 	var rightRenewalSchema = new mongoose.Schema({
 
-        right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true },
+        right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true, index: true },
         timeCreated: { type: Date, default: Date.now },
         lastUpdate: { type: Date, default: Date.now },
         start: { type: Date, required: true },
@@ -400,7 +400,7 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getUserQuantity = function(user, moment) {
 
-        var renewal = this;
+        let renewal = this;
 
         if (undefined === moment) {
             moment = new Date();
@@ -419,13 +419,13 @@ exports = module.exports = function(params) {
              *
              * @var {Number}
              */
-            var rightQuantity = arr[0];
+            let rightQuantity = arr[0];
 
             /**
              * Manual adjustment created by administrators on the account-right page
              * @var {Number}
              */
-            var userAdjustment = arr[1];
+            let userAdjustment = arr[1];
 
 
 			if (rightQuantity === Infinity) {
@@ -458,7 +458,6 @@ exports = module.exports = function(params) {
                     renewalAdjustment += adjustment.quantity;
                 }
             });
-
 
 
             return (rightQuantity + renewalAdjustment + userAdjustment);
@@ -539,37 +538,37 @@ exports = module.exports = function(params) {
 	rightRenewalSchema.methods.getUserAbsenceQuantity = function(user, moment, collector)
 	{
 		let renewal = this;
+		let AbsenceElem = this.model('AbsenceElem');
 
-		/**
-		 * Get consumed quantity of renewal
-		 * @return {Number}
-		 */
-		function getRenewalConsumption(request) {
-			for (let i=0; i<request.absence.distribution.length; i++) {
-				let element = request.absence.distribution[i];
-				if (element.right.renewal.id.equals(renewal._id)) {
-					return element.consumedQuantity;
-				}
-			}
-			return 0;
-		}
-
-		let Request = this.model('Request');
-
-		return Request.find({ 'user.id': user._id })
-		.populate('absence.distribution')
+		return AbsenceElem.find()
+		.where('user.id', user._id)
+		.where('right.renewal.id', renewal._id)
+		.populate('request')
+		.select('consumedQuantity request')
 		.exec()
-		.then(requests => {
-			for (var i=0; i<requests.length; i++) {
-				let quantity = getRenewalConsumption(requests[i]);
-				if (0 === quantity) {
-					continue;
+		.then(elements => {
+
+
+
+			elements.forEach(element => {
+
+				let status = {
+                    created: 'accepted',
+                    deleted: null
+                };
+
+				if (element.request) {
+					status = element.request.getDateStatus(moment);
+				} else {
+					console.error('Absence element '+element.id+' does not contain the link to the request');
 				}
 
-				let status = requests[i].getDateStatus(moment);
-				collector(status, quantity);
-			}
+				collector(status, element.consumedQuantity);
+			});
+
+			return true;
 		});
+
 
 	};
 
@@ -772,6 +771,8 @@ exports = module.exports = function(params) {
         return user.getAccount()
         .then(() => {
 
+			console.time('getUserQuantityStats renewal '+renewal.id);
+
             return Promise.all([
                 renewal.getUserQuantity(user),
                 renewal.getUserConsumedQuantity(user),
@@ -781,6 +782,8 @@ exports = module.exports = function(params) {
             ]);
 
         }).then(arr => {
+
+			console.timeEnd('getUserQuantityStats renewal '+renewal.id);
 
             return {
                 initial: arr[0],

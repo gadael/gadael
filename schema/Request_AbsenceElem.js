@@ -14,6 +14,8 @@ exports = module.exports = function(params) {
                                                             // consumption=businessDays: businessDays from RightCollection
         events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' }],
 
+		request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request', index: true }, // required but is saved after element creation
+
         user: {                                     // absence owner
           id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
           name: { type: String, required: true }

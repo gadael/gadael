@@ -151,7 +151,11 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 // second pass, apply styles on cells
                 browseInputValue(function(renewalId) {
                     var consumedQuantity = distribution.renewal[renewalId].consumedQuantity;
-                    $scope.distribution.class[renewalId] = getValueClass(consumedQuantity, available[renewalId], completed);
+                    var initial = 0;
+                    if (undefined !== $scope.initialQuantity[renewalId]) {
+                        initial = $scope.initialQuantity[renewalId];
+                    }
+                    $scope.distribution.class[renewalId] = getValueClass(consumedQuantity, available[renewalId] + initial, completed);
                 });
 
                 // Assigned duration to display to the user
@@ -388,6 +392,8 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 }
             }
 
+            $scope.initialQuantity = {};
+
             $scope.request.absence.distribution.forEach(function(element) {
 
                 // add renewal only if exists in accountRights
@@ -398,6 +404,8 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         quantity: element.quantity,
                         right: element.right.id
                     };
+
+                    $scope.initialQuantity[element.right.renewal.id] = element.quantity;
                 }
             });
         }

@@ -33,6 +33,7 @@ exports = module.exports = function(user, account) {
      */
     function processRenewals(rightDocument, beneficiary, renewals, moment)
     {
+
         beneficiary.renewals = [];
         beneficiary.daysRatio = 1;
         beneficiary.errors = [];
@@ -58,7 +59,6 @@ exports = module.exports = function(user, account) {
 
         return Promise.all(promises)
         .then(stats => {
-
             for (let i=0; i<renewals.length; i++) {
                 let renewalDocument = renewals[i];
                 let stat = stats[i];
@@ -97,7 +97,6 @@ exports = module.exports = function(user, account) {
             beneficiary.available_quantity_dispUnit = rightDocument.getDispUnit(beneficiary.available_quantity);
             beneficiary.waiting_quantity.created_dispUnit = rightDocument.getDispUnit(beneficiary.waiting_quantity.created);
             beneficiary.waiting_quantity.deleted_dispUnit = rightDocument.getDispUnit(beneficiary.waiting_quantity.deleted);
-
 
             return beneficiary;
         });

@@ -530,6 +530,8 @@ function getCollectionFromDistribution(distribution, account) {
 
 /**
  * Update link to absences elements in the linked events
+ * Update link to request in the elements
+ *
  * @param {Request} requestDoc
  * @return {Promise}
  */
@@ -546,11 +548,17 @@ function saveEmbedEvents(requestDoc)
     .then(elements => {
 
         let i, j, event;
-        let eventSavePromises = [];
+        let savePromises = [];
 
         for (i=0; i<elements.length; i++) {
 
             elem = elements[i];
+
+            if (undefined === elem.request || !elem.request.equals(requestDoc._id)) {
+                elem.request = requestDoc._id;
+                savePromises.push(elem.save());
+            }
+
             events = elem.events;
 
             for (j=0; j<events.length; j++) {
@@ -565,16 +573,21 @@ function saveEmbedEvents(requestDoc)
                         event.status = 'TENTATIVE';
                     }
 
-                    eventSavePromises.push(event.save());
+                    savePromises.push(event.save());
                 }
             }
         }
 
-        return Promise.all(eventSavePromises);
+        return Promise.all(savePromises);
 
     });
 
 }
+
+
+
+
+
 
 
 

@@ -297,7 +297,6 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                     .then(function(events) {
                         return events.map(function(evt) {
                             evt.categories = ['nonworking'];
-                            console.log(evt);
                             return evt;
                         });
                     });
