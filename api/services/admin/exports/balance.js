@@ -135,18 +135,17 @@ exports = module.exports = function(service, moment) {
 
                 return Promise.all([
                     renewal.getUserQuantity(user, moment),
-                    renewal.getUserConsumedQuantity(user, moment),
-                    renewal.getUserWaitingQuantity(user, moment)
+                    renewal.getUserConsumedQuantity(user, moment)
                 ])
                 .then(all => {
 
-                    let waiting = all[2];
+                    let requests = all[1];
 
                     row[QUANTITY]       = all[0];
-                    row[CONSUMED]       = all[1];
-                    row[WAITING]        = waiting.created;
-                    row[BALANCE]        = (row[QUANTITY] - row[CONSUMED] - waiting.created);
-                    row[WAITDEL]        = waiting.deleted;
+                    row[CONSUMED]       = requests.consumed;
+                    row[WAITING]        = requests.waiting.created;
+                    row[BALANCE]        = (row[QUANTITY] - row[CONSUMED] - requests.waiting.created);
+                    row[WAITDEL]        = requests.waiting.deleted;
 
                     data.push(row);
 

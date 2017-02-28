@@ -574,6 +574,44 @@ exports = module.exports = function(params) {
 
 
 	/**
+	 * Get user quantity in the absences requests and by approval status
+	 *
+	 * @param {User} user		Request owner
+	 * @param {Date} moment		Only request approved on this date
+	 *
+	 * @returns {Promise} 		resolve to a number
+	 */
+	rightRenewalSchema.methods.getUserAbsenceRequestsQuantity = function(user, moment) {
+		let consumed = 0;
+
+		let waiting = {
+			created: 0,
+			deleted: 0
+		};
+
+		return this.getUserAbsenceQuantity(user, moment, function(status, quantity) {
+			if (status.created === 'accepted') {
+				consumed += quantity;
+			}
+
+			if (status.created === 'waiting') {
+				waiting.created += quantity;
+			}
+
+			if (status.deleted === 'waiting') {
+				waiting.deleted += quantity;
+			}
+		})
+		.then(() => {
+			return {
+				consumed: consumed,
+				waiting: waiting
+			};
+		});
+	};
+
+
+	/**
 	 * Get user consumed quantity (leaves only)
 	 * @see rightRenewalSchema.getUserConsumedQuantity() for full consumption
 	 *
@@ -583,14 +621,9 @@ exports = module.exports = function(params) {
 	 * @returns {Promise} 		resolve to a number
 	 */
 	rightRenewalSchema.methods.getUserAbsenceConsumedQuantity = function(user, moment) {
-		let consumed = 0;
-		return this.getUserAbsenceQuantity(user, moment, function(status, quantity) {
-			if (status.created === 'accepted') {
-				consumed += quantity;
-			}
-		})
-		.then(() => {
-			return consumed;
+		return this.getUserAbsenceRequestsQuantity(user, moment)
+		.then(requests => {
+			return requests.consumed;
 		});
 	};
 
@@ -605,22 +638,9 @@ exports = module.exports = function(params) {
 	 * @return {Promise} 	resolve to an object
 	 */
 	rightRenewalSchema.methods.getUserWaitingQuantity = function(user, moment) {
-		let waiting = {
-			created: 0,
-			deleted: 0
-		};
-
-		return this.getUserAbsenceQuantity(user, moment, function(status, quantity) {
-			if (status.created === 'waiting') {
-				waiting.created += quantity;
-			}
-
-			if (status.deleted === 'waiting') {
-				waiting.deleted += quantity;
-			}
-		})
-		.then(() => {
-			return waiting;
+		return this.getUserAbsenceRequestsQuantity(user, moment)
+		.then(requests => {
+			return requests.waiting;
 		});
 	};
 
@@ -628,25 +648,26 @@ exports = module.exports = function(params) {
     /**
      * Get a user consumed quantity
      * sum of quantities in requests and saved from this renewal
-	 * Do not include the waiting quantity
      *
      * @todo duplicated with accountRight object
      *
      * @param {User} user		Request owner
 	 * @param {Date} moment		Only request approved on this date
      *
-     * @returns {Promise} resolve to a number
+     * @returns {Promise} resolve to an object with consumed and waiting property
      */
     rightRenewalSchema.methods.getUserConsumedQuantity = function(user, moment) {
 
 		let renewal = this;
 
         return Promise.all([
-			renewal.getUserAbsenceConsumedQuantity(user, moment),
+			renewal.getUserAbsenceRequestsQuantity(user, moment),
 			renewal.getUserSavedConfirmedQuantity(user, moment)		// time saving account only
 		])
 		.then(all => {
-            return (all[0] - all[1]);
+			let requests = all[0];
+			requests.consumed = requests.consumed - all[1];
+            return requests;
         });
     };
 
@@ -745,10 +766,10 @@ exports = module.exports = function(params) {
         return Promise.all([
             this.getUserQuantity(user),
             this.getUserConsumedQuantity(user),
-			this.getUserWaitingQuantity(user),
             this.getUserTimeSavingDepositsQuantity(user)
         ]).then(function(arr) {
-            return (arr[0] - arr[1] - arr[2].created + arr[3]);
+			let requests = arr[1];
+            return (arr[0] - requests.consumed - requests.waiting.created + arr[2]);
         });
     };
 
@@ -771,26 +792,23 @@ exports = module.exports = function(params) {
         return user.getAccount()
         .then(() => {
 
-			console.time('getUserQuantityStats renewal '+renewal.id);
-
             return Promise.all([
                 renewal.getUserQuantity(user),
                 renewal.getUserConsumedQuantity(user),
                 renewal.getUserTimeSavingDepositsQuantity(user),
-                renewal.getDaysRatio(user),
-				renewal.getUserWaitingQuantity(user)
+                renewal.getDaysRatio(user)
             ]);
 
         }).then(arr => {
 
-			console.timeEnd('getUserQuantityStats renewal '+renewal.id);
+			let requests = arr[1];
 
             return {
                 initial: arr[0],
-                consumed: arr[1],
+                consumed: requests.consumed,
                 deposits: arr[2],
-                available: (arr[0] - arr[1] - arr[4].created + arr[2]),
-				waiting: arr[4],
+                available: (arr[0] - requests.consumed - requests.waiting.created + arr[2]),
+				waiting: requests.waiting,
                 daysratio: arr[3]
             };
         });

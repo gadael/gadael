@@ -201,13 +201,9 @@ exports = module.exports = function(services, app) {
                         }
 
                         Promise.all(populatedTypePromises).then(function() {
-                            console.log('number of documents', docs.length);
-                            console.time("resolveAccountRights");
                             return resolveAccountRights(owner.account, owner.user, docs, moment);
                         })
                         .then(beneficiaries => {
-                            console.timeEnd("resolveAccountRights");
-
                             service.outcome.success = true;
                             service.deferred.resolve(beneficiaries);
                         })
