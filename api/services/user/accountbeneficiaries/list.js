@@ -25,6 +25,54 @@ exports = module.exports = function(services, app) {
     var service = new services.list(app);
 
 
+    function getOwnerPromise(params)
+    {
+        let Account = service.app.db.models.Account;
+        let User = service.app.db.models.User;
+
+        if (params.user instanceof User) {
+
+            if (!params.user.roles.account) {
+                return Promise.reject(new Error('No absence account for this user'));
+            }
+
+            return Promise.resolve({
+                user: params.user,
+                account: params.user.roles.account
+            });
+        }
+
+
+        if (typeof params.user === 'string' || params.user instanceof String) {
+            return User.findOne()
+            .where('_id', params.user)
+            .populate('roles.account')
+            .exec()
+            .then(user => {
+                if (!user.roles.account) {
+                    return Promise.reject(new Error('No absence account for this user'));
+                }
+                return {
+                    user: user,
+                    account: user.roles.account
+                };
+            });
+        }
+
+        if (typeof params.account === 'string' || params.account instanceof String) {
+            return Account.findOne({ _id: params.account })
+            .populate('user.id')
+            .exec()
+            .then(account => {
+                return {
+                    user: account.user.id,
+                    account: account
+                };
+            });
+        }
+
+        return Promise.reject(new Error('Wrong parameter type for user or account'));
+    }
 
 
 
@@ -43,40 +91,32 @@ exports = module.exports = function(services, app) {
         var find = service.app.db.models.Beneficiary.find({});
         find.populate('right');
 
-        service.app.db.models.Account
-            .findOne({ _id: params.account})
-            .populate('user.id')
-            .exec((err, account) => {
+        getOwnerPromise(params)
+        .then(owner => {
 
-            if (service.handleMongoError(err)) {
+            let docs = [owner.user._id];
+            let collectionPromise;
 
-                if (null === account) {
-                    find.where('document').in([]);
-                    return next(find, account);
-                }
-
-                let docs = [account.user.id._id];
-                let collectionPromise;
-
-                if (undefined !== params.date) {
-                    collectionPromise = account.getCollection(new Date(params.date));
-                } else {
-                    collectionPromise = account.getCurrentCollection();
-                }
-
-                collectionPromise.then(rightCollection => {
-
-                    if (rightCollection) {
-                        docs.push(rightCollection._id);
-                    }
-
-                    find.where('document').in(docs);
-
-                    next(find, account);
-                });
+            if (undefined !== params.date) {
+                collectionPromise = owner.account.getCollection(new Date(params.date));
+            } else {
+                collectionPromise = owner.account.getCurrentCollection();
             }
 
-        });
+            collectionPromise.then(rightCollection => {
+
+                if (rightCollection) {
+                    docs.push(rightCollection._id);
+                }
+
+                find.where('document').in(docs);
+
+                next(find, owner);
+            });
+
+
+        })
+        .catch(service.error);
 
     }
 
@@ -127,8 +167,8 @@ exports = module.exports = function(services, app) {
      */
     service.getResultPromise = function(params, paginate) {
 
-        if (undefined === params || !params.account) {
-            service.error('The account parameter is mandatory');
+        if (!params.user && !params.account) {
+            service.error('The user or account parameter is mandatory');
             return service.deferred.promise;
         }
 
@@ -137,7 +177,8 @@ exports = module.exports = function(services, app) {
             moment = new Date(params.moment);
         }
 
-        getQuery(params, function(query, account) {
+        getQuery(params, function(query, owner) {
+
 
             query.select('right document ref');
             query.sort('right.name');
@@ -160,15 +201,13 @@ exports = module.exports = function(services, app) {
                         }
 
                         Promise.all(populatedTypePromises).then(function() {
-                            return resolveAccountRights(account, account.user.id, docs, moment);
+                            return resolveAccountRights(owner.account, owner.user, docs, moment);
                         })
                         .then(beneficiaries => {
                             service.outcome.success = true;
                             service.deferred.resolve(beneficiaries);
                         })
-                        .catch(function(err) {
-                            service.error(err.message);
-                        });
+                        .catch(service.error);
                     }
                 }
             );

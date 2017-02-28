@@ -195,6 +195,7 @@ describe('Compulsory leaves admin rest service', function() {
 
             randomUser.user.getAccount()
             .then(account => {
+
                 server.get('/rest/admin/accountbeneficiaries', {
                     account: account._id.toString(),
                     moment: new Date(2015,0,2).toJSON()
