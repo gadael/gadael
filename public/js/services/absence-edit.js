@@ -151,11 +151,11 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 // second pass, apply styles on cells
                 browseInputValue(function(renewalId) {
                     var consumedQuantity = distribution.renewal[renewalId].consumedQuantity;
-                    var initial = 0;
-                    if (undefined !== $scope.initialQuantity[renewalId]) {
-                        initial = $scope.initialQuantity[renewalId];
+                    var avail = available[renewalId];
+                    if (null !== avail && undefined !== $scope.initialQuantity[renewalId]) {
+                        avail = avail + $scope.initialQuantity[renewalId];
                     }
-                    $scope.distribution.class[renewalId] = getValueClass(consumedQuantity, available[renewalId] + initial, completed);
+                    $scope.distribution.class[renewalId] = getValueClass(consumedQuantity, avail, completed);
                 });
 
                 // Assigned duration to display to the user
