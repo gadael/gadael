@@ -48,6 +48,11 @@ exports = module.exports = function createConfiguration() {
         }
     };
 
+    config.mailfrom = {
+        name: 'Gadael email',
+        address: 'gadael@example.com'
+    };
+
     config.oauth = {
         google: {
             key: process.env.GOOGLE_OAUTH_KEY || '',

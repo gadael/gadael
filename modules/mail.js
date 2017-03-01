@@ -27,19 +27,12 @@ function Mail(app) {
     }
     this.transporter = transporter;
 
-    let company = app.config.company;
-
-    let from = {
-        name: company.managerName || company.firstname+' '+company.lastname,
-        address: company.managerEmail || company.email
-    };
-
     /**
      * initialize email with some default values
      */
     this.nodemailerData = {
-        from: from,
-        sender: from,
+        from: app.config.mailfrom,
+        sender: app.config.mailfrom,
         subject: null,
         to: [],
         messageId: null,
