@@ -400,17 +400,26 @@ exports = module.exports = {
     /**
      * get company document from a database using an external connexion
      * Read only api, database connexion is closed afterward
-     *
+     * @return {Promise}
      */
     getCompany: function getCompany(app, dbName, callback) {
 
-        this.openCompany(app, dbName)
+        let promise = this.openCompany(app, dbName)
 		.then(o => {
-            callback(null, o.company);
+			if (undefined !== callback) {
+	            callback(null, o.company);
+			}
             o.db.close();
-        }).catch(err => {
-            callback(err);
+			return o.company;
         });
+
+		if (undefined !== callback) {
+			promise.catch(err => {
+	            callback(err);
+	        });
+		}
+
+		return promise;
     },
 
 
