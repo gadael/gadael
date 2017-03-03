@@ -83,6 +83,7 @@ grunt --help
 
 ## TODO
 
+- [ ] Use ng-bind on homepage instead of {{}}
 - [x] The available quantity column must contain the quantity of the modified request
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
