@@ -12,9 +12,9 @@ This application help you manage presence of your employees in your company. The
 
 * Leave requests
 * Time saving deposits requests
-* Workperiod recovery requests
+* Work period recovery requests
 
-Approval by managers is following hierachical departments structure.
+Approval by managers is following hierarchical departments structure.
 
 
 Video preview:
@@ -65,17 +65,17 @@ open http://localhost:3000 in your browser, you will be required to create an ad
 
 Application listen on localhost only, an https reverse proxy will be necessary to open access to users.
 
-The file config.example.js can be copied to config.js for futher modifications.
+The file config.example.js can be copied to config.js for further modifications.
 
 
-## Developpement
+## Development
 
 Install grunt as root
 ```bash
 npm install -g grunt-cli
 ```
 
-List of supported commands for developpement:
+List of supported commands for development:
 ```bash
 grunt --help
 ```
@@ -114,7 +114,7 @@ Interactions with other services:
 * [ical.js](https://github.com/peterbraden/ical.js) Read ical format
 * [ICSDB](https://github.com/gadael/icsdb) ICS files for non working days
 
-## Licence
+## License
 
 MIT
 
