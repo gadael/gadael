@@ -25,7 +25,7 @@ exports = module.exports = function createConfiguration() {
                                                                     // true to recreate the index in background
     };
 
-    config.company = null;      // The company document will be here after server start
+    config.company = null;      // The company document will be here after server start (do not modify)
     config.language = 'fr';     // this should match a po file in /po/server
 
     // used for sessions
@@ -37,17 +37,28 @@ exports = module.exports = function createConfiguration() {
     };
     config.requireAccountVerification = false;
 
-                                // http://nodemailer.com/
-    config.mailtransport = {    // must match nodemailer options format:
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,           // use SSL
-        auth: {
-            user: 'user@gmail.com',
-            pass: 'pass'
-        }
+    // Send emails using the nodemail transport options (http://nodemailer.com/)
+    // default use the localhost smtp server
+    config.mailtransport = {
+        host: 'localhost'
     };
 
+    // Here is an example with a gmail account
+    // config.mailtransport = {
+    //     host: 'smtp.gmail.com',
+    //     port: 465,
+    //     secure: true,           // use SSL
+    //     auth: {
+    //         user: 'user@gmail.com',
+    //         pass: 'pass'
+    //     }
+    // };
+
+
+    // Configure the from email address
+    // The gadael domain must match the email domain
+    // or the gadel domain must be authenticated as an allowed server for this
+    // email domain using DKIM and SPF
     config.mailfrom = {
         name: 'Gadael email',
         address: 'gadael@example.com'
@@ -64,7 +75,8 @@ exports = module.exports = function createConfiguration() {
     config.indexFile = 'index.html'; // This file load the optimized requirejs file,
                                      // index-dev.html will load main.js, without optimization
 
-
+    // If this option is set, the gadael server will shutdown automatically
+    // This can be used in a configuration with automatic socket activation
     config.inactivityTimeout = null; // Minutes
 
     return config;

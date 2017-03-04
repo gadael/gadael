@@ -31,10 +31,9 @@ As root
 
 ```bash
 apt-get install mongodb nodejs git g++ gyp
-npm install -g grunt-cli
 ```
 
-As user
+As a user
 
 ```bash
 git clone https://github.com/gadael/gadael
