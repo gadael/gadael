@@ -47,7 +47,7 @@ exports = module.exports = function(params) {
 	 * Download events from url
      * promise resolve the number of copied events, do not stop on error
      *
-     * @return promise
+     * @return {Promise}
 	 */
 	calendarSchema.methods.downloadEvents = function() {
 

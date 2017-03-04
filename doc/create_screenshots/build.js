@@ -10,10 +10,6 @@ if (undefined !== process.argv[2]) {
     language = process.argv[2];
 }
 
-if ('en' === language) {
-    country = 'UK';
-}
-
 Promise.all([
     screenServer('docScreenshots_'+language, country, language),
     site(language)

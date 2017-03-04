@@ -55,7 +55,9 @@ function addWebshotMethod(server, languageCode)
  */
 exports = module.exports = function(dbname, countryCode, languageCode) {
 
-    let timeCreated = new Date(2016, 2, 27, 14, 0, 0, 0);
+    // For screenshots we set the current date here to initalize renewals periods over this date
+    // In tests, this is a fixed date because we want always the same renewals periods
+    let timeCreated = new Date();
 
     return new Promise(resolve => {
         helpers.mockServer(dbname, function(_mockServer) {

@@ -824,6 +824,7 @@ exports = module.exports = function(params) {
 
                     let period = getRenewal();
                     if (null !== period) {
+
                         let renewalModel = right.model('RightRenewal');
                         let renewal = new renewalModel();
 

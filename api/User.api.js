@@ -211,7 +211,7 @@ api.createRandomAccount = function(app, email, password, lastname, firstname) {
 			return user.getAccount();
 		})
         .then(account => {
-
+			
 			let from = new Date(2000,0,1,0,0,0,0);
 
             let scheduleCalendar = new app.db.models.AccountScheduleCalendar();

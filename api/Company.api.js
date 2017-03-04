@@ -189,7 +189,7 @@ exports = module.exports = {
 
 
 	/**
-	 * Run init scripts on alloready initialized database
+	 * Run init scripts on allready initialized database
 	 *
 	 * @param	{Object} 		app			express app or mock headless app variable
      * @param	{string}		dbname		database name, verified with this.isDbNameValid
