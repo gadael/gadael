@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{pageTitle}}</title>
+  <title ng-bind="pageTitle">Gadael</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/css/merged.min.css">
@@ -45,7 +45,7 @@
 					<a href="" class="dropdown-toggle user-dropdown-menu" bs-dropdown="menu.user">
                         <img class="img-rounded" ng-src="{{sessionUser.imageUrl}}" height="35" />
                         <i class="fa fa-user" ng-if="!sessionUser.imageUrl"></i>
-                        &nbsp; {{sessionUser.firstname}} {{sessionUser.lastname}}
+                        &nbsp; <span ng-bind="sessionUser.firstname"></span> <span ng-bind="sessionUser.lastname"></span>
                         <b class="caret"></b>
                     </a>
 				</li>
@@ -62,7 +62,7 @@
 
 	  <div ng-repeat="alert in pageAlerts" class="container alert alert-{{alert.type}} alert-dismissable">
 		  <button type="button" class="close" ng-click="closeAlert($index)" aria-hidden="true">&times;</button>
-		  {{alert.message}}
+		  <span ng-bind="alert.message"></span>
 	  </div>
 
 	  <div ng-view gadael-auth></div>

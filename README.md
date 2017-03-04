@@ -84,7 +84,7 @@ grunt --help
 
 - [ ] The home page is not visible in screenshots
 - [ ] Default user from UK does not have a work schedule planning in screenshots
-- [ ] Use ng-bind on homepage instead of {{}}
+- [x] Use ng-bind on homepage instead of {{}}
 - [x] The available quantity column must contain the quantity of the modified request
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
