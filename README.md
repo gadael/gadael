@@ -29,10 +29,11 @@ For technical details to install Gadael on your own server for production, see h
 
 ## Install on a debian system for development
 
-As root
+As root, this commands install all required packages to use AND build gadael.
 
 ```bash
-apt-get install mongodb nodejs git g++ gyp
+apt install mongodb nodejs git g++ gyp ruby ruby-dev rubygems gcc make
+npm install -g bower
 ```
 
 As a user
