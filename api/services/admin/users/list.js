@@ -7,6 +7,61 @@
  */
 
 
+ function getArr(mixed) {
+     if (mixed instanceof Array) {
+         return mixed;
+     }
+     return [mixed];
+ }
+
+
+
+function getAccountsByCollection(service, params) {
+
+
+    let dtstart = new Date();
+    let dtend = new Date();
+
+    // add a parameter for the period to test, with a default to current day
+    if (params.collection_dtstart) {
+        dtstart = params.collection_dtstart;
+    }
+
+    if (params.collection_dtend) {
+        dtend = params.collection_dtend;
+    }
+
+    return service.app.db.models.AccountCollection.find()
+    .where('rightCollection').in(getArr(params.collection))
+    .where('from').lte(dtend)
+    .or([{ to: null }, { to: { $gte: dtstart } }])
+    .select('account')
+    .exec()
+    .then(docs => {
+        return docs.map(ac => {
+            return ac.account;
+        });
+    });
+}
+
+
+
+function getUsersByRight(service, params) {
+    return service.app.db.models.Beneficiary.find()
+    .where('ref', 'User')
+    .where('right', params.right)
+    .select('document')
+    .exec()
+    .then(docs => {
+        return docs.map(b => {
+            return b.document;
+        });
+    });
+}
+
+
+
+
 
 
 /**
@@ -18,14 +73,9 @@
  */
 var query = function(service, params, next) {
 
-    function getArr(mixed) {
-        if (mixed instanceof Array) {
-            return mixed;
-        }
-        return [mixed];
-    }
 
-    var find = service.app.db.models.User.find()
+
+    let find = service.app.db.models.User.find()
         .populate('department')
         .populate('roles.account')
         .populate('roles.admin')
@@ -58,43 +108,35 @@ var query = function(service, params, next) {
         find.where('department').in(getArr(params.department));
     }
 
-    if (params.collection) {
-        let collFind = service.app.db.models.AccountCollection.find();
-        collFind.where('rightCollection').in(getArr(params.collection));
 
-        let dtstart = new Date();
-        let dtend = new Date();
+    let paramPromises = [];
 
-        // add a parameter for the period to test, with a default to current day
-        if (params.collection_dtstart) {
-            dtstart = params.collection_dtstart;
-        }
-
-        if (params.collection_dtend) {
-            dtend = params.collection_dtend;
-        }
-
-        collFind.where('from').lte(dtend)
-                .or([{ to: null }, { to: { $gte: dtstart } }]);
-
-        collFind.select('account');
-
-        collFind.exec(function (err, docs) {
-            if (service.handleMongoError(err))
-            {
-                var accountIdList = [];
-                for(var i=0; i<docs.length; i++) {
-                    accountIdList.push(docs[i].account);
-                }
-
-                find.where('roles.account').in(accountIdList);
-                next(find);
-            }
-        });
-
-    } else {
-        next(find);
+    if (params.right) {
+        // The "right" filter get users linked to a right out of collection
+        paramPromises.push(
+            getUsersByRight(service, params)
+            .then(userIdList => {
+                find.where('_id').in(userIdList);
+                return true;
+            })
+        );
     }
+
+    if (params.collection) {
+        paramPromises.push(
+            getAccountsByCollection(service, params)
+            .then(accountIdList => {
+                find.where('roles.account').in(accountIdList);
+                return true;
+            })
+        );
+
+    }
+
+    Promise.all(paramPromises)
+    .then(() => {
+        next(find);
+    });
 };
 
 

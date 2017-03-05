@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-3">
+    <div class="col-sm-3">
 
 
 
@@ -13,7 +13,7 @@
 
     </div>
 
-    <div class="col-xs-10 col-sm-9">
+    <div class="col-sm-9">
 
         <div class="row panel panel-primary">
             <div class="col-xs-8">
@@ -129,7 +129,7 @@
         </div>
 
 
-        <div class="row">
+        <div class="row" ng-if="collections.length>0">
 
             <h3  class="col-xs-10"><i class="fa fa-folder-o text-muted"></i> <span translate>Right collections</span></h3>
 
@@ -155,6 +155,47 @@
 
             </table>
 
+        </div>
+
+
+
+        <div class="row" ng-if="users.length>0">
+
+            <h3  class="col-xs-10"><i class="fa fa-folder-o text-muted"></i> <span translate>Users</span></h3>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th translate>Lastname</th>
+                    <th translate>Firstname</th>
+                    <th class="hidden-xs" translate>Department</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in users">
+                    <td>
+                        <a class="hidden-print" role="button" ng-href="#/admin/users/{{user._id}}">
+                            <i class="fa fa-plus"></i> <span translate>View</span>
+                        </a>
+                    </td>
+                    <td>{{user.lastname}}</td>
+                    <td>{{user.firstname}}</td>
+                    <td class="hidden-xs">{{user.department.name}}</td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="row" ng-if="!collections.length && !users.length">
+            <br />
+            <br />
+            <div class="alert alert-warning" role="alert">
+                <span translate>You must link this right to a collection or users so that it is accessible</span>
+            </div>
         </div>
 
     </div>
