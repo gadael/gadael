@@ -9,22 +9,21 @@ cd /tmp/gadael_build || exit
 
 git clone https://github.com/gadael/gadael
 cd gadael || exit
-git checkout tags/$1
+git checkout tags/$1 || exit
 
-npm install --only=production
+npm install --production --loglevel warn
 bower install
 
 rm -Rf doc/ test/
 mv config.dist.js config.js
 
-cd /tmp/gadael_build || exit
 
 # Build debian package
 
-fpm -s dir -t deb -n gadael --config-files /etc/gadael/config.json -v $1 \
-gadael=/var/lib/gadael \
-gadael/dist/config.json=/etc/gadael/
+fpm -s dir -t deb -p ../ -n gadael --config-files /etc/gadael/config.json -v $1 ./=/var/lib/gadael dist/config.json=/etc/gadael/
 
-rm -Rf gadael/
+
+
+# rm -Rf gadael/
 
 echo "Packages are in the /tmp/gadael_build folder"

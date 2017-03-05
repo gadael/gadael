@@ -3,8 +3,10 @@ module.exports = function(grunt) {
 
     'use strict';
 
+    let pkg = require('./package.json');
+
+
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
         concurrent: {
             dev: {
                 tasks: ['nodemon:dev', 'watch:serverJS', 'watch:css'],
@@ -231,7 +233,7 @@ module.exports = function(grunt) {
                 command: 'cd ../gadael.com && hexo generate -f'
             },
             dist: {
-                command: './dist/build.sh'
+                command: './dist/build.sh '+pkg.version
             }
         },
 
