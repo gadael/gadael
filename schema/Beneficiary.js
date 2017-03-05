@@ -18,37 +18,6 @@ exports = module.exports = function(params) {
         timeCreated: { type: Date, default: Date.now }
     });
 
-    /**
-     * Get the list users of the beneficiary document
-     * @return {Promise} resolve to an array of users
-     */
-    beneficiarySchema.methods.getUsers = function() {
-
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
-        var ref = this.ref;
-
-        this.model(this.ref).findOne(this.document, function(err, document) {
-            if (err) {
-                deferred.reject(err);
-                return;
-            }
-
-            if ('User' === ref) {
-                deferred.resolve([document]);
-            }
-
-            if ('RightCollection' === ref) {
-                deferred.resolve(document.getUsers());
-            }
-        });
-
-        return deferred.promise;
-    };
-
 
 
     beneficiarySchema.set('autoIndex', params.autoIndex);
