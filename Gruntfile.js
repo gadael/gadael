@@ -229,6 +229,9 @@ module.exports = function(grunt) {
             },
             hexo: {
                 command: 'cd ../gadael.com && hexo generate -f'
+            },
+            dist: {
+                command: './dist/build.sh'
             }
         },
 
@@ -287,6 +290,8 @@ module.exports = function(grunt) {
     grunt.registerTask('coverage' , ['jasmine_node:jasmine_coverage']);
     grunt.registerTask('travis'   , ['copy:config', 'jasmine_node:jasmine_coverage']);
 
-    grunt.registerTask('com'      , 'run devloppement server for gadael.com website (require gadael.com and gadmanager repositories)',
+    grunt.registerTask('com'      , 'run developement server for gadael.com website (require gadael.com and gadmanager repositories)',
     ['concurrent:com']);
+
+    grunt.registerTask('dist'     , 'build distribution packages', ['shell:dist']);
 };
