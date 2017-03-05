@@ -25,7 +25,9 @@ Admin view screenshoot:
 
 ![View a right](https://www.gadael.com/fr/docs/version-master/images/right-view-annual-leave.png)
 
-## Install on a debian system
+For technical details to install Gadael on your own server for production, see http://www.gadael.org
+
+## Install on a debian system for development
 
 As root
 
@@ -82,8 +84,12 @@ grunt --help
 
 ## TODO
 
-- [ ] The home page is not visible in screenshots
-- [ ] Default user from UK does not have a work schedule planning in screenshots
+- [ ] View help message if right is linked to no users and no collections
+- [ ] View users list in right page if the right is linked to users
+- [ ] Prevent creation of a Beneficiary with a collection if the right is linked to a user
+- [ ] Add the ability to add a out of collection right to a user
+- [x] The home page is not visible in screenshots
+- [x] Default user from UK does not have a work schedule planning in screenshots
 - [x] Use ng-bind on homepage instead of {{}}
 - [x] The available quantity column must contain the quantity of the modified request
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login

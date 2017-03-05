@@ -37,12 +37,13 @@ api.createRight = function(app, props) {
         };
     }
 
-    return new Promise((resolve, reject) => {
-        right.save().then(right => {
-            api.createRenewal(app, right).then(() => {
-                resolve(right);
-            }).catch(reject);
-        }).catch(reject);
+
+    return right.save()
+    .then(right => {
+        return api.createRenewal(app, right)
+        .then(() => {
+            return right;
+        });
     });
 };
 
@@ -74,41 +75,32 @@ api.createRenewal = function(app, right) {
  */
 api.createCollection = function(app, collectionProps, rightProps) {
 
+    let collectionModel = app.db.models.RightCollection;
 
-    return new Promise((resolve, reject) => {
+    let collection = new collectionModel();
 
-        let collectionModel = app.db.models.RightCollection;
-        let beneficiaryModel = app.db.models.Beneficiary;
+    if (undefined !== collectionProps) {
+        collection.set(collectionProps);
+    }
 
-        let collection = new collectionModel();
-
-        if (undefined !== collectionProps) {
-            collection.set(collectionProps);
-        }
-
-        if (!collection.name) {
-            collection.name = 'Test';
-        }
+    if (!collection.name) {
+        collection.name = 'Test';
+    }
 
 
-        collection.save().then(collection => {
+    return collection.save()
+    .then(collection => {
 
-            api.createRight(app, rightProps).then(right => {
-
-                let beneficiary = new beneficiaryModel();
-                beneficiary.right = right._id;
-                beneficiary.ref = 'RightCollection';
-                beneficiary.document = collection._id;
-
-                beneficiary.save().then(() => {
-                    resolve(collection);
-                }).catch(reject);
-
-            }).catch(reject);
-
-        }).catch(reject);
+        return api.createRight(app, rightProps)
+        .then(right => {
+            return right.addCollectionBeneficiary(collection);
+        })
+        .then(() => {
+            return collection;
+        });
 
     });
+
 };
 
 
@@ -137,22 +129,20 @@ api.linkToDefaultCollection = function(app, right) {
  */
 api.addTestRight = function(app, user, collection, right) {
 
-
-    return new Promise((resolve, reject) => {
-
         let accountCollectionModel = app.db.models.AccountCollection;
         let start = new Date(2000,0,1,0,0,0,0);
 
-        api.createCollection(app, collection, right).then(collection => {
+        return api.createCollection(app, collection, right)
+        .then(collection => {
             let ac = new accountCollectionModel();
             ac.rightCollection = collection._id;
             ac.from = start;
             ac.account = user.roles.account;
 
-            ac.save().then(() => {
-                resolve(collection);
-            }).catch(reject);
-        }).catch(reject);
+            ac.save()
+            .then(() => {
+                return collection;
+            });
+        });
 
-    });
 };

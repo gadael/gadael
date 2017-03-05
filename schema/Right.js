@@ -298,19 +298,67 @@ exports = module.exports = function(params) {
     };
 
 
+
+    /**
+     * Link the right to a collection
+     * The right must not be linked to a user
+     *
+     * @param {RightCollection|ObjectId} collection
+     * @return {Promise}
+     */
+    rightSchema.methods.addCollectionBeneficiary = function addUserBeneficiary(collection) {
+        let model = this.model('Beneficiary');
+
+        let id = collection;
+        if (undefined !== collection._id) {
+            id = collection._id;
+        }
+
+        return model.find()
+        .where('right', this._id)
+        .where('ref', 'User')
+        .exec()
+        .then(arr => {
+            if (arr.length > 0) {
+                throw new Error('The right is linked to one or more users, linking to a collection is only allowed if there is no users linked to the right');
+            }
+
+            let beneficiary = new model();
+            beneficiary.right = this._id;
+            beneficiary.document = id;
+            beneficiary.ref = 'RightCollection';
+
+            return beneficiary.save();
+        });
+    };
+
+
     /**
      * Link the right to one user, use a beneficary document with a user ref instead of a right collection
+     * The right must not be linked to a collection
+     *
      * @param {User} user
      * @return {Promise}
      */
     rightSchema.methods.addUserBeneficiary = function addUserBeneficiary(user) {
-        var model = this.model('Beneficiary');
-        var beneficiary = new model();
-        beneficiary.right = this._id;
-        beneficiary.document = user._id;
-        beneficiary.ref = 'User';
+        let model = this.model('Beneficiary');
 
-        return beneficiary.save();
+        return model.find()
+        .where('right', this._id)
+        .where('ref', 'RightCollection')
+        .exec()
+        .then(arr => {
+            if (arr.length > 0) {
+                throw new Error('The right is linked to one or more collections, please link the user to a collection, direct link to a right is only allowed on orphan rights');
+            }
+
+            let beneficiary = new model();
+            beneficiary.right = this._id;
+            beneficiary.document = user._id;
+            beneficiary.ref = 'User';
+
+            return beneficiary.save();
+        });
     };
 
 
@@ -690,6 +738,8 @@ exports = module.exports = function(params) {
 
 
 
+
+
     /**
      * Get a task to initialize rights when the database is created
      * @param   {Company}  company Company document not yet saved
@@ -734,27 +784,17 @@ exports = module.exports = function(params) {
         function linkToCollection(right, collectionId) {
 
             let CollectionModel = right.model('RightCollection');
-            let beneficiaryModel = right.model('Beneficiary');
-
-            function link(id) {
-                let beneficiary = new beneficiaryModel();
-
-                beneficiary.right = right._id;
-                beneficiary.ref = 'RightCollection';
-                beneficiary.document = id;
-                return beneficiary.save();
-            }
 
 
             if (undefined !== collectionId) {
-                return link(collectionId);
+                return right.addCollectionBeneficiary(collectionId);
             }
 
             return CollectionModel.find({})
             .exec()
             .then(all => {
                 return Promise.all(all.map(collection => {
-                    return link(collection._id);
+                    return right.addCollectionBeneficiary(collection);
                 }));
             });
         }
