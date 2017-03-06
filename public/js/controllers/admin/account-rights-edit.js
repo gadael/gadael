@@ -59,7 +59,7 @@ define([], function() {
             });
         }
 
-        $scope.rights = Rest.admin.rights.getResource().query(); // TODO: remove rights not linked to a collection
+        $scope.rights = Rest.admin.rights.getResource().query({ forBeneficiaryRef: 'User' });
 
 		$scope.cancel = function() {
 			$location.path('/admin/users/'+$scope.user._id);
