@@ -6,14 +6,14 @@ define([], function() {
 		'Rest',
         '$q',
         'catchOutcome',
-        'saveBeneficiaries',
+        'saveUserBeneficiaries',
         'addPeriodRow', function(
 			$scope,
 			$location,
 			Rest,
             $q,
             catchOutcome,
-            saveBeneficiaries,
+            saveUserBeneficiaries,
             addPeriodRow
 		) {
 
@@ -28,8 +28,6 @@ define([], function() {
                     $scope.accountRights = beneficiaries.query(
                         { ref: 'User', document: $scope.user._id },
                         function() {
-
-                            console.log($scope.accountRights);
 
                             if (0 === $scope.accountRights.length) {
                                 $scope.addAccountRight();
@@ -70,8 +68,8 @@ define([], function() {
 		/**
          * Save button
          */
-		$scope.saveAccountRights = function() {
-            saveBeneficiaries($scope).then($scope.cancel);
+		$scope.saveBeneficiaries = function() {
+            saveUserBeneficiaries($scope.accountRights, $scope.user._id).then($scope.cancel);
 	    };
 
         /**

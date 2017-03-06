@@ -286,18 +286,18 @@ define([
 	}])
 
 
-    .factory('saveBeneficiaries', ['$q', 'catchOutcome', function($q, catchOutcome) {
+    .factory('saveCollectionBeneficiaries', ['$q', 'catchOutcome', function($q, catchOutcome) {
 
         /**
          * Save account collections in scope
          *
-         * @param {Scope} $scope
+         * @param {Array} beneficiaries
          * @param {Integer} collectionId  The saved collection _id
          */
-        return function($scope, collectionId) {
+        return function(beneficiaries, collectionId) {
             var deferred = $q.defer();
             require(['services/saveBeneficiaries'], function(serviceFn) {
-                serviceFn($scope, collectionId, $q, catchOutcome).then(deferred.resolve);
+                serviceFn(beneficiaries, 'RightCollection', collectionId, undefined, undefined, $q, catchOutcome).then(deferred.resolve);
             });
 
             return deferred.promise;
@@ -305,6 +305,23 @@ define([
 	}])
 
 
+    .factory('saveUserBeneficiaries', ['$q', 'catchOutcome', function($q, catchOutcome) {
+
+        /**
+         * Save account collections in scope
+         *
+         * @param {Array} beneficiaries
+         * @param {Integer} userId
+         */
+        return function(beneficiaries, userId) {
+            var deferred = $q.defer();
+            require(['services/saveBeneficiaries'], function(serviceFn) {
+                serviceFn(beneficiaries, 'User', userId, $q, catchOutcome).then(deferred.resolve);
+            });
+
+            return deferred.promise;
+        };
+	}])
 
 
     .factory('removeSubDocument', function() {

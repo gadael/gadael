@@ -113,7 +113,6 @@ exports = module.exports = function(services, app) {
 
         getQuery(params, function(query) {
 
-            query.select('right document ref');
             query.sort('right.name');
 
             var populatedTypePromises = [];

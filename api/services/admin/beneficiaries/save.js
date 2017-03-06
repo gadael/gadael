@@ -107,6 +107,13 @@ function saveBeneficiary(service, params) {
             beneficiary.right 	  = right.id;
             beneficiary.ref 	  = params.ref;
             beneficiary.document  = params.document;
+            if ('User' === beneficiary.ref) {
+                beneficiary.from      = params.from;
+                beneficiary.to        = params.to;
+            } else {
+                beneficiary.from      = null;
+                beneficiary.to        = null;
+            }
 
             return beneficiary.save();
         })

@@ -1,17 +1,17 @@
 define([], function() {
-    
+
     'use strict';
 
-	return ['$scope', '$location', 'Rest', 'catchOutcome', 'saveBeneficiaries', 
-    function($scope, $location, Rest, catchOutcome, saveBeneficiaries) {
+	return ['$scope', '$location', 'Rest', 'catchOutcome', 'saveCollectionBeneficiaries',
+    function($scope, $location, Rest, catchOutcome, saveCollectionBeneficiaries) {
 
 		$scope.collection = Rest.admin.collections.getFromUrl().loadRouteId();
-        
+
         var rights = Rest.admin.rights.getResource();
 	    var beneficiaries = Rest.admin.beneficiaries.getResource();
-        
+
         $scope.rights = rights.query();
-        
+
         if ($scope.collection.$promise) {
             $scope.collection.$promise.then(function(collection) {
                 $scope.collectionRights = beneficiaries.query(
@@ -24,13 +24,13 @@ define([], function() {
                 catchOutcome($scope.collectionRights.$promise);
             });
         }
-        
+
         $scope.collectionRights = [];
-        
+
         $scope.addRight = function() {
             $scope.collectionRights.push(new beneficiaries());
         };
-        
+
         /**
          * Delete
          */
@@ -50,12 +50,11 @@ define([], function() {
 		$scope.back = function() {
 			$location.path('/admin/collections');
 		};
-		
+
 		$scope.saveCollection = function() {
 			$scope.collection.gadaSave(function(collection) {
-                saveBeneficiaries($scope, collection._id).then($scope.back);
+                saveCollectionBeneficiaries($scope.collectionRights, collection._id).then($scope.back);
             });
 	    };
 	}];
 });
-

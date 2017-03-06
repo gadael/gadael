@@ -1,5 +1,5 @@
 define([], function() {
-    
+
     'use strict';
 
     /**
@@ -8,9 +8,9 @@ define([], function() {
      * @returns {Promise}
      */
     var saveRow = function($q, resource) {
-        
+
         var deferred = $q.defer();
-        
+
         if (resource._id) {
 
             resource.$save(function(data) {
@@ -18,7 +18,7 @@ define([], function() {
             },function(data) {
                 deferred.reject(data);
             });
-            
+
         } else {
             resource.$create(function(data) {
                 deferred.resolve(data);
@@ -29,23 +29,23 @@ define([], function() {
 
         return deferred.promise;
     };
-    
-    
-    
+
+
+
     /**
      * Save all beneficiaries
-     * 
+     *
      */
-    return function($scope, collectionId, $q, catchOutcome) {
+    return function(beneficiaries, ref, documentId, $q, catchOutcome) {
 
         var promises = [];
 
-        $scope.collectionRights.forEach(function(resource) {
-            
-            resource.document = collectionId;
-            resource.ref = 'RightCollection';
+        beneficiaries.forEach(function(beneficiary) {
 
-            promises.push(catchOutcome(saveRow($q, resource)));
+            beneficiary.document = documentId;
+            beneficiary.ref = ref;
+
+            promises.push(catchOutcome(saveRow($q, beneficiary)));
         });
 
         var promise = $q.all(promises);
