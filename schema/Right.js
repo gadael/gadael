@@ -298,6 +298,49 @@ exports = module.exports = function(params) {
     };
 
 
+    /**
+     * Check if the right can be linked to a collection
+     * the methods verify that no user is linked to the right
+     * @return {Promise}
+     */
+    rightSchema.methods.canLinkToCollection = function() {
+        let model = this.model('Beneficiary');
+
+        return model.find()
+        .where('right', this._id)
+        .where('ref', 'User')
+        .exec()
+        .then(arr => {
+            if (arr.length > 0) {
+                throw new Error('The right is linked to one or more users, linking to a collection is only allowed if there is no users linked to the right');
+            }
+
+            return true;
+        });
+    };
+
+
+    /**
+     * Check if the right can be linked to a user
+     * the methods verify that no colletion is linked to the right
+     * @return {Promise}
+     */
+    rightSchema.methods.canLinkToUser = function() {
+        let model = this.model('Beneficiary');
+
+        return model.find()
+        .where('right', this._id)
+        .where('ref', 'RightCollection')
+        .exec()
+        .then(arr => {
+            if (arr.length > 0) {
+                throw new Error('The right is linked to one or more collections, please link the user to a collection, direct link to a right is only allowed on orphan rights');
+            }
+
+            return true;
+        });
+    };
+
 
     /**
      * Link the right to a collection
@@ -314,15 +357,8 @@ exports = module.exports = function(params) {
             id = collection._id;
         }
 
-        return model.find()
-        .where('right', this._id)
-        .where('ref', 'User')
-        .exec()
-        .then(arr => {
-            if (arr.length > 0) {
-                throw new Error('The right is linked to one or more users, linking to a collection is only allowed if there is no users linked to the right');
-            }
-
+        return this.canLinkToCollection()
+        .then(() => {
             let beneficiary = new model();
             beneficiary.right = this._id;
             beneficiary.document = id;
@@ -337,21 +373,19 @@ exports = module.exports = function(params) {
      * Link the right to one user, use a beneficary document with a user ref instead of a right collection
      * The right must not be linked to a collection
      *
-     * @param {User} user
+     * @param {User|ObjectId} user
      * @return {Promise}
      */
     rightSchema.methods.addUserBeneficiary = function addUserBeneficiary(user) {
         let model = this.model('Beneficiary');
 
-        return model.find()
-        .where('right', this._id)
-        .where('ref', 'RightCollection')
-        .exec()
-        .then(arr => {
-            if (arr.length > 0) {
-                throw new Error('The right is linked to one or more collections, please link the user to a collection, direct link to a right is only allowed on orphan rights');
-            }
+        let id = user;
+        if (undefined !== user._id) {
+            id = user._id;
+        }
 
+        return this.canLinkToUser()
+        .then(() => {
             let beneficiary = new model();
             beneficiary.right = this._id;
             beneficiary.document = user._id;

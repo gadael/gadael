@@ -22,6 +22,8 @@ function validate(service, params) {
 
 
 
+
+
 /**
  * Update/create the Beneficiary document
  *
@@ -31,57 +33,93 @@ function validate(service, params) {
 function saveBeneficiary(service, params) {
 
     const gt = service.app.utility.gettext;
+    const Beneficiary = service.app.db.models.Beneficiary;
+    const Right = service.app.db.models.Right;
 
-    var Beneficiary = service.app.db.models.Beneficiary;
-
-
-
-    if (params._id) {
+    function getBeneficiaryPromise() {
 
 
-        Beneficiary.findById(params._id, function(err, document) {
-            if (service.handleMongoError(err)) {
-                if (null === document) {
-                    service.notFound(util.format(gt.gettext('beneficiary document not found for id %s'), params.id));
-                    return;
-                }
 
-                document.right 	  = params.right._id;
-                document.ref 	  = params.ref;
-                document.document = params.document;
+        if (!params._id) {
+            return Promise.resolve(new Beneficiary());
+        }
 
-                document.save(function (err) {
-
-                    if (service.handleMongoError(err)) {
-
-                        service.resolveSuccessGet(
-                            document._id,
-                            gt.gettext('The right association has been modified')
-                        );
-                    }
-                });
+        return Beneficiary.findOne({ _id: params._id })
+        .exec()
+        .then(beneficiary => {
+            if (null === beneficiary) {
+                throw new Error(util.format(gt.gettext('beneficiary document not found for id %s'), params.id));
             }
+
+            return beneficiary;
         });
-
-    } else {
-
-
-        Beneficiary.create({
-                right: params.right._id,
-                document: params.document,
-                ref: params.ref
-            }, function(err, document) {
-
-            if (service.handleMongoError(err))
-            {
-                service.resolveSuccessGet(
-                    document._id,
-                    gt.gettext('The right association has been created')
-                );
-            }
-        });
-
     }
+
+
+    function getRightPromise() {
+
+        return Right.findOne({ _id: params.right._id })
+        .exec()
+        .then(right => {
+            if (null === right) {
+                throw new Error(util.format(gt.gettext('right document not found for id %s'), params.right._id));
+            }
+
+            return right;
+        });
+    }
+
+    /**
+     * Ensure one type per right
+     */
+    function checkRefType(right) {
+        switch(params.ref) {
+            case 'User':
+                return right.canLinkToUser();
+            case 'RightCollection':
+                return right.canLinkToCollection();
+        }
+
+        throw new Error('Wrong ref value');
+    }
+
+
+    function getSuccessMessage() {
+        if (params._id) {
+            return gt.gettext('The right association has been modified');
+        }
+
+        return gt.gettext('The right association has been created');
+    }
+
+
+    Promise.all([
+        getRightPromise(),
+        getBeneficiaryPromise()
+    ])
+    .then(all => {
+
+        let right       = all[0];
+        let beneficiary = all[1];
+
+        checkRefType(right)
+        .then(() => {
+            beneficiary.right 	  = right.id;
+            beneficiary.ref 	  = params.ref;
+            beneficiary.document  = params.document;
+
+            return beneficiary.save();
+        })
+        .then(beneficiary => {
+            service.resolveSuccessGet(
+                beneficiary._id,
+                getSuccessMessage()
+            );
+        })
+        .catch(service.error);
+    })
+    .catch(service.notFound);
+
 }
 
 
