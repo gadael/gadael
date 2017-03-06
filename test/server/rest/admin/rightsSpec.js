@@ -242,6 +242,18 @@ describe('vacations rights admin rest service', function() {
     });
 
 
+    it('test the forBeneficiaryRef parameter', function(done) {
+        server.get('/rest/admin/rights', { forBeneficiaryRef: 'User' }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            // get rights not linked to a collection
+            server.get('/rest/admin/rights', { forBeneficiaryRef: 'RightCollection' }, function(res, body) {
+                expect(res.statusCode).toEqual(200);
+                // get rights not linked to a user
+                done();
+            });
+        });
+    });
+
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
@@ -257,4 +269,3 @@ describe('vacations rights admin rest service', function() {
 
 
 });
-

@@ -221,13 +221,14 @@ define([
         /**
          * Add periods form in the array of items (deferred service call)
          *
-         * @param {Array}    items         items binded to rows
-         * @param {$resource} itemResource resource for one row
+         * @param {Array}     items         items binded to rows
+         * @param {$resource} itemResource  resource for one row
+         * @param {boolean}   initialize    initalize dates on new row
          */
-        return function($scope, items, itemResource) {
+        return function($scope, items, itemResource, initialize) {
 
             require(['services/addPeriodRow'], function(serviceFn) {
-                serviceFn(items, itemResource);
+                serviceFn(items, itemResource, initialize);
                 $scope.$apply();
             });
         };

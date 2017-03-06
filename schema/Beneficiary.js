@@ -15,7 +15,11 @@ exports = module.exports = function(params) {
         // beneficiary with ref=User is used for recovery rights created after
         // validation of a recovery request
         ref: { type: String, enum: ['User', 'RightCollection'], required: true, index: true },
-        timeCreated: { type: Date, default: Date.now }
+        timeCreated: { type: Date, default: Date.now },
+
+        from: { type: Date  },		// Availability of the right if ref=User
+		to: { type: Date },			// the period will be ignored for rights associated to collection
+                                    // the period of the collection is used instead
     });
 
 

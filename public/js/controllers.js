@@ -19,7 +19,7 @@ define(['angular', 'services'], function (angular) {
 	/* Controllers */
 
 	return angular.module('gadael.controllers', ['gadael.services'])
-	
+
 		.controller('Home', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/home', this, $scope, $injector);
 		}])
@@ -140,6 +140,10 @@ define(['angular', 'services'], function (angular) {
 
         .controller('AdminBeneficiaryEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/beneficiary-edit', this, $scope, $injector);
+		}])
+
+		.controller('AdminAccountRightsEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/account-rights-edit', this, $scope, $injector);
 		}])
 
         .controller('AdminAccountCollectionsEdit', ['$scope', '$injector', function($scope, $injector) {

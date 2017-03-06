@@ -15,45 +15,72 @@
  * @param {array} params      query parameters if called by controller
  * @param {function} callback
  *
- * @return {Promise}
+ *
  */
 function query(service, params, callback) {
 
-    return new Promise((resolve, reject) => {
-
-        let find = service.app.db.models.Right.find();
-
-        if (params.name) {
-            find.where({ name: new RegExp('^'+params.name, 'i') });
-        }
-
-        if (params.type) {
-            find.where({ type: params.type });
-        }
-
-        find.populate('type');
-
-
-        if (!params.collection) {
-            return callback(null, find);
-        }
-
-
-        // rights in a collection
-
-        let findCollRights = service.app.db.models.Beneficiary.find();
-        findCollRights
-            .where('ref').equals('RightCollection')
-            .where('document').equals(params.collection);
-
-        findCollRights.exec().then(rightcollections => {
-            let rights = rightcollections.map(r => { return r.right; });
+    /**
+     * get rights linked to collection
+     * @return {Promise}
+     */
+    function addCollectionParam(find) {
+        return service.app.db.models.Beneficiary.find()
+        .where('ref').equals('RightCollection')
+        .where('document').equals(params.collection)
+        .distinct('right')
+        .exec()
+        .then(rights => {
             find.where({ _id: { $in: rights } });
-            callback(null, find);
-        })
-        .catch(callback);
+            return true;
+        });
+    }
 
-    });
+    /**
+     * get rights not linked with the ref type
+     * If we need rights to link to a beneficiary with ref=User
+     * then we will get the rights not linked to a beneficiary with ref=RightCollection
+     * @return {Promise}
+     */
+    function addForBeneficiaryRefParam(find) {
+        return service.app.db.models.Beneficiary.find()
+        .where('ref').ne(params.forBeneficiaryRef)
+        .distinct('right')
+        .exec()
+        .then(rights => {
+            find.where({ _id: { $nin: rights } });
+            return true;
+        });
+    }
+
+
+    let find = service.app.db.models.Right.find();
+
+    if (params.name) {
+        find.where({ name: new RegExp('^'+params.name, 'i') });
+    }
+
+    if (params.type) {
+        find.where({ type: params.type });
+    }
+
+    let promises = [];
+    find.populate('type');
+
+
+    if (params.collection) {
+        promises.push(addCollectionParam(find));
+    }
+
+    if (params.forBeneficiaryRef) {
+        promises.push(addForBeneficiaryRefParam(find));
+    }
+
+
+    Promise.all(promises)
+    .then(() => {
+        callback(null, find);
+    })
+    .catch(callback);
 }
 
 
