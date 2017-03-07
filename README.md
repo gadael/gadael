@@ -85,9 +85,10 @@ grunt --help
 
 ## TODO
 
+
 - [ ] View help message if right is linked to no users and no collections
 - [ ] View users list in right page if the right is linked to users
-- [ ] Prevent creation of a Beneficiary with a collection if the right is linked to a user
+- [x] Prevent creation of a Beneficiary with a collection if the right is linked to a user
 - [ ] Add the ability to add a out of collection right to a user
 - [x] The home page is not visible in screenshots
 - [x] Default user from UK does not have a work schedule planning in screenshots

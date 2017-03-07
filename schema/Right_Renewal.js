@@ -799,7 +799,8 @@ exports = module.exports = function(params) {
                 renewal.getDaysRatio(user)
             ]);
 
-        }).then(arr => {
+        })
+		.then(arr => {
 
 			let requests = arr[1];
 
@@ -811,7 +812,12 @@ exports = module.exports = function(params) {
 				waiting: requests.waiting,
                 daysratio: arr[3]
             };
-        });
+        })
+		.catch(err => {
+			// set renewal on error for services/user/accountbeneficiaries/renewals
+			err.renewal = renewal;
+			return;
+		});
     };
 
 
