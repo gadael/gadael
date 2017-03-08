@@ -19,6 +19,12 @@ exports = module.exports = function(params) {
                             // min in days before the renewal start date
                             // max in days after the renewal end date
 
+		'request_beneficiary', // right is visible when request begin date >= computed min date
+							// and request end date <= computed max date
+							// min in days before the beneficiary.from date 
+							// max in days after the beneficiary.to date
+							// The rule is applicable only on rights linked directly to users
+
         'seniority',        // Right si visible if the user account seniority date
                             // is in the interval, min and max are in years before
                             // the entry date

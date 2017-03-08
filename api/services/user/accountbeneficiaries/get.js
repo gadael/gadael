@@ -43,7 +43,7 @@ exports = module.exports = function(services, app) {
 
 
                 service.app.db.models.Beneficiary
-                .findOne({ '_id' : params.id }, 'right ref document')
+                .findOne({ '_id' : params.id })
                 .populate('right')
                 .exec(function(err, document) {
                     if (service.handleMongoError(err))

@@ -30,7 +30,9 @@
                     <span translate>Monthly additions:</span> {{beneficiary.right.addMonthly.quantity | number}} {{beneficiary.right.quantity_dispUnit}}
                 </p>
                 <p class="text-warning" ng-if="beneficiary.ref=='User'">
-                    <i class="fa fa-warning"></i> <span translate>Out of collection right</span>
+                    <i class="fa fa-warning"></i> <span translate>Out of collection right</span><br />
+                    <span ng-if="beneficiary.from"><span translate>From</span> {{beneficiary.from | date}}</span>
+                    <span ng-if="beneficiary.to"><span translate>to</span> {{beneficiary.to | date}}</span>
                 </p>
             </div>
 

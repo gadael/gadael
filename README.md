@@ -85,7 +85,7 @@ grunt --help
 
 ## TODO
 
-
+- [ ] Add code for the new rule type "request_beneficiary"
 - [ ] View help message if right is linked to no users and no collections
 - [ ] View users list in right page if the right is linked to users
 - [x] Prevent creation of a Beneficiary with a collection if the right is linked to a user
