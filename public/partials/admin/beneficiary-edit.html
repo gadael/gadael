@@ -29,6 +29,9 @@
                 <p ng-if="beneficiary.right.addMonthly.quantity">
                     <span translate>Monthly additions:</span> {{beneficiary.right.addMonthly.quantity | number}} {{beneficiary.right.quantity_dispUnit}}
                 </p>
+                <p class="text-warning" ng-if="beneficiary.ref=='User'">
+                    <i class="fa fa-warning"></i> <span translate>Out of collection right</span>
+                </p>
             </div>
 
             <div class="col-sm-6">
