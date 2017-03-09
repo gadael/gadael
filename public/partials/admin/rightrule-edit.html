@@ -35,6 +35,14 @@
                     <p translate>Right is visible when request period is in the renewal period</p>
                 </div>
 
+				<div class="form-group">
+                    <label>
+                        <input type="radio" ng-model="rightrule.type" value="request_beneficiary" />
+                        <strong translate>Activate the out of collection right according to the request period</strong>
+                    </label>
+                    <p translate>Right is visible when request period is in period set on the user/right link</p>
+                </div>
+
                 <div class="form-group">
                     <label>
                         <input type="radio" ng-model="rightrule.type" value="seniority" />
@@ -141,6 +149,45 @@
                             </div>
                         </div>
                     </div>
+
+
+
+					<div ng-switch-when="request_beneficiary">
+                        <strong translate>Rule type:</strong>
+                        <p translate>Activate the out of collection right according to the request period</p>
+                        <p translate>If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.</p>
+
+                        <div class="form-group">
+                            <label for="request_beneficiary_unit" translate>Quantity unit to use in interval modification:</label>
+                            <select id="request_beneficiary_unit" class="form-control" ng-model="rightrule.interval.unit">
+                                <option value="D" translate>Days</option>
+                                <option value="Y" translate>Years</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="request_beneficiary_min" translate>Availability duration before the period start date from the user/right link:</label>
+                            <div class="input-group">
+                                <input type="number" id="request_beneficiary_min" class="form-control" ng-model="rightrule.interval.min" ng-required />
+                                <div class="input-group-addon">
+                                    <span ng-if="'D'==rightrule.interval.unit"><span translate>Days</span></span>
+                                    <span ng-if="'Y'==rightrule.interval.unit"><span translate>Years</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="request_beneficiary_max" translate>Availability duration after the period end date from the user/right link:</label>
+                            <div class="input-group">
+                                <input type="number" id="request_beneficiary_max" class="form-control" ng-model="rightrule.interval.max" ng-required />
+                                <div class="input-group-addon">
+                                    <span ng-if="'D'==rightrule.interval.unit"><span translate>Days</span></span>
+                                    <span ng-if="'Y'==rightrule.interval.unit"><span translate>Years</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
 
                     <div ng-switch-when="seniority">

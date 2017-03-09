@@ -451,11 +451,12 @@ define([
         function(gettextCatalog) {
             return function getRightRuleType(type) {
                 switch(type) {
-                    case 'entry_date':      return gettextCatalog.getString('Entry date');
-                    case 'request_period':  return gettextCatalog.getString('Request period');
-                    case 'seniority':       return gettextCatalog.getString('Seniority');
-                    case 'age':             return gettextCatalog.getString('Age');
-                    case 'consumption':      return gettextCatalog.getString('Consuption');
+                    case 'entry_date':          return gettextCatalog.getString('Entry date');
+                    case 'request_period':      return gettextCatalog.getString('Request period');
+                    case 'request_beneficiary': return gettextCatalog.getString('Request in user interval');
+                    case 'seniority':           return gettextCatalog.getString('Seniority');
+                    case 'age':                 return gettextCatalog.getString('Age');
+                    case 'consumption':         return gettextCatalog.getString('Consuption');
                 }
             };
         }
