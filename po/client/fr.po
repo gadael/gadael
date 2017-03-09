@@ -2532,7 +2532,7 @@ msgstr ""
 msgid ""
 "You must link this right to a collection or users so that it is accessible"
 msgstr ""
-"Vous devez lié ce droit à un régime ou à des utilisateurs pour qu'il soit "
+"Vous devez lier ce droit à un régime ou à des utilisateurs pour qu'il soit "
 "accessible"
 
 #: public/partials/home.html

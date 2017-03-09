@@ -37,17 +37,18 @@
                     </div>
                 </div>
 
-				<div class="col-md-3 hidden-xs">
+				<div class="col-md-2 hidden-xs">
 					<span title="{{right.specialright.quantityLabel}}" bs-tooltip>{{right.quantity | rightQuantity}}</span> {{right.dispUnit}}
 				</div>
 
-				<div class="col-md-2 hidden-xs hidden-sm">
-					<i ng-if="right.require_approval" class="fa fa-lock text-danger" title="{{'Require approval'|translate}}" bs-tooltip></i>
-			        <i ng-if="!right.require_approval" class="fa fa-unlock-alt text-success" title="{{'Do not require approval'|translate}}" bs-tooltip></i>
-
+				<div class="col-md-3 hidden-xs hidden-sm">
+					<div class="text-right">
+						<span class="label label-warning" ng-if="right.require_approval" title="{{'Require approval'|translate}}" bs-tooltip><i  class="fa fa-lock"></i></span>
+				        <span class="label label-success" ng-if="!right.require_approval" title="{{'Do not require approval'|translate}}" bs-tooltip><i  class="fa fa-unlock-alt" ></i></span>
+					</div>
 					<div class="line4">
-						<i ng-if="right.activeFor.account" class="text-info fa fa-male" title="{{'Active for the user'|translate}}" bs-tooltip></i>
-	                    <i ng-if="right.activeFor.admin" class="text-info glyphicon glyphicon-star" title="{{'Active for the administrator'|translate}}" bs-tooltip></i>
+						<span class="label label-default" title="{{'Active for the user'|translate}}" ng-if="right.activeFor.account" bs-tooltip><i class="fa fa-male"></i> User</span>
+	                    <span class="label label-default" ng-if="right.activeFor.admin" title="{{'Active for the administrator'|translate}}" bs-tooltip><i class="fa fa-star"></i> Admin</span>
 					</div>
 				</div>
 			</div>

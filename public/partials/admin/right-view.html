@@ -21,6 +21,8 @@
                 <p class="lead">{{right.description}}</p>
                 <p><span translate>Type:</span> {{right.type.name}}</p>
 
+
+
                 <p>
                     <span class="fa-stack" ng-if="right.specialright">
                         <i class="fa fa-circle fa-stack-2x text-warning"></i>
@@ -42,6 +44,11 @@
                 <div class="top15 bottom15" ng-if="right.autoAdjustment.quantity"><div translate>An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on </div>
                     <div ng-repeat="t in right.autoAdjustment.types"> &nbsp; <a href="#/admin/rights?type={{t._id}}"><i class="fa fa-asterisk" style="color:{{t.color}}"></i> {{t.name}}</a></div>
                 </div>
+
+                <p>
+                    <span class="label label-default" title="{{'Active for the user'|translate}}" ng-if="right.activeFor.account" bs-tooltip><i class="fa fa-male"></i> User</span>
+                    <span class="label label-default" ng-if="right.activeFor.admin" title="{{'Active for the administrator'|translate}}" bs-tooltip><i class="fa fa-star"></i> Admin</span>
+                </p>
             </div>
 
             <div class="col-xs-4 text-right">
@@ -60,7 +67,7 @@
             <h3  class="col-xs-10"><i class="fa fa-shield text-muted"></i> <span translate>Rules</span></h3>
             <div class="col-xs-2 text-right">
                 <br />
-                <a class="hidden-print btn btn-primary btn-sm" role="button" ng-href="#/admin/rightrule-edit?right={{right._id}}">
+                <a class="hidden-print btn btn-primary" role="button" ng-href="#/admin/rightrule-edit?right={{right._id}}">
                     <i class="fa fa-plus-circle"></i> <span translate>Add</span>
                 </a>
             </div>
@@ -75,8 +82,8 @@
                 <tbody>
                 <tr ng-repeat="rule in right.rules">
                     <td>
-                        <a class="hidden-print" role="button" ng-href="#/admin/rightrules/{{rule._id}}?right={{right._id}}">
-                            <i class="fa fa-edit"></i> <span translate>Edit</span>
+                        <a class="hidden-print btn btn-info btn-xs" role="button" ng-href="#/admin/rightrules/{{rule._id}}?right={{right._id}}">
+                            <i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span>
                         </a>
                     </td>
                     <td>{{getRightRuleType(rule.type)}}</td>
@@ -97,7 +104,7 @@
             <h3  class="col-xs-10"><i class="fa fa-retweet text-muted"></i> <span translate>Renewals</span></h3>
             <div class="col-xs-2 text-right">
                 <br />
-                <a class="hidden-print btn btn-primary btn-sm" role="button" ng-href="#/admin/rightrenewal-edit?right={{right._id}}">
+                <a class="hidden-print btn btn-primary" role="button" ng-href="#/admin/rightrenewal-edit?right={{right._id}}">
                     <i class="fa fa-plus-circle"></i> <span translate>Add</span>
                 </a>
             </div>
@@ -112,8 +119,8 @@
                 <tbody>
                 <tr ng-repeat="renewal in rightRenewals">
                     <td>
-                        <a class="hidden-print" role="button" ng-href="#/admin/rightrenewals/{{renewal._id}}">
-                            <i class="fa fa-edit"></i> <span translate>Edit</span>
+                        <a class="hidden-print btn btn-info btn-xs" role="button" ng-href="#/admin/rightrenewals/{{renewal._id}}">
+                            <i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span>
                         </a>
                     </td>
                     <td>{{renewal.start|date}}</td>
@@ -144,8 +151,8 @@
                 <tbody>
                 <tr ng-repeat="collection in collections">
                     <td>
-                        <a class="hidden-print" role="button" ng-href="#/admin/collections/{{collection._id}}">
-                            <i class="fa fa-edit"></i> <span translate>Edit</span>
+                        <a class="hidden-print btn btn-info btn-xs" role="button" ng-href="#/admin/collections/{{collection._id}}">
+                            <i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span>
                         </a>
                     </td>
                     <td>{{collection.name}}</td>
@@ -175,8 +182,8 @@
                 <tbody>
                 <tr ng-repeat="user in users">
                     <td>
-                        <a class="hidden-print" role="button" ng-href="#/admin/users/{{user._id}}">
-                            <i class="fa fa-plus"></i> <span translate>View</span>
+                        <a class="hidden-print btn btn-info btn-xs" role="button" ng-href="#/admin/users/{{user._id}}">
+                            <i class="fa fa-plus"></i> <span class="hidden-xs" translate>View</span>
                         </a>
                     </td>
                     <td>{{user.lastname}}</td>

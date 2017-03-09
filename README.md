@@ -85,12 +85,13 @@ grunt --help
 
 ## TODO
 
+- [ ] Client on view rights from the types list: the filter does not work
 - [ ] In second step of the request, there is no color on input cell if ref=User
 - [x] Add code for the new rule type "request_beneficiary"
 - [x] View help message if right is linked to no users and no collections
-- [ ] View users list in right page if the right is linked to users
+- [x] View users list in right page if the right is linked to users
 - [x] Prevent creation of a Beneficiary with a collection if the right is linked to a user
-- [ ] Add the ability to add a out of collection right to a user
+- [x] Add the ability to add a out of collection right to a user
 - [x] The home page is not visible in screenshots
 - [x] Default user from UK does not have a work schedule planning in screenshots
 - [x] Use ng-bind on homepage instead of {{}}
