@@ -85,8 +85,9 @@ grunt --help
 
 ## TODO
 
-- [ ] Add code for the new rule type "request_beneficiary"
-- [ ] View help message if right is linked to no users and no collections
+- [ ] In second step of the request, there is no color on input cell if ref=User
+- [x] Add code for the new rule type "request_beneficiary"
+- [x] View help message if right is linked to no users and no collections
 - [ ] View users list in right page if the right is linked to users
 - [x] Prevent creation of a Beneficiary with a collection if the right is linked to a user
 - [ ] Add the ability to add a out of collection right to a user

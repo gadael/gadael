@@ -194,14 +194,14 @@ exports = module.exports = function(params) {
 	 * @param {Date} dtstart request period start date
 	 * @param {Date} dtend request period end date
 	 * @param {User} user The request appliquant
-	 * 
+	 *
 	 * @return {Promise}
 	 */
 	rightRuleSchema.methods.validateRequestDateOnBeneficiary = function(dtstart, dtend, user) {
 
-		let Beneficiary = this.model('Beneficiary');
+		let Beneficiary = params.app.db.models.Beneficiary;
 
-		return Beneficiary.find()
+		return Beneficiary.findOne()
 		.where('ref', 'User')
 		.where('document', user._id)
 		.where('right', this.parent()._id)
@@ -211,11 +211,11 @@ exports = module.exports = function(params) {
 				return false;
 			}
 
-			if (beneficiary.from && beneficiary.from > dtstart) {
+			if (null !== beneficiary.from && (beneficiary.from.getTime() > dtstart.getTime())) {
 				return false;
 			}
 
-			if (beneficiary.to && beneficiary.to < dtend) {
+			if (null !== beneficiary.to && (beneficiary.to.getTime() < dtend.getTime())) {
 				return false;
 			}
 

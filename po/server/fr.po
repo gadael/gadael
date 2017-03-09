@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-19 20:49+0100\n"
-"PO-Revision-Date: 2017-02-19 20:49+0100\n"
+"POT-Creation-Date: 2017-03-09 11:05+0100\n"
+"PO-Revision-Date: 2017-03-09 11:06+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -197,16 +197,21 @@ msgstr "Le droit a été retiré du compte utilisateur"
 msgid "The right has been removed from the collection"
 msgstr "Le droit a été retiré du régime"
 
-#: api/services/admin/beneficiaries/save.js:45
+#: api/services/admin/beneficiaries/save.js:51
 #, javascript-format
 msgid "beneficiary document not found for id %s"
 msgstr "Le bénéficiaire du document n'a pas été trouvé pour l'ID %s"
 
-#: api/services/admin/beneficiaries/save.js:59
+#: api/services/admin/beneficiaries/save.js:65
+#, javascript-format
+msgid "right document not found for id %s"
+msgstr "le document du droit n'a pas été trouvé pour l'id %s"
+
+#: api/services/admin/beneficiaries/save.js:89
 msgid "The right association has been modified"
 msgstr "La liaison avec le droit a été modifiée"
 
-#: api/services/admin/beneficiaries/save.js:79
+#: api/services/admin/beneficiaries/save.js:92
 msgid "The right association has been created"
 msgstr "Le droit associé a été créé"
 
@@ -463,7 +468,7 @@ msgstr "La période de renouvellement a été supprimée"
 msgid "The right renewal period has been created"
 msgstr "La période de renouvellement a été créée"
 
-#: api/services/admin/rights/get.js:51
+#: api/services/admin/rights/get.js:56
 msgid "This absence right does not exists"
 msgstr "Le droit de congés n'existe pas"
 
@@ -652,7 +657,7 @@ msgstr "La quantité récupérée a été modifiée"
 msgid "The recover quantity has been created"
 msgstr "La quantité récupérée a été créée"
 
-#: api/services/user/accountbeneficiaries/get.js:104
+#: api/services/user/accountbeneficiaries/get.js:78
 msgid "This beneficiary does not exists for account or collection"
 msgstr "LE bénéficiaire n'existe pas pour le compte ou le régime"
 
@@ -1123,7 +1128,7 @@ msgstr "Vous êtes déconnecté de votre agenda Google"
 msgid "The renewals periods must not overlap"
 msgstr "Les périodes de renouvellements ne doivent pas se superposer"
 
-#: schema/Right_Renewal.js:933
+#: schema/Right_Renewal.js:962
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
@@ -1131,7 +1136,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, le type "
 "congés payés annuels est requis"
 
-#: schema/Right_Renewal.js:942
+#: schema/Right_Renewal.js:971
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
@@ -1139,7 +1144,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, la "
 "quantité de congés payés annuels est requise"
 
-#: schema/Right_Renewal.js:976
+#: schema/Right_Renewal.js:1005
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1391,11 +1396,11 @@ msgstr "Congé Maternité ordinaire"
 msgid "Additional Maternity Leave"
 msgstr "Congé Maternité supplémentaire"
 
-#: schema/Right_Rule.js:98
+#: schema/Right_Rule.js:104
 msgid "Interval values must be numbers of years"
 msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
 
-#: schema/Right_Rule.js:103
+#: schema/Right_Rule.js:109
 msgid "Interval values must be set in a correct order"
 msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 

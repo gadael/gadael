@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-19 20:48+0100\n"
+"POT-Creation-Date: 2017-03-09 11:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,16 +175,21 @@ msgstr ""
 msgid "The right has been removed from the collection"
 msgstr ""
 
-#: api/services/admin/beneficiaries/save.js:45
+#: api/services/admin/beneficiaries/save.js:51
 #, javascript-format
 msgid "beneficiary document not found for id %s"
 msgstr ""
 
-#: api/services/admin/beneficiaries/save.js:59
+#: api/services/admin/beneficiaries/save.js:65
+#, javascript-format
+msgid "right document not found for id %s"
+msgstr ""
+
+#: api/services/admin/beneficiaries/save.js:89
 msgid "The right association has been modified"
 msgstr ""
 
-#: api/services/admin/beneficiaries/save.js:79
+#: api/services/admin/beneficiaries/save.js:92
 msgid "The right association has been created"
 msgstr ""
 
@@ -435,7 +440,7 @@ msgstr ""
 msgid "The right renewal period has been created"
 msgstr ""
 
-#: api/services/admin/rights/get.js:51
+#: api/services/admin/rights/get.js:56
 msgid "This absence right does not exists"
 msgstr ""
 
@@ -612,7 +617,7 @@ msgstr ""
 msgid "The recover quantity has been created"
 msgstr ""
 
-#: api/services/user/accountbeneficiaries/get.js:104
+#: api/services/user/accountbeneficiaries/get.js:78
 msgid "This beneficiary does not exists for account or collection"
 msgstr ""
 
@@ -1059,19 +1064,19 @@ msgstr ""
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:933
+#: schema/Right_Renewal.js:962
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:942
+#: schema/Right_Renewal.js:971
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 
-#: schema/Right_Renewal.js:976
+#: schema/Right_Renewal.js:1005
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1317,11 +1322,11 @@ msgstr ""
 msgid "Additional Maternity Leave"
 msgstr ""
 
-#: schema/Right_Rule.js:98
+#: schema/Right_Rule.js:104
 msgid "Interval values must be numbers of years"
 msgstr ""
 
-#: schema/Right_Rule.js:103
+#: schema/Right_Rule.js:109
 msgid "Interval values must be set in a correct order"
 msgstr ""
 

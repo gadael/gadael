@@ -68,6 +68,10 @@ msgid "Accepted"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
+msgid "Activate the out of collection right according to the request period"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
 msgid "Activate the right according to consumed quantity"
 msgstr ""
 
@@ -159,6 +163,7 @@ msgstr ""
 msgid "Add period"
 msgstr ""
 
+#: public/partials/admin/account-rights-edit.html
 #: public/partials/admin/rights.html
 msgid "Add right"
 msgstr ""
@@ -185,6 +190,10 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Additional days before the renewal start date:"
+msgstr ""
+
+#: public/partials/admin/account-rights-edit.html
+msgid "Additional rights scheduling for {{user.lastname}} {{user.firstname}}"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
@@ -276,6 +285,10 @@ msgstr ""
 msgid "Attendance (percentage relative to full-time)"
 msgstr ""
 
+#: public/partials/account/beneficiary-view.html
+msgid "Author"
+msgstr ""
+
 #: public/js/optimized.js
 #: public/js/services/beneficiary.js
 msgid "Auto monthly update"
@@ -286,7 +299,15 @@ msgid "Automatic distribution of this right when creating a request"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
+msgid "Availability duration after the period end date from the user/right link:"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
 msgid "Availability duration after the renewal end date:"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Availability duration before the period start date from the user/right link:"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
@@ -345,6 +366,10 @@ msgstr ""
 
 #: public/partials/admin/user-view-account.html
 msgid "Birth date:"
+msgstr ""
+
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Book available periods"
 msgstr ""
 
 #: public/partials/admin/collection-edit.html
@@ -422,6 +447,7 @@ msgstr ""
 #: public/partials/admin/account-collections-edit.html
 #: public/partials/admin/account-nwdayscalendars-edit.html
 #: public/partials/admin/account-renewalquantity-edit.html
+#: public/partials/admin/account-rights-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/adjustment-edit.html
 #: public/partials/admin/calendar-edit.html
@@ -484,6 +510,10 @@ msgstr ""
 
 #: public/partials/admin/type-edit.html
 msgid "Color"
+msgstr ""
+
+#: public/partials/account/beneficiary-view.html
+msgid "Comment"
 msgstr ""
 
 #: public/partials/utils/common/request/absence-view.html
@@ -665,6 +695,10 @@ msgstr ""
 msgid "Current workschedule calendar:"
 msgstr ""
 
+#: public/partials/account/beneficiary-view.html
+msgid "Date"
+msgstr ""
+
 #: public/partials/admin/compulsoryleave-view.html
 #: public/partials/admin/recoverquantities.html
 #: public/partials/home.html
@@ -719,6 +753,7 @@ msgid "Delete"
 msgstr ""
 
 #: public/partials/admin/request/owner.html
+#: public/partials/admin/right-view.html
 #: public/partials/admin/user-edit.html
 #: public/partials/utils/common/request/request-view-embed.html
 msgid "Department"
@@ -918,6 +953,7 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
+#: public/partials/admin/right-view.html
 #: public/partials/login/createfirstadmin.html
 #: public/partials/utils/common/user/user-edit-head.html
 msgid "Firstname"
@@ -925,6 +961,10 @@ msgstr ""
 
 #: public/partials/admin/types.html
 msgid "Folded"
+msgstr ""
+
+#: public/partials/home.html
+msgid "Follow Gadael on your favorite social network!"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
@@ -950,7 +990,9 @@ msgstr ""
 
 #: public/partials/admin/account-collections-edit.html
 #: public/partials/admin/account-nwdayscalendars-edit.html
+#: public/partials/admin/account-rights-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
+#: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/rights.html
 #: public/partials/admin/user-view-account.html
 #: public/partials/manager/waitingrequests.html
@@ -969,6 +1011,7 @@ msgid "From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medi
 msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html
+#: public/partials/utils/common/request/absence-view.html
 msgid "From date:"
 msgstr ""
 
@@ -981,7 +1024,6 @@ msgid "From right:"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-view.html
-#: public/partials/utils/common/request/absence-view.html
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 #: public/partials/utils/common/request/workperiod-recover-view.html
 msgid "From:"
@@ -1089,6 +1131,7 @@ msgstr ""
 msgid "Last update:"
 msgstr ""
 
+#: public/partials/admin/right-view.html
 #: public/partials/login/createfirstadmin.html
 #: public/partials/utils/common/user/user-edit-head.html
 msgid "Lastname"
@@ -1106,6 +1149,7 @@ msgstr ""
 msgid "Leave periods"
 msgstr ""
 
+#: public/partials/admin/account-rights-edit.html
 #: public/partials/admin/compulsoryleave-edit.html
 msgid "Leave right"
 msgstr ""
@@ -1380,6 +1424,12 @@ msgstr[1] ""
 msgid "Ongoing approval steps"
 msgstr ""
 
+#: public/partials/admin/account-rights-edit.html
+msgid ""
+"Only the rights out of user collection are listed here, you can add more rights only if they are lot linked to a collection.\n"
+"                According to the same principle, the rights linked to users will not be available to build a collection."
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Options"
 msgstr ""
@@ -1391,6 +1441,10 @@ msgstr ""
 
 #: public/partials/admin/adjustment-edit.html
 msgid "Or set the available quantity"
+msgstr ""
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "Out of collection right"
 msgstr ""
 
 #: public/partials/admin/request/owner.html
@@ -1456,8 +1510,16 @@ msgstr ""
 msgid "Proportional to attendance"
 msgstr ""
 
+#: public/partials/account/beneficiary-view.html
+msgid "Quantity"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Quantity consumption for part-time right collections"
+msgstr ""
+
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Quantity from the request in modification"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
@@ -1508,10 +1570,15 @@ msgstr ""
 
 #: public/partials/admin/account-collections-edit.html
 #: public/partials/admin/account-nwdayscalendars-edit.html
+#: public/partials/admin/account-rights-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/collection-edit.html
 #: public/partials/admin/rightrule-edit.html
 msgid "Remove"
+msgstr ""
+
+#: public/partials/admin/compulsoryleave-view.html
+msgid "Remove booked periods"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-view.html
@@ -1528,6 +1595,10 @@ msgstr ""
 
 #: public/partials/admin/user-view-account.html
 msgid "Renewals with remaining quantity"
+msgstr ""
+
+#: public/js/services.js
+msgid "Request in user interval"
 msgstr ""
 
 #: public/js/optimized.js
@@ -1566,6 +1637,10 @@ msgstr ""
 
 #: public/partials/utils/common/request/workperiod-recover-view.html
 msgid "Right given name:"
+msgstr ""
+
+#: public/partials/admin/rightrule-edit.html
+msgid "Right is visible when request period is in period set on the user/right link"
 msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
@@ -1666,6 +1741,7 @@ msgstr ""
 #: public/partials/admin/account-collections-edit.html
 #: public/partials/admin/account-nwdayscalendars-edit.html
 #: public/partials/admin/account-renewalquantity-edit.html
+#: public/partials/admin/account-rights-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/adjustment-edit.html
 #: public/partials/admin/calendar-edit.html
@@ -1904,6 +1980,14 @@ msgstr ""
 msgid "The number of active users is limited by your plan level"
 msgstr ""
 
+#: public/partials/utils/common/right/right-panel.html
+msgid "The right is linked to collections"
+msgstr ""
+
+#: public/partials/utils/common/right/right-panel.html
+msgid "The right is linked to users"
+msgstr ""
+
 #: public/partials/admin/rightrule-edit.html
 msgid "The right will be available only if the user is beetween {{rightrule.interval.min}} years old and {{rightrule.interval.max}} years old on the first day of the requested leave."
 msgstr ""
@@ -2008,6 +2092,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+#: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/rights.html
 #: public/partials/utils/common/right/right-panel.html
 msgid "to"
@@ -2015,6 +2100,7 @@ msgstr ""
 
 #: public/partials/admin/account-collections-edit.html
 #: public/partials/admin/account-nwdayscalendars-edit.html
+#: public/partials/admin/account-rights-edit.html
 #: public/partials/admin/account-schedulecalendars-edit.html
 #: public/partials/admin/user-view-account.html
 #: public/partials/manager/waitingrequests.html
@@ -2048,6 +2134,7 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
+#: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/absence-view.html
 msgid "Total consumption:"
 msgstr ""
@@ -2105,6 +2192,7 @@ msgstr ""
 msgid "User requests"
 msgstr ""
 
+#: public/partials/admin/right-view.html
 #: public/js/controllers/admin/users.js
 msgid "Users"
 msgstr ""
@@ -2152,6 +2240,7 @@ msgstr ""
 #: public/partials/admin/department-view.html
 #: public/partials/admin/departments.html
 #: public/partials/admin/request/requests.html
+#: public/partials/admin/right-view.html
 #: public/partials/admin/rights.html
 #: public/partials/admin/users.html
 #: public/partials/manager/waitingrequests.html
@@ -2184,12 +2273,25 @@ msgstr ""
 msgid "Waiting {{request.dispType}} request"
 msgstr ""
 
+#: public/partials/account/beneficiaries.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Waiting approval"
 msgstr ""
 
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Waiting approval for delete"
+msgstr ""
+
+#: public/partials/account/beneficiary-view.html
+msgid "Waiting approval:"
+msgstr ""
+
+#: public/partials/account/beneficiaries.html
+msgid "Waiting delete approval"
+msgstr ""
+
+#: public/partials/account/beneficiary-view.html
+msgid "Waiting delete approval:"
 msgstr ""
 
 #: public/partials/admin/collection-edit.html
@@ -2268,6 +2370,10 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Years before the entry start date to set the period start:"
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "You must link this right to a collection or users so that it is accessible"
 msgstr ""
 
 #: public/partials/home.html
