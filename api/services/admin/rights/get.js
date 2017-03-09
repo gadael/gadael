@@ -32,7 +32,10 @@ exports = module.exports = function(services, app) {
                         right.specialright = specialRight.getServiceObject();
                     }
 
-                    document.getLastRenewal()
+                    document.getBeneficiaryRef()
+                    .then(beneficiaryRef => {
+                        right.beneficiaryRef = beneficiaryRef;
+                        return document.getLastRenewal()
                         .then(function(lastRenewal) {
                             right.lastRenewal = lastRenewal;
                             return document.getCurrentRenewal();
@@ -41,10 +44,12 @@ exports = module.exports = function(services, app) {
                             right.currentRenewal = currentRenewal;
                             service.outcome.success = true;
                             service.deferred.resolve(right);
-                        })
-                        .catch(function(err) {
-                            service.notFound(err);
                         });
+
+                    })
+                    .catch(function(err) {
+                        service.notFound(err);
+                    });
 
 
                 } else {

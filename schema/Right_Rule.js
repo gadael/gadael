@@ -21,7 +21,7 @@ exports = module.exports = function(params) {
 
 		'request_beneficiary', // right is visible when request begin date >= computed min date
 							// and request end date <= computed max date
-							// min in days before the beneficiary.from date 
+							// min in days before the beneficiary.from date
 							// max in days after the beneficiary.to date
 							// The rule is applicable only on rights linked directly to users
 
@@ -114,6 +114,7 @@ exports = module.exports = function(params) {
 
             case 'entry_date':
             case 'request_period':
+			case 'request_beneficiary':
                 // no possible verification
 
             break;
@@ -173,15 +174,54 @@ exports = module.exports = function(params) {
 		let rule = this;
 
         switch(rule.type) {
-            case 'seniority':       return Promise.resolve(rule.validateSeniority(dtstart, dtend, user));
-            case 'entry_date':      return Promise.resolve(rule.validateEntryDate(moment, renewal));
-            case 'request_period':  return Promise.resolve(rule.validateRequestDate(dtstart, dtend, renewal));
-            case 'age':             return Promise.resolve(rule.validateAge(dtstart, dtend, user));
-			case 'consumption':		return rule.validateConsuption(renewal, user);
+            case 'seniority':       	return Promise.resolve(rule.validateSeniority(dtstart, dtend, user));
+            case 'entry_date':      	return Promise.resolve(rule.validateEntryDate(moment, renewal));
+            case 'request_period':  	return Promise.resolve(rule.validateRequestDate(dtstart, dtend, renewal));
+			case 'request_beneficiary': return rule.validateRequestDateOnBeneficiary(dtstart, dtend, user);
+            case 'age':             	return Promise.resolve(rule.validateAge(dtstart, dtend, user));
+			case 'consumption':			return rule.validateConsuption(renewal, user);
         }
 
         return Promise.resolve(false);
     };
+
+
+	/**
+	 * Validate that the dtstart-dtend period is in the period set on beneficiary
+	 * if no beneficiary linked to user, the rule is not valid
+	 * if no period set on beneficiary, the rule is valid
+	 *
+	 * @param {Date} dtstart request period start date
+	 * @param {Date} dtend request period end date
+	 * @param {User} user The request appliquant
+	 * 
+	 * @return {Promise}
+	 */
+	rightRuleSchema.methods.validateRequestDateOnBeneficiary = function(dtstart, dtend, user) {
+
+		let Beneficiary = this.model('Beneficiary');
+
+		return Beneficiary.find()
+		.where('ref', 'User')
+		.where('document', user._id)
+		.where('right', this.parent()._id)
+		.exec()
+		.then(beneficiary => {
+			if (null === beneficiary) {
+				return false;
+			}
+
+			if (beneficiary.from && beneficiary.from > dtstart) {
+				return false;
+			}
+
+			if (beneficiary.to && beneficiary.to < dtend) {
+				return false;
+			}
+
+			return true;
+		});
+	};
 
 
 	/**

@@ -298,6 +298,21 @@ exports = module.exports = function(params) {
     };
 
 
+    rightSchema.methods.getBeneficiaryRef = function() {
+        let Beneficiary = this.model('Beneficiary');
+
+        return Beneficiary.findOne()
+        .where('right', this._id)
+        .exec()
+        .then(b => {
+            if (null === b) {
+                return undefined;
+            }
+            return b.ref;
+        });
+    };
+
+
     /**
      * Check if the right can be linked to a collection
      * the methods verify that no user is linked to the right
