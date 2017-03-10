@@ -7,7 +7,7 @@ let api = {
     right: require('../../../api/Right.api')
 };
 
-describe('Auto adjustment on collection right', function() {
+describe('Auto adjustment with direct link to user', function() {
 
     let app, user, sick, sickRenewal, rtt, rttRenewal;
     let dbName = 'rightAutoAdjustmentSpec';
@@ -41,7 +41,7 @@ describe('Auto adjustment on collection right', function() {
         })
         .then(right => {
             sick = right;
-            return api.right.linkToDefaultCollection(app, sick)
+            return sick.addUserBeneficiary(user)
             .then(() => {
                 return sick.getLastRenewal();
             });
