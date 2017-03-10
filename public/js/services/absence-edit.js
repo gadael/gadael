@@ -152,7 +152,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 browseInputValue(function(renewalId) {
                     var consumedQuantity = distribution.renewal[renewalId].consumedQuantity;
                     var avail = available[renewalId];
-                    if (null !== avail && undefined !== $scope.initialQuantity[renewalId]) {
+                    if (null !== avail && undefined !== $scope.initialQuantity && undefined !== $scope.initialQuantity[renewalId]) {
                         avail = avail + $scope.initialQuantity[renewalId];
                     }
                     $scope.distribution.class[renewalId] = getValueClass(consumedQuantity, avail, completed);
