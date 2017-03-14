@@ -10,7 +10,7 @@ let api = {
 describe('Auto adjustment with direct link to user', function() {
 
     let app, user, sick, sickRenewal, rtt, rttRenewal;
-    let dbName = 'rightAutoAdjustmentSpec';
+    let dbName = 'rightAutoAdjustmentUserSpec';
 
     beforeEach(function(done) {
         helpers.mockDatabase(dbName, function(mockapp) {
