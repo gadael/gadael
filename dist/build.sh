@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# To create the build, requirements are: fpm, git, npm, bower
+# To create the build, requirements are: fpm, git, npm, bower, rpmbuild
 
+rm -Rf /tmp/gadael_build
 mkdir /tmp/gadael_build
 cd /tmp/gadael_build || exit
 
@@ -20,10 +21,23 @@ mv config.dist.js config.js
 
 # Build debian package
 
-fpm -s dir -t deb -p ../ -n gadael --config-files /etc/gadael/config.json -v $1 ./=/var/lib/gadael dist/config.json=/etc/gadael/
+fpm -s dir -t deb -p ../ -n gadael \
+    --config-files /etc/gadael/config.json \
+    -v $1 \
+    -d "mongodb > 2.4.14" \
+    -d "nodejs > 4.4.0" \
+    ./=/var/lib/gadael dist/config.json=/etc/gadael/
+
+# Build rpm package
+
+fpm -s dir -t rpm -p ../ -n gadael \
+    --config-files /etc/gadael/config.json \
+    -v $1 \
+    -d "mongodb > 2.4.14" \
+    -d "nodejs > 4.4.0" \
+    ./=/var/lib/gadael dist/config.json=/etc/gadael/
 
 
-
-# rm -Rf gadael/
+rm -Rf gadael/
 
 echo "Packages are in the /tmp/gadael_build folder"
