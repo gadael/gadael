@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z $1 ]; then
+    echo "the parameter is missing (git version tag)";
+    exit;
+fi
+
 # To create the build, requirements are: fpm, git, npm, bower, rpmbuild
 
 rm -Rf /tmp/gadael_build
@@ -37,7 +42,7 @@ fpm -s dir -t rpm -p ../ -n gadael \
     -d "nodejs > 4.4.0" \
     ./=/var/lib/gadael dist/config.json=/etc/gadael/
 
-
+cd ..
 rm -Rf gadael/
 
 echo "Packages are in the /tmp/gadael_build folder"
