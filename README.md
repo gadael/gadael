@@ -86,7 +86,7 @@ grunt --help
 ## TODO
 
 - [ ] Do not display table headers if table empty on user view
-- [ ] roles checkbox in user edit, fix line break
+- [x] roles checkbox in user edit, fix line break
 - [ ] clic on view rights from the types list: the filter does not work
 - [x] In second step of the request, there is no color on input cell
 - [x] Add code for the new rule type "request_beneficiary"
