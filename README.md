@@ -85,7 +85,9 @@ grunt --help
 
 ## TODO
 
-- [ ] Add a field for quantity per request on rights settings (force duration for maternity leave) 
+- [ ] Use defaultAbsenceLength on request creation
+- [ ] Use defaultAbsenceLength on rights user's page
+- [x] Add a field for quantity per request on rights settings (force duration for maternity leave) 
 - [ ] Do not display table headers if table empty on user view
 - [x] roles checkbox in user edit, fix line break
 - [ ] clic on view rights from the types list: the filter does not work
