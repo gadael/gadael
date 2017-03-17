@@ -52,8 +52,9 @@
         <br />
         <a ng-href="#/admin/users/{{user._id}}/account-rights" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
     </div>
-
-    <table class="table">
+</div>
+<div class="row">
+    <table class="table" ng-if="beneficiaries.length>0">
         <thead>
         <tr>
             <th translate>Right name</th>
@@ -89,8 +90,9 @@
         <br />
         <a ng-href="#/admin/users/{{user._id}}/account-collections" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
     </div>
-
-    <table class="table">
+</div>
+<div class="row">
+    <table class="table" ng-if="accountCollections.length>0">
         <thead>
         <tr>
             <th translate>Collection name</th>
@@ -119,8 +121,9 @@
         <br />
         <a ng-href="#/admin/users/{{user._id}}/account-schedulecalendars" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
     </div>
-
-    <table class="table">
+</div>
+<div class="row">
+    <table class="table" ng-if="accountScheduleCalendars.length>0">
         <thead>
         <tr>
             <th translate>Calendar name</th>
@@ -156,8 +159,9 @@
         <br />
         <a ng-href="#/admin/users/{{user._id}}/account-nwdayscalendars" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
     </div>
-
-    <table class="table">
+</div>
+<div class="row">
+    <table class="table" ng-if="accountNWDaysCalendars.length>0">
         <thead>
         <tr>
             <th translate>Calendar name</th>
@@ -193,8 +197,9 @@
         <br />
         <a ng-href="#/admin/users/{{user._id}}/account-renewalquantity" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
     </div>
-
-    <table class="table">
+</div>
+<div class="row">
+    <table class="table" ng-if="adjustedRenewals.length > 0">
         <thead>
         <tr>
             <th translate>Right name</th>
@@ -216,7 +221,7 @@
 
     </table>
 
-    <div class="alert alert-success" role="alert" ng-if="adjustedRenewals.$resolved && !adjustedRenewals.length">
-        <i class="fa fa-times-circle fa-2x"></i> <span translate>This user has no configured specific quantity, rights are set by collection only</span>
+    <div class="alert alert-success" role="alert" ng-if="0==adjustedRenewals.length">
+        <i class="fa fa-check-circle fa-2x fa-pull-left"></i> <span translate>This user has no configured specific quantity, rights are set by collection only</span>
     </div>
 </div>

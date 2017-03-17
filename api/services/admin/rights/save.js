@@ -128,6 +128,7 @@ function saveRight(service, params) {
         sortkey: params.sortkey,
         quantity_unit: params.quantity_unit || 'D',
         quantity: params.quantity,
+        defaultAbsenceLength: params.defaultAbsenceLength,
         special: params.special,
         consumption: params.consumption,
         consumptionBusinessDaysLimit: params.consumptionBusinessDaysLimit

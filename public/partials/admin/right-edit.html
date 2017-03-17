@@ -30,7 +30,12 @@
                     <p>{{quantityLabel}}</p>
 
                     <div ng-if="editQuantity">
+
                         <div class="form-group">
+                            <label class="checkbox-inline"><input type="checkbox" ng-model="right.infiniteQuantity" /><span translate>No initial quantity, unbounded right</span></label>
+                        </div>
+
+                        <div class="form-group" ng-if="!right.infiniteQuantity">
                             <label for="right_quantity" class="control-label" translate>Default quantity</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="right_quantity" ng-disabled="right.infiniteQuantity" ng-model="right.quantity" step="any" />
@@ -41,9 +46,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="checkbox-inline"><input type="checkbox" ng-model="right.infiniteQuantity" /><span translate>No initial quantity, unbounded right</span></label>
-                        </div>
+
+
+
 
 
                         <div class="form-group" ng-if="!right.infiniteQuantity">
@@ -95,6 +100,32 @@
                     </div>
                 </div>
             </div>
+
+
+
+            <div class="panel panel-default" ng-if="right.infiniteQuantity">
+
+                <div class="panel-heading"><span translate>Legal leave duration</span></div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label for="defaultAbsenceLength" translate>Default absence length</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="defaultAbsenceLength" ng-model="right.defaultAbsenceLength" step="any" />
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-model="right.quantity_unit" placeholder="{{'Select unit'|translate}}" bs-options="qunit.value as qunit.label for qunit in quantityUnits" bs-select>Select unit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li translate>On request creation, the user will be notified if period does not match legal duration.</li>
+                        <li translate>Users will not be allowed to consume more than this value on one request, except if the default length is set to zero.</li>
+                    </ul>
+
+                </div>
+            </div>
+
         </div>
 
         <div class="col-md-8">

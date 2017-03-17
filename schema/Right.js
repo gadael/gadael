@@ -39,6 +39,9 @@ exports = module.exports = function(params) {
 
         quantity_unit: { type: String, enum:['D', 'H'], required: true },   // Days our Hours
 
+        defaultAbsenceLength: Number,                               // defaut duration of the absence period
+                                                                    // this is used for a meternity leave for example
+
         /**
          * Add "quantity" every first day of month
          * on each modification of the right, an array of rightAdjustments will be created in renewal

@@ -39,6 +39,9 @@
                         </span>
                     </span>
                 </p>
+
+                <p ng-if="right.defaultAbsenceLength>0"><span translate>Legal leave duration:</span> {{right.defaultAbsenceLength | rightQuantity}} {{right.disp_unit}}</p>
+
                 <p ng-if="right.addMonthly.quantity>0"><span translate>Monthly additions:</span> {{right.addMonthly.quantity | number}} {{right.disp_unit}}</p>
 
                 <div class="top15 bottom15" ng-if="right.autoAdjustment.quantity"><div translate>An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on </div>
