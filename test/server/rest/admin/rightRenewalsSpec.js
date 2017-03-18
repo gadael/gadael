@@ -160,7 +160,7 @@ describe('vacations right renewals admin rest service', function() {
         server.get('/rest/admin/rightrenewals', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeDefined();
-            expect(body.length).toEqual(4); // there are 2 by default because of the french initialization
+            expect(body.filter(r => r.right === right).length).toEqual(2);
             done();
         });
     });

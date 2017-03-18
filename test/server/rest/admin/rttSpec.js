@@ -187,9 +187,10 @@ describe('RTT right on admin rest service', function() {
     it('request list of accessibles rights for a period', function(done) {
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(1);
-            if (body.length > 0) {
-                expect(body[0].available_quantity).toEqual(10);
+            let rtt = body.filter(r => r._id === right._id);
+            expect(rtt.length).toEqual(1);
+            if (rtt.length > 0) {
+                expect(rtt[0].available_quantity).toEqual(10);
             }
             done();
         });
@@ -217,9 +218,10 @@ describe('RTT right on admin rest service', function() {
     it('request list of accessibles rights for a period', function(done) {
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(1);
-            if (body.length === 1) {
-                expect(body[0].available_quantity).toEqual(10);
+            let rtt = body.filter(r => r._id === right._id);
+            expect(rtt.length).toEqual(1);
+            if (rtt.length === 1) {
+                expect(rtt[0].available_quantity).toEqual(10);
             }
             done();
         });

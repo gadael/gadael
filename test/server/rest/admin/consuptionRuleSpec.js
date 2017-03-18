@@ -195,6 +195,7 @@ describe('consumption rule on admin admin rest service', function() {
     });
 
     let where;
+    let nbRights;
 
     it('request list of accessibles rights before request creation', function(done) {
 
@@ -206,7 +207,8 @@ describe('consumption rule on admin admin rest service', function() {
 
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(1);
+            expect(body.length).toBeGreaterThan(0);
+            nbRights = body.length;
             done();
         });
     });
@@ -242,7 +244,7 @@ describe('consumption rule on admin admin rest service', function() {
 
         server.get('/rest/admin/accountrights', where, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.length).toEqual(2);
+            expect(body.length).toEqual(1+nbRights);
             done();
         });
     });
