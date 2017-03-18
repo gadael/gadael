@@ -8,6 +8,8 @@ define([], function() {
 
         $scope.emails = '';
 
+        $scope.departments = Department.query();
+
         /**
          * get the department object or create it and the get the department object
          * @return {Promise} resolve to department ID or null

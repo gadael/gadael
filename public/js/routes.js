@@ -468,12 +468,7 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminInvitations'
 		});
 
-		$routeProvider.when('/admin/invitations/:id', {
-			templateUrl: 'partials/admin/invitation-edit.html',
-			controller: 'AdminInvitationEdit'
-		});
-
-		$routeProvider.when('/admin/type-edit', {
+		$routeProvider.when('/admin/invitation-edit', {
 			templateUrl: 'partials/admin/invitation-edit.html',
 			controller: 'AdminInvitationEdit'
 		});
