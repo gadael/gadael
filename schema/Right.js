@@ -21,11 +21,15 @@ exports = module.exports = function(params) {
                                                                  // special rights are stored in api/specialrights/*
                                                                  // proposed special rights will be filtered by company.country
 
-        consumption: {                                            // consumption type
+        consumption: {                                           // consumption type
             type: String,
-            enum:['proportion', 'businessDays', 'workingDays'],  // proportion: user the attendance percentage defined in user right collection
-                                                                 // businessDays: next business days are consumed up to consumptionBusinessDaysLimit
-            default: 'proportion'                                // workingDays: full working days are consumed
+            enum:[
+                'proportion',                                    // proportion: user the attendance percentage defined in user right collection
+                'businessDays',                                  // businessDays: next business days are consumed up to consumptionBusinessDaysLimit
+                'workingDays',                                   // workingDays: full working days are consumed
+                'duration'                                       // duration: consumption equal leave duration
+            ],
+            default: 'proportion'
         },
 
         consumptionBusinessDaysLimit: { type: Number, default: 5 }, // Used if consumption=businessDays
@@ -784,6 +788,11 @@ exports = module.exports = function(params) {
             if ('workingDays' === right.consumption) {
                 // consume exact number of working days (no half-days)
                 return resolve(elem.getWorkingDays());
+            }
+
+            if ('duration' === right.consumption) {
+                // consume duration
+                return resolve(elem.quantity);
             }
         });
     };

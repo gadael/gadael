@@ -8,7 +8,7 @@ const util = require('util');
 exports = module.exports = function(params) {
 	var mongoose = params.mongoose;
 	var absenceElemSchema = new mongoose.Schema({
-        quantity: { type: Number, required: true },         // quantity equal du duration of period in the planning
+        quantity: { type: Number, required: true },         // quantity equal to duration of period in the planning (only duration of worked schedule)
         consumedQuantity: { type: Number, required: true }, // quantity removed from vacation right according to Right.consumption
                                                             // consumption=proportion: attendance percentage from RightCollection
                                                             // consumption=businessDays: businessDays from RightCollection
@@ -35,11 +35,15 @@ exports = module.exports = function(params) {
                 start: { type: Date, required: true },
                 finish: { type: Date, required: true }
             },
-            consumption: {                             // consumption type
+            consumption: {                  // consumption type
                 type: String,
-                enum:['proportion', 'businessDays', 'workingDays'],  // proportion: use the attendance percentage defined in user right collection
-                required: true                                       // businessDays: next business days are consumed up to consumptionBusinessDaysLimit
-                                                                     // workingDays: full working days are consumed
+                enum:[
+					'proportion',			// proportion: use the attendance percentage defined in user right collection
+					'businessDays',			// businessDays: next business days are consumed up to consumptionBusinessDaysLimit
+					'workingDays',			// workingDays: full working days are consumed
+					'duration'				// duration: equal duration (quantity field)
+				],
+                required: true
             },
 
             consumptionBusinessDaysLimit: { type: Number, default: 5 } // Used if consumption=businessDays
