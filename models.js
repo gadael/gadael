@@ -65,6 +65,7 @@ models.load = function() {
     require('./schema/Beneficiary')(requirements);
     require('./schema/Adjustment')(requirements);
     require('./schema/Message')(requirements);
+	require('./schema/Invitation')(requirements);
 
 
 	if (!requirements.autoIndex) {
