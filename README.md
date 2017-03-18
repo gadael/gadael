@@ -85,21 +85,13 @@ grunt --help
 
 ## TODO
 
-- [ ] Use the Invitation model
+- [ ] test .deb and .rpm in a VM
+- [ ] Link invitation form to home page
+- [ ] send mail on invitation
 - [x] Add a field for quantity per request on rights settings (force duration for maternity leave)
 - [x] Do not display table headers if table empty on user view
 - [x] roles checkbox in user edit, fix line break
 - [ ] clic on view rights from the types list: the filter does not work
-- [x] In second step of the request, there is no color on input cell
-- [x] Add code for the new rule type "request_beneficiary"
-- [x] View help message if right is linked to no users and no collections
-- [x] View users list in right page if the right is linked to users
-- [x] Prevent creation of a Beneficiary with a collection if the right is linked to a user
-- [x] Add the ability to add a out of collection right to a user
-- [x] The home page is not visible in screenshots
-- [x] Default user from UK does not have a work schedule planning in screenshots
-- [x] Use ng-bind on homepage instead of {{}}
-- [x] The available quantity column must contain the quantity of the modified request
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] ICSDB integration for non working days calendar
