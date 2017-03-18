@@ -71,7 +71,8 @@ define(function() {
                 timesavingaccounts      : init('admin/timesavingaccounts/:id'),
                 collaborators           : init('admin/collaborators/:id'),
                 export                  : init('admin/export'),
-                consumption             : init('admin/consumption')
+                consumption             : init('admin/consumption'),
+                invitations             : init('admin/invitations/:id')
             },
 
             account: {

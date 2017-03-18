@@ -133,6 +133,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/timesavingaccounts');
     controllers.add('./admin/export');
     controllers.add('./admin/consumption');
+    controllers.add('./admin/invitations');
 
     controllers.add('./anonymous/createfirstadmin');
     controllers.add('./anonymous/formlogin');
