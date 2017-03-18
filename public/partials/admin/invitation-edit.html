@@ -1,0 +1,27 @@
+<h1><i class="fa fa-edit text-muted"></i> <span translate>Invite a list of persons</span></h1>
+
+
+<form role="form" class="top30">
+  <div class="form-group">
+    <label for="invitation_department" translate>Set the department where the invited peoples will be recorded</label>
+    <select id="invitation_department" ng-model="department">
+    </select>
+  </div>
+
+  <div class="form-group" ng-if="invitation.department==0">
+    <label for="new_department_name" translate>Set the new department name</label>
+    <input type="text" class="form-control" id="new_department_name" ng-model="departmentName" />
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="emails" translate>List of emails to invite</label>
+    <textarea class="form-control" id="emails" ng-model="emails" /></textarea>
+  </div>
+
+  <div class="col-md-12">
+    <button class="btn btn-primary" ng-click="save()" translate>Send invitations</button>
+    <button class="btn btn-link" ng-click="back()" translate>Cancel</button>
+  </div>
+</form>

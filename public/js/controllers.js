@@ -269,5 +269,13 @@ define(['angular', 'services'], function (angular) {
         .controller('AdminExportEditSage', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/export/export-edit-sage', this, $scope, $injector);
 		}])
+
+		.controller('AdminInvitations', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/invitations', this, $scope, $injector);
+		}])
+
+		.controller('AdminInvitationEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/invitation-edit', this, $scope, $injector);
+		}])
     ;
 });

@@ -463,6 +463,22 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminExportEditSage'
 		});
 
+		$routeProvider.when('/admin/invitations', {
+			templateUrl: 'partials/admin/invitations.html',
+			controller: 'AdminInvitations'
+		});
+
+		$routeProvider.when('/admin/invitations/:id', {
+			templateUrl: 'partials/admin/invitation-edit.html',
+			controller: 'AdminInvitationEdit'
+		});
+
+		$routeProvider.when('/admin/type-edit', {
+			templateUrl: 'partials/admin/invitation-edit.html',
+			controller: 'AdminInvitationEdit'
+		});
+
+
 		$routeProvider.otherwise({redirectTo: '/home'});
 	}]);
 
