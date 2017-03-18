@@ -9,6 +9,9 @@
         <p>
             <span translate>Default quantity on start renewal:</span> {{beneficiary.right.quantity | rightQuantity}} {{beneficiary.right.quantity_dispUnit}}
         </p>
+        <p ng-if="beneficiary.right.defaultAbsenceLength > 0">
+            <span translate>Legal absence length:</span> {{beneficiary.right.defaultAbsenceLength|rightQuantity}} {{beneficiary.right.quantity_dispUnit}}
+        </p>
         <p ng-if="beneficiary.right.addMonthly.quantity">
             <span translate>Monthly additions:</span> {{beneficiary.right.addMonthly.quantity | number:1}} {{beneficiary.right.quantity_dispUnit}}
         </p>

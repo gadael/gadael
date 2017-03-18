@@ -22,6 +22,11 @@
                         <dd>{{beneficiary.available_quantity|rightQuantity}} {{beneficiary.available_quantity_dispUnit}}</dd>
                     </dl>
 
+                    <dl class="col-md-4" ng-if="beneficiary.right.defaultAbsenceLength > 0">
+                        <dt translate>Legal absence length</dt>
+                        <dd>{{beneficiary.right.defaultAbsenceLength|rightQuantity}} {{beneficiary.available_quantity_dispUnit}}</dd>
+                    </dl>
+
                     <dl class="col-md-4" ng-if="beneficiary.waiting_quantity.created > 0">
                         <dt translate>Waiting approval</dt>
                         <dd class="text-success">{{beneficiary.waiting_quantity.created|rightQuantity}} {{beneficiary.waiting_quantity.created_dispUnit}}</dd>

@@ -35,7 +35,7 @@ define([], function() {
 
         $scope.setSpecialRight = function(specialright) {
 
-            if ('' === specialright) {
+            if ('' === specialright || undefined === specialright) {
                 $scope.nameReadOnly = false;
                 $scope.descriptionReadOnly = false;
                 $scope.right.special = undefined;
