@@ -83,16 +83,23 @@
 
                         <input id="ar{{accountRight.renewal._id}}" type="number" class="form-control" ng-model="distribution.renewal[accountRight.renewal._id].quantity" step="any" min="0" />
                         <span class="input-group-addon">{{accountRight.disp_unit}}</span>
+
                     </td>
                     <td class="hidden-xs">
                         <span ng-if="distribution.renewal[accountRight.renewal._id].consumedQuantity">
                             <i ng-if="distribution.renewal[accountRight.renewal._id].isLoading" class="fa fa-spinner fa-pulse fa-fw"></i> {{distribution.renewal[accountRight.renewal._id].consumedQuantity|number}} {{accountRight.disp_unit}}
                         </span>
+
                     </td>
 
                     <td>
                         <label for="ar{{accountRight.renewal._id}}" class="control-label">{{accountRight.name}}</label><br />
-                        <small translate>From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}</small>
+                        <div ng-if="!accountRight.renewal.right.defaultAbsenceLength">
+                            <small translate>From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}</small>
+                        </div>
+                        <div ng-if="accountRight.renewal.right.defaultAbsenceLength > 0">
+                            <span translate>Legal duration:</span> <strong>{{accountRight.renewal.right.defaultAbsenceLength}} {{accountRight.disp_unit}}</strong>
+                        </div>
                     </td>
 
                     <td class="hidden-xs">
