@@ -36,13 +36,15 @@ module.exports = exports = function(app) {
             {
                 name: gt.gettext("Ordinary Maternity Leave"),
                 type: '5740adf51cf1a569643cc50e',
-                quantity: 130, // 26 weeks
+                quantity: null,
+                defaultAbsenceLength: 130, // 26 weeks
                 activeFor: {  account: false }
             },
             {
                 name: gt.gettext("Additional Maternity Leave"),
                 type: '5740adf51cf1a569643cc50e',
-                quantity: 130, // 26 weeks
+                quantity: null,
+                defaultAbsenceLength: 130, // 26 weeks
                 activeFor: {  account: false }
             },
             {
