@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-09 11:18+0100\n"
+"POT-Creation-Date: 2017-03-18 14:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -453,11 +453,11 @@ msgstr ""
 msgid "The leave right has been deleted"
 msgstr ""
 
-#: api/services/admin/rights/save.js:168
+#: api/services/admin/rights/save.js:169
 msgid "The vacation right has been created"
 msgstr ""
 
-#: api/services/admin/rights/save.js:170
+#: api/services/admin/rights/save.js:171
 msgid "The vacation right has been modified"
 msgstr ""
 
@@ -1295,8 +1295,8 @@ msgstr ""
 msgid "The absence must be within the renewal period"
 msgstr ""
 
-#: schema/data/fr.js:70 schema/data/ch.js:63 schema/data/be.js:43
-#: schema/data/uk.js:49
+#: schema/data/fr.js:78 schema/data/ch.js:71 schema/data/be.js:51
+#: schema/data/uk.js:65
 msgid "Sickness absence"
 msgstr ""
 
@@ -1318,7 +1318,7 @@ msgstr ""
 msgid "Ordinary Maternity Leave"
 msgstr ""
 
-#: schema/data/uk.js:43
+#: schema/data/uk.js:51
 msgid "Additional Maternity Leave"
 msgstr ""
 

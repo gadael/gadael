@@ -110,11 +110,11 @@ msgstr "Activer le droit en fonction de l'âge de l'utilisateur"
 msgid "Activate the right according to the user seniority"
 msgstr "Activer le droit en fonction de l'ancienneté"
 
-#: public/partials/admin/rights.html
+#: public/partials/admin/right-view.html public/partials/admin/rights.html
 msgid "Active for the administrator"
 msgstr "Actif pour l'administrateur"
 
-#: public/partials/admin/rights.html
+#: public/partials/admin/right-view.html public/partials/admin/rights.html
 msgid "Active for the user"
 msgstr "Actif pour l'utilisateur"
 
@@ -760,6 +760,10 @@ msgstr ""
 "et vous fera bénéficier de droits de congés supplémentaires."
 
 #: public/partials/admin/right-edit.html
+msgid "Default absence length"
+msgstr "Durée de l'absence par défaut"
+
+#: public/partials/admin/right-edit.html
 #: public/partials/admin/user-view-account.html
 msgid "Default quantity"
 msgstr "Quantité par défaut"
@@ -1237,6 +1241,23 @@ msgid "Leaves requests must be included in this calendar"
 msgstr ""
 "Les demandes de congés doivent être créées dans les événements de cet agenda"
 
+#: public/partials/account/beneficiaries.html
+msgid "Legal absence length"
+msgstr "Durée légale de l'absence"
+
+#: public/partials/account/beneficiary-view.html
+#: public/partials/admin/beneficiary-edit.html
+msgid "Legal absence length:"
+msgstr "Durée légale de l'absence :"
+
+#: public/partials/admin/right-edit.html
+msgid "Legal leave duration"
+msgstr "Durée légale du congé :"
+
+#: public/partials/admin/right-view.html
+msgid "Legal leave duration:"
+msgstr "Durée légale du congé :"
+
 #: public/partials/admin/right-edit.html
 msgid "Limit in additional business days consumption in one renewal"
 msgstr ""
@@ -1478,6 +1499,14 @@ msgstr ""
 "Nombre d'années avant la date de début de la demande pour définir la fin de "
 "la période :"
 
+#: public/partials/admin/right-edit.html
+msgid ""
+"On request creation, the user will be notified if period does not match "
+"legal duration."
+msgstr ""
+"Lors de la création de la demande, l'utilisateur sera prévenu si la période "
+"ne correspond pas à la durée légale."
+
 #: public/partials/admin/collections.html
 msgid "One right"
 msgid_plural "{{$count}} rights"
@@ -1681,7 +1710,7 @@ msgstr "Renouvellements"
 msgid "Renewals with remaining quantity"
 msgstr "Renouvellements avec une quantité restante"
 
-#: public/js/services.js
+#: public/js/optimized.js public/js/services.js
 msgid "Request in user interval"
 msgstr "Demande dans l'intervalle utilisateur"
 
@@ -1832,6 +1861,10 @@ msgstr "Numéro de matricule Sage"
 #: public/partials/admin/user-view-account.html
 msgid "Sage registration number:"
 msgstr "Numéro de matricule Sage :"
+
+#: public/partials/admin/right-edit.html
+msgid "Same as the non-working duration"
+msgstr "Identique à la durée non-travaillée"
 
 #: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
@@ -2347,6 +2380,14 @@ msgstr "Utilisateurs"
 #: public/partials/admin/user-view.html
 msgid "Users list"
 msgstr "Liste des utilisateurs"
+
+#: public/partials/admin/right-edit.html
+msgid ""
+"Users will not be allowed to consume more than this value on one request, "
+"except if the default length is set to zero."
+msgstr ""
+"Les utilisateurs ne serons pas autorisés à consommer plus que cette valeur "
+"sur une demande, sauf si la valeur par défaut est zero."
 
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
 msgid ""

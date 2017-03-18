@@ -103,10 +103,12 @@ msgstr ""
 msgid "Activate the right according to the user seniority"
 msgstr ""
 
+#: public/partials/admin/right-view.html
 #: public/partials/admin/rights.html
 msgid "Active for the administrator"
 msgstr ""
 
+#: public/partials/admin/right-view.html
 #: public/partials/admin/rights.html
 msgid "Active for the user"
 msgstr ""
@@ -730,6 +732,10 @@ msgid "Declare a worked period outside of your working hours, the request will b
 msgstr ""
 
 #: public/partials/admin/right-edit.html
+msgid "Default absence length"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
 #: public/partials/admin/user-view-account.html
 msgid "Default quantity"
 msgstr ""
@@ -1167,6 +1173,23 @@ msgstr ""
 msgid "Leaves requests must be included in this calendar"
 msgstr ""
 
+#: public/partials/account/beneficiaries.html
+msgid "Legal absence length"
+msgstr ""
+
+#: public/partials/account/beneficiary-view.html
+#: public/partials/admin/beneficiary-edit.html
+msgid "Legal absence length:"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Legal leave duration"
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "Legal leave duration:"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Limit in additional business days consumption in one renewal"
 msgstr ""
@@ -1402,6 +1425,10 @@ msgstr ""
 msgid "Number of years before the entry start date to set the period end:"
 msgstr ""
 
+#: public/partials/admin/right-edit.html
+msgid "On request creation, the user will be notified if period does not match legal duration."
+msgstr ""
+
 #: public/partials/admin/collections.html
 msgid "One right"
 msgid_plural "{{$count}} rights"
@@ -1597,6 +1624,7 @@ msgstr ""
 msgid "Renewals with remaining quantity"
 msgstr ""
 
+#: public/js/optimized.js
 #: public/js/services.js
 msgid "Request in user interval"
 msgstr ""
@@ -1731,6 +1759,10 @@ msgstr ""
 
 #: public/partials/admin/user-view-account.html
 msgid "Sage registration number:"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Same as the non-working duration"
 msgstr ""
 
 #: public/partials/admin/collection-edit.html
@@ -2199,6 +2231,10 @@ msgstr ""
 
 #: public/partials/admin/user-view.html
 msgid "Users list"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Users will not be allowed to consume more than this value on one request, except if the default length is set to zero."
 msgstr ""
 
 #: public/partials/utils/common/request/time-saving-deposit-edit.html
