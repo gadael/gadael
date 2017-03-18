@@ -1,14 +1,30 @@
 define([], function() {
     'use strict';
 
-	return ['$scope', '$location', 'Rest', '$q', 'catchOutcome', function($scope, $location, Rest, $q, catchOutcome) {
+	return ['$scope', '$location', 'Rest', '$q', 'catchOutcome', 'gettext',
+    function($scope, $location, Rest, $q, catchOutcome, gettext) {
 
         var Department = Rest.admin.departments.getResource();
 		var Invitation = Rest.admin.invitations.getResource();
 
-        $scope.emails = '';
+        $scope.template = {
+            emails: '',
+            department: 0,
+            departmentName: ''
+        };
 
         $scope.departments = Department.query();
+        $scope.departments.$promise.then(function() {
+            if ($scope.departments.length === 0) {
+                // The select will not be displayed
+                return;
+            }
+
+            $scope.departments.unshift({
+                _id: 0,
+                name: gettext('Create a new department')
+            });
+        });
 
         /**
          * get the department object or create it and the get the department object
@@ -16,17 +32,17 @@ define([], function() {
          */
         function getDepartment() {
             var deferred = $q.defer();
-            if ($scope.department) {
-                deferred.resolve($scope.department);
+            if ($scope.template.department) {
+                deferred.resolve($scope.template.department);
             }
 
-            if (!$scope.departmentName) {
+            if (!$scope.template.departmentName) {
                 deferred.resolve(null);
             } else {
                 var department = new Department();
-                department.name = $scope.departmentName;
+                department.name = $scope.template.departmentName;
                 department.operator = 'AND';
-                department.save()
+                catchOutcome(department.$create())
                 .then(function() {
                     deferred.resolve(department._id);
                 });
@@ -43,7 +59,7 @@ define([], function() {
          */
         function saveInvitations(departmentId) {
 
-            return $scope.emails.split('\n')
+            return $scope.template.emails.split('\n')
             .filter(function(email) {
                 return (-1 !== email.indexOf('@'));
             })
@@ -51,7 +67,7 @@ define([], function() {
                 var invitation = new Invitation();
                 invitation.department = departmentId;
                 invitation.email = email;
-                return catchOutcome(invitation.save());
+                return catchOutcome(invitation.$create());
             });
         }
 
@@ -63,7 +79,17 @@ define([], function() {
 		$scope.save = function() {
             getDepartment()
             .then(function(departmentId) {
-                return $q.all(saveInvitations(departmentId));
+                var promises = saveInvitations(departmentId);
+                if (promises.length === 0) {
+                    $scope.pageAlerts.push({
+                        type: 'danger',
+                        message: gettext('You must input one email address at least')
+                    });
+
+                    throw new Error('Nothing to submit');
+                }
+
+                return $q.all(promises);
             })
             .then(function() {
                 $scope.invitation.gadaSave($scope.back);
