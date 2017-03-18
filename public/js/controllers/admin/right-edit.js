@@ -39,7 +39,7 @@ define([], function() {
                 $scope.nameReadOnly = false;
                 $scope.descriptionReadOnly = false;
                 $scope.right.special = undefined;
-                $scope.right.name = '';
+                //$scope.right.name = '';
                 return;
             }
 

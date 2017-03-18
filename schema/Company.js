@@ -1,5 +1,8 @@
 'use strict';
 
+const daysBetween = require('../modules/daysBetween');
+
+
 exports = module.exports = function(params) {
 	var companySchema = new params.mongoose.Schema({
 		name: { type: String, required: true, unique: true },			// company name, site title
@@ -122,16 +125,6 @@ exports = module.exports = function(params) {
 			};
 		}
 
-		function treatAsUTC(date) {
-			let result = new Date(date);
-			result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
-			return result;
-		}
-
-		function daysBetween(startDate, endDate) {
-			let millisecondsPerDay = 24 * 60 * 60 * 1000;
-			return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
-		}
 
 		let now = new Date();
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const SpecialRightIndex = require('./../api/specialrights/index');
+const SpecialRightIndex = require('../api/specialrights/index');
 
 
 exports = module.exports = function(params) {
@@ -27,7 +27,8 @@ exports = module.exports = function(params) {
                 'proportion',                                    // proportion: user the attendance percentage defined in user right collection
                 'businessDays',                                  // businessDays: next business days are consumed up to consumptionBusinessDaysLimit
                 'workingDays',                                   // workingDays: full working days are consumed
-                'duration'                                       // duration: consumption equal leave duration
+                'duration',                                      // duration: consumption equal worked duration
+                'length'                                         // length: number of days or between the two dates (not usefull for hours)
             ],
             default: 'proportion'
         },
@@ -774,27 +775,32 @@ exports = module.exports = function(params) {
 
         let right = this;
 
-        return new Promise((resolve, reject) => {
-            if ('proportion' === right.consumption) {
-                // consume more than duration quantity if attendance percentage lower than 100
-                return resolve(right.getConsumedQuantityByAttendance(collection.attendance, elem.quantity));
-            }
 
-            if ('businessDays' === right.consumption) {
-                // consume number of business days up to back to work date
-                return resolve(right.getConsumedQuantityByBusinessDays(collection, elem));
-            }
+        if ('proportion' === right.consumption) {
+            // consume more than duration quantity if attendance percentage lower than 100
+            return Promise.resolve(right.getConsumedQuantityByAttendance(collection.attendance, elem.quantity));
+        }
 
-            if ('workingDays' === right.consumption) {
-                // consume exact number of working days (no half-days)
-                return resolve(elem.getWorkingDays());
-            }
+        if ('businessDays' === right.consumption) {
+            // consume number of business days up to back to work date
+            return right.getConsumedQuantityByBusinessDays(collection, elem);
+        }
 
-            if ('duration' === right.consumption) {
-                // consume duration
-                return resolve(elem.quantity);
-            }
-        });
+        if ('workingDays' === right.consumption) {
+            // consume exact number of working days (no half-days)
+            return elem.getWorkingDays();
+        }
+
+        if ('duration' === right.consumption) {
+            // consume duration
+            return Promise.resolve(elem.quantity);
+        }
+
+        if ('length' === right.consumption) {
+            return elem.getLength();
+        }
+
+        return Promise.reject('Unexpected consumption type '+right.consumption);
     };
 
 

@@ -1,6 +1,7 @@
 'use strict';
 
 const util = require('util');
+const daysBetween = require('../modules/daysBetween');
 
 /**
  *
@@ -41,7 +42,8 @@ exports = module.exports = function(params) {
 					'proportion',			// proportion: use the attendance percentage defined in user right collection
 					'businessDays',			// businessDays: next business days are consumed up to consumptionBusinessDaysLimit
 					'workingDays',			// workingDays: full working days are consumed
-					'duration'				// duration: equal duration (quantity field)
+					'duration',				// duration: equal duration (quantity field)
+					'length'				// length: number of days between the two dates
 				],
                 required: true
             },
@@ -222,6 +224,19 @@ exports = module.exports = function(params) {
 				dtstart: events[0].dtstart,
 				dtend: events[events.length-1].dtend
 			};
+		});
+	};
+
+
+	/**
+	 * Get length in days
+	 * @return {Promise} resolve to a number
+	 */
+	absenceElemSchema.methods.getLength = function() {
+
+		return this.getBoundaries()
+		.then(boundaries => {
+			return daysBetween(boundaries.dtstart, boundaries.dtend);
 		});
 	};
 
