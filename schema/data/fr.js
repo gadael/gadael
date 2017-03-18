@@ -65,14 +65,28 @@ module.exports = exports = function(app) {
                 quantity: null,
                 defaultAbsenceLength: 80,
                 activeFor: {  account: false },
-                autoDistribution: false
+                autoDistribution: false,
+                renewal: {
+                    start: {
+                        month:0,
+                        day:1,
+                        nbYears: 100
+                    }
+                }
             },
             {
                 name: gt.gettext('Sickness absence'),
                 type: '5740adf51cf1a569643cc50b',
                 quantity: null,
                 activeFor: { account: false },
-                autoDistribution: false
+                autoDistribution: false,
+                renewal: {
+                    start: {
+                        month:0,
+                        day:1,
+                        nbYears: 100
+                    }
+                }
             }
         ]
     };

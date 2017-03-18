@@ -882,10 +882,10 @@ exports = module.exports = function(params) {
                     period.start.setFullYear(period.start.getFullYear()-1);
                 }
 
-
+                const nbYears = rightData.renewal ? rightData.renewal.nbYears : 1;
 
                 period.finish = new Date(period.start);
-                period.finish.setFullYear(period.finish.getFullYear()+1);
+                period.finish.setFullYear(period.finish.getFullYear() + nbYears);
                 period.finish.setDate(period.finish.getDate()-1);
                 period.finish.setHours(23,59,59,999);
 
