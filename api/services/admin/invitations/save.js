@@ -1,6 +1,6 @@
 'use strict';
 
-
+const crypto = require('crypto');
 
 /**
  * Validate params fields
@@ -29,15 +29,16 @@ function saveRightType(service, params) {
 
     var InvitationModel = service.app.db.models.Invitation;
 
-
     var fieldsToSet = {
         email: params.email,
-        department: params.department._id
+        department: params.department,
     };
 
 
     if (params.id)
     {
+        // Update the invitation, not used
+
         InvitationModel.findOne({ _id: params._id })
         .exec((err, invitation) => {
             if (service.handleMongoError(err)) {
@@ -59,20 +60,32 @@ function saveRightType(service, params) {
 
     } else {
 
-        let invitation = new InvitationModel();
-        invitation.set(fieldsToSet);
+        crypto.randomBytes(48, function(err, tokenBuffer) {
 
-        invitation.save((err, document) => {
-
-            if (service.handleMongoError(err))
-            {
-                service.resolveSuccessGet(
-                    document._id,
-                    gt.gettext('The invitation has been created')
-                );
+            if (err) {
+                return service.error(err);
             }
+
+            let invitation = new InvitationModel();
+            invitation.set(fieldsToSet);
+            invitation.emailToken = tokenBuffer.toString('hex');
+
+            // TODO: send the email
+
+            invitation.save((err, document) => {
+
+                if (service.handleMongoError(err))
+                {
+                    service.resolveSuccessGet(
+                        document._id,
+                        gt.gettext('The invitation has been created')
+                    );
+                }
+            });
+
         });
     }
+
 }
 
 
