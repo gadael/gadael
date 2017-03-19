@@ -20,10 +20,6 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
 
     var mockServerDbName = dbname+port;
 
-    if (undefined !== jasmine) {
-        jasmine.getEnv().defaultTimeoutInterval = 30000;
-    }
-
     this.dbname = mockServerDbName;
 
     this.sessionCookie = null;

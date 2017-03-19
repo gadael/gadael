@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-18 14:54+0100\n"
+"POT-Creation-Date: 2017-03-19 20:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -369,6 +369,27 @@ msgstr ""
 
 #: api/services/admin/exports/balance.js:60
 msgid "Pending delete"
+msgstr ""
+
+#: api/services/admin/invitations/get.js:29
+msgid "This invitation does not exists"
+msgstr ""
+
+#: api/services/admin/invitations/delete.js:28
+msgid "The invitation has been deleted"
+msgstr ""
+
+#: api/services/admin/invitations/save.js:56
+msgid "The invitation has been modified"
+msgstr ""
+
+#: api/services/admin/invitations/save.js:84
+msgid "This email address already exists in users list"
+msgstr ""
+
+#: api/services/admin/invitations/save.js:100
+#, javascript-format
+msgid "The invitation for %s has been sent"
 msgstr ""
 
 #: api/services/admin/types/get.js:29
@@ -739,6 +760,35 @@ msgstr ""
 msgid "Access denied for logged in users"
 msgstr ""
 
+#: modules/emails/invitation.js:22
+#, javascript-format
+msgid "%s invited you to join the leave management application at %s"
+msgstr ""
+
+#: modules/emails/invitation.js:38
+msgid "Invitation"
+msgstr ""
+
+#: modules/emails/invitation.js:40
+#, javascript-format
+msgid "%s has sent you this invitation to join %s as a user"
+msgstr ""
+
+#: modules/emails/invitation.js:45
+msgid "Please, use the link below to create your account"
+msgstr ""
+
+#: modules/emails/invitation.js:47
+msgid "Setup my account"
+msgstr ""
+
+#: modules/emails/invitation.js:51 modules/emails/pendingapproval.js:51
+#: modules/emails/rolesupdated.js:36 modules/emails/resetpassword.js:40
+#: modules/emails/requestaccepted.js:75 modules/emails/requestrejected.js:50
+#: modules/emails/requestcreated.js:42 modules/emails/usercreated.js:36
+msgid "Yours truly"
+msgstr ""
+
 #: modules/emails/pendingapproval.js:21
 #, javascript-format
 msgid "%s: a request is waiting for your approval"
@@ -760,13 +810,6 @@ msgstr ""
 #: modules/emails/pendingapproval.js:47 modules/emails/requestaccepted.js:66
 #: modules/emails/requestrejected.js:46 modules/emails/requestcreated.js:38
 msgid "View request"
-msgstr ""
-
-#: modules/emails/pendingapproval.js:51 modules/emails/rolesupdated.js:36
-#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:75
-#: modules/emails/requestrejected.js:50 modules/emails/requestcreated.js:42
-#: modules/emails/usercreated.js:36
-msgid "Yours truly"
 msgstr ""
 
 #: modules/emails/pendingapproval.js:58
@@ -991,35 +1034,43 @@ msgid "Users list"
 msgstr ""
 
 #: rest/Common.js:107
-msgid "Departments list"
+msgid "Invitations"
 msgstr ""
 
 #: rest/Common.js:111
-msgid "Collections list"
+msgid "Departments list"
 msgstr ""
 
 #: rest/Common.js:115
+msgid "Collections list"
+msgstr ""
+
+#: rest/Common.js:119
 msgid "Calendars list"
 msgstr ""
 
-#: rest/Common.js:122
+#: rest/Common.js:126
 msgid "Right types"
 msgstr ""
 
-#: rest/Common.js:126
+#: rest/Common.js:130
 msgid "Rights configuration"
 msgstr ""
 
-#: rest/Common.js:130
+#: rest/Common.js:134
 msgid "Sort rights and types"
 msgstr ""
 
-#: rest/Common.js:134
+#: rest/Common.js:138
 msgid "Recover quantities"
 msgstr ""
 
 #: rest/anonymous/formlogin.js:61
 msgid "You are now loged in"
+msgstr ""
+
+#: rest/anonymous/invitation.js:17
+msgid "Your invitation email is not valid"
 msgstr ""
 
 #: rest/anonymous/createfirstadmin.js:60

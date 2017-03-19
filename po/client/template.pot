@@ -232,6 +232,10 @@ msgstr ""
 msgid "All managers must confirm approval step"
 msgstr ""
 
+#: public/partials/admin/invitation-edit.html
+msgid "All the users who accept the invitation will be saved into the same department, used for leave requests approval"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Allow to save quantity from this right to the time deposit account"
 msgstr ""
@@ -458,6 +462,7 @@ msgstr ""
 #: public/partials/admin/department-edit.html
 #: public/partials/admin/export/export-edit-sage.html
 #: public/partials/admin/export/export-edit-xlsx.html
+#: public/partials/admin/invitation-edit.html
 #: public/partials/admin/recoverquantity-edit.html
 #: public/partials/admin/right-edit.html
 #: public/partials/admin/rightrenewal-edit.html
@@ -536,6 +541,7 @@ msgid "Confirm new password"
 msgstr ""
 
 #: public/partials/login/createfirstadmin.html
+#: public/partials/login/invitation.html
 msgid "Confirm password"
 msgstr ""
 
@@ -610,6 +616,10 @@ msgstr ""
 
 #: public/partials/admin/right-edit.html
 msgid "Create a leave right"
+msgstr ""
+
+#: public/js/controllers/admin/invitation-edit.js
+msgid "Create a new department"
 msgstr ""
 
 #: public/partials/user/settings-calendar-new.html
@@ -751,6 +761,7 @@ msgid "Define the periods that will be used to measure the consumed quantity"
 msgstr ""
 
 #: public/partials/admin/compulsoryleave-view.html
+#: public/partials/admin/invitations.html
 #: public/partials/admin/right-view.html
 #: public/partials/admin/rightrule-edit.html
 #: public/partials/admin/user-view.html
@@ -835,6 +846,14 @@ msgstr ""
 #: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/rights.html
 msgid "Do not require approval"
+msgstr ""
+
+#: public/js/controllers/admin/invitations.js
+msgid "Do you really want to delete this invitation?"
+msgstr ""
+
+#: public/partials/admin/invitations.html
+msgid "done"
 msgstr ""
 
 #: public/partials/admin/export/export-edit-sage.html
@@ -961,6 +980,7 @@ msgstr ""
 
 #: public/partials/admin/right-view.html
 #: public/partials/login/createfirstadmin.html
+#: public/partials/login/invitation.html
 #: public/partials/utils/common/user/user-edit-head.html
 msgid "Firstname"
 msgstr ""
@@ -975,6 +995,10 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available."
+msgstr ""
+
+#: public/partials/admin/invitation-edit.html
+msgid "For example, R&D or HR..."
 msgstr ""
 
 #: public/partials/login/login.html
@@ -1120,8 +1144,24 @@ msgstr ""
 msgid "Input quantity must be set"
 msgstr ""
 
+#: public/partials/admin/invitation-edit.html
+msgid "Insert the invited users into a department"
+msgstr ""
+
 #: public/partials/utils/common/request/request-view-embed.html
 msgid "Interventions history"
+msgstr ""
+
+#: public/js/controllers/admin/invitations.js
+msgid "Invitations"
+msgstr ""
+
+#: public/partials/admin/invitation-edit.html
+msgid "Invite a list of persons to register"
+msgstr ""
+
+#: public/partials/admin/invitations.html
+msgid "Invite someone"
 msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html
@@ -1139,6 +1179,7 @@ msgstr ""
 
 #: public/partials/admin/right-view.html
 #: public/partials/login/createfirstadmin.html
+#: public/partials/login/invitation.html
 #: public/partials/utils/common/user/user-edit-head.html
 msgid "Lastname"
 msgstr ""
@@ -1182,6 +1223,10 @@ msgstr ""
 msgid "Legal absence length:"
 msgstr ""
 
+#: public/partials/utils/common/request/absence-edit.html
+msgid "Legal duration:"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "Legal leave duration"
 msgstr ""
@@ -1196,6 +1241,10 @@ msgstr ""
 
 #: public/partials/user/settings-calendar.html
 msgid "Link with your google calendar"
+msgstr ""
+
+#: public/partials/admin/invitation-edit.html
+msgid "List of emails to invite, one per line"
 msgstr ""
 
 #: public/partials/user/settings-calendar.html
@@ -1471,6 +1520,7 @@ msgid "Or set the available quantity"
 msgstr ""
 
 #: public/partials/admin/beneficiary-edit.html
+#: public/partials/admin/user-view-account.html
 msgid "Out of collection right"
 msgstr ""
 
@@ -1492,6 +1542,7 @@ msgstr ""
 
 #: public/partials/admin/user-edit.html
 #: public/partials/login/createfirstadmin.html
+#: public/partials/login/invitation.html
 #: public/partials/user/settings-password.html
 msgid "Password Strength:"
 msgstr ""
@@ -1519,6 +1570,10 @@ msgstr ""
 
 #: public/partials/home.html
 msgid "Please log into the application to see your account informations"
+msgstr ""
+
+#: public/partials/login/invitation.html
+msgid "Please setup your account."
 msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html
@@ -1787,6 +1842,7 @@ msgstr ""
 #: public/partials/admin/type-edit.html
 #: public/partials/admin/user-edit.html
 #: public/partials/login/createfirstadmin.html
+#: public/partials/login/invitation.html
 #: public/partials/user/settings-calendar-new.html
 #: public/partials/user/settings-calendar.html
 #: public/partials/user/settings-password.html
@@ -1892,6 +1948,10 @@ msgstr ""
 msgid "Selected recovery:"
 msgstr ""
 
+#: public/partials/admin/invitation-edit.html
+msgid "Send invitations"
+msgstr ""
+
 #: public/partials/login/forgot.html
 msgid "Send Reset"
 msgstr ""
@@ -1914,6 +1974,7 @@ msgid "Set a new password"
 msgstr ""
 
 #: public/partials/login/createfirstadmin.html
+#: public/partials/login/invitation.html
 msgid "Set password"
 msgstr ""
 
@@ -1927,6 +1988,14 @@ msgstr ""
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Set the consumed quantity interval where the rule will be valid"
+msgstr ""
+
+#: public/partials/admin/invitation-edit.html
+msgid "Set the department where the invited peoples will be recorded"
+msgstr ""
+
+#: public/partials/admin/invitation-edit.html
+msgid "Set the new department name"
 msgstr ""
 
 #: public/partials/utils/common/settings/menu.html
@@ -2049,6 +2118,10 @@ msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html
 msgid "There are no configured rights to display"
+msgstr ""
+
+#: public/partials/login/invitation.html
+msgid "This application is provided to you by {{company.name}}"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
@@ -2330,6 +2403,10 @@ msgstr ""
 msgid "Waiting delete approval:"
 msgstr ""
 
+#: public/partials/admin/invitations.html
+msgid "Waiting for response"
+msgstr ""
+
 #: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Wednesday"
@@ -2337,6 +2414,7 @@ msgstr ""
 
 #: public/partials/home.html
 #: public/partials/login/createfirstadmin.html
+#: public/partials/login/invitation.html
 msgid "Wellcome"
 msgstr ""
 
@@ -2408,6 +2486,18 @@ msgstr ""
 msgid "Years before the entry start date to set the period start:"
 msgstr ""
 
+#: public/partials/admin/invitations.html
+msgid "You can invite someone to use this application if you know his email."
+msgstr ""
+
+#: public/partials/login/invitation.html
+msgid "You have been invited by {{invitation.createdBy.name}} to create an account on the leave management application!"
+msgstr ""
+
+#: public/js/controllers/admin/invitation-edit.js
+msgid "You must input one email address at least"
+msgstr ""
+
 #: public/partials/admin/right-view.html
 msgid "You must link this right to a collection or users so that it is accessible"
 msgstr ""
@@ -2433,6 +2523,10 @@ msgstr ""
 
 #: public/partials/login/login.html
 msgid "Your email:"
+msgstr ""
+
+#: public/partials/login/invitation.html
+msgid "Your leave rights collection"
 msgstr ""
 
 #: public/partials/home.html
