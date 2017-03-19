@@ -87,7 +87,7 @@ grunt --help
 
 - [ ] test .deb and .rpm in a VM
 - [ ] Link invitation form to home page
-- [ ] send mail on invitation
+- [x] send mail on invitation
 - [x] Add a field for quantity per request on rights settings (force duration for maternity leave)
 - [x] Do not display table headers if table empty on user view
 - [x] roles checkbox in user edit, fix line break

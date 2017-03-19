@@ -18,6 +18,11 @@ let config = require('../../../config')();
  */
 function mockServer(dbname, port, readyCallback, countryCode, languageCode, timeCreated) {
 
+    if (undefined !== jasmine) {
+        // for slow travis CI
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+    }
+
     var mockServerDbName = dbname+port;
 
 
