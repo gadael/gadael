@@ -2,6 +2,7 @@
 
 const crypto = require('crypto');
 const util = require('util');
+const invitationEmail = require('../../../../modules/emails/invitation');
 
 /**
  * Validate params fields
@@ -75,19 +76,22 @@ function saveRightType(service, params) {
                 name: params.createdBy.getName()
             };
 
-            // TODO: send the email
 
-            invitation.save((err, document) => {
-
-                if (service.handleMongoError(err))
-                {
-                    service.resolveSuccessGet(
-                        document._id,
-                        util.format(gt.gettext('The invitation for %s has been created'), document.email)
-                    );
-                }
-            });
-
+            invitationEmail(service.app, invitation)
+            .then(mail => {
+                return mail.send();
+            })
+            .then(message => {
+                invitation.message = message._id;
+                return invitation.save();
+            })
+            .then(document => {
+                service.resolveSuccessGet(
+                    document._id,
+                    util.format(gt.gettext('The invitation for %s has been sent'), document.email)
+                );
+            })
+            .catch(service.error);
         });
     }
 

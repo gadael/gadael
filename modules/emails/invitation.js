@@ -28,7 +28,7 @@ exports = module.exports = function getMail(app, invitation) {
     let invitationLink = app.config.url +'/#/anonymous/invitation/'+ invitation.emailToken;
 
 
-    mail.addTo(invitation.email);
+    mail.addAddress(invitation.email);
 
 
     // Intro: request type, Waiting approval or Waiting deletion approval

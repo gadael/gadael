@@ -14,8 +14,8 @@ exports = module.exports = function(params) {
             address: String
         },
 		to: [{       // recipient
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
-            name: { type: String, required: true },
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
+            name: String,
             address: String
         }],
 		emailSent: { type: Boolean, default: false },

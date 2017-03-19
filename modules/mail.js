@@ -55,6 +55,17 @@ Mail.prototype.addTo = function(user) {
 };
 
 /**
+ * Set recipient by email address
+ * @param {String} email
+ */
+Mail.prototype.addAddress = function(email) {
+    this.nodemailerData.to.push({
+        address: email
+    });
+};
+
+
+/**
  * Set from by user
  * @param {User} user
  */
