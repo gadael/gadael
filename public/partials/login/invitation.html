@@ -4,11 +4,18 @@
 
 	<div class="col-xs-12 col-sm-3">
 		<h3><i class="fa fa-user"></i> <span translate>Wellcome</span></h3>
-        <p translate>Please setup your account.</p>
+		<p translate>This application is provided to you by {{company.name}}</p>
+
 	</div>
 
 
 	<div class="col-xs-12 col-sm-9">
+
+		<div class="jumbotron">
+			<p translate>You have been invited by {{invitation.createdBy.name}} to create an account on the leave management application!</p>
+			<p translate>Please setup your account.</p>
+		</div>
+
 
 		<div class="form-group col-md-6">
 			<label for="user_firstname" translate>Firstname</label>
@@ -23,7 +30,7 @@
 
 		<div class="form-group col-xs-12">
 			<label for="user_collection" translate>Your leave rights collection</label>
-			<select class="form-control" id="user_collection" ng-model="user.collection">
+			<select class="form-control" id="user_collection" ng-model="user.collection" ng-options="collection._id as collection.name for collection in invitation.collections">
 			</select>
 		</div>
 

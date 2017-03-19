@@ -17,11 +17,9 @@ define([], function() {
         $scope.user = Rest.anonymous.invitation.getFromUrl().loadRouteId();
         var Invitation = Rest.anonymous.invitation.getResource();
 
-		var invitation = Invitation.get({ emailToken: $routeParams.emailToken });
-        catchOutcome(invitation.$promise)
-        .then(function() {
-            console.log(invitation);
-        });
+		$scope.invitation = Invitation.get({ emailToken: $routeParams.emailToken });
+
+        catchOutcome($scope.invitation.$promise);
 
 
 

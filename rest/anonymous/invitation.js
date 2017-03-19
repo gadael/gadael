@@ -40,12 +40,24 @@ function getController() {
 
     this.controllerAction = function() {
         getInvitation(controller)
-        .then(function(invitation) {
+        .then(document => {
 
-            //TODO: Add list of collection where the user will be allowed to register
+            let invitation = document.toObject();
+
+            // Add list of collection where the user will be allowed to register
             // this is because collection list is not accessible to annonymous
             // but only to this person thanks to the emailToken
 
+            return document.model('RightCollection')
+            .find({})
+            .select('name')
+            .exec()
+            .then(collections => {
+                invitation.collections = collections;
+                return invitation;
+            });
+        })
+        .then(invitation => {
             controller.res.statusCode = 200;
             controller.res.json(invitation);
         })
