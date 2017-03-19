@@ -44,6 +44,10 @@ define(['angular', 'services'], function (angular) {
             invokeController('controllers/login/createfirstadmin', this, $scope, $injector);
 		}])
 
+		.controller('Invitation', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/login/invitation', this, $scope, $injector);
+		}])
+
 
 
 

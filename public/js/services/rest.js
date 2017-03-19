@@ -104,7 +104,8 @@ define(function() {
             },
 
             anonymous: {
-                createfirstadmin        : init('anonymous/createfirstadmin')
+                createfirstadmin        : init('anonymous/createfirstadmin'),
+                invitation              : init('anonymous/invitation')
             }
         };
     };

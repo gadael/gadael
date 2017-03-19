@@ -72,7 +72,9 @@
                 <span ng-if="beneficiary.errors.length>0"><i class="fa fa-warning text-danger" title="{{'Some renewals are invalids'|translate}}"></i></span>
             </td>
             <td>{{beneficiary.available_quantity | rightQuantity}} {{beneficiary.available_quantity_dispUnit}}</td>
-            <td>{{beneficiary.renewals.length}}</td>
+            <td>{{beneficiary.renewals.length}}
+                <i ng-if="beneficiary.ref=='User'" class="fa fa-warning text-warning" title="{{'Out of collection right'|translate}}" bs-tooltip></i>
+            </td>
         </tr>
         </tbody>
 

@@ -9,6 +9,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'CreateFirstAdmin'
 		});
 
+		$routeProvider.when('/anonymous/invitation/:emailToken', {
+			templateUrl: 'partials/login/invitation.html',
+			controller: 'Invitation'
+		});
+
 		$routeProvider.when('/home', {
 			templateUrl: 'partials/home.html',
 			controller: 'Home'

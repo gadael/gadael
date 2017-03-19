@@ -104,6 +104,10 @@ exports.getInfos = function(req, res) {
                     'href': '#/admin/users'
                 },
                 {
+                    'text': '<i class="fa fa-paper-plane-o"></i>&nbsp;'+gt.gettext('Invitations'),
+                    'href': '#/admin/invitations'
+                },
+                {
                     'text': '<i class="fa fa-building-o"></i>&nbsp;'+gt.gettext('Departments list'),
                     'href': '#/admin/departments'
                 },

@@ -136,6 +136,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/invitations');
 
     controllers.add('./anonymous/createfirstadmin');
+    controllers.add('./anonymous/invitation');
     controllers.add('./anonymous/formlogin');
 
 
