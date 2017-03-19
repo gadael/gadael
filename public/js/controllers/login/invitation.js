@@ -36,6 +36,7 @@ define([], function() {
          * Save button
          */
 		$scope.saveUser = function() {
+            $scope.user.emailToken = $routeParams.emailToken;
             $scope.user.gadaSave($scope.login);
 	    };
 

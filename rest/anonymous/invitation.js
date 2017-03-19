@@ -6,20 +6,38 @@ const ctrlFactory = require('restitute').controller;
 /**
  * Get invitation from email token
  */
-function getInvitation(controller) {
+function getInvitation(controller, emailToken) {
 
     const gt = controller.req.app.utility.gettext;
     const Invitation = controller.req.app.db.models.Invitation;
 
-    console.log(controller.req.params);
-
-    return Invitation.findOne({ emailToken: controller.req.params.emailToken })
+    return Invitation.findOne({ emailToken: emailToken })
     .then(function(invitation) {
         if (null === invitation) {
             throw new Error(gt.gettext('Your invitation email is not valid'));
         }
 
         return invitation;
+    });
+}
+
+
+/**
+ * Save a collection period
+ */
+function startCollection(controller, userId, collectionId) {
+    const User = controller.req.app.db.models.User;
+    const AccountCollection = controller.req.app.db.models.AccountCollection;
+
+    return User.findOne({ _id: userId })
+    .exec()
+    .then(user => {
+        let accountCollection = new AccountCollection();
+        accountCollection.account = user.roles.account;
+        accountCollection.rightCollection = collectionId;
+        accountCollection.from = new Date();
+        accountCollection.from.setHours(0,0,0,0);
+        return accountCollection.save();
     });
 }
 
@@ -39,7 +57,7 @@ function getController() {
 
 
     this.controllerAction = function() {
-        getInvitation(controller)
+        getInvitation(controller, controller.req.params.emailToken)
         .then(document => {
 
             let invitation = document.toObject();
@@ -74,21 +92,33 @@ getController.prototype = new ctrlFactory.get();
  *
  */
 function createController() {
-    ctrlFactory.create.call(this, '/rest/anonymous/invitation/:emailToken');
+    ctrlFactory.create.call(this, '/rest/anonymous/invitation');
     var controller = this;
 
     this.controllerAction = function() {
 
-        getInvitation(controller)
-        .then(function(invitation) {
+        getInvitation(controller, controller.req.body.emailToken)
+        .then(invitation => {
 
             let userService = controller.service('admin/users/save', {
                 isActive: true,
                 isAdmin: false,
-                isManager: false
+                isManager: false,
+                email: invitation.email
             });
 
+
             return controller.jsonService(userService)
+            .then(user => {
+
+                if (!controller.req.body.collection) {
+                    // no link to collection
+                    return null;
+                }
+
+                // start a period for the collection
+                return startCollection(controller, user._id, controller.req.body.collection);
+            })
             .then(() => {
                 invitation.done = true;
                 return invitation.save();
