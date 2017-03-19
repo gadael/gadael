@@ -23,8 +23,10 @@
 		<div class="gadael-list-rows">
 			<div class="row" ng-repeat="invitation in invitations">
 				<div class="col-xs-12">
-					<a ng-href="#/admin/invitations/{{type._id}}" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
-					 &nbsp;{{invitation.email}}
+					<button ng-click="delete(invitation)" class="btn btn-danger btn-xs hidden-print" role="button">
+						<i class="fa fa-times"></i> <span class="hidden-xs" translate>Delete</span>
+					</button>
+					&nbsp;{{invitation.email}}
 				</div>
 			</div>
 		</div>
