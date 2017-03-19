@@ -1,6 +1,7 @@
 'use strict';
 
 const crypto = require('crypto');
+const util = require('util');
 
 /**
  * Validate params fields
@@ -9,7 +10,7 @@ const crypto = require('crypto');
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['email'])) {
+    if (service.needRequiredFields(params, ['email', 'createdBy'])) {
         return;
     }
 
@@ -69,6 +70,10 @@ function saveRightType(service, params) {
             let invitation = new InvitationModel();
             invitation.set(fieldsToSet);
             invitation.emailToken = tokenBuffer.toString('hex');
+            invitation.createdBy = {
+                id: params.createdBy._id,
+                name: params.createdBy.getName()
+            };
 
             // TODO: send the email
 
@@ -78,7 +83,7 @@ function saveRightType(service, params) {
                 {
                     service.resolveSuccessGet(
                         document._id,
-                        gt.gettext('The invitation has been created')
+                        util.format(gt.gettext('The invitation for %s has been created'), document.email)
                     );
                 }
             });

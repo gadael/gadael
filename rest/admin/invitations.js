@@ -24,14 +24,28 @@ function getController() {
 getController.prototype = new ctrlFactory.get();
 
 
+
+
+function createController() {
+    ctrlFactory.create.call(this, '/rest/admin/invitations');
+    let controller = this;
+    this.controllerAction = function() {
+
+        // since service is query independant, we have to give
+        // the additional parameter
+
+        controller.jsonService(
+            controller.service('admin/invitations/save', {
+                createdBy: controller.req.user
+            })
+        );
+    };
+}
+
 function save() {
     this.jsonService(this.service('admin/invitations/save'));
 }
 
-function createController() {
-    ctrlFactory.create.call(this, '/rest/admin/invitations');
-    this.controllerAction = save;
-}
 createController.prototype = new ctrlFactory.create();
 
 function updateController() {

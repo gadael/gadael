@@ -91,9 +91,7 @@ define([], function() {
 
                 return $q.all(promises);
             })
-            .then(function() {
-                $scope.invitation.gadaSave($scope.back);
-            });
+            .then($scope.back);
 	    };
 	}];
 });
