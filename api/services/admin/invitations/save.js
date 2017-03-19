@@ -29,7 +29,8 @@ function saveRightType(service, params) {
 
     const gt = service.app.utility.gettext;
 
-    var InvitationModel = service.app.db.models.Invitation;
+    const InvitationModel = service.app.db.models.Invitation;
+    const UserModel = service.app.db.models.User;
 
     var fieldsToSet = {
         email: params.email,
@@ -76,8 +77,16 @@ function saveRightType(service, params) {
                 name: params.createdBy.getName()
             };
 
+            UserModel.find({ email: invitation.email })
+            .exec()
+            .then(arr => {
+                if (0 !== arr.length) {
+                    throw new Error(gt.gettext('This email address already exists in users list'));
+                }
 
-            invitationEmail(service.app, invitation)
+                return invitationEmail(service.app, invitation);
+            })
+
             .then(mail => {
                 return mail.send();
             })
