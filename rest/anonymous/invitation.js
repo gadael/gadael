@@ -104,7 +104,11 @@ function createController() {
                 isActive: true,
                 isAdmin: false,
                 isManager: false,
-                email: invitation.email
+                isAccount: true,
+                email: invitation.email,
+                department: {
+                    _id: invitation.department
+                }
             });
 
 
