@@ -105,7 +105,7 @@ define(function() {
 
             anonymous: {
                 createfirstadmin        : init('anonymous/createfirstadmin'),
-                invitation              : init('anonymous/invitation')
+                invitation              : init('anonymous/invitation/:emailToken')
             }
         };
     };

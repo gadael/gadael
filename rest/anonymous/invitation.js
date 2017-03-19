@@ -9,16 +9,17 @@ const ctrlFactory = require('restitute').controller;
 function getInvitation(controller) {
 
     const gt = controller.req.app.utility.gettext;
+    const Invitation = controller.req.app.db.models.Invitation;
 
-    const service = controller.service('admin/invitations/list');
+    console.log(controller.req.params);
 
-    return service.getResultPromise({ emailToken: controller.req.emailToken })
-    .then(function(invitations) {
-        if (1 !== invitations.length) {
+    return Invitation.findOne({ emailToken: controller.req.params.emailToken })
+    .then(function(invitation) {
+        if (null === invitation) {
             throw new Error(gt.gettext('Your invitation email is not valid'));
         }
 
-        return invitations[0];
+        return invitation;
     });
 }
 
@@ -32,7 +33,7 @@ function getInvitation(controller) {
 function getController() {
 
 
-    ctrlFactory.get.call(this, '/rest/anonymous/invitation');
+    ctrlFactory.get.call(this, '/rest/anonymous/invitation/:emailToken');
 
     const controller = this;
 
@@ -48,7 +49,7 @@ function getController() {
             controller.res.statusCode = 200;
             controller.res.json(invitation);
         })
-        .catch(controller.accessDenied);
+        .catch(err => controller.error(err.message));
     };
 }
 getController.prototype = new ctrlFactory.get();
@@ -61,7 +62,7 @@ getController.prototype = new ctrlFactory.get();
  *
  */
 function createController() {
-    ctrlFactory.create.call(this, '/rest/anonymous/invitation');
+    ctrlFactory.create.call(this, '/rest/anonymous/invitation/:emailToken');
     var controller = this;
 
     this.controllerAction = function() {
@@ -69,13 +70,19 @@ function createController() {
         getInvitation(controller)
         .then(function(invitation) {
 
-            controller.jsonService(controller.service('admin/users/save', {
+            let userService = controller.service('admin/users/save', {
                 isActive: true,
                 isAdmin: false,
                 isManager: false
-            }));
+            });
+
+            return controller.jsonService(userService)
+            .then(() => {
+                invitation.done = true;
+                return invitation.save();
+            });
         })
-        .catch(controller.accessDenied);
+        .catch(err => controller.error(err.message));
 
 
     };

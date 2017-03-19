@@ -3,14 +3,27 @@ define([], function() {
 
 	return ['$scope',
 		'$location',
+        '$routeParams',
 		'Rest',
+        'catchOutcome',
         function(
 			$scope,
 			$location,
-			Rest
+            $routeParams,
+			Rest,
+            catchOutcome
 		) {
 
-		$scope.user = Rest.anonymous.invitation.getFromUrl().loadRouteId();
+        $scope.user = Rest.anonymous.invitation.getFromUrl().loadRouteId();
+        var Invitation = Rest.anonymous.invitation.getResource();
+
+		var invitation = Invitation.get({ emailToken: $routeParams.emailToken });
+        catchOutcome(invitation.$promise)
+        .then(function() {
+            console.log(invitation);
+        });
+
+
 
 
         /**
