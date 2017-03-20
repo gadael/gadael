@@ -75,6 +75,7 @@ describe('Invitation', function() {
             lastname: 'test',
             firstname: 'test',
             newpassword: 'secret',
+            newpassword2: 'secret',
             collection: invitscope.collections[0]._id,
             scheduleCalendar: invitscope.scheduleCalendars[0]._id
         }, function(res, body) {
