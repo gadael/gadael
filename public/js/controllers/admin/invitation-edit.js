@@ -71,6 +71,7 @@ define([], function() {
             .map(function(email) {
                 var invitation = new Invitation();
                 invitation.department = departmentId;
+                invitation.nonWorkingDaysCalendar = $scope.template.nonWorkingDaysCalendar;
                 invitation.email = email;
                 return catchOutcome(invitation.$create());
             });

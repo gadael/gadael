@@ -28,7 +28,7 @@ function getInvitation(controller, emailToken) {
 function startPlannings(controller, userId, body, invitation) {
     const User = controller.req.app.db.models.User;
     const AccountCollection = controller.req.app.db.models.AccountCollection;
-    const AccountSheduleCalendar = controller.req.app.db.models.AccountSheduleCalendar;
+    const AccountScheduleCalendar = controller.req.app.db.models.AccountScheduleCalendar;
     const AccountNWDaysCalendar = controller.req.app.db.models.AccountNWDaysCalendar;
 
     let startDate = new Date();
@@ -49,7 +49,7 @@ function startPlannings(controller, userId, body, invitation) {
         }
 
         if (body.scheduleCalendar) {
-            let schedule = new AccountSheduleCalendar();
+            let schedule = new AccountScheduleCalendar();
             schedule.account = user.roles.account;
             schedule.calendar = body.scheduleCalendar;
             schedule.from = startDate;
@@ -137,10 +137,21 @@ function createController() {
     ctrlFactory.create.call(this, '/rest/anonymous/invitation');
     var controller = this;
 
+
     this.controllerAction = function() {
+
+        const gt = controller.req.app.utility.gettext;
 
         getInvitation(controller, controller.req.body.emailToken)
         .then(invitation => {
+
+            if (!controller.req.body.newpassword) {
+                throw new Error(gt.gettext('Password is mandatory'));
+            }
+
+            if (controller.req.body.newpassword !== controller.req.body.newpassword2) {
+                throw new Error(gt.gettext('The two password fields must be equals'));
+            }
 
             let userService = controller.service('admin/users/save', {
                 isActive: true,
@@ -165,7 +176,12 @@ function createController() {
                 return invitation.save();
             });
         })
-        .catch(err => controller.error(err.message));
+        .catch(err => {
+            console.error(err);
+            // here controller.error does not work because
+            // controller.jsonService already returned the result
+            // controller.error(err.message);
+        });
 
 
     };
