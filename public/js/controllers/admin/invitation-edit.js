@@ -4,14 +4,19 @@ define([], function() {
 	return ['$scope', '$location', 'Rest', '$q', 'catchOutcome', 'gettext',
     function($scope, $location, Rest, $q, catchOutcome, gettext) {
 
+        var Calendar = Rest.admin.calendars.getResource();
         var Department = Rest.admin.departments.getResource();
 		var Invitation = Rest.admin.invitations.getResource();
 
         $scope.template = {
             emails: '',
             department: 0,
-            departmentName: ''
+            departmentName: '',
+            nonWorkingDaysCalendar: null
         };
+
+
+        $scope.nonWorkingDaysCalendars = Calendar.query({ type: 'nonworkingday' });
 
         $scope.departments = Department.query();
         $scope.departments.$promise.then(function() {

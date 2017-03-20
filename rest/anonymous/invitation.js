@@ -25,21 +25,50 @@ function getInvitation(controller, emailToken) {
 /**
  * Save a collection period
  */
-function startCollection(controller, userId, collectionId) {
+function startPlannings(controller, userId, body, invitation) {
     const User = controller.req.app.db.models.User;
     const AccountCollection = controller.req.app.db.models.AccountCollection;
+    const AccountSheduleCalendar = controller.req.app.db.models.AccountSheduleCalendar;
+    const AccountNWDaysCalendar = controller.req.app.db.models.AccountNWDaysCalendar;
+
+    let startDate = new Date();
+    startDate.setHours(0,0,0,0);
 
     return User.findOne({ _id: userId })
     .exec()
     .then(user => {
-        let accountCollection = new AccountCollection();
-        accountCollection.account = user.roles.account;
-        accountCollection.rightCollection = collectionId;
-        accountCollection.from = new Date();
-        accountCollection.from.setHours(0,0,0,0);
-        return accountCollection.save();
+
+        let promises = [];
+
+        if (body.collection) {
+            let accountCollection = new AccountCollection();
+            accountCollection.account = user.roles.account;
+            accountCollection.rightCollection = body.collection;
+            accountCollection.from = startDate;
+            promises.push(accountCollection.save());
+        }
+
+        if (body.scheduleCalendar) {
+            let schedule = new AccountSheduleCalendar();
+            schedule.account = user.roles.account;
+            schedule.calendar = body.scheduleCalendar;
+            schedule.from = startDate;
+            promises.push(schedule.save());
+        }
+
+        if (invitation.nonWorkingDaysCalendar) {
+            let nonworking = new AccountNWDaysCalendar();
+            nonworking.account = user.roles.account;
+            nonworking.calendar = invitation.nonWorkingDaysCalendar;
+            nonworking.from = startDate;
+            promises.push(nonworking.save());
+        }
+
+        return Promise.all(promises);
     });
 }
+
+
 
 
 
@@ -62,7 +91,7 @@ function getController() {
 
             let invitation = document.toObject();
 
-            // Add list of collection where the user will be allowed to register
+            // Add list of collections where the user will be allowed to register
             // this is because collection list is not accessible to annonymous
             // but only to this person thanks to the emailToken
 
@@ -73,6 +102,19 @@ function getController() {
             .then(collections => {
                 invitation.collections = collections;
                 return invitation;
+            })
+            .then(invitation => {
+
+                // Add a list of workschedule calendars
+
+                return document.model('Calendar')
+                .find({ type: 'workschedule' })
+                .select('name')
+                .exec()
+                .then(calendars => {
+                    invitation.sheduleCalendars = calendars;
+                    return invitation;
+                });
             });
         })
         .then(invitation => {
@@ -115,13 +157,8 @@ function createController() {
             return controller.jsonService(userService)
             .then(user => {
 
-                if (!controller.req.body.collection) {
-                    // no link to collection
-                    return null;
-                }
-
                 // start a period for the collection
-                return startCollection(controller, user._id, controller.req.body.collection);
+                return startPlannings(controller, user._id, controller.req.body, invitation);
             })
             .then(() => {
                 invitation.done = true;

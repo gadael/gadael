@@ -25,7 +25,13 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group top30" ng-if="departments.length>0">
+        <label for="invitation_department" translate>Set a non-working days calendar</label>
+        <select class="form-control" id="invitation_nonWorkingDaysCalendar" ng-model="template.nonWorkingDaysCalendar" ng-options="c._id as c.name for c in nonWorkingDaysCalendars">
+        </select>
+    </div>
+
+    <div class="form-group top30">
         <label for="emails" translate>List of emails to invite, one per line</label>
         <textarea class="form-control" id="emails" ng-model="template.emails" /></textarea>
     </div>

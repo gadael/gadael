@@ -15,7 +15,8 @@ exports = module.exports = function(params) {
 		email: { type: String, unique: true, required: true },
         emailToken: { type: String, unique: true, required: true },
 		timeCreated: { type: Date, default: Date.now },
-        department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', index: true },
+        department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department' },
+        nonWorkingDaysCalendar: { type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' },
         done: { type: Boolean, default: false },
 
         message: { type: mongoose.Schema.Types.ObjectId, ref: 'Message' }

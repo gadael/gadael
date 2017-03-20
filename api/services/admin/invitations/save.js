@@ -35,6 +35,7 @@ function saveRightType(service, params) {
     var fieldsToSet = {
         email: params.email,
         department: params.department,
+        nonWorkingDaysCalendar: params.nonWorkingDaysCalendar
     };
 
 
