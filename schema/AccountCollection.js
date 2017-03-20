@@ -44,7 +44,13 @@ exports = module.exports = function(params) {
 
 		// verify that the new period start date is greater than all other dates
 		var model = params.db.models.AccountCollection;
-		model.find({ account: this.account }).sort('from').exec(function(err, acEntries) {
+		model.find({ account: this.account })
+		.sort('from')
+		.exec(function(err, acEntries) {
+
+			if (!acEntries) {
+				return next();
+			}
 
 			for(var i=0; i < acEntries.length; i++) {
 

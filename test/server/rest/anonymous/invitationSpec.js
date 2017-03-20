@@ -4,7 +4,7 @@
 describe('Invitation', function() {
 
 
-    let server, invitation;
+    let server, invitation, invitscope;
 
 
     beforeEach(function(done) {
@@ -59,21 +59,43 @@ describe('Invitation', function() {
     it('get invitation', function(done) {
         server.get('/rest/anonymous/invitation/'+invitation.emailToken, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            invitscope = body;
             done();
         });
     });
 
 
     it('create a user with invitation', function(done) {
+
+        expect(invitscope.collections.length).toBeGreaterThan(0);
+        expect(invitscope.scheduleCalendars.length).toBeGreaterThan(0);
+
         server.post('/rest/anonymous/invitation', {
             emailToken: invitation.emailToken,
             lastname: 'test',
-            firstname: 'test'
+            firstname: 'test',
+            newpassword: 'secret',
+            collection: invitscope.collections[0]._id,
+            scheduleCalendar: invitscope.scheduleCalendars[0]._id
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
         });
     });
+
+    it('Authenticate user', function(done) {
+
+        server.authenticateUser({
+            user: {
+                email: 'guest@example.com'
+            },
+            password: 'secret'
+        }).then(function() {
+            done();
+        });
+
+    });
+
 
 
     it('close the mock server', function(done) {

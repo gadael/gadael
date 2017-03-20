@@ -112,7 +112,7 @@ function getController() {
                 .select('name')
                 .exec()
                 .then(calendars => {
-                    invitation.sheduleCalendars = calendars;
+                    invitation.scheduleCalendars = calendars;
                     return invitation;
                 });
             });
