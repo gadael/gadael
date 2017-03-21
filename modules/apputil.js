@@ -68,7 +68,8 @@ exports = module.exports = function(app) {
         }
 
         if (0 === ctrl.path.indexOf('/rest/anonymous/') && req.isAuthenticated()) {
-            ctrl.accessDenied(gt.gettext('Access denied for logged in users'));
+            // Do not use 401 before this redirect to login page
+            ctrl.error(gt.gettext('Access denied for logged in users'));
             return false;
         }
 

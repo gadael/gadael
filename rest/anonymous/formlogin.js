@@ -3,29 +3,12 @@
 const ctrlFactory = require('restitute').controller;
 const abuseFilter = require('../../modules/abusefilter');
 const attemptLogin = require('../../modules/attemptlogin');
+const loginPromise = require('../../modules/login');
 
 
 
 
 
-
-/**
- * Promisification of req.login
- * This resolve to true
- * @return {Promise}
- */
-function loginPromise(req, user)
-{
-    return new Promise((resolve, reject) => {
-        req.login(user, function(err) {
-            if (err) {
-                return reject(err);
-            }
-
-            resolve(true);
-        });
-    });
-}
 
 
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const ctrlFactory = require('restitute').controller;
-
+const loginPromise = require('../../modules/login');
 
 /**
  * Get invitation from email token
@@ -164,8 +164,22 @@ function createController() {
                 }
             });
 
+            let params = controller.getServiceParameters(controller.req);
 
-            return controller.jsonService(userService)
+            let promise = userService.getResultPromise(params);
+
+            return promise
+            .then(user => {
+                const User = controller.req.app.db.models.User;
+                return User.findOne({ _id: user._id })
+                .exec()
+                .then(document => {
+                    return loginPromise(controller.req, document);
+                })
+                .then(() => {
+                    return user;
+                });
+            })
             .then(user => {
 
                 // start a period for the collection
@@ -174,6 +188,9 @@ function createController() {
             .then(() => {
                 invitation.done = true;
                 return invitation.save();
+            })
+            .then(() => {
+                controller.outputJsonFromPromise(userService, promise);
             });
         })
         .catch(err => {
