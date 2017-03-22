@@ -78,7 +78,7 @@ define([], function() {
                         $scope.createFirstAdmin = function() {
                             adminModal.hide();
                             $location.path('/login/createfirstadmin');
-                        }
+                        };
                     }
 
                 });

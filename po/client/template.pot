@@ -132,6 +132,10 @@ msgstr ""
 msgid "Add a calendar"
 msgstr ""
 
+#: public/partials/utils/wellcome.html
+msgid "Add a list of of email addresses and send the invitations"
+msgstr ""
+
 #: public/partials/admin/beneficiary-edit.html
 msgid "Add a quantity adjustment"
 msgstr ""
@@ -367,6 +371,7 @@ msgid "Begin date"
 msgstr ""
 
 #: public/partials/admin/user-edit-account.html
+#: public/partials/login/invitation.html
 msgid "Birth date"
 msgstr ""
 
@@ -553,7 +558,7 @@ msgstr ""
 msgid "Confirmed"
 msgstr ""
 
-#: public/partials/home.html
+#: public/partials/utils/home.firstadmin.modal.html
 msgid "Congratulation, this server has just been created and contain no users, please do not leave it that way."
 msgstr ""
 
@@ -618,6 +623,7 @@ msgstr ""
 msgid "Create a leave right"
 msgstr ""
 
+#: public/partials/utils/wellcome.html
 #: public/js/controllers/admin/invitation-edit.js
 msgid "Create a new department"
 msgstr ""
@@ -682,7 +688,7 @@ msgstr ""
 msgid "Create an adjustment every"
 msgstr ""
 
-#: public/partials/home.html
+#: public/partials/utils/home.firstadmin.modal.html
 msgid "Create first administrator"
 msgstr ""
 
@@ -692,6 +698,10 @@ msgstr ""
 
 #: public/partials/admin/user-view.html
 msgid "Create new request"
+msgstr ""
+
+#: public/partials/utils/home.firstadmin.modal.html
+msgid "Create the first administrator"
 msgstr ""
 
 #: public/partials/account/request/requests.html
@@ -1160,6 +1170,10 @@ msgstr ""
 msgid "Invite a list of persons to register"
 msgstr ""
 
+#: public/partials/utils/wellcome.html
+msgid "Invite new members to your application"
+msgstr ""
+
 #: public/partials/admin/invitations.html
 msgid "Invite someone"
 msgstr ""
@@ -1362,19 +1376,19 @@ msgid "Name of the event to recover"
 msgstr ""
 
 #: public/partials/home.html
-msgid "New absence right"
-msgstr ""
-
-#: public/partials/home.html
 msgid "New account created"
 msgstr ""
 
-#: public/partials/home.html
+#: public/partials/utils/wellcome.html
 msgid "New department"
 msgstr ""
 
 #: public/partials/admin/request/absence-edit.html
 msgid "New leave request for {{request.user.name}}"
+msgstr ""
+
+#: public/partials/utils/wellcome.html
+msgid "New leave right"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
@@ -1386,7 +1400,7 @@ msgstr ""
 msgid "New Password:"
 msgstr ""
 
-#: public/partials/home.html
+#: public/partials/utils/wellcome.html
 msgid "New user"
 msgstr ""
 
@@ -1949,6 +1963,7 @@ msgid "Selected recovery:"
 msgstr ""
 
 #: public/partials/admin/invitation-edit.html
+#: public/partials/utils/wellcome.html
 msgid "Send invitations"
 msgstr ""
 
@@ -1971,6 +1986,10 @@ msgstr ""
 
 #: public/partials/admin/user-edit.html
 msgid "Set a new password"
+msgstr ""
+
+#: public/partials/admin/invitation-edit.html
+msgid "Set a non-working days calendar"
 msgstr ""
 
 #: public/partials/login/createfirstadmin.html
@@ -2114,6 +2133,10 @@ msgstr ""
 #: public/partials/admin/user-edit.html
 #: public/partials/admin/user-view.html
 msgid "The user may be involved in the validation of requests by the members of his deparment"
+msgstr ""
+
+#: public/partials/utils/wellcome.html
+msgid "The users will create their accounts on their first connexion!"
 msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html
@@ -2412,10 +2435,13 @@ msgstr ""
 msgid "Wednesday"
 msgstr ""
 
-#: public/partials/home.html
 #: public/partials/login/createfirstadmin.html
 #: public/partials/login/invitation.html
 msgid "Wellcome"
+msgstr ""
+
+#: public/partials/utils/wellcome.html
+msgid "Wellcome to Gadael"
 msgstr ""
 
 #: public/partials/home.html
@@ -2526,13 +2552,17 @@ msgid "Your email:"
 msgstr ""
 
 #: public/partials/login/invitation.html
-msgid "Your leave rights collection"
+msgid "Your leave plan or work regime"
 msgstr ""
 
-#: public/partials/home.html
-msgid "Your only role on the application is administrator, you can update your own account using the administration -> users menu"
+#: public/partials/utils/wellcome.html
+msgid "Your only role on the application is administrator, you can update your own account using the administration ➤ users menu"
 msgstr ""
 
 #: public/partials/utils/common/request/absence-edit.html
 msgid "Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights"
+msgstr ""
+
+#: public/partials/login/invitation.html
+msgid "Your workschedule for a week"
 msgstr ""

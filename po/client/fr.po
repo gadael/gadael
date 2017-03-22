@@ -137,6 +137,10 @@ msgstr "Ajouter"
 msgid "Add a calendar"
 msgstr "Ajouter un agenda"
 
+#: public/partials/utils/wellcome.html
+msgid "Add a list of of email addresses and send the invitations"
+msgstr "Ajouter une liste d'adresses emails et envoyer les invitations"
+
 #: public/partials/admin/beneficiary-edit.html
 msgid "Add a quantity adjustment"
 msgstr "Ajouter un ajustement"
@@ -389,6 +393,7 @@ msgid "Begin date"
 msgstr "Date de début"
 
 #: public/partials/admin/user-edit-account.html
+#: public/partials/login/invitation.html
 msgid "Birth date"
 msgstr "Date de naissance"
 
@@ -571,7 +576,7 @@ msgstr "Confirmer le mot de passe :"
 msgid "Confirmed"
 msgstr "Confirmé"
 
-#: public/partials/home.html
+#: public/partials/utils/home.firstadmin.modal.html
 msgid ""
 "Congratulation, this server has just been created and contain no users, "
 "please do not leave it that way."
@@ -638,6 +643,7 @@ msgstr "Créer un congé sur tous les utilisateurs valides"
 msgid "Create a leave right"
 msgstr "Créer un droit d'absence"
 
+#: public/partials/utils/wellcome.html
 #: public/js/controllers/admin/invitation-edit.js
 msgid "Create a new department"
 msgstr "Créer un nouveau service"
@@ -712,7 +718,7 @@ msgstr ""
 msgid "Create an adjustment every"
 msgstr "Créer un ajustement tous les"
 
-#: public/partials/home.html
+#: public/partials/utils/home.firstadmin.modal.html
 msgid "Create first administrator"
 msgstr "Créer le premier administrateur"
 
@@ -723,6 +729,10 @@ msgstr "Créer des congés pour les utilisateurs dans un"
 #: public/partials/admin/user-view.html
 msgid "Create new request"
 msgstr "Créer une nouvelle demande"
+
+#: public/partials/utils/home.firstadmin.modal.html
+msgid "Create the first administrator"
+msgstr "Créer le premier administrateur"
 
 #: public/partials/account/request/requests.html
 #: public/partials/manager/waitingrequests.html
@@ -1231,6 +1241,10 @@ msgstr "Invitations"
 msgid "Invite a list of persons to register"
 msgstr "Inviter une liste de personnes à s'inscrire"
 
+#: public/partials/utils/wellcome.html
+msgid "Invite new members to your application"
+msgstr "Inviter des nouveaux membres sur votre application"
+
 #: public/partials/admin/invitations.html
 msgid "Invite someone"
 msgstr "Inviter quelqu'un"
@@ -1440,20 +1454,20 @@ msgid "Name of the event to recover"
 msgstr "Nom de l'événement à récupérer"
 
 #: public/partials/home.html
-msgid "New absence right"
-msgstr "Nouveau droit d'absence"
-
-#: public/partials/home.html
 msgid "New account created"
 msgstr "Nouveau compte créé"
 
-#: public/partials/home.html
+#: public/partials/utils/wellcome.html
 msgid "New department"
 msgstr "Nouveau service"
 
 #: public/partials/admin/request/absence-edit.html
 msgid "New leave request for {{request.user.name}}"
 msgstr "Nouvelle demande de congé pour {{request.user.name}}"
+
+#: public/partials/utils/wellcome.html
+msgid "New leave right"
+msgstr "Nouveau droit de congé"
 
 #: public/partials/admin/user-edit.html
 #: public/partials/user/settings-password.html
@@ -1464,7 +1478,7 @@ msgstr "Nouveau mot de passe"
 msgid "New Password:"
 msgstr "Nouveau mot de passe :"
 
-#: public/partials/home.html
+#: public/partials/utils/wellcome.html
 msgid "New user"
 msgstr "Nouvel utilisateur"
 
@@ -2054,6 +2068,7 @@ msgid "Selected recovery:"
 msgstr "Récupération sélectionnée :"
 
 #: public/partials/admin/invitation-edit.html
+#: public/partials/utils/wellcome.html
 msgid "Send invitations"
 msgstr "Envoyer les invitations"
 
@@ -2076,6 +2091,10 @@ msgstr "Date de début d'anciennetée"
 #: public/partials/admin/user-edit.html
 msgid "Set a new password"
 msgstr "Définir un nouveau mot de passe"
+
+#: public/partials/admin/invitation-edit.html
+msgid "Set a non-working days calendar"
+msgstr "Définir un agenda des jours fériés"
 
 #: public/partials/login/createfirstadmin.html
 #: public/partials/login/invitation.html
@@ -2246,6 +2265,11 @@ msgid ""
 msgstr ""
 "L'utilisateur peut être impliqué dans la validation des demandes des membres "
 "de son service"
+
+#: public/partials/utils/wellcome.html
+msgid "The users will create their accounts on their first connexion!"
+msgstr ""
+"Vos utilisateurs vont créé leurs compte lors de leur première connexion!"
 
 #: public/partials/admin/account-renewalquantity-edit.html
 msgid "There are no configured rights to display"
@@ -2569,10 +2593,14 @@ msgstr "En attente de réponse"
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: public/partials/home.html public/partials/login/createfirstadmin.html
+#: public/partials/login/createfirstadmin.html
 #: public/partials/login/invitation.html
 msgid "Wellcome"
 msgstr "Bienvenue"
+
+#: public/partials/utils/wellcome.html
+msgid "Wellcome to Gadael"
+msgstr "Bienvenue sur Gadael"
 
 #: public/partials/home.html
 msgid "Wellcome to your absence manager"
@@ -2704,16 +2732,16 @@ msgid "Your email:"
 msgstr "Votre email :"
 
 #: public/partials/login/invitation.html
-msgid "Your leave rights collection"
-msgstr "Votre de régime de congés"
+msgid "Your leave plan or work regime"
+msgstr "Votre régime de congé"
 
-#: public/partials/home.html
+#: public/partials/utils/wellcome.html
 msgid ""
 "Your only role on the application is administrator, you can update your own "
-"account using the administration -> users menu"
+"account using the administration ➤ users menu"
 msgstr ""
 "Votre seul rôle sur l'application est administrateur, vous pouvez mettre à "
-"jour votre compte en utilisant le menu administration -> utilisateurs"
+"jour votre compte en utilisant le menu administration ➤ utilisateurs"
 
 #: public/partials/utils/common/request/absence-edit.html
 msgid ""
@@ -2722,6 +2750,16 @@ msgid ""
 msgstr ""
 "Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) "
 "doit être répartie parmi les droits de congés suivants"
+
+#: public/partials/login/invitation.html
+msgid "Your workschedule for a week"
+msgstr "Votre rythme de travail sur une semaine"
+
+#~ msgid "New absence right"
+#~ msgstr "Nouveau droit d'absence"
+
+#~ msgid "Your leave rights collection"
+#~ msgstr "Votre de régime de congés"
 
 #~ msgid "Username or Email:"
 #~ msgstr "Identifiant ou email :"

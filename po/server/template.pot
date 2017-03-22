@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-19 20:54+0100\n"
+"POT-Creation-Date: 2017-03-22 14:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -379,15 +379,15 @@ msgstr ""
 msgid "The invitation has been deleted"
 msgstr ""
 
-#: api/services/admin/invitations/save.js:56
+#: api/services/admin/invitations/save.js:57
 msgid "The invitation has been modified"
 msgstr ""
 
-#: api/services/admin/invitations/save.js:84
+#: api/services/admin/invitations/save.js:85
 msgid "This email address already exists in users list"
 msgstr ""
 
-#: api/services/admin/invitations/save.js:100
+#: api/services/admin/invitations/save.js:101
 #, javascript-format
 msgid "The invitation for %s has been sent"
 msgstr ""
@@ -756,7 +756,7 @@ msgstr ""
 msgid "Access denied for anonymous users"
 msgstr ""
 
-#: modules/apputil.js:71
+#: modules/apputil.js:72
 msgid "Access denied for logged in users"
 msgstr ""
 
@@ -1065,12 +1065,20 @@ msgstr ""
 msgid "Recover quantities"
 msgstr ""
 
-#: rest/anonymous/formlogin.js:61
+#: rest/anonymous/formlogin.js:44
 msgid "You are now loged in"
 msgstr ""
 
 #: rest/anonymous/invitation.js:17
 msgid "Your invitation email is not valid"
+msgstr ""
+
+#: rest/anonymous/invitation.js:149
+msgid "Password is mandatory"
+msgstr ""
+
+#: rest/anonymous/invitation.js:153
+msgid "The two password fields must be equals"
 msgstr ""
 
 #: rest/anonymous/createfirstadmin.js:60
@@ -1184,7 +1192,7 @@ msgid "The total number of active users cannot exceed %d"
 msgstr ""
 
 #: schema/Type.js:52 schema/data/fr.js:12 schema/data/ch.js:10
-#: schema/data/be.js:12 schema/data/uk.js:12
+#: schema/data/default.js:12 schema/data/be.js:12 schema/data/uk.js:12
 msgid "Paid annual leave"
 msgstr ""
 
@@ -1209,7 +1217,7 @@ msgid "Parental leave"
 msgstr ""
 
 #: schema/Type.js:58 schema/data/fr.js:63 schema/data/ch.js:57
-#: schema/data/be.js:37
+#: schema/data/default.js:31 schema/data/be.js:37
 msgid "Maternity"
 msgstr ""
 
@@ -1241,7 +1249,8 @@ msgstr ""
 msgid "Relocation"
 msgstr ""
 
-#: schema/Type.js:66
+#: schema/Type.js:66 schema/data/fr.js:92 schema/data/us.js:24
+#: schema/data/default.js:60
 msgid "Unpaid leave"
 msgstr ""
 
@@ -1341,13 +1350,13 @@ msgid ""
 "days of tolerance"
 msgstr ""
 
-#: schema/data/fr.js:24 schema/data/fr.js:50 schema/data/be.js:24
-#: schema/data/uk.js:24
+#: schema/data/fr.js:24 schema/data/fr.js:50 schema/data/default.js:18
+#: schema/data/be.js:24 schema/data/uk.js:24
 msgid "The absence must be within the renewal period"
 msgstr ""
 
-#: schema/data/fr.js:78 schema/data/ch.js:71 schema/data/be.js:51
-#: schema/data/uk.js:65
+#: schema/data/fr.js:78 schema/data/ch.js:71 schema/data/us.js:10
+#: schema/data/default.js:46 schema/data/be.js:51 schema/data/uk.js:65
 msgid "Sickness absence"
 msgstr ""
 
