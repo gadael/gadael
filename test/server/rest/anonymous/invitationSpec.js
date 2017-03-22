@@ -84,14 +84,11 @@ describe('Invitation', function() {
         });
     });
 
-    it('Authenticate user', function(done) {
+    it('Check if authenticated', function(done) {
 
-        server.authenticateUser({
-            user: {
-                email: 'guest@example.com'
-            },
-            password: 'secret'
-        }).then(function() {
+        server.get('/rest/common', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.sessionUser.isAuthenticated).toEqual(true);
             done();
         });
 
