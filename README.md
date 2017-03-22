@@ -86,8 +86,8 @@ grunt --help
 ## TODO
 
 - [ ] test .deb and .rpm in a VM
-- [ ] Link invitation form to home page
-- [ ] Display error message on user account is no workshedule configured
+- [x] Link invitation form to home page
+- [ ] Display error message on user account if no workshedule configured
 - [x] send mail on invitation
 - [x] Add a field for quantity per request on rights settings (force duration for maternity leave)
 - [x] Do not display table headers if table empty on user view
