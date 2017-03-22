@@ -58,6 +58,25 @@ describe('Create first admin functionality', function() {
     });
 
 
+    it('Check if authenticated', function(done) {
+
+        server.get('/rest/common', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.sessionUser.isAuthenticated).toEqual(true);
+            done();
+        });
+
+    });
+
+
+    it('logout admin', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+
     it('do not create the first admin twice', function(done) {
         server.post('/rest/anonymous/createfirstadmin', {
             firstname: 'first',

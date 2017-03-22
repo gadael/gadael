@@ -701,7 +701,7 @@ msgid "Create new request"
 msgstr ""
 
 #: public/partials/utils/home.firstadmin.modal.html
-msgid "Create the first administrator"
+msgid "Create the first user"
 msgstr ""
 
 #: public/partials/account/request/requests.html
@@ -1247,6 +1247,10 @@ msgstr ""
 
 #: public/partials/admin/right-view.html
 msgid "Legal leave duration:"
+msgstr ""
+
+#: public/partials/admin/rights.html
+msgid "Legal quantity for one leave"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
