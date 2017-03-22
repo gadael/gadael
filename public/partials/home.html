@@ -169,15 +169,7 @@
 
 
     <div ng-if="sessionUser.isAdmin && !sessionUser.isManager && !sessionUser.isAccount">
-
-        <h2 translate>Wellcome</h2>
-        <p translate>Your only role on the application is administrator, you can update your own account using the administration -> users menu</p>
-
-        <p class="top30">
-            <a href="#/admin/user-edit" class="btn btn-default"><i class="fa fa-plus"></i> <span translate>New user</span></a>
-            <a href="#/admin/department-edit" class="btn btn-default"><i class="fa fa-plus"></i> <span translate>New department</span></a>
-            <a href="#/admin/right-edit" class="btn btn-default"><i class="fa fa-plus"></i> <span translate>New absence right</span></a>
-        </p>
+        <ng-include src="'partials/utils/wellcome.html'"></ng-include>
     </div>
 
 </div>
