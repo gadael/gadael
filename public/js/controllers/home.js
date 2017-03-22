@@ -2,8 +2,28 @@ define([], function() {
 
     'use strict';
 
-	return ['$scope', 'Rest', '$q', 'departmentReload', 'renewalChart', 'gettext', '$http', 'getCreateRequest',
-            function($scope, Rest, $q, departmentReload, renewalChart, gettext, $http, getCreateRequest) {
+	return [
+        '$scope',
+        'Rest',
+        '$q',
+        'departmentReload',
+        'renewalChart',
+        'gettext',
+        '$http',
+        'getCreateRequest',
+        '$modal',
+        '$location',
+            function(
+                $scope,
+                Rest,
+                $q,
+                departmentReload,
+                renewalChart,
+                gettext,
+                $http,
+                getCreateRequest,
+                $modal,
+                $location) {
 
         var collaboratorsResource;
         var calendareventsResource = Rest.user.calendarevents.getResource();
@@ -48,11 +68,19 @@ define([], function() {
             $scope.departmentReload($scope.department, 0);
 
 
-            $scope.createFirstAdmin = false;
+
 
             if ($scope.sessionUser && !$scope.sessionUser.isAuthenticated) {
                 $http.get('/rest/anonymous/createfirstadmin').then(function(response) {
-                    $scope.createFirstAdmin = response.data.allowed;
+                    if (response.data.allowed) {
+                        var adminModal = $modal({scope: $scope, templateUrl: 'partials/utils/home.firstadmin.modal.html', show: true });
+
+                        $scope.createFirstAdmin = function() {
+                            adminModal.hide();
+                            $location.path('/login/createfirstadmin');
+                        }
+                    }
+
                 });
             }
         }
