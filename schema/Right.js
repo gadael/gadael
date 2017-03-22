@@ -820,12 +820,19 @@ exports = module.exports = function(params) {
         /**
          * get rights data
          * warning, security risk, company.country must be clean
+         * If no country set on company, the default.js file is used
+         *
          * @returns {object}
          */
         function getData() {
 
             if (undefined === company.country || null === company.country) {
-                return null;
+                try {
+                    return require('./data/default')(params.app);
+
+                } catch(e) {
+                    return null;
+                }
             }
 
             if (!company.country.match(/^[A-Z]{2}$/)) {

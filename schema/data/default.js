@@ -11,14 +11,8 @@ module.exports = exports = function(app) {
                 special: 'annualleave',
                 name: gt.gettext("Paid annual leave"),
                 type: '5740adf51cf1a569643cc508',
-                quantity: 25,
+                quantity: 20,
                 rules: [
-                    {
-                        type: "entry_date",
-                        title: gt.gettext("The creation of the request can be made in the period of renewal, with 30 days of tolerance"),
-                        min: 30,
-                        max: 30
-                    },
                     {
                         type: "request_period",
                         title: gt.gettext("The absence must be within the renewal period"),
@@ -29,32 +23,6 @@ module.exports = exports = function(app) {
                 renewal: {
                     start: {
                         month:5,
-                        day:1
-                    }
-                }
-            },
-            {
-                _id: '5770cad63fccf8da5150e7da',
-                type: '5740adf51cf1a569643cc51d',
-                special: 'rtt',
-                name: "RTT",
-                rules: [
-                    {
-                        type: "entry_date",
-                        title: gt.gettext("The creation of the request can be made in the period of renewal, with 30 days of tolerance"),
-                        min: 30,
-                        max: 30
-                    },
-                    {
-                        type: "request_period",
-                        title: gt.gettext("The absence must be within the renewal period"),
-                        min: 0,
-                        max: 0
-                    }
-                ],
-                renewal: {
-                    start: {
-                        month:0,
                         day:1
                     }
                 }
