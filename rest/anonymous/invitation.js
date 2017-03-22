@@ -170,12 +170,7 @@ function createController() {
 
             return promise
             .then(user => {
-                const User = controller.req.app.db.models.User;
-                return User.findOne({ _id: user._id })
-                .exec()
-                .then(document => {
-                    return loginPromise(controller.req, document);
-                })
+                return loginPromise(controller.req, user)
                 .then(() => {
                     return user;
                 });

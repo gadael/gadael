@@ -1,7 +1,7 @@
 'use strict';
 
 const ctrlFactory = require('restitute').controller;
-
+const loginPromise = require('../../modules/login');
 
 
 /**
@@ -50,14 +50,28 @@ function createController() {
         const gt = service.app.utility.gettext;
 
         promise.then(function(users) {
-            if (0 === users.length) {
-                return controller.jsonService(controller.service('admin/users/save', {
-                    isActive: true,
-                    isAdmin: true
-                }));
+            if (0 !== users.length) {
+                controller.accessDenied(gt.gettext('The first admin allready exists'));
+                return;
             }
 
-            controller.accessDenied(gt.gettext('The first admin allready exists'));
+            let userService = controller.service('admin/users/save', {
+                isActive: true,
+                isAdmin: true
+            });
+
+            let params = controller.getServiceParameters(controller.req);
+
+            let promise = userService.getResultPromise(params);
+
+            return promise
+            .then(user => {
+                return loginPromise(controller.req, user);
+            })
+            .then(() => {
+                controller.outputJsonFromPromise(userService, promise);
+            });
+
         });
 
 

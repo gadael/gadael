@@ -14,10 +14,10 @@ define([], function() {
 
 
         /**
-         * Go to login page
+         * Go to home page and refresh
          */
-        $scope.login = function() {
-            $location.path('/login');
+        $scope.home = function() {
+            document.location.href = '/';
         };
 
 
@@ -25,7 +25,7 @@ define([], function() {
          * Save button
          */
 		$scope.saveUser = function() {
-            $scope.user.gadaSave($scope.login);
+            $scope.user.gadaSave($scope.home);
 	    };
 
 

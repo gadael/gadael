@@ -15,9 +15,9 @@ module.exports = exports = function(app) {
                 renewal: {
                     start: {
                         month:0,
-                        day:1,
-                        nbYears: 100
-                    }
+                        day:1
+                    },
+                    nbYears: 100
                 }
             },
             {
@@ -28,9 +28,9 @@ module.exports = exports = function(app) {
                 renewal: {
                     start: {
                         month:0,
-                        day:1,
-                        nbYears: 100
-                    }
+                        day:1
+                    },
+                    nbYears: 100
                 }
             }
         ]
