@@ -904,7 +904,10 @@ exports = module.exports = function(params) {
                     period.start.setFullYear(period.start.getFullYear()-1);
                 }
 
-                const nbYears = rightData.renewal ? rightData.renewal.nbYears : 1;
+                let nbYears = 1;
+                if (undefined !== rightData.renewal && undefined !== rightData.renewal.nbYears) {
+                    nbYears = rightData.renewal.nbYears;
+                }
 
                 period.finish = new Date(period.start);
                 period.finish.setFullYear(period.finish.getFullYear() + nbYears);
@@ -926,6 +929,7 @@ exports = module.exports = function(params) {
                 right.name = rightData.name;
                 right.quantity_unit = rightData.quantity_unit || 'D';
                 right.quantity = rightData.quantity;
+                right.defaultAbsenceLength = rightData.defaultAbsenceLength;
                 right.type = rightData.type;
                 right.rules = rightData.rules;
 
