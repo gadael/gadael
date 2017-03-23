@@ -86,12 +86,6 @@ grunt --help
 ## TODO
 
 - [ ] test .deb and .rpm in a VM
-- [x] Link invitation form to home page
-- [ ] Display error message on user account if no workshedule configured
-- [x] send mail on invitation
-- [x] Add a field for quantity per request on rights settings (force duration for maternity leave)
-- [x] Do not display table headers if table empty on user view
-- [x] roles checkbox in user edit, fix line break
 - [ ] clic on view rights from the types list: the filter does not work
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
