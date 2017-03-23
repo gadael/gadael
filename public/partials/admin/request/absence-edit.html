@@ -2,4 +2,10 @@
 <h3 ng-if="newRequest"><span translate>New leave request for {{request.user.name}}</span></h3>
 <h3 ng-if="editRequest"><span translate>Edit a leave request from {{request.user.name}}</span></h3>
 
+<div>
+    <label><input type="checkbox" ng-model="request.useApproval" /> Use the approval workflow on this request</label>
+    <br />
+    <br />
+</div>
+
 <ng-include src="'partials/utils/common/request/absence-edit.html'"></ng-include>

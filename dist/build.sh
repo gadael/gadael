@@ -30,7 +30,7 @@ fpm -s dir -t deb -p ../ -n gadael \
     --config-files /etc/gadael/config.json \
     -v $1 \
     -d "mongodb > 2.4.14" \
-    -d "nodejs > 4.2.0" \
+    -d "nodejs-legacy > 4.2.0" \
     ./=/var/lib/gadael dist/config.json=/etc/gadael/
 
 # Build rpm package

@@ -46,6 +46,41 @@
     </p>
 </div>
 
+
+
+
+<div class="row">
+    <h3  class="col-xs-10" translate>Vacations collections planning</h3>
+    <div class="col-xs-2 text-right">
+        <br />
+        <a ng-href="#/admin/users/{{user._id}}/account-collections" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
+    </div>
+</div>
+<div class="row">
+    <table class="table" ng-if="accountCollections.length>0">
+        <thead>
+        <tr>
+            <th translate>Collection name</th>
+            <th class="col-sm-3" translate>From</th>
+            <th class="col-sm-3" translate>To</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="accountCollection in accountCollections">
+            <td>
+                <a ng-href="#/admin/collections/{{accountCollection.rightCollection._id}}">
+                    {{accountCollection.rightCollection.name}}
+                </a>
+            </td>
+            <td>{{accountCollection.from|date}}</td>
+            <td>{{accountCollection.to|date}}</td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+
 <div class="row">
     <h3  class="col-xs-10" translate>Vacations rights</h3>
     <div class="col-xs-2 text-right">
@@ -83,38 +118,6 @@
     <div class="alert alert-danger" role="alert" ng-if="beneficiaries.$resolved && !beneficiaries.length">
         <i class="fa fa-times-circle fa-2x fa-pull-left"></i> <span translate>This user has no configured vacation rights for the current period</span>
     </div>
-</div>
-
-
-<div class="row">
-    <h3  class="col-xs-10" translate>Vacations collections planning</h3>
-    <div class="col-xs-2 text-right">
-        <br />
-        <a ng-href="#/admin/users/{{user._id}}/account-collections" class="btn btn-info btn-xs hidden-print" role="button"><i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span></a>
-    </div>
-</div>
-<div class="row">
-    <table class="table" ng-if="accountCollections.length>0">
-        <thead>
-        <tr>
-            <th translate>Collection name</th>
-            <th class="col-sm-3" translate>From</th>
-            <th class="col-sm-3" translate>To</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="accountCollection in accountCollections">
-            <td>
-                <a ng-href="#/admin/collections/{{accountCollection.rightCollection._id}}">
-                    {{accountCollection.rightCollection.name}}
-                </a>
-            </td>
-            <td>{{accountCollection.from|date}}</td>
-            <td>{{accountCollection.to|date}}</td>
-        </tr>
-        </tbody>
-
-    </table>
 </div>
 
 <div class="row">
