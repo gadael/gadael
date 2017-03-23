@@ -1,4 +1,4 @@
-define(['q'], function(Q) {
+define([], function() {
 
     'use strict';
 
@@ -68,17 +68,13 @@ define(['q'], function(Q) {
 
 
             $scope.loadEvents = function(interval) {
-                var deferred = Q.defer();
-                loadEvents(interval).then(function(events) {
+                return loadEvents(interval)
+                .then(function(events) {
 
-                    events = events.filter(function(e) {
+                    return events.filter(function(e) {
                         return (e.request !== $routeParams.id);
                     });
-
-                    deferred.resolve(events);
                 });
-
-                return deferred.promise;
             };
         }
 

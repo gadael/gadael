@@ -1,4 +1,4 @@
-define(['q'], function(Q) {
+define([], function() {
 
     'use strict';
 
@@ -20,20 +20,19 @@ define(['q'], function(Q) {
 
         $scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
 
-        var userId, userPromise;
+        var userId;
 
 
         /**
          * Load request and get user promise
          * @throws {Error} if the user parameter is missing on request creation
-         * @returns {Promise} resolve to the user promise
+         * @returns {Promise} resolve to the user object
          */
         function loadRequestAndUserPromise()
         {
-            var deferred = Q.defer();
-
             if ($scope.request.$promise) {
-                $scope.request.$promise.then(function(request) {
+                return $scope.request.$promise
+                .then(function(request) {
                     // edit this request
 
                     $scope.editRequest = true;
@@ -44,10 +43,8 @@ define(['q'], function(Q) {
                     AbsenceEdit.onceUserLoaded($scope, request.user.id, calendarEvents, consumption);
 
                     $scope.user = request.user.id;
-                    deferred.resolve(request.user.id);
+                    return request.user.id;
                 });
-
-                return deferred.promise;
 
 
             } else {
@@ -70,26 +67,22 @@ define(['q'], function(Q) {
                     throw new Error('the user parameter is mandatory to create a new request');
                 }
 
-                userPromise = users.get({ id: userId }).$promise;
-                userPromise.then(function(user) {
+                return users.get({ id: userId }).$promise
+                .then(function(user) {
 
                     $scope.user = user;
 
                     AbsenceEdit.onceUserLoaded($scope, user, calendarEvents, consumption);
 
                     $scope.request.user = {
-                        id: user,
+                        id: user, // the server will handle a user object here
                         name: user.lastname+' '+user.firstname
                     };
 
                     $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events, user);
+                    return user;
                 });
-
-                deferred.resolve(userPromise);
             }
-
-            return deferred.promise;
-
         }
 
 
@@ -106,19 +99,18 @@ define(['q'], function(Q) {
 
          } else {
 
-
+             /**
+              * @return {Promise}
+              */
              $scope.loadEvents = function(interval) {
-                 var deferred = Q.defer();
-                 loadEvents(interval).then(function(events) {
 
-                     events = events.filter(function(e) {
+                 return loadEvents(interval)
+                 .then(function(events) {
+
+                     return events.filter(function(e) {
                          return (e.request !== $routeParams.id);
                      });
-
-                     deferred.resolve(events);
                  });
-
-                 return deferred.promise;
              };
          }
 

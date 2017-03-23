@@ -312,17 +312,16 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
 
 
                 return  function getLoadEvents(interval) {
-                    var deferred = Q.defer();
+                    
                     var promises = [];
 
                     promises.push(loadPersonalEvents(interval));
                     promises.push(loadNonWorkingDaysEvents(interval));
 
-                    Q.all(promises).then(function(arr) {
-                        deferred.resolve(arr[0].concat(arr[1]));
-                    }, deferred.reject);
-
-                    return deferred.promise;
+                    return Q.all(promises)
+                    .then(function(arr) {
+                        return arr[0].concat(arr[1]);
+                    });
                 };
             },
 
