@@ -2273,7 +2273,7 @@ msgstr ""
 #: public/partials/utils/wellcome.html
 msgid "The users will create their accounts on their first connexion!"
 msgstr ""
-"Vos utilisateurs vont créé leurs compte lors de leur première connexion!"
+"Vos utilisateurs vont créer leurs comptes lors de leur première connexion!"
 
 #: public/partials/admin/account-renewalquantity-edit.html
 msgid "There are no configured rights to display"
