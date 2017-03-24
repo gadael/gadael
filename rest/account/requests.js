@@ -38,7 +38,8 @@ function createController() {
             controller.service('user/requests/save', {
                 user: controller.req.user._id,
                 createdBy: controller.req.user,
-                timeCreated: new Date()
+                timeCreated: new Date(),
+                useApproval: true
             })
         );
     };
@@ -59,7 +60,8 @@ function updateController() {
         controller.jsonService(
             controller.service('user/requests/save', {
                 user: controller.req.user._id,
-                modifiedBy: controller.req.user
+                modifiedBy: controller.req.user,
+                useApproval: true
             })
         );
     };
@@ -74,7 +76,8 @@ function deleteController() {
     this.controllerAction = function() {
         this.jsonService(this.service('user/requests/delete', {
             user: controller.req.user._id, // filtered by this user for security
-            deletedBy: controller.req.user
+            deletedBy: controller.req.user,
+            useApproval: true
         }));
     };
 }

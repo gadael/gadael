@@ -55,6 +55,9 @@ function setAccepted(fieldsToSet) {
         created: 'accepted'
     };
 
+    // remove all approval steps
+    fieldsToSet.approvalSteps = [];
+
     fieldsToSet.validInterval = [{
         start: new Date(),
         finish: null
@@ -94,7 +97,9 @@ function prepareRequestFields(service, params, user)
 
         // Set the request status
 
-        if (0 === approvalSteps.length) {
+        if (0 === approvalSteps.length || !params.useApproval) {
+            // useApproval is a checkbox only available to admin
+            // for user, this is set to TRUE in the REST controller
             setAccepted(fieldsToSet);
 
         } else {
