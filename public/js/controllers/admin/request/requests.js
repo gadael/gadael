@@ -8,8 +8,8 @@ define([], function() {
         'Rest',
         'getRequestStat',
         'gettext',
-        'AdminCreateRequest',
-        function($scope, $location, Rest, getRequestStat, gettext, AdminCreateRequest) {
+        'getCreateRequest',
+        function($scope, $location, Rest, getRequestStat, gettext, getCreateRequest) {
 
 
         $scope.setPageTitle(gettext('Requests'));
@@ -52,7 +52,7 @@ define([], function() {
          *
          * @param {Object} user
          */
-        $scope.popoverSelect = AdminCreateRequest($scope);
+        $scope.popoverSelect = getCreateRequest($scope);
 
         $scope.departments = Rest.admin.departments.getResource().query();
 

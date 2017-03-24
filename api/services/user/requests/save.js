@@ -97,7 +97,7 @@ function prepareRequestFields(service, params, user)
 
         // Set the request status
 
-        if (0 === approvalSteps.length || !params.useApproval) {
+        if (0 === approvalSteps.length || false === params.useApproval) {
             // useApproval is a checkbox only available to admin
             // for user, this is set to TRUE in the REST controller
             setAccepted(fieldsToSet);

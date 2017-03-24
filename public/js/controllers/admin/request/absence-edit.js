@@ -35,6 +35,8 @@ define([], function() {
                 .then(function(request) {
                     // edit this request
 
+                    $scope.request.useApproval = true;
+
                     $scope.editRequest = true;
                     AbsenceEdit.setSelectionFromRequest($scope);
                     $scope.loadWorkingTimes = AbsenceEdit.getLoadWorkingTimes(calendarEvents, $scope.request.events, request.user.id);
@@ -53,6 +55,7 @@ define([], function() {
                 // create a new request
                 $scope.newRequest = true;
 
+                $scope.request.useApproval = true;
                 $scope.request.events = [];
                 $scope.request.timeCreated = new Date();
                 $scope.request.absence = {

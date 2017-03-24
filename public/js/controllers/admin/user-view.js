@@ -5,13 +5,13 @@ define([], function() {
 		'$location',
 		'Rest',
         'gettext',
-        'AdminCreateRequest',
+        'getCreateRequest',
             function(
 			$scope,
 			$location,
 			Rest,
             gettext,
-            AdminCreateRequest
+            getCreateRequest
 		) {
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
@@ -102,7 +102,7 @@ define([], function() {
         }
 
 
-        $scope.createRequest = AdminCreateRequest($scope);
+        $scope.createRequest = getCreateRequest($scope);
 
 		$scope.cancel = function() {
 			$location.path('/admin/users');

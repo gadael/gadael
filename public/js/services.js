@@ -9,6 +9,7 @@ define([
     'services/absence-edit',
     'services/workperiod-recover-edit',
     'services/timesavingdeposit-edit',
+    'services/getCreateRequest',
     'services/user-edit',
     'services/request-stat',
     'services/beneficiary',
@@ -25,6 +26,7 @@ define([
         AbsenceEdit,
         WorkperiodRecoverEdit,
         TimeSavingDepositEdit,
+        getCreateRequest,
         UserEdit,
         getRequestStat,
         initBeneficiary,
@@ -420,28 +422,9 @@ define([
 
     /**
      * Get a function to open the create request popup
+     * user by account and admin
      */
-    .factory('getCreateRequest', ['$location', '$modal', function($location, $modal) {
-
-        /**
-         * @param {Object} $scope
-         * @return {Function}
-         */
-        return function getCreateRequest($scope) {
-            return function() {
-                var modalscope = $scope.$new();
-                modalscope.goto = function(requestType) {
-                    $location.url('/account/requests/'+requestType+'-edit');
-                };
-
-                $modal({
-                    scope: modalscope,
-                    templateUrl: 'partials/account/request/request-create-modal.html',
-                    show: true
-                });
-            };
-        };
-    }])
+    .factory('getCreateRequest', ['$location', '$modal', 'Rest', getCreateRequest])
 
 
     /**
@@ -497,27 +480,6 @@ define([
         function(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll) {
             return getCalendar(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll);
         }
-    ])
-
-
-    .factory('AdminCreateRequest', ['$location', '$modal', function($location, $modal) {
-        return function($scope) {
-            return function(user) {
-
-                var modalscope = $scope.$new();
-                modalscope.user = user;
-                modalscope.goto = function(requestType) {
-                    $location.url('/admin/requests/'+requestType+'-edit?user='+user._id);
-                };
-
-                $modal({
-                    scope: modalscope,
-                    templateUrl: 'partials/admin/request/spoof-user-modal.html',
-                    show: true
-                });
-
-            };
-        };
-    }]);
+    ]);
 
 });
