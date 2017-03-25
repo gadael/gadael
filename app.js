@@ -12,13 +12,14 @@ try {
 }
 
 
-let models = require('./models');
+
 
 
 /**
  * Start the application
  */
 function start() {
+    let models = require('./models');
     let app = companyApi.getExpress(config, models);
     app.server = companyApi.startServer(app, function() {
         //and... we're live
@@ -36,10 +37,10 @@ if (false === config.mongodb.init) {
 
     let companyValues = {
         name: 'Gadael',
-        contry: 'FR'
+        country: 'FR' //TODO: get country code from file system?
     };
 
-    companyApi.createDb(headless, config.mongodb.dbName, companyValues)
+    companyApi.createDb(headless, config.mongodb.dbname, companyValues)
     .then(company => {
         // This is a first start, with db initialization
         start();

@@ -88,6 +88,7 @@ grunt --help
 - [ ] test .deb and .rpm in a VM
 - [ ] systemd services
 - [ ] rounding problem in absences requests
+- [ ] Remove maternity leave from default collection
 - [ ] wrong duration value for partial half-days in requests
 - [ ] clic on view rights from the types list: the filter does not work
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
