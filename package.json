@@ -1,6 +1,6 @@
 {
   "name": "gadael",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Paul de Rosanbo <paul@rosanbo.com>",
   "description": "Vacations management application for smart teams, nodejs server, angularjs frontend",
   "license": "MIT",
