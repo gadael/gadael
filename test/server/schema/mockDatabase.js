@@ -18,7 +18,8 @@ function mockDatabase(dbname, done)
 
 
 
-        api.createDb(headless, dbname, company, function() {
+        api.createDb(headless, dbname, company)
+        .then(() => {
 
             var config = require('../../../config')();
             var models = require('../../../models');
@@ -39,7 +40,8 @@ function mockDatabase(dbname, done)
             };
 
             done(app);
-        });
+        })
+        .catch(console.error);
 
      });
 }

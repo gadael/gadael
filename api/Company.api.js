@@ -233,60 +233,82 @@ exports = module.exports = {
      * @param	{Object} 		app			express app or mock headless app variable
      * @param	{string}		dbname		database name, verified with this.isDbNameValid
      * @param	{object}		company 	A company document object
-     * @param	{function}		callback 	done function
+	 *
+	 * @return {Promise}
      */
-    createDb: function createDb(app, dbName, company, callback) {
+    createDb: function createDb(app, dbName, company) {
 
 		apputil(app);
 
         // createConnection
         let db = app.mongoose.createConnection();
 		let companyApi = this;
+		let Company;
 
 
-        db.open(app.config.mongodb.prefix+dbName);
-
-        db.on('error', function(err) {
-            console.error('CompanyApi.createDb mongoose connection error: '+err.message);
-            callback();
-        });
-
-        db.once('open', function() {
-
-            gadael_loadMockModels(app, db)
+		/**
+		 * Create the company document and init tasks
+		 *
+		 * @return {Promise} resolve to company document
+		 */
+		function saveCompanyDoc() {
+			return gadael_loadMockModels(app, db)
 			.then(() => {
+				Company = db.models.Company;
+				return Company.count()
+				.exec();
+			})
+			.then(count => {
 
-				let m = db.models;
+				if (0 !== count) {
+					throw new Error('Database allready initialized with company object: '+dbName);
+				}
 
-	            m.Company.count({}, (err, count) => {
+				// create the company entry
+				let companyDoc = new Company(company);
+				let promises = companyApi.execInitTasks(db, companyDoc);
 
-	                if (0 !== count) {
-	                    console.error('Database allready initialized with company object: '+dbName);
-	                    callback(null);
-	                    return db.close();
-	                }
+				promises.push(companyDoc.save());
 
-	                // create the company entry
-	                let companyDoc = new m.Company(company);
-					let promises = companyApi.execInitTasks(db, companyDoc);
+				return Promise.all(promises);
 
-					promises.push(companyDoc.save());
 
-	                Promise.all(promises)
-					.then(() => {
-						callback();
-						db.close();
-					})
-					.catch(err => {
-						console.error('api.createDb '+err);
-						callback();
-						db.close();
-					});
-
-	            });
-
+			})
+			.then(arr => {
+				return arr[arr.length-1];
 			});
-        });
+		}
+
+		/**
+		 * Close database connexion
+		 * @return {Promise}
+		 */
+		function closeConnexion(companyPromise) {
+			return companyPromise
+			.then(company => {
+				db.close();
+				return company;
+			})
+			.catch(err => {
+				db.close();
+				throw err;
+			});
+		}
+
+
+		return new Promise((resolve, reject) => {
+
+			db.open(app.config.mongodb.prefix+dbName);
+
+	        db.on('error', function(err) {
+	            reject(new Error('CompanyApi.createDb mongoose connection error: '+err.message));
+	        });
+
+	        db.once('open', function() {
+				resolve(closeConnexion(saveCompanyDoc()));
+	        });
+
+		});
 
     },
 

@@ -10,7 +10,8 @@ let icsCalendars = fs.readdirSync(require('path').join(config.staticPath, 'calen
 
 
 function createCompany(dbname, company, ready) {
-    api.createDb(headless, dbname, company, function() {
+    api.createDb(headless, dbname, company)
+    .then(() => {
 
         config.port = company.port;
         config.companyName = company.name;

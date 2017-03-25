@@ -52,7 +52,8 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
             timeCreated: timeCreated
         };
 
-        api.createDb(headless, serverInst.dbname, company, function() {
+        api.createDb(headless, serverInst.dbname, company)
+        .then(() => {
 
 
 
@@ -76,12 +77,12 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
             serverInst.sockets = [];
 
             serverInst.server.on('connection', function (socket) {
-              serverInst.sockets.push(socket);
-              socket.setTimeout(4000);
-              socket.once('close', function () {
-                //console.log('socket closed');
-                serverInst.sockets.splice(serverInst.sockets.indexOf(socket), 1);
-              });
+                serverInst.sockets.push(socket);
+                socket.setTimeout(4000);
+                socket.once('close', function () {
+                    //console.log('socket closed');
+                    serverInst.sockets.splice(serverInst.sockets.indexOf(socket), 1);
+                });
             });
 
             serverInst.server.on('close', function() {
@@ -92,6 +93,9 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
                 }
             });
 
+        })
+        .catch(err => {
+            console.error(err.stack);
         });
     }
 

@@ -19,15 +19,8 @@ if (undefined !== process.argv[4]) {
     companyValues.country = process.argv[4];
 }
 
-api.company.createDb(api.headless, dbName, companyValues, company => {
-
-    if (null === company) {
-        console.error('Database creation failed');
-        return;
-    }
-
-
-
+api.company.createDb(api.headless, dbName, companyValues)
+.then(company => {
     console.log(util.format('Database %s created, please use `node app.js 3000 %s` to start your Gadael instance', dbName, dbName));
-
-});
+})
+.catch(console.error);

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const createDefault = require('./config.example');
+
 /**
  * Module to create a new config object
  * @return object

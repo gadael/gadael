@@ -18,6 +18,7 @@ exports = module.exports = function createConfiguration() {
     config.host = 'localhost';                  // if host undefined: any host
     config.port = process.argv[2] || 3000;
     config.mongodb = {
+        init: true,                             // database initialisation on first connexion
         prefix: 'localhost/',
         dbname: process.argv[3] || 'gadael',
         autoIndex: true,
