@@ -1,0 +1,12 @@
+[Unit]
+Description=Gadael HTTP server
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/var/lib/gadael
+ExecStart=/usr/bin/nodejs index.js
+StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target
