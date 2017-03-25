@@ -936,7 +936,9 @@ exports = module.exports = function(params) {
                 right.save().then(right => {
 
                     let promises = [];
-                    promises.push(linkToCollection(right, rightData.collection));
+                    if (rightData.defaultAbsenceLength === undefined) {
+                        promises.push(linkToCollection(right, rightData.collection));
+                    }
 
                     // create renewal
 

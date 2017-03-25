@@ -86,7 +86,7 @@ grunt --help
 ## TODO
 
 - [ ] test .deb and .rpm in a VM
-- [ ] systemd services
+- [x] systemd services
 - [ ] rounding problem in absences requests
 - [ ] Remove maternity leave from default collection
 - [ ] wrong duration value for partial half-days in requests
