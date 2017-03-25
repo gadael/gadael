@@ -36,6 +36,15 @@ msgid_plural "{{deposit.quantity| number}} hours"
 msgstr[0] "1 heure"
 msgstr[1] "{{deposit.quantity| number}} heures"
 
+#: public/partials/admin/department-edit.html
+msgid ""
+"A department is a group of employees, managers may be assigned to the "
+"approval of leave requests made by the department members"
+msgstr ""
+"Un service est un groupe d'employés, des gestionnaires peuvent êtres "
+"affectés à l'approbation des demandes de congés effectuées par les membres "
+"du service"
+
 #: public/partials/admin/popover-users.html
 msgid "A user account is required to continue"
 msgstr "Un compte utilisateur est requis pour continuer"
@@ -949,6 +958,10 @@ msgstr "Modifier une période travaillée donnant droit à récupération"
 msgid "Edit a workperiod recover request for {{request.user.name}}"
 msgstr "Modifier la demande récupération pour {{request.user.name}}"
 
+#: public/partials/utils/wellcome.html
+msgid "Edit leave right"
+msgstr "Modifier un droit de congé"
+
 #: public/partials/admin/adjustment-edit.html
 msgid ""
 "Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|"
@@ -1468,10 +1481,6 @@ msgstr "Nouveau service"
 #: public/partials/admin/request/absence-edit.html
 msgid "New leave request for {{request.user.name}}"
 msgstr "Nouvelle demande de congé pour {{request.user.name}}"
-
-#: public/partials/utils/wellcome.html
-msgid "New leave right"
-msgstr "Nouveau droit de congé"
 
 #: public/partials/admin/user-edit.html
 #: public/partials/user/settings-password.html
@@ -2465,6 +2474,10 @@ msgstr "Utiliser la période d'ouverture par défaut"
 msgid "Use default saving interval (renewal interval)"
 msgstr "Utiliser la période d'épargne par défaut (période du renouvellement)"
 
+#: public/partials/admin/request/absence-edit.html
+msgid "Use the approval workflow on this request"
+msgstr "Lancer l'approbation sur cette demande"
+
 #: public/partials/admin/right-edit.html
 msgid "User account"
 msgstr "Compte utilisateur"
@@ -2758,6 +2771,9 @@ msgstr ""
 #: public/partials/login/invitation.html
 msgid "Your workschedule for a week"
 msgstr "Votre rythme de travail sur une semaine"
+
+#~ msgid "New leave right"
+#~ msgstr "Nouveau droit de congé"
 
 #~ msgid "New absence right"
 #~ msgstr "Nouveau droit d'absence"

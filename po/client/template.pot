@@ -29,6 +29,10 @@ msgid_plural "{{deposit.quantity| number}} hours"
 msgstr[0] ""
 msgstr[1] ""
 
+#: public/partials/admin/department-edit.html
+msgid "A department is a group of employees, managers may be assigned to the approval of leave requests made by the department members"
+msgstr ""
+
 #: public/partials/admin/popover-users.html
 msgid "A user account is required to continue"
 msgstr ""
@@ -913,6 +917,10 @@ msgstr ""
 msgid "Edit a workperiod recover request for {{request.user.name}}"
 msgstr ""
 
+#: public/partials/utils/wellcome.html
+msgid "Edit leave right"
+msgstr ""
+
 #: public/partials/admin/adjustment-edit.html
 msgid "Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|date}}"
 msgstr ""
@@ -1389,10 +1397,6 @@ msgstr ""
 
 #: public/partials/admin/request/absence-edit.html
 msgid "New leave request for {{request.user.name}}"
-msgstr ""
-
-#: public/partials/utils/wellcome.html
-msgid "New leave right"
 msgstr ""
 
 #: public/partials/admin/user-edit.html
@@ -2310,6 +2314,10 @@ msgstr ""
 
 #: public/partials/admin/right-edit.html
 msgid "Use default saving interval (renewal interval)"
+msgstr ""
+
+#: public/partials/admin/request/absence-edit.html
+msgid "Use the approval workflow on this request"
 msgstr ""
 
 #: public/partials/admin/right-edit.html
