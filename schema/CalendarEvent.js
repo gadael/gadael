@@ -289,24 +289,34 @@ exports = module.exports = function(params) {
             throw new Error('parameters must be dates');
         }
 
-		var document = this;
+		let document = this;
 
 
-		var duration = document.getDuration();
-        var rruleSet = document.getRruleSet();
+		let duration = document.getDuration();
+        let rruleSet = document.getRruleSet();
 
         if (null === rruleSet) {
             return [document.toObject()];
         }
 
-		var list = rruleSet.between(span_start, span_end, true);
-        var result = [];
+		// the between method will not get events where start date is before (overlapping events)
 
-		for(var i=0; i<list.length; i++)
-		{
+		let searchStart = new Date(span_start);
+		searchStart.setHours(0,0,0,0);
+
+		let list = rruleSet.between(searchStart, span_end, true);
+        let result = [];
+
+		for (let i=0; i<list.length; i++) {
+
 			var event = document.toObject();
 			event.dtstart = list[i];
 			event.dtend = new Date(list[i].getTime() + duration);
+
+			if (event.dtend <= span_start) {
+				continue;
+			}
+
 			result.push(event);
 		}
 

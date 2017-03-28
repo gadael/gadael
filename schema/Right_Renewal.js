@@ -951,9 +951,8 @@ exports = module.exports = function(params) {
 
         }).then(r => {
 
-
-
             weekEnds = r[0];
+
             nonWorkingDays = Object.keys(r[1].getDays()).length;
 
             return Type.findOne({ _id: '5740adf51cf1a569643cc508'}).exec()
@@ -974,7 +973,7 @@ exports = module.exports = function(params) {
 			// Number of days on the renewal period 	~365
 			// - Number of weeks-ends days 				~104
 			// - Initial quantity of annual paid leaves ~25
-			// - Non working days 					    ~8
+			// - Non working days 					    ~11
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });
 

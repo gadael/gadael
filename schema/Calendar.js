@@ -3,6 +3,7 @@
 const ical = require('ical');
 const util = require('util');
 const latinize = require('latinize');
+const periodCriterion = require('../modules/periodcriterion');
 
 /**
  * Source URL for non-working day ICS file or workshedules ICS file
@@ -142,41 +143,28 @@ exports = module.exports = function(params) {
 	 *
      * @param {Date} span_start
      * @param {Date} span_end
-     * @param {function} callback
+     * @return {Promise}
 	 */
-	calendarSchema.methods.getEvents = function(span_start, span_end, callback) {
+	calendarSchema.methods.getEvents = function(span_start, span_end) {
 
 		var EventModel = params.db.models.CalendarEvent;
 
-		EventModel.find({
-			$or:[
-				{'rrule': { $ne: null } },
-				{
-					$and: [
-						{ 'dtstart': { $lt: span_end }},
-						{ 'dtend': { $gt: span_start }}
-					]
-				}
-			]
-		})
+		let find = EventModel.find();
+
+		periodCriterion(find, span_start, span_end);
+
+		return find
         .where('calendar', this._id)
 		.sort('dtstart')
-		.exec(function(err, documents) {
-			if (err) {
-				callback(err, null);
-				return;
-			}
+		.exec()
+		.then(documents => {
 
-			var events = [];
-
-
-
-            documents.forEach(function(document) {
-
+			let events = [];
+            documents.forEach(document => {
                 events = events.concat(document.expand(span_start, span_end));
             });
 
-            callback(null, events);
+            return events;
 
 		});
 	};

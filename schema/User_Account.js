@@ -1,7 +1,6 @@
 'use strict';
 
 const jurassic = require('jurassic');
-const async = require('async');
 
 /**
  * Account is a user with a collection or rights
@@ -442,7 +441,7 @@ exports = module.exports = function(params) {
 
     /**
      * Get list of events from a list of planning documents (schedule calendars or non-working days calendars)
-     * @param {Array} plannings [[Description]]
+     * @param {Array} plannings Array of AccountScheduleCalendar
      * @param {Date} dtstart   [[Description]]
      * @param {Date} dtend     [[Description]]
      *
@@ -453,34 +452,27 @@ exports = module.exports = function(params) {
 
         let from, to, events = new jurassic.Era();
 
-        return new Promise((resolve, reject) => {
 
-            async.each(plannings, function(asc, callback) {
+        return Promise.all(
+            plannings.map(asc => {
                 from = asc.from > dtstart ? asc.from : dtstart;
                 to = (null !== asc.to && asc.to < dtend) ? asc.to : dtend;
-                asc.calendar.getEvents(from, to, function eventsCb(err, calendarEvents) {
+                return asc.calendar.getEvents(from, to);
+            })
+        )
+        .then(allPlannings => {
+            for (let i=0; i<allPlannings.length; i++) {
+                let calendarEvents = allPlannings[i];
+                let calendar = plannings[i].calendar;
 
-                    if (err) {
-                        return callback(err);
-                    }
-
-                    calendarEvents.forEach(function(event) {
-
-                        events.addPeriod(event);
-                        var last = events.periods.length-1;
-                        events.periods[last].businessDays = events.periods[last].getBusinessDays(asc.calendar.halfDayHour);
-                    });
-
-                    callback();
-                });
-            }, function(err) {
-
-                if (err) {
-                    return reject(err);
+                for (let j=0; j<calendarEvents.length; j++) {
+                    events.addPeriod(calendarEvents[j]);
+                    var last = events.periods.length-1;
+                    events.periods[last].businessDays = events.periods[last].getBusinessDays(calendar.halfDayHour);
                 }
+            }
 
-                resolve(events);
-            });
+            return events;
         });
     };
 

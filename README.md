@@ -85,11 +85,11 @@ grunt --help
 
 ## TODO
 
-- [ ] test .deb and .rpm in a VM
+- [x] test .deb and .rpm in a VM
 - [x] systemd services
 - [ ] rounding problem in absences requests
 - [ ] Remove maternity leave from default collection
-- [ ] wrong duration value for partial half-days in requests
+- [x] wrong duration value for partial half-days in requests
 - [ ] clic on view rights from the types list: the filter does not work
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
@@ -99,7 +99,7 @@ grunt --help
 - [x] Show the waiting quantity to the user
 - [ ] Manager substitute one of his subordinates to create request
 - [x] Add checkbox on absence creation to bypass approval when the admin create the request on behalf
-- [ ] Hide time saving account option if not available
+- [x] Hide time saving account option if not available
 
 
 ## Main packages used

@@ -152,6 +152,67 @@ describe('calendarevents accout rest service', function() {
         });
     });
 
+    it('get workingtime event if requested with smaller period', function(done) {
+
+        let afterStart = new Date(event1.dtstart);
+        afterStart.setTime(afterStart.getTime() + 10*60000);
+        let beforeEnd = new Date(event1.dtend);
+        beforeEnd.setTime(beforeEnd.getTime() - 10*60000);
+
+
+
+        server.get('/rest/user/calendarevents', {
+            dtstart: afterStart.toJSON(), dtend: beforeEnd.toJSON(), type: 'workschedule'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+
+            done();
+        });
+    });
+
+
+    it('get workingtime event if requested with begin cross event', function(done) {
+
+        let beforeStart = new Date(event1.dtstart);
+        beforeStart.setTime(beforeStart.getTime() - 10*60000);
+        let beforeEnd = new Date(event1.dtend);
+        beforeEnd.setTime(beforeEnd.getTime() - 10*60000);
+
+
+
+        server.get('/rest/user/calendarevents', {
+            dtstart: beforeStart.toJSON(), dtend: beforeEnd.toJSON(), type: 'workschedule'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+
+            done();
+        });
+    });
+
+
+    it('get workingtime event if requested with end cross event', function(done) {
+
+        let afterStart = new Date(event1.dtstart);
+        afterStart.setTime(afterStart.getTime() + 10*60000);
+        let afterEnd = new Date(event1.dtend);
+        afterEnd.setTime(afterEnd.getTime() + 10*60000);
+
+
+
+        server.get('/rest/user/calendarevents', {
+            dtstart: afterStart.toJSON(), dtend: afterEnd.toJSON(), type: 'workschedule'
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+
+            done();
+        });
+    });
+
+
+
 
     it('request workingtimes as account, with optional subtractions', function(done) {
 

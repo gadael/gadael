@@ -2,7 +2,6 @@
 
 
 const helpers = require('../rest/mockServer');
-const mongoose = require('mongoose');
 
 const api = {
     company: require('../../../api/Company.api.js'),
@@ -83,14 +82,15 @@ describe('Right renewal', function() {
             rightRenewal.save((err, rightRenewal) => {
                 expect(err).toBeNull();
 
-                rightRenewal.getPlannedWorkDayNumber(user).then(workDays => {
+                rightRenewal.getPlannedWorkDayNumber(user)
+                .then(workDays => {
 
                     // renewal duration = 365
                     // - 105 week-ends days
                     // - 25 days of annual paid leaves
-                    // - 8 non working days
+                    // - 11 non working days
 
-                    expect(workDays).toEqual(227);
+                    expect(workDays).toEqual(224);
                     done();
                 }).catch(done);
             });

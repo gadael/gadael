@@ -217,6 +217,7 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                             duration = 0;
                             $scope.selection.businessDays = 0;
 
+
                             for(var i=0; i<periods.length; i++) {
 
                                 if (undefined === periods[i].businessDays) {
@@ -312,7 +313,7 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
 
 
                 return  function getLoadEvents(interval) {
-                    
+
                     var promises = [];
 
                     promises.push(loadPersonalEvents(interval));

@@ -1,6 +1,7 @@
 'use strict';
 
 const requestdateparams = require('../../../../modules/requestdateparams');
+const periodCriterion = require('../../../../modules/periodcriterion');
 
 /**
  * The calendar events list service
@@ -9,9 +10,7 @@ const requestdateparams = require('../../../../modules/requestdateparams');
 
 function addDatesCriterion(find, params)
 {
-    var periodCriterion = require('../../../../modules/periodcriterion');
     periodCriterion(find, params.dtstart, params.dtend);
-
 }
 
 
