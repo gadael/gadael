@@ -22,14 +22,18 @@
         </div>
         <div class="bottom-gradiant">
 
+
             <div ng-if="company.home_text.length>0" class="home-text text-center">
                 <p ng-repeat="paragraph in company.home_text|nlToArray track by $index">{{paragraph}}</p>
             </div>
 
+            <p class="text-center"><a class="btn btn-primary btn-lg" href="/#/login" translate>Login</a></p>
+
+
             <div class="devices text-center">
                 <img src="images/devices.png" />
 
-                <p><a class="btn btn-default btn-lg" target="_blank" href="https://www.gadael.com">gadael.com</a></p>
+                <p><a target="_blank" href="https://www.gadael.com">gadael.com</a></p>
             </div>
         </div>
 
