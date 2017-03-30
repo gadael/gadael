@@ -24,7 +24,7 @@ function saveAccount(service, params, user) {
 
     let AccountModel = service.app.db.models.Account;
 
-    if (undefined === params.roles.account.notify) {
+    if (undefined === params.roles.account || undefined === params.roles.account.notify) {
         return Promise.resolve(null);
     }
 
