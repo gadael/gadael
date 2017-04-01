@@ -65,12 +65,6 @@ exports = module.exports = function createConfiguration() {
         address: 'gadael@example.com'
     };
 
-    config.oauth = {
-        google: {
-            key: process.env.GOOGLE_OAUTH_KEY || '',
-            secret: process.env.GOOGLE_OAUTH_SECRET || ''
-        }
-    };
 
     config.staticPath = require('path').join(__dirname, 'public');
     config.indexFile = 'index.html'; // This file load the optimized requirejs file,
