@@ -11,7 +11,7 @@ exports = module.exports = function(user, account) {
      * @param   {RightRenewal} renewal
      * @returns {Promise} resolve to a number
      */
-    function getRenewalQuantity(right, renewal) {
+    function getRenewalQuantity(renewal) {
 
         if (account.arrival > renewal.finish) {
             return null;
@@ -96,7 +96,8 @@ exports = module.exports = function(user, account) {
 
         let promises = renewals
         .map(renewalDocument => {
-            return getRenewalQuantity(rightDocument, renewalDocument);
+            renewalDocument.setRightForPromise(rightDocument);
+            return getRenewalQuantity(renewalDocument);
         })
         .filter(promise => {
             return null !== promise;
@@ -109,7 +110,6 @@ exports = module.exports = function(user, account) {
             for (let i=0; i<renewals.length; i++) {
                 let renewalDocument = renewals[i];
                 let stat = stats[i];
-
                 setRenewal(renewalDocument, stat);
             }
             setUnits(rightDocument);

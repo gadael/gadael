@@ -237,7 +237,8 @@ exports = module.exports = function(params) {
         let right = this;
         let async = require('async');
 
-        this.getAllRenewals().then(function(arr) {
+        this.getAllRenewals()
+        .then(function(arr) {
 
             let rightRenewalSchema = params.db.models.RightRenewal;
 

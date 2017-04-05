@@ -103,7 +103,8 @@ exports = module.exports = function(services, app) {
                 collectionPromise = owner.account.getCurrentCollection();
             }
 
-            collectionPromise.then(rightCollection => {
+            collectionPromise
+            .then(rightCollection => {
 
                 if (rightCollection) {
                     docs.push(rightCollection._id);
@@ -200,7 +201,8 @@ exports = module.exports = function(services, app) {
                             populatedTypePromises.push(docs[i].right.populate('type').execPopulate());
                         }
 
-                        Promise.all(populatedTypePromises).then(function() {
+                        Promise.all(populatedTypePromises)
+                        .then(function() {
                             return resolveAccountRights(owner.account, owner.user, docs, moment);
                         })
                         .then(beneficiaries => {

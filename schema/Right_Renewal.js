@@ -331,6 +331,16 @@ exports = module.exports = function(params) {
 
     };
 
+	/**
+	 * Set the right document to return in getRightPromise
+	 * This is a performance optimization
+	 *
+	 */
+	rightRenewalSchema.methods.setRightForPromise = function(right) {
+		let renewal = this;
+
+		renewal.promiseRight = right;
+	};
 
 
     /**
@@ -344,10 +354,16 @@ exports = module.exports = function(params) {
         let renewal = this;
 
         if (!renewal.right) {
-            throw new Error('Missing right on account document');
+            throw new Error('Missing right on renewal document');
         }
 
-        return renewal.populate('right').execPopulate().then(() => {
+
+		if (undefined !== renewal.promiseRight) {
+			return Promise.resolve(renewal.promiseRight);
+		}
+
+        return renewal.populate('right').execPopulate()
+		.then(() => {
             return renewal.right;
         });
     };
@@ -722,28 +738,26 @@ exports = module.exports = function(params) {
             workingTimesDate = renewal.finish;
         }
 
-        if (!renewal.populated('right')) {
-            throw new Error('right must be populated');
-        }
+		return renewal.getRightPromise()
+		.then(right => {
+			if ('D' === right.quantity_unit) {
+	            return Promise.resolve(1);
+	        }
 
-        if ('D' === renewal.right.quantity_unit) {
-            return Promise.resolve(1);
-        }
+			return user.getAccount()
+	        .then(account => {
+	            return account.getScheduleCalendar(workingTimesDate);
+	        })
+	        .then(calendar => {
 
+	            if (null === calendar) {
+	                // no schedule calendar on period
+	                return 0;
+	            }
 
-        return user.getAccount()
-        .then(account => {
-            return account.getScheduleCalendar(workingTimesDate);
-        })
-        .then(calendar => {
-
-            if (null === calendar) {
-                // no schedule calendar on period
-                return 0;
-            }
-
-            return (1/calendar.hoursPerDay);
-        });
+	            return (1/calendar.hoursPerDay);
+	        });
+		});
     };
 
 
