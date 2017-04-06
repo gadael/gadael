@@ -66,6 +66,7 @@ models.load = function() {
     require('./schema/Adjustment')(requirements);
     require('./schema/Message')(requirements);
 	require('./schema/Invitation')(requirements);
+	require('./schema/UserRenewalStat')(requirements);
 
 
 	if (!requirements.autoIndex) {

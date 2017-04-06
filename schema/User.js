@@ -13,8 +13,8 @@ const gcal = require('google-calendar');
  */
 exports = module.exports = function(params) {
 
-	var mongoose = params.mongoose;
-	var userSchema = new mongoose.Schema({
+	let mongoose = params.mongoose;
+	let userSchema = new mongoose.Schema({
 		password: { type: String, select: false },
 		email: { type: String, required: true, index: true, unique: true },
 		lastname: { type: String, required: true },
