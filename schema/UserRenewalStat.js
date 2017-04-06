@@ -3,6 +3,12 @@
 /**
  * Statitics for one user/renewal
  * This a is a user cache for the RightRenewal.getUserQuantityStats() method
+ *
+ * The documents store consumption and initial quantity, as a consequence,
+ * data must be computed for every modification of :
+ *  - Request       for all entries of the appliquant
+ *  - Right         for all entries linked to renewals of the right
+ *  - Adjustment    for the corresponding entry
  */
 exports = module.exports = function(params) {
 

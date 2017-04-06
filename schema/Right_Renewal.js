@@ -835,6 +835,60 @@ exports = module.exports = function(params) {
     };
 
 
+	/**
+	 * Save stat object to database
+	 * @param {User} user
+	 * @param {Object} stat Stat object to save
+	 *
+	 * @return {Promise} resolve to the new saved document
+	 */
+	rightRenewalSchema.methods.saveUserRenewalStat = function(user, stat) {
+		let renewal = this;
+		let UserRenewalStat = renewal.model('UserRenewalStat');
+
+
+		return UserRenewalStat.find({
+			user: user._id,
+			renewal: renewal._id
+		})
+		.exec()
+		.then(arr => {
+			if (0 === arr.length) {
+				return new UserRenewalStat();
+			}
+
+			for (let i=1; i<arr.length; i++) {
+				arr[i].remove();
+			}
+
+			return arr[0];
+		})
+		.then(newStat => {
+			newStat.set(stat);
+			return newStat.save();
+		});
+	};
+
+
+	/**
+	 * get UserRenewalStat cache stat object from DB
+	 * @param {User} user
+	 *
+	 * @return {Promise} resolve to the saved document or NULL
+	 */
+	rightRenewalSchema.methods.getUserRenewalStat = function(user) {
+
+		let renewal = this;
+		let UserRenewalStat = renewal.model('UserRenewalStat');
+
+		return UserRenewalStat.findOne({
+			user: user._id,
+			renewal: renewal._id
+		})
+		.exec();
+	};
+
+
 
     /**
      * Get the saving period for the renewal
