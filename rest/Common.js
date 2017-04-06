@@ -67,6 +67,10 @@ exports.getInfos = function(req, res) {
                 {
                     'text': '<i class="fa fa-balance-scale text-success"></i>&nbsp;'+gt.gettext('My rights'),
                     'href': '#/account/beneficiaries'
+                },
+                {
+                    'text': '<i class="fa fa-building-o"></i>&nbsp;'+gt.gettext('My department'),
+                    'href': '#/account/department'
                 }
             ];
         }

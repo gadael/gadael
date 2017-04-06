@@ -139,6 +139,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AccountBeneficiaryView'
 		});
 
+		$routeProvider.when('/account/department', {
+			templateUrl: 'partials/account/department.html',
+			controller: 'AccountDepartmentView'
+		});
+
 
         $routeProvider.when('/account/calendar', {
 			templateUrl: 'partials/account/calendar.html',

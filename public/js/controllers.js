@@ -85,6 +85,9 @@ define(['angular', 'services'], function (angular) {
         .controller('AccountCalendarView', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/account/calendar-view', this, $scope, $injector);
 		}])
+		.controller('AccountDepartmentView', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/account/department-view', this, $scope, $injector);
+		}])
 
 
 

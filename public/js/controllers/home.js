@@ -25,8 +25,7 @@ define([], function() {
                 $modal,
                 $location) {
 
-        var collaboratorsResource;
-        var calendareventsResource = Rest.user.calendarevents.getResource();
+
 
         var title = gettext('Home');
         if (undefined !== $scope.company) {
@@ -41,8 +40,6 @@ define([], function() {
                 $scope.createRequest = getCreateRequest($scope);
 
                 var beneficiariesResource = Rest.account.beneficiaries.getResource();
-                collaboratorsResource = Rest.account.collaborators.getResource();
-
 
                 renewalChart($scope, beneficiariesResource);
             }
@@ -54,20 +51,12 @@ define([], function() {
 
                 var departmentsResource = Rest.manager.departments.getResource();
                 var waitingRequestResource = Rest.manager.waitingrequests.getResource();
-                collaboratorsResource = Rest.manager.collaborators.getResource();
 
                 $scope.waitingrequests = waitingRequestResource.query();
                 $scope.departments = departmentsResource.query();
             }
 
-            var startDate = new Date();
-
             $scope.department = $scope.sessionUser.department;
-
-            $scope.departmentReload = departmentReload(startDate, collaboratorsResource, calendareventsResource);
-            $scope.departmentReload($scope.department, 0);
-
-
 
 
             if ($scope.sessionUser && !$scope.sessionUser.isAuthenticated) {
