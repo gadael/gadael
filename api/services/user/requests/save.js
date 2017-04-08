@@ -311,6 +311,10 @@ function saveRequest(service, params) {
             return deleteOldEvents(savedDocument);
         })
         .then(() => {
+            // No postpone her because the next step need updated values
+            return savedDocument.updateAutoAdjustments();
+        })
+        .then(() => {
             return postpone(user.updateRenewalsStat());
         })
         .then(() => {

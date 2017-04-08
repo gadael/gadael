@@ -95,25 +95,22 @@ describe('Auto adjustment on collection right', function() {
         let dtstart = new Date(2016,0,15,8 ,0,0,0);
         let dtend   = new Date(2016,0,15,19,0,0,0);
 
-        let calls = 0;
-        let update = new Promise(resolve => {
-            app.db.models.Request.autoAdjustmentUpdated = function() {
-                // wait for execution of all post hooks
-                // console.trace('Resolve post hook');
-                calls++;
-                if (2 === calls) { // the save service call save twice
-                    resolve(rttRenewal.getUserAvailableQuantity(user));
-                }
-            };
-        });
+
+        let update = Promise.resolve(0);
+
+        app.db.models.Request.autoAdjustmentUpdated = function() {
+            update = rttRenewal.getUserAvailableQuantity(user);
+            return true;
+        };
 
         let save = api.request.createAbsenceOnRenewal(app, sickRenewal, user, dtstart, dtend, 1);
 
-        Promise.all([save, update])
-        .then(arr => {
-            let request = arr[0];
-            let quantity = arr[1];
+        save
+        .then(request => {
             expect(request.absence.distribution[0].quantity).toEqual(1);
+            return update;
+        })
+        .then(quantity => {
             expect(quantity).toBe(9.5);
             done();
         })

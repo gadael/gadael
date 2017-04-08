@@ -176,6 +176,7 @@ exports = module.exports = function(params) {
             moment = new Date();
         }
 
+
 		let user = this;
 
 		return user.getAccount()
@@ -183,12 +184,14 @@ exports = module.exports = function(params) {
 			return account.getMomentRenewals(moment);
 		})
 		.then(renewals => {
+
 			let promises = [];
 			renewals.forEach(renewal => {
 				if (null === renewal) {
 					console.log('No active renewal on '+moment);
 					return;
 				}
+			    
 				promises.push(renewal.updateAutoAdjustments(user));
 			});
 

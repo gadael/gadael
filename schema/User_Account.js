@@ -811,7 +811,7 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to renewals array
      */
     accountSchema.methods.getMomentRenewals = function(moment) {
-        this.getRights(moment)
+        return this.getRights(moment)
         .then(rights => {
 			return Promise.all(
     			rights.map(right => {

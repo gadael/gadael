@@ -101,10 +101,6 @@ exports = module.exports = function(params) {
     });
 
 
-    requestSchema.post('save', function postSaveHook(request) {
-        request.updateAutoAdjustments();
-    });
-
     requestSchema.post('remove', function postSaveHook(request) {
         request.updateAutoAdjustments();
     });
