@@ -260,6 +260,7 @@ function getUserId(params)
 function saveRequest(service, params) {
 
     const gt = service.app.utility.gettext;
+    const postpone = service.app.utility.postpone;
 
     let RequestModel = service.app.db.models.Request;
     let UserModel = service.app.db.models.User;
@@ -277,9 +278,10 @@ function saveRequest(service, params) {
      * Save document and add message to service promise
      * @param {Request} document
      * @param {String}  message
+     * @param {User} user
      * @return {Promise}
      */
-    function end(document, message)
+    function end(document, message, user)
     {
         let savedDocument;
 
@@ -307,6 +309,9 @@ function saveRequest(service, params) {
         })
         .then(() => {
             return deleteOldEvents(savedDocument);
+        })
+        .then(() => {
+            return postpone(user.updateRenewalsStat());
         })
         .then(() => {
 
@@ -354,7 +359,7 @@ function saveRequest(service, params) {
 
                 document.set(fieldsToSet);
                 document.addLog('modify', params.modifiedBy);
-                return end(document, gt.gettext('The request has been modified'));
+                return end(document, gt.gettext('The request has been modified'), userDocument);
             });
         }
 
@@ -393,7 +398,7 @@ function saveRequest(service, params) {
             document.set(fieldsToSet);
             document.addLog('create', params.createdBy);
 
-            return end(document, gt.gettext('The request has been created'));
+            return end(document, gt.gettext('The request has been created'), userDocument);
 
         });
 

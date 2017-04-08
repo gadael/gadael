@@ -165,6 +165,7 @@ exports = module.exports = function(params) {
     };
 
 
+
 	/**
 	 * Update auto adjustments for all rights renewals associated to user
 	 * @param {Date} moment
@@ -179,15 +180,7 @@ exports = module.exports = function(params) {
 
 		return user.getAccount()
 		.then(account => {
-			return account.getRights();
-		})
-		.then(rights => {
-			let promises = [];
-			rights.forEach(right => {
-				promises.push(right.getMomentRenewal(moment));
-			});
-
-			return Promise.all(promises);
+			return account.getMomentRenewals(moment);
 		})
 		.then(renewals => {
 			let promises = [];
@@ -1033,6 +1026,30 @@ exports = module.exports = function(params) {
 			this.lastname = this.email.split('@')[0];
 		}
 
+	};
+
+
+
+	/**
+	 * Update all stats cache for the user
+	 * after a request creation or a custom beneficiary modification
+	 *
+	 * @return {Promise}
+	 */
+	userSchema.methods.updateRenewalsStat = function() {
+		let user = this;
+
+		return user.getAccount()
+		.then(account => {
+			return account.getMomentBeneficiariesRenewals();
+		})
+		.then(arr => {
+			return Promise.all(
+				arr.map(o => {
+					return o.renewal.updateUserStat(user, o.beneficiary);
+				})
+			);
+		});
 	};
 
 

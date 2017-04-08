@@ -45,6 +45,8 @@ function validate(service, params) {
 function saveRenewal(service, params) {
 
     const gt = service.app.utility.gettext;
+    const postpone = service.app.utility.postpone;
+
     var RightRenewalModel = service.app.db.models.RightRenewal;
 
     var rightId = params.right;
@@ -80,7 +82,7 @@ function saveRenewal(service, params) {
                 document.save()
                 .then(document => {
 
-                    return document.updateUsersStat()
+                    return postpone(document.updateUsersStat())
                     .then(() => {
 
                         service.resolveSuccessGet(
@@ -103,7 +105,7 @@ function saveRenewal(service, params) {
         document.save()
         .then(document => {
 
-            return document.updateUsersStat()
+            return postpone(document.updateUsersStat())
             .then(() => {
 
                 service.resolveSuccessGet(

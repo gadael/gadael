@@ -22,6 +22,7 @@ exports = module.exports = function(app) {
     app.utility.workflow = require('./workflow');
     app.utility.gettext = require('./gettext')(app.config);
     app.utility.dispunits = require('./dispunits')(app);
+    app.utility.postpone = require('./postpone')(app.config);
 
     /**
      * Load a service

@@ -10,6 +10,8 @@ exports = module.exports = function createConfiguration() {
 
     config.loghttp = false;
     config.csrfProtection = true;
+    config.postpone = true;                     // postpone some tasks after HTTP result in REST service
+                                                // postpone=false for unit tests but true in production for speed
 
     config.url = 'https//demo.gadael.com';      // used by oauth2 callback url
                                                 // and links in Emails

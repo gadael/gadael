@@ -771,8 +771,55 @@ exports = module.exports = function(params) {
         });
     };
 
+    /**
+     * Get pairs of renewal/beneficiary object
+     * beneficiary with no valid renewal for the moment are ignored
+     * @return {Promise}
+     */
+    accountSchema.methods.getMomentBeneficiariesRenewals = function(moment) {
+        return this.getRightBeneficiaries(moment)
+        .then(function(beneficiaries) {
+
+            return Promise.all(
+                beneficiaries.map(b => b.right.getMomentRenewal(moment))
+            )
+            .then(renewals => {
+
+                let output = [];
+
+                for(var i=0; i< beneficiaries.length; i++) {
+
+                    if (null === renewals[i]) {
+                        continue;
+                    }
+
+                    output.push({
+                        beneficiary: beneficiaries[i],
+                        renewal: renewals[i]
+                    });
+                }
+
+                return output;
+            });
+        });
+    };
 
 
+    /**
+     * Get associated renewals on a date
+     * @param {Date} moment optional date, if not set this is now
+     * @return {Promise} resolve to renewals array
+     */
+    accountSchema.methods.getMomentRenewals = function(moment) {
+        this.getRights(moment)
+        .then(rights => {
+			return Promise.all(
+    			rights.map(right => {
+    				return right.getMomentRenewal(moment);
+    			})
+            );
+		});
+    };
 
 
     /**

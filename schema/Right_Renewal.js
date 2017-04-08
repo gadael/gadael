@@ -40,6 +40,34 @@ exports = module.exports = function(params) {
 
 
 
+	/**
+     * Pre remove hook
+     */
+    rightRenewalSchema.pre('remove', function(next) {
+        let renewal = this;
+
+        renewal.removeUserRenewalStat()
+		.then(() => {
+            next();
+        }).catch(next);
+    });
+
+
+	/**
+	 * Remove user renewal stat cache when renewal is deleted
+	 * @return {Promise}
+	 */
+	rightRenewalSchema.methods.removeUserRenewalStat = function()
+	{
+		let renewal = this;
+		let UserRenewalStat = params.db.models.UserRenewalStat;
+		return UserRenewalStat.find({ renewal: renewal._id })
+		.exec()
+		.then(arr => {
+			return Promise.all(arr.map(s => s.remove()));
+		});
+	};
+
 
     /**
      * @return {Promise}
@@ -871,7 +899,7 @@ exports = module.exports = function(params) {
 	 * Force cache refresh for all users whith access to this renewal
 	 * @return {Promise}
 	 */
-	rightRenewalSchema.methods.updateUsersStat = function(user, beneficiary) {
+	rightRenewalSchema.methods.updateUsersStat = function() {
 		let renewal = this;
 		return renewal.getBeneficiaryUsers()
 		.then(users => {
