@@ -75,33 +75,23 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.checkOverlap = function()
     {
 		const gt = params.app.utility.gettext;
+        const model = params.db.models.RightRenewal;
 
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
-
-        var model = params.db.models.RightRenewal;
-
-        model.find({ right: this.right })
+        return model.find({ right: this.right })
             .where('start').lt(this.finish)
             .where('finish').gt(this.start)
             .where('_id').ne(this._id)
-            .count(function(err, renewals) {
-                if (err) {
-                    return deferred.reject(err);
-                }
+            .count()
+			.exec()
+			.then(renewals => {
 
                 if (renewals > 0) {
-                    return deferred.reject(new Error(gt.gettext('The renewals periods must not overlap')));
+                    throw new Error(gt.gettext('The renewals periods must not overlap'));
                 }
 
-                deferred.resolve(true);
+                return true;
             }
         );
-
-        return deferred.promise;
     };
 
 
