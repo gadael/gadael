@@ -1355,7 +1355,7 @@ msgstr "Liste des emails à inviter, une adresse par ligne"
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: public/js/controllers/login/index.js
+#: public/partials/home.html public/js/controllers/login/index.js
 msgid "Login"
 msgstr "Connexion"
 
@@ -1450,7 +1450,11 @@ msgstr ""
 msgid "My account"
 msgstr "Mon compte"
 
-#: public/partials/home.html
+#: public/js/controllers/account/department-view.js
+msgid "My department"
+msgstr "Mon service"
+
+#: public/partials/account/department.html
 msgid "My department: {{sessionUser.department.name}}"
 msgstr "Mon service : {{sessionUser.department.name}}"
 
@@ -2228,6 +2232,14 @@ msgstr ""
 msgid "The number of active users is limited by your plan level"
 msgstr ""
 "Le nombre d'utilisateurs actifs est limité par le niveau de votre abonnement"
+
+#: public/partials/admin/account-rights-edit.html
+msgid ""
+"The optional period configured here can be used as a reference in right "
+"rules."
+msgstr ""
+"La période optionnelle configurée ici peut être utilisée comme référence "
+"dans les règles de droits."
 
 #: public/partials/utils/common/right/right-panel.html
 msgid "The right is linked to collections"

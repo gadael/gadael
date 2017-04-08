@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 18:51+0100\n"
+"POT-Creation-Date: 2017-04-07 08:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1013,55 +1013,59 @@ msgstr ""
 msgid "My rights"
 msgstr ""
 
-#: rest/Common.js:77
+#: rest/Common.js:72
+msgid "My department"
+msgstr ""
+
+#: rest/Common.js:81
 msgid "Waiting requests"
 msgstr ""
 
-#: rest/Common.js:88
+#: rest/Common.js:92
 msgid "Requests"
 msgstr ""
 
-#: rest/Common.js:92
+#: rest/Common.js:96
 msgid "Compulsory leaves"
 msgstr ""
 
-#: rest/Common.js:96
+#: rest/Common.js:100
 msgid "Exports"
 msgstr ""
 
-#: rest/Common.js:103
+#: rest/Common.js:107
 msgid "Users list"
 msgstr ""
 
-#: rest/Common.js:107
+#: rest/Common.js:111
 msgid "Invitations"
 msgstr ""
 
-#: rest/Common.js:111
+#: rest/Common.js:115
 msgid "Departments list"
 msgstr ""
 
-#: rest/Common.js:115
+#: rest/Common.js:119
 msgid "Collections list"
 msgstr ""
 
-#: rest/Common.js:119
+#: rest/Common.js:123
 msgid "Calendars list"
 msgstr ""
 
-#: rest/Common.js:126
+#: rest/Common.js:130
 msgid "Right types"
 msgstr ""
 
-#: rest/Common.js:130
+#: rest/Common.js:134
 msgid "Rights configuration"
 msgstr ""
 
-#: rest/Common.js:134
+#: rest/Common.js:138
 msgid "Sort rights and types"
 msgstr ""
 
-#: rest/Common.js:138
+#: rest/Common.js:142
 msgid "Recover quantities"
 msgstr ""
 
@@ -1123,19 +1127,19 @@ msgstr ""
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:962
+#: schema/Right_Renewal.js:1029
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:971
+#: schema/Right_Renewal.js:1038
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1005
+#: schema/Right_Renewal.js:1072
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1410,99 +1414,99 @@ msgstr ""
 msgid "A week-end"
 msgstr ""
 
-#: schema/Calendar.js:241
+#: schema/Calendar.js:229
 msgid "5 days 40H - 8H 12H / 14H 18H"
 msgstr ""
 
-#: schema/Calendar.js:248
+#: schema/Calendar.js:236
 msgid "5 days 39H - 8H 12H / 14H 18H, 17H on friday"
 msgstr ""
 
-#: schema/Calendar.js:255
+#: schema/Calendar.js:243
 msgid "5 days 35H - 8H 12H / 14H 17H"
 msgstr ""
 
-#: schema/Calendar.js:262
+#: schema/Calendar.js:250
 msgid "5 days 36H - 8H 12H / 14H 18H, no friday afternoon"
 msgstr ""
 
-#: schema/Calendar.js:269
+#: schema/Calendar.js:257
 msgid "5 days 36H - 8H 12H / 14H 18H, no wednesday afternoon"
 msgstr ""
 
-#: schema/Calendar.js:276
+#: schema/Calendar.js:264
 msgid "5 days 20H - 14H 18H"
 msgstr ""
 
-#: schema/Calendar.js:283
+#: schema/Calendar.js:271
 msgid "5 days 20H - 8H 12H"
 msgstr ""
 
-#: schema/Calendar.js:290
+#: schema/Calendar.js:278
 msgid "4 days 32H - 8H 12H / 14H 18H, no friday"
 msgstr ""
 
-#: schema/Calendar.js:297
+#: schema/Calendar.js:285
 msgid "4 days 32H - 8H 12H / 14H 18H, no wednesday"
 msgstr ""
 
-#: schema/Calendar.js:311
+#: schema/Calendar.js:299
 msgid "Guadeloupe non working days"
 msgstr ""
 
-#: schema/Calendar.js:317
+#: schema/Calendar.js:305
 msgid "Guyane non working days"
 msgstr ""
 
-#: schema/Calendar.js:323
+#: schema/Calendar.js:311
 msgid "Martinique non working days"
 msgstr ""
 
-#: schema/Calendar.js:329
+#: schema/Calendar.js:317
 msgid "Moselle, Bas-Rhin, Haut-Rhin non working days"
 msgstr ""
 
-#: schema/Calendar.js:336
+#: schema/Calendar.js:324
 msgid "French non working days (metropolis)"
 msgstr ""
 
-#: schema/Calendar.js:342
+#: schema/Calendar.js:330
 msgid "French polynesia non working days"
 msgstr ""
 
-#: schema/Calendar.js:348
+#: schema/Calendar.js:336
 msgid "Reunion island non working days"
 msgstr ""
 
-#: schema/Calendar.js:354
+#: schema/Calendar.js:342
 msgid "Wallis and Futuna non working days"
 msgstr ""
 
-#: schema/Calendar.js:361
+#: schema/Calendar.js:349
 msgid "School vacation"
 msgstr ""
 
-#: schema/Calendar.js:376
+#: schema/Calendar.js:364
 msgid "Belgium non working days"
 msgstr ""
 
-#: schema/Calendar.js:388
+#: schema/Calendar.js:376
 msgid "Ireland non working days"
 msgstr ""
 
-#: schema/Calendar.js:429 schema/Calendar.js:529
+#: schema/Calendar.js:417 schema/Calendar.js:517
 #, javascript-format
 msgid "%s non working days"
 msgstr ""
 
-#: schema/Calendar.js:447
+#: schema/Calendar.js:435
 msgid "England and Wales legal holidays"
 msgstr ""
 
-#: schema/Calendar.js:453
+#: schema/Calendar.js:441
 msgid "North Ireland legal holidays"
 msgstr ""
 
-#: schema/Calendar.js:459
+#: schema/Calendar.js:447
 msgid "Scotland legal holidays"
 msgstr ""

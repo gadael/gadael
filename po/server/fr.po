@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-22 14:29+0100\n"
-"PO-Revision-Date: 2017-03-22 14:30+0100\n"
+"POT-Creation-Date: 2017-04-07 08:30+0200\n"
+"PO-Revision-Date: 2017-04-08 14:36+0200\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -483,7 +483,7 @@ msgstr "Le renouvellement a été supprimé"
 
 #: api/services/admin/rightrenewals/save.js:86
 msgid "The right renewal period has been modified"
-msgstr "La période de renouvellement a été supprimée"
+msgstr "La période de renouvellement a été modifiée"
 
 #: api/services/admin/rightrenewals/save.js:108
 msgid "The right renewal period has been created"
@@ -650,11 +650,11 @@ msgid ""
 "allowed"
 msgstr "Ce congé est un congé imposé, la modification n'est pas permise"
 
-#: api/services/user/requests/save.js:352
+#: api/services/user/requests/save.js:357
 msgid "The request has been modified"
 msgstr "La demande a été modifiée"
 
-#: api/services/user/requests/save.js:391
+#: api/services/user/requests/save.js:396
 msgid "The request has been created"
 msgstr "La demande a été créée"
 
@@ -1079,55 +1079,59 @@ msgstr "Mes demandes"
 msgid "My rights"
 msgstr "Mes droits"
 
-#: rest/Common.js:77
+#: rest/Common.js:72
+msgid "My department"
+msgstr "Mon service"
+
+#: rest/Common.js:81
 msgid "Waiting requests"
 msgstr "Demandes en attente"
 
-#: rest/Common.js:88
+#: rest/Common.js:92
 msgid "Requests"
 msgstr "Demandes"
 
-#: rest/Common.js:92
+#: rest/Common.js:96
 msgid "Compulsory leaves"
 msgstr "Congés obligatoires"
 
-#: rest/Common.js:96
+#: rest/Common.js:100
 msgid "Exports"
 msgstr "Exports"
 
-#: rest/Common.js:103
+#: rest/Common.js:107
 msgid "Users list"
 msgstr "Liste des utilisateurs"
 
-#: rest/Common.js:107
+#: rest/Common.js:111
 msgid "Invitations"
 msgstr "Invitations"
 
-#: rest/Common.js:111
+#: rest/Common.js:115
 msgid "Departments list"
 msgstr "Liste des services"
 
-#: rest/Common.js:115
+#: rest/Common.js:119
 msgid "Collections list"
 msgstr "Liste des régimes"
 
-#: rest/Common.js:119
+#: rest/Common.js:123
 msgid "Calendars list"
 msgstr "Liste des agendas"
 
-#: rest/Common.js:126
+#: rest/Common.js:130
 msgid "Right types"
 msgstr "Types de droit"
 
-#: rest/Common.js:130
+#: rest/Common.js:134
 msgid "Rights configuration"
 msgstr "Configuration des droits"
 
-#: rest/Common.js:134
+#: rest/Common.js:138
 msgid "Sort rights and types"
 msgstr "Ordonner les droits et les types"
 
-#: rest/Common.js:138
+#: rest/Common.js:142
 msgid "Recover quantities"
 msgstr "Récupérations"
 
@@ -1147,7 +1151,7 @@ msgstr "Le mot de passe est obligatoire"
 msgid "The two password fields must be equals"
 msgstr "Les deux mots de passe saisis doivent êtres identiques"
 
-#: rest/anonymous/createfirstadmin.js:60
+#: rest/anonymous/createfirstadmin.js:54
 msgid "The first admin allready exists"
 msgstr "Le premier administrateur existe déjà"
 
@@ -1190,7 +1194,7 @@ msgstr "Vous êtes déconnecté de votre agenda Google"
 msgid "The renewals periods must not overlap"
 msgstr "Les périodes de renouvellements ne doivent pas se superposer"
 
-#: schema/Right_Renewal.js:962
+#: schema/Right_Renewal.js:1029
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
@@ -1198,7 +1202,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, le type "
 "congés payés annuels est requis"
 
-#: schema/Right_Renewal.js:971
+#: schema/Right_Renewal.js:1038
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
@@ -1206,7 +1210,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, la "
 "quantité de congés payés annuels est requise"
 
-#: schema/Right_Renewal.js:1005
+#: schema/Right_Renewal.js:1072
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1487,100 +1491,100 @@ msgstr "Une heure"
 msgid "A week-end"
 msgstr "Un week-end"
 
-#: schema/Calendar.js:241
+#: schema/Calendar.js:229
 msgid "5 days 40H - 8H 12H / 14H 18H"
 msgstr "5 jours 40H - 8H 12H / 14H 18H"
 
-#: schema/Calendar.js:248
+#: schema/Calendar.js:236
 msgid "5 days 39H - 8H 12H / 14H 18H, 17H on friday"
 msgstr "5 jours 39H - 8H 12H / 14H 18H, 17H le vendredi"
 
-#: schema/Calendar.js:255
+#: schema/Calendar.js:243
 msgid "5 days 35H - 8H 12H / 14H 17H"
 msgstr "5 jours 35H - 8H 12H / 14H 17H"
 
-#: schema/Calendar.js:262
+#: schema/Calendar.js:250
 msgid "5 days 36H - 8H 12H / 14H 18H, no friday afternoon"
 msgstr "5 jours 36H - 8H 12H / 14H 18H, pas de vendredi après-midi"
 
-#: schema/Calendar.js:269
+#: schema/Calendar.js:257
 msgid "5 days 36H - 8H 12H / 14H 18H, no wednesday afternoon"
 msgstr "5 jours 36H - 8H 12H / 14H 18H, pas de mercredi après-midi"
 
-#: schema/Calendar.js:276
+#: schema/Calendar.js:264
 msgid "5 days 20H - 14H 18H"
 msgstr "5 jours 20H - 14H 18H"
 
-#: schema/Calendar.js:283
+#: schema/Calendar.js:271
 msgid "5 days 20H - 8H 12H"
 msgstr "5 jours 20H - 8H 12H"
 
-#: schema/Calendar.js:290
+#: schema/Calendar.js:278
 msgid "4 days 32H - 8H 12H / 14H 18H, no friday"
 msgstr "4 jours 32H - 8H 12H / 14H 18H, pas de vendredi"
 
-#: schema/Calendar.js:297
+#: schema/Calendar.js:285
 msgid "4 days 32H - 8H 12H / 14H 18H, no wednesday"
 msgstr "4 jours 32H - 8H 12H / 14H 18H, pas de mercredi"
 
-#: schema/Calendar.js:311
+#: schema/Calendar.js:299
 msgid "Guadeloupe non working days"
 msgstr "Jours fériés en Guadeloupe"
 
-#: schema/Calendar.js:317
+#: schema/Calendar.js:305
 msgid "Guyane non working days"
 msgstr "Jours fériés en Guyane"
 
-#: schema/Calendar.js:323
+#: schema/Calendar.js:311
 msgid "Martinique non working days"
 msgstr "Jours fériés en Martinique"
 
-#: schema/Calendar.js:329
+#: schema/Calendar.js:317
 msgid "Moselle, Bas-Rhin, Haut-Rhin non working days"
 msgstr "Jours fériés pour la Moselle, Bas-Rhin, Haut-Rhin"
 
-#: schema/Calendar.js:336
+#: schema/Calendar.js:324
 msgid "French non working days (metropolis)"
 msgstr "Jours fériés en France métropolitaine"
 
-#: schema/Calendar.js:342
+#: schema/Calendar.js:330
 msgid "French polynesia non working days"
 msgstr "Jours fériés en Polynésie Française"
 
-#: schema/Calendar.js:348
+#: schema/Calendar.js:336
 msgid "Reunion island non working days"
 msgstr "Jours fériés sur l'Île de la Réunion"
 
-#: schema/Calendar.js:354
+#: schema/Calendar.js:342
 msgid "Wallis and Futuna non working days"
 msgstr "Jours fériés de Wallis et Futuna"
 
-#: schema/Calendar.js:361
+#: schema/Calendar.js:349
 msgid "School vacation"
 msgstr "Vacances scolaires"
 
-#: schema/Calendar.js:376
+#: schema/Calendar.js:364
 msgid "Belgium non working days"
 msgstr "Jours fériés en Belgique"
 
-#: schema/Calendar.js:388
+#: schema/Calendar.js:376
 msgid "Ireland non working days"
 msgstr "Jours fériés en Irlande"
 
-#: schema/Calendar.js:429 schema/Calendar.js:529
+#: schema/Calendar.js:417 schema/Calendar.js:517
 #, javascript-format
 msgid "%s non working days"
 msgstr "%s jours fériés"
 
-#: schema/Calendar.js:447
+#: schema/Calendar.js:435
 msgid "England and Wales legal holidays"
 msgstr "Jours fériés en Angleterre et Pays de Galles"
 
-#: schema/Calendar.js:453
+#: schema/Calendar.js:441
 msgid "North Ireland legal holidays"
 msgstr "Jours fériés en Irlande du Nord"
 
-#: schema/Calendar.js:459
+#: schema/Calendar.js:447
 msgid "Scotland legal holidays"
 msgstr "Jours fériés en Écosse"
 

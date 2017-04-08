@@ -72,44 +72,68 @@ exports = module.exports = function(params) {
         return find.exec();
     };
 
+
+    collectionSchema.methods.getAccountCollectionQuery = function(moment)
+    {
+        if (undefined === moment || null === moment) {
+            moment = new Date();
+            moment.setHours(0,0,0,0);
+        }
+
+        let AccountCollection = this.model('AccountCollection');
+
+        return AccountCollection.find()
+        .where('rightCollection', this._id)
+        .where('from').lte(moment)
+        .where({
+            '$or': [
+                { 'to': null },
+                { 'to': { '$gte': moment }}
+            ]
+        });
+    };
+
+
     /**
      * Get the list of users with collection
+     *
+     * @deprecated Because not used
+     *
      * @param {Date}    moment  Optional date for collection association to users
      * @return {Promise} resolve to an array of users
      */
     collectionSchema.methods.getUsers = function getUsers(moment) {
 
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
+        let User = this.model('User');
+
+        return this.getAccountCollectionQuery(moment)
+        .exec()
+        .then(arr => {
+            return User.find()
+            .where('roles.account').in(arr.map(ac => ac.account))
+            .exec();
         });
 
-        if (null === moment) {
-            moment = new Date();
-            moment.setHours(0,0,0,0);
-        }
-
-        this.model('AccountCollection').find()
-            .where('from').lte(moment)
-            .where('to').gte(moment)
-            .populate('account.user.id.roles.account')
-            .exec(function(err, arr) {
-
-                if (err) {
-                    deferred.reject(err); return;
-                }
-
-                var users = [];
-                for(var i=0; i<arr.length; i++) {
-                    users.push(arr[i].user.id);
-                }
-
-                deferred.resolve(users);
-            });
-
-        return deferred.promise;
     };
+
+
+    /**
+     * Get the accountCollection document
+     * @return {Promise}    AccountCollection document
+     */
+    collectionSchema.methods.getAccountCollection = function(accountId, moment) {
+        return this.getAccountCollectionQuery(moment)
+        .where('account', accountId)
+        .exec()
+        .then(arr => {
+            if (0 === arr.length) {
+                return null;
+            }
+
+            return arr[0];
+        });
+    };
+
 
 
     collectionSchema.statics.getInitTask = function(company) {

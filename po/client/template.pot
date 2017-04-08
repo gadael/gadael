@@ -1278,6 +1278,7 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
+#: public/partials/home.html
 #: public/js/controllers/login/index.js
 msgid "Login"
 msgstr ""
@@ -1365,7 +1366,11 @@ msgstr ""
 msgid "My account"
 msgstr ""
 
-#: public/partials/home.html
+#: public/js/controllers/account/department-view.js
+msgid "My department"
+msgstr ""
+
+#: public/partials/account/department.html
 msgid "My department: {{sessionUser.department.name}}"
 msgstr ""
 
@@ -2106,6 +2111,10 @@ msgstr ""
 
 #: public/partials/admin/users.html
 msgid "The number of active users is limited by your plan level"
+msgstr ""
+
+#: public/partials/admin/account-rights-edit.html
+msgid "The optional period configured here can be used as a reference in right rules."
 msgstr ""
 
 #: public/partials/utils/common/right/right-panel.html

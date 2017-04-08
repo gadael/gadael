@@ -121,6 +121,7 @@ exports = module.exports = function(params) {
 
     });
 
+
     /**
      * Pre remove hook
      */
@@ -181,6 +182,50 @@ exports = module.exports = function(params) {
             });
 
             return Promise.all(removePromises);
+        });
+    };
+
+
+    /**
+     * Get all users linked to this right with the beneficiary period
+     * resolve to array with objects :
+     *  -user           User document
+     *  -beneficiary
+     *
+     * @return {Promise}
+     */
+    rightSchema.methods.getBeneficiaryUsers = function() {
+        let Beneficiary = this.model('Beneficiary');
+
+        return Beneficiary.find()
+        .where('right', this._id)
+        .exec()
+        .then(beneficiaries => {
+            let promises = beneficiaries.map(b => {
+                return b.getUsers();
+            });
+
+            return Promise.all(promises)
+            .then(all => {
+
+                let list = [];
+
+                function push(user) {
+                    list.push({
+                        user: user,
+                        beneficiary: this
+                    });
+                }
+
+                for (let i=0; i<all.length; i++) {
+                    let beneficiary = beneficiaries[i];
+                    let users       = all[i];
+
+                    users.forEach(push.bind(beneficiary));
+                }
+
+                return list;
+            });
         });
     };
 
@@ -802,6 +847,26 @@ exports = module.exports = function(params) {
         }
 
         return Promise.reject('Unexpected consumption type '+right.consumption);
+    };
+
+
+
+    /**
+     * get type promise
+     *
+     *
+     * @return {Promise}
+     */
+    rightSchema.methods.getType = function() {
+
+        let right = this;
+
+        return right.populate('type')
+        .execPopulate()
+		.then(populatedRight => {
+            return populatedRight.type;
+        });
+
     };
 
 

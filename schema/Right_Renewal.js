@@ -28,7 +28,7 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.pre('save', function(next) {
 
-		var renewal = this;
+		let renewal = this;
 
         renewal.checkOverlap()
             .then(function() {
@@ -37,6 +37,7 @@ exports = module.exports = function(params) {
             .catch(next)
             .then(next);
 	});
+
 
 
 
@@ -836,16 +837,78 @@ exports = module.exports = function(params) {
 
 
 	/**
+	 * Get users associated to the right
+	 * @return {Promise}
+	 */
+	rightRenewalSchema.methods.getBeneficiaryUsers = function() {
+		let renewal = this;
+		return renewal.getRightPromise()
+		.then(right => {
+			return right.getBeneficiaryUsers();
+		});
+	};
+
+
+	/**
+	 * Force cache refresh for one user
+	 * @return {Promise}
+	 */
+	rightRenewalSchema.methods.updateUserStat = function(user, beneficiary) {
+		let renewal = this;
+
+		return renewal.getUserQuantityStats(user)
+		.then(validStat => {
+			return renewal.saveUserRenewalStat(user, beneficiary, validStat);
+		})
+		.catch(() => {
+			return renewal.deleteUserRenewalStat(user);
+		});
+
+	};
+
+
+	/**
+	 * Force cache refresh for all users whith access to this renewal
+	 * @return {Promise}
+	 */
+	rightRenewalSchema.methods.updateUsersStat = function(user, beneficiary) {
+		let renewal = this;
+		return renewal.getBeneficiaryUsers()
+		.then(users => {
+			return Promise.all(users.map(ub => {
+				return renewal.updateUserStat(ub.user, ub.beneficiary);
+			}));
+		});
+	};
+
+
+	/**
+	 * @return {Promise}
+	 */
+	rightRenewalSchema.methods.deleteUserRenewalStat = function(user) {
+
+		let renewal = this;
+		let UserRenewalStat = renewal.model('UserRenewalStat');
+
+		return UserRenewalStat.find({
+			user: user._id,
+			renewal: renewal._id
+		})
+		.exec()
+		.then(arr => arr.map(s => s.remove()));
+	};
+
+
+	/**
 	 * Save stat object to database
 	 * @param {User} user
 	 * @param {Object} stat Stat object to save
 	 *
 	 * @return {Promise} resolve to the new saved document
 	 */
-	rightRenewalSchema.methods.saveUserRenewalStat = function(user, stat) {
+	rightRenewalSchema.methods.saveUserRenewalStat = function(user, beneficiary, stat) {
 		let renewal = this;
 		let UserRenewalStat = renewal.model('UserRenewalStat');
-
 
 		return UserRenewalStat.find({
 			user: user._id,
@@ -854,7 +917,35 @@ exports = module.exports = function(params) {
 		.exec()
 		.then(arr => {
 			if (0 === arr.length) {
-				return new UserRenewalStat();
+				let newStat = new UserRenewalStat();
+				newStat.user = user._id;
+				newStat.renewal = renewal._id;
+
+				return renewal.getRightPromise()
+				.then(right => {
+
+					return right.getType()
+					.then(type => {
+						let typeCache;
+						if (null !== type && undefined !== type) {
+							typeCache = {
+								name: type.name,
+								color: type.color
+							};
+						}
+
+						newStat.right = {
+							id: right._id,
+							name: right.name,
+							type: typeCache
+						};
+
+						return newStat;
+					});
+
+				});
+
+
 			}
 
 			for (let i=1; i<arr.length; i++) {
@@ -865,7 +956,14 @@ exports = module.exports = function(params) {
 		})
 		.then(newStat => {
 			newStat.set(stat);
-			return newStat.save();
+			newStat.beneficiary = beneficiary._id;
+			return beneficiary.getAccountCollection(user)
+			.then(accountCollection => {
+				if (null !== accountCollection) {
+					newStat.accountCollection = accountCollection._id;
+				}
+				return newStat.save();
+			});
 		});
 	};
 

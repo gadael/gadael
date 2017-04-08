@@ -691,6 +691,16 @@ exports = module.exports = function(params) {
 		});
     };
 
+	/**
+	 * @return {ObjectId}
+	 */
+	userSchema.methods.getAccountId = function() {
+		let accountId = this.populated('roles.account');
+		return (undefined === accountId) ?
+			this.roles.account :
+			accountId;
+	};
+
 
     /**
      * get account promise
@@ -708,7 +718,8 @@ exports = module.exports = function(params) {
             throw new Error('Missing account');
         }
 
-        return user.populate('roles.account').execPopulate().then(populatedUser => {
+        return user.populate('roles.account').execPopulate()
+		.then(populatedUser => {
             return populatedUser.roles.account;
         });
 

@@ -22,6 +22,67 @@ exports = module.exports = function(params) {
                                     // the period of the collection is used instead
     });
 
+    /**
+     * Populate document
+     * @return {Promise}
+     */
+    beneficiarySchema.methods.populateDocument = function() {
+        let beneficiary = this;
+
+        return beneficiary.populate({
+            path: 'document',
+            model: beneficiary.ref
+        }).execPopulate();
+    };
+
+    /**
+     * @return {Promise}
+     */
+    beneficiarySchema.methods.getDocument = function() {
+        return this.populateDocument()
+        .then(beneficiary => beneficiary.document);
+    };
+
+
+    /**
+     * Get users linked to beneficiary
+     * Resolve to array
+     * @return {Promise}
+     */
+    beneficiarySchema.methods.getUsers = function() {
+        let beneficiary = this;
+        if ('User' === beneficiary.ref) {
+            return beneficiary.populateDocument()
+            .then(beneficiary => {
+                return [beneficiary.document];
+            });
+        }
+
+        if ('RightCollection' === beneficiary.ref) {
+            return beneficiary.populateDocument()
+            .then(beneficiary => {
+                let collection = beneficiary.document;
+                return collection.getUsers();
+            });
+        }
+    };
+
+    /**
+     * Get account collection or null
+     * @param {User} user
+     * @return {Promise}
+     */
+    beneficiarySchema.methods.getAccountCollection = function(user) {
+        if ('RightCollection' !== this.ref) {
+            return Promise.resolve(null);
+        }
+
+        return this.getDocument()
+        .then(collection => {
+            return collection.getAccountCollection(user.getAccountId());
+        });
+    };
+
 
 
     beneficiarySchema.set('autoIndex', params.autoIndex);

@@ -135,7 +135,7 @@ describe('vacations right renewals admin rest service', function() {
             finish: new Date(2016,2,15,23,59,59,0),
             right: right
         }, function(res, body) {
-            expect(res.statusCode).toEqual(400);
+            expect(res.statusCode).toEqual(500);
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeFalsy();
             done();
@@ -148,7 +148,7 @@ describe('vacations right renewals admin rest service', function() {
             finish: new Date(2017,0,15,23,59,59,0),
             right: right
         }, function(res, body) {
-            expect(res.statusCode).toEqual(400);
+            expect(res.statusCode).toEqual(500);
             expect(body.$outcome).toBeDefined();
             expect(body.$outcome.success).toBeFalsy();
             done();

@@ -77,18 +77,19 @@ function saveRenewal(service, params) {
                 });
 
 
-                document.save(function(err, document) {
+                document.save()
+                .then(document => {
 
-                    if (service.handleMongoError(err)) {
+                    return document.updateUsersStat()
+                    .then(() => {
 
                         service.resolveSuccessGet(
                             document._id,
                             gt.gettext('The right renewal period has been modified')
                         );
-
-                    }
-
-                });
+                    });
+                })
+                .catch(service.error);
 
 
             }
@@ -99,16 +100,21 @@ function saveRenewal(service, params) {
         var document = new RightRenewalModel();
         document.set(fieldsToSet);
 
-        document.save(function(err, document) {
+        document.save()
+        .then(document => {
 
-            if (service.handleMongoError(err))
-            {
+            return document.updateUsersStat()
+            .then(() => {
+
                 service.resolveSuccessGet(
                     document._id,
                     gt.gettext('The right renewal period has been created')
                 );
-            }
-        });
+
+            });
+
+        })
+        .catch(service.error);
     }
 }
 
