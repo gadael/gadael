@@ -33,8 +33,8 @@ exports = module.exports = function(params) {
 
     /**
      * Update user stat linked to the current renewal
-     * @param {Beneficiary|ObjectId|String} beneficiary     This is the beneficiary document used
-     *                                                      to link renewal and user
+     * @param {Beneficiary} beneficiary     This is the beneficiary document used
+     *                                      to link renewal and user
      * @return {Promise}
      */
     adjustmentSchema.methods.updateUsersStat = function(beneficiary) {
@@ -52,7 +52,10 @@ exports = module.exports = function(params) {
             // a simple catch does not work here
             return new Promise(resolve => {
                 adjustment.rightRenewal.updateUserStat(adjustment.user, beneficiary)
-                .catch(resolve)
+                .catch(err => {
+                    console.trace(err);
+                    return resolve();
+                })
                 .then(resolve);
             });
 

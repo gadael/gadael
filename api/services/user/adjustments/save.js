@@ -31,7 +31,7 @@ function saveAdjustment(service, params) {
 
     const gt = service.app.utility.gettext;
     const Adjustment = service.app.db.models.Adjustment;
-
+    const Beneficiary = service.app.db.models.Beneficiary;
 
 
     function getDocument() {
@@ -63,18 +63,34 @@ function saveAdjustment(service, params) {
     }
 
 
+    /**
+     * Update cache
+     * @return {Promise}
+     */
+    function updateUserStat(document) {
+        return Beneficiary.findOne({ _id: params.beneficiary })
+        .exec()
+        .then(beneficiary => {
+
+            if (null === beneficiary) {
+                throw new Error('Beneficiary not found for id '+params.beneficiary);
+            }
+
+            return document.updateUsersStat(beneficiary)
+            .then(() => {
+                return document;
+            });
+        });
+    }
+
+
 
     getDocument()
     .catch(service.notFound)
     .then(document => {
         return document.save();
     })
-    .then(document => {
-        return document.updateUsersStat(params.beneficiary)
-        .then(() => {
-            return document;
-        });
-    })
+    .then(updateUserStat)
     .catch(service.error)
     .then(document => {
 

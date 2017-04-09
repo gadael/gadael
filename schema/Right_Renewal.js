@@ -808,9 +808,6 @@ exports = module.exports = function(params) {
 
 
 
-
-
-
     /**
      * Get a user available, consumed and initial quantity
      *
@@ -869,6 +866,8 @@ exports = module.exports = function(params) {
 
 	/**
 	 * Force cache refresh for one user
+	 * @param {User} user
+	 * @param {beneficiary} beneficiary
 	 * @return {Promise}
 	 */
 	rightRenewalSchema.methods.updateUserStat = function(user, beneficiary) {
@@ -919,7 +918,7 @@ exports = module.exports = function(params) {
 	/**
 	 * Save stat object to database
 	 * @param {User} user
-	 * @param {Beneficiary|ObjectId|String} beneficiary
+	 * @param {Beneficiary} beneficiary
 	 * @param {Object} stat Stat object to save
 	 *
 	 * @return {Promise} resolve to the new saved document
