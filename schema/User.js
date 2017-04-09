@@ -191,7 +191,7 @@ exports = module.exports = function(params) {
 					console.log('No active renewal on '+moment);
 					return;
 				}
-			    
+
 				promises.push(renewal.updateAutoAdjustments(user));
 			});
 
@@ -1047,11 +1047,25 @@ exports = module.exports = function(params) {
 			return account.getMomentBeneficiariesRenewals();
 		})
 		.then(arr => {
-			return Promise.all(
-				arr.map(o => {
-					return o.renewal.updateUserStat(user, o.beneficiary);
-				})
-			);
+
+			let promises = [];
+
+			arr.forEach(o => {
+				// only way found to ignore error
+				// a simple promise map has not worked
+				let p = new Promise(resolve => {
+					o.renewal.updateUserStat(user, o.beneficiary)
+					.then(resolve)
+					.catch(() => {
+						resolve();
+					});
+				});
+
+				promises.push(p);
+			});
+
+
+			return Promise.all(promises);
 		});
 	};
 

@@ -881,7 +881,6 @@ exports = module.exports = function(params) {
 		.catch(() => {
 			return renewal.deleteUserRenewalStat(user);
 		});
-
 	};
 
 

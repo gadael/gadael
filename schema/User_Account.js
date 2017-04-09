@@ -780,6 +780,8 @@ exports = module.exports = function(params) {
         return this.getRightBeneficiaries(moment)
         .then(function(beneficiaries) {
 
+
+
             return Promise.all(
                 beneficiaries.map(b => b.right.getMomentRenewal(moment))
             )
