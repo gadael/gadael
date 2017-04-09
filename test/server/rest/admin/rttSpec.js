@@ -159,6 +159,7 @@ describe('RTT right on admin rest service', function() {
         });
 
         server.put('/rest/admin/rights/'+right._id , right, function(res, body) {
+            console.log(body.$outcome);
             expect(res.statusCode).toEqual(200);
             done();
         });

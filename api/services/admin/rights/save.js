@@ -103,7 +103,7 @@ function saveRight(service, params) {
 
 
     const gt = service.app.utility.gettext;
-
+    const postpone = service.app.utility.postpone;
 
     let type;
     if (undefined !== params.type) {
@@ -172,6 +172,10 @@ function saveRight(service, params) {
         }
 
         return right.save();
+    })
+    .then(savedRight => {
+        return postpone(savedRight.updateUsersStat())
+        .then(() => savedRight);
     })
     .then(savedRight => {
         service.resolveSuccessGet(savedRight._id, message);

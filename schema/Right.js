@@ -874,8 +874,30 @@ exports = module.exports = function(params) {
 
     };
 
+    /**
+     * Update user stat linked to the current renewal
+     * @return {Promise}
+     */
+    rightSchema.methods.updateUsersStat = function() {
+        let right = this;
 
+        return right.getMomentRenewal()
+        .then(renewal => {
 
+            if (null === renewal) {
+                return;
+            }
+
+            // ignore error on renewal
+            // a simple catch does not work here
+            return new Promise(resolve => {
+                renewal.updateUsersStat()
+                .catch(resolve)
+                .then(resolve);
+            });
+
+        });
+    };
 
 
     /**

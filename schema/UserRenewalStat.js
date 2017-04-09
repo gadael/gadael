@@ -40,7 +40,7 @@ exports = module.exports = function(params) {
         waiting: {
             created:        Number,
             deleted:        Number
-        },            
+        },
         daysratio:          Number, // A ratio to convert quantities in day
 
         timeCreated: { type: Date, default: Date.now }
