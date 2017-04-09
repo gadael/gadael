@@ -10,7 +10,7 @@ const util = require('util');
  */
 function validate(service, params) {
 
-    if (service.needRequiredFields(params, ['rightRenewal', 'user', 'quantity', 'userCreated'])) {
+    if (service.needRequiredFields(params, ['rightRenewal', 'user', 'quantity', 'userCreated', 'beneficiary'])) {
         return;
     }
 
@@ -30,63 +30,61 @@ function validate(service, params) {
 function saveAdjustment(service, params) {
 
     const gt = service.app.utility.gettext;
-
-    var Adjustment = service.app.db.models.Adjustment;
-
+    const Adjustment = service.app.db.models.Adjustment;
 
 
-    if (params._id) {
 
+    function getDocument() {
+        if (!params._id) {
+            let document = new Adjustment();
+            document.rightRenewal = params.rightRenewal;
+            document.user = params.user;
+            document.quantity = params.quantity;
+            document.comment = params.comment;
+            document.userCreated = {
+                id: params.userCreated._id,
+                name: params.userCreated.getName()
+            };
+            return Promise.resolve(document);
+        }
 
-        Adjustment.findById(params._id, function(err, document) {
-            if (service.handleMongoError(err)) {
-                if (null === document) {
-                    service.notFound(util.format(gt.gettext('Adjustment document not found for id %s'), params.id));
-                    return;
-                }
-
-                document.rightRenewal = params.rightRenewal;
-                document.user 	      = params.user;
-                document.quantity     = params.quantity;
-                document.comment      = params.comment;
-
-                document.save(function (err) {
-
-                    if (service.handleMongoError(err)) {
-
-                        service.resolveSuccess(
-                            document,
-                            gt.gettext('The adjustment has been modified')
-                        );
-                    }
-                });
+        return Adjustment.findOne({ _id: params._id })
+        .then(document => {
+            if (null === document) {
+                throw new Error(util.format(gt.gettext('Adjustment document not found for id %s'), params.id));
             }
+
+            document.rightRenewal = params.rightRenewal;
+            document.user 	      = params.user;
+            document.quantity     = params.quantity;
+            document.comment      = params.comment;
+            return document;
         });
-
-    } else {
-
-
-        Adjustment.create({
-                rightRenewal: params.rightRenewal,
-                user: params.user,
-                quantity: params.quantity,
-                comment: params.comment,
-                userCreated: {
-                    id: params.userCreated._id,
-                    name: params.userCreated.getName()
-                }
-            }, function(err, document) {
-
-            if (service.handleMongoError(err))
-            {
-                service.resolveSuccess(
-                    document,
-                    gt.gettext('The quantity adjustment has been created')
-                );
-            }
-        });
-
     }
+
+
+
+    getDocument()
+    .catch(service.notFound)
+    .then(document => {
+        return document.save();
+    })
+    .then(document => {
+        return document.updateUsersStat(params.beneficiary)
+        .then(() => {
+            return document;
+        });
+    })
+    .catch(service.error)
+    .then(document => {
+
+        let message = params._id ?
+            gt.gettext('The adjustment has been modified') :
+            gt.gettext('The quantity adjustment has been created');
+
+        service.resolveSuccess(document, message);
+    });
+
 }
 
 

@@ -30,6 +30,36 @@ exports = module.exports = function(params) {
     });
 
 
+
+    /**
+     * Update user stat linked to the current renewal
+     * @param {Beneficiary|ObjectId|String} beneficiary     This is the beneficiary document used
+     *                                                      to link renewal and user
+     * @return {Promise}
+     */
+    adjustmentSchema.methods.updateUsersStat = function(beneficiary) {
+        let adjustment = this;
+
+        let promises = [
+            adjustment.populate('rightRenewal').execPopulate(),
+            adjustment.populate('user').execPopulate()
+        ];
+
+        return Promise.all(promises)
+        .then(() => {
+
+            // ignore error on renewal
+            // a simple catch does not work here
+            return new Promise(resolve => {
+                adjustment.rightRenewal.updateUserStat(adjustment.user, beneficiary)
+                .catch(resolve)
+                .then(resolve);
+            });
+
+        });
+    };
+
+
     adjustmentSchema.set('autoIndex', params.autoIndex);
 
     adjustmentSchema.index({ name: 1 });

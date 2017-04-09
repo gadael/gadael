@@ -78,6 +78,10 @@ define([], function() {
                 }
             }
 
+            if (null === renewals[r].initial_quantity) {
+                renewals.splice(r, 1);
+                continue;
+            }
 
             if (renewals[r].start > today) {
                 renewals[r].position = 1;
@@ -169,8 +173,9 @@ define([], function() {
          *
          * @param {object} renewal  [[Description]]
          * @param {Number} quantity [[Description]]
+         * @param {object} beneficiary
          */
-        function setNewAdjustment(renewal, quantity) {
+        function setNewAdjustment(renewal, quantity, beneficiary) {
 
             removeFromNewAdjustments(renewal);
 
@@ -180,6 +185,7 @@ define([], function() {
             adjustment.rightRenewal = renewal;
             adjustment.quantity = quantity;
             adjustment.comment = null;  // must be set on save
+            adjustment.beneficiary = beneficiary._id;
             newAdjustments.push(adjustment);
         }
 
@@ -262,7 +268,7 @@ define([], function() {
                 beneficiary.renewals.forEach(function(renewal) {
                     if (collectionRenewalQuantity[renewal._id] !== renewal.initial_quantity) {
                         var quantity = renewal.initial_quantity - collectionRenewalQuantity[renewal._id];
-                        setNewAdjustment(renewal, quantity);
+                        setNewAdjustment(renewal, quantity, beneficiary);
                         return;
                     }
 

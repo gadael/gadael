@@ -6,7 +6,7 @@ describe('adjustments rest service', function() {
 
     var server;
 
-    var right1, collection1, user1, renewal1;
+    var right1, collection1, user1, renewal1, beneficiary1;
 
 
     var today = new Date();
@@ -126,6 +126,7 @@ describe('adjustments rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
+            beneficiary1 = body._id;
             server.expectSuccess(body);
             done();
         });
@@ -181,7 +182,8 @@ describe('adjustments rest service', function() {
             rightRenewal: renewal1._id,
             user: user1._id,
             quantity: -2,
-            comment: 'test reduction'
+            comment: 'test reduction',
+            beneficiary: beneficiary1
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
@@ -216,7 +218,8 @@ describe('adjustments rest service', function() {
             rightRenewal: renewal1._id,
             user: user1._id,
             quantity: 4,
-            comment: 'test add'
+            comment: 'test add',
+            beneficiary: beneficiary1
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body._id).toBeDefined();
@@ -259,4 +262,3 @@ describe('adjustments rest service', function() {
 
 
 });
-

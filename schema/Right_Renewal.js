@@ -919,6 +919,7 @@ exports = module.exports = function(params) {
 	/**
 	 * Save stat object to database
 	 * @param {User} user
+	 * @param {Beneficiary|ObjectId|String} beneficiary
 	 * @param {Object} stat Stat object to save
 	 *
 	 * @return {Promise} resolve to the new saved document
@@ -926,6 +927,11 @@ exports = module.exports = function(params) {
 	rightRenewalSchema.methods.saveUserRenewalStat = function(user, beneficiary, stat) {
 		let renewal = this;
 		let UserRenewalStat = renewal.model('UserRenewalStat');
+
+		let beneficiaryId = (undefined === beneficiary._id) ?
+			beneficiary :
+			beneficiary._id;
+
 
 		return UserRenewalStat.find({
 			user: user._id,
@@ -973,7 +979,7 @@ exports = module.exports = function(params) {
 		})
 		.then(newStat => {
 			newStat.set(stat);
-			newStat.beneficiary = beneficiary._id;
+			newStat.beneficiary = beneficiaryId;
 			return beneficiary.getAccountCollection(user)
 			.then(accountCollection => {
 				if (null !== accountCollection) {
