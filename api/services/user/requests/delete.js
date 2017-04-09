@@ -8,6 +8,7 @@ exports = module.exports = function(services, app) {
     var service = new services.delete(app);
 
     const gt = app.utility.gettext;
+    const postpone = app.utility.postpone;
 
     /**
      * Call the requests delete service
@@ -33,19 +34,22 @@ exports = module.exports = function(services, app) {
 
 
         function endDelete(document) {
-            document.save(function(err) {
-                if (service.handleMongoError(err)) {
+            document.save()
+            .then(() => {
+                return postpone(document.user.id.updateRenewalsStat());
+            })
+            .then(() => {
 
-                    // cancel all events associated to the request
-                    document.setEventsStatus('PRECANCEL');
-                    var request = document.toObject();
+                // cancel all events associated to the request
+                document.setEventsStatus('PRECANCEL');
+                var request = document.toObject();
 
-                    service.resolveSuccess(
-                        request,
-                        gt.gettext('The request has been deleted')
-                    );
-                }
-            });
+                service.resolveSuccess(
+                    request,
+                    gt.gettext('The request has been deleted')
+                );
+            })
+            .catch(service.error);
         }
 
 
@@ -88,7 +92,8 @@ exports = module.exports = function(services, app) {
                 );
 
 
-                getApprovalSteps(document.user.id).then(function(approvalSteps) {
+                getApprovalSteps(document.user.id)
+                .then(function(approvalSteps) {
                     document.approvalSteps = approvalSteps;
                     endDelete(document);
                 }, service.error);

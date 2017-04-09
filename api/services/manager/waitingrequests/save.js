@@ -77,15 +77,18 @@ function sendEmail(app, request, remainingApprovers)
 function saveRequest(service, params) {
 
     const gt = service.app.utility.gettext;
+    const postpone = service.app.utility.postpone;
 
-    var RequestModel = service.app.db.models.Request;
-    var UserModel = service.app.db.models.User;
+    const RequestModel = service.app.db.models.Request;
+    const UserModel = service.app.db.models.User;
 
-    var filter = {
+    let filter = {
         '_id': params.id
     };
 
-    RequestModel.findOne(filter).exec(function(err, document) {
+    RequestModel.findOne(filter)
+    .populate('user.id')
+    .exec(function(err, document) {
         if (service.handleMongoError(err)) {
 
             if (!document) {
@@ -96,7 +99,8 @@ function saveRequest(service, params) {
             var approvalStep = document.approvalSteps.id(params.approvalStep);
 
 
-            UserModel.findOne({ _id: params.user }).exec(function(err, user) {
+            UserModel.findOne({ _id: params.user })
+            .exec(function(err, user) {
 
                 if (service.handleMongoError(err)) {
 
@@ -119,6 +123,12 @@ function saveRequest(service, params) {
                     }
 
                     document.save()
+                    .then(request => {
+                        return postpone(document.user.id.updateRenewalsStat())
+                        .then(() => {
+                            return request;
+                        });
+                    })
                     .then(request => {
 
                         return request.populate('events')

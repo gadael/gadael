@@ -49,7 +49,7 @@ exports = module.exports = function(params) {
      * Resolve to array
      * @return {Promise}
      */
-    beneficiarySchema.methods.getUsers = function() {
+    beneficiarySchema.methods.getUsers = function(moment) {
         let beneficiary = this;
         if ('User' === beneficiary.ref) {
             return beneficiary.populateDocument()
@@ -62,7 +62,7 @@ exports = module.exports = function(params) {
             return beneficiary.populateDocument()
             .then(beneficiary => {
                 let collection = beneficiary.document;
-                return collection.getUsers();
+                return collection.getUsers(moment);
             });
         }
     };

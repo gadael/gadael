@@ -43,7 +43,9 @@ exports = module.exports = function(params) {
         },
         daysratio:          Number, // A ratio to convert quantities in day
 
-        timeCreated: { type: Date, default: Date.now }
+        timeCreated: { type: Date, default: Date.now },
+
+        error:              String
 	});
 
 

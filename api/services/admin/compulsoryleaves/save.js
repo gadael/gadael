@@ -73,7 +73,7 @@ function getIds(list) {
 function saveRequests(service, params) {
 
     const gt = service.app.utility.gettext;
-
+    const postpone = service.app.utility.postpone;
 
     /**
      * Get user document with validation
@@ -286,11 +286,20 @@ function saveRequests(service, params) {
                 let req = new Request();
                 req.set(fieldsToSet);
 
-                return req.save().then(requestDoc => {
-                    return saveAbsence.saveEmbedEvents(requestDoc).then(() => {
+                return req.save()
+                .then(requestDoc => {
+                    return saveAbsence.saveEmbedEvents(requestDoc)
+                    .then(() => {
                         requestcreated(service.app, requestDoc);
                         return requestDoc;
                     });
+                });
+            })
+            .then(requestDoc => {
+                //TODO: update only one renewal
+                return postpone(user.updateRenewalsStat(requestDoc.events[0].dtstart))
+                .then(() => {
+                    return requestDoc;
                 });
             });
         });
@@ -405,7 +414,8 @@ function saveRequests(service, params) {
 
 
 
-    return Promise.all(promises).then(clrs => {
+    return Promise.all(promises)
+    .then(clrs => {
 
         let validRequestIds = [];
         let validCompulsoryLeaveRequests = [];
@@ -509,7 +519,8 @@ function saveCompulsoryLeave(service, params) {
     };
 
 
-    saveRequests(service, params).then(compulsoryLeaveRequests => {
+    saveRequests(service, params)
+    .then(compulsoryLeaveRequests => {
 
         fieldsToSet.requests = compulsoryLeaveRequests;
 

@@ -139,6 +139,7 @@ exports = module.exports = function(params) {
     });
 
 
+
     /**
      * delete all renewals linked to this right
      * remove on model have no query hook so it not used here because we may have to chain multiple pre remove middlewares
@@ -192,9 +193,11 @@ exports = module.exports = function(params) {
      *  -user           User document
      *  -beneficiary
      *
+     * @param {Date}    moment  Optional date for collection association to users
+     *
      * @return {Promise}
      */
-    rightSchema.methods.getBeneficiaryUsers = function() {
+    rightSchema.methods.getBeneficiaryUsers = function(moment) {
         let Beneficiary = this.model('Beneficiary');
 
         return Beneficiary.find()
@@ -202,7 +205,7 @@ exports = module.exports = function(params) {
         .exec()
         .then(beneficiaries => {
             let promises = beneficiaries.map(b => {
-                return b.getUsers();
+                return b.getUsers(moment);
             });
 
             return Promise.all(promises)

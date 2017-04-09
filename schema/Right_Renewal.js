@@ -853,13 +853,14 @@ exports = module.exports = function(params) {
 
 	/**
 	 * Get users associated to the right
+	 * @param {Date}    moment  Optional date for collection association to users
 	 * @return {Promise}
 	 */
-	rightRenewalSchema.methods.getBeneficiaryUsers = function() {
+	rightRenewalSchema.methods.getBeneficiaryUsers = function(moment) {
 		let renewal = this;
 		return renewal.getRightPromise()
 		.then(right => {
-			return right.getBeneficiaryUsers();
+			return right.getBeneficiaryUsers(moment);
 		});
 	};
 
@@ -877,19 +878,24 @@ exports = module.exports = function(params) {
 		.then(validStat => {
 			return renewal.saveUserRenewalStat(user, beneficiary, validStat);
 		})
-		.catch(() => {
-			return renewal.deleteUserRenewalStat(user);
+		.catch(err => {
+			return renewal.saveUserRenewalStat(user, beneficiary, {
+				initial: 0,
+				available: 0,
+				error: err.message
+			});
 		});
 	};
 
 
 	/**
 	 * Force cache refresh for all users whith access to this renewal
+	 * @param {Date}    moment  Optional date for collection association to users
 	 * @return {Promise}
 	 */
-	rightRenewalSchema.methods.updateUsersStat = function() {
+	rightRenewalSchema.methods.updateUsersStat = function(moment) {
 		let renewal = this;
-		return renewal.getBeneficiaryUsers()
+		return renewal.getBeneficiaryUsers(moment)
 		.then(users => {
 			return Promise.all(users.map(ub => {
 				return renewal.updateUserStat(ub.user, ub.beneficiary);
@@ -926,10 +932,6 @@ exports = module.exports = function(params) {
 	rightRenewalSchema.methods.saveUserRenewalStat = function(user, beneficiary, stat) {
 		let renewal = this;
 		let UserRenewalStat = renewal.model('UserRenewalStat');
-
-		let beneficiaryId = (undefined === beneficiary._id) ?
-			beneficiary :
-			beneficiary._id;
 
 
 		return UserRenewalStat.find({
@@ -978,7 +980,7 @@ exports = module.exports = function(params) {
 		})
 		.then(newStat => {
 			newStat.set(stat);
-			newStat.beneficiary = beneficiaryId;
+			newStat.beneficiary = beneficiary._id;
 			return beneficiary.getAccountCollection(user)
 			.then(accountCollection => {
 				if (null !== accountCollection) {
@@ -988,6 +990,7 @@ exports = module.exports = function(params) {
 			});
 		});
 	};
+
 
 
 	/**

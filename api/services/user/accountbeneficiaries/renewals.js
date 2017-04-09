@@ -113,6 +113,19 @@ exports = module.exports = function(user, account) {
             for (let i=0; i<renewals.length; i++) {
                 let renewalDocument = renewals[i];
                 let stat = stats[i];
+
+                if (null === stat) {
+                    continue;
+                }
+
+                if (stat.error) {
+                    // this is for the cached version, error message is in database
+                    beneficiary.errors.push({
+                        renewal: renewalDocument,
+                        error: stat.error
+                    });
+                }
+
                 setRenewal(renewalDocument, stat);
             }
             setUnits(rightDocument);

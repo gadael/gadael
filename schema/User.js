@@ -1039,12 +1039,12 @@ exports = module.exports = function(params) {
 	 *
 	 * @return {Promise}
 	 */
-	userSchema.methods.updateRenewalsStat = function() {
+	userSchema.methods.updateRenewalsStat = function(moment) {
 		let user = this;
 
 		return user.getAccount()
 		.then(account => {
-			return account.getMomentBeneficiariesRenewals();
+			return account.getMomentBeneficiariesRenewals(moment);
 		})
 		.then(arr => {
 
