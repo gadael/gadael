@@ -33,6 +33,19 @@ define([], function() {
         }
         $scope.setPageTitle(title);
 
+
+        /**
+         * Function used to display an appropriate label for rights group
+         *
+         * @todo In the futur we may support infinite finish date on renewal
+         * In the meantime, a finish date in more than 10 year is considered infinite
+         */
+        $scope.useEndDate = function(renewal) {
+            var now = new Date();
+            var years = (renewal.finish.getFullYear() - now.getFullYear());
+            return (years < 10);
+        };
+
         function execAfterSessionLoad() {
 
             if ($scope.sessionUser.isAccount) {

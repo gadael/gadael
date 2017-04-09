@@ -83,7 +83,10 @@
 
             <div class="gadael-list-rows">
                 <div class="row" ng-repeat="renewal in renewals">
-                    <strong translate>Up to {{renewal.finish|date}}</strong>
+                    <div ng-switch="useEndDate(renewal)">
+                        <span ng-switch-when="false"><strong translate>Always available</strong></span>
+                        <span ng-switch-when="true"><strong translate>Up to {{renewal.finish|date}}</strong></span>
+                    </div>
 
                     <div ng-repeat="beneficiary in renewal.beneficiaries" class="row">
                         <div class="col-xs-3">{{beneficiary.available_quantity|rightQuantity}} {{beneficiary.available_quantity_dispUnit}}</div>
