@@ -106,6 +106,23 @@ exports = module.exports = function(params) {
     });
 
 
+    /**
+     * refresh appliquant renewals stat cache
+     * @return {Promise}
+     */
+    requestSchema.methods.updateRenewalsStat = function() {
+
+        let statDate = this.timeCreated;
+        if (undefined !== this.events[0]) {
+            statDate = this.events[0].dtstart;
+        }
+
+        return this.getUser()
+        .then(user => {
+            return user.updateRenewalsStat(statDate);
+        });
+    };
+
 
     /**
      * Update auto adjustments for all rights associated to request recipient

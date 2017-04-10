@@ -125,7 +125,7 @@ function saveRequest(service, params) {
 
                     document.save()
                     .then(request => {
-                        return postpone(document.user.id.updateRenewalsStat(document.events[0].dtstart))
+                        return postpone(document.updateRenewalsStat())
                         .then(() => {
                             return request;
                         });
