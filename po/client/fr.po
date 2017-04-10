@@ -265,6 +265,10 @@ msgstr ""
 msgid "Allow to save quantity from this right to the time deposit account"
 msgstr "Autoriser l'épargne de ce droit vers les comptes épargne temps"
 
+#: public/partials/home.html
+msgid "Always available"
+msgstr "Toujours disponible"
+
 #: public/partials/admin/right-view.html
 msgid ""
 "An adjustment of {{right.autoAdjustment.quantity | number}} {{right."

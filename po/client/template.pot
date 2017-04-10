@@ -248,6 +248,10 @@ msgstr ""
 msgid "Allow to save quantity from this right to the time deposit account"
 msgstr ""
 
+#: public/partials/home.html
+msgid "Always available"
+msgstr ""
+
 #: public/partials/admin/right-view.html
 msgid "An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on"
 msgstr ""

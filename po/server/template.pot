@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-07 08:16+0200\n"
+"POT-Creation-Date: 2017-04-10 08:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -416,7 +416,7 @@ msgstr ""
 msgid "This compulsory leave does not exists"
 msgstr ""
 
-#: api/services/admin/compulsoryleaves/delete.js:29
+#: api/services/admin/compulsoryleaves/delete.js:50
 msgid "The compulsory leave has been deleted"
 msgstr ""
 
@@ -437,11 +437,11 @@ msgstr ""
 msgid "either departments or collections must contain items"
 msgstr ""
 
-#: api/services/admin/compulsoryleaves/save.js:529
+#: api/services/admin/compulsoryleaves/save.js:580
 msgid "The compulsory leave period has been modified"
 msgstr ""
 
-#: api/services/admin/compulsoryleaves/save.js:548
+#: api/services/admin/compulsoryleaves/save.js:599
 msgid "The compulsory leave period has been created"
 msgstr ""
 
@@ -453,11 +453,11 @@ msgstr ""
 msgid "The renewal has been deleted"
 msgstr ""
 
-#: api/services/admin/rightrenewals/save.js:86
+#: api/services/admin/rightrenewals/save.js:90
 msgid "The right renewal period has been modified"
 msgstr ""
 
-#: api/services/admin/rightrenewals/save.js:108
+#: api/services/admin/rightrenewals/save.js:113
 msgid "The right renewal period has been created"
 msgstr ""
 
@@ -581,26 +581,26 @@ msgstr ""
 msgid "Workperiod recover requests are disabled by administrator"
 msgstr ""
 
-#: api/services/user/requests/delete.js:21
+#: api/services/user/requests/delete.js:22
 #: api/services/user/requests/save.js:24
 #: api/services/manager/waitingrequests/save.js:22
 msgid "Request modifications are not allowed in maintenance mode"
 msgstr ""
 
-#: api/services/user/requests/delete.js:45
+#: api/services/user/requests/delete.js:49
 msgid "The request has been deleted"
 msgstr ""
 
-#: api/services/user/requests/delete.js:65
+#: api/services/user/requests/delete.js:69
 msgid "The request is not accessible"
 msgstr ""
 
-#: api/services/user/requests/delete.js:69
+#: api/services/user/requests/delete.js:73
 msgid ""
 "This leave has been created in a compulsory leave, deletion is not allowed"
 msgstr ""
 
-#: api/services/user/requests/delete.js:87
+#: api/services/user/requests/delete.js:91
 msgid "Start workflow to delete a confirmed absence"
 msgstr ""
 
@@ -610,11 +610,11 @@ msgid ""
 "allowed"
 msgstr ""
 
-#: api/services/user/requests/save.js:357
+#: api/services/user/requests/save.js:366
 msgid "The request has been modified"
 msgstr ""
 
-#: api/services/user/requests/save.js:396
+#: api/services/user/requests/save.js:405
 msgid "The request has been created"
 msgstr ""
 
@@ -646,16 +646,16 @@ msgstr ""
 msgid "Your settings has been modified"
 msgstr ""
 
-#: api/services/user/adjustments/save.js:44
+#: api/services/user/adjustments/save.js:54
 #, javascript-format
 msgid "Adjustment document not found for id %s"
 msgstr ""
 
-#: api/services/user/adjustments/save.js:59
+#: api/services/user/adjustments/save.js:98
 msgid "The adjustment has been modified"
 msgstr ""
 
-#: api/services/user/adjustments/save.js:84
+#: api/services/user/adjustments/save.js:99
 msgid "The quantity adjustment has been created"
 msgstr ""
 
@@ -680,30 +680,30 @@ msgstr ""
 msgid "Leave periods provided by gadael"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:142
+#: api/services/manager/waitingrequests/save.js:152
 msgid "The request has been confirmed"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:152
+#: api/services/manager/waitingrequests/save.js:162
 msgid "The request has been cancelled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:163
+#: api/services/manager/waitingrequests/save.js:173
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:173
+#: api/services/manager/waitingrequests/save.js:183
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:182
+#: api/services/manager/waitingrequests/save.js:192
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:189
+#: api/services/manager/waitingrequests/save.js:199
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 
@@ -740,23 +740,23 @@ msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/apputil.js:51 modules/passport.js:251
+#: modules/apputil.js:52 modules/passport.js:251
 msgid "Access denied for non administrators"
 msgstr ""
 
-#: modules/apputil.js:56
+#: modules/apputil.js:57
 msgid "Access denied for users without absences account"
 msgstr ""
 
-#: modules/apputil.js:61
+#: modules/apputil.js:62
 msgid "Access denied for non managers"
 msgstr ""
 
-#: modules/apputil.js:66 modules/passport.js:229
+#: modules/apputil.js:67 modules/passport.js:229
 msgid "Access denied for anonymous users"
 msgstr ""
 
-#: modules/apputil.js:72
+#: modules/apputil.js:73
 msgid "Access denied for logged in users"
 msgstr ""
 
@@ -1123,70 +1123,70 @@ msgstr ""
 msgid "You are disconnected from your google calendar"
 msgstr ""
 
-#: schema/Right_Renewal.js:68
+#: schema/Right_Renewal.js:89
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:1029
+#: schema/Right_Renewal.js:1152
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1038
+#: schema/Right_Renewal.js:1161
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1072
+#: schema/Right_Renewal.js:1195
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
 "date: %s"
 msgstr ""
 
-#: schema/Request.js:337
+#: schema/Request.js:333
 msgid "Leave"
 msgstr ""
 
-#: schema/Request.js:341
+#: schema/Request.js:337
 msgid "Time saving deposit"
 msgstr ""
 
-#: schema/Request.js:345
+#: schema/Request.js:341
 msgid "Workperiod recover"
 msgstr ""
 
-#: schema/Request.js:348
+#: schema/Request.js:344
 msgid "Unknown"
 msgstr ""
 
-#: schema/Request.js:363
+#: schema/Request.js:359
 msgid "Waiting approval"
 msgstr ""
 
-#: schema/Request.js:365 schema/ApprovalStep.js:73
+#: schema/Request.js:361 schema/ApprovalStep.js:73
 msgid "Accepted"
 msgstr ""
 
-#: schema/Request.js:367 schema/ApprovalStep.js:74
+#: schema/Request.js:363 schema/ApprovalStep.js:74
 msgid "Rejected"
 msgstr ""
 
-#: schema/Request.js:375
+#: schema/Request.js:371
 msgid "Waiting deletion approval"
 msgstr ""
 
-#: schema/Request.js:377
+#: schema/Request.js:373
 msgid "Deleted"
 msgstr ""
 
-#: schema/Request.js:379
+#: schema/Request.js:375
 msgid "Deletion rejected"
 msgstr ""
 
-#: schema/Request.js:383
+#: schema/Request.js:379
 msgid "Undefined"
 msgstr ""
 
@@ -1295,23 +1295,23 @@ msgstr ""
 msgid "No rights found in type \"%s\""
 msgstr ""
 
-#: schema/RightCollection.js:129
+#: schema/RightCollection.js:153
 msgid "General regime 100%"
 msgstr ""
 
-#: schema/RightCollection.js:130
+#: schema/RightCollection.js:154
 msgid "Part-time 90%"
 msgstr ""
 
-#: schema/RightCollection.js:131
+#: schema/RightCollection.js:155
 msgid "Part-time 80%"
 msgstr ""
 
-#: schema/RightCollection.js:132
+#: schema/RightCollection.js:156
 msgid "Part-time 70%"
 msgstr ""
 
-#: schema/RightCollection.js:133
+#: schema/RightCollection.js:157
 msgid "Part-time 50%"
 msgstr ""
 
