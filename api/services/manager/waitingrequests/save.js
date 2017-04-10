@@ -88,6 +88,7 @@ function saveRequest(service, params) {
 
     RequestModel.findOne(filter)
     .populate('user.id')
+    .populate('events')
     .exec(function(err, document) {
         if (service.handleMongoError(err)) {
 
@@ -124,7 +125,7 @@ function saveRequest(service, params) {
 
                     document.save()
                     .then(request => {
-                        return postpone(document.user.id.updateRenewalsStat())
+                        return postpone(document.user.id.updateRenewalsStat(document.events[0].dtstart))
                         .then(() => {
                             return request;
                         });

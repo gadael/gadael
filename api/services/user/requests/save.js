@@ -315,7 +315,7 @@ function saveRequest(service, params) {
             return savedDocument.updateAutoAdjustments();
         })
         .then(() => {
-            return postpone(user.updateRenewalsStat());
+            return postpone(user.updateRenewalsStat(savedDocument.events[0].dtstart));
         })
         .then(() => {
 

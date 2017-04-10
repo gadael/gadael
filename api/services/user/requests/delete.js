@@ -36,7 +36,7 @@ exports = module.exports = function(services, app) {
         function endDelete(document) {
             document.save()
             .then(() => {
-                return postpone(document.user.id.updateRenewalsStat());
+                return postpone(document.user.id.updateRenewalsStat(document.events[0].dtstart));
             })
             .then(() => {
 

@@ -1048,6 +1048,7 @@ exports = module.exports = function(params) {
 		})
 		.then(arr => {
 
+
 			let promises = [];
 
 			arr.forEach(o => {

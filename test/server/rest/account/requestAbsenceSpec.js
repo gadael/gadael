@@ -391,6 +391,37 @@ describe('request absence account rest service', function() {
     });
 
 
+
+    function getAccountRight() {
+        return new Promise((resolve, reject) => {
+
+            server.get('/rest/account/beneficiaries', {
+                moment: new Date(2015,1,2).toJSON()
+            }, function(res, body) {
+
+                if (!Array.isArray(body)) {
+                    return reject(new Error(body.$outcome.alert[0].message));
+                }
+
+                resolve(body.find(ar => {
+                    return (ar.right._id === right1._id.toString());
+                }));
+            });
+        });
+    }
+
+
+
+
+    it('verify consuption status', function(done) {
+        getAccountRight()
+        .then(accountRight1 => {
+            expect(accountRight1.waiting_quantity.created).toEqual(1);
+            done();
+        });
+    });
+
+
     it('update request distribution', function(done) {
 
         var distribution = [
@@ -438,6 +469,15 @@ describe('request absence account rest service', function() {
         AbsenceElem.find({ _id: { $in: request1_elems_ids } }).exec()
         .then(arr => {
             expect(arr.length).toEqual(0);
+            done();
+        });
+    });
+
+
+    it('verify consuption status after update', function(done) {
+        getAccountRight()
+        .then(accountRight1 => {
+            expect(accountRight1.waiting_quantity.created).toEqual(5);
             done();
         });
     });
@@ -595,6 +635,16 @@ describe('request absence account rest service', function() {
     });
 
 
+    it('verify consuption status after approval', function(done) {
+        getAccountRight()
+        .then(accountRight1 => {
+            expect(accountRight1.waiting_quantity.created).toEqual(0);
+            expect(accountRight1.consumed_quantity).toEqual(5);
+            done();
+        });
+    });
+
+
     it('delete a request', function(done) {
         server.delete('/rest/account/requests/'+request1._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -615,6 +665,15 @@ describe('request absence account rest service', function() {
         });
     });
 
+
+    it('verify consuption status after the delete request', function(done) {
+        getAccountRight()
+        .then(accountRight1 => {
+            expect(accountRight1.waiting_quantity.deleted).toEqual(5);
+            expect(accountRight1.consumed_quantity).toEqual(0);
+            done();
+        });
+    });
 
 
     it('logout', function(done) {
