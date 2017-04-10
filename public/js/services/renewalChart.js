@@ -108,6 +108,11 @@ define(function() {
 
                     b= beneficiaries[i];
 
+                    if (b.errors.length > 0) {
+                        // ignore beneficiaries with errors
+                        continue;
+                    }
+
                     addRenewalIndex(b);
 
 
