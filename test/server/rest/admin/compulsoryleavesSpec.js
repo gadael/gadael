@@ -363,6 +363,7 @@ describe('Compulsory leaves admin rest service', function() {
                 expect(body.absence.compulsoryLeave._id).toEqual(compulsoryleave2._id);
             }
             expect(body.absence.distribution.length>0).toBeTruthy();
+            console.log(body.absence.distribution[0].consumedQuantity);
             done();
         });
     });
@@ -405,6 +406,7 @@ describe('Compulsory leaves admin rest service', function() {
             expect(accountright.available_quantity).toEqual(25 - compulsoryleave2.requests[0].quantity);
 
             done();
+
         }).catch(done);
     });
 

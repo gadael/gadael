@@ -358,6 +358,27 @@ function saveRequests(service, params) {
         });
     }
 
+
+    /**
+     * Refresh users cache
+     * @param {Array} dates list of deleted items start date
+     * @param {Array} users list of deleted items appliquants
+     */
+    function refreshUserCache(dates, users) {
+        
+        let promises = [];
+        for (let i=0; i<dates.length; i++) {
+            let user = users[i];
+            let dtstart = dates[i];
+
+            promises.push(user.updateRenewalsStat(dtstart));
+        }
+        return postpone(Promise.all(promises));
+    }
+
+
+
+
     /**
      * Delete the requests not present in new version of compulsory leave
      * @param {Array} validList List of request ID
@@ -370,17 +391,36 @@ function saveRequests(service, params) {
             return Promise.resolve([]);
         }
 
-        let Request = service.app.db.models.Request;
+        const Request = service.app.db.models.Request;
+        const User = service.app.db.models.User;
 
         return Request
         .find({
             'absence.compulsoryLeave': params.id,
             _id: { $nin: validList }
         })
+        .populate('events')
         .exec()
         .then(documents => {
-            return documents.map(doc => {
-                return doc.remove();
+
+            let dates = documents.map(doc => doc.events[0].dtstart);
+
+            // get list of users where to update cache
+
+            let users = documents.map(doc => doc.user.id);
+            return User.find()
+            .where('_id').in(users)
+            .exec()
+            .then(users => {
+
+                return Promise.all(
+                    documents.map(doc => {
+                        return doc.remove();
+                    })
+                )
+                .then(() => {
+                    return refreshUserCache(dates, users);
+                });
             });
         });
     }
