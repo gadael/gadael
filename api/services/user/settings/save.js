@@ -9,8 +9,16 @@
 function validate(service, params)
 {
 
+    const gt = service.app.utility.gettext;
+
     if (service.needRequiredFields(params, ['user', 'lastname', 'firstname', 'email'])) {
         return;
+    }
+
+    if (params.newpassword) {
+        if (params.newpassword !== params.newpassword2) {
+            return service.error(gt.gettext('Password confirmation does not match'));
+        }
     }
 
     saveUser(service, params);
@@ -71,20 +79,39 @@ function saveUser(service, params) {
         fieldsToSet.google.calendar = params.google.calendar;
     }
 
-    UserModel.findById(params.user).exec()
-    .then(function(user) {
+    /**
+     * set the password parameter if possible
+     */
+    function setPassword() {
+        if (params.newpassword) {
+            return UserModel.encryptPassword(params.newpassword)
+            .then(encryptedPassword => {
+                fieldsToSet.password = encryptedPassword;
+            });
+        }
 
-        user.set(fieldsToSet);
-        return user.save();
-    })
-    .then(user => {
-        return saveAccount(service, params, user);
-    })
+        return Promise.resolve();
+    }
+
+
+    setPassword()
     .then(() => {
-        service.resolveSuccessGet(
-            { user: params.user },
-            gt.gettext('Your settings has been modified')
-        );
+        return UserModel.findById(params.user)
+        .exec()
+        .then(function(user) {
+
+            user.set(fieldsToSet);
+            return user.save();
+        })
+        .then(user => {
+            return saveAccount(service, params, user);
+        })
+        .then(() => {
+            service.resolveSuccessGet(
+                { user: params.user },
+                gt.gettext('Your settings has been modified')
+            );
+        });
     })
     .catch(service.error);
 }

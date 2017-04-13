@@ -27,15 +27,12 @@ function processPassword(service, params) {
     var User = service.app.db.models.User;
 
     if (params.newpassword !== undefined) {
-        User.encryptPassword(params.newpassword, function(err, hash) {
-
-            if (err) {
-                return service.forbidden(err);
-            }
-
+        User.encryptPassword(params.newpassword)
+        .then(hash => {
             params.password = hash;
             saveUser(service, params);
-        });
+        })
+        .catch(service.forbidden);
 
         return;
     }

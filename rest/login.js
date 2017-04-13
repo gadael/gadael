@@ -181,10 +181,8 @@ exports.resetPassword = function(req, res) {
 	});
 
 	workflow.on('patchUser', function(user) {
-		req.app.db.models.User.encryptPassword(req.body.password, function(err, hash) {
-			if (err) {
-				return workflow.emit('exception', err);
-			}
+		req.app.db.models.User.encryptPassword(req.body.password)
+		.then(function(hash) {
 
 			var fieldsToSet = { password: hash, resetPasswordToken: '' };
 			User.findByIdAndUpdate(user._id, fieldsToSet, function(err, user) {
@@ -198,6 +196,9 @@ exports.resetPassword = function(req, res) {
 				});
 				workflow.emit('response');
 			});
+		})
+		.catch(err => {
+			workflow.emit('exception', err);
 		});
 	});
 
