@@ -613,24 +613,19 @@ exports = module.exports = function(params) {
     /**
      * Encrypt password
      * @param {String} password     clear text password
-     * @param {function} [done]       callback function, receive error and hash as parameter
-     *
+     * 
      * @return {Promise}
      */
-    userSchema.statics.encryptPassword = function(password, done) {
+    userSchema.statics.encryptPassword = function(password) {
 
         return new Promise((resolve, reject) => {
 
             bcrypt.genSalt(10, function(err, salt) {
                 if (err) {
-                    return done(err);
+					return reject(err);
                 }
 
                 bcrypt.hash(password, salt, (err, hash) => {
-
-                    if (undefined !== done) {
-                        done(err, hash);
-                    }
 
                     if (err) {
                         return reject(err);
