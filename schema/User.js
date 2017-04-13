@@ -613,7 +613,7 @@ exports = module.exports = function(params) {
     /**
      * Encrypt password
      * @param {String} password     clear text password
-     * 
+     *
      * @return {Promise}
      */
     userSchema.statics.encryptPassword = function(password) {
@@ -663,12 +663,8 @@ exports = module.exports = function(params) {
 
 		var model = this;
 
-		this.encryptPassword(password, function(err, hash) {
-
-			if (err)
-			{
-				return done(err);
-			}
+		this.encryptPassword(password)
+		.then(function(hash) {
 
 			var fieldsToSet = {
 				email: Charlatan.Internet.email(),
@@ -679,7 +675,8 @@ exports = module.exports = function(params) {
 
 			model.create(fieldsToSet, done);
 
-		});
+		})
+		.catch(done);
     };
 
 	/**
