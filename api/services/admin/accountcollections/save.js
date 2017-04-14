@@ -72,6 +72,7 @@ function getAccount(service, params, next) {
 function saveAccountCollection(service, params) {
 
     const gt = service.app.utility.gettext;
+    const postpone = service.app.utility.postpone;
 
     var AccountCollection = service.app.db.models.AccountCollection;
     var util = require('util');
@@ -104,10 +105,14 @@ function saveAccountCollection(service, params) {
             return document.save()
             .then(document => {
 
-                service.resolveSuccessGet(
-                    document._id,
-                    gt.gettext('The account collection has been modified')
-                );
+                return postpone(document.updateUserStat())
+                .then(() => {
+
+                    service.resolveSuccessGet(
+                        document._id,
+                        gt.gettext('The account collection has been modified')
+                    );
+                });
             });
 
         })
@@ -128,11 +133,13 @@ function saveAccountCollection(service, params) {
             ac.save()
             .then(document => {
 
-                service.resolveSuccessGet(
-                    document._id,
-                    gt.gettext('The account collection has been created')
-                );
-
+                return postpone(document.updateUserStat())
+                .then(() => {
+                    service.resolveSuccessGet(
+                        document._id,
+                        gt.gettext('The account collection has been created')
+                    );
+                });
             })
             .catch(service.error);
 

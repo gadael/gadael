@@ -12,13 +12,7 @@ exports = module.exports = function(params) {
 		timeCreated: { type: Date, default: Date.now }
 	});
 
-	acSchema.set('autoIndex', params.autoIndex);
 
-	acSchema.index({ account: 1 });
-	acSchema.index({account: 1, rightCollection: 1, from: 1}, { unique: true });
-
-
-	params.db.model('AccountCollection', acSchema);
 
 
 
@@ -74,4 +68,35 @@ exports = module.exports = function(params) {
 			next();
 		});
 	});
+
+	/**
+	 * @return {Promise}
+	 */
+	acSchema.methods.getUser = function() {
+		const User = this.model('User');
+		return User.findOne({ 'roles.account': this.account })
+		.exec();
+	};
+
+
+	/**
+	 * Update user stat
+	 * @return {Promise}
+	 */
+	acSchema.methods.updateUserStat = function() {
+		return this.getUser()
+		.then(user => {
+			return user.updateRenewalsStat();
+		});
+	};
+
+
+	acSchema.set('autoIndex', params.autoIndex);
+
+	acSchema.index({ account: 1 });
+	acSchema.index({account: 1, rightCollection: 1, from: 1}, { unique: true });
+
+
+	params.db.model('AccountCollection', acSchema);
+
 };

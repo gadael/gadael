@@ -6,10 +6,11 @@
  *
  * The documents store consumption and initial quantity, as a consequence,
  * data must be computed for every modification of :
- *  - Request       for all entries of the appliquant
- *  - Right         for all entries linked to renewals of the right
- *  - RightRenewal  for all entries linked to renewal
- *  - Adjustment    for the corresponding entry
+ *  - Request               for all entries of the appliquant
+ *  - Right                 for all entries linked to renewals of the right
+ *  - RightRenewal          for all entries linked to renewal
+ *  - Adjustment            for the corresponding entry
+ *  - AccountCollection     for all entries of the account
  *
  * Validity end date of the cache is retrived from the validity
  * period of the beneficiary and the accountCollection
