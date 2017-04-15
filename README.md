@@ -85,7 +85,7 @@ grunt --help
 
 ### TODO
 
-- [ ] Alert administrators by email after X days of unanswered approval
+- [ ] Alert administrators by email after X days of unanswered approval, add missing test
 - [ ] hooks to save UserRenewalStat, and use it for stats
 - [ ] rounding problem in absences requests
 - [ ] Remove maternity leave from default collection

@@ -21,6 +21,8 @@ const cookieParser = require('cookie-parser');
 const http = require('http');
 const gadaelMiddleware = require('../modules/gadaelMiddleware');
 const flash = require('connect-flash-plus');
+const schedule = require('node-schedule');
+const approbalert = require('../modules/approbalert');
 
 
 /**
@@ -659,8 +661,12 @@ exports = module.exports = {
 			//setup passport
 			passportHelper(app, passport);
 
-
 			server.listen(app.config.port, app.config.host);
+
+			schedule.scheduleJob({ hour: 5, minute: 30 }, () => {
+			    approbalert(app)
+				.catch(console.error);
+			});
 
 	        if (callback) {
 	            server.on('listening', callback);

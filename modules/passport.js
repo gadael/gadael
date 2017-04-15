@@ -143,7 +143,7 @@ exports = module.exports = function(app, passport) {
                         return usercreated(request.app, savedUser);
                     })
                     .then(mail => {
-                        mail.send();
+                        return mail.send();
                     });
                 });
             }

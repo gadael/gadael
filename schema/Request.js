@@ -33,6 +33,7 @@ exports = module.exports = function(params) {
         },
 
         timeCreated: { type: Date, default: Date.now },
+        lastUpdate: { type: Date, default: Date.now },
 
         createdBy: {
           id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
