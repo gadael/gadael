@@ -1,0 +1,2 @@
+# bzr-builder format 0.0.6 deb-version {debupstream}+{revno}+{revno:packaging}
+lp:gadael
