@@ -1,2 +1,2 @@
-# bzr-builder format 0.4 deb-version {debupstream}+{revno}+{date}
+# bzr-builder format 0.4 deb-version {revno}+{date}
 https://git.launchpad.net/gadael master

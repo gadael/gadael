@@ -1,0 +1,15 @@
+Source: gadael
+Maintainer: Paul de Rosanbo <paul@rosanbo.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.1
+Build-Depends: debhelper (>= 7)
+
+Package: gadael
+Architecture: all
+Depends: mongodb (> 2.4.14), nodejs-legacy (> 4.2.0), ${misc:Depends}
+Description: Leave management web application for companies
+ Manage absence requests, overtime recovery requests, time saving accounts.
+ Hierarchical approval by departments managers, leave rights rules for
+ seniority and other complex rules (compatible with French work
+ regulations).
