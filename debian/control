@@ -2,7 +2,7 @@ Source: gadael
 Maintainer: Paul de Rosanbo <paul@rosanbo.com>
 Section: misc
 Priority: optional
-Standards-Version: 3.9.1
+Standards-Version: 3.9.8
 Build-Depends: debhelper (>= 10), dh-exec (>= 0.23)
 
 Package: gadael
