@@ -1,0 +1,14 @@
+api var/lib/gadael
+modules var/lib/gadael
+po var/lib/gadael
+public var/lib/gadael
+rest var/lib/gadael
+schema var/lib/gadael
+styles var/lib/gadael
+config.dist.js var/lib/gadael
+config.example.js var/lib/gadael
+install.js var/lib/gadael
+models.js var/lib/gadael
+app.js var/lib/gadael
+dist/config.json etc/gadael/
+dist/gadael.service etc/systemd/system/
