@@ -13,3 +13,4 @@ debian/debhelper-build-stamp
 debian/gadael.debhelper.log
 debian/gadael.substvars
 debian/gadael
+debian/tmp
