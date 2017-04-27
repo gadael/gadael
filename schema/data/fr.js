@@ -15,14 +15,14 @@ module.exports = exports = function(app) {
                 rules: [
                     {
                         type: "entry_date",
-                        title: gt.gettext("The creation of the request can be made in the period of renewal, with 30 days of tolerance"),
-                        min: 30,
-                        max: 30
+                        title: gt.gettext("The creation of the request can be made in the period of renewal"),
+                        min: 0,
+                        max: 0
                     },
                     {
                         type: "request_period",
-                        title: gt.gettext("The absence must be within the renewal period"),
-                        min: 0,
+                        title: gt.gettext("The absence must be within the renewal period, with 30 days of tolerance before start"),
+                        min: 30,
                         max: 0
                     }
                 ],
