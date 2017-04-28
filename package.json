@@ -63,7 +63,7 @@
     "passport-oauth": "~1.0.0",
     "passport-oauth2-refresh": "~1.0.0",
     "restitute": "~0.1.1",
-    "rrule-alt": "~2.2.3",
+    "rrule-alt": "git://github.com/roramirez/rrule-alt.git#7e1cd5892384c5f92c5b9294d72353322767ff72",
     "serve-static": "~1.1.0",
     "sprintf-js": "~1.0.3",
     "tmp": "~0.0.28",
