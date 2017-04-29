@@ -86,10 +86,9 @@ grunt --help
 ### TODO
 
 - [ ] Alert administrators by email after X days of unanswered approval, add missing test
-- [ ] hooks to save UserRenewalStat, and use it for stats
 - [ ] rounding problem in absences requests
 - [ ] Remove maternity leave from default collection
-- [ ] clic on view rights from the types list: the filter does not work
+- [x] clic on view rights from the types list: the filter does not work
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] ICSDB integration for non working days calendar
