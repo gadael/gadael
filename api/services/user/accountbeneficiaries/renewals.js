@@ -56,18 +56,25 @@ exports = module.exports = function(user, account) {
         }
 
         function setRenewal(renewalDocument, stat) {
+
             let renewalObj = renewalDocument.toObject();
             renewalObj.initial_quantity = stat.initial;
             renewalObj.consumed_quantity = stat.consumed;
             renewalObj.available_quantity = stat.available;
-            renewalObj.waiting_quantity = stat.waiting;
             renewalObj.daysRatio = stat.daysratio;
+
+            renewalObj.waiting_quantity = {
+                created: stat.waiting.created,
+                deleted: stat.waiting.deleted,
+                created_dispUnit: rightDocument.getDispUnit(stat.waiting.created),
+                deleted_dispUnit: rightDocument.getDispUnit(stat.waiting.deleted)
+            };
 
             renewalObj.initial_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.initial_quantity);
             renewalObj.consumed_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.consumed_quantity);
             renewalObj.available_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.available_quantity);
-            renewalObj.waiting_quantity.created_dispUnit = rightDocument.getDispUnit(renewalObj.waiting_quantity.created);
-            renewalObj.waiting_quantity.deleted_dispUnit = rightDocument.getDispUnit(renewalObj.waiting_quantity.deleted);
+
+
 
             beneficiary.renewals.push(renewalObj);
 
