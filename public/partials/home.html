@@ -155,14 +155,20 @@
     <div ng-if="sessionUser.isManager">
 
         <div class="top30 row">
+
             <h2 class="col-md-6 top30" translate translate-n="departments.length" translate-plural="Departments Management">Department Management</h2>
 
             <div class="col-md-6 text-right top30">
-                <span ng-if="waitingrequests.length == 0"><span translate>Nothing to approve</span></span>
+                <button ng-if="waitingrequests.length == 0" class="btn btn-default" disabled="disabled">
+                    <i class="fa fa-inbox"></i> <span translate>Nothing to approve</span>
+                </button>
+
                 <a class="btn btn-default" href="#/manager/waitingrequests" ng-if="waitingrequests.length > 0">
-                  <span translate>Requests waiting for approval</span> <span class="badge">{{waitingrequests.length}}</span>
+                    <i class="fa fa-inbox"></i> 
+                    <span translate>Requests waiting for approval</span> <span class="badge">{{waitingrequests.length}}</span>
                 </a>
             </div>
+
         </div>
 
         <div class="row">
