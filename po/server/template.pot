@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-10 08:45+0200\n"
+"POT-Creation-Date: 2017-04-29 21:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -261,31 +261,31 @@ msgstr ""
 msgid "The user has been deleted"
 msgstr ""
 
-#: api/services/admin/users/save.js:87
+#: api/services/admin/users/save.js:84
 msgid "This email is allready used"
 msgstr ""
 
-#: api/services/admin/users/save.js:106
+#: api/services/admin/users/save.js:103
 msgid "The user has been modified"
 msgstr ""
 
-#: api/services/admin/users/save.js:129
+#: api/services/admin/users/save.js:126
 msgid "The user has been created"
 msgstr ""
 
-#: api/services/admin/users/save.js:164
+#: api/services/admin/users/save.js:161
 msgid "No user document to save roles on"
 msgstr ""
 
-#: api/services/admin/users/save.js:180
+#: api/services/admin/users/save.js:177
 msgid "Absence account"
 msgstr ""
 
-#: api/services/admin/users/save.js:184
+#: api/services/admin/users/save.js:181
 msgid "Department manager"
 msgstr ""
 
-#: api/services/admin/users/save.js:188
+#: api/services/admin/users/save.js:185
 msgid "Application administrator"
 msgstr ""
 
@@ -507,16 +507,16 @@ msgid ""
 "The user has no absence account, collections are only linkable to accounts"
 msgstr ""
 
-#: api/services/admin/accountcollections/save.js:96
+#: api/services/admin/accountcollections/save.js:97
 #, javascript-format
 msgid "AccountCollection document not found for id %s"
 msgstr ""
 
-#: api/services/admin/accountcollections/save.js:109
+#: api/services/admin/accountcollections/save.js:113
 msgid "The account collection has been modified"
 msgstr ""
 
-#: api/services/admin/accountcollections/save.js:133
+#: api/services/admin/accountcollections/save.js:140
 msgid "The account collection has been created"
 msgstr ""
 
@@ -642,7 +642,11 @@ msgstr ""
 msgid "This beneficiary does not exists for account or collection"
 msgstr ""
 
-#: api/services/user/settings/save.js:86
+#: api/services/user/settings/save.js:20
+msgid "Password confirmation does not match"
+msgstr ""
+
+#: api/services/user/settings/save.js:112
 msgid "Your settings has been modified"
 msgstr ""
 
@@ -680,30 +684,30 @@ msgstr ""
 msgid "Leave periods provided by gadael"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:152
+#: api/services/manager/waitingrequests/save.js:153
 msgid "The request has been confirmed"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:162
+#: api/services/manager/waitingrequests/save.js:163
 msgid "The request has been cancelled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:173
+#: api/services/manager/waitingrequests/save.js:174
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:183
+#: api/services/manager/waitingrequests/save.js:184
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:192
+#: api/services/manager/waitingrequests/save.js:193
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:199
+#: api/services/manager/waitingrequests/save.js:200
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 
@@ -760,6 +764,38 @@ msgstr ""
 msgid "Access denied for logged in users"
 msgstr ""
 
+#: modules/emails/approbalert.js:23
+#, javascript-format
+msgid "The approval status of the %s request has not been modified in %d days"
+msgstr ""
+
+#: modules/emails/approbalert.js:33
+msgid "Pending request"
+msgstr ""
+
+#: modules/emails/approbalert.js:35
+#, javascript-format
+msgid "%s is waiting for a response on the %s"
+msgstr ""
+
+#: modules/emails/approbalert.js:40
+msgid "Please, check the request status"
+msgstr ""
+
+#: modules/emails/approbalert.js:42 modules/emails/pendingapproval.js:47
+#: modules/emails/requestaccepted.js:66 modules/emails/requestrejected.js:46
+#: modules/emails/requestcreated.js:38
+msgid "View request"
+msgstr ""
+
+#: modules/emails/approbalert.js:46 modules/emails/invitation.js:51
+#: modules/emails/pendingapproval.js:51 modules/emails/rolesupdated.js:36
+#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:75
+#: modules/emails/requestrejected.js:50 modules/emails/requestcreated.js:42
+#: modules/emails/usercreated.js:36
+msgid "Yours truly"
+msgstr ""
+
 #: modules/emails/invitation.js:22
 #, javascript-format
 msgid "%s invited you to join the leave management application at %s"
@@ -782,13 +818,6 @@ msgstr ""
 msgid "Setup my account"
 msgstr ""
 
-#: modules/emails/invitation.js:51 modules/emails/pendingapproval.js:51
-#: modules/emails/rolesupdated.js:36 modules/emails/resetpassword.js:40
-#: modules/emails/requestaccepted.js:75 modules/emails/requestrejected.js:50
-#: modules/emails/requestcreated.js:42 modules/emails/usercreated.js:36
-msgid "Yours truly"
-msgstr ""
-
 #: modules/emails/pendingapproval.js:21
 #, javascript-format
 msgid "%s: a request is waiting for your approval"
@@ -805,11 +834,6 @@ msgstr ""
 
 #: modules/emails/pendingapproval.js:45
 msgid "Please, accept of reject after login into the application"
-msgstr ""
-
-#: modules/emails/pendingapproval.js:47 modules/emails/requestaccepted.js:66
-#: modules/emails/requestrejected.js:46 modules/emails/requestcreated.js:38
-msgid "View request"
 msgstr ""
 
 #: modules/emails/pendingapproval.js:58
@@ -1111,7 +1135,7 @@ msgstr ""
 msgid "Invalid request."
 msgstr ""
 
-#: rest/login.js:197
+#: rest/login.js:195
 msgid "The password has been modified"
 msgstr ""
 
@@ -1146,47 +1170,47 @@ msgid ""
 "date: %s"
 msgstr ""
 
-#: schema/Request.js:333
+#: schema/Request.js:351
 msgid "Leave"
 msgstr ""
 
-#: schema/Request.js:337
+#: schema/Request.js:355
 msgid "Time saving deposit"
 msgstr ""
 
-#: schema/Request.js:341
+#: schema/Request.js:359
 msgid "Workperiod recover"
 msgstr ""
 
-#: schema/Request.js:344
+#: schema/Request.js:362
 msgid "Unknown"
 msgstr ""
 
-#: schema/Request.js:359
+#: schema/Request.js:377
 msgid "Waiting approval"
 msgstr ""
 
-#: schema/Request.js:361 schema/ApprovalStep.js:73
+#: schema/Request.js:379 schema/ApprovalStep.js:73
 msgid "Accepted"
 msgstr ""
 
-#: schema/Request.js:363 schema/ApprovalStep.js:74
+#: schema/Request.js:381 schema/ApprovalStep.js:74
 msgid "Rejected"
 msgstr ""
 
-#: schema/Request.js:371
+#: schema/Request.js:389
 msgid "Waiting deletion approval"
 msgstr ""
 
-#: schema/Request.js:373
+#: schema/Request.js:391
 msgid "Deleted"
 msgstr ""
 
-#: schema/Request.js:375
+#: schema/Request.js:393
 msgid "Deletion rejected"
 msgstr ""
 
-#: schema/Request.js:379
+#: schema/Request.js:397
 msgid "Undefined"
 msgstr ""
 

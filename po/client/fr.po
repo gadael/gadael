@@ -203,6 +203,10 @@ msgstr "Ajouter un utilisateur"
 msgid "Add vacation right"
 msgstr "Ajouter un droits de congés"
 
+#: public/partials/admin/beneficiary-edit.html
+msgid "Addition / modification"
+msgstr "Ajout / modification"
+
 #: public/partials/admin/rightrule-edit.html
 msgid "Additional days after the renewal end date:"
 msgstr "Jours supplémentaires après la date de fin du renouvellement :"
@@ -809,7 +813,7 @@ msgstr "Quantité par défaut"
 #: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/right-view.html
 msgid "Default quantity on start renewal:"
-msgstr "Quantité par défaut au début du renouvellement :"
+msgstr "Quantité au début du renouvellement :"
 
 #: public/partials/admin/rightrule-edit.html
 msgid "Define the periods that will be used to measure the consumed quantity"
@@ -823,6 +827,10 @@ msgstr ""
 #: public/partials/utils/common/request/request-buttons.html
 msgid "Delete"
 msgstr "Supprimer"
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "Deletion"
+msgstr "Suppression"
 
 #: public/partials/admin/request/owner.html
 #: public/partials/admin/right-view.html public/partials/admin/user-edit.html
@@ -2620,6 +2628,10 @@ msgstr "En attente de la validation de suppression :"
 #: public/partials/admin/invitations.html
 msgid "Waiting for response"
 msgstr "En attente de réponse"
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "Waiting:"
+msgstr "En attente :"
 
 #: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
