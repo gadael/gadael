@@ -2,29 +2,29 @@ define(['angular', 'services'], function(angular) {
 	'use strict';
 
 	/**
-	 *  Directives 
+	 *  Directives
 	 */
 
 	angular.module('gadael.directives', ['gadael.services'])
-	
+
 	/**
 	 * set the html lang attribute
-	 */ 
+	 */
 	.directive('gadaelLang', function() {
 		return function(scope, elm) {
-			
+
 			var lang = navigator.language || navigator.userLanguage;
-			
+
 			switch(lang)
 			{
 				case 'en':
 				case 'fr':
 				break;
-				
+
 				default: // unsuported language
 					lang = 'fr';
 			}
-			
+
 			elm.attr('lang', lang);
 			elm.removeAttr('gadael-lang');
 		};
@@ -32,19 +32,19 @@ define(['angular', 'services'], function(angular) {
 
 	/**
 	 * This scope in page will be replaced by the partial/login/login.html if a http 401 is encountred
-	 * 
+	 *
 	 */
 	.directive('gadaelAuth', ['$compile', function($compile) {
 
-		
+
 		return function(scope, elem) {
 
 			//once Angular is started, remove class:
 			//elem.removeClass('waiting-for-angular');
-			
+
 			var main = angular.element(elem);
 			var login = angular.element(document.querySelector('.gadael-auth-form'));
-			
+
 			var unregister = scope.$on('event:auth-loginRequired', function() {
 
 				if (login.length === 0)
@@ -58,7 +58,7 @@ define(['angular', 'services'], function(angular) {
 
 				login.css('display', 'block');
 				main.css('display', 'none');
-				
+
 				unregister();
 			});
 
@@ -102,6 +102,24 @@ define(['angular', 'services'], function(angular) {
         };
     })
 
+
+	.directive('routeLoadingIndicator', ['$rootScope', function($rootScope) {
+
+		return {
+			restrict:'E',
+			template:'<div class="loading-indicator" title="Loading..." ng-if="isRouteLoading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span class="sr-only">Loading...</span></div>',
+			link: function(scope) {
+				scope.isRouteLoading = false;
+				$rootScope.$on('$routeChangeStart', function() {
+					scope.isRouteLoading = true;
+				});
+
+				$rootScope.$on('$routeChangeSuccess', function() {
+					scope.isRouteLoading = false;
+				});
+			}
+		};
+	}])
 
 
     /**

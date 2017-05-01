@@ -423,6 +423,23 @@ body .line5 * { line-height: 2.2em }
 body .line6 * { line-height: 2.4em }
 
 
+.logo-container {
+	height: 38px;
+	width: 42px;
+	position:relative;
+}
+
+.logo-container .loading-indicator {
+	margin-top: -14px;
+	margin-left: -4px;
+	font-size: 35px;
+	color: #86c4d5;
+	position:absolute;
+	top:0;
+	left:0;
+	opacity: .5
+}
+
 [ng-click],
 [data-ng-click],
 [x-ng-click] {

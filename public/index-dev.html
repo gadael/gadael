@@ -19,8 +19,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="#/home">
+          <a class="logo-container" href="#/home">
               <img src="images/logo38.png" alt="logo" title="Gadael" style="margin-top:4px" />
+              <route-loading-indicator />
           </a>
         </div>
         <div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
@@ -62,13 +63,13 @@
 	      <p class="browsehappy"><span translate>You are using an outdated browser.</span> <a href="http://browsehappy.com/" translate>Please upgrade your browser to improve your experience.</a></p>
 	  <![endif]-->
 
-
 	  <div ng-repeat="alert in pageAlerts" class="container alert alert-{{alert.type}} alert-dismissable">
 		  <button type="button" class="close" ng-click="closeAlert($index)" aria-hidden="true">&times;</button>
 		  <span ng-bind="alert.message"></span>
 	  </div>
 
 	  <div ng-view gadael-auth></div>
+
 
   </div>
 
