@@ -1,0 +1,19 @@
+<table class="table" ng-if="renewal.combinedAdjustments.length>0">
+    <thead>
+        <tr>
+            <th width="20%" translate>Date</th>
+            <th width="20%" class="hidden-xs" translate>Author</th>
+            <th width="20%" translate>Quantity</th>
+            <th translate>Comment</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat="adjustment in renewal.combinedAdjustments">
+            <td>{{adjustment.from|date}}<span class="hidden-xs"> {{adjustment.from|date:'HH:mm'}}</span></td>
+            <td class="hidden-xs">{{adjustment.userCreated.name}}</td>
+            <td><span ng-if="adjustment.quantity>0">+</span>{{adjustment.quantity | number:1}} {{renewal.initial_quantity_dispUnit}}</td>
+            <td>{{adjustment.comment}}</td>
+        </tr>
+    </tbody>
+</table>

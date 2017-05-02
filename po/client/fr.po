@@ -2619,11 +2619,11 @@ msgstr "En attente d'approbation :"
 
 #: public/partials/account/beneficiaries.html
 msgid "Waiting delete approval"
-msgstr "En attente de la validation de suppression"
+msgstr "En attente de suppression"
 
 #: public/partials/account/beneficiary-view.html
 msgid "Waiting delete approval:"
-msgstr "En attente de la validation de suppression :"
+msgstr "En attente de suppression :"
 
 #: public/partials/admin/invitations.html
 msgid "Waiting for response"

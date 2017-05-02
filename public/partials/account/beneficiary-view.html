@@ -70,36 +70,19 @@
                 <dd>{{renewal.available_quantity | rightQuantity}} {{renewal.available_quantity_dispUnit}}</dd>
             </dl>
 
-            <dl class="col-md-4" ng-if="renewal.waiting_quantity.created>0">
+            <dl class="col-md-4">
                 <dt translate>Waiting approval:</dt>
                 <dd class="text-success">{{renewal.waiting_quantity.created | rightQuantity}} {{renewal.waiting_quantity.created_dispUnit}}</dd>
             </dl>
 
-            <dl class="col-md-4" ng-if="renewal.waiting_quantity.deleted>0">
+            <dl class="col-md-4">
                 <dt translate>Waiting delete approval:</dt>
                 <dd class="text-danger">{{renewal.waiting_quantity.deleted | rightQuantity}} {{renewal.waiting_quantity.deleted_dispUnit}}</dd>
             </dl>
         </div>
 
-        <table class="table" ng-if="renewal.combinedAdjustments.length>0">
-            <thead>
-                <tr>
-                    <th width="20%" translate>Date</th>
-                    <th width="20%" class="hidden-xs" translate>Author</th>
-                    <th width="20%" translate>Quantity</th>
-                    <th translate>Comment</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr ng-repeat="adjustment in renewal.combinedAdjustments">
-                    <td>{{adjustment.from|date}}<span class="hidden-xs"> {{adjustment.from|date:'HH:mm'}}</span></td>
-                    <td class="hidden-xs">{{adjustment.userCreated.name}}</td>
-                    <td><span ng-if="adjustment.quantity>0">+</span>{{adjustment.quantity | number:1}} {{renewal.initial_quantity_dispUnit}}</td>
-                    <td>{{adjustment.comment}}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div ng-include="'partials/utils/common/renewal/combined-adjutments.html'"></div>
+        
     </div>
 
 </div>
