@@ -85,10 +85,10 @@ grunt --help
 
 ### TODO
 
-- [ ] Beneficiary view, If there is an error on a renewal, the error is displayed but the same renewal is also displayed under the one with error
+- [x] Beneficiary view, If there is an error on a renewal, the error is displayed but the same renewal is also displayed under the one with error
 - [ ] Alert administrators by email after X days of unanswered approval, add missing test
 - [ ] rounding problem in absences requests
-- [ ] Remove maternity leave from default collection
+- [x] Remove maternity leave from default collection
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] ICSDB integration for non working days calendar
