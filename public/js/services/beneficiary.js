@@ -258,6 +258,11 @@ define(['q', 'async'], function(Q, async) {
 
                 var panel = 0;
 
+                var errors = beneficiary.errors.map(function(err) {
+                    return err.renewal._id;
+                });
+
+
                 // for each renewals, add the list of adjustments
 
                 async.each(beneficiary.renewals, function(r, nextRenewal) {
@@ -279,7 +284,13 @@ define(['q', 'async'], function(Q, async) {
                     r.adjustmentPromise = adjustments.$promise;
 
 
+
                 }, function endRenewals() {
+
+                    // remove renewals displayed as errors
+                    beneficiary.renewals = beneficiary.renewals.filter(function(renewal) {
+                        return (-1 === errors.indexOf(renewal._id));
+                    });
 
 
                     $scope.beneficiary = beneficiary;

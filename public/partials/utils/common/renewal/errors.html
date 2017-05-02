@@ -1,0 +1,11 @@
+<div class="panel-group row panel panel-danger" ng-repeat="err in beneficiary.errors" role="tablist" aria-multiselectable="true" bs-collapse>
+    <div class="panel-heading pointer" role="tab" bs-collapse-toggle>
+        <i class="fa fa-retweet"></i> &nbsp; From <strong>{{err.renewal.start|date}}</strong> to <strong>{{err.renewal.finish|date}}</strong>
+    </div>
+
+    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+        <div class="panel-body">
+            <i class="fa fa-warning fa-2x fa-pull-left text-danger"></i> {{err.error}}
+        </div>
+    </div>
+</div>
