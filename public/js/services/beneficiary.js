@@ -11,11 +11,12 @@ define(['q', 'async'], function(Q, async) {
          *
          * @param {array} renewals
          * @param {Promise} requestsPromise
-         * @param {function} next
+         *
+         * @return {Promise}
          *
          *
          */
-        function createGraphValues(renewals, requestsPromise, next)
+        function createGraphValues(renewals, requestsPromise)
         {
             var history = [];
 
@@ -28,53 +29,54 @@ define(['q', 'async'], function(Q, async) {
              */
             function buildRenewalsWithAdjustments() {
 
-                var deferred = Q.defer();
 
-                if (renewals.length > 0) {
-                    var lastRenewalId = renewals[renewals.length-1]._id;
-
-                    renewals.forEach(function(r) {
-
-
-                        history.push({
-                            position: r.start,
-                            add: round(r.initial_quantity)
-                        });
-
-                        // process monthly update adjustments
-
-                        if (undefined !== r.adjustments) {
-                            r.adjustments.forEach(function(adjustment) {
-                                history.push({
-                                    position: adjustment.from,
-                                    add: round(adjustment.quantity)
-                                });
-                            });
-                        }
-
-                        // process manual adjustments
-
-                        r.adjustmentPromise.then(function(adjustments) {
-                            adjustments.forEach(function(adjustment) {
-                                history.push({
-                                    position: adjustment.timeCreated,
-                                    add: round(adjustment.quantity)
-                                });
-                            });
-
-                            if (0 === adjustments.length || adjustments[0].rightRenewal === lastRenewalId) {
-                                deferred.resolve();
-                            }
-                        });
-                    });
-                } else {
-                    deferred.resolve();
+                if (renewals.length <= 0) {
+                    return Q.resolve(true);
                 }
 
+                var promises = [];
+
+                renewals.forEach(function(r) {
 
 
+                    history.push({
+                        position: r.start,
+                        add: round(r.initial_quantity)
+                    });
 
-                return deferred.promise;
+                    // process monthly update adjustments
+
+                    if (undefined !== r.adjustments) {
+                        r.adjustments.forEach(function(adjustment) {
+                            history.push({
+                                position: adjustment.from,
+                                add: round(adjustment.quantity)
+                            });
+                        });
+                    }
+
+                    promises.push(r.adjustmentPromise);
+
+                });
+
+
+                return Q.all(promises)
+                .then(function(adjustmentsList) {
+                    var adjustments = adjustmentsList.reduce(function(a, b) {
+                        return a.concat(b);
+                    }, []);
+
+                    adjustments.forEach(function(adjustment) {
+                        history.push({
+                            position: adjustment.timeCreated,
+                            add: round(adjustment.quantity)
+                        });
+                    });
+
+                    return true;
+                });
+
+
             }
 
 
@@ -153,9 +155,8 @@ define(['q', 'async'], function(Q, async) {
 
                 }
 
-                var deferred = Q.defer();
 
-                requestsPromise.then(function(requests) {
+                return requestsPromise.then(function(requests) {
                     requests.forEach(function(r) {
 
                         var elem = getElem(r);
@@ -170,16 +171,18 @@ define(['q', 'async'], function(Q, async) {
 
                     });
 
-                    deferred.resolve();
+                    return true;
                 });
-
-                return deferred.promise;
             }
 
 
 
 
-            Q.all([buildRenewalsWithAdjustments(), buildRequests()]).then(function() {
+            return Q.all([
+                buildRenewalsWithAdjustments(),
+                buildRequests()
+            ])
+            .then(function() {
 
                 history.sort(function (a, b) {
                     if (a.position > b.position) {
@@ -198,7 +201,7 @@ define(['q', 'async'], function(Q, async) {
                     graph.push([element.position, current_quantity]);
                 });
 
-                next(graph);
+                return graph;
             });
         }
 
@@ -300,10 +303,11 @@ define(['q', 'async'], function(Q, async) {
                         return;
                     }
 
-                    createGraphValues(beneficiary.renewals, requests.$promise, function(value) {
+                    createGraphValues(beneficiary.renewals, requests.$promise)
+                    .then(function(values) {
                         $scope.timedAvailableQuantity = [{
                             "key": gettext('Available quantity'),
-                            "values": value
+                            "values": values
                         }];
                     });
                 });
