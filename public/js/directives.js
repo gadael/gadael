@@ -103,19 +103,35 @@ define(['angular', 'services'], function(angular) {
     })
 
 
-	.directive('routeLoadingIndicator', ['$rootScope', function($rootScope) {
+	.directive('routeLoadingIndicator', ['$rootScope', '$q', function($rootScope, $q) {
 
 		return {
 			restrict:'E',
 			template:'<div class="loading-indicator" title="Loading..." ng-if="isRouteLoading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span class="sr-only">Loading...</span></div>',
-			link: function(scope) {
-				scope.isRouteLoading = false;
+			link: function() {
+				$rootScope.isRouteLoading = false;
 				$rootScope.$on('$routeChangeStart', function() {
-					scope.isRouteLoading = true;
+					$rootScope.isRouteLoading = true;
+
 				});
 
 				$rootScope.$on('$routeChangeSuccess', function() {
-					scope.isRouteLoading = false;
+
+					// Page changed, we wait 300ms for the queries
+					// dones using the ResourceFactory service
+
+					setTimeout(function() {
+						if (undefined === $rootScope.loaderPromises) {
+							// no ressources loaded
+							$rootScope.loaderPromises = [];
+						}
+
+						$q.all($rootScope.loaderPromises)
+						.then(function() {
+							$rootScope.isRouteLoading = false;
+						});
+
+					}, 300);
 				});
 			}
 		};

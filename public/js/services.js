@@ -83,7 +83,13 @@ define([
 
 
     .factory('ResourceFactory',
-        ['$resource', function($resource) {
+        ['$rootScope', '$resource', function($rootScope, $resource) {
+
+
+        if (undefined === $rootScope.loaderPromises) {
+            // This is the list of promises monitored with the loading indicator
+            $rootScope.loaderPromises = [];
+        }
 
         /**
          * create a resource
@@ -96,12 +102,26 @@ define([
                 parameters = { id:'@_id' };
             }
 
-            return $resource(collectionPath, parameters,
+            var resource = $resource(collectionPath, parameters,
                 {
                     'save': { method:'PUT' },    // overwrite default save method (POST)
                     'create': { method:'POST' }
                 }
             );
+
+            var query = resource.query;
+
+            /**
+             * Overwrite the query function to have a copy of each promise in the rootScope
+             * loading indicator will wait for the resolution of theses promises
+             */
+            resource.query = function() {
+                var queryResults = query.apply(this, arguments);
+                $rootScope.loaderPromises.push(queryResults.$promise);
+                return queryResults;
+            };
+
+            return resource;
         };
 
 
