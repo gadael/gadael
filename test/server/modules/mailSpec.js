@@ -12,6 +12,7 @@ const requestrejected = require('../../../modules/emails/requestrejected');
 const requestcreated = require('../../../modules/emails/requestcreated');
 const usercreated = require('../../../modules/emails/usercreated');
 const rolesupdated = require('../../../modules/emails/rolesupdated');
+const approbalert = require('../../../modules/emails/approbalert');
 
 const api = {
     company: require('../../../api/Company.api.js'),
@@ -276,6 +277,25 @@ describe('Mail object', function() {
         });
     });
 
+
+    it('send approbation alert', function(done) {
+        createPendingWorkperiodRecovery()
+        .then(wp => {
+            approbalert(server.app, wp, user)
+            .then(mail => {
+                return mail.send();
+            })
+            .then(message => {
+                expect(message._id).toBeDefined();
+                expect(message.emailSent).toBeTruthy();
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            });
+        });
+    });
 
 
 
