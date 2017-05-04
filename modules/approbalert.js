@@ -50,8 +50,7 @@ exports = module.exports = function(app) {
 
     let limit = new Date();
     limit.setDate(limit.getDate()-approb_alert);
-
-
+    
     const Request = app.db.models.Request;
 
 

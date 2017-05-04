@@ -12,6 +12,7 @@ const requestrejected = require('../../../modules/emails/requestrejected');
 const requestcreated = require('../../../modules/emails/requestcreated');
 const usercreated = require('../../../modules/emails/usercreated');
 const rolesupdated = require('../../../modules/emails/rolesupdated');
+const approbalertquery = require('../../../modules/approbalert');
 const approbalert = require('../../../modules/emails/approbalert');
 
 const api = {
@@ -289,6 +290,25 @@ describe('Mail object', function() {
                 expect(message._id).toBeDefined();
                 expect(message.emailSent).toBeTruthy();
                 done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            });
+        });
+    });
+
+
+
+    it('verify the approbalert query', function(done) {
+        createPendingWorkperiodRecovery()
+        .then(wp => {
+            server.app.config.company.approb_alert = -1; // no delay, all request shoud be notified
+                                                         // 0 disable the functionality
+            approbalertquery(server.app)
+            .then(list => {
+                expect(list.length).toBeGreaterThan(0);
+                return done();
             })
             .catch(err => {
                 console.log(err);

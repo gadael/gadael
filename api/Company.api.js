@@ -663,7 +663,7 @@ exports = module.exports = {
 
 			server.listen(app.config.port, app.config.host);
 
-			schedule.scheduleJob({ hour: 5, minute: 30 }, () => {
+			schedule.scheduleJob({ hour: 12, minute: 30 }, () => {
 			    approbalert(app)
 				.catch(console.error);
 			});
