@@ -2,6 +2,7 @@
 
 api                 /var/lib/gadael
 modules             /var/lib/gadael
+node_modules        /var/lib/gadael
 po                  /var/lib/gadael
 public              /var/lib/gadael
 rest                /var/lib/gadael
