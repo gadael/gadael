@@ -245,7 +245,12 @@ function saveRequests(service, params) {
             .then(events => {
 
                 if (0 === events.length) {
-                    throw new Error(gt.gettext(util.format('No availability on period for %s', user.getName())));
+                    throw new Error(
+                        util.format(
+                            gt.gettext('No availability on period for %s'),
+                            user.getName()
+                        )
+                    );
                 }
 
 
@@ -365,7 +370,7 @@ function saveRequests(service, params) {
      * @param {Array} users list of deleted items appliquants
      */
     function refreshUserCache(dates, users) {
-        
+
         let promises = [];
         for (let i=0; i<dates.length; i++) {
             let user = users[i];

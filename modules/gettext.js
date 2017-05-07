@@ -16,13 +16,12 @@ exports = module.exports = function(config) {
 
     function addTranslation(language) {
         let mo = gettextParser.mo.parse(fs.readFileSync('./po/server/'+language+'.mo'));
-        gt.addTranslations(language, mo);
+        gt.addTranslations(language, 'messages', mo);
     }
 
-    
     addTranslation('fr');
 
-    gt.textdomain(config.language);
+    gt.setLocale(config.language);
 
     // Add date formating capability
 
@@ -42,6 +41,8 @@ exports = module.exports = function(config) {
     gt.getLocalDateTimeString = function(dt) {
         return gt.getLocalDateString(dt)+' '+pad(dt.getHours())+':'+pad(dt.getMinutes());
     };
+
+    gt.on('error', error => console.log(error));
 
     return gt;
 };
