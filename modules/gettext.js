@@ -5,14 +5,22 @@
  *
  */
 
-var Gettext = require("node-gettext");
+const Gettext = require("node-gettext");
+const gettextParser = require("gettext-parser");
+const fs = require("fs");
+
+
 
 exports = module.exports = function(config) {
     let gt = new Gettext();
 
-    if ('fr' === config.language) {
-        gt.addTextdomain("fr", require("fs").readFileSync('./po/server/fr.mo'));
+    function addTranslation(language) {
+        let mo = gettextParser.mo.parse(fs.readFileSync('./po/server/'+language+'.mo'));
+        gt.addTranslations(language, mo);
     }
+
+    
+    addTranslation('fr');
 
     gt.textdomain(config.language);
 
