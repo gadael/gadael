@@ -1075,9 +1075,8 @@ exports = module.exports = function(params) {
         let renewal = this;
 
         return new Promise((resolve, reject) => {
-            account.getPeriodScheduleEvents(renewal.start, renewal.finish).then(ScheduleEra => {
-
-
+            account.getPeriodScheduleEvents(renewal.start, renewal.finish)
+			.then(ScheduleEra => {
 
                 let scheduledDays = Object.keys(ScheduleEra.getDays()).length;
 
@@ -1165,6 +1164,7 @@ exports = module.exports = function(params) {
 			// - Number of weeks-ends days 				~104
 			// - Initial quantity of annual paid leaves ~25
 			// - Non working days 					    ~11
+			// console.log(renewal.getDays(), weekEnds, initalQuantity, nonWorkingDays);
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });
 
