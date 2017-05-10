@@ -242,7 +242,8 @@ module.exports = function(grunt) {
             main: {
                 options: {
                     file: 'coverage/lcov.info',
-                    token: '4e96740bf6bcf7478dff8d7c59dea0888b794dd414cd4e3b934b4c1fcfc27fea'
+                    token: '4e96740bf6bcf7478dff8d7c59dea0888b794dd414cd4e3b934b4c1fcfc27fea',
+                    executable: 'node_modules/codeclimate-test-reporter/bin/codeclimate.js'
                 }
             }
         },
