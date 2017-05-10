@@ -172,13 +172,19 @@ function createController() {
             .then(user => {
                 return loginPromise(controller.req, user)
                 .then(() => {
-                    return user;
+                    let User = controller.req.app.db.models.User;
+                    return User.findOne({ _id: user._id })
+                    .exec();
                 });
             })
             .then(user => {
 
                 // start a period for the collection
-                return startPlannings(controller, user._id, controller.req.body, invitation);
+                return startPlannings(controller, user._id, controller.req.body, invitation)
+                .then(() => {
+                    // refresh cache to display given quantity on home page
+                    return user.updateRenewalsStat();
+                });
             })
             .then(() => {
                 invitation.done = true;
