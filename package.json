@@ -75,7 +75,7 @@
     "bower": "^1.3.1",
     "grunt": "^0.4.4",
     "grunt-angular-gettext": "~0.2.13",
-    "grunt-codeclimate-reporter": "git://github.com/MrBoolean/grunt-codeclimate-reporter.git#8dae93031d60823e6d84cf84176bebec07ba26ba",
+    "grunt-codeclimate-reporter": "~1.2.1",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-copy": "^0.5.0",
