@@ -1,4 +1,7 @@
 #!/usr/bin/make -f
 
+npm:
+	npm install --production
+
 %:
 	dh $@

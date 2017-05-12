@@ -1,3 +1,2 @@
 # git-build-recipe format 0.4 deb-version {debupstream}-0~{revno}
 lp:gadael master
-nest-part packaging lp:gadael-build-dependencies node_modules node_modules master
