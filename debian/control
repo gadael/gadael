@@ -4,7 +4,7 @@ Section: misc
 Homepage: http://www.gadael.org
 Priority: optional
 Standards-Version: 3.9.8
-Build-Depends: debhelper (>= 10), dh-exec (>= 0.23)
+Build-Depends: debhelper (>= 10), dh-exec (>= 0.23), npm (>=1.4.21)
 
 Package: gadael
 Architecture: all
