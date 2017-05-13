@@ -1,6 +1,6 @@
 'use strict';
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const Charlatan = require('charlatan');
 const util = require('util');
 const oauthrefresh = require('passport-oauth2-refresh');

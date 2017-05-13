@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.4.12
+ * @license AngularJS v1.4.14
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -57,7 +57,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message += '\nhttp://errors.angularjs.org/1.4.12/' +
+    message += '\nhttp://errors.angularjs.org/1.4.14/' +
       (module ? module + '/' : '') + code;
 
     for (i = SKIP_INDEXES, paramPrefix = '?'; i < templateArgs.length; i++, paramPrefix = '&') {
@@ -2417,11 +2417,11 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.4.12',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.4.14',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 4,
-  dot: 12,
-  codeName: 'cultural-conservation'
+  dot: 14,
+  codeName: 'material-distinction'
 };
 
 
@@ -8014,13 +8014,17 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       var nodeType = node.nodeType,
           attrsMap = attrs.$attr,
           match,
+          nodeName,
           className;
 
       switch (nodeType) {
         case NODE_TYPE_ELEMENT: /* Element */
+
+          nodeName = nodeName_(node);
+
           // use the node name: <directive>
           addDirective(directives,
-              directiveNormalize(nodeName_(node)), 'E', maxPriority, ignoreDirective);
+              directiveNormalize(nodeName), 'E', maxPriority, ignoreDirective);
 
           // iterate over the attributes
           for (var attr, name, nName, ngAttrName, value, isNgAttr, nAttrs = node.attributes,
@@ -8059,6 +8063,12 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             addAttrInterpolateDirective(node, directives, value, nName, isNgAttr);
             addDirective(directives, nName, 'A', maxPriority, ignoreDirective, attrStartName,
                           attrEndName);
+          }
+
+          if (nodeName === 'input' && node.getAttribute('type') === 'hidden') {
+            // Hidden input elements can have strange behaviour when navigating back to the page
+            // This tells the browser not to try to cache and reinstate previous values
+            node.setAttribute('autocomplete', 'off');
           }
 
           // use class as directive
@@ -29848,19 +29858,20 @@ define("angular", (function (global) {
 }(this)));
 
 /*
- AngularJS v1.5.7
- (c) 2010-2016 Google, Inc. http://angularjs.org
+ AngularJS v1.6.4
+ (c) 2010-2017 Google, Inc. http://angularjs.org
  License: MIT
 */
-(function(q,e){'use strict';function A(a){var c=[];v(c,e.noop).chars(a);return c.join("")}function h(a,c){var b={},d=a.split(","),l;for(l=0;l<d.length;l++)b[c?e.lowercase(d[l]):d[l]]=!0;return b}function B(a,c){null===a||void 0===a?a="":"string"!==typeof a&&(a=""+a);g.innerHTML=a;var b=5;do{if(0===b)throw w("uinput");b--;q.document.documentMode&&r(g);a=g.innerHTML;g.innerHTML=a}while(a!==g.innerHTML);for(b=g.firstChild;b;){switch(b.nodeType){case 1:c.start(b.nodeName.toLowerCase(),C(b.attributes));
-break;case 3:c.chars(b.textContent)}var d;if(!(d=b.firstChild)&&(1==b.nodeType&&c.end(b.nodeName.toLowerCase()),d=b.nextSibling,!d))for(;null==d;){b=b.parentNode;if(b===g)break;d=b.nextSibling;1==b.nodeType&&c.end(b.nodeName.toLowerCase())}b=d}for(;b=g.firstChild;)g.removeChild(b)}function C(a){for(var c={},b=0,d=a.length;b<d;b++){var l=a[b];c[l.name]=l.value}return c}function x(a){return a.replace(/&/g,"&amp;").replace(D,function(a){var b=a.charCodeAt(0);a=a.charCodeAt(1);return"&#"+(1024*(b-55296)+
-(a-56320)+65536)+";"}).replace(E,function(a){return"&#"+a.charCodeAt(0)+";"}).replace(/</g,"&lt;").replace(/>/g,"&gt;")}function v(a,c){var b=!1,d=e.bind(a,a.push);return{start:function(a,f){a=e.lowercase(a);!b&&F[a]&&(b=a);b||!0!==n[a]||(d("<"),d(a),e.forEach(f,function(b,f){var g=e.lowercase(f),h="img"===a&&"src"===g||"background"===g;!0!==G[g]||!0===y[g]&&!c(b,h)||(d(" "),d(f),d('="'),d(x(b)),d('"'))}),d(">"))},end:function(a){a=e.lowercase(a);b||!0!==n[a]||!0===z[a]||(d("</"),d(a),d(">"));a==
-b&&(b=!1)},chars:function(a){b||d(x(a))}}}function r(a){if(a.nodeType===q.Node.ELEMENT_NODE)for(var c=a.attributes,b=0,d=c.length;b<d;b++){var e=c[b],f=e.name.toLowerCase();if("xmlns:ns1"===f||0===f.lastIndexOf("ns1:",0))a.removeAttributeNode(e),b--,d--}(c=a.firstChild)&&r(c);(c=a.nextSibling)&&r(c)}var w=e.$$minErr("$sanitize"),D=/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,E=/([^\#-~ |!])/g,z=h("area,br,col,hr,img,wbr"),m=h("colgroup,dd,dt,li,p,tbody,td,tfoot,th,thead,tr"),k=h("rp,rt"),u=e.extend({},k,m),
-m=e.extend({},m,h("address,article,aside,blockquote,caption,center,del,dir,div,dl,figure,figcaption,footer,h1,h2,h3,h4,h5,h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,section,table,ul")),k=e.extend({},k,h("a,abbr,acronym,b,bdi,bdo,big,br,cite,code,del,dfn,em,font,i,img,ins,kbd,label,map,mark,q,ruby,rp,rt,s,samp,small,span,strike,strong,sub,sup,time,tt,u,var")),H=h("circle,defs,desc,ellipse,font-face,font-face-name,font-face-src,g,glyph,hkern,image,linearGradient,line,marker,metadata,missing-glyph,mpath,path,polygon,polyline,radialGradient,rect,stop,svg,switch,text,title,tspan"),
-F=h("script,style"),n=e.extend({},z,m,k,u),y=h("background,cite,href,longdesc,src,xlink:href"),u=h("abbr,align,alt,axis,bgcolor,border,cellpadding,cellspacing,class,clear,color,cols,colspan,compact,coords,dir,face,headers,height,hreflang,hspace,ismap,lang,language,nohref,nowrap,rel,rev,rows,rowspan,rules,scope,scrolling,shape,size,span,start,summary,tabindex,target,title,type,valign,value,vspace,width"),k=h("accent-height,accumulate,additive,alphabetic,arabic-form,ascent,baseProfile,bbox,begin,by,calcMode,cap-height,class,color,color-rendering,content,cx,cy,d,dx,dy,descent,display,dur,end,fill,fill-rule,font-family,font-size,font-stretch,font-style,font-variant,font-weight,from,fx,fy,g1,g2,glyph-name,gradientUnits,hanging,height,horiz-adv-x,horiz-origin-x,ideographic,k,keyPoints,keySplines,keyTimes,lang,marker-end,marker-mid,marker-start,markerHeight,markerUnits,markerWidth,mathematical,max,min,offset,opacity,orient,origin,overline-position,overline-thickness,panose-1,path,pathLength,points,preserveAspectRatio,r,refX,refY,repeatCount,repeatDur,requiredExtensions,requiredFeatures,restart,rotate,rx,ry,slope,stemh,stemv,stop-color,stop-opacity,strikethrough-position,strikethrough-thickness,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,systemLanguage,target,text-anchor,to,transform,type,u1,u2,underline-position,underline-thickness,unicode,unicode-range,units-per-em,values,version,viewBox,visibility,width,widths,x,x-height,x1,x2,xlink:actuate,xlink:arcrole,xlink:role,xlink:show,xlink:title,xlink:type,xml:base,xml:lang,xml:space,xmlns,xmlns:xlink,y,y1,y2,zoomAndPan",
-!0),G=e.extend({},y,k,u),g;(function(a){if(a.document&&a.document.implementation)a=a.document.implementation.createHTMLDocument("inert");else throw w("noinert");var c=(a.documentElement||a.getDocumentElement()).getElementsByTagName("body");1===c.length?g=c[0]:(c=a.createElement("html"),g=a.createElement("body"),c.appendChild(g),a.appendChild(c))})(q);e.module("ngSanitize",[]).provider("$sanitize",function(){var a=!1;this.$get=["$$sanitizeUri",function(c){a&&e.extend(n,H);return function(a){var d=
-[];B(a,v(d,function(a,b){return!/^unsafe:/.test(c(a,b))}));return d.join("")}}];this.enableSvg=function(c){return e.isDefined(c)?(a=c,this):a}});e.module("ngSanitize").filter("linky",["$sanitize",function(a){var c=/((ftp|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"\u201d\u2019]/i,b=/^mailto:/i,d=e.$$minErr("linky"),g=e.isString;return function(f,h,k){function m(a){a&&p.push(A(a))}function q(a,b){var c,d=r(a);p.push("<a ");for(c in d)p.push(c+'="'+d[c]+'" ');!e.isDefined(h)||
-"target"in d||p.push('target="',h,'" ');p.push('href="',a.replace(/"/g,"&quot;"),'">');m(b);p.push("</a>")}if(null==f||""===f)return f;if(!g(f))throw d("notstring",f);for(var r=e.isFunction(k)?k:e.isObject(k)?function(){return k}:function(){return{}},s=f,p=[],t,n;f=s.match(c);)t=f[0],f[2]||f[4]||(t=(f[3]?"http://":"mailto:")+t),n=f.index,m(s.substr(0,n)),q(t,f[0].replace(b,"")),s=s.substring(n+f[0].length);m(s);return a(p.join(""))}}])})(window,window.angular);
+(function(s,f){'use strict';function J(f){var k=[];v(k,B).chars(f);return k.join("")}var w=f.$$minErr("$sanitize"),C,k,D,E,q,B,F,G,v;f.module("ngSanitize",[]).provider("$sanitize",function(){function h(a,c){var b={},d=a.split(","),l;for(l=0;l<d.length;l++)b[c?q(d[l]):d[l]]=!0;return b}function K(a){for(var c={},b=0,d=a.length;b<d;b++){var l=a[b];c[l.name]=l.value}return c}function H(a){return a.replace(/&/g,"&amp;").replace(L,function(a){var b=a.charCodeAt(0);a=a.charCodeAt(1);return"&#"+(1024*(b-
+55296)+(a-56320)+65536)+";"}).replace(M,function(a){return"&#"+a.charCodeAt(0)+";"}).replace(/</g,"&lt;").replace(/>/g,"&gt;")}function I(a){for(;a;){if(a.nodeType===s.Node.ELEMENT_NODE)for(var c=a.attributes,b=0,d=c.length;b<d;b++){var l=c[b],e=l.name.toLowerCase();if("xmlns:ns1"===e||0===e.lastIndexOf("ns1:",0))a.removeAttributeNode(l),b--,d--}(c=a.firstChild)&&I(c);a=t("nextSibling",a)}}function t(a,c){var b=c[a];if(b&&F.call(c,b))throw w("elclob",c.outerHTML||c.outerText);return b}var x=!1;this.$get=
+["$$sanitizeUri",function(a){x&&k(p,z);return function(c){var b=[];G(c,v(b,function(b,c){return!/^unsafe:/.test(a(b,c))}));return b.join("")}}];this.enableSvg=function(a){return E(a)?(x=a,this):x};C=f.bind;k=f.extend;D=f.forEach;E=f.isDefined;q=f.lowercase;B=f.noop;G=function(a,c){null===a||void 0===a?a="":"string"!==typeof a&&(a=""+a);g.innerHTML=a;var b=5;do{if(0===b)throw w("uinput");b--;s.document.documentMode&&I(g);a=g.innerHTML;g.innerHTML=a}while(a!==g.innerHTML);for(b=g.firstChild;b;){switch(b.nodeType){case 1:c.start(b.nodeName.toLowerCase(),
+K(b.attributes));break;case 3:c.chars(b.textContent)}var d;if(!(d=b.firstChild)&&(1===b.nodeType&&c.end(b.nodeName.toLowerCase()),d=t("nextSibling",b),!d))for(;null==d;){b=t("parentNode",b);if(b===g)break;d=t("nextSibling",b);1===b.nodeType&&c.end(b.nodeName.toLowerCase())}b=d}for(;b=g.firstChild;)g.removeChild(b)};v=function(a,c){var b=!1,d=C(a,a.push);return{start:function(a,e){a=q(a);!b&&A[a]&&(b=a);b||!0!==p[a]||(d("<"),d(a),D(e,function(b,e){var f=q(e),g="img"===a&&"src"===f||"background"===
+f;!0!==u[f]||!0===n[f]&&!c(b,g)||(d(" "),d(e),d('="'),d(H(b)),d('"'))}),d(">"))},end:function(a){a=q(a);b||!0!==p[a]||!0===e[a]||(d("</"),d(a),d(">"));a==b&&(b=!1)},chars:function(a){b||d(H(a))}}};F=s.Node.prototype.contains||function(a){return!!(this.compareDocumentPosition(a)&16)};var L=/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,M=/([^#-~ |!])/g,e=h("area,br,col,hr,img,wbr"),y=h("colgroup,dd,dt,li,p,tbody,td,tfoot,th,thead,tr"),m=h("rp,rt"),r=k({},m,y),y=k({},y,h("address,article,aside,blockquote,caption,center,del,dir,div,dl,figure,figcaption,footer,h1,h2,h3,h4,h5,h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,section,table,ul")),
+m=k({},m,h("a,abbr,acronym,b,bdi,bdo,big,br,cite,code,del,dfn,em,font,i,img,ins,kbd,label,map,mark,q,ruby,rp,rt,s,samp,small,span,strike,strong,sub,sup,time,tt,u,var")),z=h("circle,defs,desc,ellipse,font-face,font-face-name,font-face-src,g,glyph,hkern,image,linearGradient,line,marker,metadata,missing-glyph,mpath,path,polygon,polyline,radialGradient,rect,stop,svg,switch,text,title,tspan"),A=h("script,style"),p=k({},e,y,m,r),n=h("background,cite,href,longdesc,src,xlink:href"),r=h("abbr,align,alt,axis,bgcolor,border,cellpadding,cellspacing,class,clear,color,cols,colspan,compact,coords,dir,face,headers,height,hreflang,hspace,ismap,lang,language,nohref,nowrap,rel,rev,rows,rowspan,rules,scope,scrolling,shape,size,span,start,summary,tabindex,target,title,type,valign,value,vspace,width"),
+m=h("accent-height,accumulate,additive,alphabetic,arabic-form,ascent,baseProfile,bbox,begin,by,calcMode,cap-height,class,color,color-rendering,content,cx,cy,d,dx,dy,descent,display,dur,end,fill,fill-rule,font-family,font-size,font-stretch,font-style,font-variant,font-weight,from,fx,fy,g1,g2,glyph-name,gradientUnits,hanging,height,horiz-adv-x,horiz-origin-x,ideographic,k,keyPoints,keySplines,keyTimes,lang,marker-end,marker-mid,marker-start,markerHeight,markerUnits,markerWidth,mathematical,max,min,offset,opacity,orient,origin,overline-position,overline-thickness,panose-1,path,pathLength,points,preserveAspectRatio,r,refX,refY,repeatCount,repeatDur,requiredExtensions,requiredFeatures,restart,rotate,rx,ry,slope,stemh,stemv,stop-color,stop-opacity,strikethrough-position,strikethrough-thickness,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,systemLanguage,target,text-anchor,to,transform,type,u1,u2,underline-position,underline-thickness,unicode,unicode-range,units-per-em,values,version,viewBox,visibility,width,widths,x,x-height,x1,x2,xlink:actuate,xlink:arcrole,xlink:role,xlink:show,xlink:title,xlink:type,xml:base,xml:lang,xml:space,xmlns,xmlns:xlink,y,y1,y2,zoomAndPan",
+!0),u=k({},n,m,r),g;(function(a){if(a.document&&a.document.implementation)a=a.document.implementation.createHTMLDocument("inert");else throw w("noinert");var c=(a.documentElement||a.getDocumentElement()).getElementsByTagName("body");1===c.length?g=c[0]:(c=a.createElement("html"),g=a.createElement("body"),c.appendChild(g),a.appendChild(c))})(s)}).info({angularVersion:"1.6.4"});f.module("ngSanitize").filter("linky",["$sanitize",function(h){var k=/((ftp|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"\u201d\u2019]/i,
+q=/^mailto:/i,s=f.$$minErr("linky"),t=f.isDefined,x=f.isFunction,v=f.isObject,w=f.isString;return function(e,f,m){function r(a){a&&n.push(J(a))}function z(a,c){var b,d=A(a);n.push("<a ");for(b in d)n.push(b+'="'+d[b]+'" ');!t(f)||"target"in d||n.push('target="',f,'" ');n.push('href="',a.replace(/"/g,"&quot;"),'">');r(c);n.push("</a>")}if(null==e||""===e)return e;if(!w(e))throw s("notstring",e);for(var A=x(m)?m:v(m)?function(){return m}:function(){return{}},p=e,n=[],u,g;e=p.match(k);)u=e[0],e[2]||
+e[4]||(u=(e[3]?"http://":"mailto:")+u),g=e.index,r(p.substr(0,g)),z(u,e[0].replace(q,"")),p=p.substring(g+e[0].length);r(p);return h(n.join(""))}}])})(window,window.angular);
 //# sourceMappingURL=angular-sanitize.min.js.map
 ;
 define("angularSanitize", ["angular"], function(){});
@@ -34995,11 +35006,12 @@ define('services/beneficiary',['q', 'async'], function(Q, async) {
          *
          * @param {array} renewals
          * @param {Promise} requestsPromise
-         * @param {function} next
+         *
+         * @return {Promise}
          *
          *
          */
-        function createGraphValues(renewals, requestsPromise, next)
+        function createGraphValues(renewals, requestsPromise)
         {
             var history = [];
 
@@ -35012,53 +35024,54 @@ define('services/beneficiary',['q', 'async'], function(Q, async) {
              */
             function buildRenewalsWithAdjustments() {
 
-                var deferred = Q.defer();
 
-                if (renewals.length > 0) {
-                    var lastRenewalId = renewals[renewals.length-1]._id;
-
-                    renewals.forEach(function(r) {
-
-
-                        history.push({
-                            position: r.start,
-                            add: round(r.initial_quantity)
-                        });
-
-                        // process monthly update adjustments
-
-                        if (undefined !== r.adjustments) {
-                            r.adjustments.forEach(function(adjustment) {
-                                history.push({
-                                    position: adjustment.from,
-                                    add: round(adjustment.quantity)
-                                });
-                            });
-                        }
-
-                        // process manual adjustments
-
-                        r.adjustmentPromise.then(function(adjustments) {
-                            adjustments.forEach(function(adjustment) {
-                                history.push({
-                                    position: adjustment.timeCreated,
-                                    add: round(adjustment.quantity)
-                                });
-                            });
-
-                            if (0 === adjustments.length || adjustments[0].rightRenewal === lastRenewalId) {
-                                deferred.resolve();
-                            }
-                        });
-                    });
-                } else {
-                    deferred.resolve();
+                if (renewals.length <= 0) {
+                    return Q.resolve(true);
                 }
 
+                var promises = [];
+
+                renewals.forEach(function(r) {
 
 
+                    history.push({
+                        position: r.start,
+                        add: round(r.initial_quantity)
+                    });
 
-                return deferred.promise;
+                    // process monthly update adjustments
+
+                    if (undefined !== r.adjustments) {
+                        r.adjustments.forEach(function(adjustment) {
+                            history.push({
+                                position: adjustment.from,
+                                add: round(adjustment.quantity)
+                            });
+                        });
+                    }
+
+                    promises.push(r.adjustmentPromise);
+
+                });
+
+
+                return Q.all(promises)
+                .then(function(adjustmentsList) {
+                    var adjustments = adjustmentsList.reduce(function(a, b) {
+                        return a.concat(b);
+                    }, []);
+
+                    adjustments.forEach(function(adjustment) {
+                        history.push({
+                            position: adjustment.timeCreated,
+                            add: round(adjustment.quantity)
+                        });
+                    });
+
+                    return true;
+                });
+
+
             }
 
 
@@ -35137,9 +35150,8 @@ define('services/beneficiary',['q', 'async'], function(Q, async) {
 
                 }
 
-                var deferred = Q.defer();
 
-                requestsPromise.then(function(requests) {
+                return requestsPromise.then(function(requests) {
                     requests.forEach(function(r) {
 
                         var elem = getElem(r);
@@ -35154,16 +35166,18 @@ define('services/beneficiary',['q', 'async'], function(Q, async) {
 
                     });
 
-                    deferred.resolve();
+                    return true;
                 });
-
-                return deferred.promise;
             }
 
 
 
 
-            Q.all([buildRenewalsWithAdjustments(), buildRequests()]).then(function() {
+            return Q.all([
+                buildRenewalsWithAdjustments(),
+                buildRequests()
+            ])
+            .then(function() {
 
                 history.sort(function (a, b) {
                     if (a.position > b.position) {
@@ -35182,7 +35196,7 @@ define('services/beneficiary',['q', 'async'], function(Q, async) {
                     graph.push([element.position, current_quantity]);
                 });
 
-                next(graph);
+                return graph;
             });
         }
 
@@ -35242,6 +35256,11 @@ define('services/beneficiary',['q', 'async'], function(Q, async) {
 
                 var panel = 0;
 
+                var errors = beneficiary.errors.map(function(err) {
+                    return err.renewal._id;
+                });
+
+
                 // for each renewals, add the list of adjustments
 
                 async.each(beneficiary.renewals, function(r, nextRenewal) {
@@ -35263,7 +35282,13 @@ define('services/beneficiary',['q', 'async'], function(Q, async) {
                     r.adjustmentPromise = adjustments.$promise;
 
 
+
                 }, function endRenewals() {
+
+                    // remove renewals displayed as errors
+                    beneficiary.renewals = beneficiary.renewals.filter(function(renewal) {
+                        return (-1 === errors.indexOf(renewal._id));
+                    });
 
 
                     $scope.beneficiary = beneficiary;
@@ -35273,10 +35298,11 @@ define('services/beneficiary',['q', 'async'], function(Q, async) {
                         return;
                     }
 
-                    createGraphValues(beneficiary.renewals, requests.$promise, function(value) {
+                    createGraphValues(beneficiary.renewals, requests.$promise)
+                    .then(function(values) {
                         $scope.timedAvailableQuantity = [{
                             "key": gettext('Available quantity'),
-                            "values": value
+                            "values": values
                         }];
                     });
                 });
@@ -35914,7 +35940,13 @@ define('services',[
 
 
     .factory('ResourceFactory',
-        ['$resource', function($resource) {
+        ['$rootScope', '$resource', function($rootScope, $resource) {
+
+
+        if (undefined === $rootScope.loaderPromises) {
+            // This is the list of promises monitored with the loading indicator
+            $rootScope.loaderPromises = [];
+        }
 
         /**
          * create a resource
@@ -35927,12 +35959,26 @@ define('services',[
                 parameters = { id:'@_id' };
             }
 
-            return $resource(collectionPath, parameters,
+            var resource = $resource(collectionPath, parameters,
                 {
                     'save': { method:'PUT' },    // overwrite default save method (POST)
                     'create': { method:'POST' }
                 }
             );
+
+            var query = resource.query;
+
+            /**
+             * Overwrite the query function to have a copy of each promise in the rootScope
+             * loading indicator will wait for the resolution of theses promises
+             */
+            resource.query = function() {
+                var queryResults = query.apply(this, arguments);
+                $rootScope.loaderPromises.push(queryResults.$promise);
+                return queryResults;
+            };
+
+            return resource;
         };
 
 
@@ -36466,19 +36512,35 @@ define('directives',['angular', 'services'], function(angular) {
     })
 
 
-	.directive('routeLoadingIndicator', ['$rootScope', function($rootScope) {
+	.directive('routeLoadingIndicator', ['$rootScope', '$q', function($rootScope, $q) {
 
 		return {
 			restrict:'E',
 			template:'<div class="loading-indicator" title="Loading..." ng-if="isRouteLoading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span class="sr-only">Loading...</span></div>',
-			link: function(scope) {
-				scope.isRouteLoading = false;
+			link: function() {
+				$rootScope.isRouteLoading = false;
 				$rootScope.$on('$routeChangeStart', function() {
-					scope.isRouteLoading = true;
+					$rootScope.isRouteLoading = true;
+
 				});
 
 				$rootScope.$on('$routeChangeSuccess', function() {
-					scope.isRouteLoading = false;
+
+					// Page changed, we wait 300ms for the queries
+					// dones using the ResourceFactory service
+
+					setTimeout(function() {
+						if (undefined === $rootScope.loaderPromises) {
+							// no ressources loaded
+							$rootScope.loaderPromises = [];
+						}
+
+						$q.all($rootScope.loaderPromises)
+						.then(function() {
+							$rootScope.isRouteLoading = false;
+						});
+
+					}, 300);
 				});
 			}
 		};
@@ -36742,15 +36804,20 @@ angular.module('gettext').factory('gettextCatalog', ["gettextPlurals", "gettextF
                     val = obj;
                 }
 
-                // Expand single strings for each context.
+                if (!this.strings[language][key]) {
+                    this.strings[language][key] = {};
+                }
+
                 for (var context in val) {
                     var str = val[context];
                     if (!angular.isArray(str)) {
-                        val[context] = [];
-                        val[context][defaultPlural] = str;
+                        // Expand single strings
+                        this.strings[language][key][context] = [];
+                        this.strings[language][key][context][defaultPlural] = str;
+                    } else {
+                        this.strings[language][key][context] = str;
                     }
                 }
-                this.strings[language][key] = val;
             }
 
             broadcastUpdated();
@@ -37333,7 +37400,7 @@ define("angularGettext", ["angular"], function(){});
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
     gettextCatalog.setStrings('es_ES', {});
-    gettextCatalog.setStrings('fr', {"{{renewalChart.percentDays|number}}% consumed":"{{renewalChart.percentDays|number}}% consommé","{{usersstat.activeUsers}} users / {{company.max_users}} Max":"{{usersstat.activeUsers}} utilisateurs / {{company.max_users}} Max","{quantity} up to {date}":"{quantity} jusqu'au {date}","1 day":["1 jour","{{deposit.quantity| number}} jours"],"1 hour":["1 heure","{{deposit.quantity| number}} heures"],"A department is a group of employees, managers may be assigned to the approval of leave requests made by the department members":"Un service est un groupe d'employés, des gestionnaires peuvent êtres affectés à l'approbation des demandes de congés effectuées par les membres du service","A user account is required to continue":"Un compte utilisateur est requis pour continuer","Absence":"Absence","Absence request":"Demande d'absence","Absence rights":"Droit d'absences","Absences account":"Compte utilisateur \"Absences\"","Absences user account":"Compte utilisateur \"Absences\"","Accept":"Accepter","Accepted":"Accepté","Activate the out of collection right according to the request period":"Activer le droit hors régime en fonction de la période demandée","Activate the right according to consumed quantity":"Activer le droit en fonction de la quantité consommée","Activate the right according to the age":"Activer le droit en fonction de l'âge","Activate the right according to the consumed quantity on a right type":"Activer le droit en fonction de la quantité consommée sur un type de droit","Activate the right according to the entry creation date":"Activer le droit en fonction de la date de création de la demande","Activate the right according to the request period":"Activer le droit en fonction de la période demandée","Activate the right according to the seniority":"Activer le droit en fonction de l'ancienneté","Activate the right according to the user age":"Activer le droit en fonction de l'âge de l'utilisateur","Activate the right according to the user seniority":"Activer le droit en fonction de l'ancienneté","Active for the administrator":"Actif pour l'administrateur","Active for the user":"Actif pour l'utilisateur","Active for:":"Actif pour :","Actual quantity:":"Quantité actuelle :","Add":"Ajouter","Add a calendar":"Ajouter un agenda","Add a list of of email addresses and send the invitations":"Ajouter une liste d'adresses emails et envoyer les invitations","Add a quantity adjustment":"Ajouter un ajustement","Add a recover quantity":"Ajouter une quantité à récupérer","Add a request":"Ajouter une demande","Add a request...":"Ajouter une demande...","Add Collection":"Ajouter un régime","Add compulsory leave":"Ajouter un congé obligatoire","Add Department":"Ajouter un service","Add period":"Ajouter une période","Add right":"Ajouter un droit","Add right collection":"Ajouter un régime de congés","Add Type":"Ajouter un type","Add User":"Ajouter un utilisateur","Add vacation right":"Ajouter un droits de congés","Addition / modification":"Ajout / modification","Additional days after the renewal end date:":"Jours supplémentaires après la date de fin du renouvellement :","Additional days before the renewal start date:":"Jours supplémentaires avant la date de début du renouvellement :","Additional rights scheduling for {{user.lastname}} {{user.firstname}}":"Planification des droits hors régime pour {{user.lastname}} {{user.firstname}}","Adjust the available quantity automatically from the consumption of other rights":"Ajuster la quantité disponible à partir de la consommation sur d'autres droits","Adjustements quantity":"Quantité des ajustements","adjustments included":"Ajustements inclus","Admin":"Administration","Admin, substituting one of his subordinates":"Administrateur, se substituant à l'un de ces subordonnés","Administrator":"Administrateur","Age":"Âge","All managers must confirm approval step":"Tout les gestionnaires doivent confirmer l'étape d'approbation","All the users who accept the invitation will be saved into the same department, used for leave requests approval":"Tous les utilisateurs qui acceptent l'invitation serons enregistrés dans le même service, qui sera utilisé pour l'approbation des demandes de congé","Allow to save quantity from this right to the time deposit account":"Autoriser l'épargne de ce droit vers les comptes épargne temps","Always available":"Toujours disponible","An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on":"Un ajustement de {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} est automatiquement créé tous les {{right.autoAdjustment.step | number}} {{right.disp_unit}} consommés sur","Application administrator":"Administrateur de l'application","Approvers":"Approbateurs","Are you sure you want to delete the absence request?":"Êtes-vous sûr de vouloir supprimer cette demande d'absence?","Are you sure you want to delete this compulsory leave?":"Êtes-vous sûr de vouloir supprimer ce congé obligatoire?","Are you sure you want to delete this user?":"Êtes-vous sûr de vouloir supprimer cet utilisateur?","Arrival date":"Date d'arrivée","Arrival date:":"Date d'arrivée :","At least one manager must confirm approval step":"Au moins un approbateur doit approuver l'étape","At least one type must be selected":"Au moins un type doit être sélectionné","Attendance":"Présence","Attendance (percentage relative to full-time)":"Présence (pourcentage relatif au temps complet)","Author":"Auteur","Auto monthly update":"Mise à jour mensuelles automatiques","Automatic distribution of this right when creating a request":"Répartition automatique de la quantité sur ce droit lors de la création d'une demande","Availability duration after the period end date from the user/right link:":"Durée supplémentaires après la date de fin de la période définie sur le lien utilisateur/droit :","Availability duration after the renewal end date:":"Jours supplémentaires après la date de fin du renouvellement :","Availability duration before the period start date from the user/right link:":"Durée supplémentaires avant la date de début de la période définie sur le lien utilisateur/droit :","Availability duration before the renewal start date:":"Jours supplémentaires avant la date de début du renouvellement :","Available for booking":"Disponible à la réservation","Available on period":"Disponible sur la période","Available on right":"Disponibilité du droit","Available quantity":"Quantité disponible","Available:":"Disponible :","Average hours per day":"Moyenne du nombre d'heures par jour","Back to Login":"Retour à l'authentification","Balance state the:":"État du solde le :","Begin date":"Date de début","Birth date":"Date de naissance","Birth date:":"Date de naissance :","Book available periods":"Réserver les périodes disponibles","Business days for the users associated to this collection":"Jours ouvrés pour les utilisateurs associés à ce régime","By collection:":"Par régime :","By department:":"Par service :","By name:":"Par nom :","By right:":"Par droit :","By status:":"Par état :","By type:":"Par type :","By user name:":"Par nom d'utilisateur :","calendar":"agenda","Calendar":"Agenda","Calendar name":"Nom de l'agenda","Calendar summary":"Résumé de l'agenda","Calendar type:":"Type d'agenda :","Calendars":"Agendas","Cancel":"Annuler","Change the initial quantity":"Modifier la quantité initiale","Change your password":"Modifier votre mot de passe","Choose from your remnant quantity":"Choisir à partir de votre quantité restante","Classification used for the creation of leave requests":"Classification utilisée pour la création des périodes de congé","Collaborators":"Collaborateurs","Collaborators to supervise with request approvals":"Collaborateurs à superviser lors des demandes d'approbation","Collection name":"Nom du régime","Collection on the selected period: {{collection.name}}":"Régime sur la période sélectionnée : {{collection.name}}","Collection:":"Régime :","collections":"régimes","Color":"Couleur","Comment":"Commentaire","Compulsory leave":"Congé imposé","Compulsory leave name (this will be visible on users calendars)":"Nom du congé obligatoire (il sera visible sur les agendas des utilisateurs)","Compulsory leaves":"Congés obligatoires","Confirm new password":"Confirmer le nouveau mot de passe","Confirm password":"Confirmer le mot de passe","Confirm Password:":"Confirmer le mot de passe :","Confirmed":"Confirmé","Congratulation, this server has just been created and contain no users, please do not leave it that way.":"Félicitations, ce serveur viens d'être créé et ne contient pas d'utilisateurs, vous pouvez corriger cela!","Connect":"Connecter","Consume next business days":"Consommer le jour travaillé suivant","Consume worked days":"Utiliser les jours travaillés","Consumed":"Consommé","Consumed on types":"Consommée sur les types","Consumed quantity":"Quantité consommée","Consumed:":"Consommé :","Consumption":"Consommation","Consuption":"Consommation","Continue":"Continuer","Create a compulsory leave":"Créer un congé obligatoire","Create a department":"Créer un service","Create a leave on all valid users":"Créer un congé sur tous les utilisateurs valides","Create a leave right":"Créer un droit d'absence","Create a new department":"Créer un nouveau service","Create a new secondary calendar in your google account to host a copy of your leave periods.":"Créer un nouvel agenda secondaire sur votre compte google pour héberger une copie de vos périodes de congés.","Create a new time saving deposit for {{request.user.name}}":"Créer un nouveau dépôt sur le Compte Épargne Temps pour {{request.user.name}}","Create a new time saving deposit request":"Créer un nouveau dépôt sur le Compte Épargne Temps","Create a new vacation request":"Créer une nouvelle demande d'absence","Create a new workperiod recover request":"Créer une nouvelle déclaration de jour travaillé donnant droit à récupération","Create a new workperiod recover request for {{request.user.name}}":"Créer une nouvelle demande de récupération pour {{request.user.name}}","Create a recover quantity":"Créer une quantité à récupérer","Create a request on behalf of a user":"Créer une demande à la place de l'utilisateur","Create a right collection":"Créer un régime de congés","Create a right renewal":"Créer un renouvellement de droit","Create a right rule":"Créer un règle de droit","Create a right type":"Créer un type de droit","Create a user":"Créer un utilisateur","Create absence request between two dates, the request will be sent to your supervisor for approval":"Créer une demande d'absence entre deux dates, la demande sera envoyée à votre supérieur hiérarchique pour approbation.","Create an adjustment every":"Créer un ajustement tous les","Create first administrator":"Créer le premier administrateur","Create leaves for users in":"Créer des congés pour les utilisateurs dans un","Create new request":"Créer une nouvelle demande","Create the first user":"Créer le premier utilisateur","Created the":"Créé le","Current rights collection:":"Régime de congés en cours :","Current workschedule calendar:":"Agenda du rythme de travail en cours :","Date":"Date","day":["jour","jours"],"Day":["Jour","Jours"],"Days":"Jours","Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights":"Déclarer une période travaillée en dehors de vos horaires de travail habituels, la demande sera envoyée à votre chef de service pour approbation et vous fera bénéficier de droits de congés supplémentaires.","Default absence length":"Durée de l'absence par défaut","Default quantity":"Quantité par défaut","Default quantity on start renewal:":"Quantité au début du renouvellement :","Define the periods that will be used to measure the consumed quantity":"Définir les périodes qui serons utilisées pour mesurer la quantité consommée","Delete":"Supprimer","Deletion":"Suppression","Department":"Service","Department Management":["Gestion du service","Gestion des services"],"Department manager":"Chef de service","Department name":"Nom du service","Department:":"Service :","departments":"services","Departments":"Services","Departments supervision":"Supervision des services","Departments to supervise with request approvals":"Services à superviser lors des demandes d'approbation","Description":"Description","Disconnect":"Se déconnecter","Display type folded in the request creation page":"Afficher le type plié sur la page de création de la demande","Distribution":"Répartition","Do not add monthly quantity if renewal quantity greater than":"Ne pas ajouter la quantité mensuelle si la quantité du renouvellement est supérieure à","Do not notify the user when a request is accepted or rejected":"Ne pas notifier l'utilisateur lorsque la demande est acceptée ou refusée","Do not require approval":"Ne requiert pas d'approbation","Do you really want to delete this invitation?":"Voulez-vous vraiment supprimer cette invitation?","done":"fait","Download":"Téléchargement","Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave":"La durée ne correspond pas : {duration} heures restent non consommées après la création de {nbEvents} événements, veuillez vérifier votre période d'absence, elle ne doit pas être à cheval sur un autre congé.","Edit":"Modifier","Edit a leave request from {{request.user.name}}":"Modifier une demande de congé pour {{request.user.name}}","Edit a time saving deposit for {{request.user.name}}":"Modifier un dépôt sur le Compte Épargne Temps pour {{request.user.name}}","Edit a time saving deposit request":"Modifier un dépôt sur le Compte Épargne Temps","Edit a vacation request":"Modifier une demande d'absence","Edit a workperiod recover request":"Modifier une période travaillée donnant droit à récupération","Edit a workperiod recover request for {{request.user.name}}":"Modifier la demande récupération pour {{request.user.name}}","Edit leave right":"Modifier un droit de congé","Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|date}}":"Modifier la quantité pour le renouvellement du: {{renewal.start|date}} au: {{renewal.finish|date}}","Email":"Email","End date":"Date de fin","Enter Your Email:":"Entrez votre email :","Entitlement quantity:":"Quantité récupérée :","Entry date":"Date d'écriture","Exceptional quantity modifications":"Modification exceptionnelle de la quantité","Export balance":"Export des soldes","Export for Sage":"Export pour Sage","Export in sage format":"Export dans le format Sage","Export in XLSX file":"Exporter dans une feuille de calcul XLSX","Export in XLSX spreadsheet":"Exporter dans une feuille de calcul XLSX","Export requests":"Exporter les demandes","Export requests between two dates for all your users or a balance status of all your users rights on a specific date. The output format is a spreadsheet in the Office Open XML format (.xlsx)":"Exporter les demandes entre deux dates pour tous les utilisateurs ou le solde des droits de tous les utilisateurs à une date précise. Le format de sortie est un tableau Office Open XML (.xlsx)","Export requests for your monthy payroll in sage, only users with the sage registration number set will be exported":"Exporter les demandes pour les fiches de paye mensuelles dans sage, seulement les utilisateurs avec un matricule sage enregistré serons exportés","Exports":"Exports","Finish":"Fin","Firstname":"Prénom","Folded":"Plié","Follow Gadael on your favorite social network!":"Suivez Gadael sur votre réseau social favori!","For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.":"Pour une absence démarrant aujourd'hui, si la date d'ancienneté est entre le {{estimated.min|date}} et le {{estimated.max|date}}, le droit sera disponible.","For example, R&D or HR...":"Par exemple, R&D ou RH...","Forget your password?":"Mot de passe oublié?","Forgot Your Password?":"Mot de passe oublié?","Friday":"Vendredi","from":"de","From":"Du","From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}":"Du {{accountRight.renewal.start|date}} au {{accountRight.renewal.finish|date}}","From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}":"Du {{selection.begin|date:'medium'}}, au {{selection.end|date:'medium'}}","From date:":"Depuis le :","From right":"Depuis le droit","From right:":"Depuis le droit :","From:":"De :","Gadael - %s":"Gadael - %s","Get only periods from the following types:":"Sélectionner seulement les périodes depuis les types :","Google login":"Se connecter par Google","Group title for rights (plural form)":"Titre du groupe de droits (forme plurielle)","Half day hour":"Heure de la demi-journée","Home":"Accueil","hour":["heure","heures"],"Hour":"Heure","Hours":"Heures","If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.":"Si la règle n'est pas vérifiée, le droit ne sera pas disponible lors de la deuxième étape de la demande, après avoir défini les dates de la période demandée.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating":"Si la règle n'est pas vérifiée, le droit ne sera pas visible par l'utilisateur dans la liste de ces droits et lors de la répartition.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:":"Si la règle n'est pas vérifiée, le droit ne sera pas visible par l'utilisateur dans la liste de ces droits et lors de la répartition :","Ignore consumption beyond":"Ignorer la consommation au delà de","Initial quantity on renewal creation":"Quantité par défaut à la création d'un renouvellement","Initial quantity without this user personal adjustments":"Quantité initiale sans les ajustements de l'utilisateur","Initial quantity:":"Quantité initiale :","Initial:":"Initiale :","Input quantity must be set":"La quantité saisie doit être définie","Insert the invited users into a department":"Insérer les invités dans un service","Interventions history":"Historique des interventions","Invitations":"Invitations","Invite a list of persons to register":"Inviter une liste de personnes à s'inscrire","Invite new members to your application":"Inviter des nouveaux membres sur votre application","Invite someone":"Inviter quelqu'un","Justification, write about this manual adjustment":"Justificatif à propos de cet ajustement manuel","Last renewal:":"Dernier renouvellement :","Last update:":"Dernière mise à jour :","Lastname":"Nom","Lastname or firstname":"Nom ou prénom","Leave period":"Période de congé","Leave periods":"Périodes de congé","Leave right":"Droit de congé","Leaves managment":"Gestion des absences","Leaves requests can not be reserved over these periods":"Des demandes d'absences ne peuvent pas être réservées sur ces périodes","Leaves requests must be included in this calendar":"Les demandes de congés doivent être créées dans les événements de cet agenda","Legal absence length":"Durée légale de l'absence","Legal absence length:":"Durée légale de l'absence :","Legal duration:":"Durée légale :","Legal leave duration":"Durée légale du congé :","Legal leave duration:":"Durée légale du congé :","Legal quantity for one leave":"Quantité légale pour un congé","Limit in additional business days consumption in one renewal":"Limite des jours travaillés supplémentaires consommés dans un renouvellement","Link with your google calendar":"Lien vers votre agenda Google","List of emails to invite, one per line":"Liste des emails à inviter, une adresse par ligne","Loading...":"Chargement...","Login":"Connexion","Managed department:":"Service supervisés :","Manager, substituting one of his subordinates":"Chef de service, se substituant à l'un de ces subordonnés","Max quantity:":"Quantité maximale :","Maximal consumed quantity:":"Quantité maximale consommée","Maximal number of days between entry date and request end date":"Nombre maximal de jours entre la date de la demande et la date de fin de la période demandée","Minimal consumed quantity:":"Quantité minimale consommée","Minimal number of days between entry date and request start date":"Nombre minimal de jours entre la date de la demande et la date de début de la période demandée","Modify a compulsory leave":"Modifier un congé obligatoire","Modify a department":"Modifier un service","Modify a leave right":"Modifier un droit de congés","Modify a recover quantity":"Modifier une quantité récupérée","Modify a right collection":"Modifier un régime de congés","Modify a right renewal":"Modifier un renouvellement de droit","Modify a right rule":"Modifier une règle de droit","Modify a right type":"Modifier un type de droit","Modify a user":"Modifier un utilisateur","Monday":"Lundi","Monthly additions:":"Ajouts mensuels :","Move some of your vacation rights to your time saving account, the request will be sent to your supervisor for approval":"Déplacer une partie de vos droits de congés vers votre compte épargne temps, la demande sera envoyée à votre chef de service pour approbation","My account":"Mon compte","My department":"Mon service","My department: {{sessionUser.department.name}}":"Mon service : {{sessionUser.department.name}}","My rights":"Mes droits","My vacations":"Mes congés","Name":"Nom","Name of the event to recover":"Nom de l'événement à récupérer","New account created":"Nouveau compte créé","New department":"Nouveau service","New leave request for {{request.user.name}}":"Nouvelle demande de congé pour {{request.user.name}}","New password":"Nouveau mot de passe","New Password:":"Nouveau mot de passe :","New user":"Nouvel utilisateur","Next collection":"Régime suivant","Next page":"Page suivante","No active renewal":"Pas de renouvellement actif","No available time saving account":"Pas de compte épargne temps disponible","No constraints on right parameters":"Pas de contraintes sur les paramètres du droit","No initial quantity, unbounded right":"Pas de quantité initial, droit non borné","No open period":"pas de période ouverte","No special behaviour":"Pas de comportement spécifique","Non working days":"Jours fériés","Non-working days calendar":"Agenda des jours fériés","Non-working days planning":"Agenda des jours fériés","Non-working days scheduling for {{user.lastname}} {{user.firstname}}":"Agenda des jours fériés pour {{user.lastname}} {{user.firstname}}","Nonworking days":"Jours fériés","Nothing to approve":"Rien à approuver","Nothing to save":"Rien à enregistrer","Notifications options:":"Options des notifications :","Notifications parameters":"Paramètres des notifications","Notify me when a request is accepted or rejected":"Me notifier si une demande a été acceptée ou refusée","Notify the user when a request is accepted or rejected":"Notifier l'utilisateur lorsqu'une demande est acceptée ou rejetée","Number of years before the entry start date to set the period end:":"Nombre d'années avant la date de début de la demande pour définir la fin de la période :","On request creation, the user will be notified if period does not match legal duration.":"Lors de la création de la demande, l'utilisateur sera prévenu si la période ne correspond pas à la durée légale.","One right":["Un droit","{{$count}} droits"],"One year old":["un an d'ancienneté","{{$count}} ans d'anciennetés"],"One year seniority":["un an d'ancienneté","{{$count}} ans d'anciennetés"],"Ongoing approval steps":"étapes d'approbation en cours","Only the rights out of user collection are listed here, you can add more rights only if they are lot linked to a collection.\n                According to the same principle, the rights linked to users will not be available to build a collection.":"Seul les droits hors régime sont listés ici, vous pouvez ajouter plus de droits seulement s'ils ne sont pas liés à un régime.\nSelon le même principe, les droits liés à des utilisateurs ne serons pas disponibles pour créer un régime.","Options":"Options","or":"ou","Or set the available quantity":"Ou définir la quantité disponible","Out of collection right":"Droit hors régime","Owner user account":"Compte utilisateur du propriétaire","Package agreement worked days":"Jours travaillés de la convention collective","Parent department":"Service parent","Password":"Mot de passe","Password Strength:":"Solidité du mot de passe :","Password:":"Mot de passe :","Period end":"Fin de période","Period is booked":"La période est réservée","Personal calendar":"Agenda personnel","Please create the first admin account to continue.":"Veuillez créer le premier administrateur pour continuer.","Please log into the application to see your account informations":"Veuillez vous connecter à l'application pour voir les informations de votre compte","Please setup your account.":"Veuillez configurer votre compte.","Previous collection":"Régime de congés précédent","Previous page":"Page précédente","Proceed to the request creation with one of the following:":"Procéder à la création de la demande avec un des boutons suivants :","Proportional to attendance":"Proportionnel à la présence","Quantity":"Quantité","Quantity consumption for part-time right collections":"Consommation pour les régimes à temps partiel","Quantity from the request in modification":"Quantité de la demande en cours de modification","Quantity provided on each renewals":"Quantité fournie à chaque renouvellements","Quantity to add every month":"Quantité à ajouter tout les mois","Quantity to recover from the event":"Quantité à récupérer pour l'événement","Quantity to spare":"Quantité à épargner","Quantity unit":"Unité","Quantity unit to use in interval modification:":"Unité à utiliser pour la modification de l'intervalle :","Recover quantities":"Quantités à récupérer","Recovery claimed":"Récupération revendiquée","Recovery request summary":"Résumé de la demande de récupération","Reject":"Refuser","Rejected":"Refusée","Remove":"Enlever","Remove booked periods":"Supprimer les périodes réservées","Remove the leave on all users with a booked period":"Retirer le congé pour tous les utilisateurs avec un période réservée","Renewal":"Renouvellement","Renewals":"Renouvellements","Renewals with remaining quantity":"Renouvellements avec une quantité restante","Request in user interval":"Demande dans l'intervalle utilisateur","Request period":"Période de la demande","Requests":"Demandes","Requests waiting for approval":"Demandes en attente d'approbation","Require approval":"Requiert une approbation","Reset Your Password?":"Réinitialiser votre mot de passe?","Right collections":"Régimes de congés","Right collections scheduling for {{user.lastname}} {{user.firstname}}":"Planification des régimes de congés pour {{user.lastname}} {{user.firstname}}","Right given name:":"Nom du droit :","Right is visible when request period is in period set on the user/right link":"Le droit est visible quand la demande est dans la période définie sur le lien utilisateur/droit","Right is visible when request period is in the renewal period":"Le droit est visible quand la demande est dans la période du renouvellement","Right is visible when the request creation date is in the renewal period":"Le droit est visible quand la date de création de la demande est dans la période du renouvellement","Right is visible when the request period is in a period relative to the user birth date":"Le droit est visible quand la demande est dans une période relative à la date de naissance de l'utilisateur","Right is visible when the request period is in a period relative to the user seniority date":"Le droit est visible quand la période de la demande est dans une période relative à la date d'ancienneté de l'utilisateur","Right is visible when the user has consumed a quantity defined for a right type on a period":"Le droit est visible quand l'utilisateur à consommé la quantité définie pour le type de droit sur la période","Right name":"Nom du droit","Right quantity claimed by recovery:":"Quantité revendiquée par récupération :","Right type name":"Nom du type de droit","Right type to test":"Type de droit à tester","Right:":"Droit :","Rights collection":"Régime de congés","Rights collections":"Régimes de congés","Rights distribution":"Répartition des droits","Rights list":"Liste des droits","Rights types":"Types de droits","Roles":"Rôles","Roles:":"Rôles :","Rule title, this will be visible from users":"Titre de la règle, ceci sera visible par les utilisateurs","Rule type:":"Type de règle :","Rules":"Règles","Sage registration number":"Numéro de matricule Sage","Sage registration number:":"Numéro de matricule Sage :","Same as the non-working duration":"Identique à la durée non-travaillée","Saturday":"Samedi","Save":"Enregistrer","Save in account":"Enregistrer dans le compte","Save leave periods to":"Enregistrer les périodes de congés dans","Saved quantity:":"Quantité épargnée :","Saving limit per renewals":"Limite d'épargne par renouvellement","Saving period":"Période d'épargne","Schedule calendar":"Agenda des horaires travaillés","School holidays":"Vacances scolaires","School holidays will be displayed on the bottom of the reservation calendar":"Les vacances scolaires serons affichées en bas de l'agenda de réservation","Search in calendars":"Rechercher dans les agendas","Search in collections":"Rechercher dans les régimes","Search in compulsory leaves":"Rechercher dans les congés obligatoires","Search in departments":"Rechercher dans les services","Search in recover quantities":"Rechercher dans les récupérations","Search in requests":"Rechercher dans les demandes","Search in right types":"Rechercher dans les types de droits","Search in rights":"Rechercher parmi les droits","Search in users":"Rechercher dans les utilisateurs","Search:":"Rechercher :","Select rule type":"Sélectionner le type de la règle","Select types":"Sélectionner les types","Select unit":"Sélectionner l'unité","Selected duration:":"Durée sélectionnée :","Selected recovery:":"Récupération sélectionnée :","Send invitations":"Envoyer les invitations","Send Reset":"Réinitialiser","Seniority":"Ancienneté","Seniority date:":"Date d'anciennetée","Seniority start date":"Date de début d'anciennetée","Set a new password":"Définir un nouveau mot de passe","Set a non-working days calendar":"Définir un agenda des jours fériés","Set password":"Définir le mot de passe","Set Password":"Définir le mot de passe","Set the adjustment quantity":"Définir la quantité de l'ajustement","Set the consumed quantity interval where the rule will be valid":"Définir l'intervale de quantité consommée ou la règle sera valide","Set the department where the invited peoples will be recorded":"Définir le service ou vos invités serons enregistrés","Set the new department name":"Définir le nom du nouveau service","Settings":"Paramètres","Sign In":"Connexion","Some renewals are invalids":"Certains renouvellements ne sont pas valides","Sort absence rights":"Ordonner les droits d'absence","Sort rights":"Ordonner les droits","Sort rights in type":"Ordonner les droits dans le type","Special right:":"Droit spécial :","Start":"Début","Status":"État","Status:":"État :","Step {{step}} approver":"Approbateur de l'étape {{step}}","Sub-departments":"Sous-services","Sunday":"Dimanche","Supervisor":"Supérieur hiérarchique","Supervisors":"Chefs de service","The application is in maintenance, requests will not be modifiables":"L'application est en maintenance, les demandes ne serons pas modifiables","The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained.":"L'heure du milieu de journée est utilisé pour convertir les heures en jours, par exemple, si une période termine après l'heure de milieu de journée, une durée de 0,5 jour supplémentaire sera ajoutée à la matinée.","The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly":"Les périodes de congés qui chevauchent la période d'extraction seront modifiées pour tenir exactement dans la période, le nombre de jours reporté sera modifié en fonction","The number of active users is limited by your plan level":"Le nombre d'utilisateurs actifs est limité par le niveau de votre abonnement","The optional period configured here can be used as a reference in right rules.":"La période optionnelle configurée ici peut être utilisée comme référence dans les règles de droits.","The right is linked to collections":"Le droit est lié à des régimes","The right is linked to users":"Le droit est lié à des utilisateurs","The right will be available only if the user is beetween {{rightrule.interval.min}} years old and {{rightrule.interval.max}} years old on the first day of the requested leave.":"Le droit sera disponible seulement si l'utilisateur a entre {{rightrule.interval.min}} ans et {{rightrule.interval.max}} ans au premier jour de la demande d'absence.","The start renewal quantity is dynamicaly computed":"La quantité initiale d'un renouvellement est calculée dynamiquement","The user can have vacations rights, absences requests, time saving account ...":"L'utilisateur peut avoir des droits de congés, des demandes de congés, un compte épargne temps ...","The user can manager other users and departments, the application parameters ...":"L'utilisateur peut gérer les autres utilisateurs et les services, tous les paramètres de l'application...","The user is allowed to log in":"Cet utilisateur peut se connecter à l'application","The user may be involved in the validation of requests by the members of his deparment":"L'utilisateur peut être impliqué dans la validation des demandes des membres de son service","The users will create their accounts on their first connexion!":"Vos utilisateurs vont créer leurs comptes lors de leur première connexion!","There are no configured rights to display":"Il n'y a pas de droits configurés à afficher","This application is provided to you by {{company.name}}":"Cette application vous est proposée par {{company.name}}","This functionality is not yet available":"Cette fonctionnalité n'est pas encore disponible","This manager has no departments configured for approval":"Ce gestionnaire n'a aucun régime configuré pour l'approbation","This right has no configured renewals":"Ce droit n'a pas de renouvellements configurées","This right has no configured rules":"Le droit n'a pas de règles configurées","This user can not connect to the application":"Cet utilisateur ne peut pas se connecter à l'application","This user has no configured non-working days":"Cet utilisateur n'a pas de jours fériés configurés","This user has no configured specific quantity, rights are set by collection only":"Cet utilisateur n'a pas de quantité spécifique configurée, les droits sont définis uniquement par le régime","This user has no configured vacation rights for the current period":"Cet utilisateur n'a pas de droits de congés configuré pour la période en cours","This user has no configured work schedule":"Cet utilisateur n'a pas de rythme de travail configuré","This user has no ongoing right collection, check the vacations collections planning to fix it":"Cet utilisateur n'a pas de régime de congés, vérifiez le planning des régimes pour corriger cela","This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it":"Cet utilisateur n'a pas de d'horaires de travail, vérifiez le planning des horaires de travail pour corriger cela.","This value is used to establish a proportionality beetween rights in days and rights in hours":"Cette valeur est utilisée pour établir une proportionnalité entre les droits en jours et les droits en heures","Thursday":"Jeudi","Time saving account deposit":"Dépôt sur le Compte Épargne Temps","Time saving deposit":"Dépôt d'épargne Temps","Time saving deposit request":"Demande de dépôt sur le compte épargne temps","Title":"Titre","to":"au","To":"Au","To pick-up on right":"À prendre sur le droit","To right":"Vers le droit","To right:":"Vers le droit :","To supervise collaborators, a department with members must be associated to user first":"Pour superviser les collaborateurs, un service contenant des membres doit être associé à l'utilisateur","To:":"Au :","Total consumption:":"Consommation totale :","Total duration:":"Durée totale :","Tuesday":"Mardi","Type":"Type","Type:":"Type :","Up to {{renewal.finish|date}}":"Jusqu'au {{renewal.finish|date}}","Url of the calendar ICS file":"Url du fichier ICS de l'agenda","Usage period":"Période d'utilisation","Use default active span":"Utiliser la période d'ouverture par défaut","Use default saving interval (renewal interval)":"Utiliser la période d'épargne par défaut (période du renouvellement)","Use the approval workflow on this request":"Lancer l'approbation sur cette demande","User account":"Compte utilisateur","User quantity":"Quantité de l'utilisateur","User requests":"Demandes de l'utilisateur","Users":"Utilisateurs","Users list":"Liste des utilisateurs","Users will not be allowed to consume more than this value on one request, except if the default length is set to zero.":"Les utilisateurs ne serons pas autorisés à consommer plus que cette valeur sur une demande, sauf si la valeur par défaut est zero.","Using this feature, you save the vacation right entitlement for future use":"En utilisant cette fonctionnalité, vous épargnez vos droits de congés pour une utilisation ultérieure.","Vacation request":"Demande d'absences","Vacation right":"Droit d'absence","Vacation right:":"Droit d'absence :","Vacation rights in collection":"Droits de congés du régime","Vacations collections planning":"Planning des régimes de congés","Vacations rights":"Droits d'absences","Valid users:":"Utilisateurs valides :","View":"Voir","View calendar":"Voir l'agenda","View more":"Voir plus","View rights":"Voir les droits","View sub-departments":"Voir les sous-services","Waiting":"En attente","Waiting {{request.dispType}} request":"Demande de {{request.dispType}} en attente d'approbation","Waiting approval":"En attente d'approbation","Waiting approval for delete":"En attente d'approbation de suppression","Waiting approval:":"En attente d'approbation :","Waiting delete approval":"En attente de suppression","Waiting delete approval:":"En attente de la validation de suppression :","Waiting for response":"En attente de réponse","Waiting:":"En attente :","Wednesday":"Mercredi","Wellcome":"Bienvenue","Wellcome to Gadael":"Bienvenue sur Gadael","Wellcome to your absence manager":"Bienvenue dans votre gestionnaire d'absences","Work schedule":"Rythme de travail","Worked duration:":"Durée travaillée :","Working time recover request":"Demande de récupération pour une période travaillée","Workperiod recover":"Récupération de jour travaillé","Workperiod recover request":"Demande de récupération de jours travaillés","Workschedule planning":"Planning des heures travaillées","Worperiod recover":"Récupération de jours travaillés","Wrong events count":"Le nombre d'événements n'est pas correct","Years":"ans","Years after the birth date to set the period end:":"Années après la date naissance pour définir la fin de la période :","Years after the birth date to set the period start:":"Années après la date de naissance pour définir le début de la période :","Years are ignored and computed back to fit in the renewal period, as a consequence, this rule type will work only with yearly or less renewal periods.":"Les années sont ignorées et recalculées pour êtres contenues dans la période du renouvellement, cela à pour conséquence que ce type de règle fonctionne que pour les périodes d'une année ou moins.","Years before renewal end date":"Années avant la date de fin du renouvellement","Years before renewal start date":"Années avant la date de début du renouvellement","Years before the entry start date to set the period start:":"Années avant la date de début de la demande pour définir le début de la période :","You can invite someone to use this application if you know his email.":"Vous pouvez inviter quelqu'un à utiliser cette application si vous connaissez son adresse email.","You have been invited by {{invitation.createdBy.name}} to create an account on the leave management application!":"Vous avez été invité par {{invitation.createdBy.name}} pour créer un compte sur l'application de gestion des congés!","You must input one email address at least":"Vous devez renseigner au moins une adresse email","You must link this right to a collection or users so that it is accessible":"Vous devez lier ce droit à un régime ou à des utilisateurs pour qu'il soit accessible","Your account have no access to a rôle in this application,\n            the administrators have been made aware of the problem. You will be notified by email when they give you access\n            to your absences rights account.":"Votre compte n'a accès a aucun rôle dans cette application,\n            les administrateurs ont été informés de ce problème. Vous serez notifié par email quand ils vous donnerons accès\n            à votre compte de droits d'absences.","Your account parameters":"Les paramètres de votre compte","Your calendar is connected":"Votre agenda est connecté","Your calendar is not connected":"Votre agenda n'est pas connecté","Your email:":"Votre email :","Your leave plan or work regime":"Votre régime de congé","Your only role on the application is administrator, you can update your own account using the administration ➤ users menu":"Votre seul rôle sur l'application est administrateur, vous pouvez mettre à jour votre compte en utilisant le menu administration ➤ utilisateurs","Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights":"Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) doit être répartie parmi les droits de congés suivants","Your workschedule for a week":"Votre rythme de travail sur une semaine","New leave right":"Nouveau droit de congé","New absence right":"Nouveau droit d'absence","Your leave rights collection":"Votre de régime de congés","Username or Email:":"Identifiant ou email :","Account":"Compte","Manager":"Gestionnaire","Consumption on the selected period: {{selection.days}} or {{selection.hours}}":"Consommation sur la période sélectionnée : {{selection.days}} ou {{selection.hours}}","Do not notify on approvals":"Ne pas notifier en cas d'approbation","Do not notify on new rights allocations":"Ne pas notifier lors de l'attribution de nouveaux droits","Notify me when new vacation rights are opened or closed for my account":"Me notifier si des droits de congés ont été ouverts ou fermés sur mon compte","Notify on approval":"Notifier lors de l'approbation","Notify on approvals":"Notifier lors des approbations","Notify on new rights allocations":"Notifier lors de l'attribution de nouveaux droits de congés","Notify on vacation rights allocation":"Notifier lors de l'attribution de droits de congés","Add quantity to the right according to the seniority":"Ajouter la quantité au droit en fonction de l'ancienneté","Group rights in a foldable subtree":"Droits du groupe dans un arbre repliable","Grouped rights":"Droits groupés","Use this right as a deposit target for time saving deposits requests":"Utiliser ce droit comme la cible du dépôt des versements sur le compte épargne temps","Montly additions:":"Ajouts mensuels :","This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.":"Ceci est un template pour un site marketing simple","Admin summary":"Résumé des fonctions d'administration","Calendars list":"Liste des agendas","Collections list":"Liste des régimes","Logout":"Se déconnecter","Or sign in using...":"Ou connectez-vous avec...","Request a vacation period":"Demander une période de congés","Rights configuration":"Configuration des droits","Sign up":"S'inscrire"});
+    gettextCatalog.setStrings('fr', {"{{renewalChart.percentDays|number}}% consumed":"{{renewalChart.percentDays|number}}% consommé","{{usersstat.activeUsers}} users / {{company.max_users}} Max":"{{usersstat.activeUsers}} utilisateurs / {{company.max_users}} Max","{quantity} up to {date}":"{quantity} jusqu'au {date}","1 day":["1 jour","{{deposit.quantity| number}} jours"],"1 hour":["1 heure","{{deposit.quantity| number}} heures"],"A department is a group of employees, managers may be assigned to the approval of leave requests made by the department members":"Un service est un groupe d'employés, des gestionnaires peuvent êtres affectés à l'approbation des demandes de congés effectuées par les membres du service","A user account is required to continue":"Un compte utilisateur est requis pour continuer","Absence":"Absence","Absence request":"Demande d'absence","Absence rights":"Droit d'absences","Absences account":"Compte utilisateur \"Absences\"","Absences user account":"Compte utilisateur \"Absences\"","Accept":"Accepter","Accepted":"Accepté","Activate the out of collection right according to the request period":"Activer le droit hors régime en fonction de la période demandée","Activate the right according to consumed quantity":"Activer le droit en fonction de la quantité consommée","Activate the right according to the age":"Activer le droit en fonction de l'âge","Activate the right according to the consumed quantity on a right type":"Activer le droit en fonction de la quantité consommée sur un type de droit","Activate the right according to the entry creation date":"Activer le droit en fonction de la date de création de la demande","Activate the right according to the request period":"Activer le droit en fonction de la période demandée","Activate the right according to the seniority":"Activer le droit en fonction de l'ancienneté","Activate the right according to the user age":"Activer le droit en fonction de l'âge de l'utilisateur","Activate the right according to the user seniority":"Activer le droit en fonction de l'ancienneté","Active for the administrator":"Actif pour l'administrateur","Active for the user":"Actif pour l'utilisateur","Active for:":"Actif pour :","Actual quantity:":"Quantité actuelle :","Add":"Ajouter","Add a calendar":"Ajouter un agenda","Add a list of of email addresses and send the invitations":"Ajouter une liste d'adresses emails et envoyer les invitations","Add a quantity adjustment":"Ajouter un ajustement","Add a recover quantity":"Ajouter une quantité à récupérer","Add a request":"Ajouter une demande","Add a request...":"Ajouter une demande...","Add Collection":"Ajouter un régime","Add compulsory leave":"Ajouter un congé obligatoire","Add Department":"Ajouter un service","Add period":"Ajouter une période","Add right":"Ajouter un droit","Add right collection":"Ajouter un régime de congés","Add Type":"Ajouter un type","Add User":"Ajouter un utilisateur","Add vacation right":"Ajouter un droits de congés","Addition / modification":"Ajout / modification","Additional days after the renewal end date:":"Jours supplémentaires après la date de fin du renouvellement :","Additional days before the renewal start date:":"Jours supplémentaires avant la date de début du renouvellement :","Additional rights scheduling for {{user.lastname}} {{user.firstname}}":"Planification des droits hors régime pour {{user.lastname}} {{user.firstname}}","Adjust the available quantity automatically from the consumption of other rights":"Ajuster la quantité disponible à partir de la consommation sur d'autres droits","Adjustements quantity":"Quantité des ajustements","adjustments included":"Ajustements inclus","Admin":"Administration","Admin, substituting one of his subordinates":"Administrateur, se substituant à l'un de ces subordonnés","Administrator":"Administrateur","Age":"Âge","All managers must confirm approval step":"Tout les gestionnaires doivent confirmer l'étape d'approbation","All the users who accept the invitation will be saved into the same department, used for leave requests approval":"Tous les utilisateurs qui acceptent l'invitation serons enregistrés dans le même service, qui sera utilisé pour l'approbation des demandes de congé","Allow to save quantity from this right to the time deposit account":"Autoriser l'épargne de ce droit vers les comptes épargne temps","Always available":"Toujours disponible","An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on":"Un ajustement de {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} est automatiquement créé tous les {{right.autoAdjustment.step | number}} {{right.disp_unit}} consommés sur","Application administrator":"Administrateur de l'application","Approvers":"Approbateurs","Are you sure you want to delete the absence request?":"Êtes-vous sûr de vouloir supprimer cette demande d'absence?","Are you sure you want to delete this compulsory leave?":"Êtes-vous sûr de vouloir supprimer ce congé obligatoire?","Are you sure you want to delete this user?":"Êtes-vous sûr de vouloir supprimer cet utilisateur?","Arrival date":"Date d'arrivée","Arrival date:":"Date d'arrivée :","At least one manager must confirm approval step":"Au moins un approbateur doit approuver l'étape","At least one type must be selected":"Au moins un type doit être sélectionné","Attendance":"Présence","Attendance (percentage relative to full-time)":"Présence (pourcentage relatif au temps complet)","Author":"Auteur","Auto monthly update":"Mise à jour mensuelles automatiques","Automatic distribution of this right when creating a request":"Répartition automatique de la quantité sur ce droit lors de la création d'une demande","Availability duration after the period end date from the user/right link:":"Durée supplémentaires après la date de fin de la période définie sur le lien utilisateur/droit :","Availability duration after the renewal end date:":"Jours supplémentaires après la date de fin du renouvellement :","Availability duration before the period start date from the user/right link:":"Durée supplémentaires avant la date de début de la période définie sur le lien utilisateur/droit :","Availability duration before the renewal start date:":"Jours supplémentaires avant la date de début du renouvellement :","Available for booking":"Disponible à la réservation","Available on period":"Disponible sur la période","Available on right":"Disponibilité du droit","Available quantity":"Quantité disponible","Available:":"Disponible :","Average hours per day":"Moyenne du nombre d'heures par jour","Back to Login":"Retour à l'authentification","Balance state the:":"État du solde le :","Begin date":"Date de début","Birth date":"Date de naissance","Birth date:":"Date de naissance :","Book available periods":"Réserver les périodes disponibles","Business days for the users associated to this collection":"Jours ouvrés pour les utilisateurs associés à ce régime","By collection:":"Par régime :","By department:":"Par service :","By name:":"Par nom :","By right:":"Par droit :","By status:":"Par état :","By type:":"Par type :","By user name:":"Par nom d'utilisateur :","calendar":"agenda","Calendar":"Agenda","Calendar name":"Nom de l'agenda","Calendar summary":"Résumé de l'agenda","Calendar type:":"Type d'agenda :","Calendars":"Agendas","Cancel":"Annuler","Change the initial quantity":"Modifier la quantité initiale","Change your password":"Modifier votre mot de passe","Choose from your remnant quantity":"Choisir à partir de votre quantité restante","Classification used for the creation of leave requests":"Classification utilisée pour la création des périodes de congé","Collaborators":"Collaborateurs","Collaborators to supervise with request approvals":"Collaborateurs à superviser lors des demandes d'approbation","Collection name":"Nom du régime","Collection on the selected period: {{collection.name}}":"Régime sur la période sélectionnée : {{collection.name}}","Collection:":"Régime :","collections":"régimes","Color":"Couleur","Comment":"Commentaire","Compulsory leave":"Congé imposé","Compulsory leave name (this will be visible on users calendars)":"Nom du congé obligatoire (il sera visible sur les agendas des utilisateurs)","Compulsory leaves":"Congés obligatoires","Confirm new password":"Confirmer le nouveau mot de passe","Confirm password":"Confirmer le mot de passe","Confirm Password:":"Confirmer le mot de passe :","Confirmed":"Confirmé","Congratulation, this server has just been created and contain no users, please do not leave it that way.":"Félicitations, ce serveur viens d'être créé et ne contient pas d'utilisateurs, vous pouvez corriger cela!","Connect":"Connecter","Consume next business days":"Consommer le jour travaillé suivant","Consume worked days":"Utiliser les jours travaillés","Consumed":"Consommé","Consumed on types":"Consommée sur les types","Consumed quantity":"Quantité consommée","Consumed:":"Consommé :","Consumption":"Consommation","Consuption":"Consommation","Continue":"Continuer","Create a compulsory leave":"Créer un congé obligatoire","Create a department":"Créer un service","Create a leave on all valid users":"Créer un congé sur tous les utilisateurs valides","Create a leave right":"Créer un droit d'absence","Create a new department":"Créer un nouveau service","Create a new secondary calendar in your google account to host a copy of your leave periods.":"Créer un nouvel agenda secondaire sur votre compte google pour héberger une copie de vos périodes de congés.","Create a new time saving deposit for {{request.user.name}}":"Créer un nouveau dépôt sur le Compte Épargne Temps pour {{request.user.name}}","Create a new time saving deposit request":"Créer un nouveau dépôt sur le Compte Épargne Temps","Create a new vacation request":"Créer une nouvelle demande d'absence","Create a new workperiod recover request":"Créer une nouvelle déclaration de jour travaillé donnant droit à récupération","Create a new workperiod recover request for {{request.user.name}}":"Créer une nouvelle demande de récupération pour {{request.user.name}}","Create a recover quantity":"Créer une quantité à récupérer","Create a request on behalf of a user":"Créer une demande à la place de l'utilisateur","Create a right collection":"Créer un régime de congés","Create a right renewal":"Créer un renouvellement de droit","Create a right rule":"Créer un règle de droit","Create a right type":"Créer un type de droit","Create a user":"Créer un utilisateur","Create absence request between two dates, the request will be sent to your supervisor for approval":"Créer une demande d'absence entre deux dates, la demande sera envoyée à votre supérieur hiérarchique pour approbation.","Create an adjustment every":"Créer un ajustement tous les","Create first administrator":"Créer le premier administrateur","Create leaves for users in":"Créer des congés pour les utilisateurs dans un","Create new request":"Créer une nouvelle demande","Create the first user":"Créer le premier utilisateur","Created the":"Créé le","Current rights collection:":"Régime de congés en cours :","Current workschedule calendar:":"Agenda du rythme de travail en cours :","Date":"Date","day":["jour","jours"],"Day":["Jour","Jours"],"Days":"Jours","Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights":"Déclarer une période travaillée en dehors de vos horaires de travail habituels, la demande sera envoyée à votre chef de service pour approbation et vous fera bénéficier de droits de congés supplémentaires.","Default absence length":"Durée de l'absence par défaut","Default quantity":"Quantité par défaut","Default quantity on start renewal:":"Quantité au début du renouvellement :","Define the periods that will be used to measure the consumed quantity":"Définir les périodes qui serons utilisées pour mesurer la quantité consommée","Delete":"Supprimer","Deletion":"Suppression","Department":"Service","Department Management":["Gestion du service","Gestion des services"],"Department manager":"Chef de service","Department name":"Nom du service","Department:":"Service :","departments":"services","Departments":"Services","Departments supervision":"Supervision des services","Departments to supervise with request approvals":"Services à superviser lors des demandes d'approbation","Description":"Description","Disconnect":"Se déconnecter","Display type folded in the request creation page":"Afficher le type plié sur la page de création de la demande","Distribution":"Répartition","Do not add monthly quantity if renewal quantity greater than":"Ne pas ajouter la quantité mensuelle si la quantité du renouvellement est supérieure à","Do not notify the user when a request is accepted or rejected":"Ne pas notifier l'utilisateur lorsque la demande est acceptée ou refusée","Do not require approval":"Ne requiert pas d'approbation","Do you really want to delete this invitation?":"Voulez-vous vraiment supprimer cette invitation?","done":"fait","Download":"Téléchargement","Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave":"La durée ne correspond pas : {duration} heures restent non consommées après la création de {nbEvents} événements, veuillez vérifier votre période d'absence, elle ne doit pas être à cheval sur un autre congé.","Edit":"Modifier","Edit a leave request from {{request.user.name}}":"Modifier une demande de congé pour {{request.user.name}}","Edit a time saving deposit for {{request.user.name}}":"Modifier un dépôt sur le Compte Épargne Temps pour {{request.user.name}}","Edit a time saving deposit request":"Modifier un dépôt sur le Compte Épargne Temps","Edit a vacation request":"Modifier une demande d'absence","Edit a workperiod recover request":"Modifier une période travaillée donnant droit à récupération","Edit a workperiod recover request for {{request.user.name}}":"Modifier la demande récupération pour {{request.user.name}}","Edit leave right":"Modifier un droit de congé","Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|date}}":"Modifier la quantité pour le renouvellement du: {{renewal.start|date}} au: {{renewal.finish|date}}","Email":"Email","End date":"Date de fin","Enter Your Email:":"Entrez votre email :","Entitlement quantity:":"Quantité récupérée :","Entry date":"Date d'écriture","Exceptional quantity modifications":"Modification exceptionnelle de la quantité","Export balance":"Export des soldes","Export for Sage":"Export pour Sage","Export in sage format":"Export dans le format Sage","Export in XLSX file":"Exporter dans une feuille de calcul XLSX","Export in XLSX spreadsheet":"Exporter dans une feuille de calcul XLSX","Export requests":"Exporter les demandes","Export requests between two dates for all your users or a balance status of all your users rights on a specific date. The output format is a spreadsheet in the Office Open XML format (.xlsx)":"Exporter les demandes entre deux dates pour tous les utilisateurs ou le solde des droits de tous les utilisateurs à une date précise. Le format de sortie est un tableau Office Open XML (.xlsx)","Export requests for your monthy payroll in sage, only users with the sage registration number set will be exported":"Exporter les demandes pour les fiches de paye mensuelles dans sage, seulement les utilisateurs avec un matricule sage enregistré serons exportés","Exports":"Exports","Finish":"Fin","Firstname":"Prénom","Folded":"Plié","Follow Gadael on your favorite social network!":"Suivez Gadael sur votre réseau social favori!","For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.":"Pour une absence démarrant aujourd'hui, si la date d'ancienneté est entre le {{estimated.min|date}} et le {{estimated.max|date}}, le droit sera disponible.","For example, R&D or HR...":"Par exemple, R&D ou RH...","Forget your password?":"Mot de passe oublié?","Forgot Your Password?":"Mot de passe oublié?","Friday":"Vendredi","from":"de","From":"Du","From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}":"Du {{accountRight.renewal.start|date}} au {{accountRight.renewal.finish|date}}","From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}":"Du {{selection.begin|date:'medium'}}, au {{selection.end|date:'medium'}}","From date:":"Depuis le :","From right":"Depuis le droit","From right:":"Depuis le droit :","From:":"De :","Gadael - %s":"Gadael - %s","Get only periods from the following types:":"Sélectionner seulement les périodes depuis les types :","Google login":"Se connecter par Google","Group title for rights (plural form)":"Titre du groupe de droits (forme plurielle)","Half day hour":"Heure de la demi-journée","Home":"Accueil","hour":["heure","heures"],"Hour":"Heure","Hours":"Heures","If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.":"Si la règle n'est pas vérifiée, le droit ne sera pas disponible lors de la deuxième étape de la demande, après avoir défini les dates de la période demandée.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating":"Si la règle n'est pas vérifiée, le droit ne sera pas visible par l'utilisateur dans la liste de ces droits et lors de la répartition.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:":"Si la règle n'est pas vérifiée, le droit ne sera pas visible par l'utilisateur dans la liste de ces droits et lors de la répartition :","Ignore consumption beyond":"Ignorer la consommation au delà de","Initial quantity on renewal creation":"Quantité par défaut à la création d'un renouvellement","Initial quantity without this user personal adjustments":"Quantité initiale sans les ajustements de l'utilisateur","Initial quantity:":"Quantité initiale :","Initial:":"Initiale :","Input quantity must be set":"La quantité saisie doit être définie","Insert the invited users into a department":"Insérer les invités dans un service","Interventions history":"Historique des interventions","Invitations":"Invitations","Invite a list of persons to register":"Inviter une liste de personnes à s'inscrire","Invite new members to your application":"Inviter des nouveaux membres sur votre application","Invite someone":"Inviter quelqu'un","Justification, write about this manual adjustment":"Justificatif à propos de cet ajustement manuel","Last renewal:":"Dernier renouvellement :","Last update:":"Dernière mise à jour :","Lastname":"Nom","Lastname or firstname":"Nom ou prénom","Leave period":"Période de congé","Leave periods":"Périodes de congé","Leave right":"Droit de congé","Leaves managment":"Gestion des absences","Leaves requests can not be reserved over these periods":"Des demandes d'absences ne peuvent pas être réservées sur ces périodes","Leaves requests must be included in this calendar":"Les demandes de congés doivent être créées dans les événements de cet agenda","Legal absence length":"Durée légale de l'absence","Legal absence length:":"Durée légale de l'absence :","Legal duration:":"Durée légale :","Legal leave duration":"Durée légale du congé :","Legal leave duration:":"Durée légale du congé :","Legal quantity for one leave":"Quantité légale pour un congé","Limit in additional business days consumption in one renewal":"Limite des jours travaillés supplémentaires consommés dans un renouvellement","Link with your google calendar":"Lien vers votre agenda Google","List of emails to invite, one per line":"Liste des emails à inviter, une adresse par ligne","Loading...":"Chargement...","Login":"Connexion","Managed department:":"Service supervisés :","Manager, substituting one of his subordinates":"Chef de service, se substituant à l'un de ces subordonnés","Max quantity:":"Quantité maximale :","Maximal consumed quantity:":"Quantité maximale consommée","Maximal number of days between entry date and request end date":"Nombre maximal de jours entre la date de la demande et la date de fin de la période demandée","Minimal consumed quantity:":"Quantité minimale consommée","Minimal number of days between entry date and request start date":"Nombre minimal de jours entre la date de la demande et la date de début de la période demandée","Modify a compulsory leave":"Modifier un congé obligatoire","Modify a department":"Modifier un service","Modify a leave right":"Modifier un droit de congés","Modify a recover quantity":"Modifier une quantité récupérée","Modify a right collection":"Modifier un régime de congés","Modify a right renewal":"Modifier un renouvellement de droit","Modify a right rule":"Modifier une règle de droit","Modify a right type":"Modifier un type de droit","Modify a user":"Modifier un utilisateur","Monday":"Lundi","Monthly additions:":"Ajouts mensuels :","Move some of your vacation rights to your time saving account, the request will be sent to your supervisor for approval":"Déplacer une partie de vos droits de congés vers votre compte épargne temps, la demande sera envoyée à votre chef de service pour approbation","My account":"Mon compte","My department":"Mon service","My department: {{sessionUser.department.name}}":"Mon service : {{sessionUser.department.name}}","My rights":"Mes droits","My vacations":"Mes congés","Name":"Nom","Name of the event to recover":"Nom de l'événement à récupérer","New account created":"Nouveau compte créé","New department":"Nouveau service","New leave request for {{request.user.name}}":"Nouvelle demande de congé pour {{request.user.name}}","New password":"Nouveau mot de passe","New Password:":"Nouveau mot de passe :","New user":"Nouvel utilisateur","Next collection":"Régime suivant","Next page":"Page suivante","No active renewal":"Pas de renouvellement actif","No available time saving account":"Pas de compte épargne temps disponible","No constraints on right parameters":"Pas de contraintes sur les paramètres du droit","No initial quantity, unbounded right":"Pas de quantité initial, droit non borné","No open period":"pas de période ouverte","No special behaviour":"Pas de comportement spécifique","Non working days":"Jours fériés","Non-working days calendar":"Agenda des jours fériés","Non-working days planning":"Agenda des jours fériés","Non-working days scheduling for {{user.lastname}} {{user.firstname}}":"Agenda des jours fériés pour {{user.lastname}} {{user.firstname}}","Nonworking days":"Jours fériés","Nothing to approve":"Rien à approuver","Nothing to save":"Rien à enregistrer","Notifications options:":"Options des notifications :","Notifications parameters":"Paramètres des notifications","Notify me when a request is accepted or rejected":"Me notifier si une demande a été acceptée ou refusée","Notify the user when a request is accepted or rejected":"Notifier l'utilisateur lorsqu'une demande est acceptée ou rejetée","Number of years before the entry start date to set the period end:":"Nombre d'années avant la date de début de la demande pour définir la fin de la période :","On request creation, the user will be notified if period does not match legal duration.":"Lors de la création de la demande, l'utilisateur sera prévenu si la période ne correspond pas à la durée légale.","One right":["Un droit","{{$count}} droits"],"One year old":["un an d'ancienneté","{{$count}} ans d'anciennetés"],"One year seniority":["un an d'ancienneté","{{$count}} ans d'anciennetés"],"Ongoing approval steps":"étapes d'approbation en cours","Only the rights out of user collection are listed here, you can add more rights only if they are lot linked to a collection.\n                According to the same principle, the rights linked to users will not be available to build a collection.":"Seul les droits hors régime sont listés ici, vous pouvez ajouter plus de droits seulement s'ils ne sont pas liés à un régime.\nSelon le même principe, les droits liés à des utilisateurs ne serons pas disponibles pour créer un régime.","Options":"Options","or":"ou","Or set the available quantity":"Ou définir la quantité disponible","Out of collection right":"Droit hors régime","Owner user account":"Compte utilisateur du propriétaire","Package agreement worked days":"Jours travaillés de la convention collective","Parent department":"Service parent","Password":"Mot de passe","Password Strength:":"Solidité du mot de passe :","Password:":"Mot de passe :","Period end":"Fin de période","Period is booked":"La période est réservée","Personal calendar":"Agenda personnel","Please create the first admin account to continue.":"Veuillez créer le premier administrateur pour continuer.","Please log into the application to see your account informations":"Veuillez vous connecter à l'application pour voir les informations de votre compte","Please setup your account.":"Veuillez configurer votre compte.","Previous collection":"Régime de congés précédent","Previous page":"Page précédente","Proceed to the request creation with one of the following:":"Procéder à la création de la demande avec un des boutons suivants :","Proportional to attendance":"Proportionnel à la présence","Quantity":"Quantité","Quantity consumption for part-time right collections":"Consommation pour les régimes à temps partiel","Quantity from the request in modification":"Quantité de la demande en cours de modification","Quantity provided on each renewals":"Quantité fournie à chaque renouvellements","Quantity to add every month":"Quantité à ajouter tout les mois","Quantity to recover from the event":"Quantité à récupérer pour l'événement","Quantity to spare":"Quantité à épargner","Quantity unit":"Unité","Quantity unit to use in interval modification:":"Unité à utiliser pour la modification de l'intervalle :","Recover quantities":"Quantités à récupérer","Recovery claimed":"Récupération revendiquée","Recovery request summary":"Résumé de la demande de récupération","Reject":"Refuser","Rejected":"Refusée","Remove":"Enlever","Remove booked periods":"Supprimer les périodes réservées","Remove the leave on all users with a booked period":"Retirer le congé pour tous les utilisateurs avec un période réservée","Renewal":"Renouvellement","Renewals":"Renouvellements","Renewals with remaining quantity":"Renouvellements avec une quantité restante","Request in user interval":"Demande dans l'intervalle utilisateur","Request period":"Période de la demande","Requests":"Demandes","Requests waiting for approval":"Demandes en attente d'approbation","Require approval":"Requiert une approbation","Reset Your Password?":"Réinitialiser votre mot de passe?","Right collections":"Régimes de congés","Right collections scheduling for {{user.lastname}} {{user.firstname}}":"Planification des régimes de congés pour {{user.lastname}} {{user.firstname}}","Right given name:":"Nom du droit :","Right is visible when request period is in period set on the user/right link":"Le droit est visible quand la demande est dans la période définie sur le lien utilisateur/droit","Right is visible when request period is in the renewal period":"Le droit est visible quand la demande est dans la période du renouvellement","Right is visible when the request creation date is in the renewal period":"Le droit est visible quand la date de création de la demande est dans la période du renouvellement","Right is visible when the request period is in a period relative to the user birth date":"Le droit est visible quand la demande est dans une période relative à la date de naissance de l'utilisateur","Right is visible when the request period is in a period relative to the user seniority date":"Le droit est visible quand la période de la demande est dans une période relative à la date d'ancienneté de l'utilisateur","Right is visible when the user has consumed a quantity defined for a right type on a period":"Le droit est visible quand l'utilisateur à consommé la quantité définie pour le type de droit sur la période","Right name":"Nom du droit","Right quantity claimed by recovery:":"Quantité revendiquée par récupération :","Right type name":"Nom du type de droit","Right type to test":"Type de droit à tester","Right:":"Droit :","Rights collection":"Régime de congés","Rights collections":"Régimes de congés","Rights distribution":"Répartition des droits","Rights list":"Liste des droits","Rights types":"Types de droits","Roles":"Rôles","Roles:":"Rôles :","Rule title, this will be visible from users":"Titre de la règle, ceci sera visible par les utilisateurs","Rule type:":"Type de règle :","Rules":"Règles","Sage registration number":"Numéro de matricule Sage","Sage registration number:":"Numéro de matricule Sage :","Same as the non-working duration":"Identique à la durée non-travaillée","Saturday":"Samedi","Save":"Enregistrer","Save in account":"Enregistrer dans le compte","Save leave periods to":"Enregistrer les périodes de congés dans","Saved quantity:":"Quantité épargnée :","Saving limit per renewals":"Limite d'épargne par renouvellement","Saving period":"Période d'épargne","Schedule calendar":"Agenda des horaires travaillés","School holidays":"Vacances scolaires","School holidays will be displayed on the bottom of the reservation calendar":"Les vacances scolaires serons affichées en bas de l'agenda de réservation","Search in calendars":"Rechercher dans les agendas","Search in collections":"Rechercher dans les régimes","Search in compulsory leaves":"Rechercher dans les congés obligatoires","Search in departments":"Rechercher dans les services","Search in recover quantities":"Rechercher dans les récupérations","Search in requests":"Rechercher dans les demandes","Search in right types":"Rechercher dans les types de droits","Search in rights":"Rechercher parmi les droits","Search in users":"Rechercher dans les utilisateurs","Search:":"Rechercher :","Select rule type":"Sélectionner le type de la règle","Select types":"Sélectionner les types","Select unit":"Sélectionner l'unité","Selected duration:":"Durée sélectionnée :","Selected recovery:":"Récupération sélectionnée :","Send invitations":"Envoyer les invitations","Send Reset":"Réinitialiser","Seniority":"Ancienneté","Seniority date:":"Date d'anciennetée","Seniority start date":"Date de début d'anciennetée","Set a new password":"Définir un nouveau mot de passe","Set a non-working days calendar":"Définir un agenda des jours fériés","Set password":"Définir le mot de passe","Set Password":"Définir le mot de passe","Set the adjustment quantity":"Définir la quantité de l'ajustement","Set the consumed quantity interval where the rule will be valid":"Définir l'intervale de quantité consommée ou la règle sera valide","Set the department where the invited peoples will be recorded":"Définir le service ou vos invités serons enregistrés","Set the new department name":"Définir le nom du nouveau service","Settings":"Paramètres","Sign In":"Connexion","Some renewals are invalids":"Certains renouvellements ne sont pas valides","Sort absence rights":"Ordonner les droits d'absence","Sort rights":"Ordonner les droits","Sort rights in type":"Ordonner les droits dans le type","Special right:":"Droit spécial :","Start":"Début","Status":"État","Status:":"État :","Step {{step}} approver":"Approbateur de l'étape {{step}}","Sub-departments":"Sous-services","Sunday":"Dimanche","Supervisor":"Supérieur hiérarchique","Supervisors":"Chefs de service","The application is in maintenance, requests will not be modifiables":"L'application est en maintenance, les demandes ne serons pas modifiables","The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained.":"L'heure du milieu de journée est utilisé pour convertir les heures en jours, par exemple, si une période termine après l'heure de milieu de journée, une durée de 0,5 jour supplémentaire sera ajoutée à la matinée.","The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly":"Les périodes de congés qui chevauchent la période d'extraction seront modifiées pour tenir exactement dans la période, le nombre de jours reporté sera modifié en fonction","The number of active users is limited by your plan level":"Le nombre d'utilisateurs actifs est limité par le niveau de votre abonnement","The optional period configured here can be used as a reference in right rules.":"La période optionnelle configurée ici peut être utilisée comme référence dans les règles de droits.","The right is linked to collections":"Le droit est lié à des régimes","The right is linked to users":"Le droit est lié à des utilisateurs","The right will be available only if the user is beetween {{rightrule.interval.min}} years old and {{rightrule.interval.max}} years old on the first day of the requested leave.":"Le droit sera disponible seulement si l'utilisateur a entre {{rightrule.interval.min}} ans et {{rightrule.interval.max}} ans au premier jour de la demande d'absence.","The start renewal quantity is dynamicaly computed":"La quantité initiale d'un renouvellement est calculée dynamiquement","The user can have vacations rights, absences requests, time saving account ...":"L'utilisateur peut avoir des droits de congés, des demandes de congés, un compte épargne temps ...","The user can manager other users and departments, the application parameters ...":"L'utilisateur peut gérer les autres utilisateurs et les services, tous les paramètres de l'application...","The user is allowed to log in":"Cet utilisateur peut se connecter à l'application","The user may be involved in the validation of requests by the members of his deparment":"L'utilisateur peut être impliqué dans la validation des demandes des membres de son service","The users will create their accounts on their first connexion!":"Vos utilisateurs vont créer leurs comptes lors de leur première connexion!","There are no configured rights to display":"Il n'y a pas de droits configurés à afficher","This application is provided to you by {{company.name}}":"Cette application vous est proposée par {{company.name}}","This functionality is not yet available":"Cette fonctionnalité n'est pas encore disponible","This manager has no departments configured for approval":"Ce gestionnaire n'a aucun régime configuré pour l'approbation","This right has no configured renewals":"Ce droit n'a pas de renouvellements configurées","This right has no configured rules":"Le droit n'a pas de règles configurées","This user can not connect to the application":"Cet utilisateur ne peut pas se connecter à l'application","This user has no configured non-working days":"Cet utilisateur n'a pas de jours fériés configurés","This user has no configured specific quantity, rights are set by collection only":"Cet utilisateur n'a pas de quantité spécifique configurée, les droits sont définis uniquement par le régime","This user has no configured vacation rights for the current period":"Cet utilisateur n'a pas de droits de congés configuré pour la période en cours","This user has no configured work schedule":"Cet utilisateur n'a pas de rythme de travail configuré","This user has no ongoing right collection, check the vacations collections planning to fix it":"Cet utilisateur n'a pas de régime de congés, vérifiez le planning des régimes pour corriger cela","This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it":"Cet utilisateur n'a pas de d'horaires de travail, vérifiez le planning des horaires de travail pour corriger cela.","This value is used to establish a proportionality beetween rights in days and rights in hours":"Cette valeur est utilisée pour établir une proportionnalité entre les droits en jours et les droits en heures","Thursday":"Jeudi","Time saving account deposit":"Dépôt sur le Compte Épargne Temps","Time saving deposit":"Dépôt d'épargne Temps","Time saving deposit request":"Demande de dépôt sur le compte épargne temps","Title":"Titre","to":"au","To":"Au","To pick-up on right":"À prendre sur le droit","To right":"Vers le droit","To right:":"Vers le droit :","To supervise collaborators, a department with members must be associated to user first":"Pour superviser les collaborateurs, un service contenant des membres doit être associé à l'utilisateur","To:":"Au :","Total consumption:":"Consommation totale :","Total duration:":"Durée totale :","Tuesday":"Mardi","Type":"Type","Type:":"Type :","Up to {{renewal.finish|date}}":"Jusqu'au {{renewal.finish|date}}","Url of the calendar ICS file":"Url du fichier ICS de l'agenda","Usage period":"Période d'utilisation","Use default active span":"Utiliser la période d'ouverture par défaut","Use default saving interval (renewal interval)":"Utiliser la période d'épargne par défaut (période du renouvellement)","Use the approval workflow on this request":"Lancer l'approbation sur cette demande","User account":"Compte utilisateur","User quantity":"Quantité de l'utilisateur","User requests":"Demandes de l'utilisateur","Users":"Utilisateurs","Users list":"Liste des utilisateurs","Users will not be allowed to consume more than this value on one request, except if the default length is set to zero.":"Les utilisateurs ne serons pas autorisés à consommer plus que cette valeur sur une demande, sauf si la valeur par défaut est zero.","Using this feature, you save the vacation right entitlement for future use":"En utilisant cette fonctionnalité, vous épargnez vos droits de congés pour une utilisation ultérieure.","Vacation request":"Demande d'absences","Vacation right":"Droit d'absence","Vacation right:":"Droit d'absence :","Vacation rights in collection":"Droits de congés du régime","Vacations collections planning":"Planning des régimes de congés","Vacations rights":"Droits d'absences","Valid users:":"Utilisateurs valides :","View":"Voir","View calendar":"Voir l'agenda","View more":"Voir plus","View rights":"Voir les droits","View sub-departments":"Voir les sous-services","Waiting":"En attente","Waiting {{request.dispType}} request":"Demande de {{request.dispType}} en attente d'approbation","Waiting approval":"En attente d'approbation","Waiting approval for delete":"En attente d'approbation de suppression","Waiting approval:":"En attente d'approbation :","Waiting delete approval":"En attente de suppression","Waiting delete approval:":"En attente de suppression :","Waiting for response":"En attente de réponse","Waiting:":"En attente :","Wednesday":"Mercredi","Wellcome":"Bienvenue","Wellcome to Gadael":"Bienvenue sur Gadael","Wellcome to your absence manager":"Bienvenue dans votre gestionnaire d'absences","Work schedule":"Rythme de travail","Worked duration:":"Durée travaillée :","Working time recover request":"Demande de récupération pour une période travaillée","Workperiod recover":"Récupération de jour travaillé","Workperiod recover request":"Demande de récupération de jours travaillés","Workschedule planning":"Planning des heures travaillées","Worperiod recover":"Récupération de jours travaillés","Wrong events count":"Le nombre d'événements n'est pas correct","Years":"ans","Years after the birth date to set the period end:":"Années après la date naissance pour définir la fin de la période :","Years after the birth date to set the period start:":"Années après la date de naissance pour définir le début de la période :","Years are ignored and computed back to fit in the renewal period, as a consequence, this rule type will work only with yearly or less renewal periods.":"Les années sont ignorées et recalculées pour êtres contenues dans la période du renouvellement, cela à pour conséquence que ce type de règle fonctionne que pour les périodes d'une année ou moins.","Years before renewal end date":"Années avant la date de fin du renouvellement","Years before renewal start date":"Années avant la date de début du renouvellement","Years before the entry start date to set the period start:":"Années avant la date de début de la demande pour définir le début de la période :","You can invite someone to use this application if you know his email.":"Vous pouvez inviter quelqu'un à utiliser cette application si vous connaissez son adresse email.","You have been invited by {{invitation.createdBy.name}} to create an account on the leave management application!":"Vous avez été invité par {{invitation.createdBy.name}} pour créer un compte sur l'application de gestion des congés!","You must input one email address at least":"Vous devez renseigner au moins une adresse email","You must link this right to a collection or users so that it is accessible":"Vous devez lier ce droit à un régime ou à des utilisateurs pour qu'il soit accessible","Your account have no access to a rôle in this application,\n            the administrators have been made aware of the problem. You will be notified by email when they give you access\n            to your absences rights account.":"Votre compte n'a accès a aucun rôle dans cette application,\n            les administrateurs ont été informés de ce problème. Vous serez notifié par email quand ils vous donnerons accès\n            à votre compte de droits d'absences.","Your account parameters":"Les paramètres de votre compte","Your calendar is connected":"Votre agenda est connecté","Your calendar is not connected":"Votre agenda n'est pas connecté","Your email:":"Votre email :","Your leave plan or work regime":"Votre régime de congé","Your only role on the application is administrator, you can update your own account using the administration ➤ users menu":"Votre seul rôle sur l'application est administrateur, vous pouvez mettre à jour votre compte en utilisant le menu administration ➤ utilisateurs","Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights":"Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) doit être répartie parmi les droits de congés suivants","Your workschedule for a week":"Votre rythme de travail sur une semaine","New leave right":"Nouveau droit de congé","New absence right":"Nouveau droit d'absence","Your leave rights collection":"Votre de régime de congés","Username or Email:":"Identifiant ou email :","Account":"Compte","Manager":"Gestionnaire","Consumption on the selected period: {{selection.days}} or {{selection.hours}}":"Consommation sur la période sélectionnée : {{selection.days}} ou {{selection.hours}}","Do not notify on approvals":"Ne pas notifier en cas d'approbation","Do not notify on new rights allocations":"Ne pas notifier lors de l'attribution de nouveaux droits","Notify me when new vacation rights are opened or closed for my account":"Me notifier si des droits de congés ont été ouverts ou fermés sur mon compte","Notify on approval":"Notifier lors de l'approbation","Notify on approvals":"Notifier lors des approbations","Notify on new rights allocations":"Notifier lors de l'attribution de nouveaux droits de congés","Notify on vacation rights allocation":"Notifier lors de l'attribution de droits de congés","Add quantity to the right according to the seniority":"Ajouter la quantité au droit en fonction de l'ancienneté","Group rights in a foldable subtree":"Droits du groupe dans un arbre repliable","Grouped rights":"Droits groupés","Use this right as a deposit target for time saving deposits requests":"Utiliser ce droit comme la cible du dépôt des versements sur le compte épargne temps","Montly additions:":"Ajouts mensuels :","This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.":"Ceci est un template pour un site marketing simple","Admin summary":"Résumé des fonctions d'administration","Calendars list":"Liste des agendas","Collections list":"Liste des régimes","Logout":"Se déconnecter","Or sign in using...":"Ou connectez-vous avec...","Request a vacation period":"Demander une période de congés","Rights configuration":"Configuration des droits","Sign up":"S'inscrire"});
 /* jshint +W100 */
 }]);
 define("translation", ["angularGettext"], function(){});
@@ -37664,7 +37731,7 @@ define('controllers',['angular', 'services'], function (angular) {
 });
 
 /**
- * @license AngularJS v1.2.29
+ * @license AngularJS v1.2.32
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -39083,7 +39150,7 @@ define("paginateAnything", ["angular"], function(){});
 angular.module("vr.passwordStrength",["vr.filters.passwordStrength","vr.directives.passwordStrength"]),angular.module("vr.filters.passwordStrength",["vr.filters.passwordStrength.percent","vr.filters.passwordStrength.level"]),angular.module("vr.directives.passwordStrength",["vr.directives.passwordStrength.class","vr.directives.passwordStrength.width"]),angular.module("vr.services.passwordStrength",[]).factory("passwordStrengthComputations",function(){function a(a){var c=0,d=0;return angular.forEach(b,function(b){0!=b.weight&&(c+=b.weight>0?b.weight:0,d+=b.strength(a))}),c>0?100*(d/c):0}var b={minimumLength:{min:8,weight:30,strength:function(a){if(a){var c=a.length;return c<b.minimumLength.min&&(c/=2),c/b.minimumLength.min*b.minimumLength.weight}return 0}},uppercaseLetters:{min:1,weight:10,strength:function(a){if(a){var c=a.match(/[A-Z]/g);return c?c.length>=b.uppercaseLetters.min?b.uppercaseLetters.weight:c.length/b.uppercaseLetters.min*b.uppercaseLetters.weight:0}return 0}},lowercaseLetters:{min:1,weight:10,strength:function(a){if(a){var c=a.match(/[a-z]/g);return c?c.length>=b.lowercaseLetters.min?b.lowercaseLetters.weight:c.length/b.lowercaseLetters.min*b.lowercaseLetters.weight:0}return 0}},symbols:{min:1,weight:10,strength:function(a){if(a){var c=a.match(/[$-/:-?{-~!\"^_`\[\]]/g);return c?c.length>=b.symbols.min?b.symbols.weight:c.length/b.symbols.min*b.symbols.weight:0}return 0}},numbers:{min:1,weight:10,strength:function(a){if(a){var c=a.match(/[0-9]/g);return c?c.length>=b.numbers.min?b.numbers.weight:c.length/b.numbers.min*b.numbers.weight:0}return 0}},duplicates:{max:3,weight:-30,strength:function(a){if(a){var c=0,d=a.match(new RegExp("(.)\\1{"+b.duplicates.max+",}","g"));return angular.forEach(d,function(a){c+=(a.length-b.duplicates.max)*b.duplicates.weight}),c}return 0}},consecutive:{max:3,weight:-10,strength:function(a){if(a){for(var c=0,d=0,e=!0,f=0,g=0;g<=a.length;g++){var h=-99;g<a.length&&(h=a.charCodeAt(g)),h==d+1?(e?f++:f=2,e=!0):h==d-1?(e?f=2:f++,e=!1):(c+=f>b.consecutive.max?(f-b.consecutive.max)*b.consecutive.weight:0,f=1),d=h}return c}return 0}},dictionary:{words:["asdf","password","qwerty","monkey","letmein","dragon","baseball","iloveyou","trustno1","sunshine","master","welcome","shadow","ashley","football","jesus","michael","ninja","mustang","test"],weight:-40,strength:function(a){if(a){var c=0;return angular.forEach(b.dictionary.words,function(d){c+=a.indexOf(d)>=0?b.dictionary.weight:0}),c}return 0}}};return{aspects:b,getRawStrength:a,getStrength:function(b){var c=a(b);return c>100?100:0>c?0:c},isStrongEnough:function(b,c){return a(b)>=c}}}),angular.module("vr.directives.passwordStrength.class",["vr.filters.passwordStrength.level"]).directive("pwClass",["$filter",function(a){return{restrict:"A",link:function(b,c,d){function e(b,d){""!=f&&c.removeClass(f),""!=b?(f="pw-"+a("passwordLevel")(b,d),c.addClass(f)):f=""}var f="";b.$watch(function(){return d.pwClass},function(a){b.password=a,e(a,b.levels)}),b.$watch(function(){return d.pwLevels},function(a){b.levels=a?parseInt(a):void 0,e(b.password,a)})}}}]),angular.module("vr.directives.passwordStrength.width",["vr.filters.passwordStrength.percent"]).directive("pwWidth",["$filter",function(a){return{restrict:"A",link:function(b,c,d){b.$watch(function(){return d.pwWidth},function(b){c.css("width",a("passwordPercent")(b))})}}}]),angular.module("vr.filters.passwordStrength.level",["vr.services.passwordStrength"]).filter("passwordLevel",["passwordStrengthComputations",function(a){return function(b,c){angular.isUndefined(c)&&(c=5);var d=Math.ceil(a.getStrength(b)/(100/c));return"level"+(0==d?1:d)}}]),angular.module("vr.filters.passwordStrength.percent",["vr.services.passwordStrength"]).filter("passwordPercent",["passwordStrengthComputations",function(a){return function(b){return Math.round(a.getStrength(b))+"%"}}]);
 define("passwordStrength", ["angular"], function(){});
 
-angular.module("colorpicker.module",[]).factory("Helper",function(){"use strict";return{closestSlider:function(e){var o=e.matches||e.webkitMatchesSelector||e.mozMatchesSelector||e.msMatchesSelector;return o.bind(e)("I")?e.parentNode:e},getOffset:function(e,o){for(var t=0,n=0,r=e.getBoundingClientRect();e&&!isNaN(e.offsetLeft)&&!isNaN(e.offsetTop);)o||"BODY"!==e.tagName?(t+=e.scrollLeft,n+=e.scrollTop):(t+=document.documentElement.scrollLeft||e.scrollLeft,n+=document.documentElement.scrollTop||e.scrollTop),e=e.offsetParent;return{top:r.top+window.pageYOffset,left:r.left+window.pageXOffset,scrollX:t,scrollY:n}},stringParsers:[{re:/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,parse:function(e){return[e[1],e[2],e[3],e[4]]}},{re:/rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,parse:function(e){return[2.55*e[1],2.55*e[2],2.55*e[3],e[4]]}},{re:/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,parse:function(e){return[parseInt(e[1],16),parseInt(e[2],16),parseInt(e[3],16)]}},{re:/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,parse:function(e){return[parseInt(e[1]+e[1],16),parseInt(e[2]+e[2],16),parseInt(e[3]+e[3],16)]}}]}}).factory("Color",["Helper",function(e){"use strict";return{value:{h:1,s:1,b:1,a:1},rgb:function(){var e=this.toRGB();return"rgb("+e.r+","+e.g+","+e.b+")"},rgba:function(){var e=this.toRGB();return"rgba("+e.r+","+e.g+","+e.b+","+e.a+")"},hex:function(){return this.toHex()},RGBtoHSB:function(e,o,t,n){e/=255,o/=255,t/=255;var r,i,l,s;return l=Math.max(e,o,t),s=l-Math.min(e,o,t),r=0===s?null:l===e?(o-t)/s:l===o?(t-e)/s+2:(e-o)/s+4,r=(r+360)%6*60/360,i=0===s?0:s/l,{h:r||1,s:i,b:l,a:n||1}},setColor:function(o){o=o?o.toLowerCase():o;for(var t in e.stringParsers)if(e.stringParsers.hasOwnProperty(t)){var n=e.stringParsers[t],r=n.re.exec(o),i=r&&n.parse(r);if(i)return this.value=this.RGBtoHSB.apply(null,i),!1}},setHue:function(e){this.value.h=1-e},setSaturation:function(e){this.value.s=e},setLightness:function(e){this.value.b=1-e},setAlpha:function(e){this.value.a=parseInt(100*(1-e),10)/100},toRGB:function(e,o,t,n){e||(e=this.value.h,o=this.value.s,t=this.value.b),e*=360;var r,i,l,s,c;return e=e%360/60,c=t*o,s=c*(1-Math.abs(e%2-1)),r=i=l=t-c,e=~~e,r+=[c,s,0,0,s,c][e],i+=[s,c,c,s,0,0][e],l+=[0,0,s,c,c,s][e],{r:Math.round(255*r),g:Math.round(255*i),b:Math.round(255*l),a:n||this.value.a}},toHex:function(e,o,t,n){var r=this.toRGB(e,o,t,n);return"#"+(1<<24|parseInt(r.r,10)<<16|parseInt(r.g,10)<<8|parseInt(r.b,10)).toString(16).substr(1)}}}]).factory("Slider",["Helper",function(e){"use strict";var o={maxLeft:0,maxTop:0,callLeft:null,callTop:null,knob:{top:0,left:0}},t={};return{getSlider:function(){return o},getLeftPosition:function(e){return Math.max(0,Math.min(o.maxLeft,o.left+((e.pageX||t.left)-t.left)))},getTopPosition:function(e){return Math.max(0,Math.min(o.maxTop,o.top+((e.pageY||t.top)-t.top)))},setSlider:function(n,r){var i=e.closestSlider(n.target),l=e.getOffset(i,r),s=i.getBoundingClientRect(),c=n.clientX-s.left,a=n.clientY-s.top;o.knob=i.children[0].style,o.left=n.pageX-l.left-window.pageXOffset+l.scrollX,o.top=n.pageY-l.top-window.pageYOffset+l.scrollY,t={left:n.pageX-(c-o.left),top:n.pageY-(a-o.top)}},setSaturation:function(e,t,n){o={maxLeft:n,maxTop:n,callLeft:"setSaturation",callTop:"setLightness"},this.setSlider(e,t)},setHue:function(e,t,n){o={maxLeft:0,maxTop:n,callLeft:!1,callTop:"setHue"},this.setSlider(e,t)},setAlpha:function(e,t,n){o={maxLeft:0,maxTop:n,callLeft:!1,callTop:"setAlpha"},this.setSlider(e,t)},setKnob:function(e,t){o.knob.top=e+"px",o.knob.left=t+"px"}}}]).directive("colorpicker",["$document","$compile","Color","Slider","Helper",function(e,o,t,n,r){"use strict";return{require:"?ngModel",restrict:"A",link:function(i,l,s,c){function a(){e.on("mousemove",u),e.on("mouseup",f)}function p(){try{D.css("backgroundColor",M[w]())}catch(e){D.css("backgroundColor",M.toHex())}B.css("backgroundColor",M.toHex(M.value.h,1,1,1)),"rgba"===w&&(x.css.backgroundColor=M.toHex())}function u(e){var o=n.getLeftPosition(e),t=n.getTopPosition(e),r=n.getSlider();n.setKnob(t,o),r.callLeft&&M[r.callLeft].call(M,o/P),r.callTop&&M[r.callTop].call(M,t/P),p();var s=M[w]();return l.val(s),c&&i.$apply(c.$setViewValue(s)),$&&F.val(s),!1}function f(){m("colorpicker-selected"),e.off("mousemove",u),e.off("mouseup",f)}function d(e){M.setColor(l.val()),$&&!e&&F.val(l.val()),Y.eq(0).css({left:M.value.s*P+"px",top:P-M.value.b*P+"px"}),Y.eq(1).css("top",P*(1-M.value.h)+"px"),Y.eq(2).css("top",P*(1-M.value.a)+"px"),p()}function h(){var e,o=r.getOffset(l[0]);return angular.isDefined(s.colorpickerParent)&&(o.left=0,o.top=0),"top"===S?e={top:o.top-147,left:o.left}:"right"===S?e={top:o.top,left:o.left+126}:"bottom"===S?e={top:o.top+l[0].offsetHeight+2,left:o.left}:"left"===S&&(e={top:o.top,left:o.left-150}),{top:e.top+"px",left:e.left+"px"}}function g(){v()}function k(){y.hasClass("colorpicker-visible")||(d(),y.addClass("colorpicker-visible").css(h()),m("colorpicker-shown"),I===!1&&e.on("mousedown",g),s.colorpickerIsOpen&&(i[s.colorpickerIsOpen]=!0,i.$$phase||i.$digest()))}function m(e){c&&i.$emit(e,{name:s.ngModel,value:c.$modelValue})}function v(){y.hasClass("colorpicker-visible")&&(y.removeClass("colorpicker-visible"),m("colorpicker-closed"),e.off("mousedown",g),s.colorpickerIsOpen&&(i[s.colorpickerIsOpen]=!1,i.$$phase||i.$digest()))}var b,x,w=s.colorpicker?s.colorpicker:"hex",S=angular.isDefined(s.colorpickerPosition)?s.colorpickerPosition:"bottom",I=angular.isDefined(s.colorpickerInline)?s.colorpickerInline:!1,C=angular.isDefined(s.colorpickerFixedPosition)?s.colorpickerFixedPosition:!1,L=angular.isDefined(s.colorpickerParent)?l.parent():angular.element(document.body),$=angular.isDefined(s.colorpickerWithInput)?s.colorpickerWithInput:!1,P=angular.isDefined(s.colorpickerSize)?s.colorpickerSize:100,b=P+"px",H=$?'<input type="text" name="colorpicker-input" spellcheck="false">':"",T=I?"":'<button type="button" class="close close-colorpicker">&times;</button>',O='<div class="colorpicker dropdown"><div class="dropdown-menu"><colorpicker-saturation><i></i></colorpicker-saturation><colorpicker-hue><i></i></colorpicker-hue><colorpicker-alpha><i></i></colorpicker-alpha><colorpicker-preview></colorpicker-preview>'+H+T+"</div></div>",y=angular.element(O),M=t,A=y.find("colorpicker-hue"),B=y.find("colorpicker-saturation"),D=y.find("colorpicker-preview"),Y=y.find("i");if(o(y)(i),y.css("min-width",parseInt(P)+29+"px"),B.css({width:b,height:b}),A.css("height",b),$){var F=y.find("input");F.css("width",b),F.on("mousedown",function(e){e.stopPropagation()}).on("keyup",function(){var e=this.value;l.val(e),c&&c.$modelValue!==e&&(i.$apply(c.$setViewValue(e)),d(!0))})}"rgba"===w&&(y.addClass("alpha"),x=y.find("colorpicker-alpha"),x.css("height",b),x.on("click",function(e){n.setAlpha(e,C,P),u(e)}).on("mousedown",function(e){n.setAlpha(e,C,P),a()}).on("mouseup",function(e){m("colorpicker-selected-alpha")})),A.on("click",function(e){n.setHue(e,C,P),u(e)}).on("mousedown",function(e){n.setHue(e,C,P),a()}).on("mouseup",function(e){m("colorpicker-selected-hue")}),B.on("click",function(e){n.setSaturation(e,C,P),u(e),angular.isDefined(s.colorpickerCloseOnSelect)&&v()}).on("mousedown",function(e){n.setSaturation(e,C,P),a()}).on("mouseup",function(e){m("colorpicker-selected-saturation")}),C&&y.addClass("colorpicker-fixed-position"),y.addClass("colorpicker-position-"+S),"true"===I&&y.addClass("colorpicker-inline"),L.append(y),c&&(c.$render=function(){l.val(c.$viewValue),d()}),l.on("blur keyup change",function(){d()}),l.on("$destroy",function(){y.remove()}),I===!1?l.on("click",k):k(),y.on("mousedown",function(e){e.stopPropagation(),e.preventDefault()}),y.find("button").on("click",function(){v()}),s.colorpickerIsOpen&&i.$watch(s.colorpickerIsOpen,function(e){e===!0?k():e===!1&&v()})}}}]);
+angular.module("colorpicker.module",[]).factory("Helper",function(){"use strict";return{closestSlider:function(e){var o=e.matches||e.webkitMatchesSelector||e.mozMatchesSelector||e.msMatchesSelector;return o.bind(e)("I")?e.parentNode:e},getOffset:function(e,o){for(var t=0,r=0,n=e.getBoundingClientRect();e&&!isNaN(e.offsetLeft)&&!isNaN(e.offsetTop);)o||"BODY"!==e.tagName?(t+=e.scrollLeft,r+=e.scrollTop):(t+=document.documentElement.scrollLeft||e.scrollLeft,r+=document.documentElement.scrollTop||e.scrollTop),e=e.offsetParent;return{top:n.top+window.pageYOffset,left:n.left+window.pageXOffset,scrollX:t,scrollY:r}},stringParsers:[{re:/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,parse:function(e){return[e[1],e[2],e[3],e[4]]}},{re:/rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,parse:function(e){return[2.55*e[1],2.55*e[2],2.55*e[3],e[4]]}},{re:/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,parse:function(e){return[parseInt(e[1],16),parseInt(e[2],16),parseInt(e[3],16)]}},{re:/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,parse:function(e){return[parseInt(e[1]+e[1],16),parseInt(e[2]+e[2],16),parseInt(e[3]+e[3],16)]}}]}}).factory("Color",["Helper",function(e){"use strict";return{value:{h:1,s:1,b:1,a:1},rgb:function(){var e=this.toRGB();return"rgb("+e.r+","+e.g+","+e.b+")"},rgba:function(){var e=this.toRGB();return"rgba("+e.r+","+e.g+","+e.b+","+e.a+")"},hex:function(){return this.toHex()},RGBtoHSB:function(e,o,t,r){e/=255,o/=255,t/=255;var n,i,l,s;return l=Math.max(e,o,t),s=l-Math.min(e,o,t),n=0===s?null:l===e?(o-t)/s:l===o?(t-e)/s+2:(e-o)/s+4,n=(n+360)%6*60/360,i=0===s?0:s/l,{h:n||1,s:i,b:l,a:r||1}},setColor:function(o){o=o?o.toLowerCase():o;for(var t in e.stringParsers)if(e.stringParsers.hasOwnProperty(t)){var r=e.stringParsers[t],n=r.re.exec(o),i=n&&r.parse(n);if(i)return this.value=this.RGBtoHSB.apply(null,i),!1}},setHue:function(e){this.value.h=1-e},setSaturation:function(e){this.value.s=e},setLightness:function(e){this.value.b=1-e},setAlpha:function(e){this.value.a=parseInt(100*(1-e),10)/100},toRGB:function(e,o,t,r){e||(e=this.value.h,o=this.value.s,t=this.value.b),e*=360;var n,i,l,s,c;return e=e%360/60,c=t*o,s=c*(1-Math.abs(e%2-1)),n=i=l=t-c,e=~~e,n+=[c,s,0,0,s,c][e],i+=[s,c,c,s,0,0][e],l+=[0,0,s,c,c,s][e],{r:Math.round(255*n),g:Math.round(255*i),b:Math.round(255*l),a:r||this.value.a}},toHex:function(e,o,t,r){var n=this.toRGB(e,o,t,r);return"#"+(1<<24|parseInt(n.r,10)<<16|parseInt(n.g,10)<<8|parseInt(n.b,10)).toString(16).substr(1)}}}]).factory("Slider",["Helper",function(e){"use strict";var o={maxLeft:0,maxTop:0,callLeft:null,callTop:null,knob:{top:0,left:0}},t={};return{getSlider:function(){return o},getLeftPosition:function(e){return Math.max(0,Math.min(o.maxLeft,o.left+((e.pageX||t.left)-t.left)))},getTopPosition:function(e){return Math.max(0,Math.min(o.maxTop,o.top+((e.pageY||t.top)-t.top)))},setSlider:function(r,n){var i=e.closestSlider(r.target),l=e.getOffset(i,n),s=i.getBoundingClientRect(),c=r.clientX-s.left,a=r.clientY-s.top;o.knob=i.children[0].style,o.left=r.pageX-l.left-window.pageXOffset+l.scrollX,o.top=r.pageY-l.top-window.pageYOffset+l.scrollY,t={left:r.pageX-(c-o.left),top:r.pageY-(a-o.top)}},setSaturation:function(e,t,r){o={maxLeft:r,maxTop:r,callLeft:"setSaturation",callTop:"setLightness"},this.setSlider(e,t)},setHue:function(e,t,r){o={maxLeft:0,maxTop:r,callLeft:!1,callTop:"setHue"},this.setSlider(e,t)},setAlpha:function(e,t,r){o={maxLeft:0,maxTop:r,callLeft:!1,callTop:"setAlpha"},this.setSlider(e,t)},setKnob:function(e,t){o.knob.top=e+"px",o.knob.left=t+"px"}}}]).directive("colorpicker",["$document","$compile","Color","Slider","Helper",function(e,o,t,r,n){"use strict";return{require:"?ngModel",restrict:"A",link:function(i,l,s,c){function a(){e.on("mousemove",u),e.on("mouseup",f)}function p(){try{Y.css("backgroundColor",M[x]())}catch(e){Y.css("backgroundColor",M.toHex())}D.css("backgroundColor",M.toHex(M.value.h,1,1,1)),"rgba"===x&&(b.css.backgroundColor=M.toHex())}function u(e){var o=r.getLeftPosition(e),t=r.getTopPosition(e),n=r.getSlider();r.setKnob(t,o),n.callLeft&&M[n.callLeft].call(M,o/L),n.callTop&&M[n.callTop].call(M,t/L),p();var s=M[x]();return l.val(s),c&&i.$apply(c.$setViewValue(s)),C&&R.val(s),!1}function f(){m("colorpicker-selected"),e.off("mousemove",u),e.off("mouseup",f)}function d(e){M.value=A,M.setColor(l.val()),C&&!e&&R.val(l.val()),F.eq(0).css({left:M.value.s*L+"px",top:L-M.value.b*L+"px"}),F.eq(1).css("top",L*(1-M.value.h)+"px"),F.eq(2).css("top",L*(1-M.value.a)+"px"),A=M.value,p()}function h(){var e,o=n.getOffset(l[0]);return angular.isDefined(s.colorpickerParent)&&(o.left=0,o.top=0),"top"===w?e={top:o.top-147,left:o.left}:"right"===w?e={top:o.top,left:o.left+126}:"bottom"===w?e={top:o.top+l[0].offsetHeight+2,left:o.left}:"left"===w&&(e={top:o.top,left:o.left-150}),{top:e.top+"px",left:e.left+"px"}}function g(){v()}function k(){y.hasClass("colorpicker-visible")||(d(),y.addClass("colorpicker-visible").css(h()),m("colorpicker-shown"),$===!1&&e.on("mousedown",g),s.colorpickerIsOpen&&(i[s.colorpickerIsOpen]=!0,i.$$phase&&i.$root.$$phase||i.$digest()))}function m(e){c&&i.$emit(e,{name:s.ngModel,value:c.$modelValue})}function v(){y.hasClass("colorpicker-visible")&&(y.removeClass("colorpicker-visible"),m("colorpicker-closed"),e.off("mousedown",g),s.colorpickerIsOpen&&(i[s.colorpickerIsOpen]=!1,i.$$phase&&i.$root.$$phase||i.$digest()))}var b,x=s.colorpicker?s.colorpicker:"hex",w=angular.isDefined(s.colorpickerPosition)?s.colorpickerPosition:"bottom",$=!!angular.isDefined(s.colorpickerInline)&&s.colorpickerInline,S=!!angular.isDefined(s.colorpickerFixedPosition)&&s.colorpickerFixedPosition,I=angular.isDefined(s.colorpickerParent)?l.parent():angular.element(document.body),C=!!angular.isDefined(s.colorpickerWithInput)&&s.colorpickerWithInput,L=angular.isDefined(s.colorpickerSize)?s.colorpickerSize:100,P=L+"px",H=C?'<input type="text" name="colorpicker-input" spellcheck="false">':"",T=$?"":'<button type="button" class="close close-colorpicker">&times;</button>',O='<div class="colorpicker dropdown"><div class="dropdown-menu"><colorpicker-saturation><i></i></colorpicker-saturation><colorpicker-hue><i></i></colorpicker-hue><colorpicker-alpha><i></i></colorpicker-alpha><colorpicker-preview></colorpicker-preview>'+H+T+"</div></div>",y=angular.element(O),M=t,A={h:1,s:0,b:1,a:1},B=y.find("colorpicker-hue"),D=y.find("colorpicker-saturation"),Y=y.find("colorpicker-preview"),F=y.find("i");if(o(y)(i),y.css("min-width",parseInt(L)+29+"px"),D.css({width:P,height:P}),B.css("height",P),C){var R=y.find("input");R.css("width",P),R.on("mousedown",function(e){e.stopPropagation()}).on("keyup",function(){var e=this.value;l.val(e),c&&c.$modelValue!==e&&(i.$apply(c.$setViewValue(e)),d(!0))})}"rgba"===x&&(y.addClass("alpha"),b=y.find("colorpicker-alpha"),b.css("height",P),b.on("click",function(e){r.setAlpha(e,S,L),u(e)}).on("mousedown",function(e){r.setAlpha(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-alpha")})),B.on("click",function(e){r.setHue(e,S,L),u(e)}).on("mousedown",function(e){r.setHue(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-hue")}),D.on("click",function(e){r.setSaturation(e,S,L),u(e),angular.isDefined(s.colorpickerCloseOnSelect)&&v()}).on("mousedown",function(e){r.setSaturation(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-saturation")}),S&&y.addClass("colorpicker-fixed-position"),y.addClass("colorpicker-position-"+w),"true"===$&&y.addClass("colorpicker-inline"),I.append(y),c&&(c.$render=function(){l.val(c.$viewValue),d()}),l.on("blur keyup change",function(){d()}),l.on("$destroy",function(){y.remove()}),$===!1?l.on("click",k):k(),y.on("mousedown",function(e){e.stopPropagation(),e.preventDefault()}),y.find("button").on("click",function(){v()}),s.colorpickerIsOpen&&i.$watch(s.colorpickerIsOpen,function(e){e===!0?k():e===!1&&v()})}}}]);
 define("angularColorpicker", function(){});
 
 /**
@@ -40451,7 +40518,7 @@ define("nvd3", function(){});
 define("angularnvd3", ["angular","d3","nvd3"], function(){});
 
 /*
- ng-sortable v1.3.5
+ ng-sortable v1.3.8
  The MIT License (MIT)
 
  Copyright (c) 2014 Muhammed Ashik
@@ -42350,7 +42417,7 @@ define('routes',['angular', 'app'], function(angular, app) {
 
 /**
  * angular-strap
- * @version v2.3.9 - 2016-06-10
+ * @version v2.3.12 - 2017-01-26
  * @link http://mgcrea.github.io/angular-strap
  * @author Olivier Louvignes <olivier@mg-crea.com> (https://github.com/mgcrea)
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -42442,6 +42509,20 @@ define('routes',['angular', 'app'], function(angular, app) {
           evt.preventDefault();
           evt.stopPropagation();
         };
+        $typeahead.$$updateScrollTop = function(container, index) {
+          if (index > -1 && index < container.children.length) {
+            var active = container.children[index];
+            var clientTop = active.offsetTop;
+            var clientBottom = active.offsetTop + active.clientHeight;
+            var highWatermark = container.scrollTop;
+            var lowWatermark = container.scrollTop + container.clientHeight;
+            if (clientBottom >= highWatermark && clientTop < highWatermark) {
+              container.scrollTop = Math.max(0, container.scrollTop - container.clientHeight);
+            } else if (clientBottom > lowWatermark) {
+              container.scrollTop = clientTop;
+            }
+          }
+        };
         $typeahead.$onKeyDown = function(evt) {
           if (!/(38|40|13)/.test(evt.keyCode)) return;
           if ($typeahead.$isVisible() && !(evt.keyCode === 13 && scope.$activeIndex === -1)) {
@@ -42457,6 +42538,7 @@ define('routes',['angular', 'app'], function(angular, app) {
           } else if (angular.isUndefined(scope.$activeIndex)) {
             scope.$activeIndex = 0;
           }
+          $typeahead.$$updateScrollTop($typeahead.$element[0], scope.$activeIndex);
           scope.$digest();
         };
         var show = $typeahead.show;
@@ -42583,133 +42665,6 @@ define('routes',['angular', 'app'], function(angular, app) {
           options = null;
           typeahead = null;
         });
-      }
-    };
-  } ]);
-  angular.module('mgcrea.ngStrap.tab', []).provider('$tab', function() {
-    var defaults = this.defaults = {
-      animation: 'am-fade',
-      template: 'tab/tab.tpl.html',
-      navClass: 'nav-tabs',
-      activeClass: 'active'
-    };
-    var controller = this.controller = function($scope, $element, $attrs) {
-      var self = this;
-      self.$options = angular.copy(defaults);
-      angular.forEach([ 'animation', 'navClass', 'activeClass' ], function(key) {
-        if (angular.isDefined($attrs[key])) self.$options[key] = $attrs[key];
-      });
-      $scope.$navClass = self.$options.navClass;
-      $scope.$activeClass = self.$options.activeClass;
-      self.$panes = $scope.$panes = [];
-      self.$activePaneChangeListeners = self.$viewChangeListeners = [];
-      self.$push = function(pane) {
-        if (angular.isUndefined(self.$panes.$active)) {
-          $scope.$setActive(pane.name || 0);
-        }
-        self.$panes.push(pane);
-      };
-      self.$remove = function(pane) {
-        var index = self.$panes.indexOf(pane);
-        var active = self.$panes.$active;
-        var activeIndex;
-        if (angular.isString(active)) {
-          activeIndex = self.$panes.map(function(pane) {
-            return pane.name;
-          }).indexOf(active);
-        } else {
-          activeIndex = self.$panes.$active;
-        }
-        self.$panes.splice(index, 1);
-        if (index < activeIndex) {
-          activeIndex--;
-        } else if (index === activeIndex && activeIndex === self.$panes.length) {
-          activeIndex--;
-        }
-        if (activeIndex >= 0 && activeIndex < self.$panes.length) {
-          self.$setActive(self.$panes[activeIndex].name || activeIndex);
-        } else {
-          self.$setActive();
-        }
-      };
-      self.$setActive = $scope.$setActive = function(value) {
-        self.$panes.$active = value;
-        self.$activePaneChangeListeners.forEach(function(fn) {
-          fn();
-        });
-      };
-      self.$isActive = $scope.$isActive = function($pane, $index) {
-        return self.$panes.$active === $pane.name || self.$panes.$active === $index;
-      };
-    };
-    this.$get = function() {
-      var $tab = {};
-      $tab.defaults = defaults;
-      $tab.controller = controller;
-      return $tab;
-    };
-  }).directive('bsTabs', [ '$window', '$animate', '$tab', '$parse', function($window, $animate, $tab, $parse) {
-    var defaults = $tab.defaults;
-    return {
-      require: [ '?ngModel', 'bsTabs' ],
-      transclude: true,
-      scope: true,
-      controller: [ '$scope', '$element', '$attrs', $tab.controller ],
-      templateUrl: function(element, attr) {
-        return attr.template || defaults.template;
-      },
-      link: function postLink(scope, element, attrs, controllers) {
-        var ngModelCtrl = controllers[0];
-        var bsTabsCtrl = controllers[1];
-        if (ngModelCtrl) {
-          bsTabsCtrl.$activePaneChangeListeners.push(function() {
-            ngModelCtrl.$setViewValue(bsTabsCtrl.$panes.$active);
-          });
-          ngModelCtrl.$formatters.push(function(modelValue) {
-            bsTabsCtrl.$setActive(modelValue);
-            return modelValue;
-          });
-        }
-        if (attrs.bsActivePane) {
-          var parsedBsActivePane = $parse(attrs.bsActivePane);
-          bsTabsCtrl.$activePaneChangeListeners.push(function() {
-            parsedBsActivePane.assign(scope, bsTabsCtrl.$panes.$active);
-          });
-          scope.$watch(attrs.bsActivePane, function(newValue, oldValue) {
-            bsTabsCtrl.$setActive(newValue);
-          }, true);
-        }
-      }
-    };
-  } ]).directive('bsPane', [ '$window', '$animate', '$sce', function($window, $animate, $sce) {
-    return {
-      require: [ '^?ngModel', '^bsTabs' ],
-      scope: true,
-      link: function postLink(scope, element, attrs, controllers) {
-        var bsTabsCtrl = controllers[1];
-        element.addClass('tab-pane');
-        attrs.$observe('title', function(newValue, oldValue) {
-          scope.title = $sce.trustAsHtml(newValue);
-        });
-        scope.name = attrs.name;
-        if (bsTabsCtrl.$options.animation) {
-          element.addClass(bsTabsCtrl.$options.animation);
-        }
-        attrs.$observe('disabled', function(newValue, oldValue) {
-          scope.disabled = scope.$eval(newValue);
-        });
-        bsTabsCtrl.$push(scope);
-        scope.$on('$destroy', function() {
-          bsTabsCtrl.$remove(scope);
-        });
-        function render() {
-          var index = bsTabsCtrl.$panes.indexOf(scope);
-          $animate[bsTabsCtrl.$isActive(scope, index) ? 'addClass' : 'removeClass'](element, bsTabsCtrl.$options.activeClass);
-        }
-        bsTabsCtrl.$activePaneChangeListeners.push(function() {
-          render();
-        });
-        render();
       }
     };
   } ]);
@@ -42925,10 +42880,12 @@ define('routes',['angular', 'app'], function(angular, app) {
           }
           _blur = blur;
           _tipToHide = tipElement;
-          if (angular.version.minor <= 2) {
-            $animate.leave(tipElement, leaveAnimateCallback);
-          } else {
-            $animate.leave(tipElement).then(leaveAnimateCallback);
+          if (tipElement !== null) {
+            if (angular.version.minor <= 2) {
+              $animate.leave(tipElement, leaveAnimateCallback);
+            } else {
+              $animate.leave(tipElement).then(leaveAnimateCallback);
+            }
           }
           $tooltip.$isShown = scope.$isShown = false;
           safeDigest(scope);
@@ -43854,6 +43811,455 @@ define('routes',['angular', 'app'], function(angular, app) {
       }
     };
   } ]);
+  angular.module('mgcrea.ngStrap.tab', []).provider('$tab', function() {
+    var defaults = this.defaults = {
+      animation: 'am-fade',
+      template: 'tab/tab.tpl.html',
+      navClass: 'nav-tabs',
+      activeClass: 'active'
+    };
+    var controller = this.controller = function($scope, $element, $attrs) {
+      var self = this;
+      self.$options = angular.copy(defaults);
+      angular.forEach([ 'animation', 'navClass', 'activeClass' ], function(key) {
+        if (angular.isDefined($attrs[key])) self.$options[key] = $attrs[key];
+      });
+      $scope.$navClass = self.$options.navClass;
+      $scope.$activeClass = self.$options.activeClass;
+      self.$panes = $scope.$panes = [];
+      self.$activePaneChangeListeners = self.$viewChangeListeners = [];
+      self.$push = function(pane) {
+        if (angular.isUndefined(self.$panes.$active)) {
+          $scope.$setActive(pane.name || 0);
+        }
+        self.$panes.push(pane);
+      };
+      self.$remove = function(pane) {
+        var index = self.$panes.indexOf(pane);
+        var active = self.$panes.$active;
+        var activeIndex;
+        if (angular.isString(active)) {
+          activeIndex = self.$panes.map(function(pane) {
+            return pane.name;
+          }).indexOf(active);
+        } else {
+          activeIndex = self.$panes.$active;
+        }
+        self.$panes.splice(index, 1);
+        if (index < activeIndex) {
+          activeIndex--;
+        } else if (index === activeIndex && activeIndex === self.$panes.length) {
+          activeIndex--;
+        }
+        if (activeIndex >= 0 && activeIndex < self.$panes.length) {
+          self.$setActive(self.$panes[activeIndex].name || activeIndex);
+        } else {
+          self.$setActive();
+        }
+      };
+      self.$setActive = $scope.$setActive = function(value) {
+        self.$panes.$active = value;
+        self.$activePaneChangeListeners.forEach(function(fn) {
+          fn();
+        });
+      };
+      self.$isActive = $scope.$isActive = function($pane, $index) {
+        return self.$panes.$active === $pane.name || self.$panes.$active === $index;
+      };
+    };
+    this.$get = function() {
+      var $tab = {};
+      $tab.defaults = defaults;
+      $tab.controller = controller;
+      return $tab;
+    };
+  }).directive('bsTabs', [ '$window', '$animate', '$tab', '$parse', function($window, $animate, $tab, $parse) {
+    var defaults = $tab.defaults;
+    return {
+      require: [ '?ngModel', 'bsTabs' ],
+      transclude: true,
+      scope: true,
+      controller: [ '$scope', '$element', '$attrs', $tab.controller ],
+      templateUrl: function(element, attr) {
+        return attr.template || defaults.template;
+      },
+      link: function postLink(scope, element, attrs, controllers) {
+        var ngModelCtrl = controllers[0];
+        var bsTabsCtrl = controllers[1];
+        if (ngModelCtrl) {
+          bsTabsCtrl.$activePaneChangeListeners.push(function() {
+            ngModelCtrl.$setViewValue(bsTabsCtrl.$panes.$active);
+          });
+          ngModelCtrl.$formatters.push(function(modelValue) {
+            bsTabsCtrl.$setActive(modelValue);
+            return modelValue;
+          });
+        }
+        if (attrs.bsActivePane) {
+          var parsedBsActivePane = $parse(attrs.bsActivePane);
+          bsTabsCtrl.$activePaneChangeListeners.push(function() {
+            parsedBsActivePane.assign(scope, bsTabsCtrl.$panes.$active);
+          });
+          scope.$watch(attrs.bsActivePane, function(newValue, oldValue) {
+            bsTabsCtrl.$setActive(newValue);
+          }, true);
+        }
+      }
+    };
+  } ]).directive('bsPane', [ '$window', '$animate', '$sce', function($window, $animate, $sce) {
+    return {
+      require: [ '^?ngModel', '^bsTabs' ],
+      scope: true,
+      link: function postLink(scope, element, attrs, controllers) {
+        var bsTabsCtrl = controllers[1];
+        element.addClass('tab-pane');
+        attrs.$observe('title', function(newValue, oldValue) {
+          scope.title = $sce.trustAsHtml(newValue);
+        });
+        scope.name = attrs.name;
+        if (bsTabsCtrl.$options.animation) {
+          element.addClass(bsTabsCtrl.$options.animation);
+        }
+        attrs.$observe('disabled', function(newValue, oldValue) {
+          scope.disabled = scope.$eval(newValue);
+        });
+        bsTabsCtrl.$push(scope);
+        scope.$on('$destroy', function() {
+          bsTabsCtrl.$remove(scope);
+        });
+        function render() {
+          var index = bsTabsCtrl.$panes.indexOf(scope);
+          $animate[bsTabsCtrl.$isActive(scope, index) ? 'addClass' : 'removeClass'](element, bsTabsCtrl.$options.activeClass);
+        }
+        bsTabsCtrl.$activePaneChangeListeners.push(function() {
+          render();
+        });
+        render();
+      }
+    };
+  } ]);
+  angular.module('mgcrea.ngStrap.select', [ 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.helpers.parseOptions' ]).provider('$select', function() {
+    var defaults = this.defaults = {
+      animation: 'am-fade',
+      prefixClass: 'select',
+      prefixEvent: '$select',
+      placement: 'bottom-left',
+      templateUrl: 'select/select.tpl.html',
+      trigger: 'focus',
+      container: false,
+      keyboard: true,
+      html: false,
+      delay: 0,
+      multiple: false,
+      allNoneButtons: false,
+      sort: true,
+      caretHtml: '&nbsp;<span class="caret"></span>',
+      placeholder: 'Choose among the following...',
+      allText: 'All',
+      noneText: 'None',
+      maxLength: 3,
+      maxLengthHtml: 'selected',
+      iconCheckmark: 'glyphicon glyphicon-ok',
+      toggle: false
+    };
+    this.$get = [ '$window', '$document', '$rootScope', '$tooltip', '$timeout', function($window, $document, $rootScope, $tooltip, $timeout) {
+      var isNative = /(ip[ao]d|iphone|android)/gi.test($window.navigator.userAgent);
+      var isTouch = 'createTouch' in $window.document && isNative;
+      function SelectFactory(element, controller, config) {
+        var $select = {};
+        var options = angular.extend({}, defaults, config);
+        $select = $tooltip(element, options);
+        var scope = $select.$scope;
+        scope.$matches = [];
+        if (options.multiple) {
+          scope.$activeIndex = [];
+        } else {
+          scope.$activeIndex = -1;
+        }
+        scope.$isMultiple = options.multiple;
+        scope.$showAllNoneButtons = options.allNoneButtons && options.multiple;
+        scope.$iconCheckmark = options.iconCheckmark;
+        scope.$allText = options.allText;
+        scope.$noneText = options.noneText;
+        scope.$activate = function(index) {
+          scope.$$postDigest(function() {
+            $select.activate(index);
+          });
+        };
+        scope.$select = function(index, evt) {
+          scope.$$postDigest(function() {
+            $select.select(index);
+          });
+        };
+        scope.$isVisible = function() {
+          return $select.$isVisible();
+        };
+        scope.$isActive = function(index) {
+          return $select.$isActive(index);
+        };
+        scope.$selectAll = function() {
+          for (var i = 0; i < scope.$matches.length; i++) {
+            if (!scope.$isActive(i)) {
+              scope.$select(i);
+            }
+          }
+        };
+        scope.$selectNone = function() {
+          for (var i = 0; i < scope.$matches.length; i++) {
+            if (scope.$isActive(i)) {
+              scope.$select(i);
+            }
+          }
+        };
+        $select.update = function(matches) {
+          scope.$matches = matches;
+          $select.$updateActiveIndex();
+        };
+        $select.activate = function(index) {
+          if (options.multiple) {
+            if ($select.$isActive(index)) {
+              scope.$activeIndex.splice(scope.$activeIndex.indexOf(index), 1);
+            } else {
+              scope.$activeIndex.push(index);
+            }
+            if (options.sort) scope.$activeIndex.sort(function(a, b) {
+              return a - b;
+            });
+          } else {
+            scope.$activeIndex = index;
+          }
+          return scope.$activeIndex;
+        };
+        $select.select = function(index) {
+          if (angular.isUndefined(index) || index < 0 || index >= scope.$matches.length) {
+            return;
+          }
+          var value = scope.$matches[index].value;
+          scope.$apply(function() {
+            $select.activate(index);
+            if (options.multiple) {
+              controller.$setViewValue(scope.$activeIndex.map(function(index) {
+                if (angular.isUndefined(scope.$matches[index])) {
+                  return null;
+                }
+                return scope.$matches[index].value;
+              }));
+            } else {
+              if (options.toggle) {
+                controller.$setViewValue(value === controller.$modelValue ? undefined : value);
+              } else {
+                controller.$setViewValue(value);
+              }
+              $select.hide();
+            }
+          });
+          scope.$emit(options.prefixEvent + '.select', value, index, $select);
+          if (angular.isDefined(options.onSelect) && angular.isFunction(options.onSelect)) {
+            options.onSelect(value, index, $select);
+          }
+        };
+        $select.$updateActiveIndex = function() {
+          if (options.multiple) {
+            if (angular.isArray(controller.$modelValue)) {
+              scope.$activeIndex = controller.$modelValue.map(function(value) {
+                return $select.$getIndex(value);
+              });
+            } else {
+              scope.$activeIndex = [];
+            }
+          } else {
+            if (angular.isDefined(controller.$modelValue) && scope.$matches.length) {
+              scope.$activeIndex = $select.$getIndex(controller.$modelValue);
+            } else {
+              scope.$activeIndex = -1;
+            }
+          }
+        };
+        $select.$isVisible = function() {
+          if (!options.minLength || !controller) {
+            return scope.$matches.length;
+          }
+          return scope.$matches.length && controller.$viewValue.length >= options.minLength;
+        };
+        $select.$isActive = function(index) {
+          if (options.multiple) {
+            return scope.$activeIndex.indexOf(index) !== -1;
+          }
+          return scope.$activeIndex === index;
+        };
+        $select.$getIndex = function(value) {
+          var index;
+          for (index = scope.$matches.length; index--; ) {
+            if (angular.equals(scope.$matches[index].value, value)) break;
+          }
+          return index;
+        };
+        $select.$onMouseDown = function(evt) {
+          evt.preventDefault();
+          evt.stopPropagation();
+          if (isTouch) {
+            var targetEl = angular.element(evt.target);
+            var anchor;
+            if (evt.target.nodeName !== 'A') {
+              var anchorCandidate = targetEl.parent();
+              while (!anchor && anchorCandidate.length > 0) {
+                if (anchorCandidate[0].nodeName === 'A') {
+                  anchor = anchorCandidate;
+                }
+                anchorCandidate = anchorCandidate.parent();
+              }
+            }
+            if (anchor) {
+              angular.element(anchor).triggerHandler('click');
+            } else {
+              targetEl.triggerHandler('click');
+            }
+          }
+        };
+        $select.$onKeyDown = function(evt) {
+          if (!/(9|13|38|40)/.test(evt.keyCode)) return;
+          if (evt.keyCode !== 9) {
+            evt.preventDefault();
+            evt.stopPropagation();
+          }
+          if (options.multiple && evt.keyCode === 9) {
+            return $select.hide();
+          }
+          if (!options.multiple && (evt.keyCode === 13 || evt.keyCode === 9)) {
+            return $select.select(scope.$activeIndex);
+          }
+          if (!options.multiple) {
+            if (evt.keyCode === 38 && scope.$activeIndex > 0) scope.$activeIndex--; else if (evt.keyCode === 38 && scope.$activeIndex < 0) scope.$activeIndex = scope.$matches.length - 1; else if (evt.keyCode === 40 && scope.$activeIndex < scope.$matches.length - 1) scope.$activeIndex++; else if (angular.isUndefined(scope.$activeIndex)) scope.$activeIndex = 0;
+            scope.$digest();
+          }
+        };
+        $select.$isIE = function() {
+          var ua = $window.navigator.userAgent;
+          return ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0 || ua.indexOf('Edge/') > 0;
+        };
+        $select.$selectScrollFix = function(e) {
+          if ($document[0].activeElement.tagName === 'UL') {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.target.focus();
+          }
+        };
+        var _show = $select.show;
+        $select.show = function() {
+          _show();
+          if (options.multiple) {
+            $select.$element.addClass('select-multiple');
+          }
+          $timeout(function() {
+            $select.$element.on(isTouch ? 'touchstart' : 'mousedown', $select.$onMouseDown);
+            if (options.keyboard) {
+              element.on('keydown', $select.$onKeyDown);
+            }
+          }, 0, false);
+        };
+        var _hide = $select.hide;
+        $select.hide = function() {
+          if (!options.multiple && angular.isUndefined(controller.$modelValue)) {
+            scope.$activeIndex = -1;
+          }
+          $select.$element.off(isTouch ? 'touchstart' : 'mousedown', $select.$onMouseDown);
+          if (options.keyboard) {
+            element.off('keydown', $select.$onKeyDown);
+          }
+          _hide(true);
+        };
+        return $select;
+      }
+      SelectFactory.defaults = defaults;
+      return SelectFactory;
+    } ];
+  }).directive('bsSelect', [ '$window', '$parse', '$q', '$select', '$parseOptions', function($window, $parse, $q, $select, $parseOptions) {
+    var defaults = $select.defaults;
+    return {
+      restrict: 'EAC',
+      require: 'ngModel',
+      link: function postLink(scope, element, attr, controller) {
+        var options = {
+          scope: scope,
+          placeholder: defaults.placeholder
+        };
+        angular.forEach([ 'template', 'templateUrl', 'controller', 'controllerAs', 'placement', 'container', 'delay', 'trigger', 'keyboard', 'html', 'animation', 'placeholder', 'allNoneButtons', 'maxLength', 'maxLengthHtml', 'allText', 'noneText', 'iconCheckmark', 'autoClose', 'id', 'sort', 'caretHtml', 'prefixClass', 'prefixEvent', 'toggle' ], function(key) {
+          if (angular.isDefined(attr[key])) options[key] = attr[key];
+        });
+        var falseValueRegExp = /^(false|0|)$/i;
+        angular.forEach([ 'html', 'container', 'allNoneButtons', 'sort' ], function(key) {
+          if (angular.isDefined(attr[key]) && falseValueRegExp.test(attr[key])) {
+            options[key] = false;
+          }
+        });
+        angular.forEach([ 'onBeforeShow', 'onShow', 'onBeforeHide', 'onHide', 'onSelect' ], function(key) {
+          var bsKey = 'bs' + key.charAt(0).toUpperCase() + key.slice(1);
+          if (angular.isDefined(attr[bsKey])) {
+            options[key] = scope.$eval(attr[bsKey]);
+          }
+        });
+        var dataMultiple = element.attr('data-multiple');
+        if (angular.isDefined(dataMultiple)) {
+          if (falseValueRegExp.test(dataMultiple)) {
+            options.multiple = false;
+          } else {
+            options.multiple = dataMultiple;
+          }
+        }
+        if (element[0].nodeName.toLowerCase() === 'select') {
+          var inputEl = element;
+          inputEl.css('display', 'none');
+          element = angular.element('<button type="button" class="btn btn-default"></button>');
+          inputEl.after(element);
+        }
+        var parsedOptions = $parseOptions(attr.bsOptions);
+        var select = $select(element, controller, options);
+        if (select.$isIE()) {
+          element[0].addEventListener('blur', select.$selectScrollFix);
+        }
+        var watchedOptions = parsedOptions.$match[7].replace(/\|.+/, '').trim();
+        scope.$watch(watchedOptions, function(newValue, oldValue) {
+          parsedOptions.valuesFn(scope, controller).then(function(values) {
+            select.update(values);
+            controller.$render();
+          });
+        }, true);
+        scope.$watch(attr.ngModel, function(newValue, oldValue) {
+          select.$updateActiveIndex();
+          controller.$render();
+        }, true);
+        controller.$render = function() {
+          var selected;
+          var index;
+          if (options.multiple && angular.isArray(controller.$modelValue)) {
+            selected = controller.$modelValue.map(function(value) {
+              index = select.$getIndex(value);
+              return index !== -1 ? select.$scope.$matches[index].label : false;
+            }).filter(angular.isDefined);
+            if (selected.length > (options.maxLength || defaults.maxLength)) {
+              selected = selected.length + ' ' + (options.maxLengthHtml || defaults.maxLengthHtml);
+            } else {
+              selected = selected.join(', ');
+            }
+          } else {
+            index = select.$getIndex(controller.$modelValue);
+            selected = index !== -1 ? select.$scope.$matches[index].label : false;
+          }
+          element.html((selected || options.placeholder) + (options.caretHtml || defaults.caretHtml));
+        };
+        if (options.multiple) {
+          controller.$isEmpty = function(value) {
+            return !value || value.length === 0;
+          };
+        }
+        scope.$on('$destroy', function() {
+          if (select) select.destroy();
+          options = null;
+          select = null;
+        });
+      }
+    };
+  } ]);
   angular.module('mgcrea.ngStrap.scrollspy', [ 'mgcrea.ngStrap.helpers.debounce', 'mgcrea.ngStrap.helpers.dimensions' ]).provider('$scrollspy', function() {
     var spies = this.$$spies = {};
     var defaults = this.defaults = {
@@ -44028,314 +44434,6 @@ define('routes',['angular', 'app'], function(angular, app) {
       }
     };
   } ]);
-  angular.module('mgcrea.ngStrap.select', [ 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.helpers.parseOptions' ]).provider('$select', function() {
-    var defaults = this.defaults = {
-      animation: 'am-fade',
-      prefixClass: 'select',
-      prefixEvent: '$select',
-      placement: 'bottom-left',
-      templateUrl: 'select/select.tpl.html',
-      trigger: 'focus',
-      container: false,
-      keyboard: true,
-      html: false,
-      delay: 0,
-      multiple: false,
-      allNoneButtons: false,
-      sort: true,
-      caretHtml: '&nbsp;<span class="caret"></span>',
-      placeholder: 'Choose among the following...',
-      allText: 'All',
-      noneText: 'None',
-      maxLength: 3,
-      maxLengthHtml: 'selected',
-      iconCheckmark: 'glyphicon glyphicon-ok',
-      toggle: false
-    };
-    this.$get = [ '$window', '$document', '$rootScope', '$tooltip', '$timeout', function($window, $document, $rootScope, $tooltip, $timeout) {
-      var isNative = /(ip[ao]d|iphone|android)/gi.test($window.navigator.userAgent);
-      var isTouch = 'createTouch' in $window.document && isNative;
-      function SelectFactory(element, controller, config) {
-        var $select = {};
-        var options = angular.extend({}, defaults, config);
-        $select = $tooltip(element, options);
-        var scope = $select.$scope;
-        scope.$matches = [];
-        if (options.multiple) {
-          scope.$activeIndex = [];
-        } else {
-          scope.$activeIndex = -1;
-        }
-        scope.$isMultiple = options.multiple;
-        scope.$showAllNoneButtons = options.allNoneButtons && options.multiple;
-        scope.$iconCheckmark = options.iconCheckmark;
-        scope.$allText = options.allText;
-        scope.$noneText = options.noneText;
-        scope.$activate = function(index) {
-          scope.$$postDigest(function() {
-            $select.activate(index);
-          });
-        };
-        scope.$select = function(index, evt) {
-          scope.$$postDigest(function() {
-            $select.select(index);
-          });
-        };
-        scope.$isVisible = function() {
-          return $select.$isVisible();
-        };
-        scope.$isActive = function(index) {
-          return $select.$isActive(index);
-        };
-        scope.$selectAll = function() {
-          for (var i = 0; i < scope.$matches.length; i++) {
-            if (!scope.$isActive(i)) {
-              scope.$select(i);
-            }
-          }
-        };
-        scope.$selectNone = function() {
-          for (var i = 0; i < scope.$matches.length; i++) {
-            if (scope.$isActive(i)) {
-              scope.$select(i);
-            }
-          }
-        };
-        $select.update = function(matches) {
-          scope.$matches = matches;
-          $select.$updateActiveIndex();
-        };
-        $select.activate = function(index) {
-          if (options.multiple) {
-            if ($select.$isActive(index)) {
-              scope.$activeIndex.splice(scope.$activeIndex.indexOf(index), 1);
-            } else {
-              scope.$activeIndex.push(index);
-            }
-            if (options.sort) scope.$activeIndex.sort(function(a, b) {
-              return a - b;
-            });
-          } else {
-            scope.$activeIndex = index;
-          }
-          return scope.$activeIndex;
-        };
-        $select.select = function(index) {
-          if (angular.isUndefined(index) || index < 0 || index >= scope.$matches.length) {
-            return;
-          }
-          var value = scope.$matches[index].value;
-          scope.$apply(function() {
-            $select.activate(index);
-            if (options.multiple) {
-              controller.$setViewValue(scope.$activeIndex.map(function(index) {
-                if (angular.isUndefined(scope.$matches[index])) {
-                  return null;
-                }
-                return scope.$matches[index].value;
-              }));
-            } else {
-              if (options.toggle) {
-                controller.$setViewValue(value === controller.$modelValue ? undefined : value);
-              } else {
-                controller.$setViewValue(value);
-              }
-              $select.hide();
-            }
-          });
-          scope.$emit(options.prefixEvent + '.select', value, index, $select);
-          if (angular.isDefined(options.onSelect) && angular.isFunction(options.onSelect)) {
-            options.onSelect(value, index, $select);
-          }
-        };
-        $select.$updateActiveIndex = function() {
-          if (options.multiple) {
-            if (angular.isArray(controller.$modelValue)) {
-              scope.$activeIndex = controller.$modelValue.map(function(value) {
-                return $select.$getIndex(value);
-              });
-            } else {
-              scope.$activeIndex = [];
-            }
-          } else {
-            if (angular.isDefined(controller.$modelValue) && scope.$matches.length) {
-              scope.$activeIndex = $select.$getIndex(controller.$modelValue);
-            } else {
-              scope.$activeIndex = -1;
-            }
-          }
-        };
-        $select.$isVisible = function() {
-          if (!options.minLength || !controller) {
-            return scope.$matches.length;
-          }
-          return scope.$matches.length && controller.$viewValue.length >= options.minLength;
-        };
-        $select.$isActive = function(index) {
-          if (options.multiple) {
-            return scope.$activeIndex.indexOf(index) !== -1;
-          }
-          return scope.$activeIndex === index;
-        };
-        $select.$getIndex = function(value) {
-          var index;
-          for (index = scope.$matches.length; index--; ) {
-            if (angular.equals(scope.$matches[index].value, value)) break;
-          }
-          return index;
-        };
-        $select.$onMouseDown = function(evt) {
-          evt.preventDefault();
-          evt.stopPropagation();
-          if (isTouch) {
-            var targetEl = angular.element(evt.target);
-            targetEl.triggerHandler('click');
-          }
-        };
-        $select.$onKeyDown = function(evt) {
-          if (!/(9|13|38|40)/.test(evt.keyCode)) return;
-          if (evt.keyCode !== 9) {
-            evt.preventDefault();
-            evt.stopPropagation();
-          }
-          if (options.multiple && evt.keyCode === 9) {
-            return $select.hide();
-          }
-          if (!options.multiple && (evt.keyCode === 13 || evt.keyCode === 9)) {
-            return $select.select(scope.$activeIndex);
-          }
-          if (!options.multiple) {
-            if (evt.keyCode === 38 && scope.$activeIndex > 0) scope.$activeIndex--; else if (evt.keyCode === 38 && scope.$activeIndex < 0) scope.$activeIndex = scope.$matches.length - 1; else if (evt.keyCode === 40 && scope.$activeIndex < scope.$matches.length - 1) scope.$activeIndex++; else if (angular.isUndefined(scope.$activeIndex)) scope.$activeIndex = 0;
-            scope.$digest();
-          }
-        };
-        $select.$isIE = function() {
-          var ua = $window.navigator.userAgent;
-          return ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0 || ua.indexOf('Edge/') > 0;
-        };
-        $select.$selectScrollFix = function(e) {
-          if ($document[0].activeElement.tagName === 'UL') {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            e.target.focus();
-          }
-        };
-        var _show = $select.show;
-        $select.show = function() {
-          _show();
-          if (options.multiple) {
-            $select.$element.addClass('select-multiple');
-          }
-          $timeout(function() {
-            $select.$element.on(isTouch ? 'touchstart' : 'mousedown', $select.$onMouseDown);
-            if (options.keyboard) {
-              element.on('keydown', $select.$onKeyDown);
-            }
-          }, 0, false);
-        };
-        var _hide = $select.hide;
-        $select.hide = function() {
-          if (!options.multiple && angular.isUndefined(controller.$modelValue)) {
-            scope.$activeIndex = -1;
-          }
-          $select.$element.off(isTouch ? 'touchstart' : 'mousedown', $select.$onMouseDown);
-          if (options.keyboard) {
-            element.off('keydown', $select.$onKeyDown);
-          }
-          _hide(true);
-        };
-        return $select;
-      }
-      SelectFactory.defaults = defaults;
-      return SelectFactory;
-    } ];
-  }).directive('bsSelect', [ '$window', '$parse', '$q', '$select', '$parseOptions', function($window, $parse, $q, $select, $parseOptions) {
-    var defaults = $select.defaults;
-    return {
-      restrict: 'EAC',
-      require: 'ngModel',
-      link: function postLink(scope, element, attr, controller) {
-        var options = {
-          scope: scope,
-          placeholder: defaults.placeholder
-        };
-        angular.forEach([ 'template', 'templateUrl', 'controller', 'controllerAs', 'placement', 'container', 'delay', 'trigger', 'keyboard', 'html', 'animation', 'placeholder', 'allNoneButtons', 'maxLength', 'maxLengthHtml', 'allText', 'noneText', 'iconCheckmark', 'autoClose', 'id', 'sort', 'caretHtml', 'prefixClass', 'prefixEvent', 'toggle' ], function(key) {
-          if (angular.isDefined(attr[key])) options[key] = attr[key];
-        });
-        var falseValueRegExp = /^(false|0|)$/i;
-        angular.forEach([ 'html', 'container', 'allNoneButtons', 'sort' ], function(key) {
-          if (angular.isDefined(attr[key]) && falseValueRegExp.test(attr[key])) {
-            options[key] = false;
-          }
-        });
-        angular.forEach([ 'onBeforeShow', 'onShow', 'onBeforeHide', 'onHide', 'onSelect' ], function(key) {
-          var bsKey = 'bs' + key.charAt(0).toUpperCase() + key.slice(1);
-          if (angular.isDefined(attr[bsKey])) {
-            options[key] = scope.$eval(attr[bsKey]);
-          }
-        });
-        var dataMultiple = element.attr('data-multiple');
-        if (angular.isDefined(dataMultiple)) {
-          if (falseValueRegExp.test(dataMultiple)) {
-            options.multiple = false;
-          } else {
-            options.multiple = dataMultiple;
-          }
-        }
-        if (element[0].nodeName.toLowerCase() === 'select') {
-          var inputEl = element;
-          inputEl.css('display', 'none');
-          element = angular.element('<button type="button" class="btn btn-default"></button>');
-          inputEl.after(element);
-        }
-        var parsedOptions = $parseOptions(attr.bsOptions);
-        var select = $select(element, controller, options);
-        if (select.$isIE()) {
-          element[0].addEventListener('blur', select.$selectScrollFix);
-        }
-        var watchedOptions = parsedOptions.$match[7].replace(/\|.+/, '').trim();
-        scope.$watch(watchedOptions, function(newValue, oldValue) {
-          parsedOptions.valuesFn(scope, controller).then(function(values) {
-            select.update(values);
-            controller.$render();
-          });
-        }, true);
-        scope.$watch(attr.ngModel, function(newValue, oldValue) {
-          select.$updateActiveIndex();
-          controller.$render();
-        }, true);
-        controller.$render = function() {
-          var selected;
-          var index;
-          if (options.multiple && angular.isArray(controller.$modelValue)) {
-            selected = controller.$modelValue.map(function(value) {
-              index = select.$getIndex(value);
-              return index !== -1 ? select.$scope.$matches[index].label : false;
-            }).filter(angular.isDefined);
-            if (selected.length > (options.maxLength || defaults.maxLength)) {
-              selected = selected.length + ' ' + (options.maxLengthHtml || defaults.maxLengthHtml);
-            } else {
-              selected = selected.join(', ');
-            }
-          } else {
-            index = select.$getIndex(controller.$modelValue);
-            selected = index !== -1 ? select.$scope.$matches[index].label : false;
-          }
-          element.html((selected || options.placeholder) + (options.caretHtml || defaults.caretHtml));
-        };
-        if (options.multiple) {
-          controller.$isEmpty = function(value) {
-            return !value || value.length === 0;
-          };
-        }
-        scope.$on('$destroy', function() {
-          if (select) select.destroy();
-          options = null;
-          select = null;
-        });
-      }
-    };
-  } ]);
   angular.module('mgcrea.ngStrap.popover', [ 'mgcrea.ngStrap.tooltip' ]).provider('$popover', function() {
     var defaults = this.defaults = {
       animation: 'am-fade',
@@ -44374,7 +44472,7 @@ define('routes',['angular', 'app'], function(angular, app) {
         var options = {
           scope: scope
         };
-        angular.forEach([ 'template', 'templateUrl', 'controller', 'controllerAs', 'contentTemplate', 'placement', 'container', 'delay', 'trigger', 'html', 'animation', 'customClass', 'autoClose', 'id', 'prefixClass', 'prefixEvent' ], function(key) {
+        angular.forEach([ 'template', 'templateUrl', 'controller', 'controllerAs', 'contentTemplate', 'placement', 'container', 'delay', 'trigger', 'html', 'animation', 'customClass', 'autoClose', 'id', 'prefixClass', 'prefixEvent', 'bsEnabled' ], function(key) {
           if (angular.isDefined(attr[key])) options[key] = attr[key];
         });
         var falseValueRegExp = /^(false|0|)$/i;
@@ -44429,6 +44527,17 @@ define('routes',['angular', 'app'], function(angular, app) {
               popover.show();
             } else {
               popover.hide();
+            }
+          });
+        }
+        if (attr.bsEnabled) {
+          scope.$watch(attr.bsEnabled, function(newValue) {
+            if (!popover || !angular.isDefined(newValue)) return;
+            if (angular.isString(newValue)) newValue = !!newValue.match(/true|1|,?(popover),?/i);
+            if (newValue === false) {
+              popover.setEnabled(false);
+            } else {
+              popover.setEnabled(true);
             }
           });
         }
@@ -44505,7 +44614,8 @@ define('routes',['angular', 'app'], function(angular, app) {
       keyboard: true,
       html: false,
       show: true,
-      size: null
+      size: null,
+      zIndex: null
     };
     this.$get = [ '$window', '$rootScope', '$bsCompiler', '$animate', '$timeout', '$sce', 'dimensions', function($window, $rootScope, $bsCompiler, $animate, $timeout, $sce, dimensions) {
       var forEach = angular.forEach;
@@ -44525,6 +44635,10 @@ define('routes',['angular', 'app'], function(angular, app) {
         var scope = $modal.$scope = options.scope && options.scope.$new() || $rootScope.$new();
         if (!options.element && !options.container) {
           options.container = 'body';
+        }
+        if (options.zIndex) {
+          dialogBaseZindex = parseInt(options.zIndex, 10);
+          backdropBaseZindex = dialogBaseZindex - 10;
         }
         $modal.$id = options.id || options.element && options.element.attr('id') || '';
         forEach([ 'title', 'content' ], function(key) {
@@ -44679,7 +44793,9 @@ define('routes',['angular', 'app'], function(angular, app) {
           if (angular.isDefined(options.onHide) && angular.isFunction(options.onHide)) {
             options.onHide($modal);
           }
-          bodyElement.removeClass(options.prefixClass + '-open');
+          if (findElement('.modal').length <= 0) {
+            bodyElement.removeClass(options.prefixClass + '-open');
+          }
           if (options.animation) {
             bodyElement.removeClass(options.prefixClass + '-with-' + options.animation);
           }
@@ -44769,7 +44885,7 @@ define('routes',['angular', 'app'], function(angular, app) {
           element: element,
           show: false
         };
-        angular.forEach([ 'template', 'templateUrl', 'controller', 'controllerAs', 'contentTemplate', 'placement', 'backdrop', 'keyboard', 'html', 'container', 'animation', 'backdropAnimation', 'id', 'prefixEvent', 'prefixClass', 'customClass', 'modalClass', 'size' ], function(key) {
+        angular.forEach([ 'template', 'templateUrl', 'controller', 'controllerAs', 'contentTemplate', 'placement', 'backdrop', 'keyboard', 'html', 'container', 'animation', 'backdropAnimation', 'id', 'prefixEvent', 'prefixClass', 'customClass', 'modalClass', 'size', 'zIndex' ], function(key) {
           if (angular.isDefined(attr[key])) options[key] = attr[key];
         });
         if (options.modalClass) {
@@ -44808,130 +44924,6 @@ define('routes',['angular', 'app'], function(angular, app) {
           options = null;
           modal = null;
         });
-      }
-    };
-  } ]);
-  angular.module('mgcrea.ngStrap.dropdown', [ 'mgcrea.ngStrap.tooltip' ]).provider('$dropdown', function() {
-    var defaults = this.defaults = {
-      animation: 'am-fade',
-      prefixClass: 'dropdown',
-      prefixEvent: 'dropdown',
-      placement: 'bottom-left',
-      templateUrl: 'dropdown/dropdown.tpl.html',
-      trigger: 'click',
-      container: false,
-      keyboard: true,
-      html: false,
-      delay: 0
-    };
-    this.$get = [ '$window', '$rootScope', '$tooltip', '$timeout', function($window, $rootScope, $tooltip, $timeout) {
-      var bodyEl = angular.element($window.document.body);
-      var matchesSelector = Element.prototype.matchesSelector || Element.prototype.webkitMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector;
-      function DropdownFactory(element, config) {
-        var $dropdown = {};
-        var options = angular.extend({}, defaults, config);
-        $dropdown.$scope = options.scope && options.scope.$new() || $rootScope.$new();
-        $dropdown = $tooltip(element, options);
-        var parentEl = element.parent();
-        $dropdown.$onKeyDown = function(evt) {
-          if (!/(38|40)/.test(evt.keyCode)) return;
-          evt.preventDefault();
-          evt.stopPropagation();
-          var items = angular.element($dropdown.$element[0].querySelectorAll('li:not(.divider) a'));
-          if (!items.length) return;
-          var index;
-          angular.forEach(items, function(el, i) {
-            if (matchesSelector && matchesSelector.call(el, ':focus')) index = i;
-          });
-          if (evt.keyCode === 38 && index > 0) index--; else if (evt.keyCode === 40 && index < items.length - 1) index++; else if (angular.isUndefined(index)) index = 0;
-          items.eq(index)[0].focus();
-        };
-        var show = $dropdown.show;
-        $dropdown.show = function() {
-          show();
-          $timeout(function() {
-            if (options.keyboard && $dropdown.$element) $dropdown.$element.on('keydown', $dropdown.$onKeyDown);
-            bodyEl.on('click', onBodyClick);
-          }, 0, false);
-          if (parentEl.hasClass('dropdown')) parentEl.addClass('open');
-        };
-        var hide = $dropdown.hide;
-        $dropdown.hide = function() {
-          if (!$dropdown.$isShown) return;
-          if (options.keyboard && $dropdown.$element) $dropdown.$element.off('keydown', $dropdown.$onKeyDown);
-          bodyEl.off('click', onBodyClick);
-          if (parentEl.hasClass('dropdown')) parentEl.removeClass('open');
-          hide();
-        };
-        var destroy = $dropdown.destroy;
-        $dropdown.destroy = function() {
-          bodyEl.off('click', onBodyClick);
-          destroy();
-        };
-        function onBodyClick(evt) {
-          if (evt.target === element[0]) return;
-          return evt.target !== element[0] && $dropdown.hide();
-        }
-        return $dropdown;
-      }
-      return DropdownFactory;
-    } ];
-  }).directive('bsDropdown', [ '$window', '$sce', '$dropdown', function($window, $sce, $dropdown) {
-    return {
-      restrict: 'EAC',
-      scope: true,
-      compile: function(tElement, tAttrs) {
-        if (!tAttrs.bsDropdown) {
-          var nextSibling = tElement[0].nextSibling;
-          while (nextSibling && nextSibling.nodeType !== 1) {
-            nextSibling = nextSibling.nextSibling;
-          }
-          if (nextSibling && nextSibling.className.split(' ').indexOf('dropdown-menu') >= 0) {
-            tAttrs.template = nextSibling.outerHTML;
-            tAttrs.templateUrl = undefined;
-            nextSibling.parentNode.removeChild(nextSibling);
-          }
-        }
-        return function postLink(scope, element, attr) {
-          var options = {
-            scope: scope
-          };
-          angular.forEach([ 'template', 'templateUrl', 'controller', 'controllerAs', 'placement', 'container', 'delay', 'trigger', 'keyboard', 'html', 'animation', 'id', 'autoClose' ], function(key) {
-            if (angular.isDefined(tAttrs[key])) options[key] = tAttrs[key];
-          });
-          var falseValueRegExp = /^(false|0|)$/i;
-          angular.forEach([ 'html', 'container' ], function(key) {
-            if (angular.isDefined(attr[key]) && falseValueRegExp.test(attr[key])) options[key] = false;
-          });
-          angular.forEach([ 'onBeforeShow', 'onShow', 'onBeforeHide', 'onHide' ], function(key) {
-            var bsKey = 'bs' + key.charAt(0).toUpperCase() + key.slice(1);
-            if (angular.isDefined(attr[bsKey])) {
-              options[key] = scope.$eval(attr[bsKey]);
-            }
-          });
-          if (attr.bsDropdown) {
-            scope.$watch(attr.bsDropdown, function(newValue, oldValue) {
-              scope.content = newValue;
-            }, true);
-          }
-          var dropdown = $dropdown(element, options);
-          if (attr.bsShow) {
-            scope.$watch(attr.bsShow, function(newValue, oldValue) {
-              if (!dropdown || !angular.isDefined(newValue)) return;
-              if (angular.isString(newValue)) newValue = !!newValue.match(/true|,?(dropdown),?/i);
-              if (newValue === true) {
-                dropdown.show();
-              } else {
-                dropdown.hide();
-              }
-            });
-          }
-          scope.$on('$destroy', function() {
-            if (dropdown) dropdown.destroy();
-            options = null;
-            dropdown = null;
-          });
-        };
       }
     };
   } ]);
@@ -45502,8 +45494,8 @@ define('routes',['angular', 'app'], function(angular, app) {
       var template = options.template || '';
       var controller = options.controller;
       var controllerAs = options.controllerAs;
-      var resolve = angular.copy(options.resolve || {});
-      var locals = angular.copy(options.locals || {});
+      var resolve = options.resolve || {};
+      var locals = options.locals || {};
       var transformTemplate = options.transformTemplate || angular.identity;
       var bindToController = options.bindToController;
       angular.forEach(resolve, function(value, key) {
@@ -45578,6 +45570,248 @@ define('routes',['angular', 'app'], function(angular, app) {
       });
     }
   }
+  angular.module('mgcrea.ngStrap.dropdown', [ 'mgcrea.ngStrap.tooltip' ]).provider('$dropdown', function() {
+    var defaults = this.defaults = {
+      animation: 'am-fade',
+      prefixClass: 'dropdown',
+      prefixEvent: 'dropdown',
+      placement: 'bottom-left',
+      templateUrl: 'dropdown/dropdown.tpl.html',
+      trigger: 'click',
+      container: false,
+      keyboard: true,
+      html: false,
+      delay: 0
+    };
+    this.$get = [ '$window', '$rootScope', '$tooltip', '$timeout', function($window, $rootScope, $tooltip, $timeout) {
+      var bodyEl = angular.element($window.document.body);
+      var matchesSelector = Element.prototype.matchesSelector || Element.prototype.webkitMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector;
+      function DropdownFactory(element, config) {
+        var $dropdown = {};
+        var options = angular.extend({}, defaults, config);
+        $dropdown.$scope = options.scope && options.scope.$new() || $rootScope.$new();
+        $dropdown = $tooltip(element, options);
+        var parentEl = element.parent();
+        $dropdown.$onKeyDown = function(evt) {
+          if (!/(38|40)/.test(evt.keyCode)) return;
+          evt.preventDefault();
+          evt.stopPropagation();
+          var items = angular.element($dropdown.$element[0].querySelectorAll('li:not(.divider) a'));
+          if (!items.length) return;
+          var index;
+          angular.forEach(items, function(el, i) {
+            if (matchesSelector && matchesSelector.call(el, ':focus')) index = i;
+          });
+          if (evt.keyCode === 38 && index > 0) index--; else if (evt.keyCode === 40 && index < items.length - 1) index++; else if (angular.isUndefined(index)) index = 0;
+          items.eq(index)[0].focus();
+        };
+        var show = $dropdown.show;
+        $dropdown.show = function() {
+          show();
+          $timeout(function() {
+            if (options.keyboard && $dropdown.$element) $dropdown.$element.on('keydown', $dropdown.$onKeyDown);
+            bodyEl.on('click', onBodyClick);
+          }, 0, false);
+          if (parentEl.hasClass('dropdown')) parentEl.addClass('open');
+        };
+        var hide = $dropdown.hide;
+        $dropdown.hide = function() {
+          if (!$dropdown.$isShown) return;
+          if (options.keyboard && $dropdown.$element) $dropdown.$element.off('keydown', $dropdown.$onKeyDown);
+          bodyEl.off('click', onBodyClick);
+          if (parentEl.hasClass('dropdown')) parentEl.removeClass('open');
+          hide();
+        };
+        var destroy = $dropdown.destroy;
+        $dropdown.destroy = function() {
+          bodyEl.off('click', onBodyClick);
+          destroy();
+        };
+        function onBodyClick(evt) {
+          if (evt.target === element[0]) return;
+          return evt.target !== element[0] && $dropdown.hide();
+        }
+        return $dropdown;
+      }
+      return DropdownFactory;
+    } ];
+  }).directive('bsDropdown', [ '$window', '$sce', '$dropdown', function($window, $sce, $dropdown) {
+    return {
+      restrict: 'EAC',
+      scope: true,
+      compile: function(tElement, tAttrs) {
+        if (!tAttrs.bsDropdown) {
+          var nextSibling = tElement[0].nextSibling;
+          while (nextSibling && nextSibling.nodeType !== 1) {
+            nextSibling = nextSibling.nextSibling;
+          }
+          if (nextSibling && nextSibling.className.split(' ').indexOf('dropdown-menu') >= 0) {
+            tAttrs.template = nextSibling.outerHTML;
+            tAttrs.templateUrl = undefined;
+            nextSibling.parentNode.removeChild(nextSibling);
+          }
+        }
+        return function postLink(scope, element, attr) {
+          var options = {
+            scope: scope
+          };
+          angular.forEach([ 'template', 'templateUrl', 'controller', 'controllerAs', 'placement', 'container', 'delay', 'trigger', 'keyboard', 'html', 'animation', 'id', 'autoClose' ], function(key) {
+            if (angular.isDefined(tAttrs[key])) options[key] = tAttrs[key];
+          });
+          var falseValueRegExp = /^(false|0|)$/i;
+          angular.forEach([ 'html', 'container' ], function(key) {
+            if (angular.isDefined(attr[key]) && falseValueRegExp.test(attr[key])) options[key] = false;
+          });
+          angular.forEach([ 'onBeforeShow', 'onShow', 'onBeforeHide', 'onHide' ], function(key) {
+            var bsKey = 'bs' + key.charAt(0).toUpperCase() + key.slice(1);
+            if (angular.isDefined(attr[bsKey])) {
+              options[key] = scope.$eval(attr[bsKey]);
+            }
+          });
+          if (attr.bsDropdown) {
+            scope.$watch(attr.bsDropdown, function(newValue, oldValue) {
+              scope.content = newValue;
+            }, true);
+          }
+          var dropdown = $dropdown(element, options);
+          if (attr.bsShow) {
+            scope.$watch(attr.bsShow, function(newValue, oldValue) {
+              if (!dropdown || !angular.isDefined(newValue)) return;
+              if (angular.isString(newValue)) newValue = !!newValue.match(/true|,?(dropdown),?/i);
+              if (newValue === true) {
+                dropdown.show();
+              } else {
+                dropdown.hide();
+              }
+            });
+          }
+          scope.$on('$destroy', function() {
+            if (dropdown) dropdown.destroy();
+            options = null;
+            dropdown = null;
+          });
+        };
+      }
+    };
+  } ]);
+  angular.module('mgcrea.ngStrap.button', []).provider('$button', function() {
+    var defaults = this.defaults = {
+      activeClass: 'active',
+      toggleEvent: 'click'
+    };
+    this.$get = function() {
+      return {
+        defaults: defaults
+      };
+    };
+  }).directive('bsCheckboxGroup', function() {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      compile: function postLink(element, attr) {
+        element.attr('data-toggle', 'buttons');
+        element.removeAttr('ng-model');
+        var children = element[0].querySelectorAll('input[type="checkbox"]');
+        angular.forEach(children, function(child) {
+          var childEl = angular.element(child);
+          childEl.attr('bs-checkbox', '');
+          childEl.attr('ng-model', attr.ngModel + '.' + childEl.attr('value'));
+        });
+      }
+    };
+  }).directive('bsCheckbox', [ '$button', '$$rAF', function($button, $$rAF) {
+    var defaults = $button.defaults;
+    var constantValueRegExp = /^(true|false|\d+)$/;
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function postLink(scope, element, attr, controller) {
+        var options = defaults;
+        var isInput = element[0].nodeName === 'INPUT';
+        var activeElement = isInput ? element.parent() : element;
+        var trueValue = angular.isDefined(attr.trueValue) ? attr.trueValue : true;
+        if (constantValueRegExp.test(attr.trueValue)) {
+          trueValue = scope.$eval(attr.trueValue);
+        }
+        var falseValue = angular.isDefined(attr.falseValue) ? attr.falseValue : false;
+        if (constantValueRegExp.test(attr.falseValue)) {
+          falseValue = scope.$eval(attr.falseValue);
+        }
+        var hasExoticValues = typeof trueValue !== 'boolean' || typeof falseValue !== 'boolean';
+        if (hasExoticValues) {
+          controller.$parsers.push(function(viewValue) {
+            return viewValue ? trueValue : falseValue;
+          });
+          controller.$formatters.push(function(modelValue) {
+            return angular.equals(modelValue, trueValue);
+          });
+        }
+        controller.$render = function() {
+          var isActive = !!controller.$viewValue;
+          $$rAF(function() {
+            if (isInput) element[0].checked = isActive;
+            activeElement.toggleClass(options.activeClass, isActive);
+          });
+        };
+        element.bind(options.toggleEvent, function() {
+          scope.$apply(function() {
+            if (!isInput) {
+              controller.$setViewValue(!activeElement.hasClass('active'));
+            }
+            controller.$render();
+          });
+        });
+      }
+    };
+  } ]).directive('bsRadioGroup', function() {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      compile: function postLink(element, attr) {
+        element.attr('data-toggle', 'buttons');
+        element.removeAttr('ng-model');
+        var children = element[0].querySelectorAll('input[type="radio"]');
+        angular.forEach(children, function(child) {
+          angular.element(child).attr('bs-radio', '');
+          angular.element(child).attr('ng-model', attr.ngModel);
+        });
+      }
+    };
+  }).directive('bsRadio', [ '$button', '$$rAF', function($button, $$rAF) {
+    var defaults = $button.defaults;
+    var constantValueRegExp = /^(true|false|\d+)$/;
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function postLink(scope, element, attr, controller) {
+        var options = defaults;
+        var isInput = element[0].nodeName === 'INPUT';
+        var activeElement = isInput ? element.parent() : element;
+        var value;
+        attr.$observe('value', function(v) {
+          if (typeof v !== 'boolean' && constantValueRegExp.test(v)) {
+            value = scope.$eval(v);
+          } else {
+            value = v;
+          }
+          controller.$render();
+        });
+        controller.$render = function() {
+          var isActive = angular.equals(controller.$viewValue, value);
+          $$rAF(function() {
+            if (isInput) element[0].checked = isActive;
+            activeElement.toggleClass(options.activeClass, isActive);
+          });
+        };
+        element.bind(options.toggleEvent, function() {
+          scope.$apply(function() {
+            controller.$setViewValue(value);
+            controller.$render();
+          });
+        });
+      }
+    };
+  } ]);
   angular.module('mgcrea.ngStrap.datepicker', [ 'mgcrea.ngStrap.helpers.dateParser', 'mgcrea.ngStrap.helpers.dateFormatter', 'mgcrea.ngStrap.tooltip' ]).provider('$datepicker', function() {
     var defaults = this.defaults = {
       animation: 'am-fade',
@@ -45631,7 +45865,8 @@ define('routes',['angular', 'app'], function(angular, app) {
         scope.$hasToday = options.hasToday;
         scope.$hasClear = options.hasClear;
         var $picker = $datepicker.$views[scope.$mode];
-        scope.$select = function(date) {
+        scope.$select = function(date, disabled) {
+          if (disabled) return;
           $datepicker.select(date);
         };
         scope.$selectPane = function(value) {
@@ -46174,129 +46409,6 @@ define('routes',['angular', 'app'], function(angular, app) {
       };
     } ];
   });
-  angular.module('mgcrea.ngStrap.button', []).provider('$button', function() {
-    var defaults = this.defaults = {
-      activeClass: 'active',
-      toggleEvent: 'click'
-    };
-    this.$get = function() {
-      return {
-        defaults: defaults
-      };
-    };
-  }).directive('bsCheckboxGroup', function() {
-    return {
-      restrict: 'A',
-      require: 'ngModel',
-      compile: function postLink(element, attr) {
-        element.attr('data-toggle', 'buttons');
-        element.removeAttr('ng-model');
-        var children = element[0].querySelectorAll('input[type="checkbox"]');
-        angular.forEach(children, function(child) {
-          var childEl = angular.element(child);
-          childEl.attr('bs-checkbox', '');
-          childEl.attr('ng-model', attr.ngModel + '.' + childEl.attr('value'));
-        });
-      }
-    };
-  }).directive('bsCheckbox', [ '$button', '$$rAF', function($button, $$rAF) {
-    var defaults = $button.defaults;
-    var constantValueRegExp = /^(true|false|\d+)$/;
-    return {
-      restrict: 'A',
-      require: 'ngModel',
-      link: function postLink(scope, element, attr, controller) {
-        var options = defaults;
-        var isInput = element[0].nodeName === 'INPUT';
-        var activeElement = isInput ? element.parent() : element;
-        var trueValue = angular.isDefined(attr.trueValue) ? attr.trueValue : true;
-        if (constantValueRegExp.test(attr.trueValue)) {
-          trueValue = scope.$eval(attr.trueValue);
-        }
-        var falseValue = angular.isDefined(attr.falseValue) ? attr.falseValue : false;
-        if (constantValueRegExp.test(attr.falseValue)) {
-          falseValue = scope.$eval(attr.falseValue);
-        }
-        var hasExoticValues = typeof trueValue !== 'boolean' || typeof falseValue !== 'boolean';
-        if (hasExoticValues) {
-          controller.$parsers.push(function(viewValue) {
-            return viewValue ? trueValue : falseValue;
-          });
-          controller.$formatters.push(function(modelValue) {
-            return angular.equals(modelValue, trueValue);
-          });
-          scope.$watch(attr.ngModel, function(newValue, oldValue) {
-            controller.$render();
-          });
-        }
-        controller.$render = function() {
-          var isActive = angular.equals(controller.$modelValue, trueValue);
-          $$rAF(function() {
-            if (isInput) element[0].checked = isActive;
-            activeElement.toggleClass(options.activeClass, isActive);
-          });
-        };
-        element.bind(options.toggleEvent, function() {
-          scope.$apply(function() {
-            if (!isInput) {
-              controller.$setViewValue(!activeElement.hasClass('active'));
-            }
-            if (!hasExoticValues) {
-              controller.$render();
-            }
-          });
-        });
-      }
-    };
-  } ]).directive('bsRadioGroup', function() {
-    return {
-      restrict: 'A',
-      require: 'ngModel',
-      compile: function postLink(element, attr) {
-        element.attr('data-toggle', 'buttons');
-        element.removeAttr('ng-model');
-        var children = element[0].querySelectorAll('input[type="radio"]');
-        angular.forEach(children, function(child) {
-          angular.element(child).attr('bs-radio', '');
-          angular.element(child).attr('ng-model', attr.ngModel);
-        });
-      }
-    };
-  }).directive('bsRadio', [ '$button', '$$rAF', function($button, $$rAF) {
-    var defaults = $button.defaults;
-    var constantValueRegExp = /^(true|false|\d+)$/;
-    return {
-      restrict: 'A',
-      require: 'ngModel',
-      link: function postLink(scope, element, attr, controller) {
-        var options = defaults;
-        var isInput = element[0].nodeName === 'INPUT';
-        var activeElement = isInput ? element.parent() : element;
-        var value;
-        attr.$observe('value', function(v) {
-          if (typeof v !== 'boolean' && constantValueRegExp.test(v)) {
-            value = scope.$eval(v);
-          } else {
-            value = v;
-          }
-          controller.$render();
-        });
-        controller.$render = function() {
-          var isActive = angular.equals(controller.$modelValue, value);
-          $$rAF(function() {
-            if (isInput) element[0].checked = isActive;
-            activeElement.toggleClass(options.activeClass, isActive);
-          });
-        };
-        element.bind(options.toggleEvent, function() {
-          scope.$apply(function() {
-            controller.$setViewValue(value);
-            controller.$render();
-          });
-        });
-      }
-    };
-  } ]);
   angular.module('mgcrea.ngStrap.collapse', []).provider('$collapse', function() {
     var defaults = this.defaults = {
       animation: 'am-collapse',
@@ -46643,7 +46755,8 @@ define('routes',['angular', 'app'], function(angular, app) {
   angular.module('mgcrea.ngStrap.affix', [ 'mgcrea.ngStrap.helpers.dimensions', 'mgcrea.ngStrap.helpers.debounce' ]).provider('$affix', function() {
     var defaults = this.defaults = {
       offsetTop: 'auto',
-      inlineStyles: true
+      inlineStyles: true,
+      setWidth: true
     };
     this.$get = [ '$window', 'debounce', 'dimensions', function($window, debounce, dimensions) {
       var bodyEl = angular.element($window.document.body);
@@ -46673,7 +46786,7 @@ define('routes',['angular', 'app'], function(angular, app) {
         $affix.init = function() {
           this.$parseOffsets();
           initialOffsetTop = dimensions.offset(element[0]).top + initialAffixTop;
-          setWidth = !element[0].style.width;
+          setWidth = options.setWidth && !element[0].style.width;
           targetEl.on('scroll', this.checkPosition);
           targetEl.on('click', this.checkPositionWithEventLoop);
           windowEl.on('resize', this.$debouncedOnResize);
@@ -46735,9 +46848,11 @@ define('routes',['angular', 'app'], function(angular, app) {
         };
         $affix.$debouncedOnResize = debounce($affix.$onResize, 50);
         $affix.$parseOffsets = function() {
-          var initialPosition = element.css('position');
+          var initialPosition = element[0].style.position;
+          var initialTop = element[0].style.top;
           if (options.inlineStyles) {
             element.css('position', options.offsetParent ? '' : 'relative');
+            element.css('top', '');
           }
           if (options.offsetTop) {
             if (options.offsetTop === 'auto') {
@@ -46763,6 +46878,7 @@ define('routes',['angular', 'app'], function(angular, app) {
           }
           if (options.inlineStyles) {
             element.css('position', initialPosition);
+            element.css('top', initialTop);
           }
         };
         function getRequiredAffixClass(_unpin, position, elementHeight) {
@@ -46770,8 +46886,8 @@ define('routes',['angular', 'app'], function(angular, app) {
           var scrollHeight = getScrollHeight();
           if (scrollTop <= offsetTop) {
             return 'top';
-          } else if (_unpin !== null && scrollTop + _unpin <= position.top) {
-            return 'middle';
+          } else if (_unpin !== null) {
+            return scrollTop + _unpin <= position.top ? 'middle' : 'bottom';
           } else if (offsetBottom !== null && position.top + elementHeight + initialAffixTop >= scrollHeight - offsetBottom) {
             return 'bottom';
           }
@@ -46788,7 +46904,7 @@ define('routes',['angular', 'app'], function(angular, app) {
       }
       return AffixFactory;
     } ];
-  }).directive('bsAffix', [ '$affix', '$window', function($affix, $window) {
+  }).directive('bsAffix', [ '$affix', '$window', '$timeout', function($affix, $window, $timeout) {
     return {
       restrict: 'EAC',
       require: '^?bsAffixTarget',
@@ -46797,7 +46913,7 @@ define('routes',['angular', 'app'], function(angular, app) {
           scope: scope,
           target: affixTarget ? affixTarget.$element : angular.element($window)
         };
-        angular.forEach([ 'offsetTop', 'offsetBottom', 'offsetParent', 'offsetUnpin', 'inlineStyles' ], function(key) {
+        angular.forEach([ 'offsetTop', 'offsetBottom', 'offsetParent', 'offsetUnpin', 'inlineStyles', 'setWidth' ], function(key) {
           if (angular.isDefined(attr[key])) {
             var option = attr[key];
             if (/true/i.test(option)) option = true;
@@ -46805,7 +46921,10 @@ define('routes',['angular', 'app'], function(angular, app) {
             options[key] = option;
           }
         });
-        var affix = $affix(element, options);
+        var affix;
+        $timeout(function() {
+          affix = $affix(element, options);
+        });
         scope.$on('$destroy', function() {
           if (affix) affix.destroy();
           options = null;
@@ -46826,7 +46945,7 @@ define("angularstrap", ["angular"], function(){});
 
 /**
  * angular-strap
- * @version v2.3.9 - 2016-06-10
+ * @version v2.3.12 - 2017-01-26
  * @link http://mgcrea.github.io/angular-strap
  * @author Olivier Louvignes <olivier@mg-crea.com> (https://github.com/mgcrea)
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -46834,13 +46953,13 @@ define("angularstrap", ["angular"], function(){});
 (function(window, document, undefined) {
   'use strict';
   angular.module('mgcrea.ngStrap.alert').run([ '$templateCache', function($templateCache) {
-    $templateCache.put('alert/alert.tpl.html', '<div class="alert" ng-class="[type ? \'alert-\' + type : null]"><button type="button" class="close" ng-if="dismissable" ng-click="$hide()">&times;</button> <span ng-if="title"><strong ng-bind="title"></strong>&nbsp;<span ng-bind-html="content"></span></span> <span ng-if="!title" ng-bind-html="content"></span></div>');
+    $templateCache.put('alert/alert.tpl.html', '<div class="alert" ng-class="[type ? \'alert-\' + type : null]"><button type="button" class="close" ng-if="dismissable" ng-click="$hide()">&times;</button> <span ng-if="title"><strong ng-bind="title"></strong>&nbsp;<span ng-bind-html="content"></span> </span><span ng-if="!title" ng-bind-html="content"></span></div>');
   } ]);
   angular.module('mgcrea.ngStrap.aside').run([ '$templateCache', function($templateCache) {
     $templateCache.put('aside/aside.tpl.html', '<div class="aside" tabindex="-1" role="dialog"><div class="aside-dialog"><div class="aside-content"><div class="aside-header" ng-show="title"><button type="button" class="close" ng-click="$hide()">&times;</button><h4 class="aside-title" ng-bind="title"></h4></div><div class="aside-body" ng-bind="content"></div><div class="aside-footer"><button type="button" class="btn btn-default" ng-click="$hide()">Close</button></div></div></div></div>');
   } ]);
   angular.module('mgcrea.ngStrap.datepicker').run([ '$templateCache', function($templateCache) {
-    $templateCache.put('datepicker/datepicker.tpl.html', '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode" style="max-width: 320px"><table style="table-layout: fixed; height: 100%; width: 100%"><thead><tr class="text-center"><th><button tabindex="-1" type="button" class="btn btn-default pull-left" ng-click="$selectPane(-1)"><i class="{{$iconLeft}}"></i></button></th><th colspan="{{ rows[0].length - 2 }}"><button tabindex="-1" type="button" class="btn btn-default btn-block text-strong" ng-click="$toggleMode()"><strong style="text-transform: capitalize" ng-bind="title"></strong></button></th><th><button tabindex="-1" type="button" class="btn btn-default pull-right" ng-click="$selectPane(+1)"><i class="{{$iconRight}}"></i></button></th></tr><tr ng-if="showLabels" ng-bind-html="labels"></tr></thead><tbody><tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%"><td class="text-center" ng-repeat="(j, el) in row"><button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-info btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled"><span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span></button></td></tr></tbody><tfoot><tr><td colspan="{{ rows[0].length }}"><div class="btn-group btn-group-justified" role="group"><div class="btn-group" role="group" ng-if="$hasToday"><button type="button" class="btn btn-default today" ng-click="$setToday()" ng-disabled="isTodayDisabled"><strong style="text-transform: capitalize">Today</strong></button></div><div class="btn-group" role="group" ng-if="$hasClear"><button type="button" class="btn btn-default clear" ng-click="$clear()"><strong style="text-transform: capitalize">Clear</strong></button></div></div></td></tr></tfoot></table></div>');
+    $templateCache.put('datepicker/datepicker.tpl.html', '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode" style="max-width: 320px"><table style="table-layout: fixed; height: 100%; width: 100%"><thead><tr class="text-center"><th><button tabindex="-1" type="button" class="btn btn-default pull-left" ng-click="$selectPane(-1)"><i class="{{$iconLeft}}"></i></button></th><th colspan="{{ rows[0].length - 2 }}"><button tabindex="-1" type="button" class="btn btn-default btn-block text-strong" ng-click="$toggleMode()"><strong style="text-transform: capitalize" ng-bind="title"></strong></button></th><th><button tabindex="-1" type="button" class="btn btn-default pull-right" ng-click="$selectPane(+1)"><i class="{{$iconRight}}"></i></button></th></tr><tr ng-if="showLabels" ng-bind-html="labels"></tr></thead><tbody><tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%"><td class="text-center" ng-repeat="(j, el) in row"><button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-info btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date, el.disabled)" ng-disabled="el.disabled"><span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span></button></td></tr></tbody><tfoot><tr><td colspan="{{ rows[0].length }}"><div class="btn-group btn-group-justified" role="group"><div class="btn-group" role="group" ng-if="$hasToday"><button type="button" class="btn btn-default today" ng-click="$setToday()" ng-disabled="isTodayDisabled"><strong style="text-transform: capitalize">Today</strong></button></div><div class="btn-group" role="group" ng-if="$hasClear"><button type="button" class="btn btn-default clear" ng-click="$clear()"><strong style="text-transform: capitalize">Clear</strong></button></div></div></td></tr></tfoot></table></div>');
   } ]);
   angular.module('mgcrea.ngStrap.dropdown').run([ '$templateCache', function($templateCache) {
     $templateCache.put('dropdown/dropdown.tpl.html', '<ul tabindex="-1" class="dropdown-menu" role="menu" ng-show="content && content.length"><li role="presentation" ng-class="{divider: item.divider, active: item.active}" ng-repeat="item in content"><a role="menuitem" tabindex="-1" ng-href="{{item.href}}" ng-if="!item.divider && item.href" target="{{item.target || \'\'}}" ng-bind="item.text"></a> <a role="menuitem" tabindex="-1" href="javascript:void(0)" ng-if="!item.divider && item.click" ng-click="$eval(item.click);$hide()" ng-bind="item.text"></a></li></ul>');
@@ -46854,14 +46973,14 @@ define("angularstrap", ["angular"], function(){});
   angular.module('mgcrea.ngStrap.select').run([ '$templateCache', function($templateCache) {
     $templateCache.put('select/select.tpl.html', '<ul tabindex="-1" class="select dropdown-menu" ng-show="$isVisible()" role="select"><li ng-if="$showAllNoneButtons"><div class="btn-group" style="margin-bottom: 5px; margin-left: 5px"><button type="button" class="btn btn-default btn-xs" ng-click="$selectAll()">{{$allText}}</button> <button type="button" class="btn btn-default btn-xs" ng-click="$selectNone()">{{$noneText}}</button></div></li><li role="presentation" ng-repeat="match in $matches" ng-class="{active: $isActive($index)}"><a style="cursor: default" role="menuitem" tabindex="-1" ng-click="$select($index, $event)"><i class="{{$iconCheckmark}} pull-right" ng-if="$isMultiple && $isActive($index)"></i> <span ng-bind="match.label"></span></a></li></ul>');
   } ]);
+  angular.module('mgcrea.ngStrap.tab').run([ '$templateCache', function($templateCache) {
+    $templateCache.put('tab/tab.tpl.html', '<ul class="nav" ng-class="$navClass" role="tablist"><li role="presentation" ng-repeat="$pane in $panes track by $index" ng-class="[ $isActive($pane, $index) ? $activeClass : \'\', $pane.disabled ? \'disabled\' : \'\' ]"><a role="tab" data-toggle="tab" ng-click="!$pane.disabled && $setActive($pane.name || $index)" data-index="{{ $index }}" ng-bind-html="$pane.title" aria-controls="$pane.title" href=""></a></li></ul><div ng-transclude class="tab-content"></div>');
+  } ]);
   angular.module('mgcrea.ngStrap.timepicker').run([ '$templateCache', function($templateCache) {
     $templateCache.put('timepicker/timepicker.tpl.html', '<div class="dropdown-menu timepicker" style="min-width: 0px;width: auto"><table height="100%"><thead><tr class="text-center"><th><button tabindex="-1" type="button" class="btn btn-default pull-left" ng-click="$arrowAction(-1, 0)"><i class="{{ $iconUp }}"></i></button></th><th>&nbsp;</th><th><button tabindex="-1" type="button" class="btn btn-default pull-left" ng-click="$arrowAction(-1, 1)"><i class="{{ $iconUp }}"></i></button></th><th ng-if="showSeconds">&nbsp;</th><th ng-if="showSeconds"><button tabindex="-1" type="button" class="btn btn-default pull-left" ng-click="$arrowAction(-1, 2)"><i class="{{ $iconUp }}"></i></button></th></tr></thead><tbody><tr ng-repeat="(i, row) in rows"><td class="text-center"><button tabindex="-1" style="width: 100%" type="button" class="btn btn-default" ng-class="{\'btn-primary\': row[0].selected}" ng-click="$select(row[0].date, 0)" ng-disabled="row[0].disabled"><span ng-class="{\'text-muted\': row[0].muted}" ng-bind="row[0].label"></span></button></td><td><span ng-bind="i == midIndex ? timeSeparator : \' \'"></span></td><td class="text-center"><button tabindex="-1" ng-if="row[1].date" style="width: 100%" type="button" class="btn btn-default" ng-class="{\'btn-primary\': row[1].selected}" ng-click="$select(row[1].date, 1)" ng-disabled="row[1].disabled"><span ng-class="{\'text-muted\': row[1].muted}" ng-bind="row[1].label"></span></button></td><td ng-if="showSeconds"><span ng-bind="i == midIndex ? timeSeparator : \' \'"></span></td><td ng-if="showSeconds" class="text-center"><button tabindex="-1" ng-if="row[2].date" style="width: 100%" type="button" class="btn btn-default" ng-class="{\'btn-primary\': row[2].selected}" ng-click="$select(row[2].date, 2)" ng-disabled="row[2].disabled"><span ng-class="{\'text-muted\': row[2].muted}" ng-bind="row[2].label"></span></button></td><td ng-if="showAM">&nbsp;</td><td ng-if="showAM"><button tabindex="-1" ng-show="i == midIndex - !isAM * 1" style="width: 100%" type="button" ng-class="{\'btn-primary\': !!isAM}" class="btn btn-default" ng-click="$switchMeridian()" ng-disabled="el.disabled">AM</button> <button tabindex="-1" ng-show="i == midIndex + 1 - !isAM * 1" style="width: 100%" type="button" ng-class="{\'btn-primary\': !isAM}" class="btn btn-default" ng-click="$switchMeridian()" ng-disabled="el.disabled">PM</button></td></tr></tbody><tfoot><tr class="text-center"><th><button tabindex="-1" type="button" class="btn btn-default pull-left" ng-click="$arrowAction(1, 0)"><i class="{{ $iconDown }}"></i></button></th><th>&nbsp;</th><th><button tabindex="-1" type="button" class="btn btn-default pull-left" ng-click="$arrowAction(1, 1)"><i class="{{ $iconDown }}"></i></button></th><th ng-if="showSeconds">&nbsp;</th><th ng-if="showSeconds"><button ng-if="showSeconds" tabindex="-1" type="button" class="btn btn-default pull-left" ng-click="$arrowAction(1, 2)"><i class="{{ $iconDown }}"></i></button></th></tr></tfoot></table></div>');
   } ]);
   angular.module('mgcrea.ngStrap.tooltip').run([ '$templateCache', function($templateCache) {
     $templateCache.put('tooltip/tooltip.tpl.html', '<div class="tooltip in" ng-show="title"><div class="tooltip-arrow"></div><div class="tooltip-inner" ng-bind="title"></div></div>');
-  } ]);
-  angular.module('mgcrea.ngStrap.tab').run([ '$templateCache', function($templateCache) {
-    $templateCache.put('tab/tab.tpl.html', '<ul class="nav" ng-class="$navClass" role="tablist"><li role="presentation" ng-repeat="$pane in $panes track by $index" ng-class="[ $isActive($pane, $index) ? $activeClass : \'\', $pane.disabled ? \'disabled\' : \'\' ]"><a role="tab" data-toggle="tab" ng-click="!$pane.disabled && $setActive($pane.name || $index)" data-index="{{ $index }}" ng-bind-html="$pane.title" aria-controls="$pane.title" href=""></a></li></ul><div ng-transclude class="tab-content"></div>');
   } ]);
   angular.module('mgcrea.ngStrap.typeahead').run([ '$templateCache', function($templateCache) {
     $templateCache.put('typeahead/typeahead.tpl.html', '<ul tabindex="-1" class="typeahead dropdown-menu" ng-show="$isVisible()" role="select"><li role="presentation" ng-repeat="match in $matches" ng-class="{active: $index == $activeIndex}"><a role="menuitem" tabindex="-1" ng-click="$select($index, $event)" ng-bind="match.label"></a></li></ul>');
@@ -46934,18 +47053,18 @@ $provide.value("$locale", {
       "d\u00e9c."
     ],
     "STANDALONEMONTH": [
-      "Janvier",
-      "F\u00e9vrier",
-      "Mars",
-      "Avril",
-      "Mai",
-      "Juin",
-      "Juillet",
-      "Ao\u00fbt",
-      "Septembre",
-      "Octobre",
-      "Novembre",
-      "D\u00e9cembre"
+      "janvier",
+      "f\u00e9vrier",
+      "mars",
+      "avril",
+      "mai",
+      "juin",
+      "juillet",
+      "ao\u00fbt",
+      "septembre",
+      "octobre",
+      "novembre",
+      "d\u00e9cembre"
     ],
     "WEEKENDRANGE": [
       5,
