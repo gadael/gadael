@@ -1,6 +1,7 @@
 #!/usr/bin/dh-exec --with=install
 
 api                 /var/lib/gadael
+node_modules        /var/lib/gadael
 modules             /var/lib/gadael
 po                  /var/lib/gadael
 public              /var/lib/gadael

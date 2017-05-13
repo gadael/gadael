@@ -1,2 +1,3 @@
 # git-build-recipe format 0.4 deb-version {debupstream}-0~{revno}
 lp:gadael master
+merge dependencies lp:gadael dependencies
