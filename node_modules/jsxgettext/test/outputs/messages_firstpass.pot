@@ -1,0 +1,7 @@
+#: inputs/first.js:1
+msgid "Hello World"
+msgstr ""
+
+#: inputs/first.js:2
+msgid "This message is used twice."
+msgstr ""
