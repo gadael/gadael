@@ -100,16 +100,7 @@ function getFieldsToSet(service, wrParams)
  */
 function createRight(user, document)
 {
-    return document.createRecoveryRight()
-    .then(function(right) {
-
-        if (null === right || undefined === right) {
-            return Promise.resolve(null);
-        }
-
-        // link right to user using a beneficiary
-        return right.addUserBeneficiary(user);
-    });
+    return document.createRecoveryBeneficiary(user);
 }
 
 

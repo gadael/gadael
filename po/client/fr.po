@@ -607,7 +607,7 @@ msgstr "Connecter"
 
 #: public/partials/admin/right-edit.html
 msgid "Consume next business days"
-msgstr "Consommer le jour travaillé suivant"
+msgstr "Consommer le jour ouvré suivant"
 
 #: public/partials/admin/right-edit.html
 msgid "Consume worked days"

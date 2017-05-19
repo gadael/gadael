@@ -346,11 +346,32 @@ exports = module.exports = function(params) {
 
     /**
      * create a renewal for a recover request
-     * @param {Object} recover  the workperiod_recover property of a Request document
+     * start on the date of the recovery period end end one year laster
+     *
+     * @param {Object} request  Request document
      * @return {Promise}
      */
-    rightSchema.methods.createRecoveryRenewal = function createRecoveryRenewal(recover) {
-        var r = recover.renewal;
+    rightSchema.methods.createRecoveryRenewal = function createRecoveryRenewal(request) {
+
+        let r = request.workperiod_recover[0].right.renewal;
+
+        if (0 === request.events.length) {
+            throw new Error('No events on the recovery request');
+        }
+
+        if (undefined === request.events[0].dtstart) {
+            throw new Error('events must be populated on request');
+        }
+
+        if (!r.start) {
+            r.start = new Date(request.events[0].dtstart);
+        }
+
+        if (!r.finish) {
+            r.finish = new Date(r.start);
+            r.finish.setFullYear(r.finish.getFullYear() + 1);
+        }
+
         return this.createRenewal(r.start, r.finish);
     };
 
@@ -421,7 +442,7 @@ exports = module.exports = function(params) {
      * @param {RightCollection|ObjectId} collection
      * @return {Promise}
      */
-    rightSchema.methods.addCollectionBeneficiary = function addUserBeneficiary(collection) {
+    rightSchema.methods.addCollectionBeneficiary = function addCollectionBeneficiary(collection) {
         let model = this.model('Beneficiary');
 
         let id = collection;

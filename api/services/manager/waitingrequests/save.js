@@ -147,43 +147,54 @@ function saveRequest(service, params) {
 
 
                         if ('accepted' === request.status.created) {
-                            request.setEventsStatus('CONFIRMED').then(function() {
+                            document.createRecoveryBeneficiary(user)
+                            .then(() => {
+                                return request.setEventsStatus('CONFIRMED');
+                            })
+                            .then(function() {
                                 service.resolveSuccessGet(
                                     document._id,
                                     gt.gettext('The request has been confirmed')
                                 );
-                            });
+                            })
+                            .catch(service.error);
                             return;
                         }
 
                         if ('rejected' === request.status.created) {
-                            request.setEventsStatus('CANCELLED').then(function() {
+                            request.setEventsStatus('CANCELLED')
+                            .then(function() {
                                 service.resolveSuccessGet(
                                     document._id,
                                     gt.gettext('The request has been cancelled')
                                 );
-                            });
+                            })
+                            .catch(service.error);
                             return;
                         }
 
 
                         if ('accepted' === request.status.deleted) {
-                            request.setEventsStatus('CANCELLED').then(function() {
+                            request.setEventsStatus('CANCELLED')
+                            .then(function() {
                                 service.resolveSuccessGet(
                                     document._id,
                                     gt.gettext('The appliquant has requested a delete, the request has been canceled')
                                 );
-                            });
+                            })
+                            .catch(service.error);
                             return;
                         }
 
                         if ('rejected' === request.status.deleted) {
-                            request.setEventsStatus('CONFIRMED').then(function() {
+                            request.setEventsStatus('CONFIRMED')
+                            .then(function() {
                                 service.resolveSuccessGet(
                                     document._id,
                                     gt.gettext('The appliquant has requested a delete, the request has been confirmed anyway')
                                 );
-                            });
+                            })
+                            .catch(service.error);
                             return;
                         }
 

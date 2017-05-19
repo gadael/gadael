@@ -627,7 +627,7 @@ exports = module.exports = function(params) {
 
             var right = new rightModel();
             right.name = recover.right.name;
-            right.type = '';
+            right.type = '5740adf51cf1a569643cc50a';
             right.quantity = recover.quantity;
             right.quantity_unit = recover.right.quantity_unit;
             right.rules = [{
@@ -640,7 +640,7 @@ exports = module.exports = function(params) {
 
 
         return createRight()
-        .then(function(right) {
+        .then(right => {
 
             if (null === right) {
                 return request;
@@ -648,14 +648,48 @@ exports = module.exports = function(params) {
 
             recover.right.id = right._id;
 
-            return right.createRecoveryRenewal(recover)
-            .then(function(renewal) {
-                recover.right.renewal = renewal._id;
+            return right.createRecoveryRenewal(request)
+            .then(renewal => {
+                recover.right.renewal.id = renewal._id;
                 return request.save();
+            })
+            .then(() => {
+                return right;
             });
         });
 
     };
+
+
+
+
+
+    /**
+     * Create right and beneficiary
+     * resolve to null if the request is not a recovery request
+     *
+     * @param {User}        user            Request owner
+     * @param {Request}     document
+     *
+     * @return {Promise}    resolve to the Beneficiary document or null if right has not been created
+     */
+    requestSchema.methods.createRecoveryBeneficiary = function(user)
+    {
+        let request  = this;
+
+        return request.createRecoveryRight()
+        .then(right => {
+
+            if (null === right || undefined === right) {
+                return Promise.resolve(null);
+            }
+
+            // link right to user using a beneficiary
+            return right.addUserBeneficiary(user);
+        });
+    };
+
+
 
 
     /**
@@ -736,7 +770,7 @@ exports = module.exports = function(params) {
             // the workflow sheme has ended, remove approval steps list
             this.approvalSteps = [];
 
-            // TODO notify appliquant
+
             return 0;
         }
 
