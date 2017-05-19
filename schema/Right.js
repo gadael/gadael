@@ -372,6 +372,11 @@ exports = module.exports = function(params) {
             r.finish.setFullYear(r.finish.getFullYear() + 1);
         }
 
+        // round to full days
+
+        r.start.setHours(0,0,0,0);
+        r.finish.setHours(23,59,59,999);
+
         return this.createRenewal(r.start, r.finish);
     };
 
