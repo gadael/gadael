@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-29 21:47+0200\n"
+"POT-Creation-Date: 2017-05-23 22:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -437,11 +437,16 @@ msgstr ""
 msgid "either departments or collections must contain items"
 msgstr ""
 
-#: api/services/admin/compulsoryleaves/save.js:580
+#: api/services/admin/compulsoryleaves/save.js:250
+#, javascript-format
+msgid "No availability on period for %s"
+msgstr ""
+
+#: api/services/admin/compulsoryleaves/save.js:585
 msgid "The compulsory leave period has been modified"
 msgstr ""
 
-#: api/services/admin/compulsoryleaves/save.js:599
+#: api/services/admin/compulsoryleaves/save.js:604
 msgid "The compulsory leave period has been created"
 msgstr ""
 
@@ -684,30 +689,30 @@ msgstr ""
 msgid "Leave periods provided by gadael"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:153
+#: api/services/manager/waitingrequests/save.js:157
 msgid "The request has been confirmed"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:163
+#: api/services/manager/waitingrequests/save.js:169
 msgid "The request has been cancelled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:174
+#: api/services/manager/waitingrequests/save.js:182
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:184
+#: api/services/manager/waitingrequests/save.js:194
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:193
+#: api/services/manager/waitingrequests/save.js:204
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:200
+#: api/services/manager/waitingrequests/save.js:211
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 
@@ -1151,13 +1156,13 @@ msgstr ""
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:1152
+#: schema/Right_Renewal.js:1151
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1161
+#: schema/Right_Renewal.js:1160
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"

@@ -329,7 +329,7 @@ msgstr "Présence"
 msgid "Attendance (percentage relative to full-time)"
 msgstr "Présence (pourcentage relatif au temps complet)"
 
-#: public/partials/account/beneficiary-view.html
+#: public/partials/utils/common/renewal/combined-adjutments.html
 msgid "Author"
 msgstr "Auteur"
 
@@ -558,7 +558,7 @@ msgstr "régimes"
 msgid "Color"
 msgstr "Couleur"
 
-#: public/partials/account/beneficiary-view.html
+#: public/partials/utils/common/renewal/combined-adjutments.html
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -764,7 +764,7 @@ msgstr "Régime de congés en cours :"
 msgid "Current workschedule calendar:"
 msgstr "Agenda du rythme de travail en cours :"
 
-#: public/partials/account/beneficiary-view.html
+#: public/partials/utils/common/renewal/combined-adjutments.html
 msgid "Date"
 msgstr "Date"
 
@@ -1052,6 +1052,14 @@ msgid ""
 msgstr ""
 "Exporter les demandes pour les fiches de paye mensuelles dans sage, "
 "seulement les utilisateurs avec un matricule sage enregistré serons exportés"
+
+#: public/partials/admin/export/exports.html
+msgid "Export to a spreadsheet"
+msgstr "Exporter vers une feuille de calcul"
+
+#: public/partials/admin/export/exports.html
+msgid "Export to sage"
+msgstr "Exporter vers Sage"
 
 #: public/js/controllers/admin/exports.js
 msgid "Exports"
@@ -1724,7 +1732,7 @@ msgstr "Procéder à la création de la demande avec un des boutons suivants :"
 msgid "Proportional to attendance"
 msgstr "Proportionnel à la présence"
 
-#: public/partials/account/beneficiary-view.html
+#: public/partials/utils/common/renewal/combined-adjutments.html
 msgid "Quantity"
 msgstr "Quantité"
 

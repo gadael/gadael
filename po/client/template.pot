@@ -307,7 +307,7 @@ msgstr ""
 msgid "Attendance (percentage relative to full-time)"
 msgstr ""
 
-#: public/partials/account/beneficiary-view.html
+#: public/partials/utils/common/renewal/combined-adjutments.html
 msgid "Author"
 msgstr ""
 
@@ -536,7 +536,7 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
-#: public/partials/account/beneficiary-view.html
+#: public/partials/utils/common/renewal/combined-adjutments.html
 msgid "Comment"
 msgstr ""
 
@@ -729,7 +729,7 @@ msgstr ""
 msgid "Current workschedule calendar:"
 msgstr ""
 
-#: public/partials/account/beneficiary-view.html
+#: public/partials/utils/common/renewal/combined-adjutments.html
 msgid "Date"
 msgstr ""
 
@@ -997,6 +997,14 @@ msgstr ""
 
 #: public/partials/admin/export/exports.html
 msgid "Export requests for your monthy payroll in sage, only users with the sage registration number set will be exported"
+msgstr ""
+
+#: public/partials/admin/export/exports.html
+msgid "Export to a spreadsheet"
+msgstr ""
+
+#: public/partials/admin/export/exports.html
+msgid "Export to sage"
 msgstr ""
 
 #: public/js/controllers/admin/exports.js
@@ -1631,7 +1639,7 @@ msgstr ""
 msgid "Proportional to attendance"
 msgstr ""
 
-#: public/partials/account/beneficiary-view.html
+#: public/partials/utils/common/renewal/combined-adjutments.html
 msgid "Quantity"
 msgstr ""
 
