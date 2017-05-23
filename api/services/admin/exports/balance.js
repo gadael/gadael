@@ -124,11 +124,11 @@ exports = module.exports = function(service, moment) {
                 } else {
                     row[RENEWAL_START]  = '';
                     row[RENEWAL_FINISH] = '';
-                    row[QUANTITY]       = 0;
-                    row[CONSUMED]       = 0;
-                    row[WAITING]        = 0;
-                    row[BALANCE]        = 0;
-                    row[WAITDEL]        = 0;
+                    row[QUANTITY]       = 0.0;
+                    row[CONSUMED]       = 0.0;
+                    row[WAITING]        = 0.0;
+                    row[BALANCE]        = 0.0;
+                    row[WAITDEL]        = 0.0;
 
                     return Promise.resolve(0);
                 }
@@ -137,7 +137,21 @@ exports = module.exports = function(service, moment) {
                     renewal.getUserQuantity(user, moment),
                     renewal.getUserConsumedQuantity(user, moment)
                 ])
+                .catch(() => {
+                    return null;
+                })
                 .then(all => {
+
+                    if (null === all) {
+                        // error on this right, ignore
+                        row[QUANTITY]       = 0.0;
+                        row[CONSUMED]       = 0.0;
+                        row[WAITING]        = 0.0;
+                        row[BALANCE]        = 0.0;
+                        row[WAITDEL]        = 0.0;
+                        data.push(row);
+                        return 0;
+                    }
 
                     let requests = all[1];
 
