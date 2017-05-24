@@ -330,14 +330,11 @@ exports = module.exports = {
 
         db.once('open', function() {
             db.db.dropDatabase(function(err, result) {
-                if (err)
-                {
+                if (err) {
                     console.error(err.err);
-                } else {
-                    callback();
                 }
 
-                db.close();
+                db.close(callback);
             });
         });
     },
