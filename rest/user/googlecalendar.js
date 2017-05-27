@@ -59,8 +59,13 @@ exports.next = (req, res) => {
     }
 
     req.user.google.accessToken = profile.accessToken;
+
+    // refresh token is used to get new access tokens when the user is offline.
     req.user.google.refreshToken = profile.refreshToken;
-    req.user.google.expire_in = profile.expire_in;
+
+    let expiry = new Date();
+    expiry.setSeconds(expiry.getSeconds() + profile.expire_in);
+    req.user.google.expire_in = expiry;
     req.user.save()
     .then((savedUser) => {
         res.redirect('/#/user/settings/calendar');
