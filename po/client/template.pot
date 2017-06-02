@@ -316,10 +316,6 @@ msgstr ""
 msgid "Auto monthly update"
 msgstr ""
 
-#: public/partials/admin/right-edit.html
-msgid "Automatic distribution of this right when creating a request"
-msgstr ""
-
 #: public/partials/admin/rightrule-edit.html
 msgid "Availability duration after the period end date from the user/right link:"
 msgstr ""
@@ -1116,6 +1112,10 @@ msgstr ""
 
 #: public/partials/admin/calendar-edit.html
 msgid "Half day hour"
+msgstr ""
+
+#: public/partials/admin/right-edit.html
+msgid "Hide the right in user list, but can be visible on request creation if active for account"
 msgstr ""
 
 #: public/js/controllers/home.js

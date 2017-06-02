@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-23 22:27+0200\n"
+"POT-Creation-Date: 2017-06-02 08:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -479,11 +479,11 @@ msgstr ""
 msgid "The leave right has been deleted"
 msgstr ""
 
-#: api/services/admin/rights/save.js:169
+#: api/services/admin/rights/save.js:170
 msgid "The vacation right has been created"
 msgstr ""
 
-#: api/services/admin/rights/save.js:171
+#: api/services/admin/rights/save.js:172
 msgid "The vacation right has been modified"
 msgstr ""
 
@@ -1148,7 +1148,7 @@ msgstr ""
 msgid "You must be logged in"
 msgstr ""
 
-#: rest/user/googlecalendar.js:92
+#: rest/user/googlecalendar.js:97
 msgid "You are disconnected from your google calendar"
 msgstr ""
 
@@ -1282,8 +1282,8 @@ msgstr ""
 msgid "Relocation"
 msgstr ""
 
-#: schema/Type.js:66 schema/data/fr.js:92 schema/data/us.js:24
-#: schema/data/default.js:60
+#: schema/Type.js:66 schema/data/fr.js:93 schema/data/us.js:24
+#: schema/data/default.js:61
 msgid "Unpaid leave"
 msgstr ""
 
@@ -1388,8 +1388,8 @@ msgstr ""
 msgid "The absence must be within the renewal period"
 msgstr ""
 
-#: schema/data/fr.js:78 schema/data/ch.js:71 schema/data/us.js:10
-#: schema/data/default.js:46 schema/data/be.js:51 schema/data/uk.js:65
+#: schema/data/fr.js:79 schema/data/ch.js:72 schema/data/us.js:10
+#: schema/data/default.js:47 schema/data/be.js:52 schema/data/uk.js:67
 msgid "Sickness absence"
 msgstr ""
 
@@ -1411,7 +1411,7 @@ msgstr ""
 msgid "Ordinary Maternity Leave"
 msgstr ""
 
-#: schema/data/uk.js:51
+#: schema/data/uk.js:52
 msgid "Additional Maternity Leave"
 msgstr ""
 

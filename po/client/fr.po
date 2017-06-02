@@ -337,12 +337,6 @@ msgstr "Auteur"
 msgid "Auto monthly update"
 msgstr "Mise à jour mensuelles automatiques"
 
-#: public/partials/admin/right-edit.html
-msgid "Automatic distribution of this right when creating a request"
-msgstr ""
-"Répartition automatique de la quantité sur ce droit lors de la création "
-"d'une demande"
-
 #: public/partials/admin/rightrule-edit.html
 msgid ""
 "Availability duration after the period end date from the user/right link:"
@@ -1183,6 +1177,14 @@ msgstr "Titre du groupe de droits (forme plurielle)"
 #: public/partials/admin/calendar-edit.html
 msgid "Half day hour"
 msgstr "Heure de la demi-journée"
+
+#: public/partials/admin/right-edit.html
+msgid ""
+"Hide the right in user list, but can be visible on request creation if "
+"active for account"
+msgstr ""
+"Cacher le droit dans la liste des utilisateurs, mais il peut être visible "
+"lors de la de la création d'une demande si actif pour le compte"
 
 #: public/js/controllers/home.js
 msgid "Home"
@@ -2807,6 +2809,11 @@ msgstr ""
 #: public/partials/login/invitation.html
 msgid "Your workschedule for a week"
 msgstr "Votre rythme de travail sur une semaine"
+
+#~ msgid "Automatic distribution of this right when creating a request"
+#~ msgstr ""
+#~ "Répartition automatique de la quantité sur ce droit lors de la création "
+#~ "d'une demande"
 
 #~ msgid "New leave right"
 #~ msgstr "Nouveau droit de congé"
