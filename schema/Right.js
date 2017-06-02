@@ -94,6 +94,10 @@ exports = module.exports = function(params) {
             admin: { type: Boolean, default:true }
         },
 
+        // Hide the right in user list,
+        // but can be visible in step 2 when creating a request if active for account
+        hide: Boolean,
+
         // activeSpan.min minimal number of days between entry date and request start date
         // this is the time given to the approvers
         // activeSpan.max maximal number of days between entry date and request end date

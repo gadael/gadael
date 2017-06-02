@@ -39,6 +39,7 @@ module.exports = exports = function(app) {
                 quantity: null,
                 defaultAbsenceLength: 75,
                 activeFor: {  account: false },
+                hide: true,
                 renewal: {
                     start: {
                         month:0,

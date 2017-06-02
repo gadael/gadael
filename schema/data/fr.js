@@ -65,6 +65,7 @@ module.exports = exports = function(app) {
                 quantity: null,
                 defaultAbsenceLength: 80,
                 activeFor: {  account: false },
+                hide: true,
                 autoDistribution: false,
                 renewal: {
                     start: {

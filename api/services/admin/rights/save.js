@@ -120,6 +120,7 @@ function saveRight(service, params) {
         type: type,
         require_approval: params.require_approval,
         activeFor: params.activeFor,
+        hide: params.hide,
         rules: params.rules,
         addMonthly: params.addMonthly,
         autoAdjustment: params.autoAdjustment,
