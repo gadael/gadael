@@ -134,9 +134,15 @@ define(function() {
                 }
 
 
+                function removeHidden(b) {
+                    return !b.right.hide;
+                }
+
+
                 var sortedRenewals = [];
                 for(var k in renewals) {
                     if (renewals.hasOwnProperty(k)) {
+                        renewals[k].beneficiaries = renewals[k].beneficiaries.filter(removeHidden);
                         sortedRenewals.push(renewals[k]);
                     }
                 }
