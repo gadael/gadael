@@ -69,6 +69,10 @@ define(function() {
                  */
                 var renewals = {};
 
+
+
+
+
                 /**
                  * Populate beneficiaries by current renewal finish date
                  * into the renewals
@@ -88,8 +92,15 @@ define(function() {
                     }
 
                     var renewal = flist[0];
+                    var key;
 
-                    var key = renewal.finish.toString();
+                    if (!$scope.useEndDate(renewal)) {
+                        key = 'INF';
+                    } else {
+                        key = renewal.finish.toString();
+                    }
+
+
 
                     if (undefined === renewals[key]) {
                         renewals[key] = {
@@ -143,7 +154,9 @@ define(function() {
                 for(var k in renewals) {
                     if (renewals.hasOwnProperty(k)) {
                         renewals[k].beneficiaries = renewals[k].beneficiaries.filter(removeHidden);
-                        sortedRenewals.push(renewals[k]);
+                        if (renewals[k].beneficiaries.length > 0) {
+                            sortedRenewals.push(renewals[k]);
+                        }
                     }
                 }
 
@@ -160,6 +173,7 @@ define(function() {
 
                     return 0;
                 });
+
 
                 $scope.renewals = sortedRenewals;
 
