@@ -11,7 +11,7 @@ const api = {
 
 describe('Right renewal', function() {
 
-    let rightModel, renewalModel, user;
+    let rightModel, renewalModel, user, additionalRightRenewal;
 
     let server;
 
@@ -60,8 +60,8 @@ describe('Right renewal', function() {
     });
 
 
-    it('verify the getPlannedWorkDayNumber method', function(done) {
 
+    it('create additional right renewal', function(done) {
         let right = new rightModel();
         right.name = 'Additional right';
         right.quantity = 2;
@@ -82,19 +82,72 @@ describe('Right renewal', function() {
             rightRenewal.save((err, rightRenewal) => {
                 expect(err).toBeNull();
 
-                rightRenewal.getPlannedWorkDayNumber(user)
-                .then(workDays => {
-
-                    // renewal duration = 365
-                    // - 105 week-ends days
-                    // - 25 days of annual paid leaves
-                    // - 11 non working days
-
-                    expect(workDays).toEqual(224);
-                    done();
-                }).catch(done);
+                additionalRightRenewal = rightRenewal;
+                done();
             });
         });
+    });
+
+
+    it('verify the renewal duration', function(done) {
+
+        expect(additionalRightRenewal.getDays()).toEqual(365);
+        done();
+
+    });
+
+    it('verify the week-end days', function(done) {
+
+        return user.getAccount()
+        .then(account => {
+            return additionalRightRenewal.getWeekEndDays(account);
+        })
+        .then(weekEnds => {
+            expect(weekEnds).toEqual(105);
+            done();
+        }).catch(done);
+    });
+
+
+    it('verify the number of annual paid leaves', function(done) {
+
+        return additionalRightRenewal.getPaidLeavesQuantity(user)
+        .then(paidLeaves => {
+            expect(paidLeaves).toEqual(25);
+            done();
+        }).catch(done);
+    });
+
+
+
+    it('verify the number of non-working days', function(done) {
+
+        return user.getAccount()
+        .then(account => {
+            return additionalRightRenewal.getNonWorkingDayQuantity(account);
+        })
+        .then(paidLeaves => {
+            expect(paidLeaves).toEqual(11);
+            done();
+        }).catch(done);
+    });
+
+
+
+    it('verify the getPlannedWorkDayNumber method, (renewal duration - week-end - paid leaves - non working days) ', function(done) {
+
+        additionalRightRenewal.getPlannedWorkDayNumber(user)
+        .then(workDays => {
+
+            // renewal duration = 365
+            // - 105 week-ends days
+            // - 25 days of annual paid leaves
+            // - 11 non working days
+
+            expect(workDays).toEqual(224);
+            done();
+        }).catch(done);
+
     });
 
 

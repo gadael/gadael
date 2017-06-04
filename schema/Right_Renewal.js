@@ -1108,8 +1108,31 @@ exports = module.exports = function(params) {
 
 
 
+	rightRenewalSchema.methods.getPaidLeavesQuantity = function(user) {
+
+		const renewal = this;
+		const gt = params.app.utility.gettext;
+		const Type = renewal.model('Type');
+
+		return Type.findOne({ _id: '5740adf51cf1a569643cc508'}).exec()
+		.then(type => {
+			if (null === type) {
+				throw new Error(gt.gettext('To compute the number of planned working days, the annual leave type is required'));
+			}
+
+			return type.getInitialQuantityInPeriod(user, renewal.start, renewal.finish);
+		});
+	};
 
 
+
+	rightRenewalSchema.methods.getNonWorkingDayQuantity = function(account) {
+		const renewal = this;
+		return account.getNonWorkingDayEvents(renewal.start, renewal.finish)
+		.then((events) => {
+			return Object.keys(events.getDays()).length;
+		});
+	};
 
 
 
@@ -1125,37 +1148,25 @@ exports = module.exports = function(params) {
     rightRenewalSchema.methods.getPlannedWorkDayNumber = function(user) {
 
 		const gt = params.app.utility.gettext;
-        let renewal = this;
-        let weekEnds, nonWorkingDays;
-
-        let Type = renewal.model('Type');
-
+        const renewal = this;
+        let weekEnds, nonWorkingDays, initalQuantity;
 
 
         return user.getAccount().then(account => {
 
             return Promise.all([
                 renewal.getWeekEndDays(account),
-                account.getNonWorkingDayEvents(renewal.start, renewal.finish)
+                renewal.getNonWorkingDayQuantity(account),
+				renewal.getPaidLeavesQuantity(user)
             ]);
 
         }).then(r => {
 
             weekEnds = r[0];
-
-            nonWorkingDays = Object.keys(r[1].getDays()).length;
-
-            return Type.findOne({ _id: '5740adf51cf1a569643cc508'}).exec()
-            .then(type => {
-                if (null === type) {
-                    throw new Error(gt.gettext('To compute the number of planned working days, the annual leave type is required'));
-                }
-
-                return type.getInitialQuantityInPeriod(user, renewal.start, renewal.finish);
-            });
+            nonWorkingDays = r[1];
+			initalQuantity = r[2];
 
 
-        }).then(initalQuantity => {
             if (0 === initalQuantity) {
                 throw new Error(gt.gettext('To compute the number of planned working days on a year, the annual leave initial quantity is required'));
             }
