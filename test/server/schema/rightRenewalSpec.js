@@ -104,17 +104,6 @@ describe('Right renewal', function() {
             return additionalRightRenewal.getWorkedDays(account);
         })
         .then(workedDays => {
-
-            let count = 1;
-
-            for (let ts in workedDays) {
-                if (workedDays.hasOwnProperty(ts)) {
-                    const d = workedDays[ts];
-                    console.log(d.toLocaleDateString()+' - '+d.getDay()+' - '+count);
-                    count++;
-                }
-            }
-
             expect(Object.keys(workedDays).length).toEqual(260);
             done();
         }).catch(done);
@@ -173,7 +162,6 @@ describe('Right renewal', function() {
         }).catch(done);
 
     });
-
 
 
     it('close the mock server', function(done) {
