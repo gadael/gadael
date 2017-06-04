@@ -70,6 +70,7 @@ function getAccount(service, params, next) {
 function saveAccountScheduleCalendar(service, params) {
 
     const gt = service.app.utility.gettext;
+    const postpone = service.app.utility.postpone;
 
     var scheduleCalendar = service.app.db.models.AccountScheduleCalendar;
     var util = require('util');
@@ -87,14 +88,19 @@ function saveAccountScheduleCalendar(service, params) {
                 document.from 		= params.from;
                 document.to 		= params.to;
 
-                document.save(function (err) {
-                    if (service.handleMongoError(err)) {
+                document.save()
+                .then(document => {
+
+                    return postpone(document.updateUsersStat())
+                    .then(() => {
+
                         service.resolveSuccessGet(
                             document._id,
                             gt.gettext('The account schedule period has been modified')
                         );
-                    }
-                });
+                    });
+                })
+                .catch(service.error);
             }
         });
 
@@ -102,21 +108,29 @@ function saveAccountScheduleCalendar(service, params) {
 
         getAccount(service, params, function(accountId) {
 
-            scheduleCalendar.create({
-                    account: accountId,
-                    calendar: params.calendar._id,
-                    from: params.from,
-                    to: params.to
-                }, function(err, document) {
+            let document = new scheduleCalendar();
+            document.set({
+                account: accountId,
+                calendar: params.calendar._id,
+                from: params.from,
+                to: params.to
+            });
 
-                if (service.handleMongoError(err))
-                {
+            document.save()
+            .then(document => {
+
+                return postpone(document.updateUsersStat())
+                .then(() => {
+
                     service.resolveSuccessGet(
                         document._id,
                         gt.gettext('The account schedule calendar period has been created')
                     );
-                }
-            });
+
+                });
+            })
+            .catch(service.error);
+
 
         });
     }

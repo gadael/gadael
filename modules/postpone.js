@@ -18,7 +18,12 @@ exports = module.exports = function(config) {
     return function postpone(task) {
 
         if (!config.postpone) {
-            return task
+            return Promise.resolve(task)
+            .catch(err => {
+                console.error('hidden error in postonnable process');
+                console.error(err.stack);
+                return;
+            })
             .then(() => {
                 return null;
             });

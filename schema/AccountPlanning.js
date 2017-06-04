@@ -59,5 +59,18 @@ exports = module.exports = function(params) {
 	});
 
 
+    apSchema.methods.updateUsersStat = function() {
+        // update account stats
+
+        const User = this.model('User');
+        return User.findOne()
+        .where('roles.account', this.account)
+        .exec()
+        .then(user => {
+            return user.updateRenewalsStat(new Date());
+        });
+
+    };
+
     return apSchema;
 };
