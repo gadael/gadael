@@ -810,18 +810,48 @@ exports = module.exports = function(params) {
     };
 
 
+
+
+
+    function addPair(output, beneficiary, renewals) {
+
+        for(var i=0; i< renewals.length; i++) {
+
+            if (null === renewals[i]) {
+                continue;
+            }
+
+            output.push({
+                beneficiary: beneficiary,
+                renewal: renewals[i]
+            });
+        }
+    }
+
+
     /**
-     * Get all renwals associated to the user account
+     * Get pairs of renewal/beneficiary object
+     * beneficiary with no valid renewal for the moment are ignored
      * @param {Date} [moment] optional moment date
      * @return {Promise}
      */
-    accountSchema.methods.getRenewals = function(moment) {
+    accountSchema.methods.getBeneficiariesRenewals = function(moment) {
+
+        let output = [];
+
         return this.getRightBeneficiaries(moment) // moment is optional here
         .then(beneficiaries => {
             if (undefined !== moment) {
                 return Promise.all(
                     beneficiaries.map(b => b.right.getMomentRenewal(moment))
-                );
+                )
+                .then(renewals => {
+                    for(var i=0; i< beneficiaries.length; i++) {
+                        addPair(output, beneficiaries[i], [renewals[i]]);
+                    }
+
+                    return output;
+                });
             }
 
 
@@ -829,48 +859,18 @@ exports = module.exports = function(params) {
                 beneficiaries.map(b => b.right.getAllRenewals())
             )
             .then(lists => {
-                return lists.reduce((acc, renewals) => {
-                    return acc.concat(renewals);
-                }, []);
-            });
-
-        });
-    };
-
-
-
-    /**
-     * Get pairs of renewal/beneficiary object
-     * beneficiary with no valid renewal for the moment are ignored
-     * @return {Promise}
-     */
-    accountSchema.methods.getMomentBeneficiariesRenewals = function(moment) {
-        return this.getRightBeneficiaries(moment) // moment is optional here
-        .then(function(beneficiaries) {
-
-            return Promise.all(
-                beneficiaries.map(b => b.right.getMomentRenewal(moment))
-            )
-            .then(renewals => {
-
-                let output = [];
-
                 for(var i=0; i< beneficiaries.length; i++) {
-
-                    if (null === renewals[i]) {
-                        continue;
-                    }
-
-                    output.push({
-                        beneficiary: beneficiaries[i],
-                        renewal: renewals[i]
-                    });
+                    addPair(output, beneficiaries[i], lists[i]);
                 }
 
                 return output;
             });
+
         });
     };
+
+
+
 
 
     /**

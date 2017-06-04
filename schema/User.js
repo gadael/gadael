@@ -1029,6 +1029,8 @@ exports = module.exports = function(params) {
 	 * Update all stats cache for the user
 	 * after a request creation or a custom beneficiary modification
 	 *
+	 * @param {Date} moment Optional date for modification, if no moment, update all history
+	 *
 	 * @return {Promise}
 	 */
 	userSchema.methods.updateRenewalsStat = function(moment) {
@@ -1036,7 +1038,7 @@ exports = module.exports = function(params) {
 
 		return user.getAccount()
 		.then(account => {
-			return account.getMomentBeneficiariesRenewals(moment);
+			return account.getBeneficiariesRenewals(moment);
 		})
 		.then(arr => {
 

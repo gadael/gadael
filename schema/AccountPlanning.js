@@ -67,7 +67,7 @@ exports = module.exports = function(params) {
         .where('roles.account', this.account)
         .exec()
         .then(user => {
-            return user.updateRenewalsStat(new Date());
+            return user.updateRenewalsStat();
         });
 
     };
