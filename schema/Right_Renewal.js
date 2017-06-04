@@ -876,6 +876,8 @@ exports = module.exports = function(params) {
 
 		return renewal.getUserQuantityStats(user)
 		.then(validStat => {
+			// overwrite previous error
+			validStat.error = null;
 			return renewal.saveUserRenewalStat(user, beneficiary, validStat);
 		})
 		.catch(err => {
