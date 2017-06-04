@@ -70,6 +70,7 @@ function getAccount(service, params, next) {
 function saveAccountNWDaysCalendar(service, params) {
 
     const gt = service.app.utility.gettext;
+    const postpone = service.app.utility.postpone;
 
     var nwdaysCalendar = service.app.db.models.AccountNWDaysCalendar;
     var util = require('util');
@@ -90,10 +91,15 @@ function saveAccountNWDaysCalendar(service, params) {
             return document.save()
             .then(document =>  {
 
-                service.resolveSuccessGet(
-                    document._id,
-                    gt.gettext('The account non working days calendar period has been modified')
-                );
+                return postpone(document.updateUsersStat())
+                .then(() => {
+
+                    service.resolveSuccessGet(
+                        document._id,
+                        gt.gettext('The account non working days calendar period has been modified')
+                    );
+
+                });
 
             });
 
@@ -104,21 +110,29 @@ function saveAccountNWDaysCalendar(service, params) {
 
         getAccount(service, params, function(accountId) {
 
-            nwdaysCalendar.create({
-                    account: accountId,
-                    calendar: params.calendar._id,
-                    from: params.from,
-                    to: params.to
-                }, function(err, document) {
+            let document = new nwdaysCalendar();
+            document.set({
+                account: accountId,
+                calendar: params.calendar._id,
+                from: params.from,
+                to: params.to
+            });
 
-                if (service.handleMongoError(err))
-                {
+            document.save()
+            .then(document => {
+
+                return postpone(document.updateUsersStat())
+                .then(() => {
+
                     service.resolveSuccessGet(
                         document._id,
                         gt.gettext('The account non working days calendar period has been created')
                     );
-                }
-            });
+
+                });
+            })
+            .catch(service.error);
+
 
         });
     }
