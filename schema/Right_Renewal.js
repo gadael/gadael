@@ -1062,27 +1062,36 @@ exports = module.exports = function(params) {
     };
 
 
+	/**
+	 * Get worked days on renewal for one account
+	 * @param   {Account}   account
+	 * @return {Promise}
+	 */
+	rightRenewalSchema.methods.getWorkedDays = function(account) {
+
+		const renewal = this;
+
+		return account.getPeriodScheduleEvents(renewal.start, renewal.finish)
+		.then(ScheduleEra => {
+			return ScheduleEra.getDays();
+		});
+	}
 
 
     /**
      * get number of week-end days in the renewal for one user
-     * @throws {Error} [[Description]]
-     * @param   {Account}   user [[Description]]
+     *
+     * @param   {Account}   account
      * @returns {Promise} Int
      */
     rightRenewalSchema.methods.getWeekEndDays = function(account) {
 
-        let renewal = this;
+        const renewal = this;
 
-        return new Promise((resolve, reject) => {
-            account.getPeriodScheduleEvents(renewal.start, renewal.finish)
-			.then(ScheduleEra => {
-
-                let scheduledDays = Object.keys(ScheduleEra.getDays()).length;
-
-                resolve(renewal.getDays() - scheduledDays);
-
-            }).catch(reject);
+        return renewal.getWorkedDays(account)
+		.then(days => {
+            const scheduledDays = Object.keys(days).length;
+            return (renewal.getDays() - scheduledDays);
         });
     };
 
