@@ -1075,7 +1075,7 @@ exports = module.exports = function(params) {
 		.then(ScheduleEra => {
 			return ScheduleEra.getDays();
 		});
-	}
+	};
 
 
     /**

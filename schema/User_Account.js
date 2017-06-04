@@ -235,6 +235,23 @@ exports = module.exports = function(params) {
 
 
     /**
+     * Get the right collection associated to the user (with history)
+     *
+     *
+     * @return {Promise} resolve to an array
+     */
+    accountSchema.methods.getCollections = function() {
+        const account = this;
+
+        let query = account.getAccountCollectionQuery();
+        query.populate('rightCollection');
+
+        return query.exec();
+    };
+
+
+
+    /**
      * Get the right collection for a specific date
      * @param {Date} moment
      *
@@ -671,8 +688,9 @@ exports = module.exports = function(params) {
     /**
      * Get an array with the account ID and the collection id for the moment date
      * This array can be used to filter associated beneficiaries
+     * If the moment is undefined, we get all document id from history
      *
-     * @param {Date} moment
+     * @param {Date} [moment]
      *
      * @return {Promise}
      */
@@ -684,22 +702,42 @@ exports = module.exports = function(params) {
 
         let account = this;
 
-        return this.getCollection(moment).then(function(rightCollection) {
+        if (!account.user.id) {
+            return Promise.reject(new Error('The user.id property is missing on user.roles.account'));
+        }
 
-            if (!account.user.id) {
-                throw new Error('The user.id property is missing on user.roles.account');
-            }
+
+        /**
+         * @param {Array} collection
+         * @return {Array}
+         */
+        function getUserDocuments(collections) {
 
             var userDocuments = [account.user.id];
 
-            if (rightCollection) {
+            collections.forEach(rightCollection => {
                 userDocuments.push(rightCollection._id);
-            }
+            });
 
             return userDocuments;
+        }
+
+
+
+
+        if (moment !== undefined) {
+            return this.getCollection(moment)
+            .then((rightCollection) => {
+                return getUserDocuments([rightCollection]);
+            });
+        }
+
+        // get all collections from the user history
+
+        return this.getCollections()
+        .then(collections => {
+            return getUserDocuments(collections);
         });
-
-
     };
 
 
@@ -771,16 +809,44 @@ exports = module.exports = function(params) {
         });
     };
 
+
+    /**
+     * Get all renwals associated to the user account
+     * @param {Date} [moment] optional moment date
+     * @return {Promise}
+     */
+    accountSchema.methods.getRenewals = function(moment) {
+        return this.getRightBeneficiaries(moment) // moment is optional here
+        .then(beneficiaries => {
+            if (undefined !== moment) {
+                return Promise.all(
+                    beneficiaries.map(b => b.right.getMomentRenewal(moment))
+                );
+            }
+
+
+            return Promise.all(
+                beneficiaries.map(b => b.right.getAllRenewals())
+            )
+            .then(lists => {
+                return lists.reduce((acc, renewals) => {
+                    return acc.concat(renewals);
+                }, []);
+            });
+
+        });
+    };
+
+
+
     /**
      * Get pairs of renewal/beneficiary object
      * beneficiary with no valid renewal for the moment are ignored
      * @return {Promise}
      */
     accountSchema.methods.getMomentBeneficiariesRenewals = function(moment) {
-        return this.getRightBeneficiaries(moment)
+        return this.getRightBeneficiaries(moment) // moment is optional here
         .then(function(beneficiaries) {
-
-
 
             return Promise.all(
                 beneficiaries.map(b => b.right.getMomentRenewal(moment))
