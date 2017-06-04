@@ -638,6 +638,7 @@ exports = module.exports = function(params) {
         let criterion = {};
         criterion[field] = { $gte: dtstart, $lt: dtend };
 
+
         return this.getRenewalsQuery()
         .where(criterion)
         .exec()
@@ -656,6 +657,11 @@ exports = module.exports = function(params) {
         .then(all => {
 
             if (0 === all.length) {
+
+                if ('finish' === field) {
+                    return 0;
+                }
+
                 // no renewals found in period
                 // retry with renewal end date as a second option
                 return right.getInitialQuantityInPeriod(user, dtstart, dtend, 'finish');

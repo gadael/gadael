@@ -1059,7 +1059,6 @@ exports = module.exports = function(params) {
 				promises.push(p);
 			});
 
-
 			return Promise.all(promises);
 		});
 	};

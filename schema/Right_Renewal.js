@@ -844,6 +844,7 @@ exports = module.exports = function(params) {
             };
         })
 		.catch(err => {
+
 			// set renewal on error for services/user/accountbeneficiaries/renewals
 			err.renewal = renewal;
 			return;
@@ -876,6 +877,7 @@ exports = module.exports = function(params) {
 
 		return renewal.getUserQuantityStats(user)
 		.then(validStat => {
+
 			// overwrite previous error
 			validStat.error = null;
 			return renewal.saveUserRenewalStat(user, beneficiary, validStat);
@@ -935,7 +937,6 @@ exports = module.exports = function(params) {
 		let renewal = this;
 		let UserRenewalStat = renewal.model('UserRenewalStat');
 
-
 		return UserRenewalStat.find({
 			user: user._id,
 			renewal: renewal._id
@@ -973,6 +974,7 @@ exports = module.exports = function(params) {
 
 
 			}
+
 
 			for (let i=1; i<arr.length; i++) {
 				arr[i].remove();
@@ -1072,7 +1074,6 @@ exports = module.exports = function(params) {
 	rightRenewalSchema.methods.getWorkedDays = function(account) {
 
 		const renewal = this;
-
 		return account.getPeriodScheduleEvents(renewal.start, renewal.finish)
 		.then(ScheduleEra => {
 			return ScheduleEra.getDays();
@@ -1164,6 +1165,8 @@ exports = module.exports = function(params) {
 
 
         return user.getAccount().then(account => {
+
+
 
             return Promise.all([
                 renewal.getWeekEndDays(account),
