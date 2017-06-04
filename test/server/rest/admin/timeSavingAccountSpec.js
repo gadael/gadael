@@ -194,4 +194,3 @@ describe('vacations rights admin rest service', function() {
 
 
 });
-

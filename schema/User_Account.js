@@ -238,7 +238,7 @@ exports = module.exports = function(params) {
      * Get the right collection associated to the user (with history)
      *
      *
-     * @return {Promise} resolve to an array
+     * @return {Promise} resolve to an array of collections
      */
     accountSchema.methods.getCollections = function() {
         const account = this;
@@ -246,7 +246,12 @@ exports = module.exports = function(params) {
         let query = account.getAccountCollectionQuery();
         query.populate('rightCollection');
 
-        return query.exec();
+        return query.exec()
+        .then(accountCollections => {
+            return accountCollections.map(ac => {
+                return ac.rightCollection;
+            });
+        });
     };
 
 
@@ -728,6 +733,11 @@ exports = module.exports = function(params) {
         if (moment !== undefined) {
             return this.getCollection(moment)
             .then((rightCollection) => {
+
+                if (null === rightCollection) {
+                    return getUserDocuments([]);
+                }
+
                 return getUserDocuments([rightCollection]);
             });
         }
@@ -735,9 +745,7 @@ exports = module.exports = function(params) {
         // get all collections from the user history
 
         return this.getCollections()
-        .then(collections => {
-            return getUserDocuments(collections);
-        });
+        .then(collections => getUserDocuments(collections));
     };
 
 
