@@ -1110,6 +1110,7 @@ msgstr "Vendredi"
 msgid "from"
 msgstr "de"
 
+#: public/partials/account/beneficiary-view.html
 #: public/partials/admin/account-collections-edit.html
 #: public/partials/admin/account-nwdayscalendars-edit.html
 #: public/partials/admin/account-rights-edit.html
@@ -2417,6 +2418,7 @@ msgstr "Demande de dépôt sur le compte épargne temps"
 msgid "Title"
 msgstr "Titre"
 
+#: public/partials/account/beneficiary-view.html
 #: public/partials/admin/beneficiary-edit.html
 #: public/partials/admin/rights.html
 #: public/partials/utils/common/right/right-panel.html

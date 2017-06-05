@@ -38,25 +38,25 @@
     <div class="col-xs-12 col-sm-9">
 
         <div class="row panel panel-primary">
-            <div class="col-xs-2 top15 text-center">
-                <img class="img-rounded" ng-if="user.imageUrl" ng-src="{{user.imageUrl}}" />
+            <div class="col-xs-3 col-sm-2 top15 text-center">
+                <img class="img-rounded img-responsive" ng-if="user.imageUrl" ng-src="{{user.imageUrl}}" />
                 <i class="top15 glyphicon glyphicon-user text-muted fa-5x" ng-if="!user.imageUrl"></i>
             </div>
-            <div class="col-xs-8">
+            <div class="col-xs-7 col-sm-7">
                 <h2>{{user.lastname}} {{user.firstname}}</h2>
                 <p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
                 <p ng-if="user.department"><span translate>Department:</span> <a href="#/admin/departments/{{user.department._id}}">{{user.department.name}}</a></p>
                 <p class="text-danger" ng-if="!user.isActive"><i class="fa fa-ban"></i> <strong translate>This user can not connect to the application</strong></p>
             </div>
 
-            <div class="col-xs-2 text-right">
+            <div class="col-xs-2 col-sm-3 text-right">
 
                 <a ng-href="#/admin/user-edit/{{user._id}}" class="top10 btn btn-block btn-info hidden-print" role="button">
-                    <i class="fa fa-edit"></i> <span class="hidden-xs" translate>Edit</span>
+                    <i class="fa fa-edit"></i> <span class="hidden-xs hidden-sm" translate>Edit</span>
                 </a>
 
                 <a ng-click="delete()" class="btn btn-block btn-danger hidden-print" role="button">
-                    <i class="fa fa-times"></i> <span class="hidden-xs" translate>Delete</span>
+                    <i class="fa fa-times"></i> <span class="hidden-xs hidden-sm" translate>Delete</span>
                 </a>
 
             </div>

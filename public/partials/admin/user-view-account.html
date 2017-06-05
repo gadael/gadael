@@ -67,11 +67,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="accountCollection in accountCollections">
-            <td>
-                <a ng-href="#/admin/collections/{{accountCollection.rightCollection._id}}">
-                    {{accountCollection.rightCollection.name}}
-                </a>
-            </td>
+            <td>{{accountCollection.rightCollection.name}}</td>
             <td>{{accountCollection.from|date}}</td>
             <td>{{accountCollection.to|date}}</td>
         </tr>
@@ -94,7 +90,7 @@
         <tr>
             <th translate>Right name</th>
             <th translate>Available quantity</th>
-            <th translate>Renewals with remaining quantity</th>
+            <th class="hidden-xs" translate>Renewals with remaining quantity</th>
         </tr>
         </thead>
         <tbody>
@@ -107,7 +103,7 @@
                 <span ng-if="beneficiary.errors.length>0"><i class="fa fa-warning text-danger" title="{{'Some renewals are invalids'|translate}}"></i></span>
             </td>
             <td>{{beneficiary.available_quantity | rightQuantity}} {{beneficiary.available_quantity_dispUnit}}</td>
-            <td>{{beneficiary.renewals.length}}
+            <td class="hidden-xs">{{beneficiary.renewals.length}}
                 <i ng-if="beneficiary.ref=='User'" class="fa fa-warning text-warning" title="{{'Out of collection right'|translate}}" bs-tooltip></i>
             </td>
         </tr>
@@ -138,11 +134,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="accountScheduleCalendar in accountScheduleCalendars">
-            <td>
-                <a ng-href="#/admin/calendars/{{accountScheduleCalendar.calendar._id}}">
-                    {{accountScheduleCalendar.calendar.name}}
-                </a>
-            </td>
+            <td>{{accountScheduleCalendar.calendar.name}}</td>
             <td>{{accountScheduleCalendar.from|date}}</td>
             <td>{{accountScheduleCalendar.to|date}}</td>
         </tr>
@@ -176,11 +168,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="accountNWDaysCalendar in accountNWDaysCalendars">
-            <td>
-                <a ng-href="#/admin/calendars/{{accountNWDaysCalendar.calendar._id}}">
-                    {{accountNWDaysCalendar.calendar.name}}
-                </a>
-            </td>
+            <td>{{accountNWDaysCalendar.calendar.name}}</td>
             <td>{{accountNWDaysCalendar.from|date}}</td>
             <td>{{accountNWDaysCalendar.to|date}}</td>
         </tr>

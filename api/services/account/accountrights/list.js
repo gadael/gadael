@@ -103,7 +103,7 @@ exports = module.exports = function(services, app)
                         right.renewals.push(renewalObj);
                         right.available_quantity += quantity;
                     }
-                    
+
                     renewalCallback();
 
                 })
@@ -239,7 +239,9 @@ exports = module.exports = function(services, app)
 
         // get user account document for the user param
 
-        service.app.db.models.User.find({ _id: params.user }).populate('roles.account').exec(function(err, users) {
+        service.app.db.models.User.find({ _id: params.user })
+        .populate('roles.account')
+        .exec(function(err, users) {
 
             if (service.handleMongoError(err)) {
 
@@ -254,7 +256,13 @@ exports = module.exports = function(services, app)
                 }
 
 
-                account.getRights(params.dtstart).then(function(rights) {
+                account.getRights(params.dtstart)
+                .then(function(rights) {
+
+                    rights = rights.filter(right => {
+                        return (right.activeFor.account === true);
+                    });
+
                     populateTypes(rights).then(() => {
                         addTypesGroupTitle(rights);
                         resolveAccountRights(users[0], rights, params.dtstart, params.dtend);
