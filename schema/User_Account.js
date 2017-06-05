@@ -1,6 +1,7 @@
 'use strict';
 
 const jurassic = require('jurassic');
+const util = require('util');
 
 /**
  * Account is a user with a collection or rights
@@ -959,6 +960,7 @@ exports = module.exports = function(params) {
     accountSchema.methods.getWeekHours = function(dtstart, dtend) {
 
         let account = this;
+        const gt = params.app.utility.gettext;
 
         let weekLoop = new Date(dtstart);
         // go to next monday
@@ -1027,7 +1029,7 @@ exports = module.exports = function(params) {
 
 
             if (0 === weeks.length) {
-                throw new Error('No weeks found');
+                throw new Error(util.format(gt.gettext('No weeks found for %s'), account.user.name));
             }
 
 

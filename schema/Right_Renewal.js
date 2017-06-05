@@ -877,7 +877,6 @@ exports = module.exports = function(params) {
 
 		return renewal.getUserQuantityStats(user)
 		.then(validStat => {
-
 			// overwrite previous error
 			validStat.error = null;
 			return renewal.saveUserRenewalStat(user, beneficiary, validStat);
@@ -905,7 +904,11 @@ exports = module.exports = function(params) {
 		return renewal.getBeneficiaryUsers(moment)
 		.then(users => {
 			return Promise.all(users.map(ub => {
-				return renewal.updateUserStat(ub.user, ub.beneficiary);
+				// this update all renewals for the user:
+				return ub.user.updateRenewalsStat(moment);
+
+				// This update only the current renewal:
+				//return renewal.updateUserStat(ub.user, ub.beneficiary);
 			}));
 		});
 	};

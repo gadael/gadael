@@ -47,6 +47,7 @@ exports = module.exports = function(params) {
     /**
      * Get users linked to beneficiary
      * Resolve to array
+     * @param {Date} moment optional date
      * @return {Promise}
      */
     beneficiarySchema.methods.getUsers = function(moment) {
