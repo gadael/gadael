@@ -137,6 +137,19 @@ exports = module.exports = function(user, account) {
             }
             setUnits(rightDocument);
 
+            beneficiary.renewals.sort((r1, r2) => {
+
+                if (r1.start.getTime() < r2.start.getTime()) {
+                    return -1;
+                }
+
+                if (r1.start.getTime() > r2.start.getTime()) {
+                    return 1;
+                }
+
+                return 0;
+            });
+
             return beneficiary;
         })
         .catch(err => {

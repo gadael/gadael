@@ -1068,16 +1068,25 @@ exports = module.exports = function(params) {
 
 	/**
 	 * Get worked days on renewal for one account
+	 * with a cache
 	 * @param   {Account}   account
 	 * @return {Promise}
 	 */
 	rightRenewalSchema.methods.getWorkedDays = function(account) {
 
 		const renewal = this;
-		return account.getPeriodScheduleEvents(renewal.start, renewal.finish)
+
+		if (renewal.get('_workedDays')) {
+			return renewal.get('_workedDays');
+		}
+
+		let promise = account.getPeriodScheduleEvents(renewal.start, renewal.finish)
 		.then(ScheduleEra => {
 			return ScheduleEra.getDays();
 		});
+
+		renewal.set('_workedDays', promise, { strict: false });
+		return promise;
 	};
 
 
@@ -1140,9 +1149,22 @@ exports = module.exports = function(params) {
 
 	rightRenewalSchema.methods.getNonWorkingDayQuantity = function(account) {
 		const renewal = this;
-		return account.getNonWorkingDayEvents(renewal.start, renewal.finish)
-		.then((events) => {
-			return Object.keys(events.getDays()).length;
+		return Promise.all([
+			account.getNonWorkingDayEvents(renewal.start, renewal.finish),
+			renewal.getWorkedDays(account)
+		])
+		.then(all => {
+			const nonWorkingDays = all[0].getDays();
+			const workedDays = all[1];
+			// count number of non-working days on working periods
+			let count = 0;
+			for (let ts in nonWorkingDays) {
+				if (workedDays[ts] !== undefined) {
+					count++;
+				}
+			}
+
+			return count;
 		});
 	};
 
@@ -1166,8 +1188,6 @@ exports = module.exports = function(params) {
 
         return user.getAccount().then(account => {
 
-
-
             return Promise.all([
                 renewal.getWeekEndDays(account),
                 renewal.getNonWorkingDayQuantity(account),
@@ -1189,7 +1209,7 @@ exports = module.exports = function(params) {
 			// - Number of weeks-ends days 				~104
 			// - Initial quantity of annual paid leaves ~25
 			// - Non working days 					    ~11
-			// console.log(renewal.getDays(), weekEnds, initalQuantity, nonWorkingDays);
+			console.log(renewal.start.getFullYear(), renewal.getDays(), weekEnds, initalQuantity, nonWorkingDays);
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });
 
