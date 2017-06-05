@@ -1117,14 +1117,12 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getDays = function() {
 
-        function treatAsUTC(date) {
-            var result = new Date(date);
-            result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
-            return result;
-        }
-
-        var millisecondsPerDay = 24 * 60 * 60 * 1000;
-        return Math.round(1 + (treatAsUTC(this.finish) - treatAsUTC(this.start)) / millisecondsPerDay);
+		return (
+			1+ (
+				Date.UTC(this.finish.getFullYear(), this.finish.getMonth(), this.finish.getDate()) -
+	         	Date.UTC(this.start.getFullYear(), this.start.getMonth(), this.start.getDate())
+			) / 86400000
+		);
     };
 
 
