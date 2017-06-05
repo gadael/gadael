@@ -2468,7 +2468,7 @@ msgstr "Au :"
 #: public/partials/utils/common/request/absence-edit.html
 #: public/partials/utils/common/request/absence-view.html
 msgid "Total consumption:"
-msgstr "Consommation totale :"
+msgstr "Consommation :"
 
 #: public/partials/utils/common/request/absence-view.html
 msgid "Total duration:"

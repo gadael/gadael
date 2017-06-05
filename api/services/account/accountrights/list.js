@@ -259,9 +259,13 @@ exports = module.exports = function(services, app)
                 account.getRights(params.dtstart)
                 .then(function(rights) {
 
-                    rights = rights.filter(right => {
-                        return (right.activeFor.account === true);
-                    });
+
+
+                    if (undefined !== params.activeFor) {
+                        rights = rights.filter(right => {
+                            return (right.activeFor[params.activeFor] === true);
+                        });
+                    }
 
                     populateTypes(rights).then(() => {
                         addTypesGroupTitle(rights);
