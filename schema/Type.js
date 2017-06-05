@@ -109,6 +109,8 @@ exports = module.exports = function(params) {
         let Right = this.model('Right');
         let type = this;
 
+
+
         return Right.find({ type: type }).exec()
         .then(rights => {
 
@@ -117,18 +119,20 @@ exports = module.exports = function(params) {
                 promises.push(right.getInitialQuantityInPeriod(user, dtstart, dtend));
             });
 
-            return Promise.all(promises);
-        })
-        .then(all => {
 
-			if (0 === all.length) {
-				throw new Error(util.format(gt.gettext('No rights found in type "%s"'), type.name));
-			}
+            return Promise.all(promises)
+			.then(all => {
 
-            return all.reduce((sum, initialQuantity) => {
-                return sum + initialQuantity;
-            });
+				if (0 === all.length) {
+					throw new Error(util.format(gt.gettext('No rights found in type "%s"'), type.name));
+				}
+
+	            return all.reduce((sum, initialQuantity) => {
+	                return sum + initialQuantity;
+	            });
+	        });
         });
+
     };
 
 

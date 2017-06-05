@@ -1126,7 +1126,14 @@ exports = module.exports = function(params) {
     };
 
 
-
+	/**
+	 * Get paid leave quantity
+	 * get number set in initial quantity on the right with adjustments only
+	 * if adjusted initial quantity is greater than right quantity
+	 * -> more annual leaves will lower number of RTT
+	 *
+	 * @return {Promise}
+	 */
 	rightRenewalSchema.methods.getPaidLeavesQuantity = function(user) {
 
 		const renewal = this;
@@ -1207,7 +1214,7 @@ exports = module.exports = function(params) {
 			// - Number of weeks-ends days 				~104
 			// - Initial quantity of annual paid leaves ~25
 			// - Non working days 					    ~11
-			console.log(renewal.start.getFullYear(), renewal.getDays(), weekEnds, initalQuantity, nonWorkingDays);
+			// console.log(renewal.start.getFullYear(), renewal.getDays(), weekEnds, initalQuantity, nonWorkingDays);
             return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
         });
 

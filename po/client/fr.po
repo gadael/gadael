@@ -1184,7 +1184,7 @@ msgid ""
 "active for account"
 msgstr ""
 "Cacher le droit dans la liste des utilisateurs, mais il peut être visible "
-"lors de la de la création d'une demande si actif pour le compte"
+"lors de la création d'une demande si actif pour le compte"
 
 #: public/js/controllers/home.js
 msgid "Home"

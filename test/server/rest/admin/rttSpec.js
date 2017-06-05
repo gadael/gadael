@@ -190,7 +190,7 @@ describe('RTT right on admin rest service', function() {
             let rtt = body.filter(r => r._id === right._id);
             expect(rtt.length).toEqual(1);
             if (rtt.length > 0) {
-                expect(rtt[0].available_quantity).toEqual(7);
+                expect(rtt[0].available_quantity).toEqual(8);
             }
             done();
         });
@@ -221,7 +221,7 @@ describe('RTT right on admin rest service', function() {
             let rtt = body.filter(r => r._id === right._id);
             expect(rtt.length).toEqual(1);
             if (rtt.length === 1) {
-                expect(rtt[0].available_quantity).toEqual(7);
+                expect(rtt[0].available_quantity).toEqual(8);
             }
             done();
         });
