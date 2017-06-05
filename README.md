@@ -86,6 +86,7 @@ grunt --help
 ### TODO
 
 - [ ] Cache bug when a new renewal is added on a annual leave right, rtt quantity must be computed on all renewals
+- [ ] Illness leave is usable from user but user is not allowed
 - [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
 - [ ] Account initialization by google login, copy google image if google+ available
 - [ ] ICSDB integration for non working days calendar
