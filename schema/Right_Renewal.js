@@ -769,7 +769,7 @@ exports = module.exports = function(params) {
 	        })
 	        .then(calendar => {
 
-	            if (null === calendar) {
+	            if (null === calendar || !calendar.hoursPerDay) {
 	                // no schedule calendar on period
 	                return 0;
 	            }
@@ -883,6 +883,9 @@ exports = module.exports = function(params) {
 			return renewal.saveUserRenewalStat(user, beneficiary, validStat);
 		})
 		.catch(err => {
+
+			console.log('Error saved to stat', err.stack);
+
 			return renewal.saveUserRenewalStat(user, beneficiary, {
 				initial: 0,
 				available: 0,
