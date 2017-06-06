@@ -11,16 +11,35 @@ exports = module.exports = function(user, account) {
      * @param   {RightRenewal} renewal
      * @returns {Promise} resolve to an object
      */
-    function getRenewalStat(renewal) {
+    function getRenewalStat(rightDocument, renewal) {
 
         if (account.arrival > renewal.finish) {
             return null;
         }
 
-        return renewal.getUserRenewalStat(user);
+        const special = rightDocument.getSpecialRight();
+
+        if (!special) {
+            return renewal.getUserRenewalStat(user);
+        }
 
         // same with no cache:
         //return renewal.getUserQuantityStats(user);
+
+
+
+
+
+        return Promise.all([
+            renewal.getUserRenewalStat(user),
+            special.getStats(renewal, user)
+        ])
+        .then(all => {
+            let stats = all[0];
+            stats.special = all[1];
+            return stats;
+        });
+
     }
 
 
@@ -74,7 +93,7 @@ exports = module.exports = function(user, account) {
             renewalObj.consumed_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.consumed_quantity);
             renewalObj.available_quantity_dispUnit = rightDocument.getDispUnit(renewalObj.available_quantity);
 
-
+            renewalObj.specialStats = stat.special;
 
             beneficiary.renewals.push(renewalObj);
 
@@ -107,7 +126,7 @@ exports = module.exports = function(user, account) {
         let promises = renewals
         .map(renewalDocument => {
             renewalDocument.setRightForPromise(rightDocument);
-            return getRenewalStat(renewalDocument);
+            return getRenewalStat(rightDocument, renewalDocument);
         })
         .filter(promise => {
             return null !== promise;

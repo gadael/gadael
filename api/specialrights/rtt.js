@@ -83,4 +83,46 @@ Rtt.prototype.getQuantityLabel = function() {
 };
 
 
+/**
+ * Get additional stats to display for special right
+ * @return {Promise}
+ */
+SpecialRight.prototype.getStats = function(renewal, user) {
+
+    const gt = this.app.utility.gettext;
+
+    return user.getAccount()
+    .then(account => {
+
+        return Promise.all([
+            renewal.getWeekEndDays(account),
+            renewal.getNonWorkingDayQuantity(account),
+            renewal.getPaidLeavesQuantity(user)
+        ]);
+
+    }).then(r => {
+
+        const weekEnds = r[0];
+        const nonWorkingDays = r[1];
+        const initalQuantity = r[2];
+
+        return [
+            {
+                name: gt.gettext('Annual leaves'),
+                value: initalQuantity+' '+gt.gettext('days')
+            },
+            {
+                name: gt.gettext('Week-ends'),
+                value: weekEnds+' '+gt.gettext('days')
+            },
+            {
+                name: gt.gettext('Non working days'),
+                value: nonWorkingDays+' '+gt.gettext('days')
+            }
+        ];
+    });
+
+
+};
+
 exports = module.exports = Rtt;

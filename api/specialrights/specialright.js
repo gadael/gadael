@@ -180,6 +180,13 @@ SpecialRight.prototype.getServiceObject = function() {
     };
 };
 
+/**
+ * Get additional stats to display for special right
+ * @return {Array}
+ */
+SpecialRight.prototype.getStats = function() {
+    return Promise.resolve([]);
+};
 
 
 exports = module.exports = SpecialRight;
