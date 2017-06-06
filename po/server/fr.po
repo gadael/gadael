@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-05 18:56+0200\n"
-"PO-Revision-Date: 2017-06-05 18:59+0200\n"
+"POT-Creation-Date: 2017-06-06 09:36+0200\n"
+"PO-Revision-Date: 2017-06-06 09:37+0200\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -73,6 +73,23 @@ msgid "RTT is computed from the user time schedule on the renewal period"
 msgstr ""
 "Les RTT sont calculés à partir du rythme de travail de l'utilisateur sur la "
 "période de renouvellement du droit"
+
+#: api/specialrights/rtt.js:111
+msgid "Annual leaves"
+msgstr "Congé payés"
+
+#: api/specialrights/rtt.js:112 api/specialrights/rtt.js:116
+#: api/specialrights/rtt.js:120
+msgid "days"
+msgstr "jours"
+
+#: api/specialrights/rtt.js:115
+msgid "Week-ends"
+msgstr "Week-ends"
+
+#: api/specialrights/rtt.js:119
+msgid "Non working days"
+msgstr "Jours fériés"
 
 #: api/specialrights/annualleave.js:25
 msgid "Annual paid leave"

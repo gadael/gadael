@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-05 18:55+0200\n"
+"POT-Creation-Date: 2017-06-06 09:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,6 +61,23 @@ msgstr ""
 
 #: api/specialrights/rtt.js:82
 msgid "RTT is computed from the user time schedule on the renewal period"
+msgstr ""
+
+#: api/specialrights/rtt.js:111
+msgid "Annual leaves"
+msgstr ""
+
+#: api/specialrights/rtt.js:112 api/specialrights/rtt.js:116
+#: api/specialrights/rtt.js:120
+msgid "days"
+msgstr ""
+
+#: api/specialrights/rtt.js:115
+msgid "Week-ends"
+msgstr ""
+
+#: api/specialrights/rtt.js:119
+msgid "Non working days"
 msgstr ""
 
 #: api/specialrights/annualleave.js:25

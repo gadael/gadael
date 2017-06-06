@@ -156,7 +156,7 @@ exports = module.exports = function(user, account) {
             }
             setUnits(rightDocument);
 
-            beneficiary.renewals.sort((r1, r2) => {
+            function sortRenewals(r1, r2) {
 
                 if (r1.start.getTime() < r2.start.getTime()) {
                     return -1;
@@ -167,7 +167,14 @@ exports = module.exports = function(user, account) {
                 }
 
                 return 0;
-            });
+            }
+
+            function sortErrors(e1, e2) {
+                return sortRenewals(e1.renewal, e2.renewal);
+            }
+
+            beneficiary.renewals.sort(sortRenewals);
+            beneficiary.errors.sort(sortErrors);
 
             return beneficiary;
         })
