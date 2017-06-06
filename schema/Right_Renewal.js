@@ -2,6 +2,7 @@
 
 const consumptionHistory = require('../modules/consumptionHistory');
 const util = require('util');
+const LRU = require("lru-cache");
 
 exports = module.exports = function(params) {
 
@@ -1071,6 +1072,10 @@ exports = module.exports = function(params) {
         return savingPeriod;
     };
 
+	const workedDaysCache = LRU({
+		max: 50,
+		maxAge: 1000 * 60 * 60
+	});
 
 	/**
 	 * Get worked days on renewal for one account
@@ -1081,9 +1086,11 @@ exports = module.exports = function(params) {
 	rightRenewalSchema.methods.getWorkedDays = function(account) {
 
 		const renewal = this;
+		const cacheKey = account.id+' '+renewal.start.getTime()+' '+renewal.finish.getTime();
+		const cachedPromise = workedDaysCache.get(cacheKey);
 
-		if (renewal.get('_workedDays')) {
-			return renewal.get('_workedDays');
+		if (undefined !== cachedPromise) {
+			return cachedPromise;
 		}
 
 		let promise = account.getPeriodScheduleEvents(renewal.start, renewal.finish)
@@ -1091,7 +1098,8 @@ exports = module.exports = function(params) {
 			return ScheduleEra.getDays();
 		});
 
-		renewal.set('_workedDays', promise, { strict: false });
+		workedDaysCache.set(cacheKey, promise);
+
 		return promise;
 	};
 

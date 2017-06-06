@@ -1409,7 +1409,7 @@
     },
     "lru-cache": {
       "version": "4.0.2",
-      "from": "lru-cache@>=4.0.0 <5.0.0",
+      "from": "https://registry.npmjs.org/lru-cache/-/lru-cache-4.0.2.tgz",
       "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-4.0.2.tgz"
     },
     "lru-queue": {
