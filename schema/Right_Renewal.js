@@ -1074,7 +1074,7 @@ exports = module.exports = function(params) {
 
 	const workedDaysCache = LRU({
 		max: 50,
-		maxAge: 1000 * 60 * 60
+		maxAge: 1000 * 5
 	});
 
 	/**
@@ -1098,7 +1098,7 @@ exports = module.exports = function(params) {
 			return ScheduleEra.getDays();
 		});
 
-		workedDaysCache.set(cacheKey, promise);
+		//workedDaysCache.set(cacheKey, promise);
 
 		return promise;
 	};
@@ -1166,9 +1166,22 @@ exports = module.exports = function(params) {
 
 
 
+	const nonWorkingDaysCache = LRU({
+		max: 50,
+		maxAge: 1000 * 5
+	});
+
+
 	rightRenewalSchema.methods.getNonWorkingDayQuantity = function(account) {
 		const renewal = this;
-		return Promise.all([
+		const cacheKey = account.id+' '+renewal.start.getTime()+' '+renewal.finish.getTime();
+		const cachedPromise = nonWorkingDaysCache.get(cacheKey);
+
+		if (undefined !== cachedPromise) {
+			return cachedPromise;
+		}
+
+		const promise = Promise.all([
 			account.getNonWorkingDayEvents(renewal.start, renewal.finish),
 			renewal.getWorkedDays(account)
 		])
@@ -1185,6 +1198,9 @@ exports = module.exports = function(params) {
 
 			return count;
 		});
+
+		//nonWorkingDaysCache.set(promise);
+		return promise;
 	};
 
 
