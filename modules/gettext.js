@@ -42,7 +42,9 @@ exports = module.exports = function(config) {
         return gt.getLocalDateString(dt)+' '+pad(dt.getHours())+':'+pad(dt.getMinutes());
     };
 
-    gt.on('error', error => console.log(error));
+    if (config.language !== 'en') {
+        gt.on('error', error => console.log(error));
+    }
 
     return gt;
 };
