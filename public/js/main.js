@@ -1,3 +1,5 @@
+
+
 require.config({
 	paths: {
 		angular: 				'../bower_components/angular/angular',
@@ -6,7 +8,8 @@ require.config({
 		angularResource: 		'../bower_components/angular-resource/angular-resource.min',
     	angularstrap:			'../bower_components/angular-strap/dist/angular-strap',
     	angularstraptpl:		'../bower_components/angular-strap/dist/angular-strap.tpl',
-    	angular_frfr:			'../bower_components/angular-i18n/angular-locale_fr-fr',
+		en:						'../bower_components/angular-i18n/angular-locale_en-us',
+    	fr:						'../bower_components/angular-i18n/angular-locale_fr-fr',
     	angularGettext: 		'../bower_components/angular-gettext/dist/angular-gettext',
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',
 		paginateAnything:		'../bower_components/angular-paginate-anything/dist/paginate-anything',
@@ -42,7 +45,6 @@ require.config({
 		'translation': ['angularGettext'],
 		'paginateAnything': ['angular'],
 		'passwordStrength': ['angular'],
-		'angular_frfr': ['angular'],
 		'angularAnimate': ['angular'],
 		'angularSanitize': ['angular'],
         'q': { 'exports': 'Q' },
@@ -51,7 +53,9 @@ require.config({
         'angularTeleperiod': ['q', 'angular', 'teleperiod'],
         'angularImageCrop': ['angular'],
         'angularnvd3': ['angular', 'd3', 'nvd3'],
-        'ngSortable': ['angular']
+        'ngSortable': ['angular'],
+		'fr': ['angular'],
+		'en': ['angular']
 	},
 	priority: ["angular"]
 });
@@ -63,23 +67,31 @@ require.config({
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
 window.name = "NG_DEFER_BOOTSTRAP!";
 
+
+
+
+
 require( [
     'angular',
 	'app',
+	'common',
     'q',
 	'routes',
 	'angularstraptpl',
-	'angular_frfr',
     'angularTeleperiod'
 	],
-	function(angular, app, Q) {
+	function(angular, app, common, Q) {
 
 		'use strict';
 
         // hack for Q because shim export for q does not work
         window.Q = Q;
 
-		angular.element().ready(function() {
-			angular.resumeBootstrap([app.name]);
+		common.then(function(common) {
+			require([common.lang], function() {
+				angular.element().ready(function() {
+					angular.resumeBootstrap([app.name]);
+				});
+			});
 		});
 	});

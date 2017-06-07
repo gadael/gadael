@@ -3,6 +3,7 @@
 define([
 	'angular',
     'jsondates',
+	'common',
 	'filters',
 	'services',
 	'directives',
@@ -18,7 +19,7 @@ define([
     'ngSortable'
 	],
 
-	function (angular, jsondates) {
+	function (angular, jsondates, common) {
 	'use strict';
 
 	// Declare app level module which depends on filters, and services
@@ -73,7 +74,7 @@ define([
 
             var deferred = $q.defer();
 
-			$http.get('/rest/common').success(function(response) {
+			common.then(function(response) {
 
 				if (response.errors) {
 
@@ -102,7 +103,7 @@ define([
 				$rootScope.sessionUser.intAuthenticated = response.sessionUser.isAuthenticated ? 1 : 0;
 
                 deferred.resolve(true);
-			}).error(deferred.reject);
+			}).catch(deferred.reject);
 
 			return deferred.promise;
 		};
