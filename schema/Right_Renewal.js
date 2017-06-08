@@ -471,13 +471,17 @@ exports = module.exports = function(params) {
 
 
 			if (rightQuantity === Infinity) {
-				return Infinity;
+				return {
+					value: Infinity
+				};
 			}
 
 
             if (user.roles.account.arrival > renewal.finish) {
                 // this will not be used via the REST API because invalid renewal are disacarded before
-                return 0;
+                return {
+					value: 0
+				};
             }
 
 
@@ -846,7 +850,6 @@ exports = module.exports = function(params) {
         })
 		.then(arr => {
 
-
 			let requests = arr[1];
 			const initialQuantity = arr[0].value;
 
@@ -860,7 +863,7 @@ exports = module.exports = function(params) {
                 daysratio: arr[3]
             };
 
-			if (undefined !== arr[0].details) {
+			if (undefined !== arr[0].details && arr[0].details.rtt !== undefined) {
 				stat.rtt = arr[0].details.rtt;
 			}
 
