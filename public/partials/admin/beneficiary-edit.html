@@ -96,10 +96,12 @@
                         </div>
                     </div>
 
-                    
-                    <div class="row">
-                        <dl class="col-md-3" ng-repeat="s in renewal.specialStats">
-                            <dt>{{s.name}}</dt><dd>{{s.value}}</dd>
+
+                    <div class="row" ng-if="renewal.rtt">
+                        <dl class="dl-horizontal col-md-8">
+                            <dt translate>Paid leaves:</dt>         <dd translate>{{renewal.rtt.paidLeaves}} days</dd>
+                            <dt translate>Non-working days:</dt>    <dd translate>{{renewal.rtt.nonWorkingDays}} days</dd>
+                            <dt translate>Week-ends:</dt>           <dd translate>{{renewal.rtt.weekEnds}} days</dd>
                         </dl>
                     </div>
                 </div>

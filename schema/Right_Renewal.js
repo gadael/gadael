@@ -1234,10 +1234,10 @@ exports = module.exports = function(params) {
 
             const weekEnds = r[0];
             const nonWorkingDays = r[1];
-			const initalQuantity = r[2];
+			const paidLeaves = r[2];
 
 
-            if (0 === initalQuantity) {
+            if (0 === paidLeaves) {
                 throw new Error(gt.gettext('To compute the number of planned working days on a year, the annual leave initial quantity is required'));
             }
 
@@ -1247,12 +1247,12 @@ exports = module.exports = function(params) {
 			// - Number of weeks-ends days 				~104
 			// - Initial quantity of annual paid leaves ~25
 			// - Non working days 					    ~11
-			// console.log(renewal.start.getFullYear(), renewal.getDays(), weekEnds, initalQuantity, nonWorkingDays);
+			// console.log(renewal.start.getFullYear(), renewal.getDays(), weekEnds, paidLeaves, nonWorkingDays);
             return {
-				value: (renewalDays - weekEnds - initalQuantity - nonWorkingDays),
+				value: (renewalDays - weekEnds - paidLeaves - nonWorkingDays),
 				renewalDays: renewalDays,
 				weekEnds: weekEnds,
-				initalQuantity: initalQuantity,
+				paidLeaves: paidLeaves,
 				nonWorkingDays: nonWorkingDays
 			};
         });

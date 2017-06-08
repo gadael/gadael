@@ -4,6 +4,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: public/partials/admin/beneficiary-edit.html
+msgid "{{renewal.rtt.nonWorkingDays}} days"
+msgstr ""
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "{{renewal.rtt.paidLeaves}} days"
+msgstr ""
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "{{renewal.rtt.weekEnds}} days"
+msgstr ""
+
 #: public/partials/home.html
 msgid "{{renewalChart.percentDays|number}}% consumed"
 msgstr ""
@@ -1487,6 +1499,10 @@ msgstr ""
 msgid "Non-working days scheduling for {{user.lastname}} {{user.firstname}}"
 msgstr ""
 
+#: public/partials/admin/beneficiary-edit.html
+msgid "Non-working days:"
+msgstr ""
+
 #: public/partials/admin/calendars.html
 msgid "Nonworking days"
 msgstr ""
@@ -1578,6 +1594,10 @@ msgstr ""
 
 #: public/partials/admin/collection-edit.html
 msgid "Package agreement worked days"
+msgstr ""
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "Paid leaves:"
 msgstr ""
 
 #: public/partials/admin/department-edit.html
@@ -2480,6 +2500,10 @@ msgstr ""
 #: public/partials/admin/collection-edit.html
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Wednesday"
+msgstr ""
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "Week-ends:"
 msgstr ""
 
 #: public/partials/login/createfirstadmin.html

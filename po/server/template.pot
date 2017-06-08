@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-06 09:11+0200\n"
+"POT-Creation-Date: 2017-06-08 14:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,31 +53,14 @@ msgstr ""
 msgid "No collection found on the renewal period from %s to %s"
 msgstr ""
 
-#: api/specialrights/rtt.js:71
+#: api/specialrights/rtt.js:73
 msgid ""
 "The collection does not contain the number of days from the collective "
 "agreement"
 msgstr ""
 
-#: api/specialrights/rtt.js:82
+#: api/specialrights/rtt.js:96
 msgid "RTT is computed from the user time schedule on the renewal period"
-msgstr ""
-
-#: api/specialrights/rtt.js:111
-msgid "Annual leaves"
-msgstr ""
-
-#: api/specialrights/rtt.js:112 api/specialrights/rtt.js:116
-#: api/specialrights/rtt.js:120
-msgid "days"
-msgstr ""
-
-#: api/specialrights/rtt.js:115
-msgid "Week-ends"
-msgstr ""
-
-#: api/specialrights/rtt.js:119
-msgid "Non working days"
 msgstr ""
 
 #: api/specialrights/annualleave.js:25
@@ -1169,23 +1152,23 @@ msgstr ""
 msgid "You are disconnected from your google calendar"
 msgstr ""
 
-#: schema/Right_Renewal.js:89
+#: schema/Right_Renewal.js:90
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:1152
+#: schema/Right_Renewal.js:1174
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1216
+#: schema/Right_Renewal.js:1241
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1251
+#: schema/Right_Renewal.js:1284
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "

@@ -82,7 +82,7 @@ Rtt.prototype.getQuantity = function(renewal, user) {
                 agreementWorkedDays: agreementWorkedDays,
                 renewalDays: work.renewalDays,
 				weekEnds: work.weekEnds,
-				initalQuantity: work.initalQuantity,
+				paidLeaves: work.paidLeaves,
 				nonWorkingDays: work.nonWorkingDays
             }
         };

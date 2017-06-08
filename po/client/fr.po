@@ -12,6 +12,18 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: public/partials/admin/beneficiary-edit.html
+msgid "{{renewal.rtt.nonWorkingDays}} days"
+msgstr "{{renewal.rtt.nonWorkingDays}} jours"
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "{{renewal.rtt.paidLeaves}} days"
+msgstr "{{renewal.rtt.paidLeaves}} jours"
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "{{renewal.rtt.weekEnds}} days"
+msgstr "{{renewal.rtt.weekEnds}} jours"
+
 #: public/partials/home.html
 msgid "{{renewalChart.percentDays|number}}% consumed"
 msgstr "{{renewalChart.percentDays|number}}% consommé"
@@ -1570,6 +1582,10 @@ msgstr "Agenda des jours fériés"
 msgid "Non-working days scheduling for {{user.lastname}} {{user.firstname}}"
 msgstr "Agenda des jours fériés pour {{user.lastname}} {{user.firstname}}"
 
+#: public/partials/admin/beneficiary-edit.html
+msgid "Non-working days:"
+msgstr "Jours fériés :"
+
 #: public/partials/admin/calendars.html
 msgid "Nonworking days"
 msgstr "Jours fériés"
@@ -1672,6 +1688,10 @@ msgstr "Compte utilisateur du propriétaire"
 #: public/partials/admin/collection-edit.html
 msgid "Package agreement worked days"
 msgstr "Jours travaillés de la convention collective"
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "Paid leaves:"
+msgstr "Congés payés :"
 
 #: public/partials/admin/department-edit.html
 msgid "Parent department"
@@ -2649,6 +2669,10 @@ msgstr "En attente :"
 #: public/partials/utils/common/calendar/listdays.html
 msgid "Wednesday"
 msgstr "Mercredi"
+
+#: public/partials/admin/beneficiary-edit.html
+msgid "Week-ends:"
+msgstr "Week-ends :"
 
 #: public/partials/login/createfirstadmin.html
 #: public/partials/login/invitation.html

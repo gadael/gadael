@@ -52,7 +52,7 @@ exports = module.exports = function(params) {
             agreementWorkedDays: Number,
             renewalDays: Number,
             weekEnds: Number,
-            initalQuantity: Number,
+            paidLeaves: Number,
             nonWorkingDays: Number
         }
 	});
