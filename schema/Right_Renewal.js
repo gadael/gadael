@@ -409,7 +409,10 @@ exports = module.exports = function(params) {
             if (null === specialright) {
 
 				if (null === right.quantity) {
-					return Infinity;
+					return {
+						value: Infinity,
+						special: false
+					};
 				}
 
                 return {
@@ -503,7 +506,8 @@ exports = module.exports = function(params) {
 				value: (rightQuantity + renewalAdjustment + userAdjustment),
 				details: {
 					renewalAdustment: renewalAdjustment,
-					userAdjustment: userAdjustment
+					userAdjustment: userAdjustment,
+					rtt: arr[0].rtt
 				}
 			};
         });
@@ -842,10 +846,12 @@ exports = module.exports = function(params) {
         })
 		.then(arr => {
 
+
 			let requests = arr[1];
 			const initialQuantity = arr[0].value;
 
-            return {
+
+            let stat = {
                 initial: initialQuantity,
                 consumed: requests.consumed,
                 deposits: arr[2],
@@ -853,6 +859,12 @@ exports = module.exports = function(params) {
 				waiting: requests.waiting,
                 daysratio: arr[3]
             };
+
+			if (undefined !== arr[0].details) {
+				stat.rtt = arr[0].details.rtt;
+			}
+
+			return stat;
         })
 		.catch(err => {
 

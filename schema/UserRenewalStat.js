@@ -49,9 +49,11 @@ exports = module.exports = function(params) {
         error:              String,
 
         rtt: {  // for RTT special rights, store details for the initial quantity computation
-            annualleaves: Number,
-            weekends: Number,
-            nonworkingdays: Number
+            agreementWorkedDays: Number,
+            renewalDays: Number,
+            weekEnds: Number,
+            initalQuantity: Number,
+            nonWorkingDays: Number
         }
 	});
 
