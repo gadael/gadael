@@ -17,29 +17,12 @@ exports = module.exports = function(user, account) {
             return null;
         }
 
-        const special = rightDocument.getSpecialRight();
 
-        if (!special) {
-            return renewal.getUserRenewalStat(user);
-        }
+        return renewal.getUserRenewalStat(user);
+
 
         // same with no cache:
         //return renewal.getUserQuantityStats(user);
-
-
-
-
-
-        return Promise.all([
-            renewal.getUserRenewalStat(user),
-            special.getStats(renewal, user)
-        ])
-        .then(all => {
-            let stats = all[0];
-            stats.special = all[1];
-            return stats;
-        });
-
     }
 
 

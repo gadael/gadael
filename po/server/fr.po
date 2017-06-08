@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-06 09:36+0200\n"
-"PO-Revision-Date: 2017-06-06 09:37+0200\n"
+"PO-Revision-Date: 2017-06-08 13:58+0200\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -835,7 +835,8 @@ msgstr "Accès refusé pour les utilisateurs connectés"
 #, javascript-format
 msgid "The approval status of the %s request has not been modified in %d days"
 msgstr ""
-"Le statut d'approbation de la demande %s n'a pas été modifié depuis %d jours"
+"Le statut d'approbation de la demande de %s n'a pas été modifié depuis %d "
+"jours"
 
 #: modules/emails/approbalert.js:33
 msgid "Pending request"

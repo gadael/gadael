@@ -21,7 +21,7 @@ exports = module.exports = function getMail(app, request, user) {
 
     mail.setSubject(util.format(
         gt.gettext('The approval status of the %s request has not been modified in %d days'),
-        request,
+        request.getDispType(),
         app.config.company.approb_alert
     ));
 
