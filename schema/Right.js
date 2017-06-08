@@ -668,8 +668,8 @@ exports = module.exports = function(params) {
             }
 
             return all.reduce((sum, initialQuantity) => {
-                return sum + initialQuantity;
-            });
+                return sum + initialQuantity.value;
+            }, 0);
         });
     };
 

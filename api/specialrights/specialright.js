@@ -124,7 +124,7 @@ SpecialRight.prototype.getDescription = function() {
  *
  * @param {RightRenewal} renewal
  * @param {User}         user   User document with account role
- * @returns {Promise}
+ * @returns {Promise}   resolve to an object with a value property
  */
 SpecialRight.prototype.getQuantity = function(renewal, user) {
 
@@ -132,11 +132,17 @@ SpecialRight.prototype.getQuantity = function(renewal, user) {
         // modifiable by admin in right
         return renewal.getRightPromise()
         .then(right => {
-            return right.quantity;
+            return {
+                value: right.quantity,
+                special: true
+            };
         });
     }
 
-    return Promise.resolve(0);
+    return Promise.resolve({
+        value: 0,
+        special: true
+    });
 };
 
 
@@ -180,13 +186,6 @@ SpecialRight.prototype.getServiceObject = function() {
     };
 };
 
-/**
- * Get additional stats to display for special right
- * @return {Array}
- */
-SpecialRight.prototype.getStats = function() {
-    return Promise.resolve([]);
-};
 
 
 exports = module.exports = SpecialRight;

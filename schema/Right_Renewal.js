@@ -2,7 +2,7 @@
 
 const consumptionHistory = require('../modules/consumptionHistory');
 const util = require('util');
-const LRU = require("lru-cache");
+
 
 exports = module.exports = function(params) {
 
@@ -396,7 +396,7 @@ exports = module.exports = function(params) {
      *
      * @param {User} user User document with account role
      *
-     * @returns {Promise} resolve to a number
+     * @returns {Promise} resolve to an object, the value property is the right initial quantity
      */
     rightRenewalSchema.methods.getUserRightInitialQuantity = function(user) {
 
@@ -412,7 +412,10 @@ exports = module.exports = function(params) {
 					return Infinity;
 				}
 
-                return right.quantity;
+                return {
+					value: right.quantity,
+					special: false
+				};
             }
 
             return specialright.getQuantity(renewal, user);
@@ -432,7 +435,7 @@ exports = module.exports = function(params) {
      * @param {User}    user        User document with account role
      * @param {Date}    [moment]    the adjutments will be added up to this date, default is now
      *
-     * @returns {Promise} resolve to a number
+     * @returns {Promise} resolve to an object, the value property is the user initial quantity
      */
     rightRenewalSchema.methods.getUserQuantity = function(user, moment) {
 
@@ -455,7 +458,7 @@ exports = module.exports = function(params) {
              *
              * @var {Number}
              */
-            let rightQuantity = arr[0];
+            let rightQuantity = arr[0].value;
 
             /**
              * Manual adjustment created by administrators on the account-right page
@@ -496,7 +499,13 @@ exports = module.exports = function(params) {
             });
 
 
-            return (rightQuantity + renewalAdjustment + userAdjustment);
+            return {
+				value: (rightQuantity + renewalAdjustment + userAdjustment),
+				details: {
+					renewalAdustment: renewalAdjustment,
+					userAdjustment: userAdjustment
+				}
+			};
         });
     };
 
@@ -803,7 +812,7 @@ exports = module.exports = function(params) {
             this.getUserTimeSavingDepositsQuantity(user)
         ]).then(function(arr) {
 			let requests = arr[1];
-            return (arr[0] - requests.consumed - requests.waiting.created + arr[2]);
+            return (arr[0].value - requests.consumed - requests.waiting.created + arr[2]);
         });
     };
 
@@ -834,12 +843,13 @@ exports = module.exports = function(params) {
 		.then(arr => {
 
 			let requests = arr[1];
+			const initialQuantity = arr[0].value;
 
             return {
-                initial: arr[0],
+                initial: initialQuantity,
                 consumed: requests.consumed,
                 deposits: arr[2],
-                available: (arr[0] - requests.consumed - requests.waiting.created + arr[2]),
+                available: (initialQuantity - requests.consumed - requests.waiting.created + arr[2]),
 				waiting: requests.waiting,
                 daysratio: arr[3]
             };
@@ -1072,10 +1082,6 @@ exports = module.exports = function(params) {
         return savingPeriod;
     };
 
-	const workedDaysCache = LRU({
-		max: 50,
-		maxAge: 1000 * 5
-	});
 
 	/**
 	 * Get worked days on renewal for one account
@@ -1086,19 +1092,12 @@ exports = module.exports = function(params) {
 	rightRenewalSchema.methods.getWorkedDays = function(account) {
 
 		const renewal = this;
-		const cacheKey = account.id+' '+renewal.start.getTime()+' '+renewal.finish.getTime();
-		const cachedPromise = workedDaysCache.get(cacheKey);
 
-		if (undefined !== cachedPromise) {
-			return cachedPromise;
-		}
 
 		let promise = account.getPeriodScheduleEvents(renewal.start, renewal.finish)
 		.then(ScheduleEra => {
 			return ScheduleEra.getDays();
 		});
-
-		//workedDaysCache.set(cacheKey, promise);
 
 		return promise;
 	};
@@ -1166,20 +1165,10 @@ exports = module.exports = function(params) {
 
 
 
-	const nonWorkingDaysCache = LRU({
-		max: 50,
-		maxAge: 1000 * 5
-	});
 
 
 	rightRenewalSchema.methods.getNonWorkingDayQuantity = function(account) {
 		const renewal = this;
-		const cacheKey = account.id+' '+renewal.start.getTime()+' '+renewal.finish.getTime();
-		const cachedPromise = nonWorkingDaysCache.get(cacheKey);
-
-		if (undefined !== cachedPromise) {
-			return cachedPromise;
-		}
 
 		const promise = Promise.all([
 			account.getNonWorkingDayEvents(renewal.start, renewal.finish),
@@ -1199,7 +1188,6 @@ exports = module.exports = function(params) {
 			return count;
 		});
 
-		//nonWorkingDaysCache.set(promise);
 		return promise;
 	};
 
@@ -1218,8 +1206,6 @@ exports = module.exports = function(params) {
 
 		const gt = params.app.utility.gettext;
         const renewal = this;
-        let weekEnds, nonWorkingDays, initalQuantity;
-
 
         return user.getAccount().then(account => {
 
@@ -1231,21 +1217,29 @@ exports = module.exports = function(params) {
 
         }).then(r => {
 
-            weekEnds = r[0];
-            nonWorkingDays = r[1];
-			initalQuantity = r[2];
+            const weekEnds = r[0];
+            const nonWorkingDays = r[1];
+			const initalQuantity = r[2];
 
 
             if (0 === initalQuantity) {
                 throw new Error(gt.gettext('To compute the number of planned working days on a year, the annual leave initial quantity is required'));
             }
 
+			const renewalDays = renewal.getDays();
+
 			// Number of days on the renewal period 	~365
 			// - Number of weeks-ends days 				~104
 			// - Initial quantity of annual paid leaves ~25
 			// - Non working days 					    ~11
 			// console.log(renewal.start.getFullYear(), renewal.getDays(), weekEnds, initalQuantity, nonWorkingDays);
-            return (renewal.getDays() - weekEnds - initalQuantity - nonWorkingDays);
+            return {
+				value: (renewalDays - weekEnds - initalQuantity - nonWorkingDays),
+				renewalDays: renewalDays,
+				weekEnds: weekEnds,
+				initalQuantity: initalQuantity,
+				nonWorkingDays: nonWorkingDays
+			};
         });
 
     };

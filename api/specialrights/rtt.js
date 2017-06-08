@@ -39,7 +39,7 @@ Rtt.prototype.getDescription = function() {
 /**
  * Get initial quantity used by renewals
  * @param {RightRenewal} renewal
- * @return {Promise}
+ * @return {Promise} resolve to object
  */
 Rtt.prototype.getQuantity = function(renewal, user) {
 
@@ -67,11 +67,25 @@ Rtt.prototype.getQuantity = function(renewal, user) {
         // all[0] number of potential worked days in the renewal of the annual leave
         // all[1].workedDays agreement worked days
 
-        if (undefined === all[1].workedDays) {
+        const agreementWorkedDays = all[1].workedDays;
+
+        if (undefined === agreementWorkedDays) {
             throw new Error(gt.gettext('The collection does not contain the number of days from the collective agreement'));
         }
 
-        return Math.abs(all[0] - all[1].workedDays);
+        const work = all[0];
+
+        return {
+            value: Math.abs(work.value - agreementWorkedDays),
+            special: true,
+            rtt: {
+                agreementWorkedDays: agreementWorkedDays,
+                renewalDays: work.renewalDays,
+				weekEnds: work.weekEnds,
+				initalQuantity: work.initalQuantity,
+				nonWorkingDays: work.nonWorkingDays
+            }
+        };
     });
 
 };
@@ -83,46 +97,5 @@ Rtt.prototype.getQuantityLabel = function() {
 };
 
 
-/**
- * Get additional stats to display for special right
- * @return {Promise}
- */
-SpecialRight.prototype.getStats = function(renewal, user) {
-
-    const gt = this.app.utility.gettext;
-
-    return user.getAccount()
-    .then(account => {
-
-        return Promise.all([
-            renewal.getWeekEndDays(account),
-            renewal.getNonWorkingDayQuantity(account),
-            renewal.getPaidLeavesQuantity(user)
-        ]);
-
-    }).then(r => {
-
-        const weekEnds = r[0];
-        const nonWorkingDays = r[1];
-        const initalQuantity = r[2];
-
-        return [
-            {
-                name: gt.gettext('Annual leaves'),
-                value: initalQuantity+' '+gt.gettext('days')
-            },
-            {
-                name: gt.gettext('Week-ends'),
-                value: weekEnds+' '+gt.gettext('days')
-            },
-            {
-                name: gt.gettext('Non working days'),
-                value: nonWorkingDays+' '+gt.gettext('days')
-            }
-        ];
-    });
-
-
-};
 
 exports = module.exports = Rtt;

@@ -46,7 +46,13 @@ exports = module.exports = function(params) {
 
         timeCreated: { type: Date, default: Date.now },
 
-        error:              String
+        error:              String,
+
+        rtt: {  // for RTT special rights, store details for the initial quantity computation
+            annualleaves: Number,
+            weekends: Number,
+            nonworkingdays: Number
+        }
 	});
 
 

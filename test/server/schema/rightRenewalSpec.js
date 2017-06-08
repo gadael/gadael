@@ -157,7 +157,7 @@ describe('Right renewal', function() {
             // - 25 days of annual paid leaves
             // - 10 non working days
 
-            expect(workDays).toEqual(225);
+            expect(workDays.value).toEqual(225);
             done();
         }).catch(done);
 

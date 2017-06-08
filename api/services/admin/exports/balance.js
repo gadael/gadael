@@ -155,7 +155,7 @@ exports = module.exports = function(service, moment) {
 
                     let requests = all[1];
 
-                    row[QUANTITY]       = all[0];
+                    row[QUANTITY]       = all[0].value;
                     row[CONSUMED]       = requests.consumed;
                     row[WAITING]        = requests.waiting.created;
                     row[BALANCE]        = (row[QUANTITY] - row[CONSUMED] - requests.waiting.created);
