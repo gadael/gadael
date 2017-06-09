@@ -41911,7 +41911,7 @@ define('app',[
 		{
 			$http.get('/rest/logout').success(function() {
 				$rootScope.reloadSession().then(function() {
-                    $location.path("/");
+                    document.location.href = '/';
                 });
 
 			});
