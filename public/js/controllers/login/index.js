@@ -29,7 +29,8 @@ define(['angular'], function(angular) {
 					{
 						// redirect
                         promisedSession.then(function() {
-                            $location.path("/");
+                            console.log('RELOAD');
+                            document.location.href = '/';
                         });
 
 					} else {
