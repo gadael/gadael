@@ -302,7 +302,7 @@ function saveRequests(service, params) {
             })
             .then(requestDoc => {
                 //TODO: update only one renewal
-                return postpone(user.updateRenewalsStat(requestDoc.events[0].dtstart))
+                return postpone(() => user.updateRenewalsStat(requestDoc.events[0].dtstart))
                 .then(() => {
                     return requestDoc;
                 });
@@ -378,7 +378,7 @@ function saveRequests(service, params) {
 
             promises.push(user.updateRenewalsStat(dtstart));
         }
-        return postpone(Promise.all(promises));
+        return postpone(() => Promise.all(promises));
     }
 
 

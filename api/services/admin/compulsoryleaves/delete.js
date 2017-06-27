@@ -43,7 +43,7 @@ exports = module.exports = function(services, app) {
                         return user.updateRenewalsStat(all[0].dtstart);
                     });
 
-                    return postpone(Promise.all(promises));
+                    return postpone(() => Promise.all(promises));
                 });
             })
             .then(() => {

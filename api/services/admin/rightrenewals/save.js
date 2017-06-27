@@ -82,7 +82,7 @@ function saveRenewal(service, params) {
                 document.save()
                 .then(document => {
 
-                    return postpone(document.updateUsersStat())
+                    return postpone(document.updateUsersStat.bind(document))
                     .then(() => {
 
                         service.resolveSuccessGet(
@@ -105,7 +105,7 @@ function saveRenewal(service, params) {
         document.save()
         .then(document => {
 
-            return postpone(document.updateUsersStat())
+            return postpone(document.updateUsersStat.bind(document))
             .then(() => {
 
                 service.resolveSuccessGet(

@@ -132,7 +132,8 @@ function saveRight(service, params) {
         defaultAbsenceLength: params.defaultAbsenceLength,
         special: params.special,
         consumption: params.consumption,
-        consumptionBusinessDaysLimit: params.consumptionBusinessDaysLimit
+        consumptionBusinessDaysLimit: params.consumptionBusinessDaysLimit,
+        activeSpan: params.activeSpan
     };
 
 
@@ -175,7 +176,7 @@ function saveRight(service, params) {
         return right.save();
     })
     .then(savedRight => {
-        return postpone(savedRight.updateUsersStat())
+        return postpone(savedRight.updateUsersStat.bind(savedRight))
         .then(() => savedRight);
     })
     .then(savedRight => {

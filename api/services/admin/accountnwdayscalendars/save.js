@@ -91,7 +91,7 @@ function saveAccountNWDaysCalendar(service, params) {
             return document.save()
             .then(document =>  {
 
-                return postpone(document.updateUsersStat())
+                return postpone(document.updateUsersStat.bind(document))
                 .then(() => {
 
                     service.resolveSuccessGet(
@@ -121,7 +121,7 @@ function saveAccountNWDaysCalendar(service, params) {
             document.save()
             .then(document => {
 
-                return postpone(document.updateUsersStat())
+                return postpone(document.updateUsersStat.bind(document))
                 .then(() => {
 
                     service.resolveSuccessGet(

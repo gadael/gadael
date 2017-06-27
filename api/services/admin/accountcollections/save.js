@@ -105,7 +105,7 @@ function saveAccountCollection(service, params) {
             return document.save()
             .then(document => {
 
-                return postpone(document.updateUserStat())
+                return postpone(document.updateUserStat.bind(document))
                 .then(() => {
 
                     service.resolveSuccessGet(
@@ -133,7 +133,7 @@ function saveAccountCollection(service, params) {
             ac.save()
             .then(document => {
 
-                return postpone(document.updateUserStat())
+                return postpone(document.updateUserStat.bind(document))
                 .then(() => {
                     service.resolveSuccessGet(
                         document._id,
