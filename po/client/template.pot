@@ -2146,6 +2146,10 @@ msgstr ""
 msgid "The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained."
 msgstr ""
 
+#: public/partials/admin/right-view.html
+msgid "The leave period must be in the next {{right.activeSpan.max}} days after the request date."
+msgstr ""
+
 #: public/partials/admin/export/export-edit-sage.html
 msgid "The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly"
 msgstr ""
@@ -2156,6 +2160,10 @@ msgstr ""
 
 #: public/partials/admin/account-rights-edit.html
 msgid "The optional period configured here can be used as a reference in right rules."
+msgstr ""
+
+#: public/partials/admin/right-view.html
+msgid "The request must be created at least {{right.activeSpan.min}} days before the leave start date."
 msgstr ""
 
 #: public/partials/utils/common/right/right-panel.html

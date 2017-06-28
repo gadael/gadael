@@ -40,6 +40,14 @@
                     </span>
                 </p>
 
+                <p ng-if="!right.activeSpan.useDefault && right.activeSpan.min>0">
+                    <span translate>The request must be created at least {{right.activeSpan.min}} days before the leave start date.</span>
+                </p>
+
+                <p ng-if="!right.activeSpan.useDefault && right.activeSpan.max>0">
+                    <span translate>The leave period must be in the next {{right.activeSpan.max}} days after the request date.</span>
+                </p>
+
                 <p ng-if="right.defaultAbsenceLength>0"><span translate>Legal leave duration:</span> {{right.defaultAbsenceLength | rightQuantity}} {{right.disp_unit}}</p>
 
                 <p ng-if="right.addMonthly.quantity>0"><span translate>Monthly additions:</span> {{right.addMonthly.quantity | number}} {{right.disp_unit}}</p>
