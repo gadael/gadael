@@ -40,6 +40,12 @@
         </label>
     </div>
 
+    <div class="form-group top30">
+        <label for="department_minActiveUsers" translate>Minimal number of active users</label>
+        <input type="number" class="form-control" id="department_minActiveUsers" ng-model="department.minActiveUsers" />
+    </div>
+    <p><em translate>New leave requests will be forbidden if the number of available users in department is equal to this value</em></p>
+
 
     <div class="top30">
         <button class="btn btn-primary" ng-click="saveDepartment()" translate>Save</button>

@@ -16,6 +16,8 @@ exports = module.exports = function(params) {
 
         // we have parent and path mananged by the tree plugin
 
+        // check min active user for each leave request creation
+        minActiveUsers: Number
 	});
 
 

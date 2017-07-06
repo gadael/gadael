@@ -46,6 +46,10 @@ function saveDepartment(service, params) {
         fieldsToSet.parent = params.parent._id;
     }
 
+    if (params.minActiveUsers) {
+        fieldsToSet.minActiveUsers = params.minActiveUsers;
+    }
+
 
     if (params.id)
     {

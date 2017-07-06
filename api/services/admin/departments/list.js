@@ -9,7 +9,7 @@
 
 /**
  * Create the query with filters
- * 
+ *
  * @param {listItemsService} service
  * @param {array} params      query parameters if called by controller
  *
@@ -31,22 +31,22 @@ var query = function(service, params) {
 
 
 exports = module.exports = function(services, app) {
-    
+
     var service = new services.list(app);
 
-    
+
     /**
      * Call the departments list service
-     * 
+     *
      * @param {Object} params
      * @param {function} [paginate]  Optional parameter to paginate the results
      *
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-        
+
         service.resolveQuery(
-            query(service, params).select('name operator path parent').sort('name'),
+            query(service, params).select('name operator path parent minActiveUsers').sort('name'),
             paginate,
             function(err, docs) {
 
@@ -69,11 +69,7 @@ exports = module.exports = function(services, app) {
 
         return service.deferred.promise;
     };
-    
-    
+
+
     return service;
 };
-
-
-
-
