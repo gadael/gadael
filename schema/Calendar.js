@@ -217,6 +217,9 @@ exports = module.exports = function(params) {
 
 		const gt = params.app.utility.gettext;
 
+		var h13 = new Date();
+	    h13.setHours(13,0,0);
+
         /**
          * initialize default calendars
 		 * @return {Promise}
@@ -229,70 +232,81 @@ exports = module.exports = function(params) {
                 name: gt.gettext('5 days 40H - 8H 12H / 14H 18H'),
                 url: 'calendars/5d-40h-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 8
             },
             {
                 _id: '5740adf51cf1a569643cc102',
                 name: gt.gettext('5 days 39H - 8H 12H / 14H 18H, 17H on friday'),
                 url: 'calendars/5d-39h-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 8
             },
             {
                 _id: '5740adf51cf1a569643cc103',
                 name: gt.gettext('5 days 35H - 8H 12H / 14H 17H'),
                 url: 'calendars/5d-35h-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 7
             },
             {
                 _id: '5740adf51cf1a569643cc104',
                 name: gt.gettext('5 days 36H - 8H 12H / 14H 18H, no friday afternoon'),
                 url: 'calendars/5d-36h-half-FR-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 8
             },
             {
                 _id: '5740adf51cf1a569643cc105',
                 name: gt.gettext('5 days 36H - 8H 12H / 14H 18H, no wednesday afternoon'),
                 url: 'calendars/5d-36h-half-WE-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 8
             },
             {
                 _id: '5740adf51cf1a569643cc106',
                 name: gt.gettext('5 days 20H - 14H 18H'),
                 url: 'calendars/5d-20h-afternoon-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 4
             },
             {
                 _id: '5740adf51cf1a569643cc107',
                 name: gt.gettext('5 days 20H - 8H 12H'),
                 url: 'calendars/5d-20h-morning-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 4
             },
             {
                 _id: '5740adf51cf1a569643cc108',
                 name: gt.gettext('4 days 32H - 8H 12H / 14H 18H, no friday'),
                 url: 'calendars/4d-32h-no-FR-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 8
             },
             {
                 _id: '5740adf51cf1a569643cc109',
                 name: gt.gettext('4 days 32H - 8H 12H / 14H 18H, no wednesday'),
                 url: 'calendars/4d-32h-no-WE-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				hoursPerDay: 8
             },
             {
                 _id: '5740adf51cf1a569643cc110',
                 name: gt.gettext('5 days 50H - 9H30 13H / 14H 19H, saturday 18H'),
                 url: 'calendars/5d-50h-9h30-19h-SA18h-1.ics',
                 type: 'workschedule',
-                locked: true
+                locked: true,
+				halfDayHour: h13,
+				hoursPerDay: 8.5
             }
             ];
 
