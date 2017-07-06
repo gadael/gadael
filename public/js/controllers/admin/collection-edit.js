@@ -42,7 +42,8 @@ define([], function() {
                 return;
             }
 
-            catchOutcome(right.$delete()).then(function() {
+            catchOutcome(right.$delete())
+            .then(function() {
                 $scope.collectionRights.splice(index, 1);
             });
 		};
@@ -53,8 +54,10 @@ define([], function() {
 
 		$scope.saveCollection = function() {
 			$scope.collection.gadaSave(function(collection) {
-                saveCollectionBeneficiaries($scope.collectionRights, collection._id).then($scope.back);
-            });
+                return saveCollectionBeneficiaries($scope.collectionRights, collection._id);
+            })
+            .then($scope.back)
+            .catch(console.log);
 	    };
 	}];
 });

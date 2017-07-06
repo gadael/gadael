@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-28 08:20+0200\n"
+"POT-Creation-Date: 2017-07-06 08:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1448,99 +1448,103 @@ msgstr ""
 msgid "A week-end"
 msgstr ""
 
-#: schema/Calendar.js:229
+#: schema/Calendar.js:232
 msgid "5 days 40H - 8H 12H / 14H 18H"
 msgstr ""
 
-#: schema/Calendar.js:236
+#: schema/Calendar.js:240
 msgid "5 days 39H - 8H 12H / 14H 18H, 17H on friday"
 msgstr ""
 
-#: schema/Calendar.js:243
+#: schema/Calendar.js:248
 msgid "5 days 35H - 8H 12H / 14H 17H"
 msgstr ""
 
-#: schema/Calendar.js:250
+#: schema/Calendar.js:256
 msgid "5 days 36H - 8H 12H / 14H 18H, no friday afternoon"
 msgstr ""
 
-#: schema/Calendar.js:257
+#: schema/Calendar.js:264
 msgid "5 days 36H - 8H 12H / 14H 18H, no wednesday afternoon"
 msgstr ""
 
-#: schema/Calendar.js:264
+#: schema/Calendar.js:272
 msgid "5 days 20H - 14H 18H"
 msgstr ""
 
-#: schema/Calendar.js:271
+#: schema/Calendar.js:280
 msgid "5 days 20H - 8H 12H"
 msgstr ""
 
-#: schema/Calendar.js:278
+#: schema/Calendar.js:288
 msgid "4 days 32H - 8H 12H / 14H 18H, no friday"
 msgstr ""
 
-#: schema/Calendar.js:285
+#: schema/Calendar.js:296
 msgid "4 days 32H - 8H 12H / 14H 18H, no wednesday"
 msgstr ""
 
-#: schema/Calendar.js:299
+#: schema/Calendar.js:304
+msgid "5 days 50H - 9H30 13H / 14H 19H, saturday 18H"
+msgstr ""
+
+#: schema/Calendar.js:320
 msgid "Guadeloupe non working days"
 msgstr ""
 
-#: schema/Calendar.js:305
+#: schema/Calendar.js:326
 msgid "Guyane non working days"
 msgstr ""
 
-#: schema/Calendar.js:311
+#: schema/Calendar.js:332
 msgid "Martinique non working days"
 msgstr ""
 
-#: schema/Calendar.js:317
+#: schema/Calendar.js:338
 msgid "Moselle, Bas-Rhin, Haut-Rhin non working days"
 msgstr ""
 
-#: schema/Calendar.js:324
+#: schema/Calendar.js:345
 msgid "French non working days (metropolis)"
 msgstr ""
 
-#: schema/Calendar.js:330
+#: schema/Calendar.js:351
 msgid "French polynesia non working days"
 msgstr ""
 
-#: schema/Calendar.js:336
+#: schema/Calendar.js:357
 msgid "Reunion island non working days"
 msgstr ""
 
-#: schema/Calendar.js:342
+#: schema/Calendar.js:363
 msgid "Wallis and Futuna non working days"
 msgstr ""
 
-#: schema/Calendar.js:349
+#: schema/Calendar.js:370
 msgid "School vacation"
 msgstr ""
 
-#: schema/Calendar.js:364
+#: schema/Calendar.js:385
 msgid "Belgium non working days"
 msgstr ""
 
-#: schema/Calendar.js:376
+#: schema/Calendar.js:397
 msgid "Ireland non working days"
 msgstr ""
 
-#: schema/Calendar.js:417 schema/Calendar.js:517
+#: schema/Calendar.js:438 schema/Calendar.js:538
 #, javascript-format
 msgid "%s non working days"
 msgstr ""
 
-#: schema/Calendar.js:435
+#: schema/Calendar.js:456
 msgid "England and Wales legal holidays"
 msgstr ""
 
-#: schema/Calendar.js:441
+#: schema/Calendar.js:462
 msgid "North Ireland legal holidays"
 msgstr ""
 
-#: schema/Calendar.js:447
+#: schema/Calendar.js:468
 msgid "Scotland legal holidays"
 msgstr ""

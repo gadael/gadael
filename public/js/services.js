@@ -319,7 +319,7 @@ define([
         return function(beneficiaries, collectionId) {
             var deferred = $q.defer();
             require(['services/saveBeneficiaries'], function(serviceFn) {
-                serviceFn(beneficiaries, 'RightCollection', collectionId, undefined, undefined, $q, catchOutcome).then(deferred.resolve);
+                serviceFn(beneficiaries, 'RightCollection', collectionId, $q, catchOutcome).then(deferred.resolve);
             });
 
             return deferred.promise;
