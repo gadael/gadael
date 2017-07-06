@@ -286,6 +286,13 @@ exports = module.exports = function(params) {
                 url: 'calendars/4d-32h-no-WE-1.ics',
                 type: 'workschedule',
                 locked: true
+            },
+            {
+                _id: '5740adf51cf1a569643cc110',
+                name: gt.gettext('5 days 50H - 9H30 13H / 14H 19H, saturday 18H'),
+                url: 'calendars/5d-50h-9h30-19h-SA18h-1.ics',
+                type: 'workschedule',
+                locked: true
             }
             ];
 
