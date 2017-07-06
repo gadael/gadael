@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-06 19:23+0200\n"
+"POT-Creation-Date: 2017-07-06 19:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,11 +151,11 @@ msgstr ""
 msgid "The department has been deleted"
 msgstr ""
 
-#: api/services/admin/departments/save.js:63
+#: api/services/admin/departments/save.js:60
 msgid "The department has been modified"
 msgstr ""
 
-#: api/services/admin/departments/save.js:81
+#: api/services/admin/departments/save.js:78
 msgid "The department has been created"
 msgstr ""
 

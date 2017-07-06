@@ -1420,6 +1420,10 @@ msgstr ""
 msgid "Minimal consumed quantity:"
 msgstr "Quantité minimale consommée"
 
+#: public/partials/admin/department-edit.html
+msgid "Minimal number of active users"
+msgstr "Nombre minimal d'utilisateurs actifs"
+
 #: public/partials/admin/right-edit.html
 msgid "Minimal number of days between entry date and request start date"
 msgstr ""
@@ -1520,6 +1524,14 @@ msgstr "Nouveau service"
 #: public/partials/admin/request/absence-edit.html
 msgid "New leave request for {{request.user.name}}"
 msgstr "Nouvelle demande de congé pour {{request.user.name}}"
+
+#: public/partials/admin/department-edit.html
+msgid ""
+"New leave requests will be forbidden if the number of available users in "
+"department is equal to this value"
+msgstr ""
+"Les nouvelles demandes de congés ne serons pas permises si le nombre "
+"d'utilisateurs disponibles dans le service est égal à cette valeur"
 
 #: public/partials/admin/user-edit.html
 #: public/partials/user/settings-password.html
