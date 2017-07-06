@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-06 08:54+0200\n"
+"POT-Creation-Date: 2017-07-06 19:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,11 +151,11 @@ msgstr ""
 msgid "The department has been deleted"
 msgstr ""
 
-#: api/services/admin/departments/save.js:59
+#: api/services/admin/departments/save.js:63
 msgid "The department has been modified"
 msgstr ""
 
-#: api/services/admin/departments/save.js:77
+#: api/services/admin/departments/save.js:81
 msgid "The department has been created"
 msgstr ""
 
@@ -615,11 +615,11 @@ msgid ""
 "allowed"
 msgstr ""
 
-#: api/services/user/requests/save.js:366
+#: api/services/user/requests/save.js:383
 msgid "The request has been modified"
 msgstr ""
 
-#: api/services/user/requests/save.js:405
+#: api/services/user/requests/save.js:422
 msgid "The request has been created"
 msgstr ""
 
@@ -1426,6 +1426,13 @@ msgstr ""
 #: schema/User_Account.js:1032
 #, javascript-format
 msgid "No weeks found for %s"
+msgstr ""
+
+#: schema/Department.js:147
+#, javascript-format
+msgid ""
+"A leave over this period is not possible because %d people must be available "
+"in the \"%s\" department"
 msgstr ""
 
 #: schema/ApprovalStep.js:72

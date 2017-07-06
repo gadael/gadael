@@ -35,7 +35,8 @@ function saveDepartment(service, params) {
     var DepartmentModel = service.app.db.models.Department;
 
     var fieldsToSet = {
-        name: params.name
+        name: params.name,
+        minActiveUsers: params.minActiveUsers
     };
 
     if (params.operator) {
@@ -44,10 +45,6 @@ function saveDepartment(service, params) {
 
     if (params.parent) {
         fieldsToSet.parent = params.parent._id;
-    }
-
-    if (params.minActiveUsers) {
-        fieldsToSet.minActiveUsers = params.minActiveUsers;
     }
 
 

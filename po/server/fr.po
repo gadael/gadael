@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-06 08:55+0200\n"
-"PO-Revision-Date: 2017-07-06 08:56+0200\n"
+"POT-Creation-Date: 2017-07-06 19:40+0200\n"
+"PO-Revision-Date: 2017-07-06 19:40+0200\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -173,11 +173,11 @@ msgstr "Le service n'existe pas"
 msgid "The department has been deleted"
 msgstr "Le service a été supprimé"
 
-#: api/services/admin/departments/save.js:59
+#: api/services/admin/departments/save.js:63
 msgid "The department has been modified"
 msgstr "Le service a été modifié"
 
-#: api/services/admin/departments/save.js:77
+#: api/services/admin/departments/save.js:81
 msgid "The department has been created"
 msgstr "Le service a été créé"
 
@@ -655,11 +655,11 @@ msgid ""
 "allowed"
 msgstr "Ce congé est un congé imposé, la modification n'est pas permise"
 
-#: api/services/user/requests/save.js:366
+#: api/services/user/requests/save.js:383
 msgid "The request has been modified"
 msgstr "La demande a été modifiée"
 
-#: api/services/user/requests/save.js:405
+#: api/services/user/requests/save.js:422
 msgid "The request has been created"
 msgstr "La demande a été créée"
 
@@ -1506,6 +1506,15 @@ msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr "Pas de semaine trouvée pour %s"
+
+#: schema/Department.js:147
+#, javascript-format
+msgid ""
+"A leave over this period is not possible because %d people must be available "
+"in the \"%s\" department"
+msgstr ""
+"une absence sur cette période n'est pas possible car %d personnes doivent "
+"êtres disponibles dans le service %s"
 
 #: schema/ApprovalStep.js:72
 msgid "Waiting"

@@ -1,5 +1,6 @@
 'use strict';
 
+const util = require('util');
 
 exports = module.exports = function(params) {
 
@@ -108,6 +109,46 @@ exports = module.exports = function(params) {
             });
         });
 
+    };
+
+
+    /**
+     * Check minActiveUsers
+     * @return Promise
+     */
+    departmentSchema.methods.checkMinActiveUsers = function(dtstart, dtend) {
+
+        const gt = params.app.utility.gettext;
+        const department = this;
+
+
+        if (!department.minActiveUsers) {
+            return Promise.resolve();
+        }
+
+        return department.getUsers()
+        .then(users => {
+            return Promise.all(
+                users
+                .filter(user => (user.roles.account._id !== undefined))
+                .map(user => {
+                    return user.roles.account.getLeaveEvents(dtstart, dtend);
+                })
+            ).then(userEvents => {
+                return userEvents.filter(uEvents => (uEvents.length === 0));
+            });
+        })
+        .then(emptyPeriods => {
+            if (emptyPeriods.length > department.minActiveUsers) {
+                return true;
+            }
+
+            throw new Error(util.format(
+                gt.gettext('A leave over this period is not possible because %d people must be available in the "%s" department'),
+                department.minActiveUsers,
+                department.name
+            ));
+        });
     };
 
 

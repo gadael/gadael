@@ -338,7 +338,9 @@ function saveRequest(service, params) {
 
     return UserModel.findOne({
         '_id': getUserId(params)
-    }).populate('roles.account').populate('department')
+    })
+    .populate('roles.account')
+    .populate('department')
     .exec()
     .then(user => {
 
@@ -347,7 +349,22 @@ function saveRequest(service, params) {
         }
 
         userDocument = user;
+
+
+
         return prepareRequestFields(service, params, user);
+
+    })
+    .then(fieldsToSet => {
+
+        if (userDocument.department) {
+            return userDocument.department.checkMinActiveUsers(fieldsToSet.absence.dtstart, fieldsToSet.absence.dtend)
+            .then(() => {
+                return fieldsToSet;
+            });
+        }
+
+        return fieldsToSet;
 
     })
     .then(fieldsToSet => {
