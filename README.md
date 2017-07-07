@@ -92,7 +92,7 @@ grunt --help
 - [ ] ICS Export
 - [ ] Right collection modification (report quantity on new rights)
 - [ ] Manager substitute one of his subordinates to create request
-
+- [ ] Delete right collection
 
 
 

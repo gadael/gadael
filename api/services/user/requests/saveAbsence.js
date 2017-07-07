@@ -489,6 +489,21 @@ function saveAbsenceDistribution(service, user, params, collection) {
 
 
 /**
+ * @param {Array} distribution posted parameter
+ */
+function getPeriodFromDistribution(distribution) {
+    const dtstart = distribution[0].events[0].dtstart;
+    const lastElemEvents = distribution[distribution.length -1].events;
+    const dtend = lastElemEvents[lastElemEvents.length -1].dtend;
+
+    return {
+        dtstart: dtstart,
+        dtend: dtend
+    };
+}
+
+
+/**
  * Get the appliquable right collection of the user on the distribution period
  * Multiple collection in the same request period is not allowed
  *
@@ -515,11 +530,9 @@ function getCollectionFromDistribution(distribution, account) {
         throw new Error('Invalid request, events are not available in last right of distribution');
     }
 
-    const dtstart = distribution[0].events[0].dtstart;
-    const lastElemEvents = distribution[distribution.length -1].events;
-    const dtend = lastElemEvents[lastElemEvents.length -1].dtend;
+    const period = getPeriodFromDistribution(distribution);
 
-    return account.getValidCollectionForPeriod(dtstart, dtend, new Date());
+    return account.getValidCollectionForPeriod(period.dtstart, period.dtend, new Date());
 
 }
 
@@ -617,6 +630,7 @@ function getEventsFromDistribution(distribution) {
 
 
 exports = module.exports = {
+    getPeriodFromDistribution: getPeriodFromDistribution,
     saveAbsenceDistribution: saveAbsenceDistribution,
     getRightsWithApproval: getRightsWithApproval,
     getCollectionFromDistribution: getCollectionFromDistribution,

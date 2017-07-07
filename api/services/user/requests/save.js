@@ -24,6 +24,8 @@ function validate(service, params)
         return service.forbidden(gt.gettext('Request modifications are not allowed in maintenance mode'));
     }
 
+
+
     // modification of a request created by a compulsory leave is not allowed
     if (!params.id) {
         return saveRequest(service, params);
@@ -350,22 +352,18 @@ function saveRequest(service, params) {
 
         userDocument = user;
 
-
-
-        return prepareRequestFields(service, params, user);
-
-    })
-    .then(fieldsToSet => {
-
-        if (userDocument.department && fieldsToSet.absence) {
-            return userDocument.department.checkMinActiveUsers(fieldsToSet.absence.dtstart, fieldsToSet.absence.dtend)
+        if (user.department && undefined !== params.absence) {
+            const span = saveAbsence.getPeriodFromDistribution(params.absence.distribution);
+            return user.department.checkMinActiveUsers(span.dtstart, span.dtend)
             .then(() => {
-                return fieldsToSet;
+                return user;
             });
         }
 
-        return fieldsToSet;
-
+        return user;
+    })
+    .then(user => {
+        return prepareRequestFields(service, params, user);
     })
     .then(fieldsToSet => {
 
