@@ -21,6 +21,11 @@ exports = module.exports = function(services, app) {
 
         Right.findById(params.id).exec()
         .then(document => {
+
+            if (null === document) {
+                throw new Error('Right not found');
+            }
+
             rightDoc = document;
             return document.countUses();
         })

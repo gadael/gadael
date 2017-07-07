@@ -357,7 +357,7 @@ function saveRequest(service, params) {
     })
     .then(fieldsToSet => {
 
-        if (userDocument.department) {
+        if (userDocument.department && fieldsToSet.absence) {
             return userDocument.department.checkMinActiveUsers(fieldsToSet.absence.dtstart, fieldsToSet.absence.dtend)
             .then(() => {
                 return fieldsToSet;
