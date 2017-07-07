@@ -126,6 +126,8 @@ exports = module.exports = function(params) {
             return Promise.resolve();
         }
 
+
+
         return department.getUsers()
         .then(users => {
             return Promise.all(
@@ -135,7 +137,12 @@ exports = module.exports = function(params) {
                     return user.roles.account.getLeaveEvents(dtstart, dtend);
                 })
             ).then(userEvents => {
-                return userEvents.filter(uEvents => (uEvents.length === 0));
+                return userEvents
+                .map(userEra => userEra.periods)
+                .filter(uEvents => {
+                    console.log(uEvents);
+                    return (uEvents.length === 0);
+                });
             });
         })
         .then(emptyPeriods => {

@@ -602,7 +602,9 @@ exports = module.exports = function(params) {
 
         let find = eventModel.find()
             .where('user.id', account.user.id)
-            .where('status').ne('CANCELED');
+            .where('status').ne('CANCELED')
+            .where('dtstart').lt(dtend)
+            .where('dtend').gt(dtstart);
 
         return find.exec().then(events => {
             events.forEach(evt => {
