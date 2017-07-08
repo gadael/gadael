@@ -67,6 +67,14 @@ function saveCollection(service, params) {
         fieldsToSet.workedDays = params.workedDays;
     }
 
+    if (params.useWorkschedule !== undefined) {
+        fieldsToSet.useWorkschedule = params.useWorkschedule;
+    }
+
+    if (params.customScheduleDays !== undefined) {
+        fieldsToSet.customScheduleDays = params.customScheduleDays;
+    }
+
 
     let RightCollection = service.app.db.models.RightCollection;
 

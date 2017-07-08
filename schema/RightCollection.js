@@ -12,7 +12,7 @@ exports = module.exports = function(params) {
                                                                         // ex: for one day of absence,
                                                                         // the consumed quantity will be 0.5 day if the attendance is 50%
 
-        businessDays: {                                                 // list of business days for the department
+        businessDays: {                                                 // list of business days for the collection
             SU: { type: Boolean, default: false },                      // they will be used to set the consumed quantity  for
             MO: { type: Boolean, default: true },                       // the part-times users
             TU: { type: Boolean, default: true },                       // only if consumption=businessDays (right property)
@@ -20,6 +20,18 @@ exports = module.exports = function(params) {
             TH: { type: Boolean, default: true },
             FR: { type: Boolean, default: true },
             SA: { type: Boolean, default: true }
+        },
+
+        useWorkschedule: { type:Boolean, default: true },
+
+        customScheduleDays: {                                           // list of week work days for the department
+            SU: { type: Boolean, default: false },                      // they will be used to compute RTT if useWorkschedule===false
+            MO: { type: Boolean, default: true },
+            TU: { type: Boolean, default: true },
+            WE: { type: Boolean, default: true },
+            TH: { type: Boolean, default: true },
+            FR: { type: Boolean, default: true },
+            SA: { type: Boolean, default: false }
         },
 
         workedDays: Number                                              // package agreement
@@ -55,6 +67,37 @@ exports = module.exports = function(params) {
 
         return days;
     };
+
+
+
+    /**
+     * Get the list of worked days in an array according to Date.getDay format
+     * use it only if useWorkschedule=== false
+     * 0 = sunday
+     * 1 = monday
+     *
+     * @return {Array}
+     */
+    collectionSchema.methods.getCustomScheduleDays = function() {
+
+        let days = [];
+        let d = 0;
+        let scheduleDays = this.customScheduleDays.toObject();
+        for (var abbr in scheduleDays) {
+            if (scheduleDays.hasOwnProperty(abbr)) {
+                if (scheduleDays[abbr]) {
+                    days.push(d);
+                }
+
+                d++;
+            }
+        }
+
+        return days;
+    };
+
+
+
 
 
     /**

@@ -1099,23 +1099,44 @@ exports = module.exports = function(params) {
 
 
 	/**
-	 * Get worked days on renewal for one account
+	 * Get worked days on renewal for one account, use the user workschedule
 	 * with a cache
+	 * OR
+	 * Get worked days on renewal for one account, use the collection custom schedule week
+	 *
 	 * @param   {Account}   account
 	 * @return {Promise}
 	 */
 	rightRenewalSchema.methods.getWorkedDays = function(account) {
-
 		const renewal = this;
 
+		return account.getCollection(renewal.start)
+		.then(collection => {
 
-		let promise = account.getPeriodScheduleEvents(renewal.start, renewal.finish)
-		.then(ScheduleEra => {
-			return ScheduleEra.getDays();
+			if (null === collection || collection.useWorkschedule) {
+				return account.getPeriodScheduleEvents(renewal.start, renewal.finish)
+				.then(ScheduleEra => {
+					return ScheduleEra.getDays();
+				});
+			}
+
+			const workedDays = collection.getCustomScheduleDays();
+
+			let days = {};
+			let loop = new Date(renewal.start);
+			loop.setHours(0,0,0,0);
+
+			while (loop.getTime() < renewal.finish.getTime()) {
+				if (-1 !== workedDays.indexOf(loop.getDay())) {
+					days[loop.getTime()] = new Date(loop);
+				}
+				loop.setDate(loop.getDate() + 1);
+			}
+
+			return days;
 		});
-
-		return promise;
 	};
+
 
 
     /**
