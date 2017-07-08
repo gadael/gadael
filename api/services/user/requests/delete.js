@@ -36,12 +36,17 @@ exports = module.exports = function(services, app) {
         function endDelete(document) {
             document.save()
             .then(() => {
+                const evtStatus = 'waiting' === document.status.deleted ?
+                    'PRECANCEL' :
+                    'CANCELLED';
+
+                // cancel all events associated to the request
+                document.setEventsStatus(evtStatus);
+            })
+            .then(() => {
                 return postpone(document.updateRenewalsStat.bind(document));
             })
             .then(() => {
-
-                // cancel all events associated to the request
-                document.setEventsStatus('PRECANCEL');
                 var request = document.toObject();
 
                 service.resolveSuccess(
