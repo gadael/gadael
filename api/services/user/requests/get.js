@@ -26,9 +26,12 @@ exports = module.exports = function(services, app) {
             filter['user.id'] = params.user;
         }
 
-
-
-
+        // special parameter set in controller
+        // admin can view deleted requests
+        let accessDeleted = false;
+        if (undefined !== params.accessDeleted) {
+            accessDeleted = params.accessDeleted;
+        }
 
 
 
@@ -49,7 +52,7 @@ exports = module.exports = function(services, app) {
                     return service.notFound(gt.gettext('This request does not exists'));
                 }
 
-                if (document.status.deleted === 'accepted') {
+                if (!accessDeleted && document.status.deleted === 'accepted') {
                     return service.gone(gt.gettext('This request has been deleted'));
                 }
 

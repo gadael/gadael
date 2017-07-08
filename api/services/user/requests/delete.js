@@ -24,8 +24,7 @@ exports = module.exports = function(services, app) {
 
 
         var filter = {
-            _id: params.id,
-            'status.deleted': null
+            _id: params.id
         };
 
         if (params.user) {

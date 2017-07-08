@@ -5,7 +5,8 @@ define([], function() {
 		'$location',
 		'Rest',
         'getRequestStat',
-        'gettext', function(
+        'gettext',
+        function(
 			$scope,
 			$location,
 			Rest,
