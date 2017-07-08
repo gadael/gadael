@@ -493,7 +493,6 @@ describe('request absence admin rest service', function() {
     it('get request 1 when deleted', function(done) {
         server.get('/rest/admin/requests/'+request1._id, { 'status.deleted': 'accepted' }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.$outcome).toBeDefined();
             done();
         });
     });
