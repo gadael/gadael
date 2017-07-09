@@ -41,6 +41,41 @@ function validate(service, params) {
 
 
 /**
+ * Refresh users cache
+ *
+ * @return {Promise}
+ */
+function refreshUserCache(service, collection) {
+
+    const postpone = service.app.utility.postpone;
+    const AccountCollection = service.app.db.models.AccountCollection;
+
+    function task() {
+        return AccountCollection.find()
+        .where('rightCollection', collection._id)
+        .populate('account')
+        .exec()
+        .then(list => {
+            return Promise.all(
+                list.map(ac => ac.getUser())
+            );
+        })
+        .then(users => {
+            return Promise.all(
+                users.map(user => user.updateRenewalsStat())
+            );
+        });
+    }
+
+    return postpone(task)
+    .then(() => {
+        return collection;
+    });
+}
+
+
+
+/**
  * Update/create the collection document
  *
  * @param {apiService} service
@@ -49,6 +84,7 @@ function validate(service, params) {
 function saveCollection(service, params) {
 
     const gt = service.app.utility.gettext;
+
 
     let fieldsToSet = {
         name: params.name
@@ -85,15 +121,18 @@ function saveCollection(service, params) {
             {
                 document.set(fieldsToSet);
 
-                document.save(function (err) {
-                    if (service.handleMongoError(err)) {
+                document.save()
+                .then(document => {
+                    return refreshUserCache(service, document);
+                })
+                .then(document => {
+                    service.resolveSuccessGet(
+                        document._id,
+                        gt.gettext('The collection has been modified')
+                    );
+                })
+                .catch(service.error);
 
-                        service.resolveSuccessGet(
-                            document._id,
-                            gt.gettext('The collection has been modified')
-                        );
-                    }
-                });
             }
         });
 
@@ -102,15 +141,14 @@ function saveCollection(service, params) {
         let collection = new RightCollection();
         collection.set(fieldsToSet);
 
-        collection.save(function(err, document) {
-            if (service.handleMongoError(err))
-            {
-                service.resolveSuccessGet(
-                    document._id,
-                    gt.gettext('The collection has been created')
-                );
-            }
-        });
+        collection.save()
+        .then(document => {
+            service.resolveSuccessGet(
+                document._id,
+                gt.gettext('The collection has been created')
+            );
+        })
+        .catch(service.error);
     }
 }
 
