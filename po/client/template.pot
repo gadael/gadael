@@ -282,6 +282,7 @@ msgid "Approvers"
 msgstr ""
 
 #: public/js/controllers/account/request/absence-view.js
+#: public/js/controllers/admin/request/absence-view.js
 msgid "Are you sure you want to delete the absence request?"
 msgstr ""
 
@@ -942,7 +943,7 @@ msgid "Edit leave right"
 msgstr ""
 
 #: public/partials/admin/adjustment-edit.html
-msgid "Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|date}}"
+msgid "Edit quantity in renewal from: {{renewal.start|date}} to: {{renewal.finish|date}}"
 msgstr ""
 
 #: public/partials/login/createfirstadmin.html
@@ -2387,6 +2388,10 @@ msgstr ""
 msgid "Use the approval workflow on this request"
 msgstr ""
 
+#: public/partials/admin/collection-edit.html
+msgid "Use the user workschedule calendar to compute worked days"
+msgstr ""
+
 #: public/partials/admin/right-edit.html
 msgid "User account"
 msgstr ""
@@ -2538,6 +2543,10 @@ msgstr ""
 #: public/partials/admin/calendar-edit.html
 #: public/partials/admin/calendars.html
 msgid "Work schedule"
+msgstr ""
+
+#: public/partials/admin/collection-edit.html
+msgid "Worked days in a week (RTT calculation)"
 msgstr ""
 
 #: public/partials/utils/common/request/workperiod-recover-view.html

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-06 19:42+0200\n"
+"POT-Creation-Date: 2017-07-22 18:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,11 +135,11 @@ msgstr ""
 msgid "At least one business day is required"
 msgstr ""
 
-#: api/services/admin/collections/save.js:85
+#: api/services/admin/collections/save.js:131
 msgid "The collection has been modified"
 msgstr ""
 
-#: api/services/admin/collections/save.js:102
+#: api/services/admin/collections/save.js:148
 msgid "The collection has been created"
 msgstr ""
 
@@ -470,12 +470,12 @@ msgstr ""
 msgid "This absence right does not exists"
 msgstr ""
 
-#: api/services/admin/rights/delete.js:29
+#: api/services/admin/rights/delete.js:34
 #, javascript-format
 msgid "Failed to delete, the right is used %d in requests"
 msgstr ""
 
-#: api/services/admin/rights/delete.js:39
+#: api/services/admin/rights/delete.js:44
 msgid "The leave right has been deleted"
 msgstr ""
 
@@ -573,12 +573,12 @@ msgid ""
 "is %s"
 msgstr ""
 
-#: api/services/user/requests/get.js:49
+#: api/services/user/requests/get.js:52
 #: api/services/manager/waitingrequests/get.js:54
 msgid "This request does not exists"
 msgstr ""
 
-#: api/services/user/requests/get.js:53
+#: api/services/user/requests/get.js:56
 msgid "This request has been deleted"
 msgstr ""
 
@@ -592,34 +592,34 @@ msgstr ""
 msgid "Request modifications are not allowed in maintenance mode"
 msgstr ""
 
-#: api/services/user/requests/delete.js:49
+#: api/services/user/requests/delete.js:53
 msgid "The request has been deleted"
 msgstr ""
 
-#: api/services/user/requests/delete.js:69
+#: api/services/user/requests/delete.js:73
 msgid "The request is not accessible"
 msgstr ""
 
-#: api/services/user/requests/delete.js:73
+#: api/services/user/requests/delete.js:77
 msgid ""
 "This leave has been created in a compulsory leave, deletion is not allowed"
 msgstr ""
 
-#: api/services/user/requests/delete.js:91
+#: api/services/user/requests/delete.js:95
 msgid "Start workflow to delete a confirmed absence"
 msgstr ""
 
-#: api/services/user/requests/save.js:39
+#: api/services/user/requests/save.js:41
 msgid ""
 "This leave has been created in a compulsory leave, modification is not "
 "allowed"
 msgstr ""
 
-#: api/services/user/requests/save.js:383
+#: api/services/user/requests/save.js:381
 msgid "The request has been modified"
 msgstr ""
 
-#: api/services/user/requests/save.js:422
+#: api/services/user/requests/save.js:420
 msgid "The request has been created"
 msgstr ""
 
@@ -1156,19 +1156,19 @@ msgstr ""
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:1174
+#: schema/Right_Renewal.js:1195
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1241
+#: schema/Right_Renewal.js:1262
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1284
+#: schema/Right_Renewal.js:1305
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1324,23 +1324,23 @@ msgstr ""
 msgid "No rights found in type \"%s\""
 msgstr ""
 
-#: schema/RightCollection.js:153
+#: schema/RightCollection.js:196
 msgid "General regime 100%"
 msgstr ""
 
-#: schema/RightCollection.js:154
+#: schema/RightCollection.js:197
 msgid "Part-time 90%"
 msgstr ""
 
-#: schema/RightCollection.js:155
+#: schema/RightCollection.js:198
 msgid "Part-time 80%"
 msgstr ""
 
-#: schema/RightCollection.js:156
+#: schema/RightCollection.js:199
 msgid "Part-time 70%"
 msgstr ""
 
-#: schema/RightCollection.js:157
+#: schema/RightCollection.js:200
 msgid "Part-time 50%"
 msgstr ""
 
@@ -1423,12 +1423,12 @@ msgstr ""
 msgid "Interval values must be set in a correct order"
 msgstr ""
 
-#: schema/User_Account.js:1032
+#: schema/User_Account.js:1034
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr ""
 
-#: schema/Department.js:147
+#: schema/Department.js:154
 #, javascript-format
 msgid ""
 "A leave over this period is not possible because %d people must be available "
