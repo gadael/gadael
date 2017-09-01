@@ -10,7 +10,7 @@ msgstr ""
 "X-Generator: Poedit 2.0.3\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
+"Language: es\n"
 
 #: public/partials/home.html
 msgid "{{renewalChart.percentDays|number}}% consumed"

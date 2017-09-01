@@ -10,6 +10,7 @@ require.config({
     	angularstraptpl:		'../bower_components/angular-strap/dist/angular-strap.tpl',
 		en:						'../bower_components/angular-i18n/angular-locale_en-us',
     	fr:						'../bower_components/angular-i18n/angular-locale_fr-fr',
+		es:						'../bower_components/angular-i18n/angular-locale_es-es',
     	angularGettext: 		'../bower_components/angular-gettext/dist/angular-gettext',
 		angularAuth: 			'../bower_components/angular-http-auth/src/http-auth-interceptor',
 		paginateAnything:		'../bower_components/angular-paginate-anything/dist/paginate-anything',
@@ -55,7 +56,8 @@ require.config({
         'angularnvd3': ['angular', 'd3', 'nvd3'],
         'ngSortable': ['angular'],
 		'fr': ['angular'],
-		'en': ['angular']
+		'en': ['angular'],
+		'es': ['angular']
 	},
 	priority: ["angular"]
 });
