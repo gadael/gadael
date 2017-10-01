@@ -83,17 +83,9 @@ List of supported commands for development:
 grunt --help
 ```
 
-### TODO
+### Languages
 
-- [ ] Add confirmation dialog for the right delete button
-- [ ] Verify that the mail "usercreated" is received by admin when a google account is created by login
-- [ ] Account initialization by google login, copy google image if google+ available
-- [ ] ICSDB integration for non working days calendar
-- [ ] ICS Export
-- [ ] Right collection modification (report quantity on new rights)
-- [ ] Manager substitute one of his subordinates to create request
-- [ ] Delete right collection
-
+French, english, spanish
 
 
 ## License
