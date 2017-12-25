@@ -654,6 +654,10 @@ exports = module.exports = {
 			}
 
 			app.config.company = company;
+		        if (company.country === 'UK') {
+                                app.config.language = 'en';
+                        }
+
 
 			//setup passport
 			passportHelper(app, passport);
