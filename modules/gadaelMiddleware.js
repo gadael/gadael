@@ -28,7 +28,7 @@ exports = module.exports = function(app) {
             setNow = age > 300000; // 5min
         }
 
-        if (setNow) {
+        if (setNow && req.user) {
             config.company.lastMinRefresh = now;
             config.company.save();
         }
