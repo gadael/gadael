@@ -113,26 +113,33 @@ exports = module.exports = function(params) {
 	/**
 	 * Get inactivity in minutes and days
 	 * Minutes can be used if days=0
-	 * @return Number
+	 * @return {object}
 	 */
 	companySchema.methods.getInactivity = function() {
 		let company = this;
+		let now = new Date();
+
+		let creationDays = 0;
+		if (company.timeCreated) {
+			creationDays = Math.floor(daysBetween(company.timeCreated, now));
+		}
 
 		if (!company.lastMinRefresh) {
 			return {
+				creationDays: creationDays,
+				login: false,
 				days: 0,
 				minutes: 0
 			};
 		}
-
-
-		let now = new Date();
 
 		// 5 minutes are added to last record to include to potential
 		// uncounted refreshs
 		let min = 5 + (company.lastMinRefresh.getTime()/60000);
 
 		return {
+			creationDays: creationDays,
+			login: true,
 			days: Math.floor(daysBetween(company.lastMinRefresh, now)),
 			minutes: Math.floor((now.getTime()/60000)-min)
 		};
