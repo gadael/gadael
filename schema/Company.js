@@ -124,7 +124,9 @@ exports = module.exports = function(params) {
 			creationDays = Math.floor(daysBetween(company.timeCreated, now));
 		}
 
-		if (!company.lastMinRefresh) {
+		const lastViewed = company.lastMinRefresh || company.lastLogin;
+
+		if (!lastViewed) {
 			return {
 				creationDays: creationDays,
 				login: false,
@@ -135,12 +137,12 @@ exports = module.exports = function(params) {
 
 		// 5 minutes are added to last record to include to potential
 		// uncounted refreshs
-		let min = 5 + (company.lastMinRefresh.getTime()/60000);
+		let min = 5 + (lastViewed.getTime()/60000);
 
 		return {
 			creationDays: creationDays,
 			login: true,
-			days: Math.floor(daysBetween(company.lastMinRefresh, now)),
+			days: Math.floor(daysBetween(lastViewed, now)),
 			minutes: Math.floor((now.getTime()/60000)-min)
 		};
 	};
