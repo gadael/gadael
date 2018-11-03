@@ -575,8 +575,7 @@ exports = module.exports = {
         }
 
         app.use(compression());
-		app.use(gadaelMiddleware(app));
-        app.use(serveStatic(config.staticPath, {
+		app.use(serveStatic(config.staticPath, {
 			'index': [config.indexFile]
 		}));
 
@@ -619,7 +618,7 @@ exports = module.exports = {
             next();
         });
 
-
+		app.use(gadaelMiddleware(app));
 
         //setup routes
         routes(app, passport);
