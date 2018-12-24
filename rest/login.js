@@ -34,13 +34,11 @@ exports.forgotPassword = function(req, res, next) {
 			}
 
 			var token = buf.toString('hex');
-			User.encryptPassword(token, (err, hash) => {
-				if (err) {
-				  return next(err);
-				}
-
+			User.encryptPassword(token)
+			.then(hash => {
 				workflow.emit('patchUser', token, hash);
-			});
+			})
+			.catch(next);
 		});
 	});
 
@@ -65,7 +63,6 @@ exports.forgotPassword = function(req, res, next) {
 				});
 				return workflow.emit('response');
 			}
-
 
 			workflow.emit('sendEmail', token, user);
 		});

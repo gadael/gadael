@@ -44,13 +44,13 @@ exports = module.exports = function(app) {
 
     if (undefined === approb_alert || null === approb_alert || 0 === approb_alert) {
         // Alert is disabled
-        return;
+        return Promise.resolve([]);
     }
 
 
     let limit = new Date();
     limit.setDate(limit.getDate()-approb_alert);
-    
+
     const Request = app.db.models.Request;
 
 
