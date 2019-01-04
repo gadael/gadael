@@ -22,7 +22,12 @@ function start() {
     let models = require('./models');
     let app = companyApi.getExpress(config, models);
     app.server = companyApi.startServer(app, function() {
-        //and... we're live
+        if (null !== config.inactivityTimeout) {
+            app.inactivity = setTimeout(function() {
+                console.log('Exit because of inactivity timeout');
+                process.exit();
+            }, config.inactivityTimeout * 60000);
+        }
     });
 }
 
