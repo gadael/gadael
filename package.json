@@ -46,7 +46,7 @@
     "google-calendar": "git://github.com/trusk-official/google-calendar.git#3aa975c2ba6c5d0c99ac59c390332a4c5fc5d7ee",
     "helmet": "~0.2.1",
     "i18n-abide": "0.0.26",
-    "ical": "git://github.com/polo2ro/ical.js.git#543a750c177be2c1efb792b36c6103e1612aedd7",
+    "ical": "git://github.com/polo2ro/ical.js.git#d006048405c95328958cb4ef1a5589ab7ddc1795",
     "jurassic": "git://github.com/polo2ro/jurassic.git#1eddd3a756c3672b5ed0cc1e03b682749d77a574",
     "latinize": "~0.2.0",
     "mailgen": "^2.0.7",
