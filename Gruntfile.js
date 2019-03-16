@@ -237,18 +237,6 @@ module.exports = function(grunt) {
             }
         },
 
-
-        codeclimate: {
-            main: {
-                options: {
-                    file: 'coverage/lcov.info',
-                    token: '4e96740bf6bcf7478dff8d7c59dea0888b794dd414cd4e3b934b4c1fcfc27fea',
-                    executable: 'node_modules/codeclimate-test-reporter/bin/codeclimate.js'
-                }
-            }
-        },
-
-
         requirejs: {
             compile: {
                 options: {
@@ -276,7 +264,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-angular-gettext');
     grunt.loadNpmTasks('grunt-jasmine-node-coverage');
     grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-codeclimate-reporter');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
     grunt.registerTask('default'  , 'Developpement mode',

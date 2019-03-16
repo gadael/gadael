@@ -353,7 +353,7 @@ exports = module.exports = {
         app.mongoose = mongoose;
 
         //setup mongoose
-        app.db = mongoose.createConnection(app.config.mongodb.prefix + dbName);
+        app.db = mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName);
         app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
         app.db.once('open', callback);
     },
