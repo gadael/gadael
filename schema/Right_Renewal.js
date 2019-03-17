@@ -851,7 +851,7 @@ exports = module.exports = function(params) {
 
 			// set renewal on error for services/user/accountbeneficiaries/renewals
 			err.renewal = renewal;
-			return;
+			return {};
 		});
     };
 
