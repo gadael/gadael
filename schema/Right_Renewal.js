@@ -27,9 +27,9 @@ exports = module.exports = function(params) {
     /**
      * Ensure that the renewal interval do not overlap another renewal period
      */
-    rightRenewalSchema.pre('save', () => {
+    rightRenewalSchema.pre('save', function() {
 		return this.checkOverlap()
-        .then(this.updateMonthlyAdjustment.bind(this));
+        	.then(this.updateMonthlyAdjustment.bind(this));
 	});
 
 
@@ -37,7 +37,7 @@ exports = module.exports = function(params) {
 	/**
      * Pre remove hook
      */
-    rightRenewalSchema.pre('remove', () => {
+    rightRenewalSchema.pre('remove', function() {
         return this.removeUserRenewalStat();
     });
 
@@ -73,7 +73,6 @@ exports = module.exports = function(params) {
             .count()
 			.exec()
 			.then(renewals => {
-
                 if (renewals > 0) {
                     throw new Error(gt.gettext('The renewals periods must not overlap'));
                 }
