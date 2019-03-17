@@ -1049,45 +1049,46 @@ exports = module.exports = function(params) {
                 return period;
             }
 
-            return new Promise((resolve, reject) => {
 
-                let right = new model();
 
-                if (undefined !== rightData._id) {
-                    right._id = rightData._id;
+            const right = new model();
+
+            if (undefined !== rightData._id) {
+                right._id = rightData._id;
+            }
+
+            right.special = rightData.special;
+            right.name = rightData.name;
+            right.quantity_unit = rightData.quantity_unit || 'D';
+            right.quantity = rightData.quantity;
+            right.defaultAbsenceLength = rightData.defaultAbsenceLength;
+            right.type = rightData.type;
+            right.rules = rightData.rules;
+
+            return right.save()
+            .then(right => {
+
+                let promises = [];
+                if (rightData.defaultAbsenceLength === undefined) {
+                    promises.push(linkToCollection(right, rightData.collection));
                 }
 
-                right.special = rightData.special;
-                right.name = rightData.name;
-                right.quantity_unit = rightData.quantity_unit || 'D';
-                right.quantity = rightData.quantity;
-                right.defaultAbsenceLength = rightData.defaultAbsenceLength;
-                right.type = rightData.type;
-                right.rules = rightData.rules;
+                // create renewal
 
-                right.save().then(right => {
+                let period = getRenewal();
+                if (null !== period) {
 
-                    let promises = [];
-                    if (rightData.defaultAbsenceLength === undefined) {
-                        promises.push(linkToCollection(right, rightData.collection));
-                    }
+                    let renewalModel = right.model('RightRenewal');
+                    let renewal = new renewalModel();
 
-                    // create renewal
+                    renewal.right = right._id;
+                    renewal.set(period);
+                    console.log('TODO: enable save for the renewal period', period);
+                    // TODO: enable save
+                    // promises.push(renewal.save());
+                }
 
-                    let period = getRenewal();
-                    if (null !== period) {
-
-                        let renewalModel = right.model('RightRenewal');
-                        let renewal = new renewalModel();
-
-                        renewal.right = right._id;
-                        renewal.set(period);
-                        promises.push(renewal.save());
-                    }
-
-                    resolve(Promise.all(promises));
-                });
-
+                return Promise.all(promises);
             });
         }
 

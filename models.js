@@ -1,5 +1,47 @@
 'use strict';
 
+//embeddable docs first
+const Status = require('./schema/Status');
+const StatusLog = require('./schema/StatusLog');
+const RequestLog = require('./schema/RequestLog');
+const ApprovalStep = require('./schema/ApprovalStep');
+const Right_Rule = require('./schema/Right_Rule');
+const RightAdjustment = require('./schema/RightAdjustment');
+const Request_WorkperiodRecover = require('./schema/Request_WorkperiodRecover');
+const Request_TimeSavingDeposit = require('./schema/Request_TimeSavingDeposit');
+const ValidInterval = require('./schema/ValidInterval');
+const CompulsoryLeaveRequest = require('./schema/CompulsoryLeaveRequest');
+
+//then regular docs
+
+
+const AccountCollection = require('./schema/AccountCollection');
+const AccountScheduleCalendar = require('./schema/AccountScheduleCalendar');
+const AccountNWDaysCalendar = require('./schema/AccountNWDaysCalendar');
+const Company = require('./schema/Company');
+const User = require('./schema/User');
+const User_Admin = require('./schema/User_Admin');
+const User_Account = require('./schema/User_Account');
+const User_Manager = require('./schema/User_Manager');
+const Department = require('./schema/Department');
+const LoginAttempt = require('./schema/LoginAttempt');
+const Request_AbsenceElem = require('./schema/Request_AbsenceElem');
+const Request = require('./schema/Request');
+const RecoverQuantity = require('./schema/RecoverQuantity');
+const CompulsoryLeave = require('./schema/CompulsoryLeave');
+
+const RightCollection = require('./schema/RightCollection');
+const Type = require('./schema/Type');
+const Right = require('./schema/Right');
+const Right_Renewal = require('./schema/Right_Renewal');
+const Calendar = require('./schema/Calendar');
+const CalendarEvent = require('./schema/CalendarEvent');
+const Beneficiary = require('./schema/Beneficiary');
+const Adjustment = require('./schema/Adjustment');
+const Message = require('./schema/Message');
+const Invitation = require('./schema/Invitation');
+const UserRenewalStat = require('./schema/UserRenewalStat');
+
 var models = {};
 
 exports = module.exports = models;
@@ -24,57 +66,56 @@ models.requirements = {
  */
 models.load = function() {
 
-	var requirements = this.requirements;
+	const requirements = this.requirements;
+	let promises = [];
 
 	//embeddable docs first
-	require('./schema/Status')(requirements);
-	require('./schema/StatusLog')(requirements);
-	require('./schema/RequestLog')(requirements);
-    require('./schema/ApprovalStep')(requirements);
-	require('./schema/Right_Rule')(requirements);
-    require('./schema/RightAdjustment')(requirements);
-    require('./schema/Request_WorkperiodRecover')(requirements);
-    require('./schema/Request_TimeSavingDeposit')(requirements);
-    require('./schema/ValidInterval')(requirements);
-    require('./schema/CompulsoryLeaveRequest')(requirements);
+	Status(requirements);
+	StatusLog(requirements);
+	RequestLog(requirements);
+    ApprovalStep(requirements);
+	Right_Rule(requirements);
+    RightAdjustment(requirements);
+    Request_WorkperiodRecover(requirements);
+    Request_TimeSavingDeposit(requirements);
+    ValidInterval(requirements);
+    CompulsoryLeaveRequest(requirements);
 
 	//then regular docs
 
 
-    require('./schema/AccountCollection')(requirements);
-    require('./schema/AccountScheduleCalendar')(requirements);
-    require('./schema/AccountNWDaysCalendar')(requirements);
-	require('./schema/Company')(requirements);
-	require('./schema/User')(requirements);
-	require('./schema/User_Admin')(requirements);
-	require('./schema/User_Account')(requirements);
-	require('./schema/User_Manager')(requirements);
-	require('./schema/Department')(requirements);
-	require('./schema/LoginAttempt')(requirements);
-    require('./schema/Request_AbsenceElem')(requirements);
-	require('./schema/Request')(requirements);
-    require('./schema/RecoverQuantity')(requirements);
-    require('./schema/CompulsoryLeave')(requirements);
+    AccountCollection(requirements);
+    AccountScheduleCalendar(requirements);
+    AccountNWDaysCalendar(requirements);
+	Company(requirements);
+	User(requirements);
+	User_Admin(requirements);
+	User_Account(requirements);
+	User_Manager(requirements);
+	Department(requirements);
+	LoginAttempt(requirements);
+    Request_AbsenceElem(requirements);
+	Request(requirements);
+    RecoverQuantity(requirements);
+    CompulsoryLeave(requirements);
 
-	require('./schema/RightCollection')(requirements);
-	require('./schema/Type')(requirements);
-	require('./schema/Right')(requirements);
-    require('./schema/Right_Renewal')(requirements);
-	require('./schema/Calendar')(requirements);
-	require('./schema/CalendarEvent')(requirements);
-    require('./schema/Beneficiary')(requirements);
-    require('./schema/Adjustment')(requirements);
-    require('./schema/Message')(requirements);
-	require('./schema/Invitation')(requirements);
-	require('./schema/UserRenewalStat')(requirements);
+	RightCollection(requirements);
+	Type(requirements);
+	Right(requirements);
+    Right_Renewal(requirements);
+	Calendar(requirements);
+	CalendarEvent(requirements);
+    Beneficiary(requirements);
+    Adjustment(requirements);
+    Message(requirements);
+	Invitation(requirements);
+	UserRenewalStat(requirements);
 
 
 	if (!requirements.autoIndex) {
 		// Nothing to index
 		return Promise.resolve([]);
 	}
-
-	let promises = [];
 
 	requirements.db.modelNames().forEach(name => {
 

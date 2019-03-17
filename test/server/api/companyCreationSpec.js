@@ -12,7 +12,6 @@ let icsCalendars = fs.readdirSync(require('path').join(config.staticPath, 'calen
 function createCompany(dbname, company, ready) {
     api.createDb(headless, dbname, company)
     .then(() => {
-
         config.port = company.port;
         config.companyName = company.name;
         config.mongodb.dbname = dbname;
@@ -21,9 +20,7 @@ function createCompany(dbname, company, ready) {
         let app = api.getExpress(config, models);
 
         function drop(doneExit) {
-
-            app.db.close(function() {
-
+            app.mongoose.disconnect().then(() => {
                 api.dropDb(headless, dbname, doneExit);
             });
         }
@@ -43,7 +40,7 @@ function countRows(dbname, company) {
 
     function countPromise(model) {
         return new Promise((res, rej) => {
-            model.count((err, count) => {
+            model.countDocuments((err, count) => {
                 if (err) {
                     return rej(err);
                 }
@@ -95,8 +92,6 @@ describe("Test company creation", function companyCreation() {
             done();
         }).catch(done);
     });
-
-
 
     it("verify initialization with FR", function(done) {
 
@@ -170,6 +165,4 @@ describe("Test company creation", function companyCreation() {
             done();
         }).catch(done);
     });
-
-
 });

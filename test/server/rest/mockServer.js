@@ -54,9 +54,6 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
 
         api.createDb(headless, serverInst.dbname, company)
         .then(() => {
-
-
-
             config.port = company.port;
             config.companyName = company.name;
             config.mongodb.dbname = serverInst.dbname;
@@ -101,7 +98,7 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
     }
 
 
-    headless.connect(function() {
+    headless.linkdb(function() {
         api.isDbNameValid(headless, serverInst.dbname, function(status) {
             if (!status) {
                 console.log('mock REST server: database '+serverInst.dbname+' allready exists');
