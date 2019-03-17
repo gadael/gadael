@@ -43,8 +43,6 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
     headless.config = config;
 
     function createRestService() {
-
-
         var company = {
             name: 'The Fake Company REST service',
             port: port,
@@ -97,8 +95,7 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
         });
     }
 
-
-    headless.linkdb(function() {
+    headless.linkdb().then(() => {
         api.isDbNameValid(headless, serverInst.dbname, function(status) {
             if (!status) {
                 console.log('mock REST server: database '+serverInst.dbname+' allready exists');

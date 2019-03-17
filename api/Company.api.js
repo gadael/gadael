@@ -134,7 +134,6 @@ exports = module.exports = {
      * @return {Array}
      */
     listDatabases: function listDatabases(app, callback) {
-
 		const Admin = app.mongoose.mongo.Admin(app.db.db);
         Admin.listDatabases(function(err, result) {
 
@@ -159,11 +158,11 @@ exports = module.exports = {
 		let m = db.models;
 
 		return Promise.all([
-			m.Type.remove({}),
-			m.Calendar.remove({}),
-			m.RightCollection.remove({}),
-			m.RecoverQuantity.remove({}),
-			m.Right.remove({})
+			m.Type.deleteMany({}),
+			m.Calendar.deleteMany({}),
+			m.RightCollection.deleteMany({}),
+			m.RecoverQuantity.deleteMany({}),
+			m.Right.deleteMany({})
 		]);
 	},
 
@@ -324,7 +323,6 @@ exports = module.exports = {
      * @param	{function}	callback
      */
     dropDb: function dropDb(app, dbName, callback) {
-
         var db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName);
         db.on('error', console.error.bind(console, 'CompanyApi.deleteDb mongoose connection error: '));
 
@@ -333,7 +331,6 @@ exports = module.exports = {
                 if (err) {
                     return console.error(err);
                 }
-
 				app.mongoose.disconnect().then(callback);
             });
         });

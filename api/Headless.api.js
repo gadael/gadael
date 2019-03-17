@@ -105,7 +105,7 @@ app.disconnect = function(callback) {
 		return callback();
 	}
 
-	app.db.close(function () {
+	app.mongoose.disconnect().then(() => {
 		delete app.db;
         if (callback) {
             callback();

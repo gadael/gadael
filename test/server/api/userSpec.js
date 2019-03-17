@@ -31,7 +31,6 @@ describe("User API", function UserTestSuite() {
 		});
 	});
 
-
     it("create random account", function(done) {
 		api.user.createRandomAccount(server.app).then(function(randomAccount) {
             expect(randomAccount.user.email).toBeDefined();
@@ -48,16 +47,8 @@ describe("User API", function UserTestSuite() {
 		});
 	});
 
-
 	it('close the mock server', function(done) {
         server.close(done);
     });
 
 });
-
-
-
-
-
-
-

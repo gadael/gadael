@@ -27,16 +27,9 @@ exports = module.exports = function(params) {
     /**
      * Ensure that the renewal interval do not overlap another renewal period
      */
-    rightRenewalSchema.pre('save', function(next) {
-
-		let renewal = this;
-
-        renewal.checkOverlap()
-            .then(function() {
-                return renewal.updateMonthlyAdjustment.call(renewal);
-            })
-            .catch(next)
-            .then(next);
+    rightRenewalSchema.pre('save', () => {
+		return this.checkOverlap()
+        .then(this.updateMonthlyAdjustment.bind(this));
 	});
 
 
@@ -44,13 +37,8 @@ exports = module.exports = function(params) {
 	/**
      * Pre remove hook
      */
-    rightRenewalSchema.pre('remove', function(next) {
-        let renewal = this;
-
-        renewal.removeUserRenewalStat()
-		.then(() => {
-            next();
-        }).catch(next);
+    rightRenewalSchema.pre('remove', () => {
+        return this.removeUserRenewalStat();
     });
 
 
@@ -208,22 +196,12 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.updateMonthlyAdjustment = function()
     {
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
+        return this.getRightPromise()
+		.then(right => {
+            this.removeFutureRightAdjustments();
+            this.createRightAdjustments(right);
+            return true;
         });
-
-        var renewal = this;
-
-        renewal.getRightPromise().then(function(right) {
-
-            renewal.removeFutureRightAdjustments();
-            renewal.createRightAdjustments(right);
-            deferred.resolve(true);
-        }).catch(deferred.reject);
-
-        return deferred.promise;
     };
 
 

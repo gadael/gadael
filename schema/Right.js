@@ -1083,9 +1083,7 @@ exports = module.exports = function(params) {
 
                     renewal.right = right._id;
                     renewal.set(period);
-                    console.log('TODO: enable save for the renewal period', period);
-                    // TODO: enable save
-                    // promises.push(renewal.save());
+                    promises.push(renewal.save());
                 }
 
                 return Promise.all(promises);

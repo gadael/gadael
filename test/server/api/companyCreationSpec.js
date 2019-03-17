@@ -20,9 +20,7 @@ function createCompany(dbname, company, ready) {
         let app = api.getExpress(config, models);
 
         function drop(doneExit) {
-            app.mongoose.disconnect().then(() => {
-                api.dropDb(headless, dbname, doneExit);
-            });
+            api.dropDb(headless, dbname, doneExit);
         }
 
         ready(app, drop);
@@ -60,7 +58,8 @@ function countRows(dbname, company) {
             promises.push(countPromise(app.db.models.Right));
 
 
-            Promise.all(promises).then(count => {
+            Promise.all(promises)
+            .then(count => {
                 closeCb(() => {
                     resolve(count);
                 });
@@ -71,11 +70,6 @@ function countRows(dbname, company) {
 
 
 describe("Test company creation", function companyCreation() {
-
-
-
-
-
 
     it("verify initialization with no country set on company", function(done) {
 
@@ -128,8 +122,6 @@ describe("Test company creation", function companyCreation() {
         }).catch(done);
     });
 
-
-
     it("verify initialization with BE", function(done) {
 
         countRows('companyCreationBe', {
@@ -146,8 +138,6 @@ describe("Test company creation", function companyCreation() {
             done();
         }).catch(done);
     });
-
-
 
     it("verify initialization with CH", function(done) {
 
