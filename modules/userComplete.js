@@ -53,6 +53,8 @@ exports = module.exports = function userComplete(userDoc)
             var calendar = results[1];
             var departments = results[2];
 
+            user.roles.account.currentCollection = null;
+
             if (null !== collection && undefined !== collection) {
                 user.roles.account.currentCollection = collection.toObject();
             }
