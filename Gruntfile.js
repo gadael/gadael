@@ -276,7 +276,7 @@ module.exports = function(grunt) {
     ['shell:pot_server', 'nggettext_extract']);
 
     grunt.registerTask('lint'     , ['jshint']);
-    grunt.registerTask('test'     , ['jasmine_node:all']);
+    grunt.registerTask('test'     , ['shell:jasmine']);
     grunt.registerTask('coverage' , ['jasmine_node:jasmine_coverage']);
     grunt.registerTask('travis'   , ['copy:config', 'jasmine_node:jasmine_coverage']);
 
