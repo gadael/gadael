@@ -13,7 +13,7 @@ jobs:
       - image: mongo:latest
     steps:
       - checkout
-      - run: 'node node_modules/.bin/grunt test'
+      - run: 'node node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server'
 workflows:
   version: 2
   build_and_test:
