@@ -18,11 +18,11 @@ exports = module.exports = function createConfiguration() {
 
                                                 // where the http server accept connexion to
     config.host = 'localhost';                  // if host undefined: any host
-    config.port = process.argv[2] || 3000;
+    config.port = 3000;
     config.mongodb = {
         init: true,                             // database initialisation on first connexion
         prefix: 'localhost/',
-        dbname: process.argv[3] || 'gadael',
+        dbname: 'gadael',
         autoIndex: true,
         removeIndex: (-1 !== process.argv.indexOf('removeIndex'))   // Remove index on start, autoIndex must be
                                                                     // true to recreate the index in background

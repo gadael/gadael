@@ -14,7 +14,6 @@ exports = module.exports = app;
 var mongoose = require('mongoose');
 var config = require('../config')();
 
-
 app.config = config;
 app.mongoose = mongoose;
 
@@ -27,26 +26,51 @@ app.deferredDbConnect.promise = new Promise(function(resolve, reject) {
 
 
 /**
+ * Link app to database with mongodb connexion
+ * @return {Promise}
+ */
+app.linkdbCreateConnection = function() {
+	return new Promise((resolve, reject) => {
+		if (undefined !== app.db) {
+			//console.warn('Call on connect but app.db allready initialized');
+			app.deferredDbConnect.promise.then(resolve);
+			return;
+		}
+
+		apputil(app);
+
+		app.db = mongoose.createConnection('mongodb://' + config.mongodb.prefix + config.mongodb.dbname);
+		app.db.on('error', reject);
+		app.db.once('open', resolve);
+	});
+};
+
+/**
+ * Link app to database with mongodb connexion
+ * @return {Promise}
+ */
+app.linkdb = function() {
+	return app.linkdbCreateConnection()
+	.then(() => {
+		// indexation done
+		app.deferredDbConnect.resolve(app.db.models);
+		return true;
+	})
+	.catch(err => {
+		// indexation fail
+		console.log(err);
+		app.deferredDbConnect.resolve(app.db.models);
+		return true;
+	});
+};
+
+
+/**
  * Connect to database and load models
  * call callback when models are loaded
  */
-app.connect = function(callback) {
-
-	if (undefined !== app.db) {
-		//console.warn('Call on connect but app.db allready initialized');
-		app.deferredDbConnect.promise.then(callback);
-		return;
-	}
-
-
-
-	apputil(app);
-
-	app.db = mongoose.createConnection(config.mongodb.prefix + config.mongodb.dbname);
-	app.db.on('error', console.error.bind(console, 'Headless mock mongoose connection error: '));
-
-	app.db.once('open', function() {
-
+app.connect = function(callback, loadModels = true) {
+	return app.linkdbCreateConnection().then(() => {
 		//config data models
 		var models = require('../models');
 		models.requirements = {
@@ -70,7 +94,8 @@ app.connect = function(callback) {
 			app.deferredDbConnect.resolve(app.db.models);
 			callback();
 		});
-	});
+	})
+	.catch(console.error);
 };
 
 app.disconnect = function(callback) {
@@ -80,7 +105,7 @@ app.disconnect = function(callback) {
 		return callback();
 	}
 
-	app.db.close(function () {
+	app.mongoose.disconnect().then(() => {
 		delete app.db;
         if (callback) {
             callback();

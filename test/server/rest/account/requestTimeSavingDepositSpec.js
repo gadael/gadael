@@ -386,7 +386,7 @@ describe('request time saving deposit rest service', function() {
     });
 
 
-    it('list waiting requests', function(done) {
+    it('list waiting requests as manager', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);

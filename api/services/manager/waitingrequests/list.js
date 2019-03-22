@@ -42,14 +42,12 @@ var query = function(service, params) {
          }
      });
 
-    find.populate('user.id');
-    find.populate('events');
-    find.populate('absence.distribution');
-    find.populate('workperiod_recover.event');
-    find.populate('approvalSteps');
-    find.populate('requestLog');
+     find.populate('user.id');
+     find.populate('events');
+     find.populate('absence.distribution');
+     find.populate('workperiod_recover.event');
 
-    return find;
+     return find;
 };
 
 
@@ -84,7 +82,6 @@ exports = module.exports = function(services, app) {
                     for(var i=0; i<docs.length; i++) {
 
                         approvers = docs[i].getRemainingApproversOnWaitingSteps();
-
 
                         if (params.user && -1 === approvers.indexOf(params.user)) {
                             continue;

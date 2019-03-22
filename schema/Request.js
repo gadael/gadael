@@ -554,18 +554,19 @@ exports = module.exports = function(params) {
                 throw new Error('Wrong format in request log');
             }
 
-            if (undefined === log.userCreated.id.id) {
-                interveners.push(log.userCreated.id);
+            if (log.userCreated.id instanceof mongoose.Types.ObjectId) {
+                interveners.push(log.userCreated.id.toString());
             } else {
                 interveners.push(log.userCreated.id.id);
             }
         });
 
-
         var approvers = approvalStep.approvers.filter(function(approver) {
 
-            if (undefined !== approver.id) {
-                approver = approver.id;
+            if (approver.id instanceof mongoose.Types.ObjectId) {
+                approver = approver.id.toString();
+            } else {
+                approver = approver.toString();
             }
 
             return (-1 === interveners.indexOf(approver));
@@ -654,8 +655,6 @@ exports = module.exports = function(params) {
                 if (undefined === renewal._id) {
                     throw new Error('The new renewal ID is required');
                 }
-
-                console.log(renewal);
 
                 recover.right.renewal.id = renewal._id;
                 return request.save();

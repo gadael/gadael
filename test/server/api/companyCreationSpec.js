@@ -12,7 +12,6 @@ let icsCalendars = fs.readdirSync(require('path').join(config.staticPath, 'calen
 function createCompany(dbname, company, ready) {
     api.createDb(headless, dbname, company)
     .then(() => {
-
         config.port = company.port;
         config.companyName = company.name;
         config.mongodb.dbname = dbname;
@@ -21,11 +20,7 @@ function createCompany(dbname, company, ready) {
         let app = api.getExpress(config, models);
 
         function drop(doneExit) {
-
-            app.db.close(function() {
-
-                api.dropDb(headless, dbname, doneExit);
-            });
+            api.dropDb(headless, dbname, doneExit);
         }
 
         ready(app, drop);
@@ -43,7 +38,7 @@ function countRows(dbname, company) {
 
     function countPromise(model) {
         return new Promise((res, rej) => {
-            model.count((err, count) => {
+            model.countDocuments((err, count) => {
                 if (err) {
                     return rej(err);
                 }
@@ -63,7 +58,8 @@ function countRows(dbname, company) {
             promises.push(countPromise(app.db.models.Right));
 
 
-            Promise.all(promises).then(count => {
+            Promise.all(promises)
+            .then(count => {
                 closeCb(() => {
                     resolve(count);
                 });
@@ -74,11 +70,6 @@ function countRows(dbname, company) {
 
 
 describe("Test company creation", function companyCreation() {
-
-
-
-
-
 
     it("verify initialization with no country set on company", function(done) {
 
@@ -95,8 +86,6 @@ describe("Test company creation", function companyCreation() {
             done();
         }).catch(done);
     });
-
-
 
     it("verify initialization with FR", function(done) {
 
@@ -133,8 +122,6 @@ describe("Test company creation", function companyCreation() {
         }).catch(done);
     });
 
-
-
     it("verify initialization with BE", function(done) {
 
         countRows('companyCreationBe', {
@@ -152,8 +139,6 @@ describe("Test company creation", function companyCreation() {
         }).catch(done);
     });
 
-
-
     it("verify initialization with CH", function(done) {
 
         countRows('companyCreationCh', {
@@ -170,6 +155,4 @@ describe("Test company creation", function companyCreation() {
             done();
         }).catch(done);
     });
-
-
 });

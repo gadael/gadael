@@ -43,8 +43,6 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
     headless.config = config;
 
     function createRestService() {
-
-
         var company = {
             name: 'The Fake Company REST service',
             port: port,
@@ -54,9 +52,6 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
 
         api.createDb(headless, serverInst.dbname, company)
         .then(() => {
-
-
-
             config.port = company.port;
             config.companyName = company.name;
             config.mongodb.dbname = serverInst.dbname;
@@ -100,8 +95,7 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
         });
     }
 
-
-    headless.connect(function() {
+    headless.linkdb().then(() => {
         api.isDbNameValid(headless, serverInst.dbname, function(status) {
             if (!status) {
                 console.log('mock REST server: database '+serverInst.dbname+' allready exists');
@@ -293,14 +287,11 @@ mockServer.prototype.close = function(doneExit) {
 
     var mockServerDbName = this.dbname;
     var app = this.app;
-    var api = require('../../../api/Company.api.js');
-    var headless = require('../../../api/Headless.api.js');
-
 
     app.db.close(function() {
         api.dropDb(headless, mockServerDbName, function() {
             headless.disconnect(function() {
-                app.session_mongoStore.db.close(function() {
+                app.session_mongoStore.db.close(function(err) {
                     app.server.close(doneExit);
                 });
             });

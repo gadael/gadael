@@ -27,16 +27,9 @@ exports = module.exports = function(params) {
     /**
      * Ensure that the renewal interval do not overlap another renewal period
      */
-    rightRenewalSchema.pre('save', function(next) {
-
-		let renewal = this;
-
-        renewal.checkOverlap()
-            .then(function() {
-                return renewal.updateMonthlyAdjustment.call(renewal);
-            })
-            .catch(next)
-            .then(next);
+    rightRenewalSchema.pre('save', function() {
+		return this.checkOverlap()
+        	.then(this.updateMonthlyAdjustment.bind(this));
 	});
 
 
@@ -44,13 +37,8 @@ exports = module.exports = function(params) {
 	/**
      * Pre remove hook
      */
-    rightRenewalSchema.pre('remove', function(next) {
-        let renewal = this;
-
-        renewal.removeUserRenewalStat()
-		.then(() => {
-            next();
-        }).catch(next);
+    rightRenewalSchema.pre('remove', function() {
+        return this.removeUserRenewalStat();
     });
 
 
@@ -85,7 +73,6 @@ exports = module.exports = function(params) {
             .count()
 			.exec()
 			.then(renewals => {
-
                 if (renewals > 0) {
                     throw new Error(gt.gettext('The renewals periods must not overlap'));
                 }
@@ -208,22 +195,12 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.updateMonthlyAdjustment = function()
     {
-        var deferred = {};
-        deferred.promise = new Promise(function(resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
+        return this.getRightPromise()
+		.then(right => {
+            this.removeFutureRightAdjustments();
+            this.createRightAdjustments(right);
+            return true;
         });
-
-        var renewal = this;
-
-        renewal.getRightPromise().then(function(right) {
-
-            renewal.removeFutureRightAdjustments();
-            renewal.createRightAdjustments(right);
-            deferred.resolve(true);
-        }).catch(deferred.reject);
-
-        return deferred.promise;
     };
 
 
@@ -873,7 +850,7 @@ exports = module.exports = function(params) {
 
 			// set renewal on error for services/user/accountbeneficiaries/renewals
 			err.renewal = renewal;
-			return;
+			return {};
 		});
     };
 

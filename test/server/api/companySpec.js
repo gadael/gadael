@@ -42,8 +42,6 @@ describe("Company API", function CompanyTestSuite() {
 		done();
 	});
 
-
-
 	var testDbName = 'testDatabase';
 
 	it("check the absence of the test database", function(done) {
@@ -53,6 +51,11 @@ describe("Company API", function CompanyTestSuite() {
 		});
 	});
 
+	it("should disconnect from the database", function(done) {
+		app.disconnect(function() {
+			done();
+		});
+	});
 
 
 	it("create a test company", function(done) {
@@ -67,18 +70,8 @@ describe("Company API", function CompanyTestSuite() {
 		.catch(done);
 	});
 
-
-
 	it("drop the test database", function(done) {
 		api.dropDb(app, testDbName, function() {
-			done();
-		});
-	});
-
-
-
-	it("should disconnect from the database", function(done) {
-		app.disconnect(function() {
 			done();
 		});
 	});
