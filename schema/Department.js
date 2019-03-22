@@ -140,7 +140,6 @@ exports = module.exports = function(params) {
                 return userEvents
                 .map(userEra => userEra.periods)
                 .filter(uEvents => {
-                    console.log(uEvents);
                     return (uEvents.length === 0);
                 });
             });

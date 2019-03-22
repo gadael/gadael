@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run: 'npm install'
       - run: 'cp config.example.js config.js'
-      - run: 'node node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server'
+      - run: 'node node_modules/jasmine-node/bin/jasmine-node --forceexit test/server'
 workflows:
   version: 2
   build_and_test:

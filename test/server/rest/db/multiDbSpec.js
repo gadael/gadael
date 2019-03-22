@@ -35,6 +35,6 @@ describe('connexions on mutiples databases, test process isolation', function() 
                 });
             });
         });
-    });
+    }); 
 
 });

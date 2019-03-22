@@ -656,8 +656,6 @@ exports = module.exports = function(params) {
                     throw new Error('The new renewal ID is required');
                 }
 
-                console.log(renewal);
-
                 recover.right.renewal.id = renewal._id;
                 return request.save();
             })

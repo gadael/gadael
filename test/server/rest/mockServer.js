@@ -287,14 +287,11 @@ mockServer.prototype.close = function(doneExit) {
 
     var mockServerDbName = this.dbname;
     var app = this.app;
-    var api = require('../../../api/Company.api.js');
-    var headless = require('../../../api/Headless.api.js');
-
 
     app.db.close(function() {
         api.dropDb(headless, mockServerDbName, function() {
             headless.disconnect(function() {
-                app.session_mongoStore.db.close(function() {
+                app.session_mongoStore.db.close(function(err) {
                     app.server.close(doneExit);
                 });
             });
