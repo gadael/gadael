@@ -13,7 +13,7 @@ jobs:
       - image: mongo:latest
     steps:
       - checkout
-      - run: 'grunt test'
+      - run: 'node node_modules/.bin/grunt test'
 workflows:
   version: 2
   build_and_test:
