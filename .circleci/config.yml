@@ -7,6 +7,7 @@ jobs:
     steps:
       - checkout
       - run: 'npm install'
+      - run: 'cp config.dist.js config.js'
       - run: 'node node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server'
 workflows:
   version: 2
