@@ -56,11 +56,8 @@ Third argument is the country code used to initialize the database, if not provi
 Run server
 
 ```bash
-node app.js 3000 gadael
+node app.js
 ```
-
-First argument is the http port
-second argument is the database name
 
 open http://localhost:3000 in your browser, you will be required to create an admin account on the first page.
 
