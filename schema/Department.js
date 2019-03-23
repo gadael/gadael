@@ -5,7 +5,7 @@ const util = require('util');
 exports = module.exports = function(params) {
 
     // mongoose-path-tree add a parent field
-    var tree = require('mongoose-path-tree');
+    var tree = require('mongoose-mpath');
 
 	var mongoose = params.mongoose;
 	var departmentSchema = new mongoose.Schema({
@@ -56,20 +56,8 @@ exports = module.exports = function(params) {
      */
     departmentSchema.methods.getSubDepartments = function()
     {
-        let department = this;
-
-        return new Promise((resolve, reject) => {
-            department.getChildren(true, (err, children) => {
-                if (err) {
-                    return reject(err);
-                }
-
-                resolve(children);
-            });
-        });
-
+        return this.getAllChildren({});
     };
-
 
     /**
      * Get sub departments tree
@@ -77,40 +65,8 @@ exports = module.exports = function(params) {
      */
     departmentSchema.methods.getSubTree = function()
     {
-        let department = this;
-
-        return new Promise((resolve, reject) => {
-            department.getChildrenTree(true, (err, children) => {
-                if (err) {
-                    return reject(err);
-                }
-
-                resolve(children);
-            });
-        });
+        return this.getChildrenTree({});
     };
-
-
-    /**
-     * Get ancestors
-     * @return {Promise}
-     */
-    departmentSchema.methods.getAncestors = function()
-    {
-        let department = this;
-
-        return new Promise((resolve, reject) => {
-            department.getAncestors(true, (err, children) => {
-                if (err) {
-                    return reject(err);
-                }
-
-                resolve(children);
-            });
-        });
-
-    };
-
 
     /**
      * Check minActiveUsers

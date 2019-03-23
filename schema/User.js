@@ -243,15 +243,12 @@ exports = module.exports = function(params) {
                     return resolve([]);
                 }
 
-                department.getAncestors(function(err, ancestors) {
-
-                    if (err) {
-                        return reject(err);
-                    }
-
+                department.getAncestors()
+				.then(function(ancestors) {
                     ancestors.push(department);
                     resolve(ancestors);
-                });
+                })
+				.catch(reject);
 
             });
 

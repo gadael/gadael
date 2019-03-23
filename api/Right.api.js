@@ -128,21 +128,19 @@ api.linkToDefaultCollection = function(app, right) {
  * @return {Promise} collection
  */
 api.addTestRight = function(app, user, collection, right) {
+    let accountCollectionModel = app.db.models.AccountCollection;
+    let start = new Date(2000,0,1,0,0,0,0);
 
-        let accountCollectionModel = app.db.models.AccountCollection;
-        let start = new Date(2000,0,1,0,0,0,0);
+    return api.createCollection(app, collection, right)
+    .then(collection => {
+        let ac = new accountCollectionModel();
+        ac.rightCollection = collection._id;
+        ac.from = start;
+        ac.account = user.roles.account;
 
-        return api.createCollection(app, collection, right)
-        .then(collection => {
-            let ac = new accountCollectionModel();
-            ac.rightCollection = collection._id;
-            ac.from = start;
-            ac.account = user.roles.account;
-
-            ac.save()
-            .then(() => {
-                return collection;
-            });
+        ac.save()
+        .then(() => {
+            return collection;
         });
-
+    });
 };
