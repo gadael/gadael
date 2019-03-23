@@ -59,7 +59,6 @@ exports = module.exports = function(params) {
         return this.getAllChildren({});
     };
 
-
     /**
      * Get sub departments tree
      * @return {Promise}
@@ -68,17 +67,6 @@ exports = module.exports = function(params) {
     {
         return this.getChildrenTree({});
     };
-
-
-    /**
-     * Get ancestors
-     * @return {Promise}
-     */
-    departmentSchema.methods.getAncestors = function()
-    {
-        return this.getAncestors({});
-    };
-
 
     /**
      * Check minActiveUsers

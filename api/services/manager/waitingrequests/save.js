@@ -53,7 +53,7 @@ function sendEmail(app, request, remainingApprovers)
             return pendingapproval(app, request);
         }
 
-        throw new Error('Unexpected request, there are no remaining approvers but the request is not accepted nor rejected');
+        return Promise.reject(new Error('Unexpected request, there are no remaining approvers but the request is not accepted nor rejected'));
     }
 
 

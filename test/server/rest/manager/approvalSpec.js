@@ -319,7 +319,6 @@ describe('Approval on absence request', function() {
             action: 'wf_accept'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            console.log(body.$outcome);
             done();
         });
     });
