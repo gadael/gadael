@@ -70,13 +70,14 @@ describe('Approval on absence request', function() {
         approval.createDepartments(server.app).then(function(departments) {
             expect(departments).toBeDefined();
             departments1 = departments;
-            departments[7].getAncestors(function(err, ancestors) {
-                expect(err).toEqual(null);
+            departments[7].getAncestors()
+            .then(function(ancestors) {
                 expect(ancestors.length).toEqual(3);
                 managersByDepartment = approval.managersByDepartment;
                 accountsByDepartment = approval.accountsByDepartment;
                 done();
-            });
+            })
+            .catch(done);
         });
     });
 
@@ -318,6 +319,7 @@ describe('Approval on absence request', function() {
             action: 'wf_accept'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            console.log(body.$outcome);
             done();
         });
     });

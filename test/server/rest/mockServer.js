@@ -291,7 +291,7 @@ mockServer.prototype.close = function(doneExit) {
     app.db.close(function() {
         api.dropDb(headless, mockServerDbName, function() {
             headless.disconnect(function() {
-                app.session_mongoStore.db.close(function(err) {
+                app.session_mongoStore.clear(function(err) {
                     app.server.close(doneExit);
                 });
             });

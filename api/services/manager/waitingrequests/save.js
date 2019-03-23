@@ -136,14 +136,10 @@ function saveRequest(service, params) {
                         .execPopulate();
                     })
                     .then(request => {
-
-                        try {
-                            sendEmail(service.app, request, remainingApprovers);
-                            // the output promise of sendEmail is ignored
-                            // the process must end successfully also when email fail
-                        } catch(e) {
-                            // errors are catched here to prevent insertion in promise result
-                        }
+                        sendEmail(service.app, request, remainingApprovers)
+                        .catch(err => {
+                            console.log(err.stack);
+                        });
 
 
                         if ('accepted' === request.status.created) {
