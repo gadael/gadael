@@ -69,7 +69,12 @@ app.linkdb = function() {
  * Connect to database and load models
  * call callback when models are loaded
  */
-app.connect = function(callback, loadModels = true) {
+app.connect = function(callback) {
+
+	if (app.db && Object.keys(app.db.models).length > 0) {
+		throw new Error('Headless connect, models allready loaded for db connexion');
+	}
+
 	return app.linkdbCreateConnection().then(() => {
 		//config data models
 		var models = require('../models');
