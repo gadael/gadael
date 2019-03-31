@@ -1060,7 +1060,6 @@ exports = module.exports = function(params) {
 		});
 	};
 
-
     userSchema.set('autoIndex', params.autoIndex);
 	userSchema.set('toJSON', { virtuals: true });
 	userSchema.set('toObject', { virtuals: true });

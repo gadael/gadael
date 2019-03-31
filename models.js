@@ -133,7 +133,7 @@ models.load = function() {
 			 */
 	        requirements.db.models[name].on('index', function(err) {
 	            if (err) {
-		            return reject(err);
+					return reject(new Error('on index '+name+' model -> '+err.message));
 	            }
 
 				resolve(true);

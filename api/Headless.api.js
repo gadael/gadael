@@ -17,7 +17,6 @@ var config = require('../config')();
 app.config = config;
 app.mongoose = mongoose;
 
-
 app.deferredDbConnect = {};
 app.deferredDbConnect.promise = new Promise(function(resolve, reject) {
 	app.deferredDbConnect.resolve = resolve;
@@ -39,7 +38,8 @@ app.linkdbCreateConnection = function() {
 
 		apputil(app);
 
-		app.db = mongoose.createConnection('mongodb://' + config.mongodb.prefix + config.mongodb.dbname);
+		app.db = mongoose.createConnection('mongodb://' + config.mongodb.prefix + config.mongodb.dbname,
+            { useNewUrlParser: true, useCreateIndex: true });
 		app.db.on('error', reject);
 		app.db.once('open', resolve);
 	});

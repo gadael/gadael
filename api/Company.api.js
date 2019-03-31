@@ -24,7 +24,6 @@ const flash = require('connect-flash-plus');
 const schedule = require('node-schedule');
 const approbalert = require('../modules/approbalert');
 
-
 /**
  * Load models into an external mongo connexion
  * for actions on databases
@@ -51,7 +50,10 @@ function gadael_loadMockModels(app, db)
 	};
 
 	apputil(app);
-	return models.load();
+	return models.load()
+    .catch(err => {
+        console.error(err);
+    });
 }
 
 
@@ -63,9 +65,6 @@ function gadael_loadMockModels(app, db)
  *
  */
 exports = module.exports = {
-
-
-
 
 
     /**
@@ -287,7 +286,8 @@ exports = module.exports = {
 		return app.mongoose.disconnect()
 		.then(() => {
 			return new Promise((resolve, reject) => {
-				db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName);
+				db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName,
+                    { useNewUrlParser: true, useCreateIndex: true });
 
 				db.on('error', function(err) {
 		            reject(new Error('CompanyApi.createDb mongoose connection error: '+err.message));
@@ -323,7 +323,8 @@ exports = module.exports = {
      * @param	{function}	callback
      */
     dropDb: function dropDb(app, dbName, callback) {
-        var db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName);
+        var db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName,
+            { useNewUrlParser: true, useCreateIndex: true });
         db.on('error', console.error.bind(console, 'CompanyApi.deleteDb mongoose connection error: '));
 
         db.once('open', function() {
@@ -350,7 +351,8 @@ exports = module.exports = {
         app.mongoose = mongoose;
 
         //setup mongoose
-        app.db = mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName);
+        app.db = mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName,
+            { useNewUrlParser: true, useCreateIndex: true });
         app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
         app.db.once('open', callback);
     },
@@ -363,7 +365,8 @@ exports = module.exports = {
 	getOpenDbPromise: function getOpenDbPromise(app, dbName) {
 		let db;
 		return new Promise((resolve, reject) => {
-            db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName);
+            db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName,
+                { useNewUrlParser: true, useCreateIndex: true });
             db.on('error', err => {
                 return reject('CompanyApi mongoose connection error: '+err, null);
             });
@@ -558,7 +561,10 @@ exports = module.exports = {
         };
 
 		apputil(app);
-        models.load();
+        models.load()
+        .catch(err => {
+            console.error(err);
+        });
 
         //settings
         app.disable('x-powered-by');

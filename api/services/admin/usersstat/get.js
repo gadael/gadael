@@ -17,7 +17,7 @@ exports = module.exports = function(services, app) {
         service.app.db.models.User
         .find()
         .where('isActive', true)
-        .count()
+        .countDocuments()
         .exec()
         .then(function(userCount) {
             service.outcome.success = true;
