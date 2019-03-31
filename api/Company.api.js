@@ -23,6 +23,7 @@ const gadaelMiddleware = require('../modules/gadaelMiddleware');
 const flash = require('connect-flash-plus');
 const schedule = require('node-schedule');
 const approbalert = require('../modules/approbalert');
+const googlecalendar = require('../rest/user/googlecalendar');
 
 /**
  * Load models into an external mongo connexion
@@ -656,10 +657,11 @@ exports = module.exports = {
 			}
 
 			app.config.company = company;
-		        if (company.country === 'UK') {
-                                app.config.language = 'en';
-                        }
+	        if (company.country === 'UK') {
+                app.config.language = 'en';
+            }
 
+            googlecalendar.init(app.config);
 
 			//setup passport
 			passportHelper(app, passport);
