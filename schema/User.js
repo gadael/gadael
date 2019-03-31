@@ -423,7 +423,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Save user and create account role if necessary
+     * Save user and create admin role if necessary
      * @return {Promise}
      */
     userSchema.methods.saveAdmin = function(adminProperties) {

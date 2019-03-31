@@ -47,6 +47,19 @@ describe("User API", function UserTestSuite() {
 		});
 	});
 
+    it("create createEncAdmin with french settings", function(done) {
+        api.user.createEncAdmin(server.app, 'test@test.com', 'encryptedPassword', 'Lastname', 'Firstname')
+        .then(user => {
+            expect(user.email).toBeDefined();
+            user.getAccount().then(account => {
+                account.getRights().then(rights => {
+                    expect(rights.length).toBeGreaterThan(0);
+                    done();
+                });
+            });
+        });
+    });
+
 	it('close the mock server', function(done) {
         server.close(done);
     });
