@@ -5,8 +5,6 @@
 const passport = require('passport');
 const getStrategy = require('./../../modules/gcalstrategy');
 
-
-
 /**
  * Initialize passport object if possible
  */
@@ -14,12 +12,12 @@ exports.init = function(config) {
     try {
         passport.use(getStrategy(config));
     } catch(e) {
-        // ignore error
+        // display configuration error on server load if google calendar enabled
+        if (config.complay.calendar.google.enabled) {
+            console.error(e);
+        }
     }
 };
-
-
-
 
 
 /**

@@ -9,7 +9,7 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
  */
 exports = module.exports = function getStrategy(config) {
 
-    if (undefined === config.company || undefined === config.company.calendar || undefined === config.company.calendar.google) {
+    if (undefined === config.company || null === config.company || undefined === config.company.calendar || undefined === config.company.calendar.google) {
         throw new Error('Wrong company configuration');
     }
 
@@ -32,7 +32,7 @@ exports = module.exports = function getStrategy(config) {
     return new GoogleStrategy({
             clientID: config.company.calendar.google.clientID,
             clientSecret: config.company.calendar.google.clientSecret,
-            callbackURL: config.url+'rest/user/googlecalendar/callback',
+            callbackURL: config.url+'/rest/user/googlecalendar/callback',
             scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
         },
         function(accessToken, refreshToken, params, profile, done) {

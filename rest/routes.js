@@ -81,8 +81,6 @@ exports = module.exports = function(app, passport)
     controllers.add('./user/calendarevents');
     controllers.add('./user/googlecalendars');
 
-    googlecalendar.init(app.config);
-
     app.get('/rest/user/googlecalendar', googlecalendar.login);
     app.get('/rest/user/googlecalendar/callback', googlecalendar.callback, googlecalendar.next);
     app.get('/rest/user/googlecalendar/logout', googlecalendar.logout);
