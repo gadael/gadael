@@ -13,7 +13,7 @@ exports.init = function(config) {
         passport.use(getStrategy(config));
     } catch(e) {
         // display configuration error on server load if google calendar enabled
-        if (config.complay.calendar.google.enabled) {
+        if (config.company.calendar.google.enabled) {
             console.error(e);
         }
     }
