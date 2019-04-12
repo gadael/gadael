@@ -133,9 +133,8 @@ models.load = function() {
 			 */
 	        requirements.db.models[name].on('index', function(err) {
 	            if (err) {
-					return reject(new Error('on index '+name+' model -> '+err.message));
+					return reject(new Error('on index '+requirements.db.name+'.'+name+' model -> '+err.message));
 	            }
-
 				resolve(true);
 	        });
 		});
