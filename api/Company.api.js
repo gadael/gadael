@@ -131,7 +131,6 @@ exports = module.exports = {
      * @param	{object}	app			headless application
      * @param	{function} 	callback	function to receive results
      *
-     * @return {Array}
      */
     listDatabases: function listDatabases(app, callback) {
 		const Admin = app.mongoose.mongo.Admin(app.db.db);
@@ -450,13 +449,20 @@ exports = module.exports = {
     /**
      * Get all company documents from all the databases
 	 * Promise resolve to an associated object wher keys are dbnames
+     *
+     * The schemas will be loaded for each company, if a database is not a gadael
+     * db it can be ignored with the ignoreList param
 	 *
      * @param {Object} app
+     * @param {Array} ignoreList
      * @return {Promise}
      */
-    getCompanies: function getCompanies(app) {
+    getCompanies: function getCompanies(app, ignoreList) {
 
         let api = this;
+        if (undefined === ignoreList) {
+            ignoreList = [];
+        }
 
         return new Promise((resolve, reject) => {
 
@@ -466,8 +472,7 @@ exports = module.exports = {
                 let asyncTasks = [];
                 for(var i=0; i<databases.length; i++) {
 
-                    if (databases[i]) {
-
+                    if (databases[i] && -1 === ignoreList.indexOf(databases[i].name)) {
                         var task = {
                             db: databases[i].name,
                             getCompany: function(async_done) {
