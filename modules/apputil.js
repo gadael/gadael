@@ -23,6 +23,7 @@ exports = module.exports = function(app) {
     app.utility.gettext = require('./gettext')(app.config);
     app.utility.dispunits = require('./dispunits')(app);
     app.utility.postpone = require('./postpone')(app.config);
+    app.utility.oauth = require('./oauth')(app);
 
     /**
      * Load a service

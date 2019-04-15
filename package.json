@@ -41,6 +41,7 @@
     "cookie-parser": "^1.4.4",
     "csurf": "~1.8.3",
     "express": "~4.16.4",
+    "express-oauth-server": "^2.0.0",
     "express-session": "^1.16.1",
     "gettext-parser": "~1.2.2",
     "google-calendar": "git://github.com/trusk-official/google-calendar.git#3aa975c2ba6c5d0c99ac59c390332a4c5fc5d7ee",

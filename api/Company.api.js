@@ -589,6 +589,9 @@ exports = module.exports = {
 		}));
 
         app.use(bodyParser.json());
+        // To register only for API with oauth2
+        //app.use(bodyParser.urlencoded({ extended: false }));
+        //app.use(app.utility.oauth.authorize());
         app.use(cookieParser());
 
 

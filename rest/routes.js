@@ -105,6 +105,7 @@ exports = module.exports = function(app, passport)
 
     controllers.add('./admin/users');
     controllers.add('./admin/usersstat');
+    controllers.add('./admin/apitokens');
     controllers.add('./admin/accountrights');
     controllers.add('./admin/accountcollections');
     controllers.add('./admin/accountschedulecalendars');
