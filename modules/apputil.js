@@ -4,6 +4,7 @@
 
 'use strict';
 
+
 /**
  * Add utilities to app or headless app
  * @param {express|object} app
@@ -23,7 +24,18 @@ exports = module.exports = function(app) {
     app.utility.gettext = require('./gettext')(app.config);
     app.utility.dispunits = require('./dispunits')(app);
     app.utility.postpone = require('./postpone')(app.config);
-    app.utility.oauth = require('./oauth')(app);
+
+    const extendUrls = require('body-parser').urlencoded({ extended: false });
+    const authorize = require('./oauth')(app).authorize();
+
+    function authenticatedApiMiddleware(req, res, next) {
+        extendUrls(req, res, (err) => {
+            if (err) {
+                return next(err);
+            }
+            authorize(req, res, next);
+        });
+    }
 
     /**
      * Load a service
@@ -43,33 +55,47 @@ exports = module.exports = function(app) {
     };
 
 
+    /**
+     * Check access rights for API calls
+     * restitute callback
+     */
     app.checkPathOnRequest = function(ctrl) {
 
-        var req = ctrl.req;
+        const req = ctrl.req;
+        const gt = req.app.utility.gettext;
 
-        var gt = req.app.utility.gettext;
+        if (0 === ctrl.path.indexOf('/api/')) {
+            // force oauth2 authentication
+            authenticatedApiMiddleware(req, ctrl.res, ctrl.next);
+        }
 
-        if (0 === ctrl.path.indexOf('/rest/admin/') && (!req.isAuthenticated() || !req.user.canPlayRoleOf('admin'))) {
+        const adminResource     = 0 === ctrl.path.indexOf('/rest/admin/') || 0 === ctrl.path.indexOf('/api/admin/');
+        const accountResource   = 0 === ctrl.path.indexOf('/rest/account/') || 0 === ctrl.path.indexOf('/api/account/');
+        const managerResource   = 0 === ctrl.path.indexOf('/rest/manager/') || 0 === ctrl.path.indexOf('/api/manager/');
+        const userResource      = 0 === ctrl.path.indexOf('/rest/user/') || 0 === ctrl.path.indexOf('/api/user/');
+        const anonymousResource = 0 === ctrl.path.indexOf('/rest/anonymous/') || 0 === ctrl.path.indexOf('/api/anonymous/');
+
+        if (adminResource && (!req.isAuthenticated() || !req.user.canPlayRoleOf('admin'))) {
             ctrl.accessDenied(gt.gettext('Access denied for non administrators'));
             return false;
         }
 
-        if (0 === ctrl.path.indexOf('/rest/account/') && (!req.isAuthenticated() || !req.user.canPlayRoleOf('account'))) {
+        if (accountResource && (!req.isAuthenticated() || !req.user.canPlayRoleOf('account'))) {
             ctrl.accessDenied(gt.gettext('Access denied for users without absences account'));
             return false;
         }
 
-        if (0 === ctrl.path.indexOf('/rest/manager/') && (!req.isAuthenticated() || !req.user.canPlayRoleOf('manager'))) {
+        if (managerResource && (!req.isAuthenticated() || !req.user.canPlayRoleOf('manager'))) {
             ctrl.accessDenied(gt.gettext('Access denied for non managers'));
             return false;
         }
 
-        if (0 === ctrl.path.indexOf('/rest/user/') && !req.isAuthenticated()) {
+        if (userResource && !req.isAuthenticated()) {
             ctrl.accessDenied(gt.gettext('Access denied for anonymous users'));
             return false;
         }
 
-        if (0 === ctrl.path.indexOf('/rest/anonymous/') && req.isAuthenticated()) {
+        if (anonymousResource && req.isAuthenticated()) {
             // Do not use 401 before this redirect to login page
             ctrl.error(gt.gettext('Access denied for logged in users'));
             return false;
