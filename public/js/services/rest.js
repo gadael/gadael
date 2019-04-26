@@ -72,7 +72,8 @@ define(function() {
                 collaborators           : init('admin/collaborators/:id'),
                 export                  : init('admin/export'),
                 consumption             : init('admin/consumption'),
-                invitations             : init('admin/invitations/:id')
+                invitations             : init('admin/invitations/:id'),
+                apitokens               : init('admin/apitokens/:id')
             },
 
             account: {

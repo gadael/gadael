@@ -1,5 +1,7 @@
 'use strict';
 
+const crypto = require('crypto');
+
 /**
  * Validate params fields
  *
@@ -26,8 +28,8 @@ function saveToken(service, params) {
         if (service.handleMongoError(err))
         {
             user.api = {
-                clientId: 'x',
-                clientSecret: 'x'
+                clientId: crypto.randomBytes(128).toString('hex'),
+                clientSecret: crypto.randomBytes(128).toString('hex')
             };
 
             user.save()

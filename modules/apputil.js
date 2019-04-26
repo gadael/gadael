@@ -37,6 +37,7 @@ exports = module.exports = function(app) {
         });
     }
 
+
     /**
      * Load a service
      *
@@ -65,7 +66,6 @@ exports = module.exports = function(app) {
         const gt = req.app.utility.gettext;
 
         if (0 === ctrl.path.indexOf('/api/')) {
-            // force oauth2 authentication
             authenticatedApiMiddleware(req, ctrl.res, ctrl.next);
         }
 
