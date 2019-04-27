@@ -1,5 +1,6 @@
 'use strict';
 
+const http = require('http');
 
 describe('users admin rest service', function() {
 
@@ -74,6 +75,8 @@ describe('users admin rest service', function() {
         });
     });
 
+    var accessToken = null;
+
     it('Obtain an accessToken', function(done) {
         server.postUrlEncoded('/login/oauth-token', {
             grant_type: 'client_credentials',
@@ -81,8 +84,43 @@ describe('users admin rest service', function() {
             client_secret: apiTokens.clientSecret
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            // console.log(body);
+            expect(body.token_type).toEqual('Bearer');
+            accessToken = body.access_token;
             done();
+        });
+    });
+
+    it('query users with invalid bearer token', function(done) {
+        http.get({
+            hostname: 'localhost',
+            port: server.app.config.port,
+            path: '/api/admin/users',
+            headers: {
+                Authorization: 'Bearer invalid'
+            }
+        }, response => {
+            expect(response.statusCode).toEqual(401);
+            done();
+        });
+    });
+
+    it('query users with bearer token', function(done) {
+        http.get({
+            hostname: 'localhost',
+            port: server.app.config.port,
+            path: '/api/admin/users',
+            headers: {
+                Authorization: 'Bearer '+accessToken
+            }
+        }, response => {
+            expect(response.statusCode).toEqual(200);
+            let body = '';
+            response.on('data', d => { body += d; });
+            response.on('end', function() {
+                const users = JSON.parse(body);
+                expect(users.length).toEqual(1);
+                done();
+            });
         });
     });
 
@@ -95,6 +133,7 @@ describe('users admin rest service', function() {
     });
 
 
+
     it('failed to get the deleted api token', function(done) {
         server.get('/rest/admin/apitokens/'+createdUser._id, {}, function(res, body) {
             expect(res.statusCode).toEqual(404);
@@ -102,6 +141,20 @@ describe('users admin rest service', function() {
             if (body.$outcome) {
                 expect(body.$outcome.success).toBeFalsy();
             }
+            done();
+        });
+    });
+
+    it('query users with deleted bearer token', function(done) {
+        http.get({
+            hostname: 'localhost',
+            port: server.app.config.port,
+            path: '/api/admin/users',
+            headers: {
+                Authorization: 'Bearer '+accessToken
+            }
+        }, response => {
+            expect(response.statusCode).toEqual(401);
             done();
         });
     });

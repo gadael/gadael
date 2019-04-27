@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 /**
  * Add utilities to app or headless app
  * @param {express|object} app
@@ -24,19 +23,6 @@ exports = module.exports = function(app) {
     app.utility.gettext = require('./gettext')(app.config);
     app.utility.dispunits = require('./dispunits')(app);
     app.utility.postpone = require('./postpone')(app.config);
-
-    const extendUrls = require('body-parser').urlencoded({ extended: false });
-    const authorize = require('./oauth')(app).authorize();
-
-    function authenticatedApiMiddleware(req, res, next) {
-        extendUrls(req, res, (err) => {
-            if (err) {
-                return next(err);
-            }
-            authorize(req, res, next);
-        });
-    }
-
 
     /**
      * Load a service
@@ -61,13 +47,8 @@ exports = module.exports = function(app) {
      * restitute callback
      */
     app.checkPathOnRequest = function(ctrl) {
-
         const req = ctrl.req;
         const gt = req.app.utility.gettext;
-
-        if (0 === ctrl.path.indexOf('/api/')) {
-            authenticatedApiMiddleware(req, ctrl.res, ctrl.next);
-        }
 
         const adminResource     = 0 === ctrl.path.indexOf('/rest/admin/') || 0 === ctrl.path.indexOf('/api/admin/');
         const accountResource   = 0 === ctrl.path.indexOf('/rest/account/') || 0 === ctrl.path.indexOf('/api/account/');

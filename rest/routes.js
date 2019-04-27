@@ -1,7 +1,7 @@
 'use strict';
 
 const googlecalendar = require('./user/googlecalendar');
-const extendUrls = require('body-parser').urlencoded({ extended: false });
+const decodeUrlEncodedBody = require('body-parser').urlencoded({ extended: false });
 
 /**
  * Object to create controller on request
@@ -175,8 +175,7 @@ exports = module.exports = function(app, passport)
     });
 
     const oauth = require('../modules/oauth')(app);
-    app.get('/login/oauth-authenticate', extendUrls, oauth.authenticate());
-    app.post('/login/oauth-token', extendUrls, oauth.token());
+    app.post('/login/oauth-token', decodeUrlEncodedBody, oauth.token());
 
     // avatars
     app.get('/users/:userid/image', require('./image').getUserImage);

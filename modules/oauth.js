@@ -10,9 +10,8 @@ exports = module.exports = (app) => {
              * Invoked to save an access token and optionally a refresh token, depending on the grant type.
              */
             saveToken: (token, client, user) => {
-                console.log('OAuthServer.model.saveToken');
                 return app.db.models.User
-                .findById(user._id, 'api')
+                .findOne({ _id: user._id, 'api.clientId': client.id }, 'api')
                 .exec()
                 .then(user => {
                     user.api.accessToken = token.accessToken;
@@ -33,7 +32,7 @@ exports = module.exports = (app) => {
                             client: {
                                 id: user.api.clientId
                             },
-                            user: user
+                            user: { _id: user._id }
                         };
                     });
                 });
@@ -42,7 +41,6 @@ exports = module.exports = (app) => {
              * Invoked to save an authorization code.
              */
             saveAuthorizationCode: (code, client, user) => {
-                console.log('OAuthServer.model.saveAuthorizationCode');
                 return app.db.models.User
                 .findOne({ _id: user._id, 'api.clientId': client.id }, 'api')
                 .exec()
@@ -59,7 +57,7 @@ exports = module.exports = (app) => {
                             client: {
                                 id: user.api.clientId
                             },
-                            user: user
+                            user: { _id: user._id }
                         };
                     });
                 });
@@ -68,27 +66,32 @@ exports = module.exports = (app) => {
              * Invoked to retrieve an existing access token previously saved through Model#saveToken().
              */
             getAccessToken: (accessToken) => {
-                console.log('OAuthServer.model.getAccessToken');
                 return app.db.models.User
                 .findOne({ 'api.accessToken': accessToken }, 'api')
                 .exec()
                 .then(user => {
-                    return {
+                    if (!user) {
+                        return null;
+                    }
+
+                    const output = {
                         accessToken: user.api.accessToken,
                         accessTokenExpiresAt: user.api.accessTokenExpiresAt,
-                        scope: user.api.scope,
                         client: {
                             id: user.api.clientId
                         },
-                        user: user
+                        user: { _id: user._id }
                     };
+                    if (undefined !== user.api.scope && user.api.scope.length > 0) {
+                        output.scope = user.api.scope.join(' ');
+                    }
+                    return output;
                 });
             },
             /**
              * Invoked to retrieve an existing refresh token previously saved through Model#saveToken().
              */
             getRefreshToken: (refreshToken) => {
-                console.log('OAuthServer.model.getRefreshToken');
                 return app.db.models.User
                 .findOne({ 'api.refreshToken': refreshToken }, 'api')
                 .exec()
@@ -100,7 +103,7 @@ exports = module.exports = (app) => {
                         client: {
                             id: user.api.clientId
                         },
-                        user: user
+                        user: { _id: user._id }
                     };
                 });
             },
@@ -108,7 +111,6 @@ exports = module.exports = (app) => {
              * Invoked to retrieve an existing authorization code previously saved through Model#saveAuthorizationCode().
              */
             getAuthorizationCode: (authorizationCode) => {
-                console.log('OAuthServer.model.getAuthorizationCode');
                 return app.db.models.User
                 .findOne({ 'api.authorizationCode': authorizationCode }, 'api')
                 .exec()
@@ -120,7 +122,7 @@ exports = module.exports = (app) => {
                         client: {
                             id: user.api.clientId
                         },
-                        user: user
+                        user: { _id: user._id }
                     };
                 });
             },
@@ -128,13 +130,12 @@ exports = module.exports = (app) => {
              * Invoked to retrieve a client using a client id or a client id/client secret combination, depending on the grant type.
              */
             getClient: (clientId, clientSecret) => {
-                console.log('OAuthServer.model.getClient');
                 return app.db.models.User
                 .findOne({ 'api.clientId': clientId, 'api.clientSecret': clientSecret }, 'api')
                 .exec()
                 .then(user => {
                     return {
-                        id: user.id,
+                        id: user.api.clientId,
                         redirectUris: [],
                         grants: ['authorization_code', 'refresh_token', 'client_credentials']
                     };
@@ -144,19 +145,17 @@ exports = module.exports = (app) => {
              * Invoked to retrieve the user associated with the specified client.
              */
             getUserFromClient: (client) => {
-                console.log('OAuthServer.model.getUserFromClient');
                 return app.db.models.User
-                .findById(client.id, 'api')
+                .findOne({ 'api.clientId': client.id }, 'api')
                 .exec()
                 .then(user => {
-                    return user;
+                    return { _id: user._id };
                 });
             },
             /**
              * Invoked to revoke a refresh token.
              */
             revokeToken: (token) => {
-                console.log('OAuthServer.model.revokeToken');
                 return app.db.models.User
                 .findOne({ 'api.refreshToken': token.refreshToken }, 'api')
                 .exec()
@@ -173,7 +172,6 @@ exports = module.exports = (app) => {
              * Invoked to revoke an authorization code.
              */
             revokeAuthorizationCode: (code) => {
-                console.log('OAuthServer.model.revokeAuthorizationCode');
                 return app.db.models.User
                 .findOne({ 'api.authorizationCode': code.code }, 'api')
                 .exec()
@@ -191,7 +189,6 @@ exports = module.exports = (app) => {
              * was authorized the requested scopes.
              */
             verifyScope: (token, scope) => {
-                console.log('OAuthServer.model.verifyScope');
                 if (!token.scope) {
                     return Promise.resolve(false);
                 }
