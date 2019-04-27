@@ -12,12 +12,11 @@ function listController() {
 }
 listController.prototype = new ctrlFactory.list();
 
-
 function apiListController() {
     ctrlFactory.list.call(this, '/api/admin/users');
     this.controllerAction = list;
 }
-apiListController.prototype = new listController();
+apiListController.prototype = new ctrlFactory.list();
 
 
 function getController() {
@@ -57,11 +56,11 @@ deleteController.prototype = new ctrlFactory.delete();
 
 
 
-exports = module.exports = {
-    list: listController,
-    apiList: apiListController,
-    get: getController,
-    create: createController,
-    update: updateController,
-    delete: deleteController
-};
+exports = module.exports = [
+    listController,
+    apiListController,
+    getController,
+    createController,
+    updateController,
+    deleteController
+];

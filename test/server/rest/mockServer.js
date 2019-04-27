@@ -581,16 +581,18 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
 mockServer.prototype.expectSuccess = function(body) {
 
     expect(body.$outcome).toBeDefined();
-    expect(body.$outcome.success).toBeTruthy();
+    if (undefined !== body.$outcome) {
+        expect(body.$outcome.success).toBeTruthy();
 
-    if (!body.$outcome.success) {
-        if (body.$outcome.alert.length > 0) {
-            console.trace(body.$outcome.alert);
-        }
+        if (!body.$outcome.success) {
+            if (body.$outcome.alert.length > 0) {
+                console.trace(body.$outcome.alert);
+            }
 
-        if (Object.keys(body.$outcome.errfor).length > 0) {
-            console.log('Missing mandatory fields:');
-            console.trace(body.$outcome.errfor);
+            if (Object.keys(body.$outcome.errfor).length > 0) {
+                console.log('Missing mandatory fields:');
+                console.trace(body.$outcome.errfor);
+            }
         }
     }
 };

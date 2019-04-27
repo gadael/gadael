@@ -33,20 +33,15 @@ function fileControllers(app)
      * @param {string} path
      */
     this.add = function(path) {
-
-        var controllers = require(path);
-
-        for(var ctrlName in controllers) {
-            if (controllers.hasOwnProperty(ctrlName)) {
-
-                var controller = new ControllerFactory(controllers[ctrlName]);
-
-                // instance used only to register method and path into the app
-                var inst = new controller.model();
-
-                app[inst.method](inst.path, controller.onRequest);
-            }
+        let controllers = require(path);
+        if (controllers) {
+            controllers = Object.values(controllers);
         }
+        controllers.forEach(model => {
+            const controller = new ControllerFactory(model);
+            const inst = new controller.model();
+            app[inst.method](inst.path, controller.onRequest);
+        });
     };
 
 }
