@@ -19,7 +19,7 @@ exports = module.exports = function(services, app) {
             if (service.handleMongoError(err))
             {
                 if (user && user.api && user.api.clientId) {
-                    service.deferred.resolve(user);
+                    service.deferred.resolve(user.api);
                 } else {
                     service.notFound(gt.gettext('This user does not exists'));
                 }

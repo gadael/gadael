@@ -57,29 +57,39 @@ describe('users admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             if (200 === res.statusCode) {
-                expect(body.api).toBeDefined();
-                expect(body.api.clientId).toBeDefined();
+                expect(body.clientId).toBeDefined();
             }
             server.expectSuccess(body);
             done();
         });
     });
 
+    var apiTokens = null;
+
     it('get the api token', function(done) {
         server.get('/rest/admin/apitokens/'+createdUser._id, {}, function(res, body) {
+            apiTokens = body;
             expect(res.statusCode).toEqual(200);
             done();
         });
     });
 
-
+    it('Obtain an accessToken', function(done) {
+        server.postUrlEncoded('/login/oauth-token', {
+            grant_type: 'client_credentials',
+            client_id: apiTokens.clientId,
+            client_secret: apiTokens.clientSecret
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            // console.log(body);
+            done();
+        });
+    });
 
     it('delete the api token on user', function(done) {
         server.delete('/rest/admin/apitokens/'+createdUser._id, function(res, body) {
             expect(res.statusCode).toEqual(200);
             server.expectSuccess(body);
-            expect(body._id).toEqual(createdUser.id);
-
             done();
         });
     });

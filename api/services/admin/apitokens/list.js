@@ -17,7 +17,9 @@ exports = module.exports = function(services, app) {
 
         service.resolveQuery(find, paginate, function(err, docs) {
             if (service.handleMongoError(err)) {
-                service.deferred.resolve(docs);
+                service.deferred.resolve(docs.map(function(user) {
+                    return user.api;
+                }));
             }
         });
 

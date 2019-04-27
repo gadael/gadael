@@ -47,11 +47,11 @@
                 <p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
                 <p ng-if="user.department"><span translate>Department:</span> <a href="#/admin/departments/{{user.department._id}}">{{user.department.name}}</a></p>
                 <p class="text-danger" ng-if="!user.isActive"><i class="fa fa-ban"></i> <strong translate>This user can not connect to the application</strong></p>
-                <p ng-if="api">
-                    <strong>API</strong><br />
-                    Client Id: {{api.clientId}}<br />
-                    Client Secret: {{api.clientSecret}}<br />
-                </p>
+
+                <dl ng-if="api">
+                    <dt translate>Client Id:</dt>     <dd><code>{{api.clientId}}</code></dd>
+                    <dt translate>Client Secret:</dt> <dd><code>{{api.clientSecret}}</code></dd>
+                </dl>
             </div>
 
             <div class="col-xs-2 col-sm-3 text-right">
@@ -65,11 +65,11 @@
                 </a>
 
                 <a ng-if="!api" ng-click="getApiToken()" class="btn btn-block hidden-print" role="button">
-                    <i class="fa fa-user-secret"></i> <span class="hidden-xs hidden-sm" translate>Get API token</span>
+                    <i class="fa fa-user-secret"></i> <span class="hidden-xs hidden-sm" translate>Get API tokens</span>
                 </a>
 
                 <a ng-if="api.clientId" ng-click="deleteApiToken()" class="btn btn-block hidden-print text-danger" role="button">
-                    <i class="fa fa-times"></i> <span class="hidden-xs hidden-sm" translate>Delete API token</span>
+                    <i class="fa fa-times"></i> <span class="hidden-xs hidden-sm" translate>Delete API tokens</span>
                 </a>
 
             </div>

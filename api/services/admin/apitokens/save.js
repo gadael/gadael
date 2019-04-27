@@ -28,8 +28,8 @@ function saveToken(service, params) {
         if (service.handleMongoError(err))
         {
             user.api = {
-                clientId: crypto.randomBytes(128).toString('hex'),
-                clientSecret: crypto.randomBytes(128).toString('hex')
+                clientId: crypto.randomBytes(24).toString('hex'),
+                clientSecret: crypto.randomBytes(24).toString('hex')
             };
 
             user.save()

@@ -124,13 +124,20 @@ define([], function() {
             if ($scope.api.$promise) {
                 $scope.api.$promise.catch(function() {
                     // Create the API token
-                    catchOutcome($scope.api.$create());
+                    $scope.api.userId = $scope.user._id;
+                    catchOutcome($scope.api.$create())
+                    .then(function() {
+                        $scope.api = apiTokensResource.get({ id: $scope.user._id });
+                    });
                 });
             }
         };
 
         $scope.deleteApiToken = function() {
-            catchOutcome($scope.api.$delete());
+            catchOutcome($scope.api.$delete({ id: $scope.user._id }))
+            .then(function() {
+                $scope.api = null;
+            });
         };
 
 	}];
