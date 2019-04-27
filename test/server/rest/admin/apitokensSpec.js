@@ -12,7 +12,7 @@ describe('users admin rest service', function() {
 
         var helpers = require('../mockServer');
 
-        helpers.mockServer('adminUsersSpec', function(_mockServer) {
+        helpers.mockServer('apiTokensSpec', function(_mockServer) {
             server = _mockServer;
             done();
         });
