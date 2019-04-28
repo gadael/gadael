@@ -35,8 +35,8 @@ createController.prototype = new ctrlFactory.create();
 
 
 
-exports = module.exports = {
-    list: listController,
-    get: getController,
-    create: createController
-};
+exports = module.exports = [
+    listController,
+    getController,
+    createController
+];

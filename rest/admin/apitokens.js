@@ -43,9 +43,9 @@ function deleteController() {
 }
 deleteController.prototype = new ctrlFactory.delete();
 
-exports = module.exports = {
-    list: listController,
-    get: getController,
-    create: createController,
-    delete: deleteController
-};
+exports = module.exports = [
+    listController,
+    getController,
+    createController,
+    deleteController
+];

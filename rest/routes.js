@@ -33,29 +33,13 @@ function fileControllers(app)
      * @param {string} path
      */
     this.add = function(path) {
-        let controllers = require(path);
-        if (controllers) {
-            controllers = Object.values(controllers);
-        }
-        controllers.forEach(model => {
+        require(path).forEach(model => {
             const controller = new ControllerFactory(model);
             const inst = new controller.model();
             app[inst.method](inst.path, controller.onRequest);
         });
     };
-
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 /**

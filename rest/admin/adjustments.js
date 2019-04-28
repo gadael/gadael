@@ -33,8 +33,8 @@ updateController.prototype = new ctrlFactory.update();
 
 
 
-exports = module.exports = {
-    list: listController,
-    create: createController,
-    update: updateController
-};
+exports = module.exports = [
+    listController,
+    createController,
+    updateController
+];

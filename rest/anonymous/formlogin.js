@@ -54,6 +54,6 @@ function createController() {
 createController.prototype = new ctrlFactory.create();
 
 
-exports = module.exports = {
-    create: createController
-};
+exports = module.exports = [
+    createController
+];
