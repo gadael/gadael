@@ -1,23 +1,13 @@
 'use strict';
-
-var ctrlFactory = require('restitute').controller;
-
-function list() {
-    this.jsonService(this.service('admin/users/list'));
-}
+const ctrlFactory = require('restitute').controller;
 
 function listController() {
     ctrlFactory.list.call(this, '/rest/admin/users');
-    this.controllerAction = list;
+    this.controllerAction = function() {
+        this.jsonService(this.service('admin/users/list'));
+    };
 }
 listController.prototype = new ctrlFactory.list();
-
-function apiListController() {
-    ctrlFactory.list.call(this, '/api/admin/users');
-    this.controllerAction = list;
-}
-apiListController.prototype = new ctrlFactory.list();
-
 
 function getController() {
     ctrlFactory.get.call(this, '/rest/admin/users/:id');
@@ -55,10 +45,8 @@ function deleteController() {
 deleteController.prototype = new ctrlFactory.delete();
 
 
-
 exports = module.exports = [
     listController,
-    apiListController,
     getController,
     createController,
     updateController,
