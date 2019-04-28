@@ -10,7 +10,7 @@ function linkDefaultAccountCollection(app, account) {
 	let link = new app.db.models.AccountCollection();
 	link.account = account._id;
 	link.rightCollection = '5740adf51cf1a569643cc520';
-	link.from = new Date((new Date().getFullYear()),0,1,0,0,0,0);
+	link.from = new Date(2016,0,1,0,0,0,0);
 	return link.save();
 }
 
@@ -18,7 +18,7 @@ function linkFrenchDefaultScheduleCalendar(app, account) {
 	let scheduleCalendar = new app.db.models.AccountScheduleCalendar();
 	scheduleCalendar.account = account._id;
 	scheduleCalendar.calendar = '5740adf51cf1a569643cc101'; // 40H full time work schedule
-	scheduleCalendar.from = new Date((new Date().getFullYear()),0,1,0,0,0,0);
+	scheduleCalendar.from = new Date(2000,0,1,0,0,0,0);
 	return scheduleCalendar.save();
 }
 
@@ -26,7 +26,7 @@ function linkFrenchDefaultNWDaysCalendar(app, account) {
 	let nonworkingdaysCalendar = new app.db.models.AccountNWDaysCalendar();
 	nonworkingdaysCalendar.account = account._id;
 	nonworkingdaysCalendar.calendar = '5740adf51cf1a569643cc100'; // france metropolis
-	nonworkingdaysCalendar.from = new Date((new Date().getFullYear()),0,1,0,0,0,0);
+	nonworkingdaysCalendar.from = new Date(2000,0,1,0,0,0,0);
 	return nonworkingdaysCalendar.save();
 }
 

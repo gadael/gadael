@@ -5,7 +5,7 @@ var ctrlFactory = require('restitute').controller;
 
 function listController() {
     ctrlFactory.list.call(this, '/rest/admin/rights');
-    
+
     this.controllerAction = function() {
         this.jsonService(this.service('admin/rights/list'));
     };
@@ -15,7 +15,7 @@ listController.prototype = new ctrlFactory.list();
 
 function getController() {
     ctrlFactory.get.call(this, '/rest/admin/rights/:id');
-    
+
     this.controllerAction = function() {
         this.jsonService(this.service('admin/rights/get'));
     };
@@ -41,7 +41,7 @@ updateController.prototype = new ctrlFactory.update();
 
 function deleteController() {
     ctrlFactory.delete.call(this, '/rest/admin/rights/:id');
-    
+
     this.controllerAction = function() {
         this.jsonService(this.service('admin/rights/delete'));
     };
@@ -50,10 +50,10 @@ deleteController.prototype = new ctrlFactory.delete();
 
 
 
-exports = module.exports = {
-    list: listController,
-    get: getController,
-    create: createController,
-    update: updateController,
-    delete: deleteController
-};
+exports = module.exports = [
+    listController,
+    getController,
+    createController,
+    updateController,
+    deleteController
+];

@@ -1,7 +1,7 @@
 'use strict';
 
 const googlecalendar = require('./user/googlecalendar');
-
+const decodeUrlEncodedBody = require('body-parser').urlencoded({ extended: false });
 
 /**
  * Object to create controller on request
@@ -19,7 +19,19 @@ function ControllerFactory(model) {
     };
 }
 
-
+/**
+ * Create a controller for API calls
+ * @param {Function} controller
+ * @return {Function}
+ */
+function createApiController(controller) {
+    const apiController = function() {
+        controller.call(this);
+        this.path = this.path.replace(/^\/rest\//, '/api/');
+    };
+    apiController.prototype = controller;
+    return apiController;
+}
 
 /**
  * Object to load controllers in a file
@@ -29,38 +41,26 @@ function fileControllers(app)
 {
     this.app = app;
 
+    function addController(controller) {
+        const ctrlFactory = new ControllerFactory(controller);
+        const inst = new ctrlFactory.model();
+        app[inst.method](inst.path, ctrlFactory.onRequest);
+    }
+
     /**
      * @param {string} path
+     * @param {boolean} api
      */
-    this.add = function(path) {
-
-        var controllers = require(path);
-
-        for(var ctrlName in controllers) {
-            if (controllers.hasOwnProperty(ctrlName)) {
-
-                var controller = new ControllerFactory(controllers[ctrlName]);
-
-                // instance used only to register method and path into the app
-                var inst = new controller.model();
-
-                app[inst.method](inst.path, controller.onRequest);
+    this.add = function(path, api) {
+        api = api || false;
+        require(path).forEach(controller => {
+            addController(controller);
+            if (api) {
+                addController(createApiController(controller));
             }
-        }
+        });
     };
-
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 /**
@@ -103,35 +103,36 @@ exports = module.exports = function(app, passport)
     controllers.add('./manager/collaborators');
     controllers.add('./manager/departments');
 
-    controllers.add('./admin/users');
-    controllers.add('./admin/usersstat');
-    controllers.add('./admin/accountrights');
-    controllers.add('./admin/accountcollections');
+    controllers.add('./admin/users', true);
+    controllers.add('./admin/usersstat', true);
+    controllers.add('./admin/apitokens');
+    controllers.add('./admin/accountrights', true);
+    controllers.add('./admin/accountcollections', true);
     controllers.add('./admin/accountschedulecalendars');
     controllers.add('./admin/accountnwdayscalendars');
-    controllers.add('./admin/departments');
+    controllers.add('./admin/departments', true);
     controllers.add('./admin/collections');
     controllers.add('./admin/collection');
-    controllers.add('./admin/calendars');
-    controllers.add('./admin/calendarevents');
-    controllers.add('./admin/personalevents');
-    controllers.add('./admin/collaborators');
-    controllers.add('./admin/unavailableevents');
-    controllers.add('./admin/types');
-    controllers.add('./admin/specialrights');
-    controllers.add('./admin/rights');
-    controllers.add('./admin/rightrenewals');
-    controllers.add('./admin/accountbeneficiaries');
-    controllers.add('./admin/beneficiaries');
-    controllers.add('./admin/requests');
-    controllers.add('./admin/waitingrequests');
+    controllers.add('./admin/calendars', true);
+    controllers.add('./admin/calendarevents', true);
+    controllers.add('./admin/personalevents', true);
+    controllers.add('./admin/collaborators', true);
+    controllers.add('./admin/unavailableevents', true);
+    controllers.add('./admin/types', true);
+    controllers.add('./admin/specialrights', true);
+    controllers.add('./admin/rights', true);
+    controllers.add('./admin/rightrenewals', true);
+    controllers.add('./admin/accountbeneficiaries', true);
+    controllers.add('./admin/beneficiaries', true);
+    controllers.add('./admin/requests', true);
+    controllers.add('./admin/waitingrequests', true);
     controllers.add('./admin/compulsoryleaves');
     controllers.add('./admin/adjustments');
     controllers.add('./admin/recoverquantities');
     controllers.add('./admin/timesavingaccounts');
-    controllers.add('./admin/export');
-    controllers.add('./admin/consumption');
-    controllers.add('./admin/invitations');
+    controllers.add('./admin/export', true);
+    controllers.add('./admin/consumption', true);
+    controllers.add('./admin/invitations', true);
 
     controllers.add('./anonymous/createfirstadmin');
     controllers.add('./anonymous/invitation');
@@ -172,6 +173,9 @@ exports = module.exports = function(app, passport)
             });
         })(req, res, next);
     });
+
+    const oauth = require('../modules/oauth')(app);
+    app.post('/login/oauth-token', decodeUrlEncodedBody, oauth.token());
 
     // avatars
     app.get('/users/:userid/image', require('./image').getUserImage);

@@ -39,7 +39,18 @@ exports = module.exports = function(params) {
             refreshToken: String,
             expire_in: Date,
             calendar: String
-        }
+        },
+		api: {
+			clientId: { type: String, index: true, unique: true, sparse: true },
+			clientSecret: { type: String, select: false },
+			authorizationCode: { type: String, index: true, unique: true, sparse: true },
+			authorizationCodeExpiresAt: Date,
+			accessToken: { type: String, index: true, unique: true, sparse: true },
+			accessTokenExpiresAt: Date,
+			refreshToken: { type: String, index: true, unique: true, sparse: true },
+			refreshTokenExpiresAt: Date,
+			scope: [String]
+		}
 	});
 
 

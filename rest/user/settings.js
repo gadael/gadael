@@ -37,7 +37,7 @@ function updateController() {
 }
 
 
-exports = module.exports = {
-    get: getController,
-    update: updateController
-};
+exports = module.exports = [
+    getController,
+    updateController
+];

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-06 19:40+0200\n"
-"PO-Revision-Date: 2017-07-06 19:45+0200\n"
+"POT-Creation-Date: 2019-04-27 16:35+0200\n"
+"PO-Revision-Date: 2019-04-27 16:37+0200\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.2.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: api/specialrights/timesavingaccount.js:25
@@ -118,6 +118,7 @@ msgstr ""
 
 #: api/services/admin/accountnwdayscalendars/save.js:46
 #: api/services/admin/accountschedulecalendars/save.js:46
+#: api/services/admin/apitokens/delete.js:17
 #: api/services/admin/users/delete.js:25
 #: api/services/admin/accountcollections/save.js:48
 msgid "User not found"
@@ -157,11 +158,11 @@ msgstr "Le régime a été supprimé"
 msgid "At least one business day is required"
 msgstr "Au moins un jour ouvré est requis"
 
-#: api/services/admin/collections/save.js:85
+#: api/services/admin/collections/save.js:131
 msgid "The collection has been modified"
 msgstr "Le régime a été modifié"
 
-#: api/services/admin/collections/save.js:102
+#: api/services/admin/collections/save.js:148
 msgid "The collection has been created"
 msgstr "Le régime a été créé"
 
@@ -173,11 +174,11 @@ msgstr "Le service n'existe pas"
 msgid "The department has been deleted"
 msgstr "Le service a été supprimé"
 
-#: api/services/admin/departments/save.js:63
+#: api/services/admin/departments/save.js:60
 msgid "The department has been modified"
 msgstr "Le service a été modifié"
 
-#: api/services/admin/departments/save.js:81
+#: api/services/admin/departments/save.js:78
 msgid "The department has been created"
 msgstr "Le service a été créé"
 
@@ -281,9 +282,18 @@ msgstr "La période de rythme de travail du compte a été modifiée"
 msgid "The account schedule calendar period has been created"
 msgstr "La période de rythme de travail du compte a été créée"
 
-#: api/services/admin/users/get.js:37 api/services/user/settings/get.js:30
+#: api/services/admin/apitokens/get.js:24 api/services/admin/users/get.js:37
+#: api/services/user/settings/get.js:30
 msgid "This user does not exists"
 msgstr "Cet utilisateur n'existe pas"
+
+#: api/services/admin/apitokens/delete.js:26
+msgid "User API token revoked"
+msgstr "Token API révoqué"
+
+#: api/services/admin/apitokens/save.js:39
+msgid "The API token has been created"
+msgstr "Le token API à été créé"
 
 #: api/services/admin/users/delete.js:34
 msgid "The user has been deleted"
@@ -498,12 +508,12 @@ msgstr "La période de renouvellement a été créée"
 msgid "This absence right does not exists"
 msgstr "Le droit de congés n'existe pas"
 
-#: api/services/admin/rights/delete.js:29
+#: api/services/admin/rights/delete.js:34
 #, javascript-format
 msgid "Failed to delete, the right is used %d in requests"
 msgstr "Impossible de supprimer, le droit est utilisé dans %d demandes"
 
-#: api/services/admin/rights/delete.js:39
+#: api/services/admin/rights/delete.js:44
 msgid "The leave right has been deleted"
 msgstr "Le droit de congés a été supprimé"
 
@@ -610,12 +620,12 @@ msgstr ""
 "La quantité demandée sur le droit \"%s\" n'est pas disponible, le solde est "
 "de %s"
 
-#: api/services/user/requests/get.js:49
+#: api/services/user/requests/get.js:52
 #: api/services/manager/waitingrequests/get.js:54
 msgid "This request does not exists"
 msgstr "Cette demande n'existe pas"
 
-#: api/services/user/requests/get.js:53
+#: api/services/user/requests/get.js:56
 msgid "This request has been deleted"
 msgstr "Cette demande à été supprimée"
 
@@ -632,34 +642,34 @@ msgstr ""
 "La modification des demandes n'est pas permise lorsque l'application est en "
 "maintenance"
 
-#: api/services/user/requests/delete.js:49
+#: api/services/user/requests/delete.js:53
 msgid "The request has been deleted"
 msgstr "La demande a été supprimée"
 
-#: api/services/user/requests/delete.js:69
+#: api/services/user/requests/delete.js:73
 msgid "The request is not accessible"
 msgstr "La demande n'est pas accessible"
 
-#: api/services/user/requests/delete.js:73
+#: api/services/user/requests/delete.js:77
 msgid ""
 "This leave has been created in a compulsory leave, deletion is not allowed"
 msgstr "Ce congé est un congé imposé, la suppression n'est pas autorisée"
 
-#: api/services/user/requests/delete.js:91
+#: api/services/user/requests/delete.js:95
 msgid "Start workflow to delete a confirmed absence"
 msgstr "Début du circuit d'approbation pour supprimer une absence confirmée"
 
-#: api/services/user/requests/save.js:39
+#: api/services/user/requests/save.js:41
 msgid ""
 "This leave has been created in a compulsory leave, modification is not "
 "allowed"
 msgstr "Ce congé est un congé imposé, la modification n'est pas permise"
 
-#: api/services/user/requests/save.js:383
+#: api/services/user/requests/save.js:381
 msgid "The request has been modified"
 msgstr "La demande a été modifiée"
 
-#: api/services/user/requests/save.js:422
+#: api/services/user/requests/save.js:420
 msgid "The request has been created"
 msgstr "La demande a été créée"
 
@@ -729,25 +739,25 @@ msgstr "Un agenda secondaire a été créé"
 msgid "Leave periods provided by gadael"
 msgstr "Périodes de congés fournies par Gadael"
 
-#: api/services/manager/waitingrequests/save.js:157
+#: api/services/manager/waitingrequests/save.js:153
 msgid "The request has been confirmed"
 msgstr "La demande a été confirmée"
 
-#: api/services/manager/waitingrequests/save.js:169
+#: api/services/manager/waitingrequests/save.js:165
 msgid "The request has been cancelled"
 msgstr "La demande a été annulée"
 
-#: api/services/manager/waitingrequests/save.js:182
+#: api/services/manager/waitingrequests/save.js:178
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr "Le demandeur a requis une suppression, la demande a été annulée"
 
-#: api/services/manager/waitingrequests/save.js:194
+#: api/services/manager/waitingrequests/save.js:190
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 "Le demandeur a requis une suppression, la demande a été supprimée malgré tout"
 
-#: api/services/manager/waitingrequests/save.js:204
+#: api/services/manager/waitingrequests/save.js:200
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
@@ -755,7 +765,7 @@ msgstr ""
 "Votre acceptation a été enregistrée, d'autres approbation sont requises pour "
 "que l'étape soit terminée"
 
-#: api/services/manager/waitingrequests/save.js:211
+#: api/services/manager/waitingrequests/save.js:207
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 "La demande a été transmise à la prochaine étape du circuit d'approbation"
@@ -794,23 +804,23 @@ msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heures"
 
-#: modules/apputil.js:52 modules/passport.js:251
+#: modules/apputil.js:60 modules/passport.js:251
 msgid "Access denied for non administrators"
 msgstr "Accès refusé pour les utilisateurs non administrateurs"
 
-#: modules/apputil.js:57
+#: modules/apputil.js:65
 msgid "Access denied for users without absences account"
 msgstr "Accès refusé pour les utilisateurs sans compte absences"
 
-#: modules/apputil.js:62
+#: modules/apputil.js:70
 msgid "Access denied for non managers"
 msgstr "Accès refusé pour les non gestionnaires"
 
-#: modules/apputil.js:67 modules/passport.js:229
+#: modules/apputil.js:75 modules/passport.js:229
 msgid "Access denied for anonymous users"
 msgstr "Accès refusé pour les utilisateurs anonymes"
 
-#: modules/apputil.js:73
+#: modules/apputil.js:81
 msgid "Access denied for logged in users"
 msgstr "Accès refusé pour les utilisateurs connectés"
 
@@ -1167,8 +1177,8 @@ msgid "Recover quantities"
 msgstr "Récupérations"
 
 #: rest/anonymous/formlogin.js:44
-msgid "You are now loged in"
-msgstr "Vous êtes maintenant connecté"
+msgid "You are now logged in"
+msgstr "Vous êtes maintenant connecté..."
 
 #: rest/anonymous/invitation.js:17
 msgid "Your invitation email is not valid"
@@ -1186,30 +1196,30 @@ msgstr "Les deux mots de passe saisis doivent êtres identiques"
 msgid "The first admin allready exists"
 msgstr "Le premier administrateur existe déjà"
 
-#: rest/login.js:64
+#: rest/login.js:62
 #, javascript-format
 msgid "No user found with email %s"
 msgstr "Pas d'utilisateur trouvé avec l'email %s"
 
-#: rest/login.js:84
+#: rest/login.js:81
 #, javascript-format
 msgid "An email has been sent to %s"
 msgstr "Un email a été envoyé à %s"
 
-#: rest/login.js:133
+#: rest/login.js:130
 msgid "The password confirmation does not match the new password field"
 msgstr ""
 "La confirmation du mot de passe ne correspond pas au mot de passe saisi."
 
-#: rest/login.js:160
+#: rest/login.js:157
 msgid "Invalid request. user not found"
 msgstr "Demande invalide. Utilisateur introuvable"
 
-#: rest/login.js:173
+#: rest/login.js:170
 msgid "Invalid request."
 msgstr "Demande invalide."
 
-#: rest/login.js:195
+#: rest/login.js:192
 msgid "The password has been modified"
 msgstr "Le mot de passe a été modifié"
 
@@ -1217,15 +1227,15 @@ msgstr "Le mot de passe a été modifié"
 msgid "You must be logged in"
 msgstr "Vous devez être connecté"
 
-#: rest/user/googlecalendar.js:97
+#: rest/user/googlecalendar.js:95
 msgid "You are disconnected from your google calendar"
 msgstr "Vous êtes déconnecté de votre agenda Google"
 
-#: schema/Right_Renewal.js:90
+#: schema/Right_Renewal.js:77
 msgid "The renewals periods must not overlap"
 msgstr "Les périodes de renouvellements ne doivent pas se superposer"
 
-#: schema/Right_Renewal.js:1174
+#: schema/Right_Renewal.js:1172
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
@@ -1233,7 +1243,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, le type "
 "congés payés annuels est requis"
 
-#: schema/Right_Renewal.js:1241
+#: schema/Right_Renewal.js:1239
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
@@ -1241,7 +1251,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, la "
 "quantité de congés payés annuels est requise"
 
-#: schema/Right_Renewal.js:1284
+#: schema/Right_Renewal.js:1282
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1294,7 +1304,7 @@ msgstr "Suppression rejectée"
 msgid "Undefined"
 msgstr "Non défini"
 
-#: schema/User.js:123
+#: schema/User.js:134
 #, javascript-format
 msgid "The total number of active users cannot exceed %d"
 msgstr "Le nombre total d'utilisateurs actif ne peut excéder %d"
@@ -1399,23 +1409,23 @@ msgstr "Congés de fractionnement"
 msgid "No rights found in type \"%s\""
 msgstr "Pas de droits trouvés pour le type \"%s\""
 
-#: schema/RightCollection.js:153
+#: schema/RightCollection.js:193
 msgid "General regime 100%"
 msgstr "Régime générale 100%"
 
-#: schema/RightCollection.js:154
+#: schema/RightCollection.js:194
 msgid "Part-time 90%"
 msgstr "Temps-partiel 90%"
 
-#: schema/RightCollection.js:155
+#: schema/RightCollection.js:195
 msgid "Part-time 80%"
 msgstr "Temps-partiel 80%"
 
-#: schema/RightCollection.js:156
+#: schema/RightCollection.js:196
 msgid "Part-time 70%"
 msgstr "Temps-partiel 70%"
 
-#: schema/RightCollection.js:157
+#: schema/RightCollection.js:197
 msgid "Part-time 50%"
 msgstr "Temps-partiel 50%"
 
@@ -1502,12 +1512,12 @@ msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
 msgid "Interval values must be set in a correct order"
 msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 
-#: schema/User_Account.js:1032
+#: schema/User_Account.js:1034
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr "Pas de semaine trouvée pour %s"
 
-#: schema/Department.js:147
+#: schema/Department.js:109
 #, javascript-format
 msgid ""
 "A leave over this period is not possible because %d people must be available "

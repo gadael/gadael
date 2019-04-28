@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-22 18:05+0200\n"
+"POT-Creation-Date: 2019-04-27 16:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,6 +99,7 @@ msgstr ""
 
 #: api/services/admin/accountnwdayscalendars/save.js:46
 #: api/services/admin/accountschedulecalendars/save.js:46
+#: api/services/admin/apitokens/delete.js:17
 #: api/services/admin/users/delete.js:25
 #: api/services/admin/accountcollections/save.js:48
 msgid "User not found"
@@ -253,8 +254,17 @@ msgstr ""
 msgid "The account schedule calendar period has been created"
 msgstr ""
 
-#: api/services/admin/users/get.js:37 api/services/user/settings/get.js:30
+#: api/services/admin/apitokens/get.js:24 api/services/admin/users/get.js:37
+#: api/services/user/settings/get.js:30
 msgid "This user does not exists"
+msgstr ""
+
+#: api/services/admin/apitokens/delete.js:26
+msgid "User API token revoked"
+msgstr ""
+
+#: api/services/admin/apitokens/save.js:39
+msgid "The API token has been created"
 msgstr ""
 
 #: api/services/admin/users/delete.js:34
@@ -689,30 +699,30 @@ msgstr ""
 msgid "Leave periods provided by gadael"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:157
+#: api/services/manager/waitingrequests/save.js:153
 msgid "The request has been confirmed"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:169
+#: api/services/manager/waitingrequests/save.js:165
 msgid "The request has been cancelled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:182
+#: api/services/manager/waitingrequests/save.js:178
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:194
+#: api/services/manager/waitingrequests/save.js:190
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:204
+#: api/services/manager/waitingrequests/save.js:200
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:211
+#: api/services/manager/waitingrequests/save.js:207
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 
@@ -749,23 +759,23 @@ msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/apputil.js:52 modules/passport.js:251
+#: modules/apputil.js:60 modules/passport.js:251
 msgid "Access denied for non administrators"
 msgstr ""
 
-#: modules/apputil.js:57
+#: modules/apputil.js:65
 msgid "Access denied for users without absences account"
 msgstr ""
 
-#: modules/apputil.js:62
+#: modules/apputil.js:70
 msgid "Access denied for non managers"
 msgstr ""
 
-#: modules/apputil.js:67 modules/passport.js:229
+#: modules/apputil.js:75 modules/passport.js:229
 msgid "Access denied for anonymous users"
 msgstr ""
 
-#: modules/apputil.js:73
+#: modules/apputil.js:81
 msgid "Access denied for logged in users"
 msgstr ""
 
@@ -1099,7 +1109,7 @@ msgid "Recover quantities"
 msgstr ""
 
 #: rest/anonymous/formlogin.js:44
-msgid "You are now loged in"
+msgid "You are now logged in"
 msgstr ""
 
 #: rest/anonymous/invitation.js:17
@@ -1118,29 +1128,29 @@ msgstr ""
 msgid "The first admin allready exists"
 msgstr ""
 
-#: rest/login.js:64
+#: rest/login.js:62
 #, javascript-format
 msgid "No user found with email %s"
 msgstr ""
 
-#: rest/login.js:84
+#: rest/login.js:81
 #, javascript-format
 msgid "An email has been sent to %s"
 msgstr ""
 
-#: rest/login.js:133
+#: rest/login.js:130
 msgid "The password confirmation does not match the new password field"
 msgstr ""
 
-#: rest/login.js:160
+#: rest/login.js:157
 msgid "Invalid request. user not found"
 msgstr ""
 
-#: rest/login.js:173
+#: rest/login.js:170
 msgid "Invalid request."
 msgstr ""
 
-#: rest/login.js:195
+#: rest/login.js:192
 msgid "The password has been modified"
 msgstr ""
 
@@ -1148,27 +1158,27 @@ msgstr ""
 msgid "You must be logged in"
 msgstr ""
 
-#: rest/user/googlecalendar.js:97
+#: rest/user/googlecalendar.js:95
 msgid "You are disconnected from your google calendar"
 msgstr ""
 
-#: schema/Right_Renewal.js:90
+#: schema/Right_Renewal.js:77
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:1195
+#: schema/Right_Renewal.js:1172
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1262
+#: schema/Right_Renewal.js:1239
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1305
+#: schema/Right_Renewal.js:1282
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1219,7 +1229,7 @@ msgstr ""
 msgid "Undefined"
 msgstr ""
 
-#: schema/User.js:123
+#: schema/User.js:134
 #, javascript-format
 msgid "The total number of active users cannot exceed %d"
 msgstr ""
@@ -1324,23 +1334,23 @@ msgstr ""
 msgid "No rights found in type \"%s\""
 msgstr ""
 
-#: schema/RightCollection.js:196
+#: schema/RightCollection.js:193
 msgid "General regime 100%"
 msgstr ""
 
-#: schema/RightCollection.js:197
+#: schema/RightCollection.js:194
 msgid "Part-time 90%"
 msgstr ""
 
-#: schema/RightCollection.js:198
+#: schema/RightCollection.js:195
 msgid "Part-time 80%"
 msgstr ""
 
-#: schema/RightCollection.js:199
+#: schema/RightCollection.js:196
 msgid "Part-time 70%"
 msgstr ""
 
-#: schema/RightCollection.js:200
+#: schema/RightCollection.js:197
 msgid "Part-time 50%"
 msgstr ""
 
@@ -1428,7 +1438,7 @@ msgstr ""
 msgid "No weeks found for %s"
 msgstr ""
 
-#: schema/Department.js:154
+#: schema/Department.js:109
 #, javascript-format
 msgid ""
 "A leave over this period is not possible because %d people must be available "

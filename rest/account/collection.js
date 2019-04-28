@@ -34,6 +34,4 @@ getController.prototype = new ctrlFactory.get();
 
 
 
-exports = module.exports = {
-    get: getController
-};
+exports = module.exports = [getController];

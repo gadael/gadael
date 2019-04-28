@@ -36,17 +36,12 @@ define([], function() {
             $scope.user.isActive = true;
         }
 
-
         $scope.departments = Rest.admin.departments.getResource().query();
-
 
         /**
          * setImage modal popup
          */
         $scope.setImage = UserEdit.setImage($scope);
-
-
-
 
 		$scope.cancel = function() {
             if ($scope.user._id) {
@@ -54,7 +49,6 @@ define([], function() {
             }
             $location.path('/admin/users');
 		};
-
 
 		/**
          * Save button
@@ -64,7 +58,5 @@ define([], function() {
 			$scope.user.gadaSave()
             .then($scope.cancel);
 	    };
-
-
 	}];
 });

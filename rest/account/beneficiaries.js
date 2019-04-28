@@ -28,7 +28,7 @@ getController.prototype = new ctrlFactory.get();
 
 
 
-exports = module.exports = {
-    list: listController,
-    get: getController
-};
+exports = module.exports = [
+    listController,
+    getController
+];

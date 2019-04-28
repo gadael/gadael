@@ -4,6 +4,7 @@ const api = require('../../../api/Company.api.js');
 const headless = require('../../../api/Headless.api.js');
 const models = require('../../../models');
 let config = require('../../../config')();
+const querystring = require('querystring');
 
 /**
  * The mock server object
@@ -265,6 +266,20 @@ mockServer.prototype.put = function(path, data, done) {
 mockServer.prototype.post = function(path, data, done) {
 
     this.send('POST', path, data, done);
+};
+
+/**
+ * Post url encoded data on server
+ */
+mockServer.prototype.postUrlEncoded = function(path, data, done) {
+    const postStr = querystring.stringify(data);
+    const headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': postStr.length
+    };
+    const req = this.request('POST', headers, {}, path, done);
+    req.write(postStr);
+    req.end();
 };
 
 
@@ -566,16 +581,18 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
 mockServer.prototype.expectSuccess = function(body) {
 
     expect(body.$outcome).toBeDefined();
-    expect(body.$outcome.success).toBeTruthy();
+    if (undefined !== body.$outcome) {
+        expect(body.$outcome.success).toBeTruthy();
 
-    if (!body.$outcome.success) {
-        if (body.$outcome.alert.length > 0) {
-            console.trace(body.$outcome.alert);
-        }
+        if (!body.$outcome.success) {
+            if (body.$outcome.alert.length > 0) {
+                console.trace(body.$outcome.alert);
+            }
 
-        if (Object.keys(body.$outcome.errfor).length > 0) {
-            console.log('Missing mandatory fields:');
-            console.trace(body.$outcome.errfor);
+            if (Object.keys(body.$outcome.errfor).length > 0) {
+                console.log('Missing mandatory fields:');
+                console.trace(body.$outcome.errfor);
+            }
         }
     }
 };

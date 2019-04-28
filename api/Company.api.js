@@ -24,6 +24,8 @@ const flash = require('connect-flash-plus');
 const schedule = require('node-schedule');
 const approbalert = require('../modules/approbalert');
 const googlecalendar = require('../rest/user/googlecalendar');
+const decodeUrlEncodedBody = require('body-parser').urlencoded({ extended: false });
+const loginPromise = require('../modules/login');
 
 /**
  * Load models into an external mongo connexion
@@ -541,9 +543,7 @@ exports = module.exports = {
 
 
         let csrfProtection = null;
-
         if (config.csrfProtection) {
-
             csrfProtection = csrf({ cookie: true });
         }
 
@@ -628,6 +628,19 @@ exports = module.exports = {
         });
 
 		app.use(gadaelMiddleware(app));
+
+
+        const oauth = require('../modules/oauth')(app);
+        const authenticate = oauth.authenticate();
+
+        app.use('/api/*', decodeUrlEncodedBody, (req, res, next) => {
+            authenticate(req, res, (err) => {
+                if (err) { return next(err); }
+                loginPromise(req, res.locals.oauth.token.user)
+                .then(() => { next(); })
+                .catch(next);
+            });
+        });
 
         //setup routes
         routes(app, passport);
