@@ -64,7 +64,7 @@
                     <i class="fa fa-times"></i> <span class="hidden-xs hidden-sm" translate>Delete</span>
                 </a>
 
-                <a ng-if="!api" ng-click="getApiToken()" class="btn btn-block hidden-print" role="button">
+                <a ng-if="!api && user.isAdmin" ng-click="getApiToken()" class="btn btn-block hidden-print" role="button">
                     <i class="fa fa-user-secret"></i> <span class="hidden-xs hidden-sm" translate>Get API tokens</span>
                 </a>
 
