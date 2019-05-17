@@ -595,7 +595,7 @@ exports = module.exports = {
         // the mongostore lock the gracefull stop of the app
         app.session_mongoStore = new mongoStore({
 			uri: 'mongodb://' + app.config.mongodb.prefix + app.config.mongodb.dbname,
-			collection: 'gadael-sessions'
+			collection: 'sessions'
 		});
 
 
