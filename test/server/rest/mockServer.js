@@ -4,6 +4,7 @@ const api = require('../../../api/Company.api.js');
 const headless = require('../../../api/Headless.api.js');
 const models = require('../../../models');
 let config = require('../../../config')();
+const querystring = require('querystring');
 
 /**
  * The mock server object
@@ -43,8 +44,6 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
     headless.config = config;
 
     function createRestService() {
-
-
         var company = {
             name: 'The Fake Company REST service',
             port: port,
@@ -54,9 +53,6 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
 
         api.createDb(headless, serverInst.dbname, company)
         .then(() => {
-
-
-
             config.port = company.port;
             config.companyName = company.name;
             config.mongodb.dbname = serverInst.dbname;
@@ -100,8 +96,7 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
         });
     }
 
-
-    headless.connect(function() {
+    headless.linkdb().then(() => {
         api.isDbNameValid(headless, serverInst.dbname, function(status) {
             if (!status) {
                 console.log('mock REST server: database '+serverInst.dbname+' allready exists');
@@ -273,6 +268,20 @@ mockServer.prototype.post = function(path, data, done) {
     this.send('POST', path, data, done);
 };
 
+/**
+ * Post url encoded data on server
+ */
+mockServer.prototype.postUrlEncoded = function(path, data, done) {
+    const postStr = querystring.stringify(data);
+    const headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': postStr.length
+    };
+    const req = this.request('POST', headers, {}, path, done);
+    req.write(postStr);
+    req.end();
+};
+
 
 /**
  * delete request on server
@@ -293,14 +302,11 @@ mockServer.prototype.close = function(doneExit) {
 
     var mockServerDbName = this.dbname;
     var app = this.app;
-    var api = require('../../../api/Company.api.js');
-    var headless = require('../../../api/Headless.api.js');
-
 
     app.db.close(function() {
         api.dropDb(headless, mockServerDbName, function() {
             headless.disconnect(function() {
-                app.session_mongoStore.db.close(function() {
+                app.session_mongoStore.clear(function(err) {
                     app.server.close(doneExit);
                 });
             });
@@ -575,16 +581,18 @@ mockServer.prototype.createUserManager = function(memberDepartment, managerDepar
 mockServer.prototype.expectSuccess = function(body) {
 
     expect(body.$outcome).toBeDefined();
-    expect(body.$outcome.success).toBeTruthy();
+    if (undefined !== body.$outcome) {
+        expect(body.$outcome.success).toBeTruthy();
 
-    if (!body.$outcome.success) {
-        if (body.$outcome.alert.length > 0) {
-            console.trace(body.$outcome.alert);
-        }
+        if (!body.$outcome.success) {
+            if (body.$outcome.alert.length > 0) {
+                console.trace(body.$outcome.alert);
+            }
 
-        if (Object.keys(body.$outcome.errfor).length > 0) {
-            console.log('Missing mandatory fields:');
-            console.trace(body.$outcome.errfor);
+            if (Object.keys(body.$outcome.errfor).length > 0) {
+                console.log('Missing mandatory fields:');
+                console.trace(body.$outcome.errfor);
+            }
         }
     }
 };

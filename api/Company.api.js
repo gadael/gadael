@@ -23,7 +23,9 @@ const gadaelMiddleware = require('../modules/gadaelMiddleware');
 const flash = require('connect-flash-plus');
 const schedule = require('node-schedule');
 const approbalert = require('../modules/approbalert');
-
+const googlecalendar = require('../rest/user/googlecalendar');
+const decodeUrlEncodedBody = require('body-parser').urlencoded({ extended: false });
+const loginPromise = require('../modules/login');
 
 /**
  * Load models into an external mongo connexion
@@ -37,7 +39,9 @@ const approbalert = require('../modules/approbalert');
  */
 function gadael_loadMockModels(app, db)
 {
-
+	if (Object.keys(db.models).length > 0) {
+		return Promise.reject(new Error('Models allready loaded for db connexion'));
+	}
 
 	models.requirements = {
 		mongoose: app.mongoose,
@@ -49,7 +53,10 @@ function gadael_loadMockModels(app, db)
 	};
 
 	apputil(app);
-	return models.load();
+	return models.load()
+    .catch(err => {
+        console.error(err);
+    });
 }
 
 
@@ -61,9 +68,6 @@ function gadael_loadMockModels(app, db)
  *
  */
 exports = module.exports = {
-
-
-
 
 
     /**
@@ -91,8 +95,6 @@ exports = module.exports = {
      * db name for field validity
      * this is the server side valididty test
      * @function
-     *
-     * @return {string}
      */
     isDbNameValid: function isDbNameValid(app, dbName, callback) {
 
@@ -131,17 +133,13 @@ exports = module.exports = {
      * @param	{object}	app			headless application
      * @param	{function} 	callback	function to receive results
      *
-     * @return {Array}
      */
     listDatabases: function listDatabases(app, callback) {
-
-        //var Admin = app.mongoose.mongo.Admin(app.db.db);
-        var Admin = app.db.db.admin();
-
+		const Admin = app.mongoose.mongo.Admin(app.db.db);
         Admin.listDatabases(function(err, result) {
 
             if (err) {
-                console.log(err);
+                console.error(err);
                 return;
             }
 
@@ -161,11 +159,11 @@ exports = module.exports = {
 		let m = db.models;
 
 		return Promise.all([
-			m.Type.remove({}),
-			m.Calendar.remove({}),
-			m.RightCollection.remove({}),
-			m.RecoverQuantity.remove({}),
-			m.Right.remove({})
+			m.Type.deleteMany({}),
+			m.Calendar.deleteMany({}),
+			m.RightCollection.deleteMany({}),
+			m.RecoverQuantity.deleteMany({}),
+			m.Right.deleteMany({})
 		]);
 	},
 
@@ -239,11 +237,15 @@ exports = module.exports = {
 	 * @return {Promise}
      */
     createDb: function createDb(app, dbName, company) {
+		if (undefined !== app.db && Object.keys(app.db.models).length > 0) {
+			return Promise.reject(new Error('app object allready initialized with models'));
+		}
 
 		apputil(app);
 
         // createConnection
-        let db = app.mongoose.createConnection();
+
+		let db;
 		let companyApi = this;
 		let Company;
 
@@ -257,21 +259,22 @@ exports = module.exports = {
 			return gadael_loadMockModels(app, db)
 			.then(() => {
 				Company = db.models.Company;
-				return Company.count()
+				return Company.countDocuments()
 				.exec();
 			})
 			.then(count => {
 
 				if (0 !== count) {
-					throw new Error('Database allready initialized with company object: '+dbName);
+					throw new Error('createDb: Database allready initialized with company object: '+dbName);
 				}
+
+
 
 				// create the company entry
 				let companyDoc = new Company(company);
 				let promises = companyApi.execInitTasks(db, companyDoc);
 
 				promises.push(companyDoc.save());
-
 				return Promise.all(promises);
 
 
@@ -281,37 +284,35 @@ exports = module.exports = {
 			});
 		}
 
-		/**
-		 * Close database connexion
-		 * @return {Promise}
-		 */
-		function closeConnexion(companyPromise) {
-			return companyPromise
-			.then(company => {
-				db.close();
-				return company;
-			})
-			.catch(err => {
-				db.close();
-				throw err;
+
+		return app.mongoose.disconnect()
+		.then(() => {
+			return new Promise((resolve, reject) => {
+				db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName,
+                    { useNewUrlParser: true, useCreateIndex: true });
+
+				db.on('error', function(err) {
+		            reject(new Error('CompanyApi.createDb mongoose connection error: '+err.message));
+		        });
+
+		        db.once('open', function() {
+					if (Object.keys(db.models).length > 0) {
+						throw new Error('once open: Models allready loaded for db connexion');
+					}
+
+					saveCompanyDoc()
+					.then(company => {
+						//return app.mongoose.disconnect()
+						resolve(company);
+					})
+					.catch(err => {
+						// db.close();
+						console.error(err);
+					});
+		        });
+
 			});
-		}
-
-
-		return new Promise((resolve, reject) => {
-
-			db.open(app.config.mongodb.prefix+dbName);
-
-	        db.on('error', function(err) {
-	            reject(new Error('CompanyApi.createDb mongoose connection error: '+err.message));
-	        });
-
-	        db.once('open', function() {
-				resolve(closeConnexion(saveCompanyDoc()));
-	        });
-
 		});
-
     },
 
 
@@ -324,17 +325,16 @@ exports = module.exports = {
      * @param	{function}	callback
      */
     dropDb: function dropDb(app, dbName, callback) {
-
-        var db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
+        var db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName,
+            { useNewUrlParser: true, useCreateIndex: true });
         db.on('error', console.error.bind(console, 'CompanyApi.deleteDb mongoose connection error: '));
 
         db.once('open', function() {
             db.db.dropDatabase(function(err, result) {
                 if (err) {
-                    console.error(err.err);
+                    return console.error(err);
                 }
-
-                db.close(callback);
+				app.mongoose.disconnect().then(callback);
             });
         });
     },
@@ -353,7 +353,8 @@ exports = module.exports = {
         app.mongoose = mongoose;
 
         //setup mongoose
-        app.db = mongoose.createConnection(app.config.mongodb.prefix + dbName);
+        app.db = mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName,
+            { useNewUrlParser: true, useCreateIndex: true });
         app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
         app.db.once('open', callback);
     },
@@ -366,7 +367,8 @@ exports = module.exports = {
 	getOpenDbPromise: function getOpenDbPromise(app, dbName) {
 		let db;
 		return new Promise((resolve, reject) => {
-            db = app.mongoose.createConnection(app.config.mongodb.prefix + dbName);
+            db = app.mongoose.createConnection('mongodb://' + app.config.mongodb.prefix + dbName,
+                { useNewUrlParser: true, useCreateIndex: true });
             db.on('error', err => {
                 return reject('CompanyApi mongoose connection error: '+err, null);
             });
@@ -449,13 +451,20 @@ exports = module.exports = {
     /**
      * Get all company documents from all the databases
 	 * Promise resolve to an associated object wher keys are dbnames
+     *
+     * The schemas will be loaded for each company, if a database is not a gadael
+     * db it can be ignored with the ignoreList param
 	 *
      * @param {Object} app
+     * @param {Array} ignoreList
      * @return {Promise}
      */
-    getCompanies: function getCompanies(app) {
+    getCompanies: function getCompanies(app, ignoreList) {
 
         let api = this;
+        if (undefined === ignoreList) {
+            ignoreList = [];
+        }
 
         return new Promise((resolve, reject) => {
 
@@ -465,8 +474,7 @@ exports = module.exports = {
                 let asyncTasks = [];
                 for(var i=0; i<databases.length; i++) {
 
-                    if (databases[i]) {
-
+                    if (databases[i] && -1 === ignoreList.indexOf(databases[i].name)) {
                         var task = {
                             db: databases[i].name,
                             getCompany: function(async_done) {
@@ -535,9 +543,7 @@ exports = module.exports = {
 
 
         let csrfProtection = null;
-
         if (config.csrfProtection) {
-
             csrfProtection = csrf({ cookie: true });
         }
 
@@ -561,7 +567,10 @@ exports = module.exports = {
         };
 
 		apputil(app);
-        models.load();
+        models.load()
+        .catch(err => {
+            console.error(err);
+        });
 
         //settings
         app.disable('x-powered-by');
@@ -586,7 +595,7 @@ exports = module.exports = {
         // the mongostore lock the gracefull stop of the app
         app.session_mongoStore = new mongoStore({
 			uri: 'mongodb://' + app.config.mongodb.prefix + app.config.mongodb.dbname,
-			collection: 'gadael-sessions'
+			collection: 'sessions'
 		});
 
 
@@ -623,6 +632,19 @@ exports = module.exports = {
 
 		app.use(gadaelMiddleware(app));
 
+
+        const oauth = require('../modules/oauth')(app);
+        const authenticate = oauth.authenticate();
+
+        app.use('/api/*', decodeUrlEncodedBody, (req, res, next) => {
+            authenticate(req, res, (err) => {
+                if (err) { return next(err); }
+                loginPromise(req, res.locals.oauth.token.user)
+                .then(() => { next(); })
+                .catch(next);
+            });
+        });
+
         //setup routes
         routes(app, passport);
 
@@ -656,10 +678,11 @@ exports = module.exports = {
 			}
 
 			app.config.company = company;
-		        if (company.country === 'UK') {
-                                app.config.language = 'en';
-                        }
+	        if (company.country === 'UK') {
+                app.config.language = 'en';
+            }
 
+            googlecalendar.init(app.config);
 
 			//setup passport
 			passportHelper(app, passport);

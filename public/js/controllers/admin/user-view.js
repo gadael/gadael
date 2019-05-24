@@ -6,12 +6,14 @@ define([], function() {
 		'Rest',
         'gettext',
         'getCreateRequest',
-            function(
+        'catchOutcome',
+        function(
 			$scope,
 			$location,
 			Rest,
             gettext,
-            getCreateRequest
+            getCreateRequest,
+            catchOutcome
 		) {
 
 		$scope.user = Rest.admin.users.getFromUrl().loadRouteId();
@@ -114,7 +116,29 @@ define([], function() {
             }
         };
 
+        var apiTokensResource = Rest.admin.apitokens.getResource();
 
+        $scope.getApiToken = function() {
+            console.log('getApiToken');
+            $scope.api = apiTokensResource.get({ id: $scope.user._id });
+            if ($scope.api.$promise) {
+                $scope.api.$promise.catch(function() {
+                    // Create the API token
+                    $scope.api.userId = $scope.user._id;
+                    catchOutcome($scope.api.$create())
+                    .then(function() {
+                        $scope.api = apiTokensResource.get({ id: $scope.user._id });
+                    });
+                });
+            }
+        };
+
+        $scope.deleteApiToken = function() {
+            catchOutcome($scope.api.$delete({ id: $scope.user._id }))
+            .then(function() {
+                $scope.api = null;
+            });
+        };
 
 	}];
 });

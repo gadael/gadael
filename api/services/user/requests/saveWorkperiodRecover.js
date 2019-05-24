@@ -61,6 +61,7 @@ function getFieldsToSet(service, wrParams)
     fieldsToSet.quantity = wrParams.quantity;
 
     // name set by creator for the new right
+    fieldsToSet.right.id = null;
     fieldsToSet.right.name = wrParams.right.name;
 
 

@@ -13,7 +13,7 @@ exports = module.exports = function(params) {
             validate: function(x) {
                 // adjustment do not modify quantity in the past,
                 // if the right is modified only the future adjustments are modified
-                return (x > Date.now );
+                return (x > Date.now() );
             }
         },
         quantity: {

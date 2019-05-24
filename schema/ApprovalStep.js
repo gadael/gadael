@@ -48,10 +48,10 @@ exports = module.exports = function(params) {
         for(var i=0; i<this.approvers.length; i++) {
             approverId = this.approvers[i];
             if (undefined !== approverId._id) {
-                approverId = approverId._id.toString();
+                approverId = approverId._id;
             }
 
-            if (approverId.equals(userId)) {
+			if (approverId.equals(userId)) {
                 return true;
             }
         }

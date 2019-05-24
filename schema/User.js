@@ -39,7 +39,18 @@ exports = module.exports = function(params) {
             refreshToken: String,
             expire_in: Date,
             calendar: String
-        }
+        },
+		api: {
+			clientId: { type: String, index: true, unique: true, sparse: true },
+			clientSecret: { type: String, select: false },
+			authorizationCode: { type: String, index: true, unique: true, sparse: true },
+			authorizationCodeExpiresAt: Date,
+			accessToken: { type: String, index: true, unique: true, sparse: true },
+			accessTokenExpiresAt: Date,
+			refreshToken: { type: String, index: true, unique: true, sparse: true },
+			refreshTokenExpiresAt: Date,
+			scope: [String]
+		}
 	});
 
 
@@ -243,15 +254,12 @@ exports = module.exports = function(params) {
                     return resolve([]);
                 }
 
-                department.getAncestors(function(err, ancestors) {
-
-                    if (err) {
-                        return reject(err);
-                    }
-
+                department.getAncestors()
+				.then(function(ancestors) {
                     ancestors.push(department);
                     resolve(ancestors);
-                });
+                })
+				.catch(reject);
 
             });
 
@@ -426,7 +434,7 @@ exports = module.exports = function(params) {
 
 
     /**
-     * Save user and create account role if necessary
+     * Save user and create admin role if necessary
      * @return {Promise}
      */
     userSchema.methods.saveAdmin = function(adminProperties) {
@@ -1062,7 +1070,6 @@ exports = module.exports = function(params) {
 			return Promise.all(promises);
 		});
 	};
-
 
     userSchema.set('autoIndex', params.autoIndex);
 	userSchema.set('toJSON', { virtuals: true });

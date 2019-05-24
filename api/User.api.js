@@ -6,6 +6,31 @@ var api = {};
 exports = module.exports = api;
 
 
+function linkDefaultAccountCollection(app, account) {
+	let link = new app.db.models.AccountCollection();
+	link.account = account._id;
+	link.rightCollection = '5740adf51cf1a569643cc520';
+	link.from = new Date(2016,0,1,0,0,0,0);
+	return link.save();
+}
+
+function linkFrenchDefaultScheduleCalendar(app, account) {
+	let scheduleCalendar = new app.db.models.AccountScheduleCalendar();
+	scheduleCalendar.account = account._id;
+	scheduleCalendar.calendar = '5740adf51cf1a569643cc101'; // 40H full time work schedule
+	scheduleCalendar.from = new Date(2000,0,1,0,0,0,0);
+	return scheduleCalendar.save();
+}
+
+function linkFrenchDefaultNWDaysCalendar(app, account) {
+	let nonworkingdaysCalendar = new app.db.models.AccountNWDaysCalendar();
+	nonworkingdaysCalendar.account = account._id;
+	nonworkingdaysCalendar.calendar = '5740adf51cf1a569643cc100'; // france metropolis
+	nonworkingdaysCalendar.from = new Date(2000,0,1,0,0,0,0);
+	return nonworkingdaysCalendar.save();
+}
+
+
 /**
  * Generate "count" random users in the app
  *
@@ -148,7 +173,27 @@ api.createRandomUser = function(app, email, password, lastname, firstname) {
 api.createEncAdmin = function(app, email, password, lastname, firstname) {
 
 	let user = api.createEncUser(app, email, password, lastname, firstname);
-    return user.saveAdmin();
+    return user.saveAdmin()
+	.then(user => {
+		if ('FR' !== app.config.company.country) {
+			return user;
+		}
+		// If possible add account informations
+		return user.saveAccount()
+		.then(user => {
+			return user.getAccount()
+			.then(account => {
+				return Promise.all([
+					linkDefaultAccountCollection(app, account),
+					linkFrenchDefaultScheduleCalendar(app, account),
+					linkFrenchDefaultNWDaysCalendar(app, account)
+				]);
+			})
+			.then(() => {
+				return user;
+			});
+		});
+	});
 };
 
 
@@ -203,7 +248,6 @@ api.createRandomDisabledAdmin = function(app, email, password) {
  * @return {Promise}
  */
 api.createRandomAccount = function(app, email, password, lastname, firstname) {
-
     return api.createRandomUser(app, email, password, lastname, firstname)
     .then(randomUser => {
         return randomUser.user.saveAccount()
@@ -211,29 +255,15 @@ api.createRandomAccount = function(app, email, password, lastname, firstname) {
 			return user.getAccount();
 		})
         .then(account => {
-			
-			let from = new Date(2000,0,1,0,0,0,0);
-
-            let scheduleCalendar = new app.db.models.AccountScheduleCalendar();
-            scheduleCalendar.account = account._id;
-            scheduleCalendar.calendar = '5740adf51cf1a569643cc101'; // 40H full time work schedule
-            scheduleCalendar.from = from;
-
-            let nonworkingdaysCalendar = new app.db.models.AccountNWDaysCalendar();
-            nonworkingdaysCalendar.account = account._id;
-            nonworkingdaysCalendar.calendar = '5740adf51cf1a569643cc100'; // france metropolis
-            nonworkingdaysCalendar.from = from;
-
             return Promise.all([
-                scheduleCalendar.save(),
-                nonworkingdaysCalendar.save()
+                linkFrenchDefaultScheduleCalendar(app, account),
+                linkFrenchDefaultNWDaysCalendar(app, account)
             ]);
         })
         .then(() => {
             return randomUser;
         });
     });
-
 };
 
 
@@ -244,18 +274,9 @@ api.createRandomAccount = function(app, email, password, lastname, firstname) {
 api.linkToDefaultCollection = function(app, randomUser) {
 	return randomUser.user.getAccount()
 	.then(account => {
-		let link = new app.db.models.AccountCollection();
-		link.account = account._id;
-		link.rightCollection = '5740adf51cf1a569643cc520';
-		link.from = new Date(2016,0,1,0,0,0,0);
-		return link.save();
+		return linkDefaultAccountCollection(app, account);
 	});
-
 };
-
-
-
-
 
 
 /**

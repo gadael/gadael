@@ -39,10 +39,7 @@ exports = module.exports = function(params) {
 
     collectionSchema.set('autoIndex', params.autoIndex);
 
-    collectionSchema.index({ name: 1 });
-
-
-
+    
     /**
      * Get the list of business days in an array according to Date.getDay format
      * 0 = sunday

@@ -40,7 +40,6 @@ exports = module.exports = function getApprovalStepsModule(user) {
      */
     function getApprovalSteps(departments)
     {
-
         var async =require('async');
 
         var steps = [];

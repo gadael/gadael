@@ -17,13 +17,7 @@ exports = module.exports = function(params) {
 		timeCreated: { type: Date, default: Date.now }
 	});
 
-
-
-
-
-
-	managerSchema.index({ 'user.id': 1 });
-	managerSchema.set('autoIndex', params.autoIndex);
+    managerSchema.set('autoIndex', params.autoIndex);
 
 
 

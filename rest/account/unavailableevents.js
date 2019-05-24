@@ -14,6 +14,4 @@ listController.prototype = new ctrlFactory.list();
 
 
 
-exports = module.exports = {
-    list: listController
-};
+exports = module.exports = [listController];

@@ -1,8 +1,6 @@
 # ![Gadael](public/images/logoText256.png)
 
 [![CircleCI](https://circleci.com/gh/gadael/gadael.svg?style=svg)](https://circleci.com/gh/gadael/gadael)
-[![Code Climate](https://codeclimate.com/github/gadael/gadael/badges/gpa.svg)](https://codeclimate.com/github/gadael/gadael)
-[![Test Coverage](https://codeclimate.com/github/gadael/gadael/badges/coverage.svg)](https://codeclimate.com/github/gadael/gadael/coverage)
 
 nodejs leaves management application
 
@@ -58,11 +56,8 @@ Third argument is the country code used to initialize the database, if not provi
 Run server
 
 ```bash
-node app.js 3000 gadael
+node app.js
 ```
-
-First argument is the http port
-second argument is the database name
 
 open http://localhost:3000 in your browser, you will be required to create an admin account on the first page.
 

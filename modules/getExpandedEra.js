@@ -59,7 +59,6 @@ function getExpandedEra(docs, dtstart, dtend)
             } catch(e) {
                 // ignore invalid period
                 // console.log('expanded.length='+expanded.length+' j='+j+' expanded[e]='+expanded[j]);
-                console.log(expanded[j]);
                 console.log(e.stack);
             }
         }

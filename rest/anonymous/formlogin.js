@@ -41,7 +41,7 @@ function createController() {
             return loginPromise(controller.req, user);
         })
         .then(() => {
-            workflow.success(gt.gettext('You are now loged in'));
+            workflow.success(gt.gettext('You are now logged in'));
         })
         .catch(err => {
             console.log(err.stack);
@@ -54,6 +54,6 @@ function createController() {
 createController.prototype = new ctrlFactory.create();
 
 
-exports = module.exports = {
-    create: createController
-};
+exports = module.exports = [
+    createController
+];

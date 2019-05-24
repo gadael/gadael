@@ -221,7 +221,7 @@ module.exports = function(grunt) {
 
         shell: {
             jasmine: {
-                command: 'node node_modules/jasmine-node/bin/jasmine-node --captureExceptions test/server/'
+                command: 'node node_modules/jasmine-node/bin/jasmine-node --forceexit --captureExceptions test/server/'
             },
             pot_server: {
                 command: 'find api/ modules/ rest/ schema/ -iname "*.js" | xargs xgettext --from-code=UTF-8 -o po/server/template.pot'
@@ -236,18 +236,6 @@ module.exports = function(grunt) {
                 command: './dist/build.sh '+pkg.version
             }
         },
-
-
-        codeclimate: {
-            main: {
-                options: {
-                    file: 'coverage/lcov.info',
-                    token: '4e96740bf6bcf7478dff8d7c59dea0888b794dd414cd4e3b934b4c1fcfc27fea',
-                    executable: 'node_modules/codeclimate-test-reporter/bin/codeclimate.js'
-                }
-            }
-        },
-
 
         requirejs: {
             compile: {
@@ -276,7 +264,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-angular-gettext');
     grunt.loadNpmTasks('grunt-jasmine-node-coverage');
     grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-codeclimate-reporter');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
     grunt.registerTask('default'  , 'Developpement mode',
@@ -289,7 +276,7 @@ module.exports = function(grunt) {
     ['shell:pot_server', 'nggettext_extract']);
 
     grunt.registerTask('lint'     , ['jshint']);
-    grunt.registerTask('test'     , ['jasmine_node:all']);
+    grunt.registerTask('test'     , ['shell:jasmine']);
     grunt.registerTask('coverage' , ['jasmine_node:jasmine_coverage']);
     grunt.registerTask('travis'   , ['copy:config', 'jasmine_node:jasmine_coverage']);
 

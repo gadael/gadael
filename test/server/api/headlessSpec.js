@@ -10,7 +10,7 @@ let api = {
  */
 function loadHeadlessConnexion() {
     return new Promise(resolve => {
-        api.headless.connect(() => {
+        api.headless.linkdb().then(() => {
             setTimeout(() => {
                 api.headless.disconnect(resolve);
             }, 1000);

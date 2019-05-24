@@ -61,8 +61,6 @@ exports = module.exports = function(params) {
 		}
 	});
 
-	companySchema.index({ name: 1 });
-
 	companySchema.set('autoIndex', params.autoIndex);
 
 
