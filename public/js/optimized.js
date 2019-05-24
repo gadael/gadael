@@ -31976,7 +31976,7 @@ define('common',['q'], function (Q) {
 
 
     };
-    httpRequest.open('GET', '/rest/common', true);
+    httpRequest.open('GET', 'rest/common', true);
     httpRequest.send();
 
 
@@ -41911,9 +41911,9 @@ define('app',[
 
 		$rootScope.logout = function()
 		{
-			$http.get('/rest/logout').success(function() {
+			$http.get('rest/logout').success(function() {
 				$rootScope.reloadSession().then(function() {
-                    document.location.href = '/';
+                    document.location.href = '/gadael/';
                 });
 
 			});

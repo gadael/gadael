@@ -60,7 +60,7 @@ define([], function() {
             parameters.push('to='+$scope.period.to.toJSON());
 
 
-            $scope.downloadUrl = '/rest/admin/export?'+parameters.join('&');
+            $scope.downloadUrl = 'rest/admin/export?'+parameters.join('&');
             $timeout(function() {
                 document.getElementById('downloadLink').click();
             });

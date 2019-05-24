@@ -35,7 +35,7 @@ define([], function() {
                 parameters.push('moment='+$scope.period.moment.toJSON());
             }
 
-            $scope.downloadUrl = '/rest/admin/export?'+parameters.join('&');
+            $scope.downloadUrl = 'rest/admin/export?'+parameters.join('&');
             $timeout(function() {
                 document.getElementById('downloadLink').click();
             });

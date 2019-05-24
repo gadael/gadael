@@ -47,7 +47,7 @@ define([], function() {
 
 
         $scope.googleDisconnect = function() {
-            catchOutcome($http.get('/rest/user/googlecalendar/logout')).then($route.reload);
+            catchOutcome($http.get('rest/user/googlecalendar/logout')).then($route.reload);
         };
 
 		$scope.saveUser = function() {

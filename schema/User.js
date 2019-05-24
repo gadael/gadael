@@ -91,7 +91,7 @@ exports = module.exports = function(params) {
 
 
 	userSchema.virtual('imageUrl').get(function() {
-	    return '/users/'+this._id+'/image';
+	    return 'users/'+this._id+'/image';
 	});
 
 
