@@ -63,6 +63,7 @@
     "passport-google-oauth2": "~0.1.6",
     "passport-ldapauth": "~0.3.0",
     "passport-local": "~1.0.0",
+    "passport-trusted-header": "~1.1.0",
     "passport-oauth": "~1.0.0",
     "passport-oauth2-refresh": "~1.0.0",
     "restitute": "~0.1.1",

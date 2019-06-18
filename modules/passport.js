@@ -4,8 +4,10 @@ const http = require('http');
 const util = require('util');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth2' ).Strategy;
+const HeaderStrategy = require('passport-trusted-header').Strategy;
 const usercreated = require('./emails/usercreated');
 
+// TODO http://www.passportjs.org/packages/passport-trusted-header/
 
 exports = module.exports = function(app, passport) {
 
@@ -156,13 +158,31 @@ exports = module.exports = function(app, passport) {
 
     }
 
+	var options =  {
+	  headers: ['x_cas_mail'],
+	  passReqToCallback: true
+	}
+
+    function useHeaderStrategy(request, requestHeaders, done) {
+		var mail = request.headers["x_cas_mail"];
+
+        if (!mail) {
+            done(null, null);
+        }
+
+        User.findOne({ 'email': mail }).exec()
+        .then(user => {
+            // user found
+
+            return done(null, user);
+        })
+        .catch(done);
+    }
+	passport.use(new HeaderStrategy(options, useHeaderStrategy));
 
     if (loginservices.form.enable) {
         passport.use(new LocalStrategy(useLocalStrategy));
     }
-
-
-
 
     if (loginservices.google.enable) {
 

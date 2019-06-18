@@ -144,7 +144,13 @@ exports = module.exports = function(app, passport)
 	app.post('/rest/login/reset', require('./login').resetPassword);
 	app.get('/rest/logout', require('./logout').init);
 
-	// redirect
+	// CAS
+    app.get('/login/cas', 
+         passport.authenticate('trusted-header', 
+         { successRedirect: '/gadael/',
+           failureRedirect: '/gadael/#/login' }));
+
+    // redirect
     app.get('/login/google', (req, res, next) => {
         passport.authenticate('google', {
             scope: [
