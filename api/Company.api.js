@@ -544,7 +544,16 @@ exports = module.exports = {
 
         let csrfProtection = null;
         if (config.csrfProtection) {
-            csrfProtection = csrf({ cookie: true });
+            const defaultCsrfMiddleware = csrf({ cookie: true });
+            csrfProtection = (req, res, next) => {
+                // ignore CSRF protection for API
+                if('/login/oauth-token' === req.path || req.path.startsWith('/api/')) {
+                    next();
+                    return;
+                }
+
+                return defaultCsrfMiddleware(req, res, next);
+            };
         }
 
         //create express app
@@ -620,7 +629,7 @@ exports = module.exports = {
 
         //response locals
         app.use(function(req, res, next) {
-            if (null !== csrfProtection) {
+            if (null !== csrfProtection && req.csrfToken) {
                 // XSRF-TOKEN is the cookie used by angularjs to forward the X-SRF-TOKEN header with a $http request
                 res.cookie('XSRF-TOKEN', req.csrfToken());
             }

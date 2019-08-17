@@ -14,6 +14,9 @@ exports = module.exports = (app) => {
                 .findOne({ _id: user._id, 'api.clientId': client.id }, 'api')
                 .exec()
                 .then(user => {
+                    if (!user) {
+                        throw new Error('Invalid client ID');
+                    }
                     user.api.accessToken = token.accessToken;
                     user.api.accessTokenExpiresAt = token.accessTokenExpiresAt;
                     user.api.refreshToken = token.refreshToken;
@@ -45,6 +48,9 @@ exports = module.exports = (app) => {
                 .findOne({ _id: user._id, 'api.clientId': client.id }, 'api')
                 .exec()
                 .then(user => {
+                    if (!user) {
+                        throw new Error('Invalid client ID');
+                    }
                     user.api.authorizationCode = code.authorizationCode;
                     user.api.authorizationCodeExpiresAt = code.expiresAt;
                     user.api.scope = code.scope.split(' ');
@@ -96,6 +102,9 @@ exports = module.exports = (app) => {
                 .findOne({ 'api.refreshToken': refreshToken }, 'api')
                 .exec()
                 .then(user => {
+                    if (!user) {
+                        return null;
+                    }
                     return {
                         refreshToken: user.api.refreshToken,
                         refreshTokenExpiresAt: user.api.refreshTokenExpiresAt,
@@ -115,6 +124,9 @@ exports = module.exports = (app) => {
                 .findOne({ 'api.authorizationCode': authorizationCode }, 'api')
                 .exec()
                 .then(user => {
+                    if (!user) {
+                        return null;
+                    }
                     return {
                         code: user.api.authorizationCode,
                         expiresAt: user.api.authorizationCodeExpiresAt,
@@ -134,6 +146,9 @@ exports = module.exports = (app) => {
                 .findOne({ 'api.clientId': clientId, 'api.clientSecret': clientSecret }, 'api')
                 .exec()
                 .then(user => {
+                    if (!user) {
+                        return null;
+                    }
                     return {
                         id: user.api.clientId,
                         redirectUris: [],
@@ -149,6 +164,9 @@ exports = module.exports = (app) => {
                 .findOne({ 'api.clientId': client.id }, 'api')
                 .exec()
                 .then(user => {
+                    if (!user) {
+                        throw new Error('Invalid client ID');
+                    }
                     return { _id: user._id };
                 });
             },
