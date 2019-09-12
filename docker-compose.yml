@@ -3,24 +3,22 @@ services:
   mongo:
     image: mongo:latest
     restart: always
-    # network_mode: host
     networks:
       - traefik
   gadael:
-    # build:
-    #   context: .
-    #   dockerfile: ./docker/Dockerfile
-    image: repo.dalkia.online/gadael:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
     ports:
       - "3000:3000"
     environment:
       - LOGHTTP=true
       - CSRFPROTECTION=true
       - POSTPHONE=true
-      - CALLBACK_URL=https://gdtest.webinage.net
+      - CALLBACK_URL=your.host.net
       - APP_HOST=
       - APP_PORT=3000
-      - APP_COMPANY=Webinage
+      - APP_COMPANY=
       - APP_LANGUAGE=fr
       - APP_CRYPTO_KEY=k8yb0brda2t
       - APP_TIMEOUT=
@@ -43,33 +41,12 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=gadael"
       - "traefik.port=3000"
-      - "traefik.frontend.rule=Host:gdtest.webinage.net"
+      - "traefik.frontend.rule=Host:your.host.net"
       - "traefik.frontend.passHostHeader=true"
-      - "traefik.docker.network=root_traefik"
+      - "traefik.docker.network=traefik"
     restart: always
     depends_on: 
       - mongo
-    # network_mode: host
-    networks:
-      - "traefik"
-  traefik:
-    image: traefik:latest
-    command: --configFile=/traefik.toml --api --docker --docker.watch --docker.domain=localhost
-    restart: always
-    ports:
-      - "443:443"
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/traefik/traefik.toml:/traefik.toml
-      - /usr/traefik/acme.json:/acme.json
-    labels:
-      - "traefik.enable=true"
-      - "traefik.backend=traefik"
-      - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:test.traefik"
-      - "traefik.docker.network=root_traefik"
     networks:
       - "traefik"
     
