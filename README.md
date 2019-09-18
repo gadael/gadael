@@ -25,6 +25,8 @@ Admin view screenshoot:
 
 For technical details to install Gadael on your own server for production, see http://www.gadael.org
 
+There is also a dockerfile here https://hub.docker.com/r/webinage/gadael
+
 ## Install on a debian system for development
 
 As root, this commands install all required packages to use AND build gadael.

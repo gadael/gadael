@@ -8,28 +8,28 @@ exports = module.exports = function createConfiguration() {
 
     var config = {};
 
-    config.loghttp = process.env.LOGHTTP==="true"? true: false;
-    config.csrfProtection =  process.env.CSRFPROTECTION==="true"? true: false;
-    config.postpone =  process.env.POSTPHONE==="true"? true: false;                     // postpone some tasks after HTTP result in REST service
-                                                // postpone=false for unit tests but true in production for speed
+    config.loghttp = process.env.LOGHTTP === "true";
+    config.csrfProtection =  process.env.CSRFPROTECTION === "true";
+    config.postpone =  process.env.POSTPHONE === "true"; // postpone some tasks after HTTP result in REST service
+                                                         // postpone=false for unit tests but true in production for speed
 
-    config.url =  process.env.CALLBACK_URL;      // used by oauth2 callback url
-                                                // and links in Emails
+    config.url =  process.env.CALLBACK_URL;              // used by oauth2 callback url
+                                                         // and links in Emails
 
-                                                // where the http server accept connexion to
+                                                         // where the http server accept connexion to
     config.host = process.env.APP_HOST;                  // if host undefined: any host
     config.port = process.env.APP_PORT;
     config.mongodb = {
-        init: process.env.DB_INIT==="true"? true: false,                             // database initialisation on first connexion
+        init: process.env.DB_INIT === "true",            // database initialisation on first connexion
         prefix: process.env.DB_HOST,
         dbname: process.env.DB_NAME,
-        autoIndex: process.env.DB_AUTO_INDEX==="true"? true: false,
+        autoIndex: process.env.DB_AUTO_INDEX === "true",
         removeIndex: (-1 !== process.argv.indexOf('removeIndex'))   // Remove index on start, autoIndex must be
                                                                     // true to recreate the index in background
     };
 
-    config.company = process.env.APP_COMPANY;      // The company document will be here after server start (do not modify)
-    config.language = process.env.APP_LANGUAGE;     // this should match a po file in /po/server
+    config.company = process.env.APP_COMPANY;           // The company document will be here after server start (do not modify)
+    config.language = process.env.APP_LANGUAGE;         // this should match a po file in /po/server
 
     // used for sessions
     config.cryptoKey = process.env.APP_CRYPTO_KEY;
