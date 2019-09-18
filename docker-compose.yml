@@ -1,0 +1,57 @@
+version: "3.3"
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    networks:
+      - traefik
+  gadael:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - LOGHTTP=true
+      - CSRFPROTECTION=true
+      - POSTPHONE=true
+      - CALLBACK_URL=your.host.net
+      - APP_HOST=
+      - APP_PORT=3000
+      - APP_COMPANY=
+      - APP_LANGUAGE=fr
+      - APP_CRYPTO_KEY=k8yb0brda2t
+      - APP_TIMEOUT=
+      - DB_INIT=true
+      - DB_HOST=mongo/
+      - DB_NAME=gadael
+      - DB_AUTO_INDEX=true
+      - LOGIN_ATTEMPT_IP=50
+      - LOGIN_ATTEMPT_USER=7
+      - LOGIN_ATTEMPT_LOG_EXPIRATION=20m
+      - ACCOUNT_VERIFICATION=false
+      - MAIL_HOST=localhost
+      - MAIL_PORT=dock
+      - MAIL_SECURE=
+      - MAIL_USER=
+      - MAIL_PASS=
+      - MAIL_HEADER="Gadael email"
+      - MAIL_ADDRESS=gadael@example.com
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=gadael"
+      - "traefik.port=3000"
+      - "traefik.frontend.rule=Host:your.host.net"
+      - "traefik.frontend.passHostHeader=true"
+      - "traefik.docker.network=traefik"
+    restart: always
+    depends_on: 
+      - mongo
+    networks:
+      - "traefik"
+    
+networks:
+  traefik:
+    # external:
+    #   name: traefik_webgateway
+    driver: bridge
