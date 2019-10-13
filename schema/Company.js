@@ -52,8 +52,7 @@ exports = module.exports = function(params) {
 
 			cas: {
 				enable: { type: Boolean, default: false },
-				ssoBaseURL: String,
- 				serverBaseURL: String
+				ssoBaseURL: String
 			},
 
 			header: {													// authenticate with a truster header containing the email

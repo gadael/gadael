@@ -190,12 +190,11 @@ exports = module.exports = function(app, passport) {
         .catch(done);
     }
 
-
     if (loginservices.cas.enable) {
         passport.use(new CasStrategy({
             version: 'CAS3.0',
             ssoBaseURL: loginservices.cas.ssoBaseURL,
-            serverBaseURL: loginservices.cas.serverBaseURL
+            serverBaseURL: app.config.url+'login/cas'
         }, useCasStrategy));
     }
 
