@@ -181,6 +181,7 @@ exports.getInfos = function(req, res) {
     res.json({
         company: company,
         lang: req.app.config.language,
+        baseUrl: req.app.config.url,
         sessionUser: sessionUser,
         menu: menu,
         date: {

@@ -73,7 +73,7 @@ define([], function() {
 
 
             if ($scope.sessionUser && !$scope.sessionUser.isAuthenticated) {
-                $http.get('/rest/anonymous/createfirstadmin').then(function(response) {
+                $http.get('rest/anonymous/createfirstadmin').then(function(response) {
                     if (response.data.allowed) {
                         var adminModal = $modal({scope: $scope, templateUrl: 'partials/utils/home.firstadmin.modal.html', show: true });
 
