@@ -154,7 +154,7 @@ exports = module.exports = function(params) {
 
     /**
      * Get request owner user
-     * @return {User}
+     * @return {Promise}
      */
     requestSchema.methods.getUser = function() {
         return this.populate('user.id')

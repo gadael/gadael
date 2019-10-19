@@ -280,7 +280,6 @@ function saveRequests(service, params) {
                 if (null !== rightCollection) {
                     fieldsToSet.absence.rightCollection = rightCollection._id;
                 }
-
                 return saveAbsence.saveAbsenceDistribution(service, user, fieldsToSet, rightCollection);
             })
             .then(distribution => {
@@ -410,7 +409,6 @@ function saveRequests(service, params) {
             .where('_id').in(users)
             .exec()
             .then(users => {
-
                 return Promise.all(
                     documents.map(doc => {
                         return doc.remove();
@@ -428,7 +426,7 @@ function saveRequests(service, params) {
      * Update stat cache for a list of requests
      * @var {Array} compulsoryLeaveRequests
      */
-    function updateUsersStatCache(compulsoryLeaveRequests) {
+    function updateUsersStatCache(compulsoryLeaveRequests, requestIds) {
         if (service.app.config.useSchudeledRefreshStat) {
             const userIds = compulsoryLeaveRequests.map(doc => doc.user.id);
             return service.app.db.models.Account.updateMany(
@@ -437,11 +435,14 @@ function saveRequests(service, params) {
             ).exec();
         }
 
-        const promises = compulsoryLeaveRequests.map(requestDoc => {
-            return postpone(() => requestDoc.getUser().updateRenewalsStat(requestDoc.events[0].dtstart));
+        return service.app.db.models.Request.find()
+        .where('_id').in(requestIds)
+        .populate('user.id')
+        .exec()
+        .then(requests => {
+            const promises = requests.map(requestDoc => requestDoc.user.id.updateRenewalsStat(requestDoc.events[0].dtstart));
+            return postpone(() => Promise.all(promises));
         });
-
-        return Promise.all(promises);
     }
 
 
@@ -488,7 +489,7 @@ function saveRequests(service, params) {
         // remove unprocessed requests
         // This refresh stat cache for owners deleted requests
 
-        return updateUsersStatCache(validCompulsoryLeaveRequests)
+        return updateUsersStatCache(validCompulsoryLeaveRequests, validRequestIds)
         .then(() => {
             return deleteInvalidRequests(validRequestIds);
         })

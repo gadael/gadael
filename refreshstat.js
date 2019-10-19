@@ -2,6 +2,7 @@
 
 const companyApi = require('./api/Company.api');
 const config = require('./config')();
+const util = require('util');
 
 /**
  * Script used to refresh users cache only when needed
@@ -16,9 +17,16 @@ function refreshStats() {
     .populate('user.id')
     .exec()
     .then(userAccounts => {
-        console.log(userAccounts.length);
+        if (userAccounts.length > 0) {
+            console.log(util.format('%d accounts to refresh', userAccounts.length));
+        }
+
         return Promise.all(userAccounts.map(account => {
-            return account.user.id.updateRenewalsStat();
+            return account.user.id.updateRenewalsStat()
+            .then(() => {
+                account.renewalStatsOutofDate = false;
+                return account.save();
+            });
         }));
     })
     .then(() => {
