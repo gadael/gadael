@@ -299,13 +299,6 @@ function saveRequests(service, params) {
                         return requestDoc;
                     });
                 });
-            })
-            .then(requestDoc => {
-                //TODO: update only one renewal
-                return postpone(() => user.updateRenewalsStat(requestDoc.events[0].dtstart))
-                .then(() => {
-                    return requestDoc;
-                });
             });
         });
     }
@@ -431,6 +424,26 @@ function saveRequests(service, params) {
     }
 
 
+    /**
+     * Update stat cache for a list of requests
+     * @var {Array} compulsoryLeaveRequests
+     */
+    function updateUsersStatCache(compulsoryLeaveRequests) {
+        if (service.app.config.useSchudeledRefreshStat) {
+            const userIds = compulsoryLeaveRequests.map(doc => doc.user.id);
+            return service.app.db.models.Account.updateMany(
+                { 'user.id': { $in: userIds } },
+                { $set: { renewalStatsOutofDate: true } }
+            ).exec();
+        }
+
+        const promises = compulsoryLeaveRequests.map(requestDoc => {
+            return postpone(() => requestDoc.getUser().updateRenewalsStat(requestDoc.events[0].dtstart));
+        });
+
+        return Promise.all(promises);
+    }
+
 
     let promises = [];
 
@@ -462,8 +475,8 @@ function saveRequests(service, params) {
     return Promise.all(promises)
     .then(clrs => {
 
-        let validRequestIds = [];
-        let validCompulsoryLeaveRequests = [];
+        const validRequestIds = [];
+        const validCompulsoryLeaveRequests = [];
 
         clrs.forEach(clr => {
             if (null !== clr) {
@@ -473,8 +486,12 @@ function saveRequests(service, params) {
         });
 
         // remove unprocessed requests
+        // This refresh stat cache for owners deleted requests
 
-        return deleteInvalidRequests(validRequestIds)
+        return updateUsersStatCache(validCompulsoryLeaveRequests)
+        .then(() => {
+            return deleteInvalidRequests(validRequestIds);
+        })
         .then(() => {
             return validCompulsoryLeaveRequests;
         });

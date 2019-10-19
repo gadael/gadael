@@ -34,6 +34,13 @@ exports = module.exports = function(services, app) {
 
             return all[0].remove()
             .then(() => {
+                if (service.app.config.useSchudeledRefreshStat) {
+                    // mark account as refreshable by the refreshstat command
+                    return service.app.db.models.Account.updateMany(
+                        { 'user.id': { $in: users } },
+                        { $set: { renewalStatsOutofDate: true } }
+                    ).exec();
+                }
 
                 return User.find()
                 .where('_id').in(users)
