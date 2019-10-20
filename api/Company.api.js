@@ -1,6 +1,5 @@
 'use strict';
 
-
 const models = require('../models');
 const helmet = require('helmet');
 const routes = require('../rest/routes');
@@ -22,6 +21,7 @@ const http = require('http');
 const gadaelMiddleware = require('../modules/gadaelMiddleware');
 const flash = require('connect-flash-plus');
 const schedule = require('node-schedule');
+const child_process = require('child_process');
 const approbalert = require('../modules/approbalert');
 const googlecalendar = require('../rest/user/googlecalendar');
 const decodeUrlEncodedBody = require('body-parser').urlencoded({ extended: false });
@@ -673,8 +673,8 @@ exports = module.exports = {
      */
     startServer: function startServer(app, callback) {
 
-		let server = http.createServer(app);
-		let companyModel = app.db.models.Company;
+		const server = http.createServer(app);
+		const companyModel = app.db.models.Company;
 
 	    companyModel.findOne({}, (err, company) => {
 
@@ -702,6 +702,23 @@ exports = module.exports = {
 			    approbalert(app)
 				.catch(console.error);
 			});
+
+            if (app.config.useSchudeledRefreshStat) {
+                const args = process.argv.slice();
+                const node = args.shift();
+                const file = args.shift().replace('app.js', 'refreshstat.js');
+                args.unshift(file);
+                schedule.scheduleJob({ minute: 0 }, () => {
+                    child_process.execFile(node, args, (error, stdout, stderr) => {
+                        if (error) {
+                            throw error;
+                        }
+                        if (stdout) {
+                            console.log('[refreshstat]', stdout);
+                        }
+                    });
+    			});
+            }
 
 	        if (callback) {
 	            server.on('listening', callback);
