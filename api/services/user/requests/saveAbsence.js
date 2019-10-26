@@ -429,7 +429,7 @@ function saveAbsenceDistribution(service, user, params, collection) {
 
 
     if (params.absence.distribution === undefined || params.absence.distribution.length === 0) {
-        return Promise.reject('right distribution is mandatory to save an absence request');
+        return Promise.reject(new Error('Right distribution is mandatory to save an absence request'));
     }
 
     let i, elem,
@@ -445,12 +445,15 @@ function saveAbsenceDistribution(service, user, params, collection) {
     }
 
 
-    let moment;
-    if (!params.id) {
+    let moment = new Date();
+    if (!params.id && params.timeCreated !== undefined) {
         // request creation
         moment = new Date(params.timeCreated);
     }
 
+    if (!(moment instanceof Date) || isNaN(moment.getTime())) {
+        return Promise.reject(new Error('Invalid creation date'));
+    }
 
     return deleteElements(service, params)
     .then(() => {

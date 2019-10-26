@@ -6,10 +6,10 @@ const util = require('util');
 
 exports = module.exports = function(params) {
 
-	var mongoose = params.mongoose;
+    var mongoose = params.mongoose;
 
 
-	var rightRenewalSchema = new mongoose.Schema({
+    var rightRenewalSchema = new mongoose.Schema({
 
         right: { type: mongoose.Schema.Types.ObjectId, ref: 'Right', required: true, index: true },
         timeCreated: { type: Date, default: Date.now },
@@ -18,9 +18,9 @@ exports = module.exports = function(params) {
         finish: { type: Date, required: true },
 
         adjustments: [params.embeddedSchemas.RightAdjustment]
-	});
+    });
 
-	rightRenewalSchema.set('autoIndex', params.autoIndex);
+    rightRenewalSchema.set('autoIndex', params.autoIndex);
 
 
 
@@ -28,13 +28,13 @@ exports = module.exports = function(params) {
      * Ensure that the renewal interval do not overlap another renewal period
      */
     rightRenewalSchema.pre('save', function() {
-		return this.checkOverlap()
-        	.then(this.updateMonthlyAdjustment.bind(this));
-	});
+        return this.checkOverlap()
+            .then(this.updateMonthlyAdjustment.bind(this));
+    });
 
 
 
-	/**
+    /**
      * Pre remove hook
      */
     rightRenewalSchema.pre('remove', function() {
@@ -42,20 +42,20 @@ exports = module.exports = function(params) {
     });
 
 
-	/**
-	 * Remove user renewal stat cache when renewal is deleted
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.removeUserRenewalStat = function()
-	{
-		let renewal = this;
-		let UserRenewalStat = params.db.models.UserRenewalStat;
-		return UserRenewalStat.find({ renewal: renewal._id })
-		.exec()
-		.then(arr => {
-			return Promise.all(arr.map(s => s.remove()));
-		});
-	};
+    /**
+     * Remove user renewal stat cache when renewal is deleted
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.removeUserRenewalStat = function()
+    {
+        let renewal = this;
+        let UserRenewalStat = params.db.models.UserRenewalStat;
+        return UserRenewalStat.find({ renewal: renewal._id })
+        .exec()
+        .then(arr => {
+            return Promise.all(arr.map(s => s.remove()));
+        });
+    };
 
 
     /**
@@ -63,7 +63,7 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.checkOverlap = function()
     {
-		const gt = params.app.utility.gettext;
+        const gt = params.app.utility.gettext;
         const model = params.db.models.RightRenewal;
 
         return model.find({ right: this.right })
@@ -71,8 +71,8 @@ exports = module.exports = function(params) {
             .where('finish').gt(this.start)
             .where('_id').ne(this._id)
             .count()
-			.exec()
-			.then(renewals => {
+            .exec()
+            .then(renewals => {
                 if (renewals > 0) {
                     throw new Error(gt.gettext('The renewals periods must not overlap'));
                 }
@@ -87,116 +87,116 @@ exports = module.exports = function(params) {
 
 
 
-	/**
-	 * Remove auto adjustments linked to this right renewal
-	 * @param {User} user
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.removeAutoAdjustement = function(user) {
+    /**
+     * Remove auto adjustments linked to this right renewal
+     * @param {User} user
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.removeAutoAdjustement = function(user) {
 
-		let Adjustment = params.db.models.Adjustment;
+        let Adjustment = params.db.models.Adjustment;
 
-		return Adjustment.find()
-		.where('rightRenewal').equals(this._id)
-		.where('autoAdjustment').equals(true)
-		.exec()
-		.then(adjustments => {
-			let promises = [];
+        return Adjustment.find()
+        .where('rightRenewal').equals(this._id)
+        .where('autoAdjustment').equals(true)
+        .exec()
+        .then(adjustments => {
+            let promises = [];
 
-			adjustments.forEach(a => {
-				promises.push(a.remove());
-			});
+            adjustments.forEach(a => {
+                promises.push(a.remove());
+            });
 
-			return Promise.all(promises);
-		});
-	};
-
-
-	/**
-	 * Add adjustement for one user
-	 * @param {User} user
-	 * @param {Date} moment
-	 * @param {Number} quantity
-	 *
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.addAutoAdjustment = function(user, moment, quantity) {
-
-		let renewal = this;
-		let Adjustment = params.db.models.Adjustment;
-
-		let adjust = new Adjustment();
-
-		adjust.rightRenewal = renewal._id;
-		adjust.user = user._id;
-		adjust.timeCreated = moment;	// TODO: use a different field name
-		adjust.quantity = quantity;
-		adjust.autoAdjustment = true;
-
-		return adjust.save();
-	};
+            return Promise.all(promises);
+        });
+    };
 
 
+    /**
+     * Add adjustement for one user
+     * @param {User} user
+     * @param {Date} moment
+     * @param {Number} quantity
+     *
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.addAutoAdjustment = function(user, moment, quantity) {
 
-	/**
-	 * Update the auto adjustements list for one user
-	 *
-	 * if autoAdjustment configured on right
-	 * get the consumption quantity on all selected types
-	 * create the adjustements with timeCreated match the consumption date
-	 *
-	 * consumption is from consumedQuantity field in absence elements
-	 * moved quantity to time saving account is not considered as a consumption
-	 *
-	 * @param {User} user
-	 *
-	 * @return {Promise}	 Promise the number of modified adjustments
-	 */
-	rightRenewalSchema.methods.updateAutoAdjustments = function(user) {
+        let renewal = this;
+        let Adjustment = params.db.models.Adjustment;
 
-		let renewal = this;
+        let adjust = new Adjustment();
 
-		return renewal.removeAutoAdjustement()
-		.then(() => {
-			return renewal.getRightPromise();
-		})
-		.then(right => {
-			if (undefined !== right.autoAdjustment &&
-			undefined !== right.autoAdjustment.quantity &&
-			null !== right.autoAdjustment.quantity) {
+        adjust.rightRenewal = renewal._id;
+        adjust.user = user._id;
+        adjust.timeCreated = moment;    // TODO: use a different field name
+        adjust.quantity = quantity;
+        adjust.autoAdjustment = true;
 
-				return consumptionHistory.getConsuptionHistory(user, right.autoAdjustment.types)
-				.then(history => {
+        return adjust.save();
+    };
 
-					let current = 0;
-					let promises = [];
 
-					history.forEach(h => {
-						current += h.consumedQuantity;
-						if (current >= right.autoAdjustment.step) {
-							current = 0;
-							promises.push(renewal.addAutoAdjustment(user, h.events[0].dtstart, right.autoAdjustment.quantity));
-						}
-					});
 
-					return Promise.all(promises);
-				});
-			}
+    /**
+     * Update the auto adjustements list for one user
+     *
+     * if autoAdjustment configured on right
+     * get the consumption quantity on all selected types
+     * create the adjustements with timeCreated match the consumption date
+     *
+     * consumption is from consumedQuantity field in absence elements
+     * moved quantity to time saving account is not considered as a consumption
+     *
+     * @param {User} user
+     *
+     * @return {Promise}     Promise the number of modified adjustments
+     */
+    rightRenewalSchema.methods.updateAutoAdjustments = function(user) {
 
-			return Promise.resolve([]);
-		});
-	};
+        let renewal = this;
+
+        return renewal.removeAutoAdjustement()
+        .then(() => {
+            return renewal.getRightPromise();
+        })
+        .then(right => {
+            if (undefined !== right.autoAdjustment &&
+            undefined !== right.autoAdjustment.quantity &&
+            null !== right.autoAdjustment.quantity) {
+
+                return consumptionHistory.getConsuptionHistory(user, right.autoAdjustment.types)
+                .then(history => {
+
+                    let current = 0;
+                    let promises = [];
+
+                    history.forEach(h => {
+                        current += h.consumedQuantity;
+                        if (current >= right.autoAdjustment.step) {
+                            current = 0;
+                            promises.push(renewal.addAutoAdjustment(user, h.events[0].dtstart, right.autoAdjustment.quantity));
+                        }
+                    });
+
+                    return Promise.all(promises);
+                });
+            }
+
+            return Promise.resolve([]);
+        });
+    };
 
 
     /**
      * Update the rightAdjustment object linked to this right renewal
-	 * Do not change ajustements in the past
+     * Do not change ajustements in the past
      * @return {Promise}
      */
     rightRenewalSchema.methods.updateMonthlyAdjustment = function()
     {
         return this.getRightPromise()
-		.then(right => {
+        .then(right => {
             this.removeFutureRightAdjustments();
             this.createRightAdjustments(right);
             return true;
@@ -317,7 +317,7 @@ exports = module.exports = function(params) {
         let renewal = this;
 
         return Adjustment.find({ rightRenewal: renewal._id, user: user._id }, 'quantity')
-		.then(docs => {
+        .then(docs => {
             let adjustments = 0, i;
             for (i=0; i<docs.length; i++) {
                 adjustments += docs[i].quantity;
@@ -328,16 +328,16 @@ exports = module.exports = function(params) {
 
     };
 
-	/**
-	 * Set the right document to return in getRightPromise
-	 * This is a performance optimization
-	 *
-	 */
-	rightRenewalSchema.methods.setRightForPromise = function(right) {
-		let renewal = this;
+    /**
+     * Set the right document to return in getRightPromise
+     * This is a performance optimization
+     *
+     */
+    rightRenewalSchema.methods.setRightForPromise = function(right) {
+        let renewal = this;
 
-		renewal.promiseRight = right;
-	};
+        renewal.promiseRight = right;
+    };
 
 
     /**
@@ -355,12 +355,12 @@ exports = module.exports = function(params) {
         }
 
 
-		if (undefined !== renewal.promiseRight) {
-			return Promise.resolve(renewal.promiseRight);
-		}
+        if (undefined !== renewal.promiseRight) {
+            return Promise.resolve(renewal.promiseRight);
+        }
 
         return renewal.populate('right').execPopulate()
-		.then(() => {
+        .then(() => {
             return renewal.right;
         });
     };
@@ -385,17 +385,17 @@ exports = module.exports = function(params) {
 
             if (null === specialright) {
 
-				if (null === right.quantity) {
-					return {
-						value: Infinity,
-						special: false
-					};
-				}
+                if (null === right.quantity) {
+                    return {
+                        value: Infinity,
+                        special: false
+                    };
+                }
 
                 return {
-					value: right.quantity,
-					special: false
-				};
+                    value: right.quantity,
+                    special: false
+                };
             }
 
             return specialright.getQuantity(renewal, user);
@@ -447,18 +447,18 @@ exports = module.exports = function(params) {
             let userAdjustment = arr[1];
 
 
-			if (rightQuantity === Infinity) {
-				return {
-					value: Infinity
-				};
-			}
+            if (rightQuantity === Infinity) {
+                return {
+                    value: Infinity
+                };
+            }
 
 
             if (user.roles.account.arrival > renewal.finish) {
                 // this will not be used via the REST API because invalid renewal are disacarded before
                 return {
-					value: 0
-				};
+                    value: 0
+                };
             }
 
 
@@ -484,51 +484,51 @@ exports = module.exports = function(params) {
 
 
             return {
-				value: (rightQuantity + renewalAdjustment + userAdjustment),
-				details: {
-					renewalAdustment: renewalAdjustment,
-					userAdjustment: userAdjustment,
-					rtt: arr[0].rtt
-				}
-			};
+                value: (rightQuantity + renewalAdjustment + userAdjustment),
+                details: {
+                    renewalAdustment: renewalAdjustment,
+                    userAdjustment: userAdjustment,
+                    rtt: arr[0].rtt
+                }
+            };
         });
     };
 
 
-	/**
-	 * Quantity moved to time saving accounts
-	 * sum of quantities in deposits for this renewal
-	 *
-	 * @param {User} user
-	 * @param {Date} moment
-	 *
-	 * @returns {Promise} resolve to a number
-	 */
-	rightRenewalSchema.methods.getUserSavedQuantity = function(user, moment, addDepositQuantity) {
+    /**
+     * Quantity moved to time saving accounts
+     * sum of quantities in deposits for this renewal
+     *
+     * @param {User} user
+     * @param {Date} moment
+     *
+     * @returns {Promise} resolve to a number
+     */
+    rightRenewalSchema.methods.getUserSavedQuantity = function(user, moment, addDepositQuantity) {
 
         let Request = this.model('Request');
 
-		return Request.find(
-			{
-	            'time_saving_deposit.from.renewal.id': this._id,
-	            'user.id': user._id
-	        },
-			'time_saving_deposit.quantity'
-		)
-		.then(docs => {
+        return Request.find(
+            {
+                'time_saving_deposit.from.renewal.id': this._id,
+                'user.id': user._id
+            },
+            'time_saving_deposit.quantity'
+        )
+        .then(docs => {
 
 
             for(var i=0; i<docs.length; i++) {
 
-				let status = docs[i].getDateStatus(moment);
-				addDepositQuantity(status, docs[i].time_saving_deposit[0].quantity);
+                let status = docs[i].getDateStatus(moment);
+                addDepositQuantity(status, docs[i].time_saving_deposit[0].quantity);
 
 
             }
 
             return true;
         });
-	};
+    };
 
 
 
@@ -537,142 +537,142 @@ exports = module.exports = function(params) {
      * sum of quantities in deposits for this renewal
      *
      * @param {User} user
-	 * @param {Date} moment
+     * @param {Date} moment
      *
      * @returns {Promise} resolve to a number
      */
     rightRenewalSchema.methods.getUserSavedConfirmedQuantity = function(user, moment) {
 
-		let savedQuantity = 0;
+        let savedQuantity = 0;
 
-		return this.getUserSavedQuantity(user, moment, function(status, quantity) {
-			if ('confirmed' === status.created) {
-				savedQuantity += quantity;
-			}
-		}).then(() => {
-			return savedQuantity;
-		});
+        return this.getUserSavedQuantity(user, moment, function(status, quantity) {
+            if ('confirmed' === status.created) {
+                savedQuantity += quantity;
+            }
+        }).then(() => {
+            return savedQuantity;
+        });
     };
 
 
-	/**
-	 * Get user consumed quantity (leaves only)
-	 * @see rightRenewalSchema.getUserConsumedQuantity() for full consumption
-	 *
-	 * @param {User} user		Request owner
-	 * @param {Date} moment		Only request approved on this date
-	 * @param {Function} collector Get quantity and status
-	 *
-	 * @returns {Promise} 		resolve to true
-	 */
-	rightRenewalSchema.methods.getUserAbsenceQuantity = function(user, moment, collector)
-	{
-		let renewal = this;
-		let AbsenceElem = this.model('AbsenceElem');
+    /**
+     * Get user consumed quantity (leaves only)
+     * @see rightRenewalSchema.getUserConsumedQuantity() for full consumption
+     *
+     * @param {User} user        Request owner
+     * @param {Date} moment        Only request approved on this date
+     * @param {Function} collector Get quantity and status
+     *
+     * @returns {Promise}         resolve to true
+     */
+    rightRenewalSchema.methods.getUserAbsenceQuantity = function(user, moment, collector)
+    {
+        let renewal = this;
+        let AbsenceElem = this.model('AbsenceElem');
 
-		return AbsenceElem.find()
-		.where('user.id', user._id)
-		.where('right.renewal.id', renewal._id)
-		.populate('request')
-		.select('consumedQuantity request')
-		.exec()
-		.then(elements => {
+        return AbsenceElem.find()
+        .where('user.id', user._id)
+        .where('right.renewal.id', renewal._id)
+        .populate('request')
+        .select('consumedQuantity request')
+        .exec()
+        .then(elements => {
 
 
 
-			elements.forEach(element => {
+            elements.forEach(element => {
 
-				let status = {
+                let status = {
                     created: 'accepted',
                     deleted: null
                 };
 
-				if (element.request) {
-					status = element.request.getDateStatus(moment);
-				} else {
-					console.error('Absence element '+element.id+' does not contain the link to the request');
-				}
+                if (element.request) {
+                    status = element.request.getDateStatus(moment);
+                } else {
+                    console.error('Absence element '+element.id+' does not contain the link to the request');
+                }
 
-				collector(status, element.consumedQuantity);
-			});
+                collector(status, element.consumedQuantity);
+            });
 
-			return true;
-		});
-
-
-	};
+            return true;
+        });
 
 
-	/**
-	 * Get user quantity in the absences requests and by approval status
-	 *
-	 * @param {User} user		Request owner
-	 * @param {Date} moment		Only request approved on this date
-	 *
-	 * @returns {Promise} 		resolve to a number
-	 */
-	rightRenewalSchema.methods.getUserAbsenceRequestsQuantity = function(user, moment) {
-		let consumed = 0;
-
-		let waiting = {
-			created: 0,
-			deleted: 0
-		};
-
-		return this.getUserAbsenceQuantity(user, moment, function(status, quantity) {
-			if (status.created === 'accepted') {
-				consumed += quantity;
-			}
-
-			if (status.created === 'waiting') {
-				waiting.created += quantity;
-			}
-
-			if (status.deleted === 'waiting') {
-				waiting.deleted += quantity;
-			}
-		})
-		.then(() => {
-			return {
-				consumed: consumed,
-				waiting: waiting
-			};
-		});
-	};
+    };
 
 
-	/**
-	 * Get user consumed quantity (leaves only)
-	 * @see rightRenewalSchema.getUserConsumedQuantity() for full consumption
-	 *
-	 * @param {User} user		Request owner
-	 * @param {Date} moment		Only request approved on this date
-	 *
-	 * @returns {Promise} 		resolve to a number
-	 */
-	rightRenewalSchema.methods.getUserAbsenceConsumedQuantity = function(user, moment) {
-		return this.getUserAbsenceRequestsQuantity(user, moment)
-		.then(requests => {
-			return requests.consumed;
-		});
-	};
+    /**
+     * Get user quantity in the absences requests and by approval status
+     *
+     * @param {User} user        Request owner
+     * @param {Date} moment        Only request approved on this date
+     *
+     * @returns {Promise}         resolve to a number
+     */
+    rightRenewalSchema.methods.getUserAbsenceRequestsQuantity = function(user, moment) {
+        let consumed = 0;
+
+        let waiting = {
+            created: 0,
+            deleted: 0
+        };
+
+        return this.getUserAbsenceQuantity(user, moment, function(status, quantity) {
+            if (status.created === 'accepted') {
+                consumed += quantity;
+            }
+
+            if (status.created === 'waiting') {
+                waiting.created += quantity;
+            }
+
+            if (status.deleted === 'waiting') {
+                waiting.deleted += quantity;
+            }
+        })
+        .then(() => {
+            return {
+                consumed: consumed,
+                waiting: waiting
+            };
+        });
+    };
 
 
-	/**
-	 * Get a user waiting quantity
+    /**
+     * Get user consumed quantity (leaves only)
+     * @see rightRenewalSchema.getUserConsumedQuantity() for full consumption
+     *
+     * @param {User} user        Request owner
+     * @param {Date} moment        Only request approved on this date
+     *
+     * @returns {Promise}         resolve to a number
+     */
+    rightRenewalSchema.methods.getUserAbsenceConsumedQuantity = function(user, moment) {
+        return this.getUserAbsenceRequestsQuantity(user, moment)
+        .then(requests => {
+            return requests.consumed;
+        });
+    };
+
+
+    /**
+     * Get a user waiting quantity
      * sum of quantities in requests and saved from this renewal
-	 *
-	 * @param {User} user		Request owner
-	 * @param {Date} moment		Only request in waiting state on this date
-	 *
-	 * @return {Promise} 	resolve to an object
-	 */
-	rightRenewalSchema.methods.getUserWaitingQuantity = function(user, moment) {
-		return this.getUserAbsenceRequestsQuantity(user, moment)
-		.then(requests => {
-			return requests.waiting;
-		});
-	};
+     *
+     * @param {User} user        Request owner
+     * @param {Date} moment        Only request in waiting state on this date
+     *
+     * @return {Promise}     resolve to an object
+     */
+    rightRenewalSchema.methods.getUserWaitingQuantity = function(user, moment) {
+        return this.getUserAbsenceRequestsQuantity(user, moment)
+        .then(requests => {
+            return requests.waiting;
+        });
+    };
 
 
     /**
@@ -681,22 +681,22 @@ exports = module.exports = function(params) {
      *
      * @todo duplicated with accountRight object
      *
-     * @param {User} user		Request owner
-	 * @param {Date} moment		Only request approved on this date
+     * @param {User} user        Request owner
+     * @param {Date} moment        Only request approved on this date
      *
      * @returns {Promise} resolve to an object with consumed and waiting property
      */
     rightRenewalSchema.methods.getUserConsumedQuantity = function(user, moment) {
 
-		let renewal = this;
+        let renewal = this;
 
         return Promise.all([
-			renewal.getUserAbsenceRequestsQuantity(user, moment),
-			renewal.getUserSavedConfirmedQuantity(user, moment)		// time saving account only
-		])
-		.then(all => {
-			let requests = all[0];
-			requests.consumed = requests.consumed - all[1];
+            renewal.getUserAbsenceRequestsQuantity(user, moment),
+            renewal.getUserSavedConfirmedQuantity(user, moment)        // time saving account only
+        ])
+        .then(all => {
+            let requests = all[0];
+            requests.consumed = requests.consumed - all[1];
             return requests;
         });
     };
@@ -718,7 +718,7 @@ exports = module.exports = function(params) {
             'time_saving_deposit.to.renewal.id': this._id,
             'user.id': user._id
         }, 'time_saving_deposit.quantity')
-		.then(docs => {
+        .then(docs => {
 
             var deposits = 0;
             for(var i=0; i<docs.length; i++) {
@@ -752,26 +752,26 @@ exports = module.exports = function(params) {
             workingTimesDate = renewal.finish;
         }
 
-		return renewal.getRightPromise()
-		.then(right => {
-			if ('D' === right.quantity_unit) {
-	            return Promise.resolve(1);
-	        }
+        return renewal.getRightPromise()
+        .then(right => {
+            if ('D' === right.quantity_unit) {
+                return Promise.resolve(1);
+            }
 
-			return user.getAccount()
-	        .then(account => {
-	            return account.getScheduleCalendar(workingTimesDate);
-	        })
-	        .then(calendar => {
+            return user.getAccount()
+            .then(account => {
+                return account.getScheduleCalendar(workingTimesDate);
+            })
+            .then(calendar => {
 
-	            if (null === calendar || !calendar.hoursPerDay) {
-	                // no schedule calendar on period
-	                return 0;
-	            }
+                if (null === calendar || !calendar.hoursPerDay) {
+                    // no schedule calendar on period
+                    return 0;
+                }
 
-	            return (1/calendar.hoursPerDay);
-	        });
-		});
+                return (1/calendar.hoursPerDay);
+            });
+        });
     };
 
 
@@ -779,9 +779,9 @@ exports = module.exports = function(params) {
     /**
      * Get a user available quantity
      * the user initial quantity (adjustments included)
-	 * 	- the confirmed consumed quantity
-	 * 	- waiting quantity (future consumption)
-	 *  + confirmed deposits quantity (if we are on a time saving deposit account)
+     *     - the confirmed consumed quantity
+     *     - waiting quantity (future consumption)
+     *  + confirmed deposits quantity (if we are on a time saving deposit account)
      *
      *
      * @todo duplicated with accountRight object
@@ -796,7 +796,7 @@ exports = module.exports = function(params) {
             this.getUserConsumedQuantity(user),
             this.getUserTimeSavingDepositsQuantity(user)
         ]).then(function(arr) {
-			let requests = arr[1];
+            let requests = arr[1];
             return (arr[0].value - requests.consumed - requests.waiting.created + arr[2]);
         });
     };
@@ -825,10 +825,10 @@ exports = module.exports = function(params) {
             ]);
 
         })
-		.then(arr => {
+        .then(arr => {
 
-			let requests = arr[1];
-			const initialQuantity = arr[0].value;
+            let requests = arr[1];
+            const initialQuantity = arr[0].value;
 
 
             let stat = {
@@ -836,193 +836,210 @@ exports = module.exports = function(params) {
                 consumed: requests.consumed,
                 deposits: arr[2],
                 available: (initialQuantity - requests.consumed - requests.waiting.created + arr[2]),
-				waiting: requests.waiting,
+                waiting: requests.waiting,
                 daysratio: arr[3]
             };
 
-			if (undefined !== arr[0].details && arr[0].details.rtt !== undefined) {
-				stat.rtt = arr[0].details.rtt;
-			}
+            if (undefined !== arr[0].details && arr[0].details.rtt !== undefined) {
+                stat.rtt = arr[0].details.rtt;
+            }
 
-			return stat;
+            return stat;
         })
-		.catch(err => {
+        .catch(err => {
 
-			// set renewal on error for services/user/accountbeneficiaries/renewals
-			err.renewal = renewal;
-			return {};
-		});
+            // set renewal on error for services/user/accountbeneficiaries/renewals
+            err.renewal = renewal;
+            return {};
+        });
     };
 
 
-	/**
-	 * Get users associated to the right
-	 * @param {Date}    moment  Optional date for collection association to users
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.getBeneficiaryUsers = function(moment) {
-		let renewal = this;
-		return renewal.getRightPromise()
-		.then(right => {
-			return right.getBeneficiaryUsers(moment);
-		});
-	};
+    /**
+     * Get users associated to the right
+     * @param {Date}    moment  Optional date for collection association to users
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.getBeneficiaryUsers = function(moment) {
+        let renewal = this;
+        return renewal.getRightPromise()
+        .then(right => {
+            return right.getBeneficiaryUsers(moment);
+        });
+    };
 
 
-	/**
-	 * Force cache refresh for one user
-	 * @param {User} user
-	 * @param {beneficiary} beneficiary
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.updateUserStat = function(user, beneficiary) {
-		let renewal = this;
+    /**
+     * Force cache refresh for one user
+     * @param {User} user
+     * @param {beneficiary} beneficiary
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.updateUserStat = function(user, beneficiary) {
+        let renewal = this;
 
-		return renewal.getUserQuantityStats(user)
-		.then(validStat => {
-			// overwrite previous error
-			validStat.error = null;
-			return renewal.saveUserRenewalStat(user, beneficiary, validStat);
-		})
-		.catch(err => {
+        return renewal.getUserQuantityStats(user)
+        .then(validStat => {
+            // overwrite previous error
+            validStat.error = null;
+            return renewal.saveUserRenewalStat(user, beneficiary, validStat);
+        })
+        .catch(err => {
 
-			console.log('Error saved to stat', err.stack);
+            console.log('Error saved to stat', err.stack);
 
-			return renewal.saveUserRenewalStat(user, beneficiary, {
-				initial: 0,
-				available: 0,
-				error: err.message
-			});
-		});
-	};
+            return renewal.saveUserRenewalStat(user, beneficiary, {
+                initial: 0,
+                available: 0,
+                error: err.message
+            });
+        });
+    };
 
-
-	/**
-	 * Force cache refresh for all users whith access to this renewal
-	 * @param {Date}    moment  Optional date for collection association to users
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.updateUsersStat = function(moment) {
-		let renewal = this;
-		return renewal.getBeneficiaryUsers(moment)
-		.then(users => {
-			return Promise.all(users.map(ub => {
-				// this update all renewals for the user:
-				return ub.user.updateRenewalsStat(moment);
-
-				// This update only the current renewal:
-				//return renewal.updateUserStat(ub.user, ub.beneficiary);
-			}));
-		});
-	};
+    /**
+     * Force cache refresh for all users whith access to this renewal
+     * Set only the outofdate status, chache refresh will be done afterward
+     * @param {Date}    moment  Optional date for collection association to users
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.setUsersStatOutOfDate = function(moment) {
+        return this.getBeneficiaryUsers(moment)
+        .then(beneficiaries => {
+            const accountIds = beneficiaries.map(b => b.user.roles.account);
+            console.log(accountIds);
+            return params.db.models.Account.updateMany(
+                { _id: { $in: accountIds } },
+                { $set: { renewalStatsOutofDate: true } }
+            ).exec();
+        });
+    };
 
 
-	/**
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.deleteUserRenewalStat = function(user) {
+    /**
+     * Force cache refresh for all users whith access to this renewal
+     * @param {Date}    moment  Optional date for collection association to users
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.updateUsersStat = function(moment) {
+        return this.getBeneficiaryUsers(moment)
+        .then(users => {
+            return Promise.all(users.map(ub => {
+                // this update all renewals for the user:
+                return ub.user.updateRenewalsStat(moment);
 
-		let renewal = this;
-		let UserRenewalStat = renewal.model('UserRenewalStat');
-
-		return UserRenewalStat.find({
-			user: user._id,
-			renewal: renewal._id
-		})
-		.exec()
-		.then(arr => arr.map(s => s.remove()));
-	};
-
-
-	/**
-	 * Save stat object to database
-	 * @param {User} user
-	 * @param {Beneficiary} beneficiary
-	 * @param {Object} stat Stat object to save
-	 *
-	 * @return {Promise} resolve to the new saved document
-	 */
-	rightRenewalSchema.methods.saveUserRenewalStat = function(user, beneficiary, stat) {
-		let renewal = this;
-		let UserRenewalStat = renewal.model('UserRenewalStat');
-
-		return UserRenewalStat.find({
-			user: user._id,
-			renewal: renewal._id
-		})
-		.exec()
-		.then(arr => {
-			if (0 === arr.length) {
-				let newStat = new UserRenewalStat();
-				newStat.user = user._id;
-				newStat.renewal = renewal._id;
-
-				return renewal.getRightPromise()
-				.then(right => {
-
-					return right.getType()
-					.then(type => {
-						let typeCache;
-						if (null !== type && undefined !== type) {
-							typeCache = {
-								name: type.name,
-								color: type.color
-							};
-						}
-
-						newStat.right = {
-							id: right._id,
-							name: right.name,
-							type: typeCache
-						};
-
-						return newStat;
-					});
-
-				});
+                // This update only the current renewal:
+                //return renewal.updateUserStat(ub.user, ub.beneficiary);
+            }));
+        });
+    };
 
 
-			}
+    /**
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.deleteUserRenewalStat = function(user) {
+
+        let renewal = this;
+        let UserRenewalStat = renewal.model('UserRenewalStat');
+
+        return UserRenewalStat.find({
+            user: user._id,
+            renewal: renewal._id
+        })
+        .exec()
+        .then(arr => arr.map(s => s.remove()));
+    };
 
 
-			for (let i=1; i<arr.length; i++) {
-				arr[i].remove();
-			}
+    /**
+     * Save stat object to database
+     * @param {User} user
+     * @param {Beneficiary} beneficiary
+     * @param {Object} stat Stat object to save
+     *
+     * @return {Promise} resolve to the new saved document
+     */
+    rightRenewalSchema.methods.saveUserRenewalStat = function(user, beneficiary, stat) {
+        let renewal = this;
+        let UserRenewalStat = renewal.model('UserRenewalStat');
 
-			return arr[0];
-		})
-		.then(newStat => {
-			newStat.set(stat);
-			newStat.beneficiary = beneficiary._id;
-			return beneficiary.getAccountCollection(user)
-			.then(accountCollection => {
-				if (null !== accountCollection) {
-					newStat.accountCollection = accountCollection._id;
-				}
-				return newStat.save();
-			});
-		});
-	};
+        return UserRenewalStat.find({
+            user: user._id,
+            renewal: renewal._id
+        })
+        .exec()
+        .then(arr => {
+            if (0 === arr.length) {
+                let newStat = new UserRenewalStat();
+                newStat.user = user._id;
+                newStat.renewal = renewal._id;
+
+                return renewal.getRightPromise()
+                .then(right => {
+
+                    return right.getType()
+                    .then(type => {
+                        let typeCache;
+                        if (null !== type && undefined !== type) {
+                            typeCache = {
+                                name: type.name,
+                                color: type.color
+                            };
+                        }
+
+                        newStat.right = {
+                            id: right._id,
+                            name: right.name,
+                            type: typeCache
+                        };
+
+                        return newStat;
+                    });
+
+                });
+
+
+            }
+
+
+            for (let i=1; i<arr.length; i++) {
+                arr[i].remove();
+            }
+
+            return arr[0];
+        })
+        .then(newStat => {
+            newStat.set(stat);
+            newStat.beneficiary = beneficiary._id;
+            return beneficiary.getAccountCollection(user)
+            .then(accountCollection => {
+                if (null !== accountCollection) {
+                    newStat.accountCollection = accountCollection._id;
+                }
+                return newStat.save();
+            });
+        });
+    };
 
 
 
-	/**
-	 * get UserRenewalStat cache stat object from DB
-	 * @param {User} user
-	 *
-	 * @return {Promise} resolve to the saved document or NULL
-	 */
-	rightRenewalSchema.methods.getUserRenewalStat = function(user) {
+    /**
+     * get UserRenewalStat cache stat object from DB
+     * @param {User} user
+     *
+     * @return {Promise} resolve to the saved document or NULL
+     */
+    rightRenewalSchema.methods.getUserRenewalStat = function(user) {
 
-		let renewal = this;
-		let UserRenewalStat = renewal.model('UserRenewalStat');
+        let renewal = this;
+        let UserRenewalStat = renewal.model('UserRenewalStat');
 
-		return UserRenewalStat.findOne({
-			user: user._id,
-			renewal: renewal._id
-		})
-		.exec();
-	};
+        return UserRenewalStat.findOne({
+            user: user._id,
+            renewal: renewal._id
+        })
+        .exec();
+    };
 
 
 
@@ -1075,44 +1092,44 @@ exports = module.exports = function(params) {
     };
 
 
-	/**
-	 * Get worked days on renewal for one account, use the user workschedule
-	 * with a cache
-	 * OR
-	 * Get worked days on renewal for one account, use the collection custom schedule week
-	 *
-	 * @param   {Account}   account
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.getWorkedDays = function(account) {
-		const renewal = this;
+    /**
+     * Get worked days on renewal for one account, use the user workschedule
+     * with a cache
+     * OR
+     * Get worked days on renewal for one account, use the collection custom schedule week
+     *
+     * @param   {Account}   account
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.getWorkedDays = function(account) {
+        const renewal = this;
 
-		return account.getCollection(renewal.start)
-		.then(collection => {
+        return account.getCollection(renewal.start)
+        .then(collection => {
 
-			if (null === collection || collection.useWorkschedule) {
-				return account.getPeriodScheduleEvents(renewal.start, renewal.finish)
-				.then(ScheduleEra => {
-					return ScheduleEra.getDays();
-				});
-			}
+            if (null === collection || collection.useWorkschedule) {
+                return account.getPeriodScheduleEvents(renewal.start, renewal.finish)
+                .then(ScheduleEra => {
+                    return ScheduleEra.getDays();
+                });
+            }
 
-			const workedDays = collection.getCustomScheduleDays();
+            const workedDays = collection.getCustomScheduleDays();
 
-			let days = {};
-			let loop = new Date(renewal.start);
-			loop.setHours(0,0,0,0);
+            let days = {};
+            let loop = new Date(renewal.start);
+            loop.setHours(0,0,0,0);
 
-			while (loop.getTime() < renewal.finish.getTime()) {
-				if (-1 !== workedDays.indexOf(loop.getDay())) {
-					days[loop.getTime()] = new Date(loop);
-				}
-				loop.setDate(loop.getDate() + 1);
-			}
+            while (loop.getTime() < renewal.finish.getTime()) {
+                if (-1 !== workedDays.indexOf(loop.getDay())) {
+                    days[loop.getTime()] = new Date(loop);
+                }
+                loop.setDate(loop.getDate() + 1);
+            }
 
-			return days;
-		});
-	};
+            return days;
+        });
+    };
 
 
 
@@ -1127,7 +1144,7 @@ exports = module.exports = function(params) {
         const renewal = this;
 
         return renewal.getWorkedDays(account)
-		.then(days => {
+        .then(days => {
             const scheduledDays = Object.keys(days).length;
             return (renewal.getDays() - scheduledDays);
         });
@@ -1143,66 +1160,66 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getDays = function() {
 
-		return (
-			1+ (
-				Date.UTC(this.finish.getFullYear(), this.finish.getMonth(), this.finish.getDate()) -
-	         	Date.UTC(this.start.getFullYear(), this.start.getMonth(), this.start.getDate())
-			) / 86400000
-		);
+        return (
+            1+ (
+                Date.UTC(this.finish.getFullYear(), this.finish.getMonth(), this.finish.getDate()) -
+                 Date.UTC(this.start.getFullYear(), this.start.getMonth(), this.start.getDate())
+            ) / 86400000
+        );
     };
 
 
-	/**
-	 * Get paid leave quantity
-	 * get number set in initial quantity on the right with adjustments only
-	 * if adjusted initial quantity is greater than right quantity
-	 * -> more annual leaves will lower number of RTT
-	 *
-	 * @return {Promise}
-	 */
-	rightRenewalSchema.methods.getPaidLeavesQuantity = function(user) {
+    /**
+     * Get paid leave quantity
+     * get number set in initial quantity on the right with adjustments only
+     * if adjusted initial quantity is greater than right quantity
+     * -> more annual leaves will lower number of RTT
+     *
+     * @return {Promise}
+     */
+    rightRenewalSchema.methods.getPaidLeavesQuantity = function(user) {
 
-		const renewal = this;
-		const gt = params.app.utility.gettext;
-		const Type = renewal.model('Type');
+        const renewal = this;
+        const gt = params.app.utility.gettext;
+        const Type = renewal.model('Type');
 
-		return Type.findOne({ _id: '5740adf51cf1a569643cc508'}).exec()
-		.then(type => {
-			if (null === type) {
-				throw new Error(gt.gettext('To compute the number of planned working days, the annual leave type is required'));
-			}
+        return Type.findOne({ _id: '5740adf51cf1a569643cc508'}).exec()
+        .then(type => {
+            if (null === type) {
+                throw new Error(gt.gettext('To compute the number of planned working days, the annual leave type is required'));
+            }
 
-			return type.getInitialQuantityInPeriod(user, renewal.start, renewal.finish);
-		});
-	};
-
-
+            return type.getInitialQuantityInPeriod(user, renewal.start, renewal.finish);
+        });
+    };
 
 
 
-	rightRenewalSchema.methods.getNonWorkingDayQuantity = function(account) {
-		const renewal = this;
 
-		const promise = Promise.all([
-			account.getNonWorkingDayEvents(renewal.start, renewal.finish),
-			renewal.getWorkedDays(account)
-		])
-		.then(all => {
-			const nonWorkingDays = all[0].getDays();
-			const workedDays = all[1];
-			// count number of non-working days on working periods
-			let count = 0;
-			for (let ts in nonWorkingDays) {
-				if (workedDays[ts] !== undefined) {
-					count++;
-				}
-			}
 
-			return count;
-		});
+    rightRenewalSchema.methods.getNonWorkingDayQuantity = function(account) {
+        const renewal = this;
 
-		return promise;
-	};
+        const promise = Promise.all([
+            account.getNonWorkingDayEvents(renewal.start, renewal.finish),
+            renewal.getWorkedDays(account)
+        ])
+        .then(all => {
+            const nonWorkingDays = all[0].getDays();
+            const workedDays = all[1];
+            // count number of non-working days on working periods
+            let count = 0;
+            for (let ts in nonWorkingDays) {
+                if (workedDays[ts] !== undefined) {
+                    count++;
+                }
+            }
+
+            return count;
+        });
+
+        return promise;
+    };
 
 
 
@@ -1217,7 +1234,7 @@ exports = module.exports = function(params) {
      */
     rightRenewalSchema.methods.getPlannedWorkDayNumber = function(user) {
 
-		const gt = params.app.utility.gettext;
+        const gt = params.app.utility.gettext;
         const renewal = this;
 
         return user.getAccount().then(account => {
@@ -1225,65 +1242,65 @@ exports = module.exports = function(params) {
             return Promise.all([
                 renewal.getWeekEndDays(account),
                 renewal.getNonWorkingDayQuantity(account),
-				renewal.getPaidLeavesQuantity(user)
+                renewal.getPaidLeavesQuantity(user)
             ]);
 
         }).then(r => {
 
             const weekEnds = r[0];
             const nonWorkingDays = r[1];
-			const paidLeaves = r[2];
+            const paidLeaves = r[2];
 
 
             if (0 === paidLeaves) {
                 throw new Error(gt.gettext('To compute the number of planned working days on a year, the annual leave initial quantity is required'));
             }
 
-			const renewalDays = renewal.getDays();
+            const renewalDays = renewal.getDays();
 
-			// Number of days on the renewal period 	~365
-			// - Number of weeks-ends days 				~104
-			// - Initial quantity of annual paid leaves ~25
-			// - Non working days 					    ~11
-			// console.log(renewal.start.getFullYear(), renewal.getDays(), weekEnds, paidLeaves, nonWorkingDays);
+            // Number of days on the renewal period     ~365
+            // - Number of weeks-ends days                 ~104
+            // - Initial quantity of annual paid leaves ~25
+            // - Non working days                         ~11
+            // console.log(renewal.start.getFullYear(), renewal.getDays(), weekEnds, paidLeaves, nonWorkingDays);
             return {
-				value: (renewalDays - weekEnds - paidLeaves - nonWorkingDays),
-				renewalDays: renewalDays,
-				weekEnds: weekEnds,
-				paidLeaves: paidLeaves,
-				nonWorkingDays: nonWorkingDays
-			};
+                value: (renewalDays - weekEnds - paidLeaves - nonWorkingDays),
+                renewalDays: renewalDays,
+                weekEnds: weekEnds,
+                paidLeaves: paidLeaves,
+                nonWorkingDays: nonWorkingDays
+            };
         });
 
     };
 
 
 
-	/**
-	 * Create a new date using day and month of the date in parameter
-	 * the date must match the renewal period
-	 *
-	 * @param {Date} dayMonth
-	 *
-	 * @return {Date}
-	 */
-	rightRenewalSchema.methods.createDateFromDayMonth = function(dayMonth) {
-		let renewal = this;
-		const gt = params.app.utility.gettext;
+    /**
+     * Create a new date using day and month of the date in parameter
+     * the date must match the renewal period
+     *
+     * @param {Date} dayMonth
+     *
+     * @return {Date}
+     */
+    rightRenewalSchema.methods.createDateFromDayMonth = function(dayMonth) {
+        let renewal = this;
+        const gt = params.app.utility.gettext;
 
-		let d = new Date(dayMonth);
-		d.setFullYear(renewal.start.getFullYear());
+        let d = new Date(dayMonth);
+        d.setFullYear(renewal.start.getFullYear());
 
-		if (d.getTime() < renewal.start.getTime()) {
-			d.setFullYear(renewal.finish.getFullYear());
-		}
+        if (d.getTime() < renewal.start.getTime()) {
+            d.setFullYear(renewal.finish.getFullYear());
+        }
 
-		if (d.getTime() > renewal.finish.getTime()) {
-			throw new Error(util.format(gt.gettext('Invalid renewal, the renewal is too short and does not contain the requested date: %s'), d.toString()));
-		}
+        if (d.getTime() > renewal.finish.getTime()) {
+            throw new Error(util.format(gt.gettext('Invalid renewal, the renewal is too short and does not contain the requested date: %s'), d.toString()));
+        }
 
-		return d;
-	};
+        return d;
+    };
 
 
 
