@@ -94,12 +94,11 @@ define([
 					delete response.errors;
 				}
 
-				for(var prop in response) {
+				for (var prop in response) {
                     if (response.hasOwnProperty(prop)) {
                         $rootScope[prop] = response[prop];
                     }
 				}
-
 				gettextCatalog.setCurrentLanguage(response.lang);
 
 				$rootScope.sessionUser.intAuthenticated = response.sessionUser.isAuthenticated ? 1 : 0;
