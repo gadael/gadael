@@ -906,7 +906,6 @@ exports = module.exports = function(params) {
         return this.getBeneficiaryUsers(moment)
         .then(beneficiaries => {
             const accountIds = beneficiaries.map(b => b.user.roles.account);
-            console.log(accountIds);
             return params.db.models.Account.updateMany(
                 { _id: { $in: accountIds } },
                 { $set: { renewalStatsOutofDate: true } }
