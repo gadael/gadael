@@ -60,7 +60,7 @@ define([
 	gadael.run(['$rootScope', '$location', '$http', '$q', 'gettext', 'gettextCatalog',
                 function($rootScope, $location, $http, $q, gettext, gettextCatalog) {
 
-        $rootScope.baseUrl = '/';
+        $rootScope.baseUrl = document.location.href.split('#')[0];
 
         $rootScope.setPageTitle = function(title) {
             $rootScope.pageTitle = gettextCatalog.getString('Gadael - %s').replace(/%s/, gettextCatalog.getString(title));
