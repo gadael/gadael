@@ -113,7 +113,7 @@ function prepareRequestFields(service, params, user)
 
 
 
-        if (undefined !== params.absence) {
+        if (undefined !== params.absence && params.absence.distribution.length > 0) {
 
             fieldsToSet.absence = {};
 
@@ -147,11 +147,7 @@ function prepareRequestFields(service, params, user)
             });
         }
 
-        if (undefined !== params.time_saving_deposit) {
-
-            if (!Array.isArray(params.time_saving_deposit)) {
-                throw new Error('Unsupported parameter for time_saving_deposit');
-            }
+        if (undefined !== params.time_saving_deposit && params.time_saving_deposit.length > 0) {
 
             if (params.time_saving_deposit.length !== 1) {
                 throw new Error('Wrong length for time_saving_deposit');
@@ -165,11 +161,7 @@ function prepareRequestFields(service, params, user)
             });
         }
 
-        if (undefined !== params.workperiod_recover) {
-
-            if (!Array.isArray(params.workperiod_recover)) {
-                throw new Error('Unsupported parameter for workperiod_recover');
-            }
+        if (undefined !== params.workperiod_recover && params.workperiod_recover.length > 0) {
 
             if (params.workperiod_recover.length !== 1) {
                 throw new Error('Wrong length for workperiod_recover');
@@ -352,7 +344,7 @@ function saveRequest(service, params) {
 
         userDocument = user;
 
-        if (user.department && undefined !== params.absence) {
+        if (user.department && undefined !== params.absence && params.absence.distribution.length > 0) {
             const span = saveAbsence.getPeriodFromDistribution(params.absence.distribution);
             return user.department.checkMinActiveUsers(span.dtstart, span.dtend)
             .then(() => {
