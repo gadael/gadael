@@ -15,7 +15,7 @@ define([], function() {
                     return false;
                 }
 
-                catchOutcome($http.delete('/rest/admin/invitations/'+invitation._id))
+                catchOutcome($http.delete('rest/admin/invitations/'+invitation._id))
                 .then($route.reload);
             };
 		}

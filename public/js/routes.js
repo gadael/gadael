@@ -3,7 +3,6 @@ define(['angular', 'app'], function(angular, app) {
 
 	return app.config(['$routeProvider', function($routeProvider) {
 
-
 		$routeProvider.when('/login/createfirstadmin', {
 			templateUrl: 'partials/login/createfirstadmin.html',
 			controller: 'CreateFirstAdmin'

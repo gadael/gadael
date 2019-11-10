@@ -31986,7 +31986,7 @@ define('common',['q'], function (Q) {
 
 
     };
-    httpRequest.open('GET', '/rest/common', true);
+    httpRequest.open('GET', 'rest/common', true);
     httpRequest.send();
 
 
@@ -41868,6 +41868,8 @@ define('app',[
 	gadael.run(['$rootScope', '$location', '$http', '$q', 'gettext', 'gettextCatalog',
                 function($rootScope, $location, $http, $q, gettext, gettextCatalog) {
 
+        $rootScope.baseUrl = '/';
+
         $rootScope.setPageTitle = function(title) {
             $rootScope.pageTitle = gettextCatalog.getString('Gadael - %s').replace(/%s/, gettextCatalog.getString(title));
         };
@@ -41921,9 +41923,9 @@ define('app',[
 
 		$rootScope.logout = function()
 		{
-			$http.get('/rest/logout').success(function() {
+			$http.get('rest/logout').success(function() {
 				$rootScope.reloadSession().then(function() {
-                    document.location.href = '/';
+                    document.location.href = './';
                 });
 
 			});

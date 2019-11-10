@@ -17,7 +17,7 @@ define([], function() {
          * Go to home page and refresh
          */
         $scope.home = function() {
-            document.location.href = '/';
+            document.location.href = './';
         };
 
 

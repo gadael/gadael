@@ -12,7 +12,7 @@ define(['angular'], function(angular) {
 
 		$scope.submit = function() {
 
-			catchOutcome($http.post('/rest/anonymous/formlogin', {
+			catchOutcome($http.post('rest/anonymous/formlogin', {
 				username: $scope.username,
 				password: $scope.password
 			}))
@@ -29,7 +29,7 @@ define(['angular'], function(angular) {
 					{
 						// redirect
                         promisedSession.then(function() {
-                            document.location.href = '/';
+                            document.location.href = './';
                         });
 
 					} else {

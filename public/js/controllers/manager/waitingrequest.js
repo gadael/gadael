@@ -53,7 +53,7 @@ define([], function() {
 
         function save(action) {
             catchOutcome(
-                $http.put('/rest/manager/waitingrequests/'+$scope.request._id, {
+                $http.put('rest/manager/waitingrequests/'+$scope.request._id, {
                     approvalStep: approvalStep,
                     action: action
                 })

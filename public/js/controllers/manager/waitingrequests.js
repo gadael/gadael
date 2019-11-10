@@ -56,7 +56,7 @@ define([], function() {
                 });
 
                 return catchOutcome(
-                    $http.put('/rest/manager/waitingrequests/'+request._id, {
+                    $http.put('rest/manager/waitingrequests/'+request._id, {
                         approvalStep: approvalStep,
                         action: action
                     })

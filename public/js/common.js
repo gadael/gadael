@@ -13,7 +13,7 @@ define(['q'], function (Q) {
 
 
     };
-    httpRequest.open('GET', '/rest/common', true);
+    httpRequest.open('GET', 'rest/common', true);
     httpRequest.send();
 
 
