@@ -165,9 +165,17 @@ exports = module.exports = function(app, passport) {
      * @param {Function} done Callback, wait for error and user object
      */
     function useHeaderStrategy(requestHeaders, done) {
+        if (!loginservices.header.emailHeader) {
+            return done(new Error('missing emailHeader configuration'));
+        }
+
+        if (undefined === requestHeaders[loginservices.header.emailHeader]) {
+            return done(new Error('wrong header configuration, header does not exists'));
+        }
+
         const mail = requestHeaders[loginservices.header.emailHeader];
         if (!mail) {
-            done(null, null);
+            done(new Error('No email address in header'), null);
         }
 
         User.findOne({ 'email': mail }).exec()
@@ -183,8 +191,15 @@ exports = module.exports = function(app, passport) {
      * @param {Function} done Callback, wait for error and user object
      */
     function useCasStrategy(profile, done) {
+        if (!profile.email) {
+            return done(new Error('No email found in CAS profile'));
+        }
+
         User.findOne({ 'email': profile.email }).exec()
         .then(user => {
+            if (!user) {
+                return done(new Error('No account found for email '+profile.email));
+            }
             return done(null, user);
         })
         .catch(done);
