@@ -48,8 +48,17 @@ exports = module.exports = function(params) {
 	            clientID: String,
 	            clientSecret: String,
 				domain: String											// Accounts will be created on login only if email match with the domain
-	        }
+	        },
 
+			cas: {
+				enable: { type: Boolean, default: false },
+				ssoBaseURL: String
+			},
+
+			header: {													// authenticate with a truster header containing the email
+				enable: { type: Boolean, default: false },
+				emailHeader: String
+			}
 	    },
 
 		calendar: {														// user events synchronization with a calendar

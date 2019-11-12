@@ -4,6 +4,8 @@ const http = require('http');
 const util = require('util');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth2' ).Strategy;
+const HeaderStrategy = require('passport-trusted-header').Strategy;
+const CasStrategy = require('passport-cas').Strategy;
 const usercreated = require('./emails/usercreated');
 
 
@@ -156,6 +158,66 @@ exports = module.exports = function(app, passport) {
 
     }
 
+    /**
+     * Header strategy callback to authenticate by email
+     * @param {ClientRequest} request
+     * @param {Object} requestHeaders
+     * @param {Function} done Callback, wait for error and user object
+     */
+    function useHeaderStrategy(requestHeaders, done) {
+        if (!loginservices.header.emailHeader) {
+            return done(new Error('missing emailHeader configuration'));
+        }
+
+        if (undefined === requestHeaders[loginservices.header.emailHeader]) {
+            return done(new Error('wrong header configuration, header does not exists'));
+        }
+
+        const mail = requestHeaders[loginservices.header.emailHeader];
+        if (!mail) {
+            done(new Error('No email address in header'), null);
+        }
+
+        User.findOne({ 'email': mail }).exec()
+        .then(user => {
+            return done(null, user);
+        })
+        .catch(done);
+    }
+
+    /**
+     * CAS authentication strategy callback
+     * @param {String} login
+     * @param {Function} done Callback, wait for error and user object
+     */
+    function useCasStrategy(profile, done) {
+        if (!profile.email) {
+            return done(new Error('No email found in CAS profile'));
+        }
+
+        User.findOne({ 'email': profile.email }).exec()
+        .then(user => {
+            if (!user) {
+                return done(new Error('No account found for email '+profile.email));
+            }
+            return done(null, user);
+        })
+        .catch(done);
+    }
+
+    if (loginservices.cas.enable) {
+        passport.use(new CasStrategy({
+            version: 'CAS3.0',
+            ssoBaseURL: loginservices.cas.ssoBaseURL,
+            serverBaseURL: app.config.url+'login/cas'
+        }, useCasStrategy));
+    }
+
+    if (loginservices.header.enable) {
+    	passport.use(new HeaderStrategy({
+    	    headers: [loginservices.header.emailHeader]
+    	}, useHeaderStrategy));
+    }
 
     if (loginservices.form.enable) {
         passport.use(new LocalStrategy(useLocalStrategy));
