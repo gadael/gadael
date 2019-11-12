@@ -56,6 +56,15 @@ function refreshUserCache(service, collection) {
         .populate('account')
         .exec()
         .then(list => {
+            if (service.app.config.useSchudeledRefreshStat) {
+                // mark account as refreshable by the refreshstat
+                const accountIds = list.map(ac => ac.account._id);
+                return service.app.db.models.Account.updateMany(
+                    { _id: { $in: accountIds } },
+                    { $set: { renewalStatsOutofDate: true } }
+                ).exec();
+            }
+
             return Promise.all(
                 list.map(ac => ac.getUser())
             );

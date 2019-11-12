@@ -280,7 +280,6 @@ function saveRequests(service, params) {
                 if (null !== rightCollection) {
                     fieldsToSet.absence.rightCollection = rightCollection._id;
                 }
-
                 return saveAbsence.saveAbsenceDistribution(service, user, fieldsToSet, rightCollection);
             })
             .then(distribution => {
@@ -298,13 +297,6 @@ function saveRequests(service, params) {
                         requestcreated(service.app, requestDoc);
                         return requestDoc;
                     });
-                });
-            })
-            .then(requestDoc => {
-                //TODO: update only one renewal
-                return postpone(() => user.updateRenewalsStat(requestDoc.events[0].dtstart))
-                .then(() => {
-                    return requestDoc;
                 });
             });
         });
@@ -417,7 +409,6 @@ function saveRequests(service, params) {
             .where('_id').in(users)
             .exec()
             .then(users => {
-
                 return Promise.all(
                     documents.map(doc => {
                         return doc.remove();
@@ -430,6 +421,29 @@ function saveRequests(service, params) {
         });
     }
 
+
+    /**
+     * Update stat cache for a list of requests
+     * @var {Array} compulsoryLeaveRequests
+     */
+    function updateUsersStatCache(compulsoryLeaveRequests, requestIds) {
+        if (service.app.config.useSchudeledRefreshStat) {
+            const userIds = compulsoryLeaveRequests.map(doc => doc.user.id);
+            return service.app.db.models.Account.updateMany(
+                { 'user.id': { $in: userIds } },
+                { $set: { renewalStatsOutofDate: true } }
+            ).exec();
+        }
+
+        return service.app.db.models.Request.find()
+        .where('_id').in(requestIds)
+        .populate('user.id')
+        .exec()
+        .then(requests => {
+            const promises = requests.map(requestDoc => requestDoc.user.id.updateRenewalsStat(requestDoc.events[0].dtstart));
+            return postpone(() => Promise.all(promises));
+        });
+    }
 
 
     let promises = [];
@@ -462,8 +476,8 @@ function saveRequests(service, params) {
     return Promise.all(promises)
     .then(clrs => {
 
-        let validRequestIds = [];
-        let validCompulsoryLeaveRequests = [];
+        const validRequestIds = [];
+        const validCompulsoryLeaveRequests = [];
 
         clrs.forEach(clr => {
             if (null !== clr) {
@@ -473,8 +487,12 @@ function saveRequests(service, params) {
         });
 
         // remove unprocessed requests
+        // This refresh stat cache for owners deleted requests
 
-        return deleteInvalidRequests(validRequestIds)
+        return updateUsersStatCache(validCompulsoryLeaveRequests, validRequestIds)
+        .then(() => {
+            return deleteInvalidRequests(validRequestIds);
+        })
         .then(() => {
             return validCompulsoryLeaveRequests;
         });

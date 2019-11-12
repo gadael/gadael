@@ -50,7 +50,9 @@ exports = module.exports = function(params) {
 
         sage: {
             registrationNumber: String // Used in sage export
-        }
+        },
+
+        renewalStatsOutofDate: { type: Boolean, default: false } // force user renewal stats refresh
     });
 
     accountSchema.index({ user: 1 });

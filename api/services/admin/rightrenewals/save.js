@@ -82,9 +82,13 @@ function saveRenewal(service, params) {
                 document.save()
                 .then(document => {
 
-                    return postpone(document.updateUsersStat.bind(document))
-                    .then(() => {
+                    const task = service.app.config.useSchudeledRefreshStat ?
+                    document.setUsersStatOutOfDate.bind(document) :
+                    document.updateUsersStat.bind(document);
 
+
+                    return postpone(task)
+                    .then(() => {
                         service.resolveSuccessGet(
                             document._id,
                             gt.gettext('The right renewal period has been modified')
