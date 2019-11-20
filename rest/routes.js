@@ -145,8 +145,8 @@ exports = module.exports = function(app, passport)
 	app.get('/rest/logout', require('./logout').init);
 
     app.get('/login/header', passport.authenticate('trusted-header', {
-        successRedirect: '/',
-        failureRedirect: '/#/login'
+        successRedirect: '../#',
+        failureRedirect: '../#/login'
     }));
 
     app.get('/login/cas', (req, res, next) => {
