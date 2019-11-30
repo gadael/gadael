@@ -191,14 +191,14 @@ exports = module.exports = function(app, passport) {
      * @param {Function} done Callback, wait for error and user object
      */
     function useCasStrategy(profile, done) {
-        if (!profile.email) {
+        if (!profile.attributes.mail) {
             return done(new Error('No email found in CAS profile'));
         }
 
-        User.findOne({ 'email': profile.email }).exec()
+        User.findOne({ 'email': profile.attributes.mail }).exec()
         .then(user => {
             if (!user) {
-                return done(new Error('No account found for email '+profile.email));
+                return done(new Error('No account found for email '+profile.attributes.mail));
             }
             return done(null, user);
         })
