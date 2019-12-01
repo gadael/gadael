@@ -20,7 +20,7 @@
     "rrule": "~2.1.0",
     "moment": "~2.8.4",
     "moment-duration-format": "2.0.0",
-    "angular-teleperiod": "^0.2.1",
+    "angular-teleperiod": "^0.2.4",
     "teleperiod": "0.1.0",
     "angular-bootstrap-colorpicker": "~3.0.18",
     "angular-image-crop": "https://github.com/demarchisd/angular-image-crop.git#master",
@@ -34,6 +34,6 @@
     "d3": "~3.5.3",
     "q": "~1.4.1",
     "angular": "~1.4.8",
-    "teleperiod": "0.1.0"
+    "teleperiod": "0.1.1"
   }
 }
