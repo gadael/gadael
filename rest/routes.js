@@ -145,22 +145,22 @@ exports = module.exports = function(app, passport)
 	app.get('/rest/logout', require('./logout').init);
 
     app.get('/login/header', passport.authenticate('trusted-header', {
-        successRedirect: '/',
-        failureRedirect: '/#/login'
+        successRedirect: app.config.url,
+        failureRedirect: app.config.url+'#/login'
     }));
 
     app.get('/login/cas', (req, res, next) => {
         passport.authenticate('cas', function(err, user, info) {
             if (err) {
                 req.flash('error', err.message);
-                return res.redirect('/#/login');
+                return res.redirect(app.config.url+'#/login');
             }
 
             req.login(user, loginErr => {
                 if (loginErr) {
                     return next(loginErr);
                 }
-                return res.redirect('/');
+                return res.redirect(app.config.url);
             });
         })(req, res, next);
     });
@@ -177,20 +177,20 @@ exports = module.exports = function(app, passport)
 
     app.get('/login/google-callback', (req, res, next) => {
         passport.authenticate( 'google', {
-            successRedirect: '/',
-            failureRedirect: '/',
+            successRedirect: app.config.url,
+            failureRedirect: app.config.url,
             failureFlash: true
         },function(err, user, info) {
             if (err) {
                 req.flash('error', err.message);
-                return res.redirect('/#/login');
+                return res.redirect(app.config.url+'#/login');
             }
 
             req.login(user, loginErr => {
                 if (loginErr) {
                     return next(loginErr);
                 }
-                return res.redirect('/');
+                return res.redirect(app.config.url);
             });
         })(req, res, next);
     });
