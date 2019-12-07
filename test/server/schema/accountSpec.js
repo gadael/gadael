@@ -54,7 +54,7 @@ describe('Account', function() {
 
     it('test account getLunchBreaks method with no working hours', function(done) {
         const dtstart = new Date(2016,4,1);
-        const dtend = new Date(2016,4,31);
+        const dtend = new Date(2016,4,7);
         user.getAccount().then(function(account) {
             return account.getLunchBreaks(dtstart, dtend);
         })

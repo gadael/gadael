@@ -1068,11 +1068,12 @@ exports = module.exports = function(params) {
 
         return Promise.all([
             account.getPeriodScheduleEvents(dtstart, dtend),
-            account.getNonWorkingDayEvents(dtstart, dtend)
+            account.getNonWorkingDayEvents(dtstart, dtend),
+            account.getLeaveEvents(dtstart, dtend)
         ]).then(function(res) {
             const scheduleEvents = res[0];
-            const nonWorkingDays = res[1];
-            scheduleEvents.subtractEra(nonWorkingDays);
+            scheduleEvents.subtractEra(res[1]);
+            scheduleEvents.subtractEra(res[2]);
             // Count days with work on morning AND afternoon
             const dayIndex = {};
             scheduleEvents.getFlattenedEra().periods.forEach(p => {
