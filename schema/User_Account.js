@@ -52,7 +52,13 @@ exports = module.exports = function(params) {
             registrationNumber: String // Used in sage export
         },
 
-        renewalStatsOutofDate: { type: Boolean, default: false } // force user renewal stats refresh
+        renewalStatsOutofDate: { type: Boolean, default: false }, // force user renewal stats refresh
+
+        lunch: {
+            active: { type: Boolean, default: true },
+            from: Date,
+            to: Date
+        }
     });
 
     accountSchema.index({ user: 1 });
@@ -962,10 +968,8 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to an object with number of hours and the number of worked days
      */
     accountSchema.methods.getWeekHours = function(dtstart, dtend) {
-
         let account = this;
         const gt = params.app.utility.gettext;
-
         let weekLoop = new Date(dtstart);
         // go to next monday
 
@@ -987,12 +991,10 @@ exports = module.exports = function(params) {
         let currentWeek = {};
         let weeks = [];
 
-
         /**
          * Forward to next week
          */
         function next() {
-
             let week = {
                 nbDays: 0,
                 hours: 0
@@ -1007,15 +1009,12 @@ exports = module.exports = function(params) {
 
             weeks.push(week);
             currentWeek = {};
-
             weekLoop.setDate(weekLoop.getDate() + 7);
             limit.setDate(limit.getDate() + 7);
         }
 
-
         return account.getPeriodScheduleEvents(weekLoop, dtend)
         .then(era => {
-
             era.getFlattenedEra().periods.forEach(p => {
 
                 if (p.dtstart > limit) {
@@ -1023,7 +1022,6 @@ exports = module.exports = function(params) {
                 }
 
                 let wd = p.dtstart.getDay();
-
                 if (undefined === currentWeek[wd]) {
                     currentWeek[wd] = 0;
                 }
@@ -1031,22 +1029,16 @@ exports = module.exports = function(params) {
                 currentWeek[wd] += (p.dtend.getTime() - p.dtstart.getTime())/3600000;
             });
 
-
             if (0 === weeks.length) {
                 throw new Error(util.format(gt.gettext('No weeks found for %s'), account.user.name));
             }
 
-
             // average days per week and hours per week
-
             let nbDaySum = 0, hourSum = 0;
-
             weeks.forEach(w => {
                 nbDaySum += w.nbDays;
                 hourSum += w.hours;
             });
-
-
 
             return {
                 nbDays: (nbDaySum / weeks.length),
@@ -1055,7 +1047,53 @@ exports = module.exports = function(params) {
         });
     };
 
+    /**
+     * Get number of lunch breaks on a period
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise} resolve to an integer
+     */
+    accountSchema.methods.getLunchBreaks = function(dtstart, dtend) {
+        let start = dtstart;
+        if (this.lunch.from && start < this.lunch.from) {
+            start = this.lunch.from;
+        }
 
+        let end = dtend;
+        if (this.lunch.to && end > this.lunch.to) {
+            end = this.lunch.to;
+        }
+
+        const account = this;
+
+        return Promise.all([
+            account.getPeriodScheduleEvents(dtstart, dtend),
+            account.getNonWorkingDayEvents(dtstart, dtend)
+        ]).then(function(res) {
+            const scheduleEvents = res[0];
+            const nonWorkingDays = res[1];
+            scheduleEvents.subtractEra(nonWorkingDays);
+            // Count days with work on morning AND afternoon
+            const dayIndex = {};
+            scheduleEvents.getFlattenedEra().periods.forEach(p => {
+                const k = p.dtstart.toDateString();
+                if (undefined === dayIndex[k]) {
+                    dayIndex[k] = {
+                        'am': false,
+                        'pm': false
+                    };
+                }
+                if (p.dtend.getHours() < 14) {
+                    dayIndex[k].am = true;
+                }
+                if (p.dtstart.getHours() > 12) {
+                    dayIndex[k].pm = true;
+                }
+            });
+
+            return Object.values(dayIndex).filter(p => p.am && p.pm).length;
+        });
+    };
 
 
     params.db.model('Account', accountSchema);
