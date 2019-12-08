@@ -34,6 +34,7 @@ exports = module.exports = function(params) {
         birth: Date,
 
         // date used to compute quantity on the first renewal (if this date is in the renewal interval)
+        // also the default lunch breaks start if lunch.from is not defined
         arrival: Date,
 
         // start date for seniority vacation rights
@@ -56,6 +57,7 @@ exports = module.exports = function(params) {
 
         lunch: {
             active: { type: Boolean, default: true },
+            createdUpTo: { type: Date, default: Date.now(), required: true },
             from: Date,
             to: Date
         }
@@ -1063,22 +1065,12 @@ exports = module.exports = function(params) {
     };
 
     /**
-     * Get number of lunch breaks on a period
+     * Get lunch breaks on a period
      * @param {Date} dtstart
      * @param {Date} dtend
-     * @return {Promise} resolve to an integer
+     * @return {Promise} resolve to alist of dates
      */
     accountSchema.methods.getLunchBreaks = function(dtstart, dtend) {
-        let start = dtstart;
-        if (this.lunch.from && start < this.lunch.from) {
-            start = this.lunch.from;
-        }
-
-        let end = dtend;
-        if (this.lunch.to && end > this.lunch.to) {
-            end = this.lunch.to;
-        }
-
         const account = this;
 
         return Promise.all([
@@ -1095,6 +1087,7 @@ exports = module.exports = function(params) {
                 const k = p.dtstart.toDateString();
                 if (undefined === dayIndex[k]) {
                     dayIndex[k] = {
+                        'day': p.dtstart,
                         'am': false,
                         'pm': false
                     };
@@ -1107,7 +1100,59 @@ exports = module.exports = function(params) {
                 }
             });
 
-            return Object.values(dayIndex).filter(p => p.am && p.pm).length;
+            return Object.values(dayIndex)
+                .filter(p => p.am && p.pm)
+                .map(p => {
+                    const day = p.day;
+                    day.setHours(12,0,0,0);
+                    return day;
+                });
+        });
+    };
+
+    /**
+     * Save lunch breaks in database
+     * @return {Promise}
+     */
+    accountSchema.methods.saveLunchBreaks = function() {
+        let start = this.lunch.createdUpTo;
+        if (this.arrival && start < this.arrival) {
+            start = this.arrival;
+        }
+        if (this.lunch.from && start < this.lunch.from) {
+            start = this.lunch.from;
+        }
+        start.setHours(0, 0, 0, 0);
+
+        let end = new Date();
+        end.setDate(-1);
+        if (this.lunch.to && end > this.lunch.to) {
+            end = this.lunch.to;
+        }
+        end.setHours(23, 59, 59, 999);
+
+        if (end <= this.lunch.createdUpTo) {
+            // Nothing to save
+            return Promise.resolve();
+        }
+
+        const Lunch = this.model('Lunch');
+        this.getLunchBreaks()
+        .then(lunchs => {
+            const promises = lunchs.map(day => {
+                const lunch = new Lunch();
+                lunch.day = day;
+                lunch.user = this.user;
+                return lunch.save();
+            });
+
+            return Promise.all(promises);
+        })
+        .then(() => {
+            this.lunch.createdUpTo = end;
+            this.lunch.createdUpTo.setHours(0, 0, 0, 0);
+            this.lunch.createdUpTo.setDate(this.lunch.createdUpTo.getDate() + 1);
+            return this.lunch.createdUpTo.save();
         });
     };
 

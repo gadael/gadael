@@ -55,11 +55,9 @@ describe('Account', function() {
     it('test account getLunchBreaks method with no working hours', function(done) {
         const dtstart = new Date(2016,4,1);
         const dtend = new Date(2016,4,7);
-        user.getAccount().then(function(account) {
-            return account.getLunchBreaks(dtstart, dtend);
-        })
-        .then(count => {
-            expect(count).toBeGreaterThan(0);
+        user.getAccount().then(account => account.getLunchBreaks(dtstart, dtend))
+        .then(list => {
+            expect(list.length).toBeGreaterThan(0);
             done();
         })
         .catch(done);
