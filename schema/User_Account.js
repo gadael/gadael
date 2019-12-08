@@ -594,27 +594,14 @@ exports = module.exports = function(params) {
         });
     };
 
-
     /**
-     * Get leave events from requests, deleted requests are excluded
-     * @param {Date} dtstart [[Description]]
-     * @param {Date} dtend   [[Description]]
-     * @return {Promise}  Era object
+     * Get Era object from calendar event query
+     * @param {} query
+     * @return {Promise}
      */
-    accountSchema.methods.getLeaveEvents = function(dtstart, dtend) {
-
-        let account = this;
-        let eventModel = this.model('CalendarEvent');
-        let leaves = new jurassic.Era();
-
-
-        let find = eventModel.find()
-            .where('user.id', account.user.id)
-            .where('status').ne('CANCELED')
-            .where('dtstart').lt(dtend)
-            .where('dtend').gt(dtstart);
-
-        return find.exec().then(events => {
+    accountSchema.methods.getEventsEra = function(query) {
+        const leaves = new jurassic.Era();
+        return query.exec().then(events => {
             events.forEach(evt => {
                 try {
                     leaves.addPeriod(evt.toObject());
@@ -625,10 +612,38 @@ exports = module.exports = function(params) {
             });
             return leaves;
         });
-
     };
 
+    /**
+     * Get leave events from requests, deleted requests are excluded
+     * @param {Date} dtstart [[Description]]
+     * @param {Date} dtend   [[Description]]
+     * @return {Promise}  Era object
+     */
+    accountSchema.methods.getLeaveEvents = function(dtstart, dtend) {
 
+        return this.getEventsEra(this.model('CalendarEvent').find()
+            .where('user.id', this.user.id)
+            .where('status').ne('CANCELED')
+            .where('dtstart').lt(dtend)
+            .where('dtend').gt(dtstart));
+    };
+
+    /**
+     * Get confirmed leave events with no lunch payments
+     * @param {Date} dtstart [[Description]]
+     * @param {Date} dtend   [[Description]]
+     * @return {Promise}  Era object
+     */
+    accountSchema.methods.getConfirmedNoLunchLeaveEvents = function(dtstart, dtend) {
+
+        return this.getEventsEra(this.model('CalendarEvent').find()
+            .where('user.id', this.user.id)
+            .where('status', 'CONFIRMED')
+            .where('dtstart').lt(dtend)
+            .where('dtend').gt(dtstart)
+            .where('lunch', false));
+    };
 
     /**
      * get non working periods in a period
@@ -1069,7 +1084,7 @@ exports = module.exports = function(params) {
         return Promise.all([
             account.getPeriodScheduleEvents(dtstart, dtend),
             account.getNonWorkingDayEvents(dtstart, dtend),
-            account.getLeaveEvents(dtstart, dtend)
+            account.getConfirmedNoLunchLeaveEvents(dtstart, dtend)
         ]).then(function(res) {
             const scheduleEvents = res[0];
             scheduleEvents.subtractEra(res[1]);
