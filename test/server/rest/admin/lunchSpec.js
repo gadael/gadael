@@ -59,7 +59,7 @@ describe('Lunchs admin rest service', function() {
 
     it('create new user account', function(done) {
         const arrival = new Date();
-        arrival.setDate(arrival.getDate() - 10);
+        arrival.setDate(arrival.getDate() - 50);
         server.post('/rest/admin/users', {
             firstname: 'create',
             lastname: 'by REST',
@@ -109,10 +109,22 @@ describe('Lunchs admin rest service', function() {
         });
     });
 
+    it('Create saved lunchs', function(done) {
+        server.app.db.models.Account.findById(createdUser.roles.account, (err, account) => {
+            account.lunch.createdUpTo = account.arrival;
+            account.saveLunchBreaks()
+            .then(() => {
+                done();
+            })
+            .catch(done);
+        });
+    });
+
     it('get the lunch list', function(done) {
         server.get('/rest/admin/lunchs', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeDefined();
+            expect(body.length).toEqual(2); // 2 months
             done();
         });
     });

@@ -19,7 +19,7 @@ var query = function(service, params) {
     }
 
     find.group({
-        _id: { $dateToString: { format: '%Y-%m', date: "$date" } },
+        _id: { $dateToString: { format: '%Y-%m', date: '$day' } },
         count: { $sum: 1 }
     });
     find.sort({ '_id': -1 });

@@ -1140,7 +1140,7 @@ exports = module.exports = function(params) {
         return Lunch.deleteMany({ 'user.id': this.user.id, day: { $gte: start }})
         .exec()
         .then(() => {
-            return this.getLunchBreaks();
+            return this.getLunchBreaks(start, end);
         })
         .then(lunchs => {
             const promises = lunchs.map(day => {
@@ -1156,7 +1156,7 @@ exports = module.exports = function(params) {
             this.lunch.createdUpTo = end;
             this.lunch.createdUpTo.setHours(0, 0, 0, 0);
             this.lunch.createdUpTo.setDate(this.lunch.createdUpTo.getDate() + 1);
-            return this.lunch.createdUpTo.save();
+            return this.save();
         });
     };
 
