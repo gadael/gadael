@@ -39,7 +39,7 @@ exports = module.exports = function(params) {
         absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem', index: true }, // for absence
         request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request', index: true }, // for absence or workperiod_recover
 		timeCreated: { type: Date, default: Date.now },
-        lunch: { type: Boolean, default: false } // count lunch only if true, info from right spec
+        lunch: Boolean // count lunch only if true, info from right spec
 	});
 
 

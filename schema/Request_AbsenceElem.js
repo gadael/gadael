@@ -48,7 +48,8 @@ exports = module.exports = function(params) {
                 required: true
             },
 
-            consumptionBusinessDaysLimit: { type: Number, default: 5 } // Used if consumption=businessDays
+            consumptionBusinessDaysLimit: { type: Number, default: 5 }, // Used if consumption=businessDays
+            lunch: Boolean
 		}
 	});
 

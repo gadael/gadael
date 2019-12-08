@@ -59,7 +59,8 @@ function getElementIgniter(service, collection, user)
                     finish: renewal.finish
                 },
                 consumption: rightDocument.consumption,
-                consumptionBusinessDaysLimit: rightDocument.consumptionBusinessDaysLimit
+                consumptionBusinessDaysLimit: rightDocument.consumptionBusinessDaysLimit,
+                lunch: rightDocument.lunch
             };
 
             if (undefined !== rightDocument.type) {
@@ -584,11 +585,10 @@ function saveEmbedEvents(requestDoc)
                 if (event.absenceElem !== elem._id) {
                     event.request = requestDoc._id;
                     event.absenceElem = elem._id;
-
                     if ('waiting' === requestDoc.status.created) {
                         event.status = 'TENTATIVE';
                     }
-
+                    event.lunch = elem.right.lunch;
                     savePromises.push(event.save());
                 }
             }
