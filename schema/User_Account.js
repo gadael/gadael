@@ -1137,7 +1137,11 @@ exports = module.exports = function(params) {
         }
 
         const Lunch = this.model('Lunch');
-        this.getLunchBreaks()
+        return Lunch.deleteMany({ 'user.id': this.user.id, day: { $gte: start }})
+        .exec()
+        .then(() => {
+            return this.getLunchBreaks();
+        })
         .then(lunchs => {
             const promises = lunchs.map(day => {
                 const lunch = new Lunch();
