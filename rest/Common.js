@@ -168,7 +168,8 @@ exports.getInfos = function(req, res) {
         workperiod_recover_request: compDoc.workperiod_recover_request,
         login: {
             form: compDoc.loginservices.form.enable,
-            google: compDoc.loginservices.google.enable
+            google: compDoc.loginservices.google.enable,
+            cas: compDoc.loginservices.cas.enable
         }
 	};
 
