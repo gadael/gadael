@@ -3,7 +3,7 @@
 
 		<div class="row gadael-list-header">
 
-			<div class="col-xs-12 col-sm-8 text-center">
+			<div class="col-xs-12 col-sm-12 text-center">
 				<bgf-pagination
 					per-page="25"
 					collection="lunchs"
@@ -21,16 +21,15 @@
             </div>
 			<div class="row" ng-repeat="aggregation in lunchs">
 				<div class="col-sm-4">
-
 					 {{aggregation._id|date:'MMMM yyyy'}}
 				</div>
 
                 <div class="col-sm-4">
-                    {{aggregation.count}}
+                    <span translate translate-n="aggregation.count" translate-plural="{{$count}} Lunchs">1 Lunch</span>
                 </div>
 
                 <div class="col-sm-4">
-                    <span ng-if="$first">
+                    <span ng-if="isLastMonth(aggregation._id)">
                     <a role="button" ng-click="refresh(aggregation._id)">
                           <i class="fa fa-retweet"></i> <span translate>Fix count</span>
                     </a>
