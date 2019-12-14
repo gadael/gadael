@@ -702,7 +702,7 @@ exports = module.exports = {
 			    approbalert(app).catch(console.error);
 			});
 
-            schedule.scheduleJob({ date: 1, hour: 0, minute: 0 }, () => {
+            schedule.scheduleJob({ hour: 0, minute: 0 }, () => {
                 console.log('Saving lunch breaks...');
                 app.db.models.Account.find().exec()
                 .then(accounts => Promise.all(accounts.map(a => a.saveLunchBreaks())))
