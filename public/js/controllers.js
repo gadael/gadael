@@ -145,6 +145,10 @@ define(['angular', 'services'], function (angular) {
             invokeController('controllers/admin/calendar-view', this, $scope, $injector);
 		}])
 
+        .controller('AdminLunchs', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/lunchs', this, $scope, $injector);
+		}])
+
         .controller('AdminBeneficiaryEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/beneficiary-edit', this, $scope, $injector);
 		}])

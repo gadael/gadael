@@ -134,7 +134,21 @@ describe('Lunchs admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeDefined();
             expect(body.length).toEqual(2); // 2 months
-            lastMonthLunchCount = body[0].count;
+            if (body.length === 2) {
+                lastMonthLunchCount = body[0].count;
+            }
+            done();
+        });
+    });
+
+    it('filter lunch list by user id', function(done) {
+        server.get('/rest/admin/lunchs', { 'user.id': createdUser._id }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toBeDefined();
+            expect(body.length).toEqual(2); // 2 months
+            if (body.length === 2) {
+                lastMonthLunchCount = body[0].count;
+            }
             done();
         });
     });

@@ -1,5 +1,7 @@
 'use strict';
 
+const mongoose = require('mongoose');
+
 /**
  * Create the query with filters
  *
@@ -9,22 +11,18 @@
  * @return {Query}
  */
 var query = function(service, params) {
-    const find = service.app.db.models.Lunch.aggregate();
+    const aggregate = service.app.db.models.Lunch.aggregate();
     if (undefined !== params['user.id']) {
-        find.where({ 'user.id': params['user.id'] });
+        aggregate.match({ 'user.id': mongoose.Types.ObjectId(params['user.id']) });
     }
 
-    if (undefined !== params['user.name']) {
-        find.where({ 'user.name': new RegExp(params['user.name'], 'i') });
-    }
-
-    find.group({
+    aggregate.group({
         _id: { $dateToString: { format: '%Y-%m', date: '$day' } },
         count: { $sum: 1 }
     });
-    find.sort({ '_id': -1 });
+    aggregate.sort({ '_id': -1 });
 
-    return find;
+    return aggregate;
 };
 
 
