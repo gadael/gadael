@@ -57,7 +57,7 @@ exports = module.exports = function(params) {
 
         lunch: {
             active: { type: Boolean, default: true },
-            createdUpTo: { type: Date, default: Date.now(), required: true },
+            createdUpTo: { type: Date, default: Date.now() },
             from: Date,
             to: Date
         }
@@ -1116,7 +1116,7 @@ exports = module.exports = function(params) {
      */
     accountSchema.methods.saveLunchBreaks = function() {
         let start = this.lunch.createdUpTo;
-        if (this.arrival && start < this.arrival) {
+        if (this.arrival && (!start || start < this.arrival)) {
             start = this.arrival;
         }
         if (this.lunch.from && start < this.lunch.from) {

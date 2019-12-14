@@ -16,6 +16,8 @@ describe('Lunchs admin rest service', function() {
      */
     let accountScheduleCalendar;
 
+    let lastMonthLunchCount = null;
+
     beforeEach(function(done) {
         var helpers = require('../mockServer');
         helpers.mockServer('adminLunchsSpec', function(_mockServer) {
@@ -59,7 +61,7 @@ describe('Lunchs admin rest service', function() {
 
     it('create new user account', function(done) {
         const arrival = new Date();
-        arrival.setDate(arrival.getDate() - 50);
+        arrival.setMonth(arrival.getMonth() - 12);
         server.post('/rest/admin/users', {
             firstname: 'create',
             lastname: 'by REST',
@@ -89,10 +91,18 @@ describe('Lunchs admin rest service', function() {
         });
     });
 
+    it('Expect an account with lunch management activated', function(done) {
+        server.get('/rest/admin/users/'+createdUser._id, {}, function(res, body) {
+            expect(body.roles.account.lunch).toBeDefined();
+            expect(body.roles.account.lunch.active).toBeTruthy();
+            expect(body.roles.account.lunch.createdUpTo).toBeDefined();
+            done();
+        });
+    });
 
     it('Create a schedule calendar period', function(done) {
         const from = new Date();
-        from.setFullYear(from.getFullYear() - 2);
+        from.setMonth(from.getMonth() - 2);
 
         server.post('/rest/admin/accountschedulecalendars', {
             user: createdUser._id,
@@ -102,7 +112,6 @@ describe('Lunchs admin rest service', function() {
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             server.expectSuccess(body);
-
             accountScheduleCalendar = body;
             delete accountScheduleCalendar.$outcome;
             done();
@@ -125,6 +134,40 @@ describe('Lunchs admin rest service', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toBeDefined();
             expect(body.length).toEqual(2); // 2 months
+            lastMonthLunchCount = body[0].count;
+            done();
+        });
+    });
+
+    it('Update the user schedule', function(done) {
+        accountScheduleCalendar.to = new Date();
+        accountScheduleCalendar.to.setDate(-15);
+        server.put('/rest/admin/accountschedulecalendars/'+accountScheduleCalendar._id, accountScheduleCalendar, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            server.expectSuccess(body);
+            done();
+        });
+    });
+
+    it('Refresh the last month lunchs', function(done) {
+        const last = new Date();
+        last.setMonth(last.getMonth() - 1);
+        server.post('/rest/admin/lunchs', {
+            'user.id': createdUser._id,
+            year: last.getFullYear(),
+            month: last.getMonth()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            server.expectSuccess(body);
+            done();
+        });
+    });
+
+    it('get less lunch breaks on the regenerated month', function(done) {
+        server.get('/rest/admin/lunchs', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(2); // 2 months
+            expect(body[0].count).toBeLessThan(lastMonthLunchCount);
             done();
         });
     });

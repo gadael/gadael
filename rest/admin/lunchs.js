@@ -10,5 +10,13 @@ function listController() {
 }
 listController.prototype = new ctrlFactory.list();
 
+function refreshController() {
+    ctrlFactory.create.call(this, '/rest/admin/lunchs');
+    this.controllerAction = function() {
+        this.jsonService(this.service('admin/lunchs/save'));
+    };
+}
+refreshController.prototype = new ctrlFactory.create();
 
-exports = module.exports = [listController];
+
+exports = module.exports = [listController, refreshController];
