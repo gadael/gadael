@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-27 16:35+0200\n"
+"POT-Creation-Date: 2019-12-17 20:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,11 +136,11 @@ msgstr ""
 msgid "At least one business day is required"
 msgstr ""
 
-#: api/services/admin/collections/save.js:131
+#: api/services/admin/collections/save.js:140
 msgid "The collection has been modified"
 msgstr ""
 
-#: api/services/admin/collections/save.js:148
+#: api/services/admin/collections/save.js:157
 msgid "The collection has been created"
 msgstr ""
 
@@ -213,6 +213,22 @@ msgstr ""
 
 #: api/services/admin/calendars/save.js:93
 msgid "The calendar has been created"
+msgstr ""
+
+#: api/services/admin/lunchs/save.js:20
+msgid "Invalid date"
+msgstr ""
+
+#: api/services/admin/lunchs/save.js:23
+msgid "Account not found from user ID"
+msgstr ""
+
+#: api/services/admin/lunchs/save.js:28
+msgid "The month to refresh must be the last created month"
+msgstr ""
+
+#: api/services/admin/lunchs/save.js:44
+msgid "The month has been refreshed"
 msgstr ""
 
 #: api/services/admin/accountschedulecalendars/get.js:30
@@ -426,7 +442,7 @@ msgstr ""
 msgid "This compulsory leave does not exists"
 msgstr ""
 
-#: api/services/admin/compulsoryleaves/delete.js:50
+#: api/services/admin/compulsoryleaves/delete.js:57
 msgid "The compulsory leave has been deleted"
 msgstr ""
 
@@ -452,11 +468,11 @@ msgstr ""
 msgid "No availability on period for %s"
 msgstr ""
 
-#: api/services/admin/compulsoryleaves/save.js:585
+#: api/services/admin/compulsoryleaves/save.js:603
 msgid "The compulsory leave period has been modified"
 msgstr ""
 
-#: api/services/admin/compulsoryleaves/save.js:604
+#: api/services/admin/compulsoryleaves/save.js:622
 msgid "The compulsory leave period has been created"
 msgstr ""
 
@@ -468,11 +484,11 @@ msgstr ""
 msgid "The renewal has been deleted"
 msgstr ""
 
-#: api/services/admin/rightrenewals/save.js:90
+#: api/services/admin/rightrenewals/save.js:94
 msgid "The right renewal period has been modified"
 msgstr ""
 
-#: api/services/admin/rightrenewals/save.js:113
+#: api/services/admin/rightrenewals/save.js:117
 msgid "The right renewal period has been created"
 msgstr ""
 
@@ -489,11 +505,11 @@ msgstr ""
 msgid "The leave right has been deleted"
 msgstr ""
 
-#: api/services/admin/rights/save.js:171
+#: api/services/admin/rights/save.js:166
 msgid "The vacation right has been created"
 msgstr ""
 
-#: api/services/admin/rights/save.js:173
+#: api/services/admin/rights/save.js:168
 msgid "The vacation right has been modified"
 msgstr ""
 
@@ -565,18 +581,18 @@ msgstr ""
 msgid "Failed to load the collection document"
 msgstr ""
 
-#: api/services/user/requests/saveAbsence.js:336
+#: api/services/user/requests/saveAbsence.js:337
 #, javascript-format
 msgid ""
 "The rule \"%s\" cannot be verified when saving absence event from %s to %s "
 "on the renewal from %s to %s from the right %s"
 msgstr ""
 
-#: api/services/user/requests/saveAbsence.js:348
+#: api/services/user/requests/saveAbsence.js:349
 msgid "Arrival date must be before renewal finish"
 msgstr ""
 
-#: api/services/user/requests/saveAbsence.js:356
+#: api/services/user/requests/saveAbsence.js:357
 #, javascript-format
 msgid ""
 "The quantity requested on right \"%s\" is not available, available quantity "
@@ -625,11 +641,11 @@ msgid ""
 "allowed"
 msgstr ""
 
-#: api/services/user/requests/save.js:381
+#: api/services/user/requests/save.js:373
 msgid "The request has been modified"
 msgstr ""
 
-#: api/services/user/requests/save.js:420
+#: api/services/user/requests/save.js:412
 msgid "The request has been created"
 msgstr ""
 
@@ -759,7 +775,7 @@ msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/apputil.js:60 modules/passport.js:251
+#: modules/apputil.js:60 modules/passport.js:313
 msgid "Access denied for non administrators"
 msgstr ""
 
@@ -771,7 +787,7 @@ msgstr ""
 msgid "Access denied for non managers"
 msgstr ""
 
-#: modules/apputil.js:75 modules/passport.js:229
+#: modules/apputil.js:75 modules/passport.js:291
 msgid "Access denied for anonymous users"
 msgstr ""
 
@@ -998,32 +1014,32 @@ msgstr ""
 msgid "Dates interval must be less than 2 years"
 msgstr ""
 
-#: modules/passport.js:42
+#: modules/passport.js:44
 msgid "Unknown user"
 msgstr ""
 
-#: modules/passport.js:46
+#: modules/passport.js:48
 msgid "No password set on user"
 msgstr ""
 
-#: modules/passport.js:55
+#: modules/passport.js:57
 msgid "Invalid password"
 msgstr ""
 
-#: modules/passport.js:77
+#: modules/passport.js:79
 msgid "Creation of a new account is not allowed on this application"
 msgstr ""
 
-#: modules/passport.js:81
+#: modules/passport.js:83
 #, javascript-format
 msgid "Only email from %s are allowed"
 msgstr ""
 
-#: modules/passport.js:119
+#: modules/passport.js:121
 msgid "Google API problem: Email is mandatory"
 msgstr ""
 
-#: modules/passport.js:267
+#: modules/passport.js:329
 msgid "Access denied"
 msgstr ""
 
@@ -1166,19 +1182,19 @@ msgstr ""
 msgid "The renewals periods must not overlap"
 msgstr ""
 
-#: schema/Right_Renewal.js:1172
+#: schema/Right_Renewal.js:1188
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1239
+#: schema/Right_Renewal.js:1255
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
 msgstr ""
 
-#: schema/Right_Renewal.js:1282
+#: schema/Right_Renewal.js:1298
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1433,7 +1449,7 @@ msgstr ""
 msgid "Interval values must be set in a correct order"
 msgstr ""
 
-#: schema/User_Account.js:1034
+#: schema/User_Account.js:1050
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr ""

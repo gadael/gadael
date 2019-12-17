@@ -4,6 +4,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: public/partials/admin/lunchs.html:28
+msgid "1 Lunch"
+msgid_plural "{{$count}} Lunchs"
+msgstr[0] ""
+msgstr[1] ""
+
 #: public/partials/utils/common/request/request-list-type.html:24
 msgid "1 day"
 msgid_plural "{{deposit.quantity| number}} days"
@@ -39,7 +45,7 @@ msgstr ""
 msgid "Absence rights"
 msgstr ""
 
-#: public/partials/admin/users.html:40
+#: public/partials/admin/users.html:37
 msgid "Absences account"
 msgstr ""
 
@@ -209,8 +215,8 @@ msgstr ""
 msgid "Adjustements quantity"
 msgstr ""
 
-#: public/index-dev.html:38
-#: public/index.html:38
+#: public/index-dev.html:39
+#: public/index.html:39
 msgid "Admin"
 msgstr ""
 
@@ -218,11 +224,11 @@ msgstr ""
 msgid "Admin, substituting one of his subordinates"
 msgstr ""
 
-#: public/partials/admin/users.html:41
+#: public/partials/admin/users.html:38
 msgid "Administrator"
 msgstr ""
 
-#: public/js/optimized.js:36351
+#: public/js/optimized.js:36362
 #: public/js/services.js:461
 msgid "Age"
 msgstr ""
@@ -275,6 +281,7 @@ msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html:12
 #: public/partials/admin/beneficiary-edit.html:12
+#: public/partials/admin/lunchs.html:53
 #: public/partials/admin/user-view-account.html:22
 msgid "Arrival date:"
 msgstr ""
@@ -299,7 +306,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: public/js/optimized.js:35254
+#: public/js/optimized.js:35265
 #: public/js/services/beneficiary.js:226
 msgid "Auto monthly update"
 msgstr ""
@@ -332,7 +339,7 @@ msgstr ""
 msgid "Available on right"
 msgstr ""
 
-#: public/js/optimized.js:35337
+#: public/js/optimized.js:35348
 #: public/js/services/beneficiary.js:309
 #: public/partials/account/beneficiaries.html:21
 #: public/partials/admin/user-view-account.html:92
@@ -384,12 +391,12 @@ msgid "Business days for the users associated to this collection"
 msgstr ""
 
 #: public/partials/admin/rights.html:82
-#: public/partials/admin/users.html:87
+#: public/partials/admin/users.html:84
 msgid "By collection:"
 msgstr ""
 
 #: public/partials/admin/request/requests.html:86
-#: public/partials/admin/users.html:80
+#: public/partials/admin/users.html:77
 msgid "By department:"
 msgstr ""
 
@@ -400,7 +407,7 @@ msgstr ""
 #: public/partials/admin/recoverquantities.html:46
 #: public/partials/admin/rights.html:70
 #: public/partials/admin/types.html:50
-#: public/partials/admin/users.html:75
+#: public/partials/admin/users.html:72
 msgid "By name:"
 msgstr ""
 
@@ -461,7 +468,7 @@ msgstr ""
 #: public/partials/admin/export/export-edit-xlsx.html:34
 #: public/partials/admin/invitation-edit.html:41
 #: public/partials/admin/recoverquantity-edit.html:24
-#: public/partials/admin/right-edit.html:236
+#: public/partials/admin/right-edit.html:241
 #: public/partials/admin/rightrenewal-edit.html:22
 #: public/partials/admin/rightrule-edit.html:374
 #: public/partials/admin/rightrule-edit.html:72
@@ -488,11 +495,11 @@ msgstr ""
 msgid "Classification used for the creation of leave requests"
 msgstr ""
 
-#: public/partials/admin/user-view.html:52
+#: public/partials/admin/user-view.html:53
 msgid "Client Id:"
 msgstr ""
 
-#: public/partials/admin/user-view.html:53
+#: public/partials/admin/user-view.html:54
 msgid "Client Secret:"
 msgstr ""
 
@@ -571,7 +578,7 @@ msgstr ""
 msgid "Consume worked days"
 msgstr ""
 
-#: public/js/optimized.js:32668
+#: public/js/optimized.js:32678
 #: public/js/services/renewalChart.js:181
 msgid "Consumed"
 msgstr ""
@@ -593,7 +600,7 @@ msgstr ""
 msgid "Consumption"
 msgstr ""
 
-#: public/js/optimized.js:36352
+#: public/js/optimized.js:36363
 #: public/js/services.js:462
 msgid "Consuption"
 msgstr ""
@@ -719,7 +726,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: public/js/optimized.js:32678
+#: public/js/optimized.js:32688
 #: public/js/services/renewalChart.js:191
 msgid "Day"
 msgid_plural "Days"
@@ -780,12 +787,12 @@ msgstr ""
 #: public/partials/admin/invitations.html:27
 #: public/partials/admin/right-view.html:72
 #: public/partials/admin/rightrule-edit.html:373
-#: public/partials/admin/user-view.html:64
+#: public/partials/admin/user-view.html:65
 #: public/partials/utils/common/request/request-buttons.html:3
 msgid "Delete"
 msgstr ""
 
-#: public/partials/admin/user-view.html:72
+#: public/partials/admin/user-view.html:73
 msgid "Delete API tokens"
 msgstr ""
 
@@ -808,7 +815,7 @@ msgstr[1] ""
 
 #: public/partials/admin/user-edit.html:20
 #: public/partials/admin/user-view.html:21
-#: public/partials/admin/users.html:42
+#: public/partials/admin/users.html:39
 msgid "Department manager"
 msgstr ""
 
@@ -819,8 +826,9 @@ msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html:11
 #: public/partials/admin/beneficiary-edit.html:11
+#: public/partials/admin/lunchs.html:52
 #: public/partials/admin/request/spoof-user-modal.html:18
-#: public/partials/admin/user-view.html:48
+#: public/partials/admin/user-view.html:49
 msgid "Department:"
 msgstr ""
 
@@ -828,8 +836,8 @@ msgstr ""
 msgid "Departments"
 msgstr ""
 
-#: public/index-dev.html:34
-#: public/index.html:34
+#: public/index-dev.html:35
+#: public/index.html:35
 msgid "Departments supervision"
 msgstr ""
 
@@ -877,7 +885,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: public/js/optimized.js:33997
+#: public/js/optimized.js:34008
 #: public/js/services/absence-edit.js:279
 msgid "Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave"
 msgstr ""
@@ -897,7 +905,7 @@ msgstr ""
 #: public/partials/admin/user-view-account.html:191
 #: public/partials/admin/user-view-account.html:56
 #: public/partials/admin/user-view-account.html:84
-#: public/partials/admin/user-view.html:60
+#: public/partials/admin/user-view.html:61
 #: public/partials/utils/common/request/request-buttons.html:2
 msgid "Edit"
 msgstr ""
@@ -955,7 +963,7 @@ msgstr ""
 msgid "Entitlement quantity:"
 msgstr ""
 
-#: public/js/optimized.js:36347
+#: public/js/optimized.js:36358
 #: public/js/services.js:457
 msgid "Entry date"
 msgstr ""
@@ -1018,6 +1026,10 @@ msgstr ""
 #: public/partials/login/invitation.html:22
 #: public/partials/utils/common/user/user-edit-head.html:15
 msgid "Firstname"
+msgstr ""
+
+#: public/partials/admin/lunchs.html:34
+msgid "Fix count"
 msgstr ""
 
 #: public/partials/admin/types.html:36
@@ -1096,12 +1108,12 @@ msgstr ""
 msgid "From:"
 msgstr ""
 
-#: public/js/app.js:64
-#: public/js/optimized.js:41861
+#: public/js/app.js:66
+#: public/js/optimized.js:41874
 msgid "Gadael - %s"
 msgstr ""
 
-#: public/partials/admin/user-view.html:68
+#: public/partials/admin/user-view.html:69
 msgid "Get API tokens"
 msgstr ""
 
@@ -1188,7 +1200,7 @@ msgstr ""
 msgid "Initial:"
 msgstr ""
 
-#: public/js/optimized.js:34036
+#: public/js/optimized.js:34047
 #: public/js/services/absence-edit.js:318
 msgid "Input quantity must be set"
 msgstr ""
@@ -1254,8 +1266,8 @@ msgstr ""
 msgid "Leave right"
 msgstr ""
 
-#: public/js/app.js:134
-#: public/js/optimized.js:41931
+#: public/js/app.js:135
+#: public/js/optimized.js:41944
 msgid "Leaves managment"
 msgstr ""
 
@@ -1312,6 +1324,26 @@ msgstr ""
 #: public/js/controllers/login/index.js:8
 #: public/partials/home.html:30
 msgid "Login"
+msgstr ""
+
+#: public/partials/admin/user-view.html:32
+msgid "Lunch breaks"
+msgstr ""
+
+#: public/js/controllers/admin/lunchs.js:8
+msgid "Lunch breaks by months"
+msgstr ""
+
+#: public/partials/admin/right-edit.html:231
+msgid "Lunch payment on absences with this right"
+msgstr ""
+
+#: public/partials/admin/user-edit-account.html:41
+msgid "Lunch payments from"
+msgstr ""
+
+#: public/partials/admin/user-edit-account.html:49
+msgid "Lunch payments to"
 msgstr ""
 
 #: public/partials/admin/department-view.html:35
@@ -1414,8 +1446,8 @@ msgstr ""
 msgid "My rights"
 msgstr ""
 
-#: public/index-dev.html:30
-#: public/index.html:30
+#: public/index-dev.html:31
+#: public/index.html:31
 msgid "My vacations"
 msgstr ""
 
@@ -1474,13 +1506,17 @@ msgstr ""
 msgid "No active renewal"
 msgstr ""
 
-#: public/js/optimized.js:34696
+#: public/js/optimized.js:34707
 #: public/js/services/timesavingdeposit-edit.js:50
 msgid "No available time saving account"
 msgstr ""
 
 #: public/partials/admin/modal-specialrights.html:17
 msgid "No constraints on right parameters"
+msgstr ""
+
+#: public/partials/admin/lunchs.html:20
+msgid "No existing lunch breaks yet for this user"
 msgstr ""
 
 #: public/partials/admin/right-edit.html:34
@@ -1524,7 +1560,7 @@ msgstr ""
 msgid "Nothing to approve"
 msgstr ""
 
-#: public/js/optimized.js:34095
+#: public/js/optimized.js:34106
 #: public/js/services/absence-edit.js:377
 msgid "Nothing to save"
 msgstr ""
@@ -1757,12 +1793,12 @@ msgstr ""
 msgid "Renewals with remaining quantity"
 msgstr ""
 
-#: public/js/optimized.js:36349
+#: public/js/optimized.js:36360
 #: public/js/services.js:459
 msgid "Request in user interval"
 msgstr ""
 
-#: public/js/optimized.js:36348
+#: public/js/optimized.js:36359
 #: public/js/services.js:458
 msgid "Request period"
 msgstr ""
@@ -1921,7 +1957,7 @@ msgstr ""
 #: public/partials/admin/compulsoryleave-edit.html:86
 #: public/partials/admin/department-edit.html:51
 #: public/partials/admin/recoverquantity-edit.html:23
-#: public/partials/admin/right-edit.html:235
+#: public/partials/admin/right-edit.html:240
 #: public/partials/admin/rightrenewal-edit.html:21
 #: public/partials/admin/rightrule-edit.html:372
 #: public/partials/admin/type-edit.html:27
@@ -2003,7 +2039,7 @@ msgstr ""
 msgid "Search in rights"
 msgstr ""
 
-#: public/partials/admin/users.html:72
+#: public/partials/admin/users.html:69
 msgid "Search in users"
 msgstr ""
 
@@ -2043,7 +2079,7 @@ msgstr ""
 msgid "Send invitations"
 msgstr ""
 
-#: public/js/optimized.js:36350
+#: public/js/optimized.js:36361
 #: public/js/services.js:460
 msgid "Seniority"
 msgstr ""
@@ -2093,8 +2129,8 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: public/index-dev.html:44
-#: public/index.html:44
+#: public/index-dev.html:45
+#: public/index.html:45
 #: public/partials/login/login.html:23
 #: public/partials/login/login.html:3
 msgid "Sign In"
@@ -2174,7 +2210,7 @@ msgstr ""
 msgid "The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly"
 msgstr ""
 
-#: public/partials/admin/users.html:66
+#: public/partials/admin/users.html:63
 msgid "The number of active users is limited by your plan level"
 msgstr ""
 
@@ -2249,7 +2285,7 @@ msgstr ""
 msgid "This right has no configured rules"
 msgstr ""
 
-#: public/partials/admin/user-view.html:49
+#: public/partials/admin/user-view.html:50
 msgid "This user can not connect to the application"
 msgstr ""
 
@@ -2394,6 +2430,10 @@ msgstr ""
 msgid "Use default saving interval (renewal interval)"
 msgstr ""
 
+#: public/partials/admin/user-edit-account.html:37
+msgid "Use lunch break payments"
+msgstr ""
+
 #: public/partials/admin/request/absence-edit.html:6
 msgid "Use the approval workflow on this request"
 msgstr ""
@@ -2419,7 +2459,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: public/partials/admin/user-view.html:32
+#: public/partials/admin/user-view.html:33
 msgid "Users list"
 msgstr ""
 
@@ -2468,7 +2508,7 @@ msgstr ""
 #: public/partials/admin/request/requests.html:33
 #: public/partials/admin/right-view.html:197
 #: public/partials/admin/rights.html:23
-#: public/partials/admin/users.html:30
+#: public/partials/admin/users.html:27
 #: public/partials/manager/waitingrequests.html:32
 #: public/partials/utils/common/right/right-panel.html:26
 msgid "View"
@@ -2583,7 +2623,7 @@ msgstr ""
 msgid "Workschedule planning"
 msgstr ""
 
-#: public/js/optimized.js:33992
+#: public/js/optimized.js:34003
 #: public/js/services/absence-edit.js:274
 msgid "Wrong events count"
 msgstr ""
@@ -2696,7 +2736,7 @@ msgstr ""
 msgid "collections"
 msgstr ""
 
-#: public/js/optimized.js:33397
+#: public/js/optimized.js:33408
 #: public/js/services/request-edit.js:29
 #: public/partials/admin/compulsoryleave-view.html:70
 #: public/partials/admin/compulsoryleave-view.html:80
@@ -2719,7 +2759,7 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: public/js/optimized.js:33398
+#: public/js/optimized.js:33409
 #: public/js/services/request-edit.js:30
 #: public/partials/admin/compulsoryleave-view.html:71
 #: public/partials/admin/compulsoryleave-view.html:81
@@ -2742,7 +2782,7 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: public/js/optimized.js:34753
+#: public/js/optimized.js:34764
 #: public/js/services/timesavingdeposit-edit.js:107
 msgid "{quantity} up to {date}"
 msgstr ""
@@ -2763,6 +2803,6 @@ msgstr ""
 msgid "{{renewalChart.percentDays|number}}% consumed"
 msgstr ""
 
-#: public/partials/admin/users.html:67
+#: public/partials/admin/users.html:64
 msgid "{{usersstat.activeUsers}} users / {{company.max_users}} Max"
 msgstr ""
