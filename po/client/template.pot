@@ -4,12 +4,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: public/partials/admin/lunchs.html:28
-msgid "1 Lunch"
-msgid_plural "{{$count}} Lunchs"
-msgstr[0] ""
-msgstr[1] ""
-
 #: public/partials/utils/common/request/request-list-type.html:24
 msgid "1 day"
 msgid_plural "{{deposit.quantity| number}} days"
@@ -1109,7 +1103,7 @@ msgid "From:"
 msgstr ""
 
 #: public/js/app.js:66
-#: public/js/optimized.js:41874
+#: public/js/optimized.js:41878
 msgid "Gadael - %s"
 msgstr ""
 
@@ -1267,7 +1261,7 @@ msgid "Leave right"
 msgstr ""
 
 #: public/js/app.js:135
-#: public/js/optimized.js:41944
+#: public/js/optimized.js:41947
 msgid "Leaves managment"
 msgstr ""
 
@@ -2769,6 +2763,10 @@ msgid "hour"
 msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
+
+#: public/partials/admin/lunchs.html:28
+msgid "lunchs"
+msgstr ""
 
 #: public/partials/utils/common/request/absence-edit.html:24
 #: public/partials/utils/common/request/workperiod-recover-edit.html:64
