@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-27 16:35+0200\n"
-"PO-Revision-Date: 2019-04-27 16:37+0200\n"
+"POT-Creation-Date: 2019-12-17 20:25+0100\n"
+"PO-Revision-Date: 2019-12-17 20:31+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: api/specialrights/timesavingaccount.js:25
@@ -158,11 +158,11 @@ msgstr "Le régime a été supprimé"
 msgid "At least one business day is required"
 msgstr "Au moins un jour ouvré est requis"
 
-#: api/services/admin/collections/save.js:131
+#: api/services/admin/collections/save.js:140
 msgid "The collection has been modified"
 msgstr "Le régime a été modifié"
 
-#: api/services/admin/collections/save.js:148
+#: api/services/admin/collections/save.js:157
 msgid "The collection has been created"
 msgstr "Le régime a été créé"
 
@@ -236,6 +236,22 @@ msgstr "L'agenda a été modifié"
 #: api/services/admin/calendars/save.js:93
 msgid "The calendar has been created"
 msgstr "L'agenda a été créé"
+
+#: api/services/admin/lunchs/save.js:20
+msgid "Invalid date"
+msgstr "Date invalide"
+
+#: api/services/admin/lunchs/save.js:23
+msgid "Account not found from user ID"
+msgstr "Compte absence introuvable pour cet ID utilisateur"
+
+#: api/services/admin/lunchs/save.js:28
+msgid "The month to refresh must be the last created month"
+msgstr "Le mois à recalculer doit être le dernier créé"
+
+#: api/services/admin/lunchs/save.js:44
+msgid "The month has been refreshed"
+msgstr "Le mois à été recalculé"
 
 #: api/services/admin/accountschedulecalendars/get.js:30
 msgid "This schedule calendar does not exists for account"
@@ -454,7 +470,7 @@ msgstr "Le type de droit a été créé"
 msgid "This compulsory leave does not exists"
 msgstr "Ce congé imposé n'existe pas"
 
-#: api/services/admin/compulsoryleaves/delete.js:50
+#: api/services/admin/compulsoryleaves/delete.js:57
 msgid "The compulsory leave has been deleted"
 msgstr "Le congé imposé a été supprimé"
 
@@ -480,11 +496,11 @@ msgstr "Les régimes ou les services doivent contenir des éléments"
 msgid "No availability on period for %s"
 msgstr "Pas de disponibilités sur la période %s"
 
-#: api/services/admin/compulsoryleaves/save.js:585
+#: api/services/admin/compulsoryleaves/save.js:603
 msgid "The compulsory leave period has been modified"
 msgstr "La période du congé imposé a été modifiée"
 
-#: api/services/admin/compulsoryleaves/save.js:604
+#: api/services/admin/compulsoryleaves/save.js:622
 msgid "The compulsory leave period has been created"
 msgstr "La période du congé imposé a été créée"
 
@@ -496,11 +512,11 @@ msgstr "La période de renouvellement du droit n'existe pas"
 msgid "The renewal has been deleted"
 msgstr "Le renouvellement a été supprimé"
 
-#: api/services/admin/rightrenewals/save.js:90
+#: api/services/admin/rightrenewals/save.js:94
 msgid "The right renewal period has been modified"
 msgstr "La période de renouvellement a été modifiée"
 
-#: api/services/admin/rightrenewals/save.js:113
+#: api/services/admin/rightrenewals/save.js:117
 msgid "The right renewal period has been created"
 msgstr "La période de renouvellement a été créée"
 
@@ -517,11 +533,11 @@ msgstr "Impossible de supprimer, le droit est utilisé dans %d demandes"
 msgid "The leave right has been deleted"
 msgstr "Le droit de congés a été supprimé"
 
-#: api/services/admin/rights/save.js:171
+#: api/services/admin/rights/save.js:166
 msgid "The vacation right has been created"
 msgstr "Le droit de congés a été créé"
 
-#: api/services/admin/rights/save.js:173
+#: api/services/admin/rights/save.js:168
 msgid "The vacation right has been modified"
 msgstr "Le droit de congés a été modifié"
 
@@ -598,7 +614,7 @@ msgstr "Impossible de charger le document user"
 msgid "Failed to load the collection document"
 msgstr "Impossible de charger le document du régime"
 
-#: api/services/user/requests/saveAbsence.js:336
+#: api/services/user/requests/saveAbsence.js:337
 #, javascript-format
 msgid ""
 "The rule \"%s\" cannot be verified when saving absence event from %s to %s "
@@ -607,11 +623,11 @@ msgstr ""
 "La règle \"%s\" ne peut pas être vérifiée lors de l'enregistrement de "
 "l'absence du %s au %s sur le renouvellement du %s au %s avec le droit %s"
 
-#: api/services/user/requests/saveAbsence.js:348
+#: api/services/user/requests/saveAbsence.js:349
 msgid "Arrival date must be before renewal finish"
 msgstr "La date d'arrivée doit être avant la date de fin du renouvellement"
 
-#: api/services/user/requests/saveAbsence.js:356
+#: api/services/user/requests/saveAbsence.js:357
 #, javascript-format
 msgid ""
 "The quantity requested on right \"%s\" is not available, available quantity "
@@ -665,11 +681,11 @@ msgid ""
 "allowed"
 msgstr "Ce congé est un congé imposé, la modification n'est pas permise"
 
-#: api/services/user/requests/save.js:381
+#: api/services/user/requests/save.js:373
 msgid "The request has been modified"
 msgstr "La demande a été modifiée"
 
-#: api/services/user/requests/save.js:420
+#: api/services/user/requests/save.js:412
 msgid "The request has been created"
 msgstr "La demande a été créée"
 
@@ -804,7 +820,7 @@ msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heures"
 
-#: modules/apputil.js:60 modules/passport.js:251
+#: modules/apputil.js:60 modules/passport.js:313
 msgid "Access denied for non administrators"
 msgstr "Accès refusé pour les utilisateurs non administrateurs"
 
@@ -816,7 +832,7 @@ msgstr "Accès refusé pour les utilisateurs sans compte absences"
 msgid "Access denied for non managers"
 msgstr "Accès refusé pour les non gestionnaires"
 
-#: modules/apputil.js:75 modules/passport.js:229
+#: modules/apputil.js:75 modules/passport.js:291
 msgid "Access denied for anonymous users"
 msgstr "Accès refusé pour les utilisateurs anonymes"
 
@@ -1063,33 +1079,33 @@ msgstr "dtend doit être supérieur à dtstart"
 msgid "Dates interval must be less than 2 years"
 msgstr "L'intervalle de dates doit être inférieur à 2 ans"
 
-#: modules/passport.js:42
+#: modules/passport.js:44
 msgid "Unknown user"
 msgstr "Utilisateur inconnu"
 
-#: modules/passport.js:46
+#: modules/passport.js:48
 msgid "No password set on user"
 msgstr "Aucun mot de passe défini sur l'utilisateur"
 
-#: modules/passport.js:55
+#: modules/passport.js:57
 msgid "Invalid password"
 msgstr "Mot de passe invalide"
 
-#: modules/passport.js:77
+#: modules/passport.js:79
 msgid "Creation of a new account is not allowed on this application"
 msgstr ""
 "La création d'un nouveau compte n'est pas autorisé sur cette application"
 
-#: modules/passport.js:81
+#: modules/passport.js:83
 #, javascript-format
 msgid "Only email from %s are allowed"
 msgstr "Seulement les emails de %s sont autorisés"
 
-#: modules/passport.js:119
+#: modules/passport.js:121
 msgid "Google API problem: Email is mandatory"
 msgstr "Problème de l'API Google : l'Email est obligatoire"
 
-#: modules/passport.js:267
+#: modules/passport.js:329
 msgid "Access denied"
 msgstr "Accès refusé"
 
@@ -1235,7 +1251,7 @@ msgstr "Vous êtes déconnecté de votre agenda Google"
 msgid "The renewals periods must not overlap"
 msgstr "Les périodes de renouvellements ne doivent pas se superposer"
 
-#: schema/Right_Renewal.js:1172
+#: schema/Right_Renewal.js:1188
 msgid ""
 "To compute the number of planned working days, the annual leave type is "
 "required"
@@ -1243,7 +1259,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, le type "
 "congés payés annuels est requis"
 
-#: schema/Right_Renewal.js:1239
+#: schema/Right_Renewal.js:1255
 msgid ""
 "To compute the number of planned working days on a year, the annual leave "
 "initial quantity is required"
@@ -1251,7 +1267,7 @@ msgstr ""
 "Pour calculer le nombre de jours travaillés planifiés sur une année, la "
 "quantité de congés payés annuels est requise"
 
-#: schema/Right_Renewal.js:1282
+#: schema/Right_Renewal.js:1298
 #, javascript-format
 msgid ""
 "Invalid renewal, the renewal is too short and does not contain the requested "
@@ -1512,7 +1528,7 @@ msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
 msgid "Interval values must be set in a correct order"
 msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 
-#: schema/User_Account.js:1034
+#: schema/User_Account.js:1050
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr "Pas de semaine trouvée pour %s"

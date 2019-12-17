@@ -360,7 +360,16 @@ describe('User model', function() {
         });
     });
 
-
+    it('test account getLunchBreaks method with no working hours', function(done) {
+        const dtstart = new Date(2016,4,1);
+        const dtend = new Date(2016,4,31);
+        userDocument.getAccount().then(account => account.getLunchBreaks(dtstart, dtend))
+        .then(list => {
+            expect(list.length).toEqual(0);
+            done();
+        })
+        .catch(done);
+    });
 
     it("should disconnect from the database", function(done) {
 

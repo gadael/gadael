@@ -1,0 +1,55 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-9" ng-if="user._id">
+
+		<div class="row gadael-list-header">
+
+			<div class="col-xs-12 col-sm-12 text-center">
+				<bgf-pagination
+					per-page="25"
+					collection="lunchs"
+					url="'rest/admin/lunchs'"
+					url-params="{ 'user.id': user._id }"
+					template-url="partials/utils/paginate-anything.html">
+				</bgf-pagination>
+			</div>
+		</div>
+
+
+		<div class="gadael-list-rows">
+            <div ng-if="lunchs.length == 0">
+                <span translate>No existing lunch breaks yet for this user</span>
+            </div>
+			<div class="row" ng-repeat="aggregation in lunchs">
+				<div class="col-sm-4">
+					 {{aggregation._id|date:'MMMM yyyy'}}
+				</div>
+
+                <div class="col-sm-4">
+                    {{aggregation.count}} <span translate>lunchs</span>
+                </div>
+
+                <div class="col-sm-4">
+                    <span ng-if="isLastMonth(aggregation._id)">
+                    <a role="button" ng-click="refresh(aggregation._id)">
+                          <i class="fa fa-retweet"></i> <span translate>Fix count</span>
+                    </a>
+                    </span>
+                </div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div class="col-xs-12 col-sm-3">
+        <img class="img-rounded" ng-if="user.imageUrl" ng-src="{{user.imageUrl}}" />
+        <i class="top15 glyphicon glyphicon-user text-muted fa-5x" ng-if="!user.imageUrl"></i>
+
+        <h3><a ng-href="#/admin/users/{{user._id}}">{{user.lastname}} {{user.firstname}}</a></h3>
+
+        <p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
+
+        <p ng-if="user.department.name"><span translate>Department:</span> {{user.department.name}}</p>
+        <p ng-if="user.roles.account.arrival"><span translate>Arrival date:</span> {{user.roles.account.arrival|date}}</p>
+	</div>
+</div>

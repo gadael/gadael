@@ -100,8 +100,6 @@ function prepareDocument(service, params, fieldsToSet) {
  * @param {Object} params
  */
 function saveRight(service, params) {
-
-
     const gt = service.app.utility.gettext;
     const postpone = service.app.utility.postpone;
 
@@ -112,7 +110,6 @@ function saveRight(service, params) {
             type = params.type._id;
         }
     }
-
 
     let fieldsToSet = {
         name: params.name,
@@ -133,16 +130,14 @@ function saveRight(service, params) {
         special: params.special,
         consumption: params.consumption,
         consumptionBusinessDaysLimit: params.consumptionBusinessDaysLimit,
-        activeSpan: params.activeSpan
+        activeSpan: params.activeSpan,
+        lunch: params.lunch
     };
-
-
 
     if (undefined !== fieldsToSet.addMonthly && undefined !== fieldsToSet.addMonthly.quantity && 0 >= fieldsToSet.addMonthly.quantity) {
         // this field is hidden anyway
         fieldsToSet.addMonthly.max = null;
     }
-
 
     if (undefined !== params.rules) {
         // force unit

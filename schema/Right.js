@@ -108,7 +108,10 @@ exports = module.exports = function(params) {
             max: Number
         },
 
-        rules: [params.embeddedSchemas.RightRule]
+        rules: [params.embeddedSchemas.RightRule],
+
+        // Count lunch on absence event if linked to this right, ex on a traineeship
+        lunch: { type: Boolean, default: false }
 	});
 
 

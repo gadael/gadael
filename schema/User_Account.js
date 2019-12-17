@@ -34,6 +34,7 @@ exports = module.exports = function(params) {
         birth: Date,
 
         // date used to compute quantity on the first renewal (if this date is in the renewal interval)
+        // also the default lunch breaks start if lunch.from is not defined
         arrival: Date,
 
         // start date for seniority vacation rights
@@ -52,7 +53,14 @@ exports = module.exports = function(params) {
             registrationNumber: String // Used in sage export
         },
 
-        renewalStatsOutofDate: { type: Boolean, default: false } // force user renewal stats refresh
+        renewalStatsOutofDate: { type: Boolean, default: false }, // force user renewal stats refresh
+
+        lunch: {
+            active: { type: Boolean, default: true },
+            createdUpTo: { type: Date, default: Date.now() },
+            from: Date,
+            to: Date
+        }
     });
 
     accountSchema.index({ user: 1 });
@@ -588,27 +596,14 @@ exports = module.exports = function(params) {
         });
     };
 
-
     /**
-     * Get leave events from requests, deleted requests are excluded
-     * @param {Date} dtstart [[Description]]
-     * @param {Date} dtend   [[Description]]
-     * @return {Promise}  Era object
+     * Get Era object from calendar event query
+     * @param {} query
+     * @return {Promise}
      */
-    accountSchema.methods.getLeaveEvents = function(dtstart, dtend) {
-
-        let account = this;
-        let eventModel = this.model('CalendarEvent');
-        let leaves = new jurassic.Era();
-
-
-        let find = eventModel.find()
-            .where('user.id', account.user.id)
-            .where('status').ne('CANCELED')
-            .where('dtstart').lt(dtend)
-            .where('dtend').gt(dtstart);
-
-        return find.exec().then(events => {
+    accountSchema.methods.getEventsEra = function(query) {
+        const leaves = new jurassic.Era();
+        return query.exec().then(events => {
             events.forEach(evt => {
                 try {
                     leaves.addPeriod(evt.toObject());
@@ -619,10 +614,38 @@ exports = module.exports = function(params) {
             });
             return leaves;
         });
-
     };
 
+    /**
+     * Get leave events from requests, deleted requests are excluded
+     * @param {Date} dtstart [[Description]]
+     * @param {Date} dtend   [[Description]]
+     * @return {Promise}  Era object
+     */
+    accountSchema.methods.getLeaveEvents = function(dtstart, dtend) {
 
+        return this.getEventsEra(this.model('CalendarEvent').find()
+            .where('user.id', this.user.id)
+            .where('status').ne('CANCELED')
+            .where('dtstart').lt(dtend)
+            .where('dtend').gt(dtstart));
+    };
+
+    /**
+     * Get confirmed leave events with no lunch payments
+     * @param {Date} dtstart [[Description]]
+     * @param {Date} dtend   [[Description]]
+     * @return {Promise}  Era object
+     */
+    accountSchema.methods.getConfirmedNoLunchLeaveEvents = function(dtstart, dtend) {
+
+        return this.getEventsEra(this.model('CalendarEvent').find()
+            .where('user.id', this.user.id)
+            .where('status', 'CONFIRMED')
+            .where('dtstart').lt(dtend)
+            .where('dtend').gt(dtstart)
+            .where('lunch', false));
+    };
 
     /**
      * get non working periods in a period
@@ -962,10 +985,8 @@ exports = module.exports = function(params) {
      * @return {Promise} resolve to an object with number of hours and the number of worked days
      */
     accountSchema.methods.getWeekHours = function(dtstart, dtend) {
-
         let account = this;
         const gt = params.app.utility.gettext;
-
         let weekLoop = new Date(dtstart);
         // go to next monday
 
@@ -987,12 +1008,10 @@ exports = module.exports = function(params) {
         let currentWeek = {};
         let weeks = [];
 
-
         /**
          * Forward to next week
          */
         function next() {
-
             let week = {
                 nbDays: 0,
                 hours: 0
@@ -1007,15 +1026,12 @@ exports = module.exports = function(params) {
 
             weeks.push(week);
             currentWeek = {};
-
             weekLoop.setDate(weekLoop.getDate() + 7);
             limit.setDate(limit.getDate() + 7);
         }
 
-
         return account.getPeriodScheduleEvents(weekLoop, dtend)
         .then(era => {
-
             era.getFlattenedEra().periods.forEach(p => {
 
                 if (p.dtstart > limit) {
@@ -1023,7 +1039,6 @@ exports = module.exports = function(params) {
                 }
 
                 let wd = p.dtstart.getDay();
-
                 if (undefined === currentWeek[wd]) {
                     currentWeek[wd] = 0;
                 }
@@ -1031,22 +1046,16 @@ exports = module.exports = function(params) {
                 currentWeek[wd] += (p.dtend.getTime() - p.dtstart.getTime())/3600000;
             });
 
-
             if (0 === weeks.length) {
                 throw new Error(util.format(gt.gettext('No weeks found for %s'), account.user.name));
             }
 
-
             // average days per week and hours per week
-
             let nbDaySum = 0, hourSum = 0;
-
             weeks.forEach(w => {
                 nbDaySum += w.nbDays;
                 hourSum += w.hours;
             });
-
-
 
             return {
                 nbDays: (nbDaySum / weeks.length),
@@ -1055,7 +1064,101 @@ exports = module.exports = function(params) {
         });
     };
 
+    /**
+     * Get lunch breaks on a period
+     * @param {Date} dtstart
+     * @param {Date} dtend
+     * @return {Promise} resolve to alist of dates
+     */
+    accountSchema.methods.getLunchBreaks = function(dtstart, dtend) {
+        const account = this;
 
+        return Promise.all([
+            account.getPeriodScheduleEvents(dtstart, dtend),
+            account.getNonWorkingDayEvents(dtstart, dtend),
+            account.getConfirmedNoLunchLeaveEvents(dtstart, dtend)
+        ]).then(function(res) {
+            const scheduleEvents = res[0];
+            scheduleEvents.subtractEra(res[1]);
+            scheduleEvents.subtractEra(res[2]);
+            // Count days with work on morning AND afternoon
+            const dayIndex = {};
+            scheduleEvents.getFlattenedEra().periods.forEach(p => {
+                const k = p.dtstart.toDateString();
+                if (undefined === dayIndex[k]) {
+                    dayIndex[k] = {
+                        'day': p.dtstart,
+                        'am': false,
+                        'pm': false
+                    };
+                }
+                if (p.dtend.getHours() < 14) {
+                    dayIndex[k].am = true;
+                }
+                if (p.dtstart.getHours() > 12) {
+                    dayIndex[k].pm = true;
+                }
+            });
+
+            return Object.values(dayIndex)
+                .filter(p => p.am && p.pm)
+                .map(p => {
+                    const day = p.day;
+                    day.setHours(12,0,0,0);
+                    return day;
+                });
+        });
+    };
+
+    /**
+     * Save lunch breaks in database
+     * @return {Promise}
+     */
+    accountSchema.methods.saveLunchBreaks = function() {
+        let start = this.lunch.createdUpTo;
+        if (this.arrival && (!start || start < this.arrival)) {
+            start = this.arrival;
+        }
+        if (this.lunch.from && start < this.lunch.from) {
+            start = this.lunch.from;
+        }
+        start.setHours(0, 0, 0, 0);
+
+        let end = new Date();
+        end.setDate(-1);
+        if (this.lunch.to && end > this.lunch.to) {
+            end = this.lunch.to;
+        }
+        end.setHours(23, 59, 59, 999);
+
+        if (end <= this.lunch.createdUpTo) {
+            // Nothing to save
+            return Promise.resolve();
+        }
+
+        const Lunch = this.model('Lunch');
+        return Lunch.deleteMany({ 'user.id': this.user.id, day: { $gte: start }})
+        .exec()
+        .then(() => {
+            return this.getLunchBreaks(start, end);
+        })
+        .then(lunchs => {
+            const promises = lunchs.map(day => {
+                const lunch = new Lunch();
+                lunch.day = day;
+                lunch.user = this.user;
+                return lunch.save();
+            });
+
+            return Promise.all(promises);
+        })
+        .then(() => {
+            this.lunch.createdUpTo = end;
+            this.lunch.createdUpTo.setHours(0, 0, 0, 0);
+            this.lunch.createdUpTo.setDate(this.lunch.createdUpTo.getDate() + 1);
+            return this.save();
+        });
+    };
 
 
     params.db.model('Account', accountSchema);

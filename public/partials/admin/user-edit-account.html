@@ -31,3 +31,24 @@
     <input type="checkbox" id="account_notify_approvals" ng-model="user.roles.account.notify.approvals" />
     <label for="account_notify_approvals" translate>Notify the user when a request is accepted or rejected</label>
 </div>
+
+<div class="form-group col-md-12">
+    <input type="checkbox" id="account_lunch_active" ng-model="user.roles.account.lunch.active" />
+    <label for="account_lunch_active" translate>Use lunch break payments</label>
+</div>
+
+<div class="col-md-6 form-group" ng-if="user.roles.account.lunch.active">
+    <label for="lunch_from" translate>Lunch payments from</label>
+    <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-calendar-o"></i></div>
+        <input type="text" id="lunch_from" class="form-control" ng-model="user.roles.account.lunch.from" data-autoclose="1" container="body" bs-datepicker />
+    </div>
+</div>
+
+<div class="col-md-6 form-group" ng-if="user.roles.account.lunch.active">
+    <label for="lunch_to" translate>Lunch payments to</label>
+    <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-calendar-o"></i></div>
+        <input type="text" id="lunch_to" class="form-control" ng-model="user.roles.account.lunch.to" data-autoclose="1" container="body" bs-datepicker />
+    </div>
+</div>

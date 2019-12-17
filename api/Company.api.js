@@ -699,8 +699,14 @@ exports = module.exports = {
 			server.listen(app.config.port, app.config.host);
 
 			schedule.scheduleJob({ hour: 12, minute: 30 }, () => {
-			    approbalert(app)
-				.catch(console.error);
+			    approbalert(app).catch(console.error);
+			});
+
+            schedule.scheduleJob({ hour: 0, minute: 0 }, () => {
+                console.log('Saving lunch breaks...');
+                app.db.models.Account.find().exec()
+                .then(accounts => Promise.all(accounts.map(a => a.saveLunchBreaks())))
+                .catch(console.error);
 			});
 
             if (app.config.useSchudeledRefreshStat) {

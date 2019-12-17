@@ -40,10 +40,8 @@ describe('Account', function() {
 
 
     it('verify the getWeekHours method', function(done) {
-
-
-        let dtstart = new Date(2015,5,1);
-        let dtend = new Date(2016,4,31);
+        const dtstart = new Date(2015,5,1);
+        const dtend = new Date(2016,4,31);
 
         user.getAccount().then(account => {
             return account.getWeekHours(dtstart, dtend);
@@ -54,6 +52,16 @@ describe('Account', function() {
         }).catch(done);
     });
 
+    it('test account getLunchBreaks method with working hours', function(done) {
+        const dtstart = new Date(2016,4,1);
+        const dtend = new Date(2016,4,7);
+        user.getAccount().then(account => account.getLunchBreaks(dtstart, dtend))
+        .then(list => {
+            expect(list.length).toBeGreaterThan(0);
+            done();
+        })
+        .catch(done);
+    });
 
     it('close the mock server', function(done) {
         server.close(done);

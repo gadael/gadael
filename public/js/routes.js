@@ -270,6 +270,10 @@ define(['angular', 'app'], function(angular, app) {
 		});
 
 
+        $routeProvider.when('/admin/users/:id/lunchs', {
+			templateUrl: 'partials/admin/lunchs.html',
+			controller: 'AdminLunchs'
+		});
 
 
         $routeProvider.when('/admin/beneficiaries/:id', {

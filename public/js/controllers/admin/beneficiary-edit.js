@@ -2,14 +2,6 @@ define([], function() {
 
     'use strict';
 
-
-
-
-
-
-
-
-
 	return [
         '$scope',
         '$location',
