@@ -51,7 +51,7 @@ function createController() {
 
         promise.then(function(users) {
             if (0 !== users.length) {
-                controller.accessDenied(gt.gettext('The first admin allready exists'));
+                controller.accessDenied(gt.gettext('The first admin already exists'));
                 return;
             }
 

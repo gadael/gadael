@@ -455,6 +455,10 @@ msgstr "Par type :"
 msgid "By user name:"
 msgstr "Par nom d'utilisateur :"
 
+#: public/partials/login/login.html:49
+msgid "CAS login"
+msgstr "Login CAS"
+
 #: public/partials/utils/common/settings/menu.html:5
 msgid "Calendar"
 msgstr "Agenda"

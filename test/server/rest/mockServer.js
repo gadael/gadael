@@ -99,7 +99,7 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
     headless.linkdb().then(() => {
         api.isDbNameValid(headless, serverInst.dbname, function(status) {
             if (!status) {
-                console.log('mock REST server: database '+serverInst.dbname+' allready exists');
+                console.log('mock REST server: database '+serverInst.dbname+' already exists');
                 api.dropDb(headless, serverInst.dbname, createRestService);
                 return;
             }

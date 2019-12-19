@@ -172,7 +172,7 @@ exports = module.exports = function(params) {
         for (var i=0; i<days.length; i++) {
             d = days[i].getDay();
             if (-1 !== baseAttendanceDays.indexOf(d)) { // ignore week-end
-                if (-1 === appliquantWorkingDays.indexOf(d)) { // ignore days allready in quantity
+                if (-1 === appliquantWorkingDays.indexOf(d)) { // ignore days already in quantity
                     total += 1;
                 }
             }
@@ -187,7 +187,7 @@ exports = module.exports = function(params) {
 
     /**
      * get events promise
-     * if allready populated, promisify the existing array
+     * if already populated, promisify the existing array
      * else populate the document
      *
      * @return {Promise}

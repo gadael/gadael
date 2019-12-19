@@ -206,7 +206,7 @@ define(['moment', 'angular'], function(moment, angular) {
             {
                 for (var i=0; i<events.length; i++) {
                     if (events[i]._id === event._id) {
-                        // allready loaded
+                        // already loaded
                         return true;
                     }
                 }

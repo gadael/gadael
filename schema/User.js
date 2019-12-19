@@ -450,7 +450,7 @@ exports = module.exports = function(params) {
                 }
 
                 if (user.roles.admin) {
-                    return reject(new Error('Admin allready exists'));
+                    return reject(new Error('Admin already exists'));
                 }
 
                 var adminModel = params.db.models.Admin;
@@ -500,7 +500,7 @@ exports = module.exports = function(params) {
                 }
 
                 if (user.roles.account) {
-                    return reject(new Error('Account allready exists on user document'));
+                    return reject(new Error('Account already exists on user document'));
                 }
 
                 let accountModel = params.db.models.Account;
@@ -553,7 +553,7 @@ exports = module.exports = function(params) {
                 }
 
                 if (user.roles.manager) {
-                    return reject(new Error('Manager allready exists'));
+                    return reject(new Error('Manager already exists'));
                 }
 
                 var managerModel = params.db.models.Manager;
@@ -700,7 +700,7 @@ exports = module.exports = function(params) {
 
     /**
      * get account promise
-     * if allready populated, promisify the existing document
+     * if already populated, promisify the existing document
      * else populate the document or reject the promise is the user is not an account
      *
      *
@@ -724,7 +724,7 @@ exports = module.exports = function(params) {
 
 	/**
      * get manager promise
-     * if allready populated, promisify the existing document
+     * if already populated, promisify the existing document
      * else populate the document or reject the promise is the user is not a manager
      *
      *

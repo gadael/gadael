@@ -20,7 +20,7 @@ exports = module.exports = function(services, app) {
         }
 
         if (document.from < new Date()) {
-            service.forbidden(gt.gettext('Delete a collection allready started is not allowed'));
+            service.forbidden(gt.gettext('Delete a collection already started is not allowed'));
             return false;
         }
 

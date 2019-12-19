@@ -23,7 +23,7 @@ exports = module.exports = function(services, app) {
         }
 
         if (document.from < new Date()) {
-            service.forbidden(gt.gettext('Delete a non working days calendar period allready started is not allowed'));
+            service.forbidden(gt.gettext('Delete a non working days calendar period already started is not allowed'));
             return false;
         }
 

@@ -4,7 +4,7 @@ define(['angular', 'services'], function (angular) {
     var invokeController = function(path, module, $scope, $injector) {
 
         if (require.defined(path)) {
-            // synchronous load if controller file allready loaded
+            // synchronous load if controller file already loaded
             $injector.invoke(require(path), module, {'$scope': $scope});
         } else {
 

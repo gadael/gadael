@@ -457,7 +457,7 @@ function saveRequests(service, params) {
             }
 
             if (compulsoryLeaveRequest.request) {
-                // allready created
+                // already created
                 promises.push(Promise.resolve(compulsoryLeaveRequest));
                 return;
             }

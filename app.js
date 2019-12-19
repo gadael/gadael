@@ -51,7 +51,7 @@ if (false === config.mongodb.init) {
         start();
     })
     .catch(err => {
-        // wee ignore the error because the database probably allready exists
+        // wee ignore the error because the database probably already exists
         start();
     });
 }

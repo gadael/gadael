@@ -81,7 +81,7 @@ function saveUser(service, params) {
 
     function onError(err) {
         if (err.code === 11000) {
-            err = new Error(gt.gettext('This email is allready used'));
+            err = new Error(gt.gettext('This email is already used'));
         }
         service.error(err);
     }

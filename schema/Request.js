@@ -899,7 +899,7 @@ exports = module.exports = function(params) {
 
     /**
      * Utility method to populate fileds in all elements of the request
-     * elements must be allready populated
+     * elements must be already populated
      *
      * @return Promise
      */

@@ -64,7 +64,7 @@ exports = module.exports = function(params) {
 			}],
 			type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type' },
 			cap: Number			// Ignore consumption of the next elements
-								// if this quantity is allready consumed
+								// if this quantity is already consumed
 		},
 
         timeCreated: { type: Date, default: Date.now },

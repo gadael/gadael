@@ -83,7 +83,7 @@ exports = module.exports = function(app, passport) {
             return callback(new Error(util.format(gt.gettext('Only email from %s are allowed'), domain)));
         }
 
-        // if the email allready exists
+        // if the email already exists
 
         User.findOne({ email: email }).exec()
         .then(user => {
@@ -107,7 +107,7 @@ exports = module.exports = function(app, passport) {
     function useGoogleStrategy(request, accessToken, refreshToken, profile, done) {
 
         if (request.user) {
-            // Allready authenticated, but not linked to google account
+            // already authenticated, but not linked to google account
             if (undefined === request.user.google) {
                 request.user.google = {};
             }

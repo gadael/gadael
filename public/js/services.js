@@ -390,7 +390,7 @@ define([
         return function(arr, newDocument) {
 
             if (-1 !== arr.indexOf(newDocument)) {
-                // allready inserted
+                // already inserted
                 return arr;
             }
 

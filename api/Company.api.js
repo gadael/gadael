@@ -40,7 +40,7 @@ const loginPromise = require('../modules/login');
 function gadael_loadMockModels(app, db)
 {
 	if (Object.keys(db.models).length > 0) {
-		return Promise.reject(new Error('Models allready loaded for db connexion'));
+		return Promise.reject(new Error('Models already loaded for db connexion'));
 	}
 
 	models.requirements = {
@@ -189,7 +189,7 @@ exports = module.exports = {
 
 
 	/**
-	 * Run init scripts on allready initialized database
+	 * Run init scripts on already initialized database
 	 *
 	 * @param	{Object} 		app			express app or mock headless app variable
      * @param	{string}		dbname		database name, verified with this.isDbNameValid
@@ -238,7 +238,7 @@ exports = module.exports = {
      */
     createDb: function createDb(app, dbName, company) {
 		if (undefined !== app.db && Object.keys(app.db.models).length > 0) {
-			return Promise.reject(new Error('app object allready initialized with models'));
+			return Promise.reject(new Error('app object already initialized with models'));
 		}
 
 		apputil(app);
@@ -265,7 +265,7 @@ exports = module.exports = {
 			.then(count => {
 
 				if (0 !== count) {
-					throw new Error('createDb: Database allready initialized with company object: '+dbName);
+					throw new Error('createDb: Database already initialized with company object: '+dbName);
 				}
 
 
@@ -297,7 +297,7 @@ exports = module.exports = {
 
 		        db.once('open', function() {
 					if (Object.keys(db.models).length > 0) {
-						throw new Error('once open: Models allready loaded for db connexion');
+						throw new Error('once open: Models already loaded for db connexion');
 					}
 
 					saveCompanyDoc()

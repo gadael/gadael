@@ -93,7 +93,7 @@ describe('Create first admin functionality', function() {
     });
 
 
-    it('test if create first admin allowed when the admin account allready exists', function(done) {
+    it('test if create first admin allowed when the admin account already exists', function(done) {
         server.get('/rest/anonymous/createfirstadmin', {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.allowed).toEqual(false);

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-17 20:25+0100\n"
-"PO-Revision-Date: 2019-12-17 20:31+0100\n"
+"POT-Creation-Date: 2019-12-19 20:06+0100\n"
+"PO-Revision-Date: 2019-12-19 20:08+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -101,7 +101,7 @@ msgstr "Cet agenda des jours fériés n'existe pas ou n'est pas lié au compte"
 
 #: api/services/admin/accountnwdayscalendars/delete.js:26
 msgid ""
-"Delete a non working days calendar period allready started is not allowed"
+"Delete a non working days calendar period already started is not allowed"
 msgstr ""
 "La suppression d'un agenda de jours fériés en cours d'utilisation n'est pas "
 "permise"
@@ -262,7 +262,7 @@ msgid "this schedule calendar does not exists or is not linked to account"
 msgstr "Ce rythme de travail n'existe pas ou n'est pas lié au compte"
 
 #: api/services/admin/accountschedulecalendars/delete.js:25
-msgid "Delete a schedule calendar period allready started is not allowed"
+msgid "Delete a schedule calendar period already started is not allowed"
 msgstr ""
 "La suppression d'un rythme de travail déjà en cours d'utilisation n'est pas "
 "permise"
@@ -316,7 +316,7 @@ msgid "The user has been deleted"
 msgstr "L'utilisateur a été supprimé"
 
 #: api/services/admin/users/save.js:84
-msgid "This email is allready used"
+msgid "This email is already used"
 msgstr "Cet adresse email est déjà utilisée"
 
 #: api/services/admin/users/save.js:103
@@ -550,7 +550,7 @@ msgid "this collection does not exists or is not linked to account"
 msgstr "Ce régime n'existe pas ou n'est pas lié au compte"
 
 #: api/services/admin/accountcollections/delete.js:23
-msgid "Delete a collection allready started is not allowed"
+msgid "Delete a collection already started is not allowed"
 msgstr ""
 "La suppression d'un régime déjà en cours d'utilisation n'est pas permise"
 
@@ -1209,7 +1209,7 @@ msgid "The two password fields must be equals"
 msgstr "Les deux mots de passe saisis doivent êtres identiques"
 
 #: rest/anonymous/createfirstadmin.js:54
-msgid "The first admin allready exists"
+msgid "The first admin already exists"
 msgstr "Le premier administrateur existe déjà"
 
 #: rest/login.js:62

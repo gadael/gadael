@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-17 20:35+0100\n"
+"POT-Creation-Date: 2019-12-19 20:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgstr ""
 
 #: api/services/admin/accountnwdayscalendars/delete.js:26
 msgid ""
-"Delete a non working days calendar period allready started is not allowed"
+"Delete a non working days calendar period already started is not allowed"
 msgstr ""
 
 #: api/services/admin/accountnwdayscalendars/delete.js:56
@@ -240,7 +240,7 @@ msgid "this schedule calendar does not exists or is not linked to account"
 msgstr ""
 
 #: api/services/admin/accountschedulecalendars/delete.js:25
-msgid "Delete a schedule calendar period allready started is not allowed"
+msgid "Delete a schedule calendar period already started is not allowed"
 msgstr ""
 
 #: api/services/admin/accountschedulecalendars/delete.js:56
@@ -288,7 +288,7 @@ msgid "The user has been deleted"
 msgstr ""
 
 #: api/services/admin/users/save.js:84
-msgid "This email is allready used"
+msgid "This email is already used"
 msgstr ""
 
 #: api/services/admin/users/save.js:103
@@ -522,7 +522,7 @@ msgid "this collection does not exists or is not linked to account"
 msgstr ""
 
 #: api/services/admin/accountcollections/delete.js:23
-msgid "Delete a collection allready started is not allowed"
+msgid "Delete a collection already started is not allowed"
 msgstr ""
 
 #: api/services/admin/accountcollections/delete.js:53
@@ -1141,7 +1141,7 @@ msgid "The two password fields must be equals"
 msgstr ""
 
 #: rest/anonymous/createfirstadmin.js:54
-msgid "The first admin allready exists"
+msgid "The first admin already exists"
 msgstr ""
 
 #: rest/login.js:62

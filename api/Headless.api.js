@@ -31,7 +31,7 @@ app.deferredDbConnect.promise = new Promise(function(resolve, reject) {
 app.linkdbCreateConnection = function() {
 	return new Promise((resolve, reject) => {
 		if (undefined !== app.db) {
-			//console.warn('Call on connect but app.db allready initialized');
+			//console.warn('Call on connect but app.db already initialized');
 			app.deferredDbConnect.promise.then(resolve);
 			return;
 		}
@@ -72,7 +72,7 @@ app.linkdb = function() {
 app.connect = function(callback) {
 
 	if (app.db && Object.keys(app.db.models).length > 0) {
-		throw new Error('Headless connect, models allready loaded for db connexion');
+		throw new Error('Headless connect, models already loaded for db connexion');
 	}
 
 	return app.linkdbCreateConnection().then(() => {
@@ -106,7 +106,7 @@ app.connect = function(callback) {
 app.disconnect = function(callback) {
 
 	if (undefined === app.db) {
-		// allready closed
+		// already closed
 		return callback();
 	}
 
