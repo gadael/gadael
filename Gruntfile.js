@@ -244,7 +244,7 @@ module.exports = function(grunt) {
                     mainConfigFile: "public/js/main.js",
                     name: 'main',
                     out: "public/js/optimized.js",
-                    findNestedDependencies: false,
+                    findNestedDependencies: true,
                     optimize: "none",
                     optimizeCss: "none"
                 }
