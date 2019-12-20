@@ -32823,560 +32823,1097 @@ case"millisecond":return Math.floor(24*b*60*60*1e3)+this._milliseconds;default:t
 }),function(a){a(tb)}(function(a){var b="ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split("_"),c="ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_");return a.defineLocale("es",{months:"enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split("_"),monthsShort:function(a,d){return/-MMM-/.test(d)?c[a.month()]:b[a.month()]},weekdays:"domingo_lunes_martes_miércoles_jueves_viernes_sábado".split("_"),weekdaysShort:"dom._lun._mar._mié._jue._vie._sáb.".split("_"),weekdaysMin:"Do_Lu_Ma_Mi_Ju_Vi_Sá".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY LT",LLLL:"dddd, D [de] MMMM [de] YYYY LT"},calendar:{sameDay:function(){return"[hoy a la"+(1!==this.hours()?"s":"")+"] LT"},nextDay:function(){return"[mañana a la"+(1!==this.hours()?"s":"")+"] LT"},nextWeek:function(){return"dddd [a la"+(1!==this.hours()?"s":"")+"] LT"},lastDay:function(){return"[ayer a la"+(1!==this.hours()?"s":"")+"] LT"},lastWeek:function(){return"[el] dddd [pasado a la"+(1!==this.hours()?"s":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"hace %s",s:"unos segundos",m:"un minuto",mm:"%d minutos",h:"una hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un año",yy:"%d años"},ordinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){function b(a,b,c,d){var e={s:["mõne sekundi","mõni sekund","paar sekundit"],m:["ühe minuti","üks minut"],mm:[a+" minuti",a+" minutit"],h:["ühe tunni","tund aega","üks tund"],hh:[a+" tunni",a+" tundi"],d:["ühe päeva","üks päev"],M:["kuu aja","kuu aega","üks kuu"],MM:[a+" kuu",a+" kuud"],y:["ühe aasta","aasta","üks aasta"],yy:[a+" aasta",a+" aastat"]};return b?e[c][2]?e[c][2]:e[c][1]:d?e[c][0]:e[c][1]}return a.defineLocale("et",{months:"jaanuar_veebruar_märts_aprill_mai_juuni_juuli_august_september_oktoober_november_detsember".split("_"),monthsShort:"jaan_veebr_märts_apr_mai_juuni_juuli_aug_sept_okt_nov_dets".split("_"),weekdays:"pühapäev_esmaspäev_teisipäev_kolmapäev_neljapäev_reede_laupäev".split("_"),weekdaysShort:"P_E_T_K_N_R_L".split("_"),weekdaysMin:"P_E_T_K_N_R_L".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[Täna,] LT",nextDay:"[Homme,] LT",nextWeek:"[Järgmine] dddd LT",lastDay:"[Eile,] LT",lastWeek:"[Eelmine] dddd LT",sameElse:"L"},relativeTime:{future:"%s pärast",past:"%s tagasi",s:b,m:b,mm:b,h:b,hh:b,d:b,dd:"%d päeva",M:b,MM:b,y:b,yy:b},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("eu",{months:"urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua".split("_"),monthsShort:"urt._ots._mar._api._mai._eka._uzt._abu._ira._urr._aza._abe.".split("_"),weekdays:"igandea_astelehena_asteartea_asteazkena_osteguna_ostirala_larunbata".split("_"),weekdaysShort:"ig._al._ar._az._og._ol._lr.".split("_"),weekdaysMin:"ig_al_ar_az_og_ol_lr".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"YYYY-MM-DD",LL:"YYYY[ko] MMMM[ren] D[a]",LLL:"YYYY[ko] MMMM[ren] D[a] LT",LLLL:"dddd, YYYY[ko] MMMM[ren] D[a] LT",l:"YYYY-M-D",ll:"YYYY[ko] MMM D[a]",lll:"YYYY[ko] MMM D[a] LT",llll:"ddd, YYYY[ko] MMM D[a] LT"},calendar:{sameDay:"[gaur] LT[etan]",nextDay:"[bihar] LT[etan]",nextWeek:"dddd LT[etan]",lastDay:"[atzo] LT[etan]",lastWeek:"[aurreko] dddd LT[etan]",sameElse:"L"},relativeTime:{future:"%s barru",past:"duela %s",s:"segundo batzuk",m:"minutu bat",mm:"%d minutu",h:"ordu bat",hh:"%d ordu",d:"egun bat",dd:"%d egun",M:"hilabete bat",MM:"%d hilabete",y:"urte bat",yy:"%d urte"},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){var b={1:"۱",2:"۲",3:"۳",4:"۴",5:"۵",6:"۶",7:"۷",8:"۸",9:"۹",0:"۰"},c={"۱":"1","۲":"2","۳":"3","۴":"4","۵":"5","۶":"6","۷":"7","۸":"8","۹":"9","۰":"0"};return a.defineLocale("fa",{months:"ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),monthsShort:"ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),weekdays:"یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),weekdaysShort:"یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),weekdaysMin:"ی_د_س_چ_پ_ج_ش".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},meridiem:function(a){return 12>a?"قبل از ظهر":"بعد از ظهر"},calendar:{sameDay:"[امروز ساعت] LT",nextDay:"[فردا ساعت] LT",nextWeek:"dddd [ساعت] LT",lastDay:"[دیروز ساعت] LT",lastWeek:"dddd [پیش] [ساعت] LT",sameElse:"L"},relativeTime:{future:"در %s",past:"%s پیش",s:"چندین ثانیه",m:"یک دقیقه",mm:"%d دقیقه",h:"یک ساعت",hh:"%d ساعت",d:"یک روز",dd:"%d روز",M:"یک ماه",MM:"%d ماه",y:"یک سال",yy:"%d سال"},preparse:function(a){return a.replace(/[۰-۹]/g,function(a){return c[a]}).replace(/،/g,",")},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]}).replace(/,/g,"،")},ordinalParse:/\d{1,2}م/,ordinal:"%dم",week:{dow:6,doy:12}})}),function(a){a(tb)}(function(a){function b(a,b,d,e){var f="";switch(d){case"s":return e?"muutaman sekunnin":"muutama sekunti";case"m":return e?"minuutin":"minuutti";case"mm":f=e?"minuutin":"minuuttia";break;case"h":return e?"tunnin":"tunti";case"hh":f=e?"tunnin":"tuntia";break;case"d":return e?"päivän":"päivä";case"dd":f=e?"päivän":"päivää";break;case"M":return e?"kuukauden":"kuukausi";case"MM":f=e?"kuukauden":"kuukautta";break;case"y":return e?"vuoden":"vuosi";case"yy":f=e?"vuoden":"vuotta"}return f=c(a,e)+" "+f}function c(a,b){return 10>a?b?e[a]:d[a]:a}var d="nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän".split(" "),e=["nolla","yhden","kahden","kolmen","neljän","viiden","kuuden",d[7],d[8],d[9]];return a.defineLocale("fi",{months:"tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu".split("_"),monthsShort:"tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu".split("_"),weekdays:"sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai".split("_"),weekdaysShort:"su_ma_ti_ke_to_pe_la".split("_"),weekdaysMin:"su_ma_ti_ke_to_pe_la".split("_"),longDateFormat:{LT:"HH.mm",LTS:"HH.mm.ss",L:"DD.MM.YYYY",LL:"Do MMMM[ta] YYYY",LLL:"Do MMMM[ta] YYYY, [klo] LT",LLLL:"dddd, Do MMMM[ta] YYYY, [klo] LT",l:"D.M.YYYY",ll:"Do MMM YYYY",lll:"Do MMM YYYY, [klo] LT",llll:"ddd, Do MMM YYYY, [klo] LT"},calendar:{sameDay:"[tänään] [klo] LT",nextDay:"[huomenna] [klo] LT",nextWeek:"dddd [klo] LT",lastDay:"[eilen] [klo] LT",lastWeek:"[viime] dddd[na] [klo] LT",sameElse:"L"},relativeTime:{future:"%s päästä",past:"%s sitten",s:b,m:b,mm:b,h:b,hh:b,d:b,dd:b,M:b,MM:b,y:b,yy:b},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("fo",{months:"januar_februar_mars_apríl_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"sunnudagur_mánadagur_týsdagur_mikudagur_hósdagur_fríggjadagur_leygardagur".split("_"),weekdaysShort:"sun_mán_týs_mik_hós_frí_ley".split("_"),weekdaysMin:"su_má_tý_mi_hó_fr_le".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D. MMMM, YYYY LT"},calendar:{sameDay:"[Í dag kl.] LT",nextDay:"[Í morgin kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[Í gjár kl.] LT",lastWeek:"[síðstu] dddd [kl] LT",sameElse:"L"},relativeTime:{future:"um %s",past:"%s síðani",s:"fá sekund",m:"ein minutt",mm:"%d minuttir",h:"ein tími",hh:"%d tímar",d:"ein dagur",dd:"%d dagar",M:"ein mánaði",MM:"%d mánaðir",y:"eitt ár",yy:"%d ár"},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("fr-ca",{months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),weekdaysMin:"Di_Lu_Ma_Me_Je_Ve_Sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[Aujourd'hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [dernier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"un an",yy:"%d ans"},ordinalParse:/\d{1,2}(er|)/,ordinal:function(a){return a+(1===a?"er":"")}})}),function(a){a(tb)}(function(a){return a.defineLocale("fr",{months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),weekdaysMin:"Di_Lu_Ma_Me_Je_Ve_Sa".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[Aujourd'hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [dernier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"un an",yy:"%d ans"},ordinalParse:/\d{1,2}(er|)/,ordinal:function(a){return a+(1===a?"er":"")},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("gl",{months:"Xaneiro_Febreiro_Marzo_Abril_Maio_Xuño_Xullo_Agosto_Setembro_Outubro_Novembro_Decembro".split("_"),monthsShort:"Xan._Feb._Mar._Abr._Mai._Xuñ._Xul._Ago._Set._Out._Nov._Dec.".split("_"),weekdays:"Domingo_Luns_Martes_Mércores_Xoves_Venres_Sábado".split("_"),weekdaysShort:"Dom._Lun._Mar._Mér._Xov._Ven._Sáb.".split("_"),weekdaysMin:"Do_Lu_Ma_Mé_Xo_Ve_Sá".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:function(){return"[hoxe "+(1!==this.hours()?"ás":"á")+"] LT"},nextDay:function(){return"[mañá "+(1!==this.hours()?"ás":"á")+"] LT"},nextWeek:function(){return"dddd ["+(1!==this.hours()?"ás":"a")+"] LT"},lastDay:function(){return"[onte "+(1!==this.hours()?"á":"a")+"] LT"},lastWeek:function(){return"[o] dddd [pasado "+(1!==this.hours()?"ás":"a")+"] LT"},sameElse:"L"},relativeTime:{future:function(a){return"uns segundos"===a?"nuns segundos":"en "+a},past:"hai %s",s:"uns segundos",m:"un minuto",mm:"%d minutos",h:"unha hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un ano",yy:"%d anos"},ordinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("he",{months:"ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר".split("_"),monthsShort:"ינו׳_פבר׳_מרץ_אפר׳_מאי_יוני_יולי_אוג׳_ספט׳_אוק׳_נוב׳_דצמ׳".split("_"),weekdays:"ראשון_שני_שלישי_רביעי_חמישי_שישי_שבת".split("_"),weekdaysShort:"א׳_ב׳_ג׳_ד׳_ה׳_ו׳_ש׳".split("_"),weekdaysMin:"א_ב_ג_ד_ה_ו_ש".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D [ב]MMMM YYYY",LLL:"D [ב]MMMM YYYY LT",LLLL:"dddd, D [ב]MMMM YYYY LT",l:"D/M/YYYY",ll:"D MMM YYYY",lll:"D MMM YYYY LT",llll:"ddd, D MMM YYYY LT"},calendar:{sameDay:"[היום ב־]LT",nextDay:"[מחר ב־]LT",nextWeek:"dddd [בשעה] LT",lastDay:"[אתמול ב־]LT",lastWeek:"[ביום] dddd [האחרון בשעה] LT",sameElse:"L"},relativeTime:{future:"בעוד %s",past:"לפני %s",s:"מספר שניות",m:"דקה",mm:"%d דקות",h:"שעה",hh:function(a){return 2===a?"שעתיים":a+" שעות"},d:"יום",dd:function(a){return 2===a?"יומיים":a+" ימים"},M:"חודש",MM:function(a){return 2===a?"חודשיים":a+" חודשים"},y:"שנה",yy:function(a){return 2===a?"שנתיים":a+" שנים"}}})}),function(a){a(tb)}(function(a){var b={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},c={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return a.defineLocale("hi",{months:"जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितम्बर_अक्टूबर_नवम्बर_दिसम्बर".split("_"),monthsShort:"जन._फ़र._मार्च_अप्रै._मई_जून_जुल._अग._सित._अक्टू._नव._दिस.".split("_"),weekdays:"रविवार_सोमवार_मंगलवार_बुधवार_गुरूवार_शुक्रवार_शनिवार".split("_"),weekdaysShort:"रवि_सोम_मंगल_बुध_गुरू_शुक्र_शनि".split("_"),weekdaysMin:"र_सो_मं_बु_गु_शु_श".split("_"),longDateFormat:{LT:"A h:mm बजे",LTS:"A h:mm:ss बजे",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[आज] LT",nextDay:"[कल] LT",nextWeek:"dddd, LT",lastDay:"[कल] LT",lastWeek:"[पिछले] dddd, LT",sameElse:"L"},relativeTime:{future:"%s में",past:"%s पहले",s:"कुछ ही क्षण",m:"एक मिनट",mm:"%d मिनट",h:"एक घंटा",hh:"%d घंटे",d:"एक दिन",dd:"%d दिन",M:"एक महीने",MM:"%d महीने",y:"एक वर्ष",yy:"%d वर्ष"},preparse:function(a){return a.replace(/[१२३४५६७८९०]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},meridiem:function(a){return 4>a?"रात":10>a?"सुबह":17>a?"दोपहर":20>a?"शाम":"रात"},week:{dow:0,doy:6}})}),function(a){a(tb)}(function(a){function b(a,b,c){var d=a+" ";switch(c){case"m":return b?"jedna minuta":"jedne minute";case"mm":return d+=1===a?"minuta":2===a||3===a||4===a?"minute":"minuta";case"h":return b?"jedan sat":"jednog sata";case"hh":return d+=1===a?"sat":2===a||3===a||4===a?"sata":"sati";case"dd":return d+=1===a?"dan":"dana";case"MM":return d+=1===a?"mjesec":2===a||3===a||4===a?"mjeseca":"mjeseci";case"yy":return d+=1===a?"godina":2===a||3===a||4===a?"godine":"godina"}}return a.defineLocale("hr",{months:"sječanj_veljača_ožujak_travanj_svibanj_lipanj_srpanj_kolovoz_rujan_listopad_studeni_prosinac".split("_"),monthsShort:"sje._vel._ožu._tra._svi._lip._srp._kol._ruj._lis._stu._pro.".split("_"),weekdays:"nedjelja_ponedjeljak_utorak_srijeda_četvrtak_petak_subota".split("_"),weekdaysShort:"ned._pon._uto._sri._čet._pet._sub.".split("_"),weekdaysMin:"ne_po_ut_sr_če_pe_su".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[danas u] LT",nextDay:"[sutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedjelju] [u] LT";case 3:return"[u] [srijedu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[jučer u] LT",lastWeek:function(){switch(this.day()){case 0:case 3:return"[prošlu] dddd [u] LT";case 6:return"[prošle] [subote] [u] LT";case 1:case 2:case 4:case 5:return"[prošli] dddd [u] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"prije %s",s:"par sekundi",m:b,mm:b,h:b,hh:b,d:"dan",dd:b,M:"mjesec",MM:b,y:"godinu",yy:b},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){function b(a,b,c,d){var e=a;switch(c){case"s":return d||b?"néhány másodperc":"néhány másodperce";case"m":return"egy"+(d||b?" perc":" perce");case"mm":return e+(d||b?" perc":" perce");case"h":return"egy"+(d||b?" óra":" órája");case"hh":return e+(d||b?" óra":" órája");case"d":return"egy"+(d||b?" nap":" napja");case"dd":return e+(d||b?" nap":" napja");case"M":return"egy"+(d||b?" hónap":" hónapja");case"MM":return e+(d||b?" hónap":" hónapja");case"y":return"egy"+(d||b?" év":" éve");case"yy":return e+(d||b?" év":" éve")}return""}function c(a){return(a?"":"[múlt] ")+"["+d[this.day()]+"] LT[-kor]"}var d="vasárnap hétfőn kedden szerdán csütörtökön pénteken szombaton".split(" ");return a.defineLocale("hu",{months:"január_február_március_április_május_június_július_augusztus_szeptember_október_november_december".split("_"),monthsShort:"jan_feb_márc_ápr_máj_jún_júl_aug_szept_okt_nov_dec".split("_"),weekdays:"vasárnap_hétfő_kedd_szerda_csütörtök_péntek_szombat".split("_"),weekdaysShort:"vas_hét_kedd_sze_csüt_pén_szo".split("_"),weekdaysMin:"v_h_k_sze_cs_p_szo".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"YYYY.MM.DD.",LL:"YYYY. MMMM D.",LLL:"YYYY. MMMM D., LT",LLLL:"YYYY. MMMM D., dddd LT"},meridiem:function(a,b,c){return 12>a?c===!0?"de":"DE":c===!0?"du":"DU"},calendar:{sameDay:"[ma] LT[-kor]",nextDay:"[holnap] LT[-kor]",nextWeek:function(){return c.call(this,!0)},lastDay:"[tegnap] LT[-kor]",lastWeek:function(){return c.call(this,!1)},sameElse:"L"},relativeTime:{future:"%s múlva",past:"%s",s:b,m:b,mm:b,h:b,hh:b,d:b,dd:b,M:b,MM:b,y:b,yy:b},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){function b(a,b){var c={nominative:"հունվար_փետրվար_մարտ_ապրիլ_մայիս_հունիս_հուլիս_օգոստոս_սեպտեմբեր_հոկտեմբեր_նոյեմբեր_դեկտեմբեր".split("_"),accusative:"հունվարի_փետրվարի_մարտի_ապրիլի_մայիսի_հունիսի_հուլիսի_օգոստոսի_սեպտեմբերի_հոկտեմբերի_նոյեմբերի_դեկտեմբերի".split("_")},d=/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function c(a){var b="հնվ_փտր_մրտ_ապր_մյս_հնս_հլս_օգս_սպտ_հկտ_նմբ_դկտ".split("_");return b[a.month()]}function d(a){var b="կիրակի_երկուշաբթի_երեքշաբթի_չորեքշաբթի_հինգշաբթի_ուրբաթ_շաբաթ".split("_");return b[a.day()]}return a.defineLocale("hy-am",{months:b,monthsShort:c,weekdays:d,weekdaysShort:"կրկ_երկ_երք_չրք_հնգ_ուրբ_շբթ".split("_"),weekdaysMin:"կրկ_երկ_երք_չրք_հնգ_ուրբ_շբթ".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY թ.",LLL:"D MMMM YYYY թ., LT",LLLL:"dddd, D MMMM YYYY թ., LT"},calendar:{sameDay:"[այսօր] LT",nextDay:"[վաղը] LT",lastDay:"[երեկ] LT",nextWeek:function(){return"dddd [օրը ժամը] LT"},lastWeek:function(){return"[անցած] dddd [օրը ժամը] LT"},sameElse:"L"},relativeTime:{future:"%s հետո",past:"%s առաջ",s:"մի քանի վայրկյան",m:"րոպե",mm:"%d րոպե",h:"ժամ",hh:"%d ժամ",d:"օր",dd:"%d օր",M:"ամիս",MM:"%d ամիս",y:"տարի",yy:"%d տարի"},meridiem:function(a){return 4>a?"գիշերվա":12>a?"առավոտվա":17>a?"ցերեկվա":"երեկոյան"},ordinalParse:/\d{1,2}|\d{1,2}-(ին|րդ)/,ordinal:function(a,b){switch(b){case"DDD":case"w":case"W":case"DDDo":return 1===a?a+"-ին":a+"-րդ";default:return a}},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("id",{months:"Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember".split("_"),monthsShort:"Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nov_Des".split("_"),weekdays:"Minggu_Senin_Selasa_Rabu_Kamis_Jumat_Sabtu".split("_"),weekdaysShort:"Min_Sen_Sel_Rab_Kam_Jum_Sab".split("_"),weekdaysMin:"Mg_Sn_Sl_Rb_Km_Jm_Sb".split("_"),longDateFormat:{LT:"HH.mm",LTS:"LT.ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [pukul] LT",LLLL:"dddd, D MMMM YYYY [pukul] LT"},meridiem:function(a){return 11>a?"pagi":15>a?"siang":19>a?"sore":"malam"},calendar:{sameDay:"[Hari ini pukul] LT",nextDay:"[Besok pukul] LT",nextWeek:"dddd [pukul] LT",lastDay:"[Kemarin pukul] LT",lastWeek:"dddd [lalu pukul] LT",sameElse:"L"},relativeTime:{future:"dalam %s",past:"%s yang lalu",s:"beberapa detik",m:"semenit",mm:"%d menit",h:"sejam",hh:"%d jam",d:"sehari",dd:"%d hari",M:"sebulan",MM:"%d bulan",y:"setahun",yy:"%d tahun"},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){function b(a){return a%100===11?!0:a%10===1?!1:!0}function c(a,c,d,e){var f=a+" ";switch(d){case"s":return c||e?"nokkrar sekúndur":"nokkrum sekúndum";case"m":return c?"mínúta":"mínútu";case"mm":return b(a)?f+(c||e?"mínútur":"mínútum"):c?f+"mínúta":f+"mínútu";case"hh":return b(a)?f+(c||e?"klukkustundir":"klukkustundum"):f+"klukkustund";case"d":return c?"dagur":e?"dag":"degi";case"dd":return b(a)?c?f+"dagar":f+(e?"daga":"dögum"):c?f+"dagur":f+(e?"dag":"degi");case"M":return c?"mánuður":e?"mánuð":"mánuði";case"MM":return b(a)?c?f+"mánuðir":f+(e?"mánuði":"mánuðum"):c?f+"mánuður":f+(e?"mánuð":"mánuði");case"y":return c||e?"ár":"ári";case"yy":return b(a)?f+(c||e?"ár":"árum"):f+(c||e?"ár":"ári")}}return a.defineLocale("is",{months:"janúar_febrúar_mars_apríl_maí_júní_júlí_ágúst_september_október_nóvember_desember".split("_"),monthsShort:"jan_feb_mar_apr_maí_jún_júl_ágú_sep_okt_nóv_des".split("_"),weekdays:"sunnudagur_mánudagur_þriðjudagur_miðvikudagur_fimmtudagur_föstudagur_laugardagur".split("_"),weekdaysShort:"sun_mán_þri_mið_fim_fös_lau".split("_"),weekdaysMin:"Su_Má_Þr_Mi_Fi_Fö_La".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY [kl.] LT",LLLL:"dddd, D. MMMM YYYY [kl.] LT"},calendar:{sameDay:"[í dag kl.] LT",nextDay:"[á morgun kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[í gær kl.] LT",lastWeek:"[síðasta] dddd [kl.] LT",sameElse:"L"},relativeTime:{future:"eftir %s",past:"fyrir %s síðan",s:c,m:c,mm:c,h:"klukkustund",hh:c,d:c,dd:c,M:c,MM:c,y:c,yy:c},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("it",{months:"gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre".split("_"),monthsShort:"gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic".split("_"),weekdays:"Domenica_Lunedì_Martedì_Mercoledì_Giovedì_Venerdì_Sabato".split("_"),weekdaysShort:"Dom_Lun_Mar_Mer_Gio_Ven_Sab".split("_"),weekdaysMin:"D_L_Ma_Me_G_V_S".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Oggi alle] LT",nextDay:"[Domani alle] LT",nextWeek:"dddd [alle] LT",lastDay:"[Ieri alle] LT",lastWeek:function(){switch(this.day()){case 0:return"[la scorsa] dddd [alle] LT";default:return"[lo scorso] dddd [alle] LT"}},sameElse:"L"},relativeTime:{future:function(a){return(/^[0-9].+$/.test(a)?"tra":"in")+" "+a},past:"%s fa",s:"alcuni secondi",m:"un minuto",mm:"%d minuti",h:"un'ora",hh:"%d ore",d:"un giorno",dd:"%d giorni",M:"un mese",MM:"%d mesi",y:"un anno",yy:"%d anni"},ordinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("ja",{months:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"日曜日_月曜日_火曜日_水曜日_木曜日_金曜日_土曜日".split("_"),weekdaysShort:"日_月_火_水_木_金_土".split("_"),weekdaysMin:"日_月_火_水_木_金_土".split("_"),longDateFormat:{LT:"Ah時m分",LTS:"LTs秒",L:"YYYY/MM/DD",LL:"YYYY年M月D日",LLL:"YYYY年M月D日LT",LLLL:"YYYY年M月D日LT dddd"},meridiem:function(a){return 12>a?"午前":"午後"},calendar:{sameDay:"[今日] LT",nextDay:"[明日] LT",nextWeek:"[来週]dddd LT",lastDay:"[昨日] LT",lastWeek:"[前週]dddd LT",sameElse:"L"},relativeTime:{future:"%s後",past:"%s前",s:"数秒",m:"1分",mm:"%d分",h:"1時間",hh:"%d時間",d:"1日",dd:"%d日",M:"1ヶ月",MM:"%dヶ月",y:"1年",yy:"%d年"}})}),function(a){a(tb)}(function(a){function b(a,b){var c={nominative:"იანვარი_თებერვალი_მარტი_აპრილი_მაისი_ივნისი_ივლისი_აგვისტო_სექტემბერი_ოქტომბერი_ნოემბერი_დეკემბერი".split("_"),accusative:"იანვარს_თებერვალს_მარტს_აპრილის_მაისს_ივნისს_ივლისს_აგვისტს_სექტემბერს_ოქტომბერს_ნოემბერს_დეკემბერს".split("_")},d=/D[oD] *MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function c(a,b){var c={nominative:"კვირა_ორშაბათი_სამშაბათი_ოთხშაბათი_ხუთშაბათი_პარასკევი_შაბათი".split("_"),accusative:"კვირას_ორშაბათს_სამშაბათს_ოთხშაბათს_ხუთშაბათს_პარასკევს_შაბათს".split("_")},d=/(წინა|შემდეგ)/.test(b)?"accusative":"nominative";return c[d][a.day()]}return a.defineLocale("ka",{months:b,monthsShort:"იან_თებ_მარ_აპრ_მაი_ივნ_ივლ_აგვ_სექ_ოქტ_ნოე_დეკ".split("_"),weekdays:c,weekdaysShort:"კვი_ორშ_სამ_ოთხ_ხუთ_პარ_შაბ".split("_"),weekdaysMin:"კვ_ორ_სა_ოთ_ხუ_პა_შა".split("_"),longDateFormat:{LT:"h:mm A",LTS:"h:mm:ss A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[დღეს] LT[-ზე]",nextDay:"[ხვალ] LT[-ზე]",lastDay:"[გუშინ] LT[-ზე]",nextWeek:"[შემდეგ] dddd LT[-ზე]",lastWeek:"[წინა] dddd LT-ზე",sameElse:"L"},relativeTime:{future:function(a){return/(წამი|წუთი|საათი|წელი)/.test(a)?a.replace(/ი$/,"ში"):a+"ში"},past:function(a){return/(წამი|წუთი|საათი|დღე|თვე)/.test(a)?a.replace(/(ი|ე)$/,"ის წინ"):/წელი/.test(a)?a.replace(/წელი$/,"წლის წინ"):void 0},s:"რამდენიმე წამი",m:"წუთი",mm:"%d წუთი",h:"საათი",hh:"%d საათი",d:"დღე",dd:"%d დღე",M:"თვე",MM:"%d თვე",y:"წელი",yy:"%d წელი"},ordinalParse:/0|1-ლი|მე-\d{1,2}|\d{1,2}-ე/,ordinal:function(a){return 0===a?a:1===a?a+"-ლი":20>a||100>=a&&a%20===0||a%100===0?"მე-"+a:a+"-ე"},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("km",{months:"មករា_កុម្ភៈ_មិនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ".split("_"),monthsShort:"មករា_កុម្ភៈ_មិនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ".split("_"),weekdays:"អាទិត្យ_ច័ន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍".split("_"),weekdaysShort:"អាទិត្យ_ច័ន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍".split("_"),weekdaysMin:"អាទិត្យ_ច័ន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[ថ្ងៃនៈ ម៉ោង] LT",nextDay:"[ស្អែក ម៉ោង] LT",nextWeek:"dddd [ម៉ោង] LT",lastDay:"[ម្សិលមិញ ម៉ោង] LT",lastWeek:"dddd [សប្តាហ៍មុន] [ម៉ោង] LT",sameElse:"L"},relativeTime:{future:"%sទៀត",past:"%sមុន",s:"ប៉ុន្មានវិនាទី",m:"មួយនាទី",mm:"%d នាទី",h:"មួយម៉ោង",hh:"%d ម៉ោង",d:"មួយថ្ងៃ",dd:"%d ថ្ងៃ",M:"មួយខែ",MM:"%d ខែ",y:"មួយឆ្នាំ",yy:"%d ឆ្នាំ"},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("ko",{months:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),monthsShort:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),weekdays:"일요일_월요일_화요일_수요일_목요일_금요일_토요일".split("_"),weekdaysShort:"일_월_화_수_목_금_토".split("_"),weekdaysMin:"일_월_화_수_목_금_토".split("_"),longDateFormat:{LT:"A h시 m분",LTS:"A h시 m분 s초",L:"YYYY.MM.DD",LL:"YYYY년 MMMM D일",LLL:"YYYY년 MMMM D일 LT",LLLL:"YYYY년 MMMM D일 dddd LT"},meridiem:function(a){return 12>a?"오전":"오후"},calendar:{sameDay:"오늘 LT",nextDay:"내일 LT",nextWeek:"dddd LT",lastDay:"어제 LT",lastWeek:"지난주 dddd LT",sameElse:"L"},relativeTime:{future:"%s 후",past:"%s 전",s:"몇초",ss:"%d초",m:"일분",mm:"%d분",h:"한시간",hh:"%d시간",d:"하루",dd:"%d일",M:"한달",MM:"%d달",y:"일년",yy:"%d년"},ordinalParse:/\d{1,2}일/,ordinal:"%d일",meridiemParse:/(오전|오후)/,isPM:function(a){return"오후"===a}})}),function(a){a(tb)}(function(a){function b(a,b,c){var d={m:["eng Minutt","enger Minutt"],h:["eng Stonn","enger Stonn"],d:["een Dag","engem Dag"],M:["ee Mount","engem Mount"],y:["ee Joer","engem Joer"]};return b?d[c][0]:d[c][1]}function c(a){var b=a.substr(0,a.indexOf(" "));return e(b)?"a "+a:"an "+a}function d(a){var b=a.substr(0,a.indexOf(" "));return e(b)?"viru "+a:"virun "+a}function e(a){if(a=parseInt(a,10),isNaN(a))return!1;if(0>a)return!0;if(10>a)return a>=4&&7>=a?!0:!1;if(100>a){var b=a%10,c=a/10;return e(0===b?c:b)}if(1e4>a){for(;a>=10;)a/=10;return e(a)}return a/=1e3,e(a)}return a.defineLocale("lb",{months:"Januar_Februar_Mäerz_Abrëll_Mee_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jan._Febr._Mrz._Abr._Mee_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),weekdays:"Sonndeg_Méindeg_Dënschdeg_Mëttwoch_Donneschdeg_Freideg_Samschdeg".split("_"),weekdaysShort:"So._Mé._Dë._Më._Do._Fr._Sa.".split("_"),weekdaysMin:"So_Mé_Dë_Më_Do_Fr_Sa".split("_"),longDateFormat:{LT:"H:mm [Auer]",LTS:"H:mm:ss [Auer]",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[Haut um] LT",sameElse:"L",nextDay:"[Muer um] LT",nextWeek:"dddd [um] LT",lastDay:"[Gëschter um] LT",lastWeek:function(){switch(this.day()){case 2:case 4:return"[Leschten] dddd [um] LT";default:return"[Leschte] dddd [um] LT"}}},relativeTime:{future:c,past:d,s:"e puer Sekonnen",m:b,mm:"%d Minutten",h:b,hh:"%d Stonnen",d:b,dd:"%d Deeg",M:b,MM:"%d Méint",y:b,yy:"%d Joer"},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){function b(a,b,c,d){return b?"kelios sekundės":d?"kelių sekundžių":"kelias sekundes"}function c(a,b,c,d){return b?e(c)[0]:d?e(c)[1]:e(c)[2]}function d(a){return a%10===0||a>10&&20>a}function e(a){return h[a].split("_")}function f(a,b,f,g){var h=a+" ";return 1===a?h+c(a,b,f[0],g):b?h+(d(a)?e(f)[1]:e(f)[0]):g?h+e(f)[1]:h+(d(a)?e(f)[1]:e(f)[2])}function g(a,b){var c=-1===b.indexOf("dddd HH:mm"),d=i[a.day()];return c?d:d.substring(0,d.length-2)+"į"}var h={m:"minutė_minutės_minutę",mm:"minutės_minučių_minutes",h:"valanda_valandos_valandą",hh:"valandos_valandų_valandas",d:"diena_dienos_dieną",dd:"dienos_dienų_dienas",M:"mėnuo_mėnesio_mėnesį",MM:"mėnesiai_mėnesių_mėnesius",y:"metai_metų_metus",yy:"metai_metų_metus"},i="sekmadienis_pirmadienis_antradienis_trečiadienis_ketvirtadienis_penktadienis_šeštadienis".split("_");return a.defineLocale("lt",{months:"sausio_vasario_kovo_balandžio_gegužės_birželio_liepos_rugpjūčio_rugsėjo_spalio_lapkričio_gruodžio".split("_"),monthsShort:"sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd".split("_"),weekdays:g,weekdaysShort:"Sek_Pir_Ant_Tre_Ket_Pen_Šeš".split("_"),weekdaysMin:"S_P_A_T_K_Pn_Š".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"YYYY-MM-DD",LL:"YYYY [m.] MMMM D [d.]",LLL:"YYYY [m.] MMMM D [d.], LT [val.]",LLLL:"YYYY [m.] MMMM D [d.], dddd, LT [val.]",l:"YYYY-MM-DD",ll:"YYYY [m.] MMMM D [d.]",lll:"YYYY [m.] MMMM D [d.], LT [val.]",llll:"YYYY [m.] MMMM D [d.], ddd, LT [val.]"},calendar:{sameDay:"[Šiandien] LT",nextDay:"[Rytoj] LT",nextWeek:"dddd LT",lastDay:"[Vakar] LT",lastWeek:"[Praėjusį] dddd LT",sameElse:"L"},relativeTime:{future:"po %s",past:"prieš %s",s:b,m:c,mm:f,h:c,hh:f,d:c,dd:f,M:c,MM:f,y:c,yy:f},ordinalParse:/\d{1,2}-oji/,ordinal:function(a){return a+"-oji"},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){function b(a,b,c){var d=a.split("_");return c?b%10===1&&11!==b?d[2]:d[3]:b%10===1&&11!==b?d[0]:d[1]}function c(a,c,e){return a+" "+b(d[e],a,c)}var d={mm:"minūti_minūtes_minūte_minūtes",hh:"stundu_stundas_stunda_stundas",dd:"dienu_dienas_diena_dienas",MM:"mēnesi_mēnešus_mēnesis_mēneši",yy:"gadu_gadus_gads_gadi"};return a.defineLocale("lv",{months:"janvāris_februāris_marts_aprīlis_maijs_jūnijs_jūlijs_augusts_septembris_oktobris_novembris_decembris".split("_"),monthsShort:"jan_feb_mar_apr_mai_jūn_jūl_aug_sep_okt_nov_dec".split("_"),weekdays:"svētdiena_pirmdiena_otrdiena_trešdiena_ceturtdiena_piektdiena_sestdiena".split("_"),weekdaysShort:"Sv_P_O_T_C_Pk_S".split("_"),weekdaysMin:"Sv_P_O_T_C_Pk_S".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"YYYY. [gada] D. MMMM",LLL:"YYYY. [gada] D. MMMM, LT",LLLL:"YYYY. [gada] D. MMMM, dddd, LT"},calendar:{sameDay:"[Šodien pulksten] LT",nextDay:"[Rīt pulksten] LT",nextWeek:"dddd [pulksten] LT",lastDay:"[Vakar pulksten] LT",lastWeek:"[Pagājušā] dddd [pulksten] LT",sameElse:"L"},relativeTime:{future:"%s vēlāk",past:"%s agrāk",s:"dažas sekundes",m:"minūti",mm:c,h:"stundu",hh:c,d:"dienu",dd:c,M:"mēnesi",MM:c,y:"gadu",yy:c},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("mk",{months:"јануари_февруари_март_април_мај_јуни_јули_август_септември_октомври_ноември_декември".split("_"),monthsShort:"јан_фев_мар_апр_мај_јун_јул_авг_сеп_окт_ное_дек".split("_"),weekdays:"недела_понеделник_вторник_среда_четврток_петок_сабота".split("_"),weekdaysShort:"нед_пон_вто_сре_чет_пет_саб".split("_"),weekdaysMin:"нe_пo_вт_ср_че_пе_сa".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"D.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Денес во] LT",nextDay:"[Утре во] LT",nextWeek:"dddd [во] LT",lastDay:"[Вчера во] LT",lastWeek:function(){switch(this.day()){case 0:case 3:case 6:return"[Во изминатата] dddd [во] LT";case 1:case 2:case 4:case 5:return"[Во изминатиот] dddd [во] LT"}},sameElse:"L"},relativeTime:{future:"после %s",past:"пред %s",s:"неколку секунди",m:"минута",mm:"%d минути",h:"час",hh:"%d часа",d:"ден",dd:"%d дена",M:"месец",MM:"%d месеци",y:"година",yy:"%d години"},ordinalParse:/\d{1,2}-(ев|ен|ти|ви|ри|ми)/,ordinal:function(a){var b=a%10,c=a%100;return 0===a?a+"-ев":0===c?a+"-ен":c>10&&20>c?a+"-ти":1===b?a+"-ви":2===b?a+"-ри":7===b||8===b?a+"-ми":a+"-ти"
 },week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("ml",{months:"ജനുവരി_ഫെബ്രുവരി_മാർച്ച്_ഏപ്രിൽ_മേയ്_ജൂൺ_ജൂലൈ_ഓഗസ്റ്റ്_സെപ്റ്റംബർ_ഒക്ടോബർ_നവംബർ_ഡിസംബർ".split("_"),monthsShort:"ജനു._ഫെബ്രു._മാർ._ഏപ്രി._മേയ്_ജൂൺ_ജൂലൈ._ഓഗ._സെപ്റ്റ._ഒക്ടോ._നവം._ഡിസം.".split("_"),weekdays:"ഞായറാഴ്ച_തിങ്കളാഴ്ച_ചൊവ്വാഴ്ച_ബുധനാഴ്ച_വ്യാഴാഴ്ച_വെള്ളിയാഴ്ച_ശനിയാഴ്ച".split("_"),weekdaysShort:"ഞായർ_തിങ്കൾ_ചൊവ്വ_ബുധൻ_വ്യാഴം_വെള്ളി_ശനി".split("_"),weekdaysMin:"ഞാ_തി_ചൊ_ബു_വ്യാ_വെ_ശ".split("_"),longDateFormat:{LT:"A h:mm -നു",LTS:"A h:mm:ss -നു",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[ഇന്ന്] LT",nextDay:"[നാളെ] LT",nextWeek:"dddd, LT",lastDay:"[ഇന്നലെ] LT",lastWeek:"[കഴിഞ്ഞ] dddd, LT",sameElse:"L"},relativeTime:{future:"%s കഴിഞ്ഞ്",past:"%s മുൻപ്",s:"അൽപ നിമിഷങ്ങൾ",m:"ഒരു മിനിറ്റ്",mm:"%d മിനിറ്റ്",h:"ഒരു മണിക്കൂർ",hh:"%d മണിക്കൂർ",d:"ഒരു ദിവസം",dd:"%d ദിവസം",M:"ഒരു മാസം",MM:"%d മാസം",y:"ഒരു വർഷം",yy:"%d വർഷം"},meridiem:function(a){return 4>a?"രാത്രി":12>a?"രാവിലെ":17>a?"ഉച്ച കഴിഞ്ഞ്":20>a?"വൈകുന്നേരം":"രാത്രി"}})}),function(a){a(tb)}(function(a){var b={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},c={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return a.defineLocale("mr",{months:"जानेवारी_फेब्रुवारी_मार्च_एप्रिल_मे_जून_जुलै_ऑगस्ट_सप्टेंबर_ऑक्टोबर_नोव्हेंबर_डिसेंबर".split("_"),monthsShort:"जाने._फेब्रु._मार्च._एप्रि._मे._जून._जुलै._ऑग._सप्टें._ऑक्टो._नोव्हें._डिसें.".split("_"),weekdays:"रविवार_सोमवार_मंगळवार_बुधवार_गुरूवार_शुक्रवार_शनिवार".split("_"),weekdaysShort:"रवि_सोम_मंगळ_बुध_गुरू_शुक्र_शनि".split("_"),weekdaysMin:"र_सो_मं_बु_गु_शु_श".split("_"),longDateFormat:{LT:"A h:mm वाजता",LTS:"A h:mm:ss वाजता",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[आज] LT",nextDay:"[उद्या] LT",nextWeek:"dddd, LT",lastDay:"[काल] LT",lastWeek:"[मागील] dddd, LT",sameElse:"L"},relativeTime:{future:"%s नंतर",past:"%s पूर्वी",s:"सेकंद",m:"एक मिनिट",mm:"%d मिनिटे",h:"एक तास",hh:"%d तास",d:"एक दिवस",dd:"%d दिवस",M:"एक महिना",MM:"%d महिने",y:"एक वर्ष",yy:"%d वर्षे"},preparse:function(a){return a.replace(/[१२३४५६७८९०]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},meridiem:function(a){return 4>a?"रात्री":10>a?"सकाळी":17>a?"दुपारी":20>a?"सायंकाळी":"रात्री"},week:{dow:0,doy:6}})}),function(a){a(tb)}(function(a){return a.defineLocale("ms-my",{months:"Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember".split("_"),monthsShort:"Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogs_Sep_Okt_Nov_Dis".split("_"),weekdays:"Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu".split("_"),weekdaysShort:"Ahd_Isn_Sel_Rab_Kha_Jum_Sab".split("_"),weekdaysMin:"Ah_Is_Sl_Rb_Km_Jm_Sb".split("_"),longDateFormat:{LT:"HH.mm",LTS:"LT.ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY [pukul] LT",LLLL:"dddd, D MMMM YYYY [pukul] LT"},meridiem:function(a){return 11>a?"pagi":15>a?"tengahari":19>a?"petang":"malam"},calendar:{sameDay:"[Hari ini pukul] LT",nextDay:"[Esok pukul] LT",nextWeek:"dddd [pukul] LT",lastDay:"[Kelmarin pukul] LT",lastWeek:"dddd [lepas pukul] LT",sameElse:"L"},relativeTime:{future:"dalam %s",past:"%s yang lepas",s:"beberapa saat",m:"seminit",mm:"%d minit",h:"sejam",hh:"%d jam",d:"sehari",dd:"%d hari",M:"sebulan",MM:"%d bulan",y:"setahun",yy:"%d tahun"},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){var b={1:"၁",2:"၂",3:"၃",4:"၄",5:"၅",6:"၆",7:"၇",8:"၈",9:"၉",0:"၀"},c={"၁":"1","၂":"2","၃":"3","၄":"4","၅":"5","၆":"6","၇":"7","၈":"8","၉":"9","၀":"0"};return a.defineLocale("my",{months:"ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ".split("_"),monthsShort:"ဇန်_ဖေ_မတ်_ပြီ_မေ_ဇွန်_လိုင်_သြ_စက်_အောက်_နို_ဒီ".split("_"),weekdays:"တနင်္ဂနွေ_တနင်္လာ_အင်္ဂါ_ဗုဒ္ဓဟူး_ကြာသပတေး_သောကြာ_စနေ".split("_"),weekdaysShort:"နွေ_လာ_င်္ဂါ_ဟူး_ကြာ_သော_နေ".split("_"),weekdaysMin:"နွေ_လာ_င်္ဂါ_ဟူး_ကြာ_သော_နေ".split("_"),longDateFormat:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[ယနေ.] LT [မှာ]",nextDay:"[မနက်ဖြန်] LT [မှာ]",nextWeek:"dddd LT [မှာ]",lastDay:"[မနေ.က] LT [မှာ]",lastWeek:"[ပြီးခဲ့သော] dddd LT [မှာ]",sameElse:"L"},relativeTime:{future:"လာမည့် %s မှာ",past:"လွန်ခဲ့သော %s က",s:"စက္ကန်.အနည်းငယ်",m:"တစ်မိနစ်",mm:"%d မိနစ်",h:"တစ်နာရီ",hh:"%d နာရီ",d:"တစ်ရက်",dd:"%d ရက်",M:"တစ်လ",MM:"%d လ",y:"တစ်နှစ်",yy:"%d နှစ်"},preparse:function(a){return a.replace(/[၁၂၃၄၅၆၇၈၉၀]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("nb",{months:"januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),weekdaysShort:"søn_man_tirs_ons_tors_fre_lør".split("_"),weekdaysMin:"sø_ma_ti_on_to_fr_lø".split("_"),longDateFormat:{LT:"H.mm",LTS:"LT.ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY [kl.] LT",LLLL:"dddd D. MMMM YYYY [kl.] LT"},calendar:{sameDay:"[i dag kl.] LT",nextDay:"[i morgen kl.] LT",nextWeek:"dddd [kl.] LT",lastDay:"[i går kl.] LT",lastWeek:"[forrige] dddd [kl.] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"for %s siden",s:"noen sekunder",m:"ett minutt",mm:"%d minutter",h:"en time",hh:"%d timer",d:"en dag",dd:"%d dager",M:"en måned",MM:"%d måneder",y:"ett år",yy:"%d år"},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){var b={1:"१",2:"२",3:"३",4:"४",5:"५",6:"६",7:"७",8:"८",9:"९",0:"०"},c={"१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9","०":"0"};return a.defineLocale("ne",{months:"जनवरी_फेब्रुवरी_मार्च_अप्रिल_मई_जुन_जुलाई_अगष्ट_सेप्टेम्बर_अक्टोबर_नोभेम्बर_डिसेम्बर".split("_"),monthsShort:"जन._फेब्रु._मार्च_अप्रि._मई_जुन_जुलाई._अग._सेप्ट._अक्टो._नोभे._डिसे.".split("_"),weekdays:"आइतबार_सोमबार_मङ्गलबार_बुधबार_बिहिबार_शुक्रबार_शनिबार".split("_"),weekdaysShort:"आइत._सोम._मङ्गल._बुध._बिहि._शुक्र._शनि.".split("_"),weekdaysMin:"आइ._सो._मङ्_बु._बि._शु._श.".split("_"),longDateFormat:{LT:"Aको h:mm बजे",LTS:"Aको h:mm:ss बजे",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},preparse:function(a){return a.replace(/[१२३४५६७८९०]/g,function(a){return c[a]})},postformat:function(a){return a.replace(/\d/g,function(a){return b[a]})},meridiem:function(a){return 3>a?"राती":10>a?"बिहान":15>a?"दिउँसो":18>a?"बेलुका":20>a?"साँझ":"राती"},calendar:{sameDay:"[आज] LT",nextDay:"[भोली] LT",nextWeek:"[आउँदो] dddd[,] LT",lastDay:"[हिजो] LT",lastWeek:"[गएको] dddd[,] LT",sameElse:"L"},relativeTime:{future:"%sमा",past:"%s अगाडी",s:"केही समय",m:"एक मिनेट",mm:"%d मिनेट",h:"एक घण्टा",hh:"%d घण्टा",d:"एक दिन",dd:"%d दिन",M:"एक महिना",MM:"%d महिना",y:"एक बर्ष",yy:"%d बर्ष"},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){var b="jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"),c="jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec".split("_");return a.defineLocale("nl",{months:"januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),monthsShort:function(a,d){return/-MMM-/.test(d)?c[a.month()]:b[a.month()]},weekdays:"zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),weekdaysShort:"zo._ma._di._wo._do._vr._za.".split("_"),weekdaysMin:"Zo_Ma_Di_Wo_Do_Vr_Za".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[vandaag om] LT",nextDay:"[morgen om] LT",nextWeek:"dddd [om] LT",lastDay:"[gisteren om] LT",lastWeek:"[afgelopen] dddd [om] LT",sameElse:"L"},relativeTime:{future:"over %s",past:"%s geleden",s:"een paar seconden",m:"één minuut",mm:"%d minuten",h:"één uur",hh:"%d uur",d:"één dag",dd:"%d dagen",M:"één maand",MM:"%d maanden",y:"één jaar",yy:"%d jaar"},ordinalParse:/\d{1,2}(ste|de)/,ordinal:function(a){return a+(1===a||8===a||a>=20?"ste":"de")},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("nn",{months:"januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"sundag_måndag_tysdag_onsdag_torsdag_fredag_laurdag".split("_"),weekdaysShort:"sun_mån_tys_ons_tor_fre_lau".split("_"),weekdaysMin:"su_må_ty_on_to_fr_lø".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[I dag klokka] LT",nextDay:"[I morgon klokka] LT",nextWeek:"dddd [klokka] LT",lastDay:"[I går klokka] LT",lastWeek:"[Føregåande] dddd [klokka] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"for %s sidan",s:"nokre sekund",m:"eit minutt",mm:"%d minutt",h:"ein time",hh:"%d timar",d:"ein dag",dd:"%d dagar",M:"ein månad",MM:"%d månader",y:"eit år",yy:"%d år"},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){function b(a){return 5>a%10&&a%10>1&&~~(a/10)%10!==1}function c(a,c,d){var e=a+" ";switch(d){case"m":return c?"minuta":"minutę";case"mm":return e+(b(a)?"minuty":"minut");case"h":return c?"godzina":"godzinę";case"hh":return e+(b(a)?"godziny":"godzin");case"MM":return e+(b(a)?"miesiące":"miesięcy");case"yy":return e+(b(a)?"lata":"lat")}}var d="styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split("_"),e="stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia".split("_");return a.defineLocale("pl",{months:function(a,b){return/D MMMM/.test(b)?e[a.month()]:d[a.month()]},monthsShort:"sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),weekdays:"niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota".split("_"),weekdaysShort:"nie_pon_wt_śr_czw_pt_sb".split("_"),weekdaysMin:"N_Pn_Wt_Śr_Cz_Pt_So".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Dziś o] LT",nextDay:"[Jutro o] LT",nextWeek:"[W] dddd [o] LT",lastDay:"[Wczoraj o] LT",lastWeek:function(){switch(this.day()){case 0:return"[W zeszłą niedzielę o] LT";case 3:return"[W zeszłą środę o] LT";case 6:return"[W zeszłą sobotę o] LT";default:return"[W zeszły] dddd [o] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"%s temu",s:"kilka sekund",m:c,mm:c,h:c,hh:c,d:"1 dzień",dd:"%d dni",M:"miesiąc",MM:c,y:"rok",yy:c},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("pt-br",{months:"janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro".split("_"),monthsShort:"jan_fev_mar_abr_mai_jun_jul_ago_set_out_nov_dez".split("_"),weekdays:"domingo_segunda-feira_terça-feira_quarta-feira_quinta-feira_sexta-feira_sábado".split("_"),weekdaysShort:"dom_seg_ter_qua_qui_sex_sáb".split("_"),weekdaysMin:"dom_2ª_3ª_4ª_5ª_6ª_sáb".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY [às] LT",LLLL:"dddd, D [de] MMMM [de] YYYY [às] LT"},calendar:{sameDay:"[Hoje às] LT",nextDay:"[Amanhã às] LT",nextWeek:"dddd [às] LT",lastDay:"[Ontem às] LT",lastWeek:function(){return 0===this.day()||6===this.day()?"[Último] dddd [às] LT":"[Última] dddd [às] LT"},sameElse:"L"},relativeTime:{future:"em %s",past:"%s atrás",s:"segundos",m:"um minuto",mm:"%d minutos",h:"uma hora",hh:"%d horas",d:"um dia",dd:"%d dias",M:"um mês",MM:"%d meses",y:"um ano",yy:"%d anos"},ordinalParse:/\d{1,2}º/,ordinal:"%dº"})}),function(a){a(tb)}(function(a){return a.defineLocale("pt",{months:"janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro".split("_"),monthsShort:"jan_fev_mar_abr_mai_jun_jul_ago_set_out_nov_dez".split("_"),weekdays:"domingo_segunda-feira_terça-feira_quarta-feira_quinta-feira_sexta-feira_sábado".split("_"),weekdaysShort:"dom_seg_ter_qua_qui_sex_sáb".split("_"),weekdaysMin:"dom_2ª_3ª_4ª_5ª_6ª_sáb".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY LT",LLLL:"dddd, D [de] MMMM [de] YYYY LT"},calendar:{sameDay:"[Hoje às] LT",nextDay:"[Amanhã às] LT",nextWeek:"dddd [às] LT",lastDay:"[Ontem às] LT",lastWeek:function(){return 0===this.day()||6===this.day()?"[Último] dddd [às] LT":"[Última] dddd [às] LT"},sameElse:"L"},relativeTime:{future:"em %s",past:"há %s",s:"segundos",m:"um minuto",mm:"%d minutos",h:"uma hora",hh:"%d horas",d:"um dia",dd:"%d dias",M:"um mês",MM:"%d meses",y:"um ano",yy:"%d anos"},ordinalParse:/\d{1,2}º/,ordinal:"%dº",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){function b(a,b,c){var d={mm:"minute",hh:"ore",dd:"zile",MM:"luni",yy:"ani"},e=" ";return(a%100>=20||a>=100&&a%100===0)&&(e=" de "),a+e+d[c]}return a.defineLocale("ro",{months:"ianuarie_februarie_martie_aprilie_mai_iunie_iulie_august_septembrie_octombrie_noiembrie_decembrie".split("_"),monthsShort:"ian._febr._mart._apr._mai_iun._iul._aug._sept._oct._nov._dec.".split("_"),weekdays:"duminică_luni_marți_miercuri_joi_vineri_sâmbătă".split("_"),weekdaysShort:"Dum_Lun_Mar_Mie_Joi_Vin_Sâm".split("_"),weekdaysMin:"Du_Lu_Ma_Mi_Jo_Vi_Sâ".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY H:mm",LLLL:"dddd, D MMMM YYYY H:mm"},calendar:{sameDay:"[azi la] LT",nextDay:"[mâine la] LT",nextWeek:"dddd [la] LT",lastDay:"[ieri la] LT",lastWeek:"[fosta] dddd [la] LT",sameElse:"L"},relativeTime:{future:"peste %s",past:"%s în urmă",s:"câteva secunde",m:"un minut",mm:b,h:"o oră",hh:b,d:"o zi",dd:b,M:"o lună",MM:b,y:"un an",yy:b},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){function b(a,b){var c=a.split("_");return b%10===1&&b%100!==11?c[0]:b%10>=2&&4>=b%10&&(10>b%100||b%100>=20)?c[1]:c[2]}function c(a,c,d){var e={mm:c?"минута_минуты_минут":"минуту_минуты_минут",hh:"час_часа_часов",dd:"день_дня_дней",MM:"месяц_месяца_месяцев",yy:"год_года_лет"};return"m"===d?c?"минута":"минуту":a+" "+b(e[d],+a)}function d(a,b){var c={nominative:"январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_"),accusative:"января_февраля_марта_апреля_мая_июня_июля_августа_сентября_октября_ноября_декабря".split("_")},d=/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function e(a,b){var c={nominative:"янв_фев_март_апр_май_июнь_июль_авг_сен_окт_ноя_дек".split("_"),accusative:"янв_фев_мар_апр_мая_июня_июля_авг_сен_окт_ноя_дек".split("_")},d=/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function f(a,b){var c={nominative:"воскресенье_понедельник_вторник_среда_четверг_пятница_суббота".split("_"),accusative:"воскресенье_понедельник_вторник_среду_четверг_пятницу_субботу".split("_")},d=/\[ ?[Вв] ?(?:прошлую|следующую|эту)? ?\] ?dddd/.test(b)?"accusative":"nominative";return c[d][a.day()]}return a.defineLocale("ru",{months:d,monthsShort:e,weekdays:f,weekdaysShort:"вс_пн_вт_ср_чт_пт_сб".split("_"),weekdaysMin:"вс_пн_вт_ср_чт_пт_сб".split("_"),monthsParse:[/^янв/i,/^фев/i,/^мар/i,/^апр/i,/^ма[й|я]/i,/^июн/i,/^июл/i,/^авг/i,/^сен/i,/^окт/i,/^ноя/i,/^дек/i],longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY г.",LLL:"D MMMM YYYY г., LT",LLLL:"dddd, D MMMM YYYY г., LT"},calendar:{sameDay:"[Сегодня в] LT",nextDay:"[Завтра в] LT",lastDay:"[Вчера в] LT",nextWeek:function(){return 2===this.day()?"[Во] dddd [в] LT":"[В] dddd [в] LT"},lastWeek:function(a){if(a.week()===this.week())return 2===this.day()?"[Во] dddd [в] LT":"[В] dddd [в] LT";switch(this.day()){case 0:return"[В прошлое] dddd [в] LT";case 1:case 2:case 4:return"[В прошлый] dddd [в] LT";case 3:case 5:case 6:return"[В прошлую] dddd [в] LT"}},sameElse:"L"},relativeTime:{future:"через %s",past:"%s назад",s:"несколько секунд",m:c,mm:c,h:"час",hh:c,d:"день",dd:c,M:"месяц",MM:c,y:"год",yy:c},meridiemParse:/ночи|утра|дня|вечера/i,isPM:function(a){return/^(дня|вечера)$/.test(a)},meridiem:function(a){return 4>a?"ночи":12>a?"утра":17>a?"дня":"вечера"},ordinalParse:/\d{1,2}-(й|го|я)/,ordinal:function(a,b){switch(b){case"M":case"d":case"DDD":return a+"-й";case"D":return a+"-го";case"w":case"W":return a+"-я";default:return a}},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){function b(a){return a>1&&5>a}function c(a,c,d,e){var f=a+" ";switch(d){case"s":return c||e?"pár sekúnd":"pár sekundami";case"m":return c?"minúta":e?"minútu":"minútou";case"mm":return c||e?f+(b(a)?"minúty":"minút"):f+"minútami";break;case"h":return c?"hodina":e?"hodinu":"hodinou";case"hh":return c||e?f+(b(a)?"hodiny":"hodín"):f+"hodinami";break;case"d":return c||e?"deň":"dňom";case"dd":return c||e?f+(b(a)?"dni":"dní"):f+"dňami";break;case"M":return c||e?"mesiac":"mesiacom";case"MM":return c||e?f+(b(a)?"mesiace":"mesiacov"):f+"mesiacmi";break;case"y":return c||e?"rok":"rokom";case"yy":return c||e?f+(b(a)?"roky":"rokov"):f+"rokmi"}}var d="január_február_marec_apríl_máj_jún_júl_august_september_október_november_december".split("_"),e="jan_feb_mar_apr_máj_jún_júl_aug_sep_okt_nov_dec".split("_");return a.defineLocale("sk",{months:d,monthsShort:e,monthsParse:function(a,b){var c,d=[];for(c=0;12>c;c++)d[c]=new RegExp("^"+a[c]+"$|^"+b[c]+"$","i");return d}(d,e),weekdays:"nedeľa_pondelok_utorok_streda_štvrtok_piatok_sobota".split("_"),weekdaysShort:"ne_po_ut_st_št_pi_so".split("_"),weekdaysMin:"ne_po_ut_st_št_pi_so".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd D. MMMM YYYY LT"},calendar:{sameDay:"[dnes o] LT",nextDay:"[zajtra o] LT",nextWeek:function(){switch(this.day()){case 0:return"[v nedeľu o] LT";case 1:case 2:return"[v] dddd [o] LT";case 3:return"[v stredu o] LT";case 4:return"[vo štvrtok o] LT";case 5:return"[v piatok o] LT";case 6:return"[v sobotu o] LT"}},lastDay:"[včera o] LT",lastWeek:function(){switch(this.day()){case 0:return"[minulú nedeľu o] LT";case 1:case 2:return"[minulý] dddd [o] LT";case 3:return"[minulú stredu o] LT";case 4:case 5:return"[minulý] dddd [o] LT";case 6:return"[minulú sobotu o] LT"}},sameElse:"L"},relativeTime:{future:"za %s",past:"pred %s",s:c,m:c,mm:c,h:c,hh:c,d:c,dd:c,M:c,MM:c,y:c,yy:c},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){function b(a,b,c){var d=a+" ";switch(c){case"m":return b?"ena minuta":"eno minuto";case"mm":return d+=1===a?"minuta":2===a?"minuti":3===a||4===a?"minute":"minut";case"h":return b?"ena ura":"eno uro";case"hh":return d+=1===a?"ura":2===a?"uri":3===a||4===a?"ure":"ur";case"dd":return d+=1===a?"dan":"dni";case"MM":return d+=1===a?"mesec":2===a?"meseca":3===a||4===a?"mesece":"mesecev";case"yy":return d+=1===a?"leto":2===a?"leti":3===a||4===a?"leta":"let"}}return a.defineLocale("sl",{months:"januar_februar_marec_april_maj_junij_julij_avgust_september_oktober_november_december".split("_"),monthsShort:"jan._feb._mar._apr._maj._jun._jul._avg._sep._okt._nov._dec.".split("_"),weekdays:"nedelja_ponedeljek_torek_sreda_četrtek_petek_sobota".split("_"),weekdaysShort:"ned._pon._tor._sre._čet._pet._sob.".split("_"),weekdaysMin:"ne_po_to_sr_če_pe_so".split("_"),longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[danes ob] LT",nextDay:"[jutri ob] LT",nextWeek:function(){switch(this.day()){case 0:return"[v] [nedeljo] [ob] LT";case 3:return"[v] [sredo] [ob] LT";case 6:return"[v] [soboto] [ob] LT";case 1:case 2:case 4:case 5:return"[v] dddd [ob] LT"}},lastDay:"[včeraj ob] LT",lastWeek:function(){switch(this.day()){case 0:case 3:case 6:return"[prejšnja] dddd [ob] LT";case 1:case 2:case 4:case 5:return"[prejšnji] dddd [ob] LT"}},sameElse:"L"},relativeTime:{future:"čez %s",past:"%s nazaj",s:"nekaj sekund",m:b,mm:b,h:b,hh:b,d:"en dan",dd:b,M:"en mesec",MM:b,y:"eno leto",yy:b},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("sq",{months:"Janar_Shkurt_Mars_Prill_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor".split("_"),monthsShort:"Jan_Shk_Mar_Pri_Maj_Qer_Kor_Gus_Sht_Tet_Nën_Dhj".split("_"),weekdays:"E Diel_E Hënë_E Martë_E Mërkurë_E Enjte_E Premte_E Shtunë".split("_"),weekdaysShort:"Die_Hën_Mar_Mër_Enj_Pre_Sht".split("_"),weekdaysMin:"D_H_Ma_Më_E_P_Sh".split("_"),meridiem:function(a){return 12>a?"PD":"MD"},longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Sot në] LT",nextDay:"[Nesër në] LT",nextWeek:"dddd [në] LT",lastDay:"[Dje në] LT",lastWeek:"dddd [e kaluar në] LT",sameElse:"L"},relativeTime:{future:"në %s",past:"%s më parë",s:"disa sekonda",m:"një minutë",mm:"%d minuta",h:"një orë",hh:"%d orë",d:"një ditë",dd:"%d ditë",M:"një muaj",MM:"%d muaj",y:"një vit",yy:"%d vite"},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){var b={words:{m:["један минут","једне минуте"],mm:["минут","минуте","минута"],h:["један сат","једног сата"],hh:["сат","сата","сати"],dd:["дан","дана","дана"],MM:["месец","месеца","месеци"],yy:["година","године","година"]},correctGrammaticalCase:function(a,b){return 1===a?b[0]:a>=2&&4>=a?b[1]:b[2]},translate:function(a,c,d){var e=b.words[d];return 1===d.length?c?e[0]:e[1]:a+" "+b.correctGrammaticalCase(a,e)}};return a.defineLocale("sr-cyrl",{months:["јануар","фебруар","март","април","мај","јун","јул","август","септембар","октобар","новембар","децембар"],monthsShort:["јан.","феб.","мар.","апр.","мај","јун","јул","авг.","сеп.","окт.","нов.","дец."],weekdays:["недеља","понедељак","уторак","среда","четвртак","петак","субота"],weekdaysShort:["нед.","пон.","уто.","сре.","чет.","пет.","суб."],weekdaysMin:["не","по","ут","ср","че","пе","су"],longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[данас у] LT",nextDay:"[сутра у] LT",nextWeek:function(){switch(this.day()){case 0:return"[у] [недељу] [у] LT";case 3:return"[у] [среду] [у] LT";case 6:return"[у] [суботу] [у] LT";case 1:case 2:case 4:case 5:return"[у] dddd [у] LT"}},lastDay:"[јуче у] LT",lastWeek:function(){var a=["[прошле] [недеље] [у] LT","[прошлог] [понедељка] [у] LT","[прошлог] [уторка] [у] LT","[прошле] [среде] [у] LT","[прошлог] [четвртка] [у] LT","[прошлог] [петка] [у] LT","[прошле] [суботе] [у] LT"];return a[this.day()]},sameElse:"L"},relativeTime:{future:"за %s",past:"пре %s",s:"неколико секунди",m:b.translate,mm:b.translate,h:b.translate,hh:b.translate,d:"дан",dd:b.translate,M:"месец",MM:b.translate,y:"годину",yy:b.translate},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){var b={words:{m:["jedan minut","jedne minute"],mm:["minut","minute","minuta"],h:["jedan sat","jednog sata"],hh:["sat","sata","sati"],dd:["dan","dana","dana"],MM:["mesec","meseca","meseci"],yy:["godina","godine","godina"]},correctGrammaticalCase:function(a,b){return 1===a?b[0]:a>=2&&4>=a?b[1]:b[2]},translate:function(a,c,d){var e=b.words[d];return 1===d.length?c?e[0]:e[1]:a+" "+b.correctGrammaticalCase(a,e)}};return a.defineLocale("sr",{months:["januar","februar","mart","april","maj","jun","jul","avgust","septembar","oktobar","novembar","decembar"],monthsShort:["jan.","feb.","mar.","apr.","maj","jun","jul","avg.","sep.","okt.","nov.","dec."],weekdays:["nedelja","ponedeljak","utorak","sreda","četvrtak","petak","subota"],weekdaysShort:["ned.","pon.","uto.","sre.","čet.","pet.","sub."],weekdaysMin:["ne","po","ut","sr","če","pe","su"],longDateFormat:{LT:"H:mm",LTS:"LT:ss",L:"DD. MM. YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},calendar:{sameDay:"[danas u] LT",nextDay:"[sutra u] LT",nextWeek:function(){switch(this.day()){case 0:return"[u] [nedelju] [u] LT";case 3:return"[u] [sredu] [u] LT";case 6:return"[u] [subotu] [u] LT";case 1:case 2:case 4:case 5:return"[u] dddd [u] LT"}},lastDay:"[juče u] LT",lastWeek:function(){var a=["[prošle] [nedelje] [u] LT","[prošlog] [ponedeljka] [u] LT","[prošlog] [utorka] [u] LT","[prošle] [srede] [u] LT","[prošlog] [četvrtka] [u] LT","[prošlog] [petka] [u] LT","[prošle] [subote] [u] LT"];return a[this.day()]},sameElse:"L"},relativeTime:{future:"za %s",past:"pre %s",s:"nekoliko sekundi",m:b.translate,mm:b.translate,h:b.translate,hh:b.translate,d:"dan",dd:b.translate,M:"mesec",MM:b.translate,y:"godinu",yy:b.translate},ordinalParse:/\d{1,2}\./,ordinal:"%d.",week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("sv",{months:"januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),weekdays:"söndag_måndag_tisdag_onsdag_torsdag_fredag_lördag".split("_"),weekdaysShort:"sön_mån_tis_ons_tor_fre_lör".split("_"),weekdaysMin:"sö_må_ti_on_to_fr_lö".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[Idag] LT",nextDay:"[Imorgon] LT",lastDay:"[Igår] LT",nextWeek:"dddd LT",lastWeek:"[Förra] dddd[en] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"för %s sedan",s:"några sekunder",m:"en minut",mm:"%d minuter",h:"en timme",hh:"%d timmar",d:"en dag",dd:"%d dagar",M:"en månad",MM:"%d månader",y:"ett år",yy:"%d år"},ordinalParse:/\d{1,2}(e|a)/,ordinal:function(a){var b=a%10,c=1===~~(a%100/10)?"e":1===b?"a":2===b?"a":3===b?"e":"e";return a+c},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("ta",{months:"ஜனவரி_பிப்ரவரி_மார்ச்_ஏப்ரல்_மே_ஜூன்_ஜூலை_ஆகஸ்ட்_செப்டெம்பர்_அக்டோபர்_நவம்பர்_டிசம்பர்".split("_"),monthsShort:"ஜனவரி_பிப்ரவரி_மார்ச்_ஏப்ரல்_மே_ஜூன்_ஜூலை_ஆகஸ்ட்_செப்டெம்பர்_அக்டோபர்_நவம்பர்_டிசம்பர்".split("_"),weekdays:"ஞாயிற்றுக்கிழமை_திங்கட்கிழமை_செவ்வாய்கிழமை_புதன்கிழமை_வியாழக்கிழமை_வெள்ளிக்கிழமை_சனிக்கிழமை".split("_"),weekdaysShort:"ஞாயிறு_திங்கள்_செவ்வாய்_புதன்_வியாழன்_வெள்ளி_சனி".split("_"),weekdaysMin:"ஞா_தி_செ_பு_வி_வெ_ச".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY, LT",LLLL:"dddd, D MMMM YYYY, LT"},calendar:{sameDay:"[இன்று] LT",nextDay:"[நாளை] LT",nextWeek:"dddd, LT",lastDay:"[நேற்று] LT",lastWeek:"[கடந்த வாரம்] dddd, LT",sameElse:"L"},relativeTime:{future:"%s இல்",past:"%s முன்",s:"ஒரு சில விநாடிகள்",m:"ஒரு நிமிடம்",mm:"%d நிமிடங்கள்",h:"ஒரு மணி நேரம்",hh:"%d மணி நேரம்",d:"ஒரு நாள்",dd:"%d நாட்கள்",M:"ஒரு மாதம்",MM:"%d மாதங்கள்",y:"ஒரு வருடம்",yy:"%d ஆண்டுகள்"},ordinalParse:/\d{1,2}வது/,ordinal:function(a){return a+"வது"},meridiem:function(a){return a>=6&&10>=a?" காலை":a>=10&&14>=a?" நண்பகல்":a>=14&&18>=a?" எற்பாடு":a>=18&&20>=a?" மாலை":a>=20&&24>=a?" இரவு":a>=0&&6>=a?" வைகறை":void 0},week:{dow:0,doy:6}})}),function(a){a(tb)}(function(a){return a.defineLocale("th",{months:"มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิกายน_ธันวาคม".split("_"),monthsShort:"มกรา_กุมภา_มีนา_เมษา_พฤษภา_มิถุนา_กรกฎา_สิงหา_กันยา_ตุลา_พฤศจิกา_ธันวา".split("_"),weekdays:"อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัสบดี_ศุกร์_เสาร์".split("_"),weekdaysShort:"อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัส_ศุกร์_เสาร์".split("_"),weekdaysMin:"อา._จ._อ._พ._พฤ._ศ._ส.".split("_"),longDateFormat:{LT:"H นาฬิกา m นาที",LTS:"LT s วินาที",L:"YYYY/MM/DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY เวลา LT",LLLL:"วันddddที่ D MMMM YYYY เวลา LT"},meridiem:function(a){return 12>a?"ก่อนเที่ยง":"หลังเที่ยง"},calendar:{sameDay:"[วันนี้ เวลา] LT",nextDay:"[พรุ่งนี้ เวลา] LT",nextWeek:"dddd[หน้า เวลา] LT",lastDay:"[เมื่อวานนี้ เวลา] LT",lastWeek:"[วัน]dddd[ที่แล้ว เวลา] LT",sameElse:"L"},relativeTime:{future:"อีก %s",past:"%sที่แล้ว",s:"ไม่กี่วินาที",m:"1 นาที",mm:"%d นาที",h:"1 ชั่วโมง",hh:"%d ชั่วโมง",d:"1 วัน",dd:"%d วัน",M:"1 เดือน",MM:"%d เดือน",y:"1 ปี",yy:"%d ปี"}})}),function(a){a(tb)}(function(a){return a.defineLocale("tl-ph",{months:"Enero_Pebrero_Marso_Abril_Mayo_Hunyo_Hulyo_Agosto_Setyembre_Oktubre_Nobyembre_Disyembre".split("_"),monthsShort:"Ene_Peb_Mar_Abr_May_Hun_Hul_Ago_Set_Okt_Nob_Dis".split("_"),weekdays:"Linggo_Lunes_Martes_Miyerkules_Huwebes_Biyernes_Sabado".split("_"),weekdaysShort:"Lin_Lun_Mar_Miy_Huw_Biy_Sab".split("_"),weekdaysMin:"Li_Lu_Ma_Mi_Hu_Bi_Sab".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"MM/D/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY LT",LLLL:"dddd, MMMM DD, YYYY LT"},calendar:{sameDay:"[Ngayon sa] LT",nextDay:"[Bukas sa] LT",nextWeek:"dddd [sa] LT",lastDay:"[Kahapon sa] LT",lastWeek:"dddd [huling linggo] LT",sameElse:"L"},relativeTime:{future:"sa loob ng %s",past:"%s ang nakalipas",s:"ilang segundo",m:"isang minuto",mm:"%d minuto",h:"isang oras",hh:"%d oras",d:"isang araw",dd:"%d araw",M:"isang buwan",MM:"%d buwan",y:"isang taon",yy:"%d taon"},ordinalParse:/\d{1,2}/,ordinal:function(a){return a},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){var b={1:"'inci",5:"'inci",8:"'inci",70:"'inci",80:"'inci",2:"'nci",7:"'nci",20:"'nci",50:"'nci",3:"'üncü",4:"'üncü",100:"'üncü",6:"'ncı",9:"'uncu",10:"'uncu",30:"'uncu",60:"'ıncı",90:"'ıncı"};return a.defineLocale("tr",{months:"Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık".split("_"),monthsShort:"Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara".split("_"),weekdays:"Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi".split("_"),weekdaysShort:"Paz_Pts_Sal_Çar_Per_Cum_Cts".split("_"),weekdaysMin:"Pz_Pt_Sa_Ça_Pe_Cu_Ct".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[bugün saat] LT",nextDay:"[yarın saat] LT",nextWeek:"[haftaya] dddd [saat] LT",lastDay:"[dün] LT",lastWeek:"[geçen hafta] dddd [saat] LT",sameElse:"L"},relativeTime:{future:"%s sonra",past:"%s önce",s:"birkaç saniye",m:"bir dakika",mm:"%d dakika",h:"bir saat",hh:"%d saat",d:"bir gün",dd:"%d gün",M:"bir ay",MM:"%d ay",y:"bir yıl",yy:"%d yıl"},ordinalParse:/\d{1,2}'(inci|nci|üncü|ncı|uncu|ıncı)/,ordinal:function(a){if(0===a)return a+"'ıncı";var c=a%10,d=a%100-c,e=a>=100?100:null;return a+(b[c]||b[d]||b[e])},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("tzm-latn",{months:"innayr_brˤayrˤ_marˤsˤ_ibrir_mayyw_ywnyw_ywlywz_ɣwšt_šwtanbir_ktˤwbrˤ_nwwanbir_dwjnbir".split("_"),monthsShort:"innayr_brˤayrˤ_marˤsˤ_ibrir_mayyw_ywnyw_ywlywz_ɣwšt_šwtanbir_ktˤwbrˤ_nwwanbir_dwjnbir".split("_"),weekdays:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),weekdaysShort:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),weekdaysMin:"asamas_aynas_asinas_akras_akwas_asimwas_asiḍyas".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[asdkh g] LT",nextDay:"[aska g] LT",nextWeek:"dddd [g] LT",lastDay:"[assant g] LT",lastWeek:"dddd [g] LT",sameElse:"L"},relativeTime:{future:"dadkh s yan %s",past:"yan %s",s:"imik",m:"minuḍ",mm:"%d minuḍ",h:"saɛa",hh:"%d tassaɛin",d:"ass",dd:"%d ossan",M:"ayowr",MM:"%d iyyirn",y:"asgas",yy:"%d isgasn"},week:{dow:6,doy:12}})}),function(a){a(tb)}(function(a){return a.defineLocale("tzm",{months:"ⵉⵏⵏⴰⵢⵔ_ⴱⵕⴰⵢⵕ_ⵎⴰⵕⵚ_ⵉⴱⵔⵉⵔ_ⵎⴰⵢⵢⵓ_ⵢⵓⵏⵢⵓ_ⵢⵓⵍⵢⵓⵣ_ⵖⵓⵛⵜ_ⵛⵓⵜⴰⵏⴱⵉⵔ_ⴽⵟⵓⴱⵕ_ⵏⵓⵡⴰⵏⴱⵉⵔ_ⴷⵓⵊⵏⴱⵉⵔ".split("_"),monthsShort:"ⵉⵏⵏⴰⵢⵔ_ⴱⵕⴰⵢⵕ_ⵎⴰⵕⵚ_ⵉⴱⵔⵉⵔ_ⵎⴰⵢⵢⵓ_ⵢⵓⵏⵢⵓ_ⵢⵓⵍⵢⵓⵣ_ⵖⵓⵛⵜ_ⵛⵓⵜⴰⵏⴱⵉⵔ_ⴽⵟⵓⴱⵕ_ⵏⵓⵡⴰⵏⴱⵉⵔ_ⴷⵓⵊⵏⴱⵉⵔ".split("_"),weekdays:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),weekdaysShort:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),weekdaysMin:"ⴰⵙⴰⵎⴰⵙ_ⴰⵢⵏⴰⵙ_ⴰⵙⵉⵏⴰⵙ_ⴰⴽⵔⴰⵙ_ⴰⴽⵡⴰⵙ_ⴰⵙⵉⵎⵡⴰⵙ_ⴰⵙⵉⴹⵢⴰⵙ".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},calendar:{sameDay:"[ⴰⵙⴷⵅ ⴴ] LT",nextDay:"[ⴰⵙⴽⴰ ⴴ] LT",nextWeek:"dddd [ⴴ] LT",lastDay:"[ⴰⵚⴰⵏⵜ ⴴ] LT",lastWeek:"dddd [ⴴ] LT",sameElse:"L"},relativeTime:{future:"ⴷⴰⴷⵅ ⵙ ⵢⴰⵏ %s",past:"ⵢⴰⵏ %s",s:"ⵉⵎⵉⴽ",m:"ⵎⵉⵏⵓⴺ",mm:"%d ⵎⵉⵏⵓⴺ",h:"ⵙⴰⵄⴰ",hh:"%d ⵜⴰⵙⵙⴰⵄⵉⵏ",d:"ⴰⵙⵙ",dd:"%d oⵙⵙⴰⵏ",M:"ⴰⵢoⵓⵔ",MM:"%d ⵉⵢⵢⵉⵔⵏ",y:"ⴰⵙⴳⴰⵙ",yy:"%d ⵉⵙⴳⴰⵙⵏ"},week:{dow:6,doy:12}})
 }),function(a){a(tb)}(function(a){function b(a,b){var c=a.split("_");return b%10===1&&b%100!==11?c[0]:b%10>=2&&4>=b%10&&(10>b%100||b%100>=20)?c[1]:c[2]}function c(a,c,d){var e={mm:"хвилина_хвилини_хвилин",hh:"година_години_годин",dd:"день_дні_днів",MM:"місяць_місяці_місяців",yy:"рік_роки_років"};return"m"===d?c?"хвилина":"хвилину":"h"===d?c?"година":"годину":a+" "+b(e[d],+a)}function d(a,b){var c={nominative:"січень_лютий_березень_квітень_травень_червень_липень_серпень_вересень_жовтень_листопад_грудень".split("_"),accusative:"січня_лютого_березня_квітня_травня_червня_липня_серпня_вересня_жовтня_листопада_грудня".split("_")},d=/D[oD]? *MMMM?/.test(b)?"accusative":"nominative";return c[d][a.month()]}function e(a,b){var c={nominative:"неділя_понеділок_вівторок_середа_четвер_п’ятниця_субота".split("_"),accusative:"неділю_понеділок_вівторок_середу_четвер_п’ятницю_суботу".split("_"),genitive:"неділі_понеділка_вівторка_середи_четверга_п’ятниці_суботи".split("_")},d=/(\[[ВвУу]\]) ?dddd/.test(b)?"accusative":/\[?(?:минулої|наступної)? ?\] ?dddd/.test(b)?"genitive":"nominative";return c[d][a.day()]}function f(a){return function(){return a+"о"+(11===this.hours()?"б":"")+"] LT"}}return a.defineLocale("uk",{months:d,monthsShort:"січ_лют_бер_квіт_трав_черв_лип_серп_вер_жовт_лист_груд".split("_"),weekdays:e,weekdaysShort:"нд_пн_вт_ср_чт_пт_сб".split("_"),weekdaysMin:"нд_пн_вт_ср_чт_пт_сб".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY р.",LLL:"D MMMM YYYY р., LT",LLLL:"dddd, D MMMM YYYY р., LT"},calendar:{sameDay:f("[Сьогодні "),nextDay:f("[Завтра "),lastDay:f("[Вчора "),nextWeek:f("[У] dddd ["),lastWeek:function(){switch(this.day()){case 0:case 3:case 5:case 6:return f("[Минулої] dddd [").call(this);case 1:case 2:case 4:return f("[Минулого] dddd [").call(this)}},sameElse:"L"},relativeTime:{future:"за %s",past:"%s тому",s:"декілька секунд",m:c,mm:c,h:"годину",hh:c,d:"день",dd:c,M:"місяць",MM:c,y:"рік",yy:c},meridiem:function(a){return 4>a?"ночі":12>a?"ранку":17>a?"дня":"вечора"},ordinalParse:/\d{1,2}-(й|го)/,ordinal:function(a,b){switch(b){case"M":case"d":case"DDD":case"w":case"W":return a+"-й";case"D":return a+"-го";default:return a}},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("uz",{months:"январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_"),monthsShort:"янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек".split("_"),weekdays:"Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба".split("_"),weekdaysShort:"Якш_Душ_Сеш_Чор_Пай_Жум_Шан".split("_"),weekdaysMin:"Як_Ду_Се_Чо_Па_Жу_Ша".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"D MMMM YYYY, dddd LT"},calendar:{sameDay:"[Бугун соат] LT [да]",nextDay:"[Эртага] LT [да]",nextWeek:"dddd [куни соат] LT [да]",lastDay:"[Кеча соат] LT [да]",lastWeek:"[Утган] dddd [куни соат] LT [да]",sameElse:"L"},relativeTime:{future:"Якин %s ичида",past:"Бир неча %s олдин",s:"фурсат",m:"бир дакика",mm:"%d дакика",h:"бир соат",hh:"%d соат",d:"бир кун",dd:"%d кун",M:"бир ой",MM:"%d ой",y:"бир йил",yy:"%d йил"},week:{dow:1,doy:7}})}),function(a){a(tb)}(function(a){return a.defineLocale("vi",{months:"tháng 1_tháng 2_tháng 3_tháng 4_tháng 5_tháng 6_tháng 7_tháng 8_tháng 9_tháng 10_tháng 11_tháng 12".split("_"),monthsShort:"Th01_Th02_Th03_Th04_Th05_Th06_Th07_Th08_Th09_Th10_Th11_Th12".split("_"),weekdays:"chủ nhật_thứ hai_thứ ba_thứ tư_thứ năm_thứ sáu_thứ bảy".split("_"),weekdaysShort:"CN_T2_T3_T4_T5_T6_T7".split("_"),weekdaysMin:"CN_T2_T3_T4_T5_T6_T7".split("_"),longDateFormat:{LT:"HH:mm",LTS:"LT:ss",L:"DD/MM/YYYY",LL:"D MMMM [năm] YYYY",LLL:"D MMMM [năm] YYYY LT",LLLL:"dddd, D MMMM [năm] YYYY LT",l:"DD/M/YYYY",ll:"D MMM YYYY",lll:"D MMM YYYY LT",llll:"ddd, D MMM YYYY LT"},calendar:{sameDay:"[Hôm nay lúc] LT",nextDay:"[Ngày mai lúc] LT",nextWeek:"dddd [tuần tới lúc] LT",lastDay:"[Hôm qua lúc] LT",lastWeek:"dddd [tuần rồi lúc] LT",sameElse:"L"},relativeTime:{future:"%s tới",past:"%s trước",s:"vài giây",m:"một phút",mm:"%d phút",h:"một giờ",hh:"%d giờ",d:"một ngày",dd:"%d ngày",M:"một tháng",MM:"%d tháng",y:"một năm",yy:"%d năm"},ordinalParse:/\d{1,2}/,ordinal:function(a){return a},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("zh-cn",{months:"一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),weekdaysShort:"周日_周一_周二_周三_周四_周五_周六".split("_"),weekdaysMin:"日_一_二_三_四_五_六".split("_"),longDateFormat:{LT:"Ah点mm",LTS:"Ah点m分s秒",L:"YYYY-MM-DD",LL:"YYYY年MMMD日",LLL:"YYYY年MMMD日LT",LLLL:"YYYY年MMMD日ddddLT",l:"YYYY-MM-DD",ll:"YYYY年MMMD日",lll:"YYYY年MMMD日LT",llll:"YYYY年MMMD日ddddLT"},meridiem:function(a,b){var c=100*a+b;return 600>c?"凌晨":900>c?"早上":1130>c?"上午":1230>c?"中午":1800>c?"下午":"晚上"},calendar:{sameDay:function(){return 0===this.minutes()?"[今天]Ah[点整]":"[今天]LT"},nextDay:function(){return 0===this.minutes()?"[明天]Ah[点整]":"[明天]LT"},lastDay:function(){return 0===this.minutes()?"[昨天]Ah[点整]":"[昨天]LT"},nextWeek:function(){var b,c;return b=a().startOf("week"),c=this.unix()-b.unix()>=604800?"[下]":"[本]",0===this.minutes()?c+"dddAh点整":c+"dddAh点mm"},lastWeek:function(){var b,c;return b=a().startOf("week"),c=this.unix()<b.unix()?"[上]":"[本]",0===this.minutes()?c+"dddAh点整":c+"dddAh点mm"},sameElse:"LL"},ordinalParse:/\d{1,2}(日|月|周)/,ordinal:function(a,b){switch(b){case"d":case"D":case"DDD":return a+"日";case"M":return a+"月";case"w":case"W":return a+"周";default:return a}},relativeTime:{future:"%s内",past:"%s前",s:"几秒",m:"1分钟",mm:"%d分钟",h:"1小时",hh:"%d小时",d:"1天",dd:"%d天",M:"1个月",MM:"%d个月",y:"1年",yy:"%d年"},week:{dow:1,doy:4}})}),function(a){a(tb)}(function(a){return a.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),monthsShort:"1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),weekdays:"星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),weekdaysShort:"週日_週一_週二_週三_週四_週五_週六".split("_"),weekdaysMin:"日_一_二_三_四_五_六".split("_"),longDateFormat:{LT:"Ah點mm",LTS:"Ah點m分s秒",L:"YYYY年MMMD日",LL:"YYYY年MMMD日",LLL:"YYYY年MMMD日LT",LLLL:"YYYY年MMMD日ddddLT",l:"YYYY年MMMD日",ll:"YYYY年MMMD日",lll:"YYYY年MMMD日LT",llll:"YYYY年MMMD日ddddLT"},meridiem:function(a,b){var c=100*a+b;return 900>c?"早上":1130>c?"上午":1230>c?"中午":1800>c?"下午":"晚上"},calendar:{sameDay:"[今天]LT",nextDay:"[明天]LT",nextWeek:"[下]ddddLT",lastDay:"[昨天]LT",lastWeek:"[上]ddddLT",sameElse:"L"},ordinalParse:/\d{1,2}(日|月|週)/,ordinal:function(a,b){switch(b){case"d":case"D":case"DDD":return a+"日";case"M":return a+"月";case"w":case"W":return a+"週";default:return a}},relativeTime:{future:"%s內",past:"%s前",s:"幾秒",m:"一分鐘",mm:"%d分鐘",h:"一小時",hh:"%d小時",d:"一天",dd:"%d天",M:"一個月",MM:"%d個月",y:"一年",yy:"%d年"}})}),tb.locale("en"),Jb?module.exports=tb:"function"==typeof define&&define.amd?(define("moment",['require','exports','module'],function(a,b,c){return c.config&&c.config()&&c.config().noGlobal===!0&&(xb.moment=ub),tb}),sb(!0)):sb()}).call(this);
-/*! Moment Duration Format v2.0.0dev
- *  https://github.com/jsmreese/moment-duration-format 
- *  Date: 2015-02-21
+/*! Moment Duration Format v2.0.1
+ *  https://github.com/jsmreese/moment-duration-format
+ *  Date: 2017-12-14
  *
  *  Duration format plugin function for the Moment.js library
  *  http://momentjs.com/
  *
- *  Copyright 2015 John Madhavan-Reese
+ *  Copyright 2017 John Madhavan-Reese
  *  Released under the MIT license
  */
 
 (function (root, factory) {
-	if (typeof define === 'function' && define.amd) {
-		// AMD. Register as an anonymous module.
-		define('momentDurationFormat',['moment'], factory);
-	} else if (typeof exports === 'object') {
-		// Node. Does not work with strict CommonJS, but
-		// only CommonJS-like enviroments that support module.exports,
-		// like Node.
-		module.exports = factory(require('moment'));
-	} else {
-		// Browser globals
-		root.momentDurationFormat = factory(root.moment);
-	}
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define('momentDurationFormat',['moment'], factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but only CommonJS-like
+        // enviroments that support module.exports, like Node.
+        try {
+            module.exports = factory(require('moment'));
+        } catch (e) {
+            // If moment is not available, leave the setup up to the user.
+            // Like when using moment-timezone or similar moment-based package.
+            module.exports = factory;
+        }
+    }
+
+    if (root) {
+        // Globals.
+        root.momentDurationFormatSetup = root.moment ? factory(root.moment) : factory;
+    }
 })(this, function (moment) {
+    // durationLabelCompare
+    function durationLabelCompare(a, b) {
+        if (a.label.length > b.label.length) {
+            return -1;
+        }
 
-	// repeatZero(qty)
-	// returns "0" repeated qty times
-	function repeatZero(qty) {
-		var result = "";
-		
-		// exit early
-		// if qty is 0 or a negative number
-		// or doesn't coerce to an integer
-		qty = parseInt(qty, 10);
-		if (!qty || qty < 1) { return result; }
-		
-		while (qty) {
-			result += "0";
-			qty -= 1;
-		}
-		
-		return result;
-	}
-	
-	// padZero(str, len [, isRight])
-	// pads a string with zeros up to a specified length
-	// will not pad a string if its length is aready
-	// greater than or equal to the specified length
-	// default output pads with zeros on the left
-	// set isRight to `true` to pad with zeros on the right
-	function padZero(str, len, isRight) {
-		if (str == null) { str = ""; }
-		str = "" + str;
-		
-		return (isRight ? str : "") + repeatZero(len - str.length) + (isRight ? "" : str);
-	}
-	
-	// isArray
-	function isArray(array) {
-		return Object.prototype.toString.call(array) === "[object Array]";
-	}
-	
-	// isObject
-	function isObject(obj) {
-		return Object.prototype.toString.call(obj) === "[object Object]";
-	}
-	
-	// findLast
-	function findLast(array, callback) {
-		var index = array.length;
+        if (a.label.length < b.label.length) {
+            return 1;
+        }
 
-		while (index -= 1) {
-			if (callback(array[index])) { return array[index]; }
-		}
-	}
+        // a must be equal to b
+        return 0;
+    }
 
-	// find
-	function find(array, callback) {
-		var index = 0,
-			max = array.length,
-			match;
-			
-		if (typeof callback !== "function") {
-			match = callback;
-			callback = function (item) {
-				return item === match;
-			};
-		}
+    // durationGetLabels
+    function durationGetLabels(token, localeData) {
+        var labels = [];
 
-		while (index < max) {
-			if (callback(array[index])) { return array[index]; }
-			index += 1;
-		}
-	}
-	
-	// each
-	function each(array, callback) {
-		var index = 0,
-			max = array.length;
-			
-		if (!array || !max) { return; }
+        each(keys(localeData), function (localeDataKey) {
+            if (localeDataKey.slice(0, 15) !== "_durationLabels") {
+                return;
+            }
 
-		while (index < max) {
-			if (callback(array[index], index) === false) { return; }
-			index += 1;
-		}
-	}
-	
-	// map
-	function map(array, callback) {
-		var index = 0,
-			max = array.length,
-			ret = [];
+            var labelType = localeDataKey.slice(15).toLowerCase();
 
-		if (!array || !max) { return ret; }
-				
-		while (index < max) {
-			ret[index] = callback(array[index], index);
-			index += 1;
-		}
-		
-		return ret;
-	}
-	
-	// pluck
-	function pluck(array, prop) {
-		return map(array, function (item) {
-			return item[prop];
-		});
-	}
-	
-	// compact
-	function compact(array) {
-		var ret = [];
-		
-		each(array, function (item) {
-			if (item) { ret.push(item); }
-		});
-		
-		return ret;
-	}
-	
-	// unique
-	function unique(array) {
-		var ret = [];
-		
-		each(array, function (_a) {
-			if (!find(ret, _a)) { ret.push(_a); }
-		});
-		
-		return ret;
-	}
-	
-	// intersection
-	function intersection(a, b) {
-		var ret = [];
-		
-		each(a, function (_a) {
-			each(b, function (_b) {
-				if (_a === _b) { ret.push(_a); }
-			});
-		});
-		
-		return unique(ret);
-	}
-	
-	// rest
-	function rest(array, callback) {
-		var ret = [];
-		
-		each(array, function (item, index) {
-			if (!callback(item)) {
-				ret = array.slice(index);
-				return false;
-			}
-		});
-		
-		return ret;
-	}
+            each(keys(localeData[localeDataKey]), function (labelKey) {
+                if (labelKey.slice(0, 1) === token) {
+                    labels.push({
+                        type: labelType,
+                        key: labelKey,
+                        label: localeData[localeDataKey][labelKey]
+                    });
+                }
+            });
+        });
 
-	// initial
-	function initial(array, callback) {
-		var reversed = array.slice().reverse();
-		
-		return rest(reversed, callback).reverse();
-	}
-	
-	// extend
-	function extend(a, b) {
-		for (var key in b) {
-			if (b.hasOwnProperty(key)) { a[key] = b[key]; }
-		}
-		
-		return a;
-	}
-	
-	// durationFormat([template] [, precision] [, settings])
-	function durationFormat() {
+        return labels;
+    }
 
-		var tokenizer, tokens, types, typeMap, momentTypes, foundFirst, trimIndex,
-			args = [].slice.call(arguments),
-			settings = extend({}, this.format.defaults),
-			// keep a shadow copy of this moment for calculating remainders
-			remainder = moment.duration(this);
+    // durationPluralKey
+    function durationPluralKey(token, integerValue, decimalValue) {
+        // Singular for a value of `1`, but not for `1.0`.
+        if (integerValue === 1 && decimalValue === null) {
+            return token;
+        }
 
-		// add a reference to this duration object to the settings for use
-		// in a template function
-		settings.duration = this;
+        return token + token;
+    }
 
-		// parse arguments
-		each(args, function (arg) {
-			if (typeof arg === "string" || typeof arg === "function") {
-				settings.template = arg;
-				return;
-			}
+    var engLocale = {
+        durationLabelsStandard: {
+            S: 'millisecond',
+            SS: 'milliseconds',
+            s: 'second',
+            ss: 'seconds',
+            m: 'minute',
+            mm: 'minutes',
+            h: 'hour',
+            hh: 'hours',
+            d: 'day',
+            dd: 'days',
+            w: 'week',
+            ww: 'weeks',
+            M: 'month',
+            MM: 'months',
+            y: 'year',
+            yy: 'years'
+        },
+        durationLabelsShort: {
+            S: 'msec',
+            SS: 'msecs',
+            s: 'sec',
+            ss: 'secs',
+            m: 'min',
+            mm: 'mins',
+            h: 'hr',
+            hh: 'hrs',
+            d: 'dy',
+            dd: 'dys',
+            w: 'wk',
+            ww: 'wks',
+            M: 'mo',
+            MM: 'mos',
+            y: 'yr',
+            yy: 'yrs'
+        },
+        durationTimeTemplates: {
+            HMS: 'h:mm:ss',
+            HM: 'h:mm',
+            MS: 'm:ss'
+        },
+        durationLabelTypes: [
+            { type: "standard", string: "__" },
+            { type: "short", string: "_" }
+        ],
+        durationPluralKey: durationPluralKey
+    };
 
-			if (typeof arg === "number") {
-				settings.precision = arg;
-				return;
-			}
+    // isArray
+    function isArray(array) {
+        return Object.prototype.toString.call(array) === "[object Array]";
+    }
 
-			if (isObject(arg)) {
-				extend(settings, arg);
-			}
-		});
+    // isObject
+    function isObject(obj) {
+        return Object.prototype.toString.call(obj) === "[object Object]";
+    }
 
-		// types
-		types = settings.types = (isArray(settings.types) ? settings.types : settings.types.split(" "));
+    // findLast
+    function findLast(array, callback) {
+        var index = array.length;
 
-		// template
-		if (typeof settings.template === "function") {
-			settings.template = settings.template.apply(settings);
-		}
-		
-		// decimalSeparator
-		if (typeof settings.decimalSeparator === "function") {
-			settings.decimalSeparator = settings.decimalSeparator.apply(settings);
-		}
-		
-		// tokenizer regexp
-		tokenizer = new RegExp(map(types, function (type) {
-			return settings[type].source;
-		}).join("|"), "g");
+        while (index -= 1) {
+            if (callback(array[index])) { return array[index]; }
+        }
+    }
 
-		// token type map function
-		typeMap = function (token) {
-			return find(types, function (type) {
-				return settings[type].test(token);
-			});
-		};
+    // find
+    function find(array, callback) {
+        var index = 0,
+            max = array.length,
+            match;
 
-		// tokens array
-		tokens = map(settings.template.match(tokenizer), function (token, index) {
-			var type, length, stopTrim;
+        if (typeof callback !== "function") {
+            match = callback;
+            callback = function (item) {
+                return item === match;
+            };
+        }
 
-			type = typeMap(token);
-			stopTrim = false;
-			
-			if (token.slice(0, 1) === "*") {
-				token = token.slice(1);
-				stopTrim = true;
-			}
-			
-			length = token.length;
+        while (index < max) {
+            if (callback(array[index])) { return array[index]; }
+            index += 1;
+        }
+    }
 
-			return {
-				index: index,
-				length: length,
-				stopTrim: stopTrim,
+    // each
+    function each(array, callback) {
+        var index = 0,
+            max = array.length;
 
-				// replace escaped tokens with the non-escaped token text
-				token: (type === "escape" ? token.replace(settings.escape, "$1") : token),
+        if (!array || !max) { return; }
 
-				// ignore type on non-moment tokens
-				type: ((type === "escape" || type === "general") ? null : type)
-			};
-		}, this);
+        while (index < max) {
+            if (callback(array[index], index) === false) { return; }
+            index += 1;
+        }
+    }
 
-		// unique moment token types in the template (in order of descending magnitude)
-		momentTypes = intersection(types, unique(compact(pluck(tokens, "type"))));
+    // map
+    function map(array, callback) {
+        var index = 0,
+            max = array.length,
+            ret = [];
 
-		// exit early if there are no momentTypes
-		if (!momentTypes.length) {
-			return pluck(tokens, "token").join("");
-		}
+        if (!array || !max) { return ret; }
 
-		// calculate values for each token type in the template
-		each(momentTypes, function (momentType, index) {
-			var value, wholeValue, decimalValue, isLeast, isMost, truncMethod, decVal;
+        while (index < max) {
+            ret[index] = callback(array[index], index);
+            index += 1;
+        }
 
-			// is this the least-significant moment token found?
-			isLeast = ((index + 1) === momentTypes.length);
+        return ret;
+    }
 
-			// is this the most-significant moment token found?
-			isMost = (!index);
+    // pluck
+    function pluck(array, prop) {
+        return map(array, function (item) {
+            return item[prop];
+        });
+    }
 
-			// get the value in the current units
-			value = remainder.as(momentType);
-			
-			// determine the truncation method
-			// take floor for positive numbers, ceiling for negative numbers
-			truncMethod = (value > 0 ? "floor" : "ceil");
-			
-			// calculate integer and decimal value portions
-			if (isLeast) {
-				// apply precision to least significant token value
-				if (settings.precision < 0) {
-					wholeValue = Math[settings.trunc ? truncMethod : "round"](value * Math.pow(10, settings.precision)) * Math.pow(10, -settings.precision);
-					decimalValue = 0;
-				} else if (settings.precision === 0) {
-					wholeValue = Math[settings.trunc ? truncMethod : "round"](value);
-					decimalValue = 0;
-				} else { // settings.precision > 0
-					wholeValue = Math[truncMethod](value);
+    // compact
+    function compact(array) {
+        var ret = [];
 
-					if (settings.trunc) {			
-						decVal = value - wholeValue;
-					} else {
-						decVal = Math.round((value - wholeValue) * Math.pow(10, settings.precision)) * Math.pow(10, -settings.precision)
-					}
-					
-					decVal = decVal.toString().replace(/^\-/, "").split(/\.|e\-/);
-					
-					switch (decVal.length) {
-						case 1:
-							decimalValue = padZero(decVal[0], settings.precision, true).slice(0, settings.precision);
-							break;
-							
-						case 2:
-							decimalValue = padZero(decVal[1], settings.precision, true).slice(0, settings.precision);		
-							break;
-							
-						case 3:
-							decimalValue = padZero(repeatZero((+decVal[2]) - 1) + (decVal[0] || "0") + decVal[1], settings.precision, true).slice(0, settings.precision);		
-							break;
-						
-						default:
-							throw "Moment Duration Format: unable to parse token decimal value.";
-					}
-				}
-			} else {
-				wholeValue = Math[truncMethod](value);
-				decimalValue = value - wholeValue;
-			}
+        each(array, function (item) {
+            if (item) { ret.push(item); }
+        });
 
+        return ret;
+    }
 
-			// update tokens array
-			// using this algorithm to not assume anything about
-			// the order or frequency of any tokens
-			each(tokens, function (token) {
-				if (token.type === momentType) {
-					extend(token, {
-						value: value,
-						wholeValue: wholeValue,
-						decimalValue: decimalValue,
-						isLeast: isLeast,
-						isMost: isMost
-					});
+    // unique
+    function unique(array) {
+        var ret = [];
 
-					if (isMost) {
-						// note the length of the most-significant moment token:
-						// if it is greater than one and forceLength is not set, default forceLength to `true`
-						if (settings.forceLength == null && token.length > 1) {
-							settings.forceLength = true;
-						}
+        each(array, function (_a) {
+            if (!find(ret, _a)) { ret.push(_a); }
+        });
 
-						// rationale is this:
-						// if the template is "h:mm:ss" and the moment value is 5 minutes, the user-friendly output is "5:00", not "05:00"
-						// shouldn't pad the `minutes` token even though it has length of two
-						// if the template is "h:mm:ss" and the minutes output should always include the leading zero
-						// even when the hour is trimmed then set `{ forceLength: true }` to output "05:00"
-						// if the template is "hh:mm:ss", the user clearly wanted everything padded so we should output "05:00"
-						// if the user wanted the full padded output, they can use template "hh:mm:ss" and set `{ trim: false }` to get "00:05:00"
-					}
-				}
-			});
+        return ret;
+    }
 
-			// update remainder
-			remainder.subtract(wholeValue, momentType);
-		});
-	
-		// trim tokens array
-		if (settings.trim) {
-			tokens = (settings.trim === "left" ? rest : initial)(tokens, function (token) {
-				// return `true` if:
-				// the token is not the least moment token (don't trim the least moment token)
-				// the token is not flagged to stop trimming
-				// the token is a moment token that does not have a value (don't trim moment tokens that have a whole value)
-				return !(token.isLeast || token.stopTrim || (token.type != null && token.wholeValue));
-			});
-		}
-		
-		
-		// build output
+    // intersection
+    function intersection(a, b) {
+        var ret = [];
 
-		// the first moment token can have special handling
-		foundFirst = false;
+        each(a, function (_a) {
+            each(b, function (_b) {
+                if (_a === _b) { ret.push(_a); }
+            });
+        });
 
-		// run the map in reverse order if trimming from the right
-		if (settings.trim === "right") {
-			tokens.reverse();
-		}
+        return unique(ret);
+    }
 
-		tokens = map(tokens, function (token, index) {
-			var val,
-				decVal;
+    // rest
+    function rest(array, callback) {
+        var ret = [];
 
-			if (!token.type) {
-				// if it is not a moment token, use the token as its own value
-				return token.token;
-			}
-			
-			// remove negative sign from the beginning
-			val = token.wholeValue.toString().replace(/^\-/, "");
+        each(array, function (item, index) {
+            if (!callback(item)) {
+                ret = array.slice(index);
+                return false;
+            }
+        });
 
-			// apply token length formatting
-			// special handling for the first moment token that is not the most significant in a trimmed template
-			if (token.length > 1 && (foundFirst || token.isMost || settings.forceLength)) {
-				val = padZero(val, token.length);
-			}
+        return ret;
+    }
 
-			// add decimal value if precision > 0
-			if (token.isLeast && (settings.precision > 0)) {
-				decVal = token.decimalValue.toString();
-				val += settings.decimalSeparator + decVal;
-			}
-			
-			// add a negative sign if the value is negative and token is the first one
-			if (token.value < 0 && !index) {
-				val = "-" + val;
-			}
+    // initial
+    function initial(array, callback) {
+        var reversed = array.slice().reverse();
 
-			foundFirst = true;
+        return rest(reversed, callback).reverse();
+    }
 
-			return val;
-		});
+    // extend
+    function extend(a, b) {
+        for (var key in b) {
+            if (b.hasOwnProperty(key)) { a[key] = b[key]; }
+        }
 
-		// undo the reverse if trimming from the right
-		if (settings.trim === "right") {
-			tokens.reverse();
-		}
+        return a;
+    }
 
-		return tokens.join("");
-	}
-	
-	// defaultFormatTemplate
-	function defaultFormatTemplate() {
-		var dur, lastType;
+    // keys
+    function keys(a) {
+        var ret = [];
 
-		dur = this.duration;
-		
-		lastType = findLast(this.types, function (type) {
-			return dur._data[type];
-		});
+        for (var key in a) {
+            if (a.hasOwnProperty(key)) { ret.push(key); }
+        }
 
-		// default template strings for each duration dimension type
-		switch (lastType) {
-			case "seconds":
-				return "h:mm:ss";
-			case "minutes":
-				return "d[d] h:mm";
-			case "hours":
-				return "d[d] h[h]";
-			case "days":
-				return "M[m] d[d]";
-			case "weeks":
-				return "y[y] w[w]";
-			case "months":
-				return "y[y] M[m]";
-			case "years":
-				return "y[y]";
-			default:
-				return "y[y] M[m] d[d] h:mm:ss";
-		}
-	}
-	
-	// defaultDecimalSeparator
-	// http://stackoverflow.com/questions/1074660/with-a-browser-how-do-i-know-which-decimal-separator-does-the-client-use
-	function defaultDecimalSeparator() {
-		return /^1(.+)1$/.exec((1.1).toLocaleString())[1];
-	}
-	
-	// init
-	function init(context) {
-		if (!context) {
-			throw "Moment Duration Format init cannot find moment instance.";
-		}
+        return ret;
+    }
 
-		context.duration.fn.format = durationFormat;
+    // any
+    function any(array, callback) {
+        var index = 0,
+            max = array.length;
 
-		context.duration.fn.format.defaults = {
-			// token definitions
-			escape: /\[(.+?)\]/,
-			years: /\*?[Yy]+/,
-			months: /\*?M+/,
-			weeks: /\*?[Ww]+/,
-			days: /\*?[Dd]+/,
-			hours: /\*?[Hh]+/,
-			minutes: /\*?m+/,
-			seconds: /\*?s+/,
-			milliseconds: /\*?S+/,
-			general: /.+?/,
+        if (!array || !max) { return false; }
 
-			// token type names
-			// in order of descending magnitude
-			// can be a space-separated token name list or an array of token names
-			types: "escape years months weeks days hours minutes seconds milliseconds general",
+        while (index < max) {
+            if (callback(array[index], index) === true) { return true; }
+            index += 1;
+        }
 
-			// format options
+        return false;
+    }
 
-			// trim
-			// "left" - template tokens are trimmed from the left until the first moment token that has a value >= 1
-			// "right" - template tokens are trimmed from the right until the first moment token that has a value >= 1
-			// (the final moment token is not trimmed, regardless of value)
-			// `false` - template tokens are not trimmed
-			trim: "left",
+    // truncate
+    function truncate(method, value, places) {
+        return method(value * Math.pow(10, places)) * Math.pow(10, -places);
+    }
 
-			// precision
-			// number of decimal digits to include after (to the right of) the decimal point (positive integer)
-			// or the number of digits to truncate to 0 before (to the left of) the decimal point (negative integer)
-			precision: 0,
-			
-			// trunc
-			// default behavior in version 2.0.0 rounds final token value
-			// set to `true` to truncate final token value (this was the default behavior in version 1)
-			trunc: false,
+    // durationFormat([template] [, precision] [, settings])
+    function durationFormat() {
 
-			// force first moment token with a value to render at full length even when template is trimmed
-			// and first moment token has length of 1
-			// defaulted to `null` to distinguish between 'not set' and 'set to `false`'
-			forceLength: null,
+        var args = [].slice.call(arguments);
+        var settings = extend({}, this.format.defaults);
 
-			// template used to format duration
-			// may be a function or a string
-			// template functions are executed with the `this` binding of the settings object
-			// so that template strings may be dynamically generated based on the duration object
-			// (accessible via `this.duration`) or any of the other settings
-			template: defaultFormatTemplate,
-			
-			// decimalSeparator
-			// can be a string or a function
-			// by default will use the decimal separator set in the environment
-			decimalSeparator: defaultDecimalSeparator
-		};
-	}
-	
-	// initialize duration format on the global moment instance
-	init(moment);
+        // Keep a shadow copy of this moment for calculating remainders.
+        // Perform all calculations on positive duration value, handle negative
+        // sign at the very end.
+        var asMilliseconds = this.asMilliseconds();
+        var asMonths = this.asMonths();
 
-	// return the init function so that duration format can be
-	// initialized on other moment instances
-	return init;
+        // Treat invalid durations as having a value of 0 milliseconds.
+        if (this.isValid() === false) {
+            asMilliseconds = 0;
+        }
+
+        var isNegative = asMilliseconds < 0;
+
+        // Two shadow copies are needed because of the way moment.js handles
+        // duration arithmetic for years/months and for weeks/days/hours/minutes/seconds.
+        var remainder = moment.duration(Math.abs(asMilliseconds), "milliseconds");
+        var remainderMonths = moment.duration(Math.abs(asMonths), "months");
+
+        // Parse arguments.
+        each(args, function (arg) {
+            if (typeof arg === "string" || typeof arg === "function") {
+                settings.template = arg;
+                return;
+            }
+
+            if (typeof arg === "number") {
+                settings.precision = arg;
+                return;
+            }
+
+            if (isObject(arg)) {
+                extend(settings, arg);
+            }
+        });
+
+        var momentTokens = {
+            years: "y",
+            months: "M",
+            weeks: "w",
+            days: "d",
+            hours: "h",
+            minutes: "m",
+            seconds: "s",
+            milliseconds: "S"
+        };
+
+        var tokenDefs = {
+            escape: /\[(.+?)\]/,
+            years: /\*?[Yy]+/,
+            months: /\*?M+/,
+            weeks: /\*?[Ww]+/,
+            days: /\*?[Dd]+/,
+            hours: /\*?[Hh]+/,
+            minutes: /\*?m+/,
+            seconds: /\*?s+/,
+            milliseconds: /\*?S+/,
+            general: /.+?/
+        };
+
+        // Token type names in order of descending magnitude.
+        var types = "escape years months weeks days hours minutes seconds milliseconds general".split(" ");
+
+        // Types array is available in the template function.
+        settings.types = types;
+
+        var typeMap = function (token) {
+            return find(types, function (type) {
+                return tokenDefs[type].test(token);
+            });
+        };
+
+        var tokenizer = new RegExp(map(types, function (type) {
+            return tokenDefs[type].source;
+        }).join("|"), "g");
+
+        // Current duration object is available in the template function.
+        settings.duration = this;
+
+        // Eval template function and cache template string.
+        var template = typeof settings.template === "function" ? settings.template.apply(settings) : settings.template;
+
+        var largest = settings.largest;
+
+        // Setup stopTrim array of token types.
+        var stopTrim = [];
+
+        if (!largest) {
+            if (isArray(settings.stopTrim)) {
+                settings.stopTrim = settings.stopTrim.join("");
+            }
+
+            // Parse stopTrim string to create token types array.
+            if (settings.stopTrim) {
+                each(settings.stopTrim.match(tokenizer), function (token) {
+                    var type = typeMap(token);
+
+                    if (type === "escape" || type === "general") {
+                        return;
+                    }
+
+                    stopTrim.push(type);
+                });
+            }
+        }
+
+        // Cache moment's locale data.
+        var localeData = moment.localeData();
+
+        if (!localeData) {
+            localeData = {};
+        }
+
+        // Fall back to this plugin's `eng` extension.
+        each(keys(engLocale), function (key) {
+            if (typeof engLocale[key] === "function") {
+                if (!localeData[key]) {
+                    localeData[key] = engLocale[key];
+                }
+
+                return;
+            }
+
+            if (!localeData["_" + key]) {
+                localeData["_" + key] = engLocale[key];
+            }
+        });
+
+        // Replace Duration Time Template strings.
+        // For locale `eng`: `_HMS_`, `_HM_`, and `_MS_`.
+        each(keys(localeData._durationTimeTemplates), function (item) {
+            template = template.replace("_" + item + "_", localeData._durationTimeTemplates[item]);
+        });
+
+        // Determine user's locale.
+        var userLocale = settings.userLocale || moment.locale();
+
+        var useLeftUnits = settings.useLeftUnits;
+        var usePlural = settings.usePlural;
+        var precision = settings.precision;
+        var forceLength = settings.forceLength;
+        var minValue = settings.minValue;
+        var maxValue = settings.maxValue;
+        var useGrouping = settings.useGrouping;
+        var trunc = settings.trunc;
+
+        // Use significant digits only when precision is greater than 0.
+        var useSignificantDigits = settings.useSignificantDigits && precision > 0;
+        var significantDigits = useSignificantDigits ? settings.precision : 0;
+
+        // Trim options.
+        var trim = settings.trim;
+
+        if (isArray(trim)) {
+            trim = trim.join(" ");
+        }
+
+        if (trim === null || trim === true || trim === "left" || trim === "right") {
+            trim = "large";
+        }
+
+        if (trim === false) {
+            trim = "";
+        }
+
+        if (largest) {
+            trim = "all";
+        }
+
+        var trimIncludes = function (item) {
+            return item.test(trim);
+        }
+
+        var rLarge = /large/;
+        var rSmall = /small/;
+        var rBoth = /both/;
+        var rMid = /mid/;
+        var rAll = /^all|[^sm]all/;
+        var rFinal = /final/;
+
+        var trimLarge = any([rLarge, rBoth, rAll], trimIncludes);
+        var trimSmall = any([rSmall, rBoth, rAll], trimIncludes);
+        var trimMid = any([rMid, rAll], trimIncludes);
+        var trimFinal = any([rFinal, rAll], trimIncludes);
+
+        // Parse format string to create raw tokens array.
+        var rawTokens = map(template.match(tokenizer), function (token, index) {
+            var type = typeMap(token);
+
+            if (token.slice(0, 1) === "*") {
+                token = token.slice(1);
+
+                if (!largest && type !== "escape" && type !== "general") {
+                    stopTrim.push(type);
+                }
+            }
+
+            return {
+                index: index,
+                length: token.length,
+                text: "",
+
+                // Replace escaped tokens with the non-escaped token text.
+                token: (type === "escape" ? token.replace(tokenDefs.escape, "$1") : token),
+
+                // Ignore type on non-moment tokens.
+                type: ((type === "escape" || type === "general") ? null : type)
+            };
+        });
+
+        // Associate text tokens with moment tokens.
+        var currentToken = {
+            index: 0,
+            length: 0,
+            token: "",
+            text: "",
+            type: null
+        };
+
+        var tokens = [];
+
+        if (useLeftUnits) {
+            rawTokens.reverse();
+        }
+
+        each(rawTokens, function (token) {
+            if (token.type) {
+                if (currentToken.type || currentToken.text) {
+                    tokens.push(currentToken);
+                }
+
+                currentToken = token;
+
+                return;
+            }
+
+            if (useLeftUnits) {
+                currentToken.text = token.token + currentToken.text;
+            } else {
+                currentToken.text += token.token;
+            }
+        });
+
+        if (currentToken.type || currentToken.text) {
+            tokens.push(currentToken);
+        }
+
+        if (useLeftUnits) {
+            tokens.reverse();
+        }
+
+        // Find unique moment token types in the template in order of
+        // descending magnitude.
+        var momentTypes = intersection(types, unique(compact(pluck(tokens, "type"))));
+
+        // Exit early if there are no moment token types.
+        if (!momentTypes.length) {
+            return pluck(tokens, "text").join("");
+        }
+
+        // Calculate values for each moment type in the template.
+        // For processing the settings, values are associated with moment types.
+        // Values will be assigned to tokens at the last step in order to
+        // assume nothing about frequency or order of tokens in the template.
+        momentTypes = map(momentTypes, function (momentType, index) {
+            // Is this the least-magnitude moment token found?
+            var isSmallest = ((index + 1) === momentTypes.length);
+
+            // Is this the greatest-magnitude moment token found?
+            var isLargest = (!index);
+
+            // Get the raw value in the current units.
+            var rawValue;
+
+            if (momentType === "years" || momentType === "months") {
+                rawValue = remainderMonths.as(momentType);
+            } else {
+                rawValue = remainder.as(momentType);
+            }
+
+            var wholeValue = Math.floor(rawValue);
+            var decimalValue = rawValue - wholeValue;
+
+            var token = find(tokens, function (token) {
+                return momentType === token.type;
+            });
+
+            // Note the length of the largest-magnitude moment token:
+            // if it is greater than one and forceLength is not set,
+            // then default forceLength to `true`.
+            //
+            // Rationale is this: If the template is "h:mm:ss" and the
+            // moment value is 5 minutes, the user-friendly output is
+            // "5:00", not "05:00". We shouldn't pad the `minutes` token
+            // even though it has length of two if the template is "h:mm:ss";
+            //
+            // If the minutes output should always include the leading zero
+            // even when the hour is trimmed then set `{ forceLength: true }`
+            // to output "05:00". If the template is "hh:mm:ss", the user
+            // clearly wanted everything padded so we should output "05:00";
+            //
+            // If the user wants the full padded output, they can use
+            // template "hh:mm:ss" and set `{ trim: false }` to output
+            // "00:05:00".
+            if (isLargest && forceLength == null && token.length > 1) {
+                forceLength = true;
+            }
+
+            // Update remainder.
+            remainder.subtract(wholeValue, momentType);
+            remainderMonths.subtract(wholeValue, momentType);
+
+            return {
+                rawValue: rawValue,
+                wholeValue: wholeValue,
+                // Decimal value is only retained for the least-magnitude
+                // moment type in the format template.
+                decimalValue: isSmallest ? decimalValue : 0,
+                isSmallest: isSmallest,
+                isLargest: isLargest,
+                type: momentType,
+                // Tokens can appear multiple times in a template string,
+                // but all instances must share the same length.
+                tokenLength: token.length
+            };
+        });
+
+        // Trim Large.
+        if (trimLarge) {
+            momentTypes = rest(momentTypes, function (momentType) {
+                // Stop trimming on:
+                // - the smallest moment type
+                // - a type marked for stopTrim
+                // - a type that has a whole value
+                return !momentType.isSmallest && !momentType.wholeValue && !find(stopTrim, momentType.type);
+            });
+        }
+
+        // Trim Small.
+        if (trimSmall && momentTypes.length > 1) {
+            momentTypes = initial(momentTypes, function (momentType) {
+                // Stop trimming on:
+                // - a type marked for stopTrim
+                // - a type that has a whole value
+                // - the largest momentType
+                return !momentType.wholeValue && !find(stopTrim, momentType.type) && !momentType.isLargest;
+            });
+        }
+
+        // Trim Mid.
+        if (trimMid) {
+            momentTypes = map(momentTypes, function (momentType, index) {
+                if (index > 0 && index < momentTypes.length - 1 && !momentType.wholeValue) {
+                    return null;
+                }
+
+                return momentType;
+            });
+
+            momentTypes = compact(momentTypes);
+        }
+
+        // Trim Final.
+        if (trimFinal && momentTypes.length === 1 && !momentTypes[0].wholeValue && !(!trunc && momentTypes[0].isSmallest && momentTypes[0].rawValue < minValue)) {
+            momentTypes = [];
+        }
+
+        // Max Value.
+        if (maxValue && momentTypes.length && momentTypes[0].isLargest && momentTypes[0].rawValue > maxValue) {
+            momentTypes = momentTypes.slice(0, 1);
+            momentTypes[0].isMaxValue = true;
+        }
+
+        // Min Value.
+        if (minValue && momentTypes.length === 1 && momentTypes[0].isSmallest && momentTypes[0].rawValue < minValue) {
+            momentTypes[0].isMinValue = true;
+        }
+
+        // Largest.
+        if (largest && momentTypes.length) {
+            momentTypes = momentTypes.slice(0, largest);
+        }
+
+        // Calculate formatted values.
+        var truncMethod = trunc ? Math.floor : Math.round;
+
+        momentTypes = map(momentTypes, function (momentType, index) {
+            var localeStringOptions = {
+                useGrouping: useGrouping
+            };
+
+            if (useSignificantDigits) {
+                if (significantDigits <= 0) {
+                    return null;
+                }
+
+                localeStringOptions.maximumSignificantDigits = significantDigits;
+            }
+
+            if (momentType.isMaxValue) {
+                momentType.value = maxValue;
+            } else if (momentType.isMinValue) {
+                momentType.value = minValue;
+            } else if (momentType.isSmallest) {
+                // Apply precision to least significant token value.
+                if (precision < 0) {
+                    momentType.value = truncate(truncMethod, momentType.wholeValue, precision);
+                } else if (precision === 0) {
+                    momentType.value = truncMethod(momentType.wholeValue + momentType.decimalValue);
+                } else { // precision > 0
+                    if (useSignificantDigits) {
+                        if (trunc) {
+                            momentType.value = truncate(truncMethod, momentType.wholeValue + momentType.decimalValue, significantDigits - momentType.wholeValue.toString().length);
+                        } else {
+                            momentType.value = momentType.wholeValue + momentType.decimalValue;
+                        }
+                    } else {
+                        localeStringOptions.minimumFractionDigits = precision;
+                        localeStringOptions.maximumFractionDigits = precision;
+
+                        if (trunc) {
+                            momentType.value = momentType.wholeValue + truncate(truncMethod, momentType.decimalValue, precision);
+                        } else {
+                            momentType.value = momentType.wholeValue + momentType.decimalValue;
+                        }
+                    }
+                }
+            } else {
+                if (useSignificantDigits) {
+                    // Outer Math.round required here to handle floating point errors.
+                    momentType.value = Math.round(truncate(truncMethod, momentType.wholeValue, significantDigits - momentType.wholeValue.toString().length));
+
+                    significantDigits -= momentType.wholeValue.toString().length;
+                } else {
+                    momentType.value = momentType.wholeValue;
+                }
+            }
+
+            if (momentType.tokenLength > 1 && (index || momentType.isLargest || forceLength)) {
+                localeStringOptions.minimumIntegerDigits = momentType.tokenLength;
+            }
+
+            momentType.formattedValue = momentType.value.toLocaleString(userLocale, localeStringOptions);
+
+            localeStringOptions.useGrouping = false;
+            momentType.formattedValueEnUS = momentType.value.toLocaleString("en-US", localeStringOptions);
+
+            if (momentType.tokenLength === 2 && momentType.type === "milliseconds") {
+                momentType.formattedValueMS = momentType.value.toLocaleString("en-US", {
+                    minimumIntegerDigits: 3,
+                    useGrouping: false
+                }).slice(0, 2);
+            }
+
+            return momentType;
+        });
+
+        momentTypes = compact(momentTypes);
+
+        // Localize and pluralize unit labels.
+        each(tokens, function (token) {
+            var key = momentTokens[token.type];
+
+            var momentType = find(momentTypes, function (momentType) {
+                return momentType.type === token.type;
+            });
+
+            if (!key || !momentType) {
+                return;
+            }
+
+            var values = momentType.formattedValueEnUS.split(".");
+
+            values[0] = parseInt(values[0], 10);
+
+            if (values[1]) {
+                values[1] = parseFloat("0." + values[1], 10);
+            } else {
+                values[1] = null;
+            }
+
+            var pluralKey = localeData.durationPluralKey(key, values[0], values[1]);
+
+            var labels = durationGetLabels(key, localeData);
+
+            var autoLocalized = false;
+
+            var pluralizedLabels = {};
+
+            // Auto-Localized unit labels.
+            each(localeData._durationLabelTypes, function (labelType) {
+                var label = find(labels, function (label) {
+                    return label.type === labelType.type && label.key === pluralKey;
+                });
+
+                if (label) {
+                    pluralizedLabels[label.type] = label.label;
+
+                    if (token.text.includes(labelType.string)) {
+                        token.text = token.text.replace(labelType.string, label.label);
+                        autoLocalized = true;
+                    }
+                }
+            });
+
+            // Auto-pluralized unit labels.
+            if (usePlural && !autoLocalized) {
+                labels.sort(durationLabelCompare);
+
+                each(labels, function (label) {
+                    if (pluralizedLabels[label.type] === label.label) {
+                        if (token.text.includes(label.label)) {
+                            // Stop checking this token if its label is already
+                            // correctly pluralized.
+                            return false;
+                        }
+
+                        // Skip this label if it is correct, but not present in
+                        // the token's text.
+                        return;
+                    }
+
+                    if (token.text.includes(label.label)) {
+                        // Replece this token's label and stop checking.
+                        token.text = token.text.replace(label.label, pluralizedLabels[label.type]);
+                        return false;
+                    }
+                });
+            }
+        });
+
+        // Build ouptut.
+        tokens = map(tokens, function (token) {
+            if (!token.type) {
+                return token.text;
+            }
+
+            var momentType = find(momentTypes, function (momentType) {
+                return momentType.type === token.type;
+            });
+
+            if (!momentType) {
+                return "";
+            }
+
+            var out = "";
+
+            if (useLeftUnits) {
+                out += token.text;
+            }
+
+            if (isNegative && momentType.isMaxValue || !isNegative && momentType.isMinValue) {
+                out += "< ";
+            }
+
+            if (isNegative && momentType.isMinValue || !isNegative && momentType.isMaxValue) {
+                out += "> "
+            }
+
+            if (isNegative && momentType.value > 0) {
+                out += "-";
+            }
+
+            isNegative = false;
+
+            if (token.type === "milliseconds" && momentType.formattedValueMS) {
+                out += momentType.formattedValueMS;
+            } else {
+                out += momentType.formattedValue;
+            }
+
+            if (!useLeftUnits) {
+                out += token.text;
+            }
+
+            return out;
+        });
+
+        // Trim leading and trailing comma, space, colon, and dot.
+        return tokens.join("").replace(/(,| |:|\.)*$/, "").replace(/^(,| |:|\.)*/, "");
+    }
+
+    // defaultFormatTemplate
+    function defaultFormatTemplate() {
+        var dur = this.duration;
+
+        var findType = function findType(type) {
+            return dur._data[type];
+        }
+
+        var firstType = find(this.types, findType);
+
+        var lastType = findLast(this.types, findType);
+
+        // Default template strings for each duration dimension type.
+        switch (firstType) {
+            case "milliseconds":
+                return "S __"
+            case "seconds": // Fallthrough.
+            case "minutes":
+                return "*_MS_";
+            case "hours":
+                return "_HMS_";
+            case "days": // Possible Fallthrough.
+                if (firstType === lastType) {
+                    return "d __";
+                }
+            case "weeks": // Possible Fallthrough.
+                if (firstType === lastType) {
+                    return "w __";
+                }
+
+                if (this.trim === null) {
+                    this.trim = "both";
+                }
+
+                return "w __, d __, h __";
+            case "months":
+                if (firstType === lastType) {
+                    return "M __";
+                }
+            case "years": // Possible Fallthrough.
+                if (firstType === lastType) {
+                    return "y __";
+                }
+
+                if (this.trim === null) {
+                    this.trim = "both";
+                }
+
+                return "y __, M __, d __"
+            default:
+                if (this.trim === null) {
+                    this.trim = "both";
+                }
+
+                return "y __, d __, h __, m __, s __";
+        }
+    }
+
+    // init
+    function init(context) {
+        if (!context) {
+            throw "Moment Duration Format init cannot find moment instance.";
+        }
+
+        context.duration.fn.format = durationFormat;
+
+        context.duration.fn.format.defaults = {
+            // Many options are defaulted to `null` to distinguish between
+            // 'not set' and 'set to `false`'
+
+            // trim
+            // Can be a string, a delimited list of strings, an array of strings,
+            // or a boolean.
+            // "large" - will trim largest-magnitude zero-value tokens until
+            // finding a token with a value, a token identified as 'stopTrim', or
+            // the final token of the format string.
+            // "small" - will trim smallest-magnitude zero-value tokens until
+            // finding a token with a value, a token identified as 'stopTrim', or
+            // the final token of the format string.
+            // "both" - will execute "large" trim then "small" trim.
+            // "mid" - will trim any zero-value tokens that are not the first or
+            // last tokens. Usually used in conjunction with "large" or "both".
+            // e.g. "large mid" or "both mid".
+            // "final" - will trim the final token if it is zero-value. Use this
+            // option with "large" or "both" to output an empty string when
+            // formatting a zero-value duration. e.g. "large final" or "both final".
+            // "all" - Will trim all zero-value tokens. Shorthand for "both mid final".
+            // "left" - maps to "large" to support plugin's version 1 API.
+            // "right" - maps to "large" to support plugin's version 1 API.
+            // `false` - template tokens are not trimmed.
+            // `true` - treated as "large".
+            // `null` - treated as "large".
+            trim: null,
+
+            // stopTrim
+            // A moment token string, a delimited set of moment token strings,
+            // or an array of moment token strings. Trimming will stop when a token
+            // listed in this option is reached. A "*" character in the format
+            // template string will also mark a moment token as stopTrim.
+            // e.g. "d [days] *h:mm:ss" will always stop trimming at the 'hours' token.
+            stopTrim: null,
+
+            // largest
+            // Set to a positive integer to output only the "n" largest-magnitude
+            // moment tokens that have a value. All lesser-magnitude moment tokens
+            // will be ignored. This option takes effect even if `trim` is set
+            // to `false`.
+            largest: null,
+
+            // maxValue
+            // Use `maxValue` to render generalized output for large duration values,
+            // e.g. `"> 60 days"`. `maxValue` must be a positive integer and is
+            /// applied to the greatest-magnitude moment token in the format template.
+            maxValue: null,
+
+            // minValue
+            // Use `minValue` to render generalized output for small duration values,
+            // e.g. `"< 5 minutes"`. `minValue` must be a positive integer and is
+            // applied to the least-magnitude moment token in the format template.
+            minValue: null,
+
+            // precision
+            // If a positive integer, number of decimal fraction digits to render.
+            // If a negative integer, number of integer place digits to truncate to 0.
+            // If `useSignificantDigits` is set to `true` and `precision` is a positive
+            // integer, sets the maximum number of significant digits used in the
+            // formatted output.
+            precision: 0,
+
+            // trunc
+            // Default behavior rounds final token value. Set to `true` to
+            // truncate final token value, which was the default behavior in
+            // version 1 of this plugin.
+            trunc: false,
+
+            // forceLength
+            // Force first moment token with a value to render at full length
+            // even when template is trimmed and first moment token has length of 1.
+            forceLength: null,
+
+            // userLocale
+            // Formatted numerical output is rendered using `toLocaleString`
+            // and the locale of the user's environment. Set this option to render
+            // numerical output using a different locale. Unit names are rendered
+            // and detected using the locale set in moment.js, which can be different
+            // from the locale of user's environment.
+            userLocale: null,
+
+            // usePlural
+            // Will automatically singularize or pluralize unit names when they
+            // appear in the text associated with each moment token. Standard and
+            // short unit labels are singularized and pluralized, based on locale.
+            // e.g. in english, "1 second" or "1 sec" would be rendered instead
+            // of "1 seconds" or "1 secs". The default pluralization function
+            // renders a plural label for a value with decimal precision.
+            // e.g. "1.0 seconds" is never rendered as "1.0 second".
+            // Label types and pluralization function are configurable in the
+            // localeData extensions.
+            usePlural: true,
+
+            // useLeftUnits
+            // The text to the right of each moment token in a format string
+            // is treated as that token's units for the purposes of trimming,
+            // singularizing, and auto-localizing.
+            // e.g. "h [hours], m [minutes], s [seconds]".
+            // To properly singularize or localize a format string such as
+            // "[hours] h, [minutes] m, [seconds] s", where the units appear
+            // to the left of each moment token, set useLeftUnits to `true`.
+            // This plugin is not tested in the context of rtl text.
+            useLeftUnits: false,
+
+            // useGrouping
+            // Enables locale-based digit grouping in the formatted output. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
+            useGrouping: true,
+
+            // useSignificantDigits
+            // Treat the `precision` option as the maximum significant digits
+            // to be rendered. Precision must be a positive integer. Significant
+            // digits extend across unit types,
+            // e.g. "6 hours 37.5 minutes" represents 4 significant digits.
+            // Enabling this option causes token length to be ignored. See  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
+            useSignificantDigits: false,
+
+            // template
+            // The template string used to format the duration. May be a function
+            // or a string. Template functions are executed with the `this` binding
+            // of the settings object so that template strings may be dynamically
+            // generated based on the duration object (accessible via `this.duration`)
+            // or any of the other settings. Leading and trailing space, comma,
+            // period, and colon characters are trimmed from the resulting string.
+            template: defaultFormatTemplate
+        };
+
+        context.locale('en', engLocale);
+    }
+
+    // Initialize duration format on the global moment instance.
+    init(moment);
+
+    // Return the init function so that duration format can be
+    // initialized on other moment instances.
+    return init;
 });
+
 define('services/request-edit',['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration, Q) {
 
     'use strict';
@@ -35899,6 +36436,319 @@ k+"(\\W|$)","g"),function(b,a){return e+a})):c=c.replace(new RegExp("(/?):"+k+"(
 ;
 define("angularResource", ["angular"], function(){});
 
+define('services/addPeriodRow',[], function() {
+
+    'use strict';
+
+    /**
+     * Add periods form in the array of items
+     *
+     * @param {Array}     items        items binded to rows
+     * @param {$resource} itemResource resource for one row
+     * @param {boolean}   initialize   initialize dates
+     */
+	return function(items, itemResource, initialize) {
+
+        if (undefined === initialize) {
+            initialize = true;
+        }
+
+		var nextDate = null;
+        var length = items.length;
+
+        if (initialize) {
+            if (length > 0) {
+                var lastItem = items[length - 1];
+
+                if (!lastItem.to) {
+
+                    var from = new Date(lastItem.from);
+                    var today = new Date();
+
+                    var maxTime = Math.max.apply(null,[from.getTime(), today.getTime()]);
+
+                    lastItem.to = new Date();
+                    lastItem.to.setTime(maxTime);
+                    lastItem.to.setHours(0);
+                    lastItem.to.setMinutes(0);
+                    lastItem.to.setSeconds(0);
+
+
+                    lastItem.to.setDate(lastItem.to.getDate()+1);
+                }
+
+
+                nextDate = new Date(lastItem.to);
+                nextDate.setDate(nextDate.getDate()+1);
+            } else {
+                nextDate = new Date();
+            }
+        }
+
+        var item = new itemResource();
+
+        item.rightCollection = null;
+        item.from = nextDate;
+        item.to = null;
+
+        items.push(item);
+	};
+});
+
+define('services/saveAccountCollection',[], function() {
+    
+    'use strict';
+
+    /**
+     * Save one row
+     * @param   {$resource}   resource
+     * @returns {Promise}
+     */
+    var saveRow = function($q, resource) {
+        
+        var deferred = $q.defer();
+        
+        if (resource._id) {
+
+            resource.$save(function(data) {
+                deferred.resolve(data);
+            });
+            
+        } else {
+            resource.$create(function(data) {
+                deferred.resolve(data);
+            });
+        }
+
+        return deferred.promise;
+    };
+    
+    
+    
+    /**
+     * Save all account collections
+     * 
+     */
+    return function($scope, $q, catchOutcome) {
+
+
+        if (!$scope.user.roles || !$scope.user.roles.account) {
+            // TODO remove the existing collections
+            return;
+        }
+
+        var promises = [];
+
+
+        $scope.accountCollections.forEach(function(document) {
+            
+            if ($scope.user.roles && $scope.user.roles.account) {
+                document.account = $scope.user.roles.account;
+            } else {
+                document.user = $scope.user._id;
+            }
+
+            promises.push(catchOutcome(saveRow($q, document)));
+        });
+
+        var promise = $q.all(promises);
+
+        return promise;
+    };
+});
+
+define('services/saveAccountScheduleCalendar',[], function() {
+    
+    'use strict';
+
+    /**
+     * Save one row
+     * @param   {$resource}   resource
+     * @returns {Promise}
+     */
+    var saveRow = function($q, resource) {
+        
+        var deferred = $q.defer();
+        
+        if (resource._id) {
+
+            resource.$save(deferred.resolve, deferred.reject);
+            
+        } else {
+            resource.$create(deferred.resolve, deferred.reject);
+        }
+
+        return deferred.promise;
+    };
+    
+    
+    
+    /**
+     * Save all account collections
+     * 
+     */
+    return function($scope, $q, catchOutcome) {
+
+
+        if (!$scope.user.roles || !$scope.user.roles.account) {
+            // TODO remove the existing calendars
+            return;
+        }
+
+        var promises = [];
+
+
+        $scope.accountScheduleCalendars.forEach(function(document) {
+
+            // remove time on dates before saving
+
+            if (document.from instanceof Date) {
+                document.from.setHours(0,0,0,0);
+            }
+
+            if (document.to instanceof Date) {
+                document.to.setHours(0,0,0,0);
+            }
+
+            if ($scope.user.roles && $scope.user.roles.account) {
+                document.account = $scope.user.roles.account._id;
+            } else {
+                document.user = $scope.user._id;
+            }
+            
+            promises.push(catchOutcome(saveRow($q, document)));
+        });
+
+        var promise = $q.all(promises);
+
+        return promise;
+    };
+});
+
+define('services/saveAccountNWDaysCalendar',[], function() {
+
+    'use strict';
+
+    /**
+     * Save one row
+     * @param   {$resource}   resource
+     * @returns {Promise}
+     */
+    var saveRow = function($q, resource) {
+
+        var deferred = $q.defer();
+
+        if (resource._id) {
+
+            resource.$save(deferred.resolve, deferred.reject);
+
+        } else {
+            resource.$create(deferred.resolve, deferred.reject);
+        }
+
+        return deferred.promise;
+    };
+
+
+
+    /**
+     * Save all account collections
+     *
+     */
+    return function($scope, $q, catchOutcome) {
+
+
+        if (!$scope.user.roles || !$scope.user.roles.account) {
+            // TODO remove the existing non working days calendars
+            return;
+        }
+
+        var promises = [];
+
+
+        $scope.accountNWDaysCalendars.forEach(function(document) {
+
+            // remove time on dates before saving
+
+            if (document.from instanceof Date) {
+                document.from.setHours(0,0,0,0);
+            }
+
+            if (document.to instanceof Date) {
+                document.to.setHours(0,0,0,0);
+            }
+
+            if ($scope.user.roles && $scope.user.roles.account) {
+                document.account = $scope.user.roles.account._id;
+            } else {
+                document.user = $scope.user._id;
+            }
+
+            promises.push(catchOutcome(saveRow($q, document)));
+        });
+
+        var promise = $q.all(promises);
+
+        return promise;
+    };
+});
+
+define('services/saveBeneficiaries',[], function() {
+
+    'use strict';
+
+    /**
+     * Save one row
+     * @param   {$resource}   resource
+     * @returns {Promise}
+     */
+    var saveRow = function($q, resource) {
+
+        var deferred = $q.defer();
+
+        if (resource._id) {
+
+            resource.$save(function(data) {
+                deferred.resolve(data);
+            },function(data) {
+                deferred.reject(data);
+            });
+
+        } else {
+            resource.$create(function(data) {
+                deferred.resolve(data);
+            },function(data) {
+                deferred.reject(data);
+            });
+        }
+
+        return deferred.promise;
+    };
+
+
+
+    /**
+     * Save all beneficiaries
+     *
+     */
+    return function(beneficiaries, ref, documentId, $q, catchOutcome) {
+
+        var promises = [];
+
+        beneficiaries.forEach(function(beneficiary) {
+
+            beneficiary.document = documentId;
+            beneficiary.ref = ref;
+
+            promises.push(catchOutcome(saveRow($q, beneficiary)));
+        });
+
+        var promise = $q.all(promises);
+
+        return promise;
+    };
+});
+
 define('services',[
     'angular',
     'services/loadableResource',
@@ -36675,7 +37525,7 @@ angular.module('gettext').constant('gettext', function (str) {
  * @requires https://docs.angularjs.org/api/ng/service/$cacheFactory $cacheFactory
  * @requires https://docs.angularjs.org/api/ng/service/$interpolate $interpolate
  * @requires https://docs.angularjs.org/api/ng/service/$rootScope $rootScope
- * @description Provides set of method to translate stings
+ * @description Provides set of method to translate strings
  */
 angular.module('gettext').factory('gettextCatalog', ["gettextPlurals", "gettextFallbackLanguage", "$http", "$cacheFactory", "$interpolate", "$rootScope", function (gettextPlurals, gettextFallbackLanguage, $http, $cacheFactory, $interpolate, $rootScope) {
     var catalog;
@@ -36873,7 +37723,7 @@ angular.module('gettext').factory('gettextCatalog', ["gettextPlurals", "gettextF
          * @protected
          * @param {String} language language name
          * @param {String} string translation key
-         * @param {Number=} n number to build sting form for
+         * @param {Number=} n number to build string form for
          * @param {String=} context translation key context, e.g. {@link doc:context Verb, Noun}
          * @returns {String|Null} translated or annotated string or null if language is not set
          * @description Translate a string with the given language, count and context.
@@ -36920,7 +37770,7 @@ angular.module('gettext').factory('gettextCatalog', ["gettextPlurals", "gettextF
          * @ngdoc method
          * @name gettextCatalog#getPlural
          * @public
-         * @param {Number} n number to build sting form for
+         * @param {Number} n number to build string form for
          * @param {String} string translation key
          * @param {String} stringPlural plural translation key
          * @param {$rootScope.Scope=} scope scope to do interpolation against
@@ -37025,7 +37875,8 @@ angular.module('gettext').factory('gettextCatalog', ["gettextPlurals", "gettextF
  * ```
  */
 angular.module('gettext').directive('translate', ["gettextCatalog", "$parse", "$animate", "$compile", "$window", "gettextUtil", function (gettextCatalog, $parse, $animate, $compile, $window, gettextUtil) {
-    var msie = parseInt((/msie (\d+)/.exec(angular.lowercase($window.navigator.userAgent)) || [])[1], 10);
+    var lowercase = angular.$$lowercase || angular.lowercase;
+    var msie = parseInt((/msie (\d+)/.exec(lowercase($window.navigator.userAgent)) || [])[1], 10);
     var PARAMS_PREFIX = 'translateParams';
 
     function getCtxAttr(key) {
@@ -37099,7 +37950,7 @@ angular.module('gettext').directive('translate', ["gettextCatalog", "$parse", "$
                         }
                         var oldContents = element.contents();
 
-                        if (oldContents.length === 0){
+                        if (!oldContents && !translated){
                             return;
                         }
 
@@ -37443,8 +38294,8 @@ define("angularGettext", ["angular"], function(){});
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('es', {"{{renewalChart.percentDays|number}}% consumed":"{{renewalChart.percentDays|number}}% consumidos","{{usersstat.activeUsers}} users / {{company.max_users}} Max":"{{usersstat.activeUsers}} usuarios / {{company.max_users}} Maximum","{quantity} up to {date}":"{quantity} hasta {date}","1 day":["1 día","{{deposit.quantity| number}} días"],"1 hour":["1 hora","{{deposit.quantity| number}} horas"],"A user account is required to continue":"Se requiere una cuenta de usuario para continuar","Absence":"Ausencia","Absence request":"Solicitud de ausencia","Absence rights":"Derechos de ausencia","Absences account":"Cuenta de ausencias","Absences user account":"Ausencias de la cuenta de usuario","Accept":"Aceptar","Accepted":"Aceptado","Activate the right according to consumed quantity":"Activar el derecho conforme a la cantidad consumada","Activate the right according to the age":"Activar el derecho conforme a la edad","Activate the right according to the consumed quantity on a right type":"Activar el derecho conforme a la cantidad consumida en un tipo correcto","Activate the right according to the entry creation date":"Activar el derecho conforme a la fecha de creación de la entrada","Activate the right according to the request period":"Activar el derecho conforme al periodo de solicitud","Activate the right according to the seniority":"Activar el derecho conforme a la antigüedad","Activate the right according to the user age":"Activar el derecho conforme a la edad del usuario","Activate the right according to the user seniority":"Activar el derecho conforme a la antigüedad del usuario","Active for the administrator":"Activar para el administrador","Active for the user":"Activar para el usuario","Active for:":"Activar para:","Actual quantity:":"Cantidad actual:","Add":"Añadir","Add a calendar":"Añadir a calandario","Add a quantity adjustment":"Añadir un ajuste de cantidad","Add a recover quantity":"Añadir una cantidad de recuperación","Add a request":"Añadir una solicitud","Add a request...":"Añadir una solicitud...","Add Collection":"Añadir una colección","Add compulsory leave":"Añadir un permiso obligatorio","Add Department":"Añadir un departamento","Add period":"Añadir un periodo","Add right":"Añadir un derecho","Add right collection":"Añadir un derecho de colección","Add Type":"Añadir un tipo","Add User":"Añadir un usuario","Add vacation right":"Añadir un derecho de vacación","Additional days after the renewal end date:":"Días adicionales después de la fecha de renovación:","Additional days before the renewal start date:":"Días adicionales antes de la fecha de renovación:","Adjust the available quantity automatically from the consumption of other rights":"Ajustar automáticamente la cantidad disponible del consumo de otros derechos","Adjustements quantity":"Ajustamientos de la cantidad","adjustments included":"ajustamientos incluidos","Admin":"Administrador","Admin, substituting one of his subordinates":"Administrator, substituando uno de sus subordinados","Administrator":"Administrador","Age":"Edad","All managers must confirm approval step":"Todos los gerentes deben confirmar el paso de aprobación","Allow to save quantity from this right to the time deposit account":"Permitir guardar cantidad de este derecho a la cuenta de depósito tiempo","An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on":"Un ajuste de {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} se crea automáticamente cada {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumidos en","Application administrator":"Aplicación administrador","Approvers":"Aprobadores","Are you sure you want to delete the absence request?":"¿Seguro que desea eliminar la solicitud de ausencia?","Are you sure you want to delete this compulsory leave?":"¿Seguro que desea eliminar este permiso obligatorio?","Are you sure you want to delete this user?":"¿Seguro que desea eliminar este usuario?","Arrival date":"Fecha de llegada","Arrival date:":"Fecha de llegada:","At least one manager must confirm approval step":"Al menos un gerente debe confirmar el paso de aprobación","At least one type must be selected":"Debe seleccionar al menos un tipo","Attendance":"Asistencia","Attendance (percentage relative to full-time)":"Asistencia (porcentaje relativo a tiempo completo)","Auto monthly update":"Actualización mensual automática","Automatic distribution of this right when creating a request":"Distribución automática de este derecho al crear una solicitud","Availability duration after the renewal end date:":"Duración de la disponibilidad después de la fecha de renovación:","Availability duration before the renewal start date:":"Duración de la disponibilidad antes de la fecha de renovación:","Available:":"Disponible: o valido:","Average hours per day":"Promedia de horas por día","Back to Login":"Atrás para iniciar sesión","Balance state the:":"Estado de saldo:","Begin date":"Fecha de inicio","Birth date":"Fecha de nacimiento","Birth date:":"Fecha de nacimiento:","Business days for the users associated to this collection":"Días de asuntos para los usuarios asociados a esta colección","By collection:":"Por colección:","By department:":"Por departamiento:","By name:":"Por nombre:","By right:":"Por derecho:","By status:":"Por estatuos:","By type:":"Por tipos:","By user name:":"Por nombre de usuarios:","calendar":"calendario","Calendar":"Calendario","Calendar name":"Nombre del calendario","Calendar summary":"Sumario del calendario","Calendar type:":"Tipo de clendario:","Calendars":"Calendarios","Cancel":"Cancelar","Change the initial quantity":"Cambiar la cantidad inicial","Change your password":"Cambiar la contraseña","Choose from your remnant quantity":"Elija entre su cantidad remanente","Classification used for the creation of leave requests":"Clasificación utilizada para la creación de solicitudes de permiso","Collaborators":"Colaboradores","Collaborators to supervise with request approvals":"Colaboradores para supervisar con solicitudes de aprobación","Collection name":"Nombre de la colección","Collection on the selected period: {{collection.name}}":"Colección en el período seleccionado: {{collection.name}}","Collection:":"Colección:","collections":"colecciónes","Color":"Color","Compulsory leave":"Permiso obligatorio","Compulsory leave name (this will be visible on users calendars)":"Nombre del permiso obligatorio (esto será visible en los calendarios de los usuarios)","Compulsory leaves":"Permiciones obligatorias","Confirm new password":"Confirmar nueva contraseña","Confirm password":"Confirmar contraseña","Confirm Password:":"Confirmar contraseña:","Confirmed":"Confrimado","Congratulation, this server has just been created and contain no users, please do not leave it that way.":"Enhorabuena, este servidor acaba de ser creado y no contiene usuarios, por favor no lo deje así.","Connect":"Conectar","Consume next business days":"Consumir los siguientes días de asuntos","Consume worked days":"Días de asuntos para los usuarios asociados a esta colección","Consumed":"Consumido","Consumed on types":"Consumido en tipos","Consumed quantity":"Cantidad consumida","Consumed:":"Consumido:","Consumption":"Consumo","Consuption":"Consumo","Continue":"Continuar","Create a compulsory leave":"Crear uno permiso obligatorio","Create a department":"Crear un departamiento","Create a leave on all valid users":"Crear un permiso en todos los usuarios válidos","Create a leave right":"Crear un derecho de permiso","Create a new secondary calendar in your google account to host a copy of your leave periods.":"Crear un nuevo calendario secundario en su cuenta de Google para recibir una copia de sus períodos de permiso.","Create a new time saving deposit for {{request.user.name}}":"Crear una nueva solicitud de depósito de ahorro de tiempo para {{request.user.name}}","Create a new time saving deposit request":"Crear una nueva solicitud de depósito de ahorro de tiempo","Create a new vacation request":"Crear una nueva solicitud de vacación","Create a new workperiod recover request":"Crear una nueva solicitud de recuperación del período de trabajo","Create a new workperiod recover request for {{request.user.name}}":"Crear una nueva solicitud de recuperación del período de trabajo para {{request.user.name}}","Create a recover quantity":"Crear una cantidad de recuperación","Create a request on behalf of a user":"Crear una solicitud en nombre de un usuario","Create a right collection":"Crear un derecho de colección","Create a right renewal":"Crear un derecho de renovación","Create a right rule":"Crear una regla de derecho","Create a right type":"Crear un tipo de derecho","Create a user":"Crear un usuario","Create absence request between two dates, the request will be sent to your supervisor for approval":"Crear una solicitud de ausencia entre dos fechas, la solicitud será enviada a su supervisor para su aprobación","Create an adjustment every":"Crear un ajuste cada","Create first administrator":"Crear a primer administrador","Create leaves for users in":"Crear permisiones para usuarios en","Create new request":"Crear una nueva solicitud","Created the":"Crear el","Current rights collection:":"Actual colección de derechos:","Current workschedule calendar:":"Actual calendario de los horarios de trabajo:","day":["día","días"],"Day":["Día","Días"],"Days":"Días","Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights":"Declarar un periodo de trabajo fuera de sus horas de trabajo, la solicitud será enviada a su supervisor para la aprobación de beneficio de los derechos adicionales de vacaciones","Default quantity":"Cantidad predeterminada","Default quantity on start renewal:":"Cantidad predeterminada en la renovación de inicio:","Define the periods that will be used to measure the consumed quantity":"Definir los periodos que se utilizarán para medir la cantidad consumida","Delete":"Borrar","Department":"Departamento","Department Management":["Gestión de departamento","Gestión de departamentos"],"Department manager":"Departamento de gerentes","Department name":"Nombre del departamento","Department:":"Departamento:","departments":"departamentos","Departments":"Departamentos","Departments supervision":"Supervisión de los departamentos","Departments to supervise with request approvals":"Departamentos a supervisar con las aprobaciones de la solicitud","Description":"Descripción","Disconnect":"Desconectar","Display type folded in the request creation page":"Tipo de pantalla plegado en la página de creación de la solicitud","Distribution":"Distribución","Do not add monthly quantity if renewal quantity greater than":"No agregue la cantidad mensual si la cantidad de renovación es mayor que","Do not notify the user when a request is accepted or rejected":"No notificar al usuario cuando una solicitud es aceptada o rechazada","Do not require approval":"No requiere aprobación","Download":"Descargar","Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave":"Incompatibilidad de duración: {duration} las horas permanecen no consumidas después de la creación de {nbEvents} eventos, por favor verifica su período de ausencia, no debe superponerse a otro permiso","Edit":"Editar","Edit a leave request from {{request.user.name}}":"Editar una solicitud de permiso de {{request.user.name}}","Edit a time saving deposit for {{request.user.name}}":"Editar un depósito de ahorro de tiempo para {{request.user.name}}","Edit a time saving deposit request":"Editar una solicitud de depósito de ahorro de tiempo","Edit a vacation request":"Editar una solicitud de vacación","Edit a workperiod recover request":"Editar una solicitud de recuperación del período de trabajo","Edit a workperiod recover request for {{request.user.name}}":"Editar una solicitud de recuperación del período de trabajo para {{request.user.name}}","Edit quantity in renwal from: {{renewal.start|date}} to: {{renewal.finish|date}}":"Editar cantidad en renovación de: {{renewal.start|date}} hasta: {{renewal.finish|date}}","Email":"Correo electrónico","End date":"Fecha final","Enter Your Email:":"Entra su correo electrónico:","Entitlement quantity:":"Cantidad de derechos:","Entry date":"Fecha de entrada","Exceptional quantity modifications":"Modificaciones exceptionales de la cantidad","Export balance":"Saldo de exportación","Export for Sage":"Exportar para Sage","Export in sage format":"Exportar en Sage formato","Export in XLSX file":"Exportar en XLSX archivo","Export in XLSX spreadsheet":"Exportar en XLSX hoja de cálculo","Export requests":"Exportar solicitudes","Export requests for your monthy payroll in sage, only users with the sage registration number set will be exported":"Las solicitudes de exportación para su nómina mensual en Sage, sólo los usuarios con el número de registro de Sage se exportarán","Exports":"Exportaciones","Finish":"Acabado","Firstname":"Nombre","Folded":"Plegado","For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.":"Para una ausencia con el día de hoy como fecha de inicio, si la fecha de antigüedad está entre {{estimation.min | date}} y {{estimate.max | date}}, el derecho estará disponible.","Forget your password?":"¿Ha olvidado su contraseña?","Forgot Your Password?":"¿Olvidó su contraseña?","Friday":"Viernes","from":"de","From":"De","From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}":"De {{accountRight.renewal.start|date}} hasta {{accountRight.renewal.finish|date}}","From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}":"De {{selection.begin|date:'medium'}}, hasta el {{selection.end|date:'medium'}}","From date:":"De la fecha:","From right":"Del derecho","From right:":"Del derecho:","From:":"De:","Gadael - %s":"Gadael - %s","Get only periods from the following types:":"Sólo obtener los períodos de los siguientes tipos:","Google login":"Google login","Group title for rights (plural form)":"Título del grupo de derechos (plural)","Half day hour":"Media jornada","Home":"Casa","hour":["hora","horas"],"Hour":"Hora","Hours":"Horas","If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.":"Si no se verifica esta regla, el derecho no estará disponible en el segundo paso de una solicitud, una vez que se hayan establecido las fechas de solicitud.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating":"Si esta regla no se verifica, el derecho no será visible por el usuario en la lista de derechos y al asignar","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:":"Si no se verifica esta regla, el derecho no será visible por el usuario en la lista de derechos y al asignar:","Ignore consumption beyond":"Ignorar el consumo más allá","Initial quantity on renewal creation":"Cantidad inicial en la creación de la renovación","Initial quantity without this user personal adjustments":"Cantidad inicial sin los ajustes personales de este usuario","Initial quantity:":"Cantidad inicial:","Initial:":"Inicial:","Input quantity must be set":"La cantidad de entrada debe ser ajustada","Interventions history":"Historico de las intervenciones","Justification, write about this manual adjustment":"Justificación, escribe sobre este ajuste manual","Last renewal:":"Última renovación:","Last update:":"Última actualización:","Lastname":"Apellido","Lastname or firstname":"Apellido o nombre","Leave period":"Período de permisión","Leave periods":"Períodos de permisión","Leave right":"Derecho de permisión","Leaves managment":"Gestión de permisiones","Leaves requests can not be reserved over these periods":"Las solicitudes de permisiones no pueden ser reservadas durante estos períodos","Leaves requests must be included in this calendar":"Las solicitudes de permisiones deben ser incluidas en este calendario","Limit in additional business days consumption in one renewal":"Límite en el consumo de días adicionales de asuntos en una sola renovación","Link with your google calendar":"Enlace con su calendario de Google","Loading...":"Cargando...","Login":"Iniciar sesión","Managed department:":"Departamento gestionado:","Manager, substituting one of his subordinates":"Gerente, sustituyendo a uno de sus subordinados","Max quantity:":"Cantidad máxima:","Maximal consumed quantity:":"Cantidad máximal consumida:","Maximal number of days between entry date and request end date":"Número máximo de días entre la fecha de entrada y la fecha de finalización de la solicitud","Minimal consumed quantity:":"Cantidad mínima consumida:","Minimal number of days between entry date and request start date":"Número mínimo de días entre la fecha de entrada y la fecha de inicio de la solicitud","Modify a compulsory leave":"Modificar un permiso obligatorio","Modify a department":"Modificar un departamento","Modify a leave right":"Modificar un derecho de permiso","Modify a recover quantity":"Modificar una cantidad de recuperación","Modify a right collection":"Modificar un derecho de colección","Modify a right renewal":"Modificar un derecho renovación","Modify a right rule":"Modificar un derecho de regla","Modify a right type":"Modificar un derecho de tipo","Modify a user":"Modificaar un usuario","Monday":"Lunés","Monthly additions:":"Adiciones mensuales:","Move some of your vacation rights to your time saving account, the request will be sent to your supervisor for approval":"Mover algunos de sus derechos de vacaciones a su cuenta de ahorro de tiempo, la solicitud será enviada a su supervisor para su aprobación","My account":"Mi cuenta","My department: {{sessionUser.department.name}}":"Mi departamento {{sessionUser.department.name}}","My rights":"Mis derechos","My vacations":"Mis vacaciones","Name":"Nombre","Name of the event to recover":"Nombre del evento a recuperar","New absence right":"Nuevo derecho de ausencia","New account created":"Nueva cuenta creada","New department":"Nuevo departamento","New leave request for {{request.user.name}}":"Nueva solicitud de permisión para {{request.user.name}}","New password":"Nueva contraseña","New Password:":"Nueva contraseña:","New user":"Nuevo usuario","Next collection":"Nueva colección","Next page":"Siguiente página","No active renewal":"No hay renovación activa","No available time saving account":"No hay cuenta de ahorro de tiempo disponible","No constraints on right parameters":"Sin restricciones en los parámetros de derecho","No initial quantity, unbounded right":"No hay cantidad inicial, derecho sin límites","No open period":"No hay periodo abierto","No special behaviour":"No hay comportamiento especial","Non working days":"Días no laborables","Non-working days calendar":"Calendario de los días no laborables","Non-working days planning":"Planificación de los días no laborables","Non-working days scheduling for {{user.lastname}} {{user.firstname}}":"Programación de días no laborables para {{user.lastname}} {{user.firstname}}","Nonworking days":"No días de trabajo","Nothing to approve":"Nada que aprobar","Nothing to save":"Nada que salvar","Notifications options:":"Opciones de notificaciones:","Notifications parameters":"Parámetros de notificaciones","Notify me when a request is accepted or rejected":"Notificarme cuando una solicitud es aceptada o rechazada","Notify the user when a request is accepted or rejected":"Notificar al usuario cuando una solicitud es aceptada o rechazada","Number of years before the entry start date to set the period end:":"Número de años antes de la fecha de inicio de la entrada para establecer el final del período:","One right":["Uno derecho","{{$count}} derechos"],"One year old":["Un año de edad","{{$count}} años"],"One year seniority":["Un año de antigüedad","{{$count}} Años de antigüedad"],"Ongoing approval steps":"Pasos de aprobación en curso","Options":"Opciones","or":"o","Or set the available quantity":"O establecer la cantidad disponible","Owner user account":"Cuenta de usuario del propietario","Package agreement worked days":"Acuerdo de paquete de los días trabajados","Parent department":"Departamento padre","Password":"Contraseña","Password Strength:":"Seguridad de la contraseña:","Password:":"Contraseña:","Period end":"Final del período","Period is booked":"Período reservado","Personal calendar":"Calendario personal","Please create the first admin account to continue.":"Por favor, cree la primera cuenta de administrador para continuar.","Please log into the application to see your account informations":"Por favor, inicie sesión en la aplicación para ver las informaciones de su cuenta","Previous collection":"Colección previa","Previous page":"Pagina anterior","Proceed to the request creation with one of the following:":"Proceda a la creación de solicitud con una de las siguientes opciones:","Proportional to attendance":"Proporcional a la asistencia","Quantity consumption for part-time right collections":"Consumo de cantidad para las colecciones de tiempo parcial","Quantity provided on each renewals":"Cantidad proporcionada en cada renovación","Quantity to add every month":"Cantidad a añadir cada mes","Quantity to recover from the event":"Cantidad a recuperar del evento","Quantity to spare":"Cantidad disponible","Quantity unit":"Unidad cuantitativa","Quantity unit to use in interval modification:":"Unidad de cantidad a utilizar en la modificación de intervalos:","Recover quantities":"Recuperar cantidades","Recovery claimed":"Recuperación reclamada","Recovery request summary":"Resumen de la solicitud de recuperación","Reject":"Rechazar","Rejected":"Rechazado","Remove":"Retirar","Remove the leave on all users with a booked period":"Eliminar el permiso de todos los usuarios con un período reservado","Renewal":"Renovación","Renewals":"Renovaciones","Renewals with remaining quantity":"Renovaciones con cantidad restante","Request period":"Período de solicitud","Requests":"Solicitudes","Requests waiting for approval":"Solicitudes pendientes de aprobación","Require approval":"Requiere aprobación","Reset Your Password?":"¿Restablecer su contraseña?","Right collections":"Derecho de colecciones","Right collections scheduling for {{user.lastname}} {{user.firstname}}":"Programación de las colecciones de derechos para {{user.lastname}} {{user.firstname}}","Right given name:":"Nombre dado correcto:","Right is visible when request period is in the renewal period":"Derecho es visible cuando el período de solicitud está en el período de renovación","Right is visible when the request creation date is in the renewal period":"Derecho es visible cuando la fecha de creación de la solicitud está en el período de renovación","Right is visible when the request period is in a period relative to the user birth date":"Derecha es visible cuando el período de solicitud está en un período relativo a la fecha de nacimiento del usuario","Right is visible when the request period is in a period relative to the user seniority date":"Derecho es visible cuando el período de solicitud está en un período relativo a la fecha de antigüedad del usuario","Right is visible when the user has consumed a quantity defined for a right type on a period":"Derecho es visible cuando el usuario ha consumido una cantidad definida para un tipo de derecho en un período","Right name":"Nombre del derecho","Right quantity claimed by recovery:":"Cantidad correcta reclamada por la recuperación:","Right type name":"Nombre del tipo correcto","Right type to test":"Tipo correcto para probar","Right:":"Derecho:","Rights collection":"Colección de derechos","Rights collections":"Colecciones de derechos","Rights distribution":"Colecciones de derechos","Rights list":"Lista de derechos","Rights types":"Tipos de derechos","Roles":"Roles","Roles:":"Roles:","Rule title, this will be visible from users":"Título de regla, esto será visible de los usuarios","Rule type:":"Tipo de regla:","Rules":"Reglas","Sage registration number":"Número de registro de Sage","Sage registration number:":"Número de registro de Sage:","Saturday":"Sabado","Save":"Guaradar","Save in account":"Guardar en cuenta","Save leave periods to":"Ahorre los períodos de vacaciones a","Saved quantity:":"Cantidad guardada:","Saving limit per renewals":"Límite de ahorro por renovaciones","Saving period":"Período de ahorro","Schedule calendar":"Programar calendario","School holidays":"Vacaciones escolares","School holidays will be displayed on the bottom of the reservation calendar":"Las vacaciones escolares se mostrarán en la parte inferior del calendario de reservas","Search in calendars":"Buscar en los calendarios","Search in collections":"Buscar en las colecciones","Search in compulsory leaves":"Buscar en las permiciones obligatorias","Search in departments":"Buscar en departamentos","Search in recover quantities":"Buscar en cantidades de recuperación","Search in requests":"Buscar en las solicitudes","Search in right types":"Buscar en los tipos de derecho","Search in rights":"Buscar en los derechos","Search in users":"Buscar en usuarios","Search:":"Buscar:","Select rule type":"Seleccionar tipo de regla","Select types":"Seleccionar tipos","Select unit":"Seleccionar unidad","Selected duration:":"Duración seleccionada:","Selected recovery:":"Recuperación seleccionada:","Send Reset":"Enviar Restablecer","Seniority":"Antigüedad","Seniority date:":"Fecha de antigüedad:","Seniority start date":"Fecha de inicio de la antigüedad","Set a new password":"Establecer una nueva contraseña","Set password":"Configurar la contraseña","Set Password":"Configurar Contraseña","Set the adjustment quantity":"Establezca la cantidad de ajuste","Set the consumed quantity interval where the rule will be valid":"Establezca el intervalo de cantidad consumida donde la regla será válida","Settings":"Configuraciones","Sign In":"Registrarse","Some renewals are invalids":"Algunas renovaciones son inválidas","Sort absence rights":"Ordenar los derechos de ausencia","Sort rights":"Derechos de clasificación","Sort rights in type":"Ordenar derechos en el tipo","Special right:":"Derecho especial:","Start":"Comienzo","Status":"Estado","Status:":"Estado:","Step {{step}} approver":"Aprobador {{step}} de paso","Sub-departments":"Sub-departamentos","Sunday":"Domingo","Supervisor":"Supervisor","Supervisors":"Supervisores","The application is in maintenance, requests will not be modifiables":"La aplicación está en mantenimiento, las solicitudes no serán modificables","The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained.":"La hora de mediodia se utiliza para convertir horas en días de duración, por ejemplo, si un período termina antes de la hora de mediodia, una duración de 0,5 día se mantendrá.","The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly":"Los períodos de permiso que se superponen al período de extracción se modificarán para ajustarse al período de extracción, el número de días notificado se ajustará en consecuencia","The number of active users is limited by your plan level":"El número de usuarios activos está limitado por el nivel de su plan","The right will be available only if the user is beetween {{rightrule.interval.min}} years old and {{rightrule.interval.max}} years old on the first day of the requested leave.":"El derecho estará disponible sólo si el usuario está entre {{rightrule.interval.min}} años y {{rightrule.interval.max}} años de edad en el primer día del permiso solicitado.","The start renewal quantity is dynamicaly computed":"La cantidad de renovación inicial se calcula dinámicamente","The user can have vacations rights, absences requests, time saving account ...":"El usuario puede tener derechos de vacaciones, solicitudes de ausencias, cuenta de ahorro de tiempo ...","The user can manager other users and departments, the application parameters ...":"El usuario puede gestionar otros usuarios y departamentos, los parámetros de la aplicación ...","The user is allowed to log in":"El usuario puede iniciar sesión","The user may be involved in the validation of requests by the members of his deparment":"El usuario puede participar en la validación de las solicitudes de los miembros de su departamento","There are no configured rights to display":"No hay derechos configurados para mostrar","This functionality is not yet available":"Esta funcionalidad aún no está disponible","This manager has no departments configured for approval":"Este gerente no tiene departamentos configurados para su aprobación","This right has no configured renewals":"Este derecho no tiene renovaciones configuradas","This right has no configured rules":"Este derecho no tiene reglas configuradas","This user can not connect to the application":"Este usuario no puede conectarse a la aplicación","This user has no configured non-working days":"Este usuario no tiene días no laborables configurados","This user has no configured specific quantity, rights are set by collection only":"Este usuario no tiene una cantidad específica configurada, los derechos se establecen únicamente por colección","This user has no configured vacation rights for the current period":"Este usuario no tiene derechos de vacaciones configurados para el período actual","This user has no configured work schedule":"Este usuario no tiene un horario de trabajo configurado","This user has no ongoing right collection, check the vacations collections planning to fix it":"Este usuario no tiene una colección de derechos en curso, revisa la planificación de las colecciones de vacaciones para arreglarlo","This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it":"Este usuario no tiene un calendario de horario de trabajo en curso, consulte la planificación del calendario de horario de trabajo para solucionarlo","This value is used to establish a proportionality beetween rights in days and rights in hours":"Este valor se utiliza para establecer una proporcionalidad entre derechos en días y derechos en horas","Thursday":"Jueves","Time saving account deposit":"Depósito de la cuenta del ahorro de tiempo","Time saving deposit":"Depósito de ahorro de tiempo","Time saving deposit request":"Solicitud de depósito de ahorro de tiempo","Title":"Título","to":"a","To":"A","To pick-up on right":"A tomar en el derecho","To right":"Hasta el derecho","To right:":"Hasta el derecho:","To supervise collaborators, a department with members must be associated to user first":"Para supervisar a los colaboradores, un departamento con miembros debe estar asociado al usuario primero","To:":"A:","Total consumption:":"Consumo total:","Total duration:":"Duración total:","Tuesday":"Martes","Type":"Tipo","Type:":"Tipo:","Up to {{renewal.finish|date}}":"Hasta {{renewal.finish | date}}","Url of the calendar ICS file":"URL del archivo ICS del calendario","Usage period":"Período de uso","Use default active span":"Utilizar el intervalo activo predeterminado","Use default saving interval (renewal interval)":"Utilizar el intervalo de ahorro predeterminado (intervalo de renovación)","User account":"Cuenta de usuario","User quantity":"Cantidad del usuario","User requests":"Solicitudes de los usuarios","Users":"Usuarios","Users list":"Lista de usuarios","Vacation request":"Solicitud de vacaciones","Vacation right":"Derecho de vacaciones","Vacation right:":"Derecho de vacaciones:","Vacation rights in collection":"Derechos de vacaciones en la colección","Vacations collections planning":"Planificación de las colecciones de vacaciones","Vacations rights":"Derechos de vacaciones","Valid users:":"Usuarios válidos:","View":"Ver","View calendar":"Ver el calendario","View more":"Ver más","View rights":"Ver derechos","View sub-departments":"Ver subdepartamentos","Waiting":"Esperando","Waiting {{request.dispType}} request":"Esperando {{request.dispType}} solicitud","Waiting approval":"Esperando aprovación","Waiting approval for delete":"Esperando aprobación para borrar","Wednesday":"Miércoles","Wellcome":"Bienvenido","Wellcome to your absence manager":"Bienvenido a su gerente de ausencias","Work schedule":"Horario de trabajo","Worked duration:":"Duración trabajada:","Working time recover request":"Solicitud de recuperación de tiempo de trabajo","Workperiod recover":"Recuperación del tiempo de trabajo","Workperiod recover request":"Solicitud de recuperación de workperiod","Workschedule planning":"Planificación del plan de trabajo","Worperiod recover":"Recuperación del tiempo de trabajo","Wrong events count":"Cuenta de eventos erróneos","Years":"Años","Years after the birth date to set the period end:":"Años después de la fecha de nacimiento para fijar el final del período:","Years after the birth date to set the period start:":"Años después de la fecha de nacimiento para establecer el inicio del período:","Years are ignored and computed back to fit in the renewal period, as a consequence, this rule type will work only with yearly or less renewal periods.":"Los años son ignorados y calculados de nuevo para ajustarse en el período de renovación, como consecuencia, este tipo de regla funcionará sólo con períodos de renovación anuales o menores.","Years before renewal end date":"Años antes de la fecha de finalización de la renovación","Years before renewal start date":"Años antes de la fecha de inicio de la renovación","Years before the entry start date to set the period start:":"Años antes de la fecha de inicio eligida para establecer el inicio del período:","Your account have no access to a rôle in this application,\n            the administrators have been made aware of the problem. You will be notified by email when they give you access\n            to your absences rights account.":"Su cuenta no tiene acceso a un papel en esta aplicación,\n           Los administradores han sido informados del problema. Se le notificará por correo electrónico cuando le den acceso\n           a su cuenta de derechos de ausencia.","Your account parameters":"Los parámetros de su cuenta","Your calendar is connected":"Su calendario está conectado","Your calendar is not connected":"Su calendario no está conectado","Your email:":"Su correo electrónico:","Your only role on the application is administrator, you can update your own account using the administration -> users menu":"Su único rol en la aplicación es el administrador, puede actualizar su propia cuenta utilizando el menú administración -> usuarios","Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights":"La selección de su período de {{selection.days}} (o {{selection.hours}}) debe distribuirse en los siguientes derechos de vacaciones"});
-    gettextCatalog.setStrings('fr', {"1 day":["1 jour","{{deposit.quantity| number}} jours"],"1 hour":["1 heure","{{deposit.quantity| number}} heures"],"A department is a group of employees, managers may be assigned to the approval of leave requests made by the department members":"Un service est un groupe d'employés, des gestionnaires peuvent êtres affectés à l'approbation des demandes de congés effectuées par les membres du service","A user account is required to continue":"Un compte utilisateur est requis pour continuer","Absence":"Absence","Absence request":"Demande d'absence","Absence rights":"Droit d'absences","Absences account":"Compte utilisateur \"Absences\"","Absences user account":"Compte utilisateur \"Absences\"","Accept":"Accepter","Accepted":"Accepté","Activate the out of collection right according to the request period":"Activer le droit hors régime en fonction de la période demandée","Activate the right according to consumed quantity":"Activer le droit en fonction de la quantité consommée","Activate the right according to the age":"Activer le droit en fonction de l'âge","Activate the right according to the consumed quantity on a right type":"Activer le droit en fonction de la quantité consommée sur un type de droit","Activate the right according to the entry creation date":"Activer le droit en fonction de la date de création de la demande","Activate the right according to the request period":"Activer le droit en fonction de la période demandée","Activate the right according to the seniority":"Activer le droit en fonction de l'ancienneté","Activate the right according to the user age":"Activer le droit en fonction de l'âge de l'utilisateur","Activate the right according to the user seniority":"Activer le droit en fonction de l'ancienneté","Active for the administrator":"Actif pour l'administrateur","Active for the user":"Actif pour l'utilisateur","Active for:":"Actif pour :","Actual quantity:":"Quantité actuelle :","Add":"Ajouter","Add Collection":"Ajouter un régime","Add Department":"Ajouter un service","Add Type":"Ajouter un type","Add User":"Ajouter un utilisateur","Add a calendar":"Ajouter un agenda","Add a list of of email addresses and send the invitations":"Ajouter une liste d'adresses emails et envoyer les invitations","Add a quantity adjustment":"Ajouter un ajustement","Add a recover quantity":"Ajouter une quantité à récupérer","Add a request":"Ajouter une demande","Add a request...":"Ajouter une demande...","Add compulsory leave":"Ajouter un congé obligatoire","Add period":"Ajouter une période","Add right":"Ajouter un droit","Add right collection":"Ajouter un régime de congés","Add vacation right":"Ajouter un droits de congés","Addition / modification":"Ajout / modification","Additional days after the renewal end date:":"Jours supplémentaires après la date de fin du renouvellement :","Additional days before the renewal start date:":"Jours supplémentaires avant la date de début du renouvellement :","Additional rights scheduling for {{user.lastname}} {{user.firstname}}":"Planification des droits hors régime pour {{user.lastname}} {{user.firstname}}","Adjust the available quantity automatically from the consumption of other rights":"Ajuster la quantité disponible à partir de la consommation sur d'autres droits","Adjustements quantity":"Quantité des ajustements","Admin":"Administration","Admin, substituting one of his subordinates":"Administrateur, se substituant à l'un de ces subordonnés","Administrator":"Administrateur","Age":"Âge","All managers must confirm approval step":"Tout les gestionnaires doivent confirmer l'étape d'approbation","All the users who accept the invitation will be saved into the same department, used for leave requests approval":"Tous les utilisateurs qui acceptent l'invitation serons enregistrés dans le même service, qui sera utilisé pour l'approbation des demandes de congé","Allow to save quantity from this right to the time deposit account":"Autoriser l'épargne de ce droit vers les comptes épargne temps","Always available":"Toujours disponible","An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on":"Un ajustement de {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} est automatiquement créé tous les {{right.autoAdjustment.step | number}} {{right.disp_unit}} consommés sur","Application administrator":"Administrateur de l'application","Approvers":"Approbateurs","Are you sure you want to delete the absence request?":"Êtes-vous sûr de vouloir supprimer cette demande d'absence?","Are you sure you want to delete this compulsory leave?":"Êtes-vous sûr de vouloir supprimer ce congé obligatoire?","Are you sure you want to delete this user?":"Êtes-vous sûr de vouloir supprimer cet utilisateur?","Arrival date":"Date d'arrivée","Arrival date:":"Date d'arrivée :","At least one manager must confirm approval step":"Au moins un approbateur doit approuver l'étape","At least one type must be selected":"Au moins un type doit être sélectionné","Attendance":"Présence","Attendance (percentage relative to full-time)":"Présence (pourcentage relatif au temps complet)","Author":"Auteur","Auto monthly update":"Mise à jour mensuelles automatiques","Availability duration after the period end date from the user/right link:":"Durée supplémentaires après la date de fin de la période définie sur le lien utilisateur/droit :","Availability duration after the renewal end date:":"Jours supplémentaires après la date de fin du renouvellement :","Availability duration before the period start date from the user/right link:":"Durée supplémentaires avant la date de début de la période définie sur le lien utilisateur/droit :","Availability duration before the renewal start date:":"Jours supplémentaires avant la date de début du renouvellement :","Available for booking":"Disponible à la réservation","Available on period":"Disponible sur la période","Available on right":"Disponibilité du droit","Available quantity":"Quantité disponible","Available:":"Disponible :","Average hours per day":"Moyenne du nombre d'heures par jour","Back to Login":"Retour à l'authentification","Balance state the:":"État du solde le :","Begin date":"Date de début","Birth date":"Date de naissance","Birth date:":"Date de naissance :","Book available periods":"Réserver les périodes disponibles","Business days for the users associated to this collection":"Jours ouvrés pour les utilisateurs associés à ce régime","By collection:":"Par régime :","By department:":"Par service :","By name:":"Par nom :","By right:":"Par droit :","By status:":"Par état :","By type:":"Par type :","By user name:":"Par nom d'utilisateur :","Calendar":"Agenda","Calendar name":"Nom de l'agenda","Calendar summary":"Résumé de l'agenda","Calendar type:":"Type d'agenda :","Calendars":"Agendas","Cancel":"Annuler","Change the initial quantity":"Modifier la quantité initiale","Change your password":"Modifier votre mot de passe","Choose from your remnant quantity":"Choisir à partir de votre quantité restante","Classification used for the creation of leave requests":"Classification utilisée pour la création des périodes de congé","Client Id:":"Client Id:","Client Secret:":"Client Secret:","Collaborators":"Collaborateurs","Collaborators to supervise with request approvals":"Collaborateurs à superviser lors des demandes d'approbation","Collection name":"Nom du régime","Collection on the selected period: {{collection.name}}":"Régime sur la période sélectionnée : {{collection.name}}","Collection:":"Régime :","Color":"Couleur","Comment":"Commentaire","Compulsory leave":"Congé imposé","Compulsory leave name (this will be visible on users calendars)":"Nom du congé obligatoire (il sera visible sur les agendas des utilisateurs)","Compulsory leaves":"Congés obligatoires","Confirm Password:":"Confirmer le mot de passe :","Confirm new password":"Confirmer le nouveau mot de passe","Confirm password":"Confirmer le mot de passe","Confirmed":"Confirmé","Congratulation, this server has just been created and contain no users, please do not leave it that way.":"Félicitations, ce serveur viens d'être créé et ne contient pas d'utilisateurs, vous pouvez corriger cela!","Connect":"Connecter","Consume next business days":"Consommer le jour ouvré suivant","Consume worked days":"Utiliser les jours travaillés","Consumed":"Consommé","Consumed on types":"Consommée sur les types","Consumed quantity":"Quantité consommée","Consumed:":"Consommé :","Consumption":"Consommation","Consuption":"Consommation","Continue":"Continuer","Create a compulsory leave":"Créer un congé obligatoire","Create a department":"Créer un service","Create a leave on all valid users":"Créer un congé sur tous les utilisateurs valides","Create a leave right":"Créer un droit d'absence","Create a new department":"Créer un nouveau service","Create a new secondary calendar in your google account to host a copy of your leave periods.":"Créer un nouvel agenda secondaire sur votre compte google pour héberger une copie de vos périodes de congés.","Create a new time saving deposit for {{request.user.name}}":"Créer un nouveau dépôt sur le Compte Épargne Temps pour {{request.user.name}}","Create a new time saving deposit request":"Créer un nouveau dépôt sur le Compte Épargne Temps","Create a new vacation request":"Créer une nouvelle demande d'absence","Create a new workperiod recover request":"Créer une nouvelle déclaration de jour travaillé donnant droit à récupération","Create a new workperiod recover request for {{request.user.name}}":"Créer une nouvelle demande de récupération pour {{request.user.name}}","Create a recover quantity":"Créer une quantité à récupérer","Create a request on behalf of a user":"Créer une demande à la place de l'utilisateur","Create a right collection":"Créer un régime de congés","Create a right renewal":"Créer un renouvellement de droit","Create a right rule":"Créer un règle de droit","Create a right type":"Créer un type de droit","Create a user":"Créer un utilisateur","Create absence request between two dates, the request will be sent to your supervisor for approval":"Créer une demande d'absence entre deux dates, la demande sera envoyée à votre supérieur hiérarchique pour approbation.","Create an adjustment every":"Créer un ajustement tous les","Create first administrator":"Créer le premier administrateur","Create leaves for users in":"Créer des congés pour les utilisateurs dans un","Create new request":"Créer une nouvelle demande","Create the first user":"Créer le premier utilisateur","Created the":"Créé le","Current rights collection:":"Régime de congés en cours :","Current workschedule calendar:":"Agenda du rythme de travail en cours :","Date":"Date","Day":["Jour","Jours"],"Days":"Jours","Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights":"Déclarer une période travaillée en dehors de vos horaires de travail habituels, la demande sera envoyée à votre chef de service pour approbation et vous fera bénéficier de droits de congés supplémentaires.","Default absence length":"Durée de l'absence par défaut","Default quantity":"Quantité par défaut","Default quantity on start renewal:":"Quantité au début du renouvellement :","Define the periods that will be used to measure the consumed quantity":"Définir les périodes qui serons utilisées pour mesurer la quantité consommée","Delete":"Supprimer","Delete API tokens":"Supprimer les clés API","Deletion":"Suppression","Department":"Service","Department Management":["Gestion du service","Gestion des services"],"Department manager":"Chef de service","Department name":"Nom du service","Department:":"Service :","Departments":"Services","Departments supervision":"Supervision des services","Departments to supervise with request approvals":"Services à superviser lors des demandes d'approbation","Description":"Description","Disconnect":"Se déconnecter","Display type folded in the request creation page":"Afficher le type plié sur la page de création de la demande","Distribution":"Répartition","Do not add monthly quantity if renewal quantity greater than":"Ne pas ajouter la quantité mensuelle si la quantité du renouvellement est supérieure à","Do not notify the user when a request is accepted or rejected":"Ne pas notifier l'utilisateur lorsque la demande est acceptée ou refusée","Do not require approval":"Ne requiert pas d'approbation","Do you really want to delete this invitation?":"Voulez-vous vraiment supprimer cette invitation?","Download":"Téléchargement","Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave":"La durée ne correspond pas : {duration} heures restent non consommées après la création de {nbEvents} événements, veuillez vérifier votre période d'absence, elle ne doit pas être à cheval sur un autre congé.","Edit":"Modifier","Edit a leave request from {{request.user.name}}":"Modifier une demande de congé pour {{request.user.name}}","Edit a time saving deposit for {{request.user.name}}":"Modifier un dépôt sur le Compte Épargne Temps pour {{request.user.name}}","Edit a time saving deposit request":"Modifier un dépôt sur le Compte Épargne Temps","Edit a vacation request":"Modifier une demande d'absence","Edit a workperiod recover request":"Modifier une période travaillée donnant droit à récupération","Edit a workperiod recover request for {{request.user.name}}":"Modifier la demande récupération pour {{request.user.name}}","Edit leave right":"Modifier un droit de congé","Edit quantity in renewal from: {{renewal.start|date}} to: {{renewal.finish|date}}":"Modifier la quantité pour le renouvellement du: {{renewal.start|date}} au: {{renewal.finish|date}}","Email":"Email","End date":"Date de fin","Enter Your Email:":"Entrez votre email :","Entitlement quantity:":"Quantité récupérée :","Entry date":"Date d'écriture","Exceptional quantity modifications":"Modification exceptionnelle de la quantité","Export balance":"Export des soldes","Export for Sage":"Export pour Sage","Export in XLSX file":"Exporter dans une feuille de calcul XLSX","Export in XLSX spreadsheet":"Exporter dans une feuille de calcul XLSX","Export in sage format":"Export dans le format Sage","Export requests":"Exporter les demandes","Export requests between two dates for all your users or a balance status of all your users rights on a specific date. The output format is a spreadsheet in the Office Open XML format (.xlsx)":"Exporter les demandes entre deux dates pour tous les utilisateurs ou le solde des droits de tous les utilisateurs à une date précise. Le format de sortie est un tableau Office Open XML (.xlsx)","Export requests for your monthy payroll in sage, only users with the sage registration number set will be exported":"Exporter les demandes pour les fiches de paye mensuelles dans sage, seulement les utilisateurs avec un matricule sage enregistré serons exportés","Export to a spreadsheet":"Exporter vers une feuille de calcul","Export to sage":"Exporter vers Sage","Exports":"Exports","Finish":"Fin","Firstname":"Prénom","Fix count":"Corriger le décompte","Folded":"Plié","Follow Gadael on your favorite social network!":"Suivez Gadael sur votre réseau social favori!","For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.":"Pour une absence démarrant aujourd'hui, si la date d'ancienneté est entre le {{estimated.min|date}} et le {{estimated.max|date}}, le droit sera disponible.","For example, R&D or HR...":"Par exemple, R&D ou RH...","Forget your password?":"Mot de passe oublié?","Forgot Your Password?":"Mot de passe oublié?","Friday":"Vendredi","From":"Du","From date:":"Depuis le :","From right":"Depuis le droit","From right:":"Depuis le droit :","From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}":"Du {{accountRight.renewal.start|date}} au {{accountRight.renewal.finish|date}}","From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}":"Du {{selection.begin|date:'medium'}}, au {{selection.end|date:'medium'}}","From:":"De :","Gadael - %s":"Gadael - %s","Get API tokens":"Obtenir les clés API","Get only periods from the following types:":"Sélectionner seulement les périodes depuis les types :","Google login":"Se connecter par Google","Group title for rights (plural form)":"Titre du groupe de droits (forme plurielle)","Half day hour":"Heure de la demi-journée","Hide the right in user list, but can be visible on request creation if active for account":"Cacher le droit dans la liste des utilisateurs, mais il peut être visible lors de la création d'une demande si actif pour le compte","Home":"Accueil","Hour":"Heure","Hours":"Heures","If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.":"Si la règle n'est pas vérifiée, le droit ne sera pas disponible lors de la deuxième étape de la demande, après avoir défini les dates de la période demandée.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating":"Si la règle n'est pas vérifiée, le droit ne sera pas visible par l'utilisateur dans la liste de ces droits et lors de la répartition.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:":"Si la règle n'est pas vérifiée, le droit ne sera pas visible par l'utilisateur dans la liste de ces droits et lors de la répartition :","Ignore consumption beyond":"Ignorer la consommation au delà de","Initial quantity on renewal creation":"Quantité par défaut à la création d'un renouvellement","Initial quantity without this user personal adjustments":"Quantité initiale sans les ajustements de l'utilisateur","Initial quantity:":"Quantité initiale :","Initial:":"Initiale :","Input quantity must be set":"La quantité saisie doit être définie","Insert the invited users into a department":"Insérer les invités dans un service","Interventions history":"Historique des interventions","Invitations":"Invitations","Invite a list of persons to register":"Inviter une liste de personnes à s'inscrire","Invite new members to your application":"Inviter des nouveaux membres sur votre application","Invite someone":"Inviter quelqu'un","Justification, write about this manual adjustment":"Justificatif à propos de cet ajustement manuel","Last renewal:":"Dernier renouvellement :","Last update:":"Dernière mise à jour :","Lastname":"Nom","Lastname or firstname":"Nom ou prénom","Leave period":"Période de congé","Leave periods":"Périodes de congé","Leave right":"Droit de congé","Leaves managment":"Gestion des absences","Leaves requests can not be reserved over these periods":"Des demandes d'absences ne peuvent pas être réservées sur ces périodes","Leaves requests must be included in this calendar":"Les demandes de congés doivent être créées dans les événements de cet agenda","Legal absence length":"Durée légale de l'absence","Legal absence length:":"Durée légale de l'absence :","Legal duration:":"Durée légale :","Legal leave duration":"Durée légale du congé :","Legal leave duration:":"Durée légale du congé :","Legal quantity for one leave":"Quantité légale pour un congé","Limit in additional business days consumption in one renewal":"Limite des jours travaillés supplémentaires consommés dans un renouvellement","Link with your google calendar":"Lien vers votre agenda Google","List of emails to invite, one per line":"Liste des emails à inviter, une adresse par ligne","Loading...":"Chargement...","Login":"Connexion","Lunch breaks":"Chèques déjeuner","Lunch breaks by months":"Chèques déjeuner par mois","Lunch payment on absences with this right":"Les chèques déjeuner son comptabilisés lors de l'utilisation de ce droit","Lunch payments from":"Paiement des repas à partir de","Lunch payments to":"Paiements des repas jusqu'au","Managed department:":"Service supervisés :","Manager, substituting one of his subordinates":"Chef de service, se substituant à l'un de ces subordonnés","Max quantity:":"Quantité maximale :","Maximal consumed quantity:":"Quantité maximale consommée","Maximal number of days between entry date and request end date":"Nombre maximal de jours entre la date de la demande et la date de fin de la période demandée","Minimal consumed quantity:":"Quantité minimale consommée","Minimal number of active users":"Nombre minimal d'utilisateurs actifs","Minimal number of days between entry date and request start date":"Nombre minimal de jours entre la date de la demande et la date de début de la période demandée","Modify a compulsory leave":"Modifier un congé obligatoire","Modify a department":"Modifier un service","Modify a leave right":"Modifier un droit de congés","Modify a recover quantity":"Modifier une quantité récupérée","Modify a right collection":"Modifier un régime de congés","Modify a right renewal":"Modifier un renouvellement de droit","Modify a right rule":"Modifier une règle de droit","Modify a right type":"Modifier un type de droit","Modify a user":"Modifier un utilisateur","Monday":"Lundi","Monthly additions:":"Ajouts mensuels :","Move some of your vacation rights to your time saving account, the request will be sent to your supervisor for approval":"Déplacer une partie de vos droits de congés vers votre compte épargne temps, la demande sera envoyée à votre chef de service pour approbation","My account":"Mon compte","My department":"Mon service","My department: {{sessionUser.department.name}}":"Mon service : {{sessionUser.department.name}}","My rights":"Mes droits","My vacations":"Mes congés","Name":"Nom","Name of the event to recover":"Nom de l'événement à récupérer","New Password:":"Nouveau mot de passe :","New account created":"Nouveau compte créé","New department":"Nouveau service","New leave request for {{request.user.name}}":"Nouvelle demande de congé pour {{request.user.name}}","New leave requests will be forbidden if the number of available users in department is equal to this value":"Les nouvelles demandes de congés ne serons pas permises si le nombre d'utilisateurs disponibles dans le service est égal à cette valeur","New password":"Nouveau mot de passe","New user":"Nouvel utilisateur","Next":"Suivant","Next collection":"Régime suivant","Next page":"Page suivante","No active renewal":"Pas de renouvellement actif","No available time saving account":"Pas de compte épargne temps disponible","No constraints on right parameters":"Pas de contraintes sur les paramètres du droit","No existing lunch breaks yet for this user":"Pas de chèques déjeuner enregistrés pour cet utilisateur","No initial quantity, unbounded right":"Pas de quantité initial, droit non borné","No open period":"pas de période ouverte","No special behaviour":"Pas de comportement spécifique","Non working days":"Jours fériés","Non-working days calendar":"Agenda des jours fériés","Non-working days planning":"Agenda des jours fériés","Non-working days scheduling for {{user.lastname}} {{user.firstname}}":"Agenda des jours fériés pour {{user.lastname}} {{user.firstname}}","Non-working days:":"Jours fériés :","Nonworking days":"Jours fériés","Nothing to approve":"Rien à approuver","Nothing to save":"Rien à enregistrer","Notifications options:":"Options des notifications :","Notifications parameters":"Paramètres des notifications","Notify me when a request is accepted or rejected":"Me notifier si une demande a été acceptée ou refusée","Notify the user when a request is accepted or rejected":"Notifier l'utilisateur lorsqu'une demande est acceptée ou rejetée","Number of years before the entry start date to set the period end:":"Nombre d'années avant la date de début de la demande pour définir la fin de la période :","On request creation, the user will be notified if period does not match legal duration.":"Lors de la création de la demande, l'utilisateur sera prévenu si la période ne correspond pas à la durée légale.","One right":["Un droit","{{$count}} droits"],"One year old":["un an d'ancienneté","{{$count}} ans d'anciennetés"],"One year seniority":["un an d'ancienneté","{{$count}} ans d'anciennetés"],"Ongoing approval steps":"étapes d'approbation en cours","Only the rights out of user collection are listed here, you can add more rights only if they are lot linked to a collection.\n                According to the same principle, the rights linked to users will not be available to build a collection.":"Seul les droits hors régime sont listés ici, vous pouvez ajouter plus de droits seulement s'ils ne sont pas liés à un régime.\nSelon le même principe, les droits liés à des utilisateurs ne serons pas disponibles pour créer un régime.","Options":"Options","Or set the available quantity":"Ou définir la quantité disponible","Out of collection right":"Droit hors régime","Owner user account":"Compte utilisateur du propriétaire","Package agreement worked days":"Jours travaillés de la convention collective","Paid leaves:":"Congés payés :","Parent department":"Service parent","Password":"Mot de passe","Password Strength:":"Solidité du mot de passe :","Password:":"Mot de passe :","Period end":"Fin de période","Period is booked":"La période est réservée","Personal calendar":"Agenda personnel","Please create the first admin account to continue.":"Veuillez créer le premier administrateur pour continuer.","Please log into the application to see your account informations":"Veuillez vous connecter à l'application pour voir les informations de votre compte","Please setup your account.":"Veuillez configurer votre compte.","Previous collection":"Régime de congés précédent","Previous page":"Page précédente","Proceed to the request creation with one of the following:":"Procéder à la création de la demande avec un des boutons suivants :","Proportional to attendance":"Proportionnel à la présence","Quantity":"Quantité","Quantity consumption for part-time right collections":"Consommation pour les régimes à temps partiel","Quantity from the request in modification":"Quantité de la demande en cours de modification","Quantity provided on each renewals":"Quantité fournie à chaque renouvellements","Quantity to add every month":"Quantité à ajouter tout les mois","Quantity to recover from the event":"Quantité à récupérer pour l'événement","Quantity to spare":"Quantité à épargner","Quantity unit":"Unité","Quantity unit to use in interval modification:":"Unité à utiliser pour la modification de l'intervalle :","Recover quantities":"Quantités à récupérer","Recovery claimed":"Récupération revendiquée","Recovery request summary":"Résumé de la demande de récupération","Reject":"Refuser","Rejected":"Refusée","Remove":"Enlever","Remove booked periods":"Supprimer les périodes réservées","Remove the leave on all users with a booked period":"Retirer le congé pour tous les utilisateurs avec un période réservée","Renewal":"Renouvellement","Renewals":"Renouvellements","Renewals with remaining quantity":"Renouvellements avec une quantité restante","Request in user interval":"Demande dans l'intervalle utilisateur","Request period":"Période de la demande","Requests":"Demandes","Requests waiting for approval":"Demandes en attente d'approbation","Require approval":"Requiert une approbation","Reset Your Password?":"Réinitialiser votre mot de passe?","Right collections":"Régimes de congés","Right collections scheduling for {{user.lastname}} {{user.firstname}}":"Planification des régimes de congés pour {{user.lastname}} {{user.firstname}}","Right given name:":"Nom du droit :","Right is visible when request period is in period set on the user/right link":"Le droit est visible quand la demande est dans la période définie sur le lien utilisateur/droit","Right is visible when request period is in the renewal period":"Le droit est visible quand la demande est dans la période du renouvellement","Right is visible when the request creation date is in the renewal period":"Le droit est visible quand la date de création de la demande est dans la période du renouvellement","Right is visible when the request period is in a period relative to the user birth date":"Le droit est visible quand la demande est dans une période relative à la date de naissance de l'utilisateur","Right is visible when the request period is in a period relative to the user seniority date":"Le droit est visible quand la période de la demande est dans une période relative à la date d'ancienneté de l'utilisateur","Right is visible when the user has consumed a quantity defined for a right type on a period":"Le droit est visible quand l'utilisateur à consommé la quantité définie pour le type de droit sur la période","Right name":"Nom du droit","Right quantity claimed by recovery:":"Quantité revendiquée par récupération :","Right type name":"Nom du type de droit","Right type to test":"Type de droit à tester","Right:":"Droit :","Rights collection":"Régime de congés","Rights collections":"Régimes de congés","Rights distribution":"Répartition des droits","Rights list":"Liste des droits","Rights types":"Types de droits","Roles":"Rôles","Roles:":"Rôles :","Rule title, this will be visible from users":"Titre de la règle, ceci sera visible par les utilisateurs","Rule type:":"Type de règle :","Rules":"Règles","Sage registration number":"Numéro de matricule Sage","Sage registration number:":"Numéro de matricule Sage :","Same as the non-working duration":"Identique à la durée non-travaillée","Saturday":"Samedi","Save":"Enregistrer","Save in account":"Enregistrer dans le compte","Save leave periods to":"Enregistrer les périodes de congés dans","Saved quantity:":"Quantité épargnée :","Saving limit per renewals":"Limite d'épargne par renouvellement","Saving period":"Période d'épargne","Schedule calendar":"Agenda des horaires travaillés","School holidays":"Vacances scolaires","School holidays will be displayed on the bottom of the reservation calendar":"Les vacances scolaires serons affichées en bas de l'agenda de réservation","Search in calendars":"Rechercher dans les agendas","Search in collections":"Rechercher dans les régimes","Search in compulsory leaves":"Rechercher dans les congés obligatoires","Search in departments":"Rechercher dans les services","Search in recover quantities":"Rechercher dans les récupérations","Search in requests":"Rechercher dans les demandes","Search in right types":"Rechercher dans les types de droits","Search in rights":"Rechercher parmi les droits","Search in users":"Rechercher dans les utilisateurs","Search:":"Rechercher :","Select rule type":"Sélectionner le type de la règle","Select types":"Sélectionner les types","Select unit":"Sélectionner l'unité","Selected duration:":"Durée sélectionnée :","Selected recovery:":"Récupération sélectionnée :","Send Reset":"Réinitialiser","Send invitations":"Envoyer les invitations","Seniority":"Ancienneté","Seniority date:":"Date d'anciennetée","Seniority start date":"Date de début d'anciennetée","Set Password":"Définir le mot de passe","Set a new password":"Définir un nouveau mot de passe","Set a non-working days calendar":"Définir un agenda des jours fériés","Set password":"Définir le mot de passe","Set the adjustment quantity":"Définir la quantité de l'ajustement","Set the consumed quantity interval where the rule will be valid":"Définir l'intervale de quantité consommée ou la règle sera valide","Set the department where the invited peoples will be recorded":"Définir le service ou vos invités serons enregistrés","Set the new department name":"Définir le nom du nouveau service","Settings":"Paramètres","Sign In":"Connexion","Some renewals are invalids":"Certains renouvellements ne sont pas valides","Sort absence rights":"Ordonner les droits d'absence","Sort rights":"Ordonner les droits","Sort rights in type":"Ordonner les droits dans le type","Special right:":"Droit spécial :","Start":"Début","Status":"État","Status:":"État :","Step {{step}} approver":"Approbateur de l'étape {{step}}","Sub-departments":"Sous-services","Sunday":"Dimanche","Supervisor":"Supérieur hiérarchique","Supervisors":"Chefs de service","The application is in maintenance, requests will not be modifiables":"L'application est en maintenance, les demandes ne serons pas modifiables","The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained.":"L'heure du milieu de journée est utilisé pour convertir les heures en jours, par exemple, si une période termine après l'heure de milieu de journée, une durée de 0,5 jour supplémentaire sera ajoutée à la matinée.","The leave period must be in the next {{right.activeSpan.max}} days after the request date.":"La période du congé doit être dans les {{right.activeSpan.max}} jours après la date de création de la demande.","The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly":"Les périodes de congés qui chevauchent la période d'extraction seront modifiées pour tenir exactement dans la période, le nombre de jours reporté sera modifié en fonction","The number of active users is limited by your plan level":"Le nombre d'utilisateurs actifs est limité par le niveau de votre abonnement","The optional period configured here can be used as a reference in right rules.":"La période optionnelle configurée ici peut être utilisée comme référence dans les règles de droits.","The request must be created at least {{right.activeSpan.min}} days before the leave start date.":"La demande doit être créée au moins {{right.activeSpan.min}} jours avant le début du congé.","The right is linked to collections":"Le droit est lié à des régimes","The right is linked to users":"Le droit est lié à des utilisateurs","The right will be available only if the user is beetween {{rightrule.interval.min}} years old and {{rightrule.interval.max}} years old on the first day of the requested leave.":"Le droit sera disponible seulement si l'utilisateur a entre {{rightrule.interval.min}} ans et {{rightrule.interval.max}} ans au premier jour de la demande d'absence.","The start renewal quantity is dynamicaly computed":"La quantité initiale d'un renouvellement est calculée dynamiquement","The user can have vacations rights, absences requests, time saving account ...":"L'utilisateur peut avoir des droits de congés, des demandes de congés, un compte épargne temps ...","The user can manager other users and departments, the application parameters ...":"L'utilisateur peut gérer les autres utilisateurs et les services, tous les paramètres de l'application...","The user is allowed to log in":"Cet utilisateur peut se connecter à l'application","The user may be involved in the validation of requests by the members of his department":"L'utilisateur peut être impliqué dans la validation des demandes des membres de son service","The users will create their accounts on their first connexion!":"Vos utilisateurs vont créer leurs comptes lors de leur première connexion!","There are no configured rights to display":"Il n'y a pas de droits configurés à afficher","This application is provided to you by {{company.name}}":"Cette application vous est proposée par {{company.name}}","This functionality is not yet available":"Cette fonctionnalité n'est pas encore disponible","This manager has no departments configured for approval":"Ce gestionnaire n'a aucun régime configuré pour l'approbation","This right has no configured renewals":"Ce droit n'a pas de renouvellements configurées","This right has no configured rules":"Le droit n'a pas de règles configurées","This user can not connect to the application":"Cet utilisateur ne peut pas se connecter à l'application","This user has no configured non-working days":"Cet utilisateur n'a pas de jours fériés configurés","This user has no configured specific quantity, rights are set by collection only":"Cet utilisateur n'a pas de quantité spécifique configurée, les droits sont définis uniquement par le régime","This user has no configured vacation rights for the current period":"Cet utilisateur n'a pas de droits de congés configuré pour la période en cours","This user has no configured work schedule":"Cet utilisateur n'a pas de rythme de travail configuré","This user has no ongoing right collection, check the vacations collections planning to fix it":"Cet utilisateur n'a pas de régime de congés, vérifiez le planning des régimes pour corriger cela","This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it":"Cet utilisateur n'a pas de d'horaires de travail, vérifiez le planning des horaires de travail pour corriger cela.","This value is used to establish a proportionality beetween rights in days and rights in hours":"Cette valeur est utilisée pour établir une proportionnalité entre les droits en jours et les droits en heures","Thursday":"Jeudi","Time saving account deposit":"Dépôt sur le Compte Épargne Temps","Time saving deposit":"Dépôt d'épargne Temps","Time saving deposit request":"Demande de dépôt sur le compte épargne temps","Title":"Titre","To":"Au","To pick-up on right":"À prendre sur le droit","To right":"Vers le droit","To right:":"Vers le droit :","To supervise collaborators, a department with members must be associated to user first":"Pour superviser les collaborateurs, un service contenant des membres doit être associé à l'utilisateur","To:":"Au :","Total consumption:":"Consommation :","Total duration:":"Durée totale :","Tuesday":"Mardi","Type":"Type","Type:":"Type :","Up to {{renewal.finish|date}}":"Jusqu'au {{renewal.finish|date}}","Url of the calendar ICS file":"Url du fichier ICS de l'agenda","Usage period":"Période d'utilisation","Use default active span":"Utiliser la période d'ouverture par défaut","Use default saving interval (renewal interval)":"Utiliser la période d'épargne par défaut (période du renouvellement)","Use lunch break payments":"Utiliser le paiement des pause déjeuner","Use the approval workflow on this request":"Lancer l'approbation sur cette demande","Use the user workschedule calendar to compute worked days":"Utiliser le planning de travail de l'utilisateur pour déterminer les jours travaillés","User account":"Compte utilisateur","User quantity":"Quantité de l'utilisateur","User requests":"Demandes de l'utilisateur","Users":"Utilisateurs","Users list":"Liste des utilisateurs","Users will not be allowed to consume more than this value on one request, except if the default length is set to zero.":"Les utilisateurs ne serons pas autorisés à consommer plus que cette valeur sur une demande, sauf si la valeur par défaut est zero.","Using this feature, you save the vacation right entitlement for future use":"En utilisant cette fonctionnalité, vous épargnez vos droits de congés pour une utilisation ultérieure.","Vacation request":"Demande d'absences","Vacation right":"Droit d'absence","Vacation right:":"Droit d'absence :","Vacation rights in collection":"Droits de congés du régime","Vacations collections planning":"Planning des régimes de congés","Vacations rights":"Droits d'absences","Valid users:":"Utilisateurs valides :","View":"Voir","View calendar":"Voir l'agenda","View more":"Voir plus","View rights":"Voir les droits","View sub-departments":"Voir les sous-services","Waiting":"En attente","Waiting approval":"En attente d'approbation","Waiting approval for delete":"En attente d'approbation de suppression","Waiting approval:":"En attente d'approbation :","Waiting delete approval":"En attente de suppression","Waiting delete approval:":"En attente de suppression :","Waiting for response":"En attente de réponse","Waiting {{request.dispType}} request":"Demande de {{request.dispType}} en attente d'approbation","Waiting:":"En attente :","Wednesday":"Mercredi","Week-ends:":"Week-ends :","Wellcome":"Bienvenue","Wellcome to Gadael":"Bienvenue sur Gadael","Wellcome to your absence manager":"Bienvenue dans votre gestionnaire d'absences","Work schedule":"Rythme de travail","Worked days in a week (RTT calculation)":"Jours travaillés dans une semaine (calcul des RTT)","Worked duration:":"Durée travaillée :","Working time recover request":"Demande de récupération pour une période travaillée","Workperiod recover":"Récupération de jour travaillé","Workperiod recover request":"Demande de récupération de jours travaillés","Workschedule planning":"Planning des heures travaillées","Wrong events count":"Le nombre d'événements n'est pas correct","Years":"ans","Years after the birth date to set the period end:":"Années après la date naissance pour définir la fin de la période :","Years after the birth date to set the period start:":"Années après la date de naissance pour définir le début de la période :","Years are ignored and computed back to fit in the renewal period, as a consequence, this rule type will work only with yearly or less renewal periods.":"Les années sont ignorées et recalculées pour êtres contenues dans la période du renouvellement, cela à pour conséquence que ce type de règle fonctionne que pour les périodes d'une année ou moins.","Years before renewal end date":"Années avant la date de fin du renouvellement","Years before renewal start date":"Années avant la date de début du renouvellement","Years before the entry start date to set the period start:":"Années avant la date de début de la demande pour définir le début de la période :","You can invite someone to use this application if you know his email.":"Vous pouvez inviter quelqu'un à utiliser cette application si vous connaissez son adresse email.","You have been invited by {{invitation.createdBy.name}} to create an account on the leave management application!":"Vous avez été invité par {{invitation.createdBy.name}} pour créer un compte sur l'application de gestion des congés!","You must input one email address at least":"Vous devez renseigner au moins une adresse email","You must link this right to a collection or users so that it is accessible":"Vous devez lier ce droit à un régime ou à des utilisateurs pour qu'il soit accessible","Your account have no access to a rôle in this application,\n            the administrators have been made aware of the problem. You will be notified by email when they give you access\n            to your absences rights account.":"Votre compte n'a accès a aucun rôle dans cette application,\n            les administrateurs ont été informés de ce problème. Vous serez notifié par email quand ils vous donnerons accès\n            à votre compte de droits d'absences.","Your account parameters":"Les paramètres de votre compte","Your calendar is connected":"Votre agenda est connecté","Your calendar is not connected":"Votre agenda n'est pas connecté","Your email:":"Votre email :","Your leave plan or work regime":"Votre régime de congé","Your only role on the application is administrator, you can update your own account using the administration ➤ users menu":"Votre seul rôle sur l'application est administrateur, vous pouvez mettre à jour votre compte en utilisant le menu administration ➤ utilisateurs","Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights":"Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) doit être répartie parmi les droits de congés suivants","Your workschedule for a week":"Votre rythme de travail sur une semaine","adjustments included":"Ajustements inclus","calendar":"agenda","collections":"régimes","day":["jour","jours"],"departments":"services","done":"fait","from":"de","hour":["heure","heures"],"lunchs":"repas","or":"ou","to":"au","{quantity} up to {date}":"{quantity} jusqu'au {date}","{{renewal.rtt.nonWorkingDays}} days":"{{renewal.rtt.nonWorkingDays}} jours","{{renewal.rtt.paidLeaves}} days":"{{renewal.rtt.paidLeaves}} jours","{{renewal.rtt.weekEnds}} days":"{{renewal.rtt.weekEnds}} jours","{{renewalChart.percentDays|number}}% consumed":"{{renewalChart.percentDays|number}}% consommé","{{usersstat.activeUsers}} users / {{company.max_users}} Max":"{{usersstat.activeUsers}} utilisateurs / {{company.max_users}} Max"});
+    gettextCatalog.setStrings('es', {"1 day":["1 día","{{deposit.quantity| number}} días"],"1 hour":["1 hora","{{deposit.quantity| number}} horas"],"A user account is required to continue":"Se requiere una cuenta de usuario para continuar","Absence":"Ausencia","Absence request":"Solicitud de ausencia","Absence rights":"Derechos de ausencia","Absences account":"Cuenta de ausencias","Absences user account":"Ausencias de la cuenta de usuario","Accept":"Aceptar","Accepted":"Aceptado","Activate the right according to consumed quantity":"Activar el derecho conforme a la cantidad consumada","Activate the right according to the age":"Activar el derecho conforme a la edad","Activate the right according to the consumed quantity on a right type":"Activar el derecho conforme a la cantidad consumida en un tipo correcto","Activate the right according to the entry creation date":"Activar el derecho conforme a la fecha de creación de la entrada","Activate the right according to the request period":"Activar el derecho conforme al periodo de solicitud","Activate the right according to the seniority":"Activar el derecho conforme a la antigüedad","Activate the right according to the user age":"Activar el derecho conforme a la edad del usuario","Activate the right according to the user seniority":"Activar el derecho conforme a la antigüedad del usuario","Active for the administrator":"Activar para el administrador","Active for the user":"Activar para el usuario","Active for:":"Activar para:","Actual quantity:":"Cantidad actual:","Add":"Añadir","Add Collection":"Añadir una colección","Add Department":"Añadir un departamento","Add Type":"Añadir un tipo","Add User":"Añadir un usuario","Add a calendar":"Añadir a calandario","Add a quantity adjustment":"Añadir un ajuste de cantidad","Add a recover quantity":"Añadir una cantidad de recuperación","Add a request":"Añadir una solicitud","Add a request...":"Añadir una solicitud...","Add compulsory leave":"Añadir un permiso obligatorio","Add period":"Añadir un periodo","Add right":"Añadir un derecho","Add right collection":"Añadir un derecho de colección","Add vacation right":"Añadir un derecho de vacación","Additional days after the renewal end date:":"Días adicionales después de la fecha de renovación:","Additional days before the renewal start date:":"Días adicionales antes de la fecha de renovación:","Adjust the available quantity automatically from the consumption of other rights":"Ajustar automáticamente la cantidad disponible del consumo de otros derechos","Adjustements quantity":"Ajustamientos de la cantidad","Admin":"Administrador","Admin, substituting one of his subordinates":"Administrator, substituando uno de sus subordinados","Administrator":"Administrador","Age":"Edad","All managers must confirm approval step":"Todos los gerentes deben confirmar el paso de aprobación","Allow to save quantity from this right to the time deposit account":"Permitir guardar cantidad de este derecho a la cuenta de depósito tiempo","An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on":"Un ajuste de {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} se crea automáticamente cada {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumidos en","Application administrator":"Aplicación administrador","Approvers":"Aprobadores","Are you sure you want to delete the absence request?":"¿Seguro que desea eliminar la solicitud de ausencia?","Are you sure you want to delete this compulsory leave?":"¿Seguro que desea eliminar este permiso obligatorio?","Are you sure you want to delete this user?":"¿Seguro que desea eliminar este usuario?","Arrival date":"Fecha de llegada","Arrival date:":"Fecha de llegada:","At least one manager must confirm approval step":"Al menos un gerente debe confirmar el paso de aprobación","At least one type must be selected":"Debe seleccionar al menos un tipo","Attendance":"Asistencia","Attendance (percentage relative to full-time)":"Asistencia (porcentaje relativo a tiempo completo)","Auto monthly update":"Actualización mensual automática","Availability duration after the renewal end date:":"Duración de la disponibilidad después de la fecha de renovación:","Availability duration before the renewal start date:":"Duración de la disponibilidad antes de la fecha de renovación:","Available:":"Disponible: o valido:","Average hours per day":"Promedia de horas por día","Back to Login":"Atrás para iniciar sesión","Balance state the:":"Estado de saldo:","Begin date":"Fecha de inicio","Birth date":"Fecha de nacimiento","Birth date:":"Fecha de nacimiento:","Business days for the users associated to this collection":"Días de asuntos para los usuarios asociados a esta colección","By collection:":"Por colección:","By department:":"Por departamiento:","By name:":"Por nombre:","By right:":"Por derecho:","By status:":"Por estatuos:","By type:":"Por tipos:","By user name:":"Por nombre de usuarios:","Calendar":"Calendario","Calendar name":"Nombre del calendario","Calendar summary":"Sumario del calendario","Calendar type:":"Tipo de clendario:","Calendars":"Calendarios","Cancel":"Cancelar","Change the initial quantity":"Cambiar la cantidad inicial","Change your password":"Cambiar la contraseña","Choose from your remnant quantity":"Elija entre su cantidad remanente","Classification used for the creation of leave requests":"Clasificación utilizada para la creación de solicitudes de permiso","Collaborators":"Colaboradores","Collaborators to supervise with request approvals":"Colaboradores para supervisar con solicitudes de aprobación","Collection name":"Nombre de la colección","Collection on the selected period: {{collection.name}}":"Colección en el período seleccionado: {{collection.name}}","Collection:":"Colección:","Color":"Color","Compulsory leave":"Permiso obligatorio","Compulsory leave name (this will be visible on users calendars)":"Nombre del permiso obligatorio (esto será visible en los calendarios de los usuarios)","Compulsory leaves":"Permiciones obligatorias","Confirm Password:":"Confirmar contraseña:","Confirm new password":"Confirmar nueva contraseña","Confirm password":"Confirmar contraseña","Confirmed":"Confrimado","Congratulation, this server has just been created and contain no users, please do not leave it that way.":"Enhorabuena, este servidor acaba de ser creado y no contiene usuarios, por favor no lo deje así.","Connect":"Conectar","Consume next business days":"Consumir los siguientes días de asuntos","Consume worked days":"Días de asuntos para los usuarios asociados a esta colección","Consumed":"Consumido","Consumed on types":"Consumido en tipos","Consumed quantity":"Cantidad consumida","Consumed:":"Consumido:","Consumption":"Consumo","Consuption":"Consumo","Continue":"Continuar","Create a compulsory leave":"Crear uno permiso obligatorio","Create a department":"Crear un departamiento","Create a leave on all valid users":"Crear un permiso en todos los usuarios válidos","Create a leave right":"Crear un derecho de permiso","Create a new secondary calendar in your google account to host a copy of your leave periods.":"Crear un nuevo calendario secundario en su cuenta de Google para recibir una copia de sus períodos de permiso.","Create a new time saving deposit for {{request.user.name}}":"Crear una nueva solicitud de depósito de ahorro de tiempo para {{request.user.name}}","Create a new time saving deposit request":"Crear una nueva solicitud de depósito de ahorro de tiempo","Create a new vacation request":"Crear una nueva solicitud de vacación","Create a new workperiod recover request":"Crear una nueva solicitud de recuperación del período de trabajo","Create a new workperiod recover request for {{request.user.name}}":"Crear una nueva solicitud de recuperación del período de trabajo para {{request.user.name}}","Create a recover quantity":"Crear una cantidad de recuperación","Create a request on behalf of a user":"Crear una solicitud en nombre de un usuario","Create a right collection":"Crear un derecho de colección","Create a right renewal":"Crear un derecho de renovación","Create a right rule":"Crear una regla de derecho","Create a right type":"Crear un tipo de derecho","Create a user":"Crear un usuario","Create absence request between two dates, the request will be sent to your supervisor for approval":"Crear una solicitud de ausencia entre dos fechas, la solicitud será enviada a su supervisor para su aprobación","Create an adjustment every":"Crear un ajuste cada","Create first administrator":"Crear a primer administrador","Create leaves for users in":"Crear permisiones para usuarios en","Create new request":"Crear una nueva solicitud","Created the":"Crear el","Current rights collection:":"Actual colección de derechos:","Current workschedule calendar:":"Actual calendario de los horarios de trabajo:","Day":["Día","Días"],"Days":"Días","Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights":"Declarar un periodo de trabajo fuera de sus horas de trabajo, la solicitud será enviada a su supervisor para la aprobación de beneficio de los derechos adicionales de vacaciones","Default quantity":"Cantidad predeterminada","Default quantity on start renewal:":"Cantidad predeterminada en la renovación de inicio:","Define the periods that will be used to measure the consumed quantity":"Definir los periodos que se utilizarán para medir la cantidad consumida","Delete":"Borrar","Department":"Departamento","Department Management":["Gestión de departamento","Gestión de departamentos"],"Department manager":"Departamento de gerentes","Department name":"Nombre del departamento","Department:":"Departamento:","Departments":"Departamentos","Departments supervision":"Supervisión de los departamentos","Departments to supervise with request approvals":"Departamentos a supervisar con las aprobaciones de la solicitud","Description":"Descripción","Disconnect":"Desconectar","Display type folded in the request creation page":"Tipo de pantalla plegado en la página de creación de la solicitud","Distribution":"Distribución","Do not add monthly quantity if renewal quantity greater than":"No agregue la cantidad mensual si la cantidad de renovación es mayor que","Do not notify the user when a request is accepted or rejected":"No notificar al usuario cuando una solicitud es aceptada o rechazada","Do not require approval":"No requiere aprobación","Download":"Descargar","Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave":"Incompatibilidad de duración: {duration} las horas permanecen no consumidas después de la creación de {nbEvents} eventos, por favor verifica su período de ausencia, no debe superponerse a otro permiso","Edit":"Editar","Edit a leave request from {{request.user.name}}":"Editar una solicitud de permiso de {{request.user.name}}","Edit a time saving deposit for {{request.user.name}}":"Editar un depósito de ahorro de tiempo para {{request.user.name}}","Edit a time saving deposit request":"Editar una solicitud de depósito de ahorro de tiempo","Edit a vacation request":"Editar una solicitud de vacación","Edit a workperiod recover request":"Editar una solicitud de recuperación del período de trabajo","Edit a workperiod recover request for {{request.user.name}}":"Editar una solicitud de recuperación del período de trabajo para {{request.user.name}}","Email":"Correo electrónico","End date":"Fecha final","Enter Your Email:":"Entra su correo electrónico:","Entitlement quantity:":"Cantidad de derechos:","Entry date":"Fecha de entrada","Exceptional quantity modifications":"Modificaciones exceptionales de la cantidad","Export balance":"Saldo de exportación","Export for Sage":"Exportar para Sage","Export in XLSX file":"Exportar en XLSX archivo","Export in XLSX spreadsheet":"Exportar en XLSX hoja de cálculo","Export in sage format":"Exportar en Sage formato","Export requests":"Exportar solicitudes","Export requests for your monthy payroll in sage, only users with the sage registration number set will be exported":"Las solicitudes de exportación para su nómina mensual en Sage, sólo los usuarios con el número de registro de Sage se exportarán","Exports":"Exportaciones","Finish":"Acabado","Firstname":"Nombre","Folded":"Plegado","For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.":"Para una ausencia con el día de hoy como fecha de inicio, si la fecha de antigüedad está entre {{estimation.min | date}} y {{estimate.max | date}}, el derecho estará disponible.","Forget your password?":"¿Ha olvidado su contraseña?","Forgot Your Password?":"¿Olvidó su contraseña?","Friday":"Viernes","From":"De","From date:":"De la fecha:","From right":"Del derecho","From right:":"Del derecho:","From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}":"De {{accountRight.renewal.start|date}} hasta {{accountRight.renewal.finish|date}}","From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}":"De {{selection.begin|date:'medium'}}, hasta el {{selection.end|date:'medium'}}","From:":"De:","Gadael - %s":"Gadael - %s","Get only periods from the following types:":"Sólo obtener los períodos de los siguientes tipos:","Google login":"Google login","Group title for rights (plural form)":"Título del grupo de derechos (plural)","Half day hour":"Media jornada","Home":"Casa","Hour":"Hora","Hours":"Horas","If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.":"Si no se verifica esta regla, el derecho no estará disponible en el segundo paso de una solicitud, una vez que se hayan establecido las fechas de solicitud.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating":"Si esta regla no se verifica, el derecho no será visible por el usuario en la lista de derechos y al asignar","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:":"Si no se verifica esta regla, el derecho no será visible por el usuario en la lista de derechos y al asignar:","Ignore consumption beyond":"Ignorar el consumo más allá","Initial quantity on renewal creation":"Cantidad inicial en la creación de la renovación","Initial quantity without this user personal adjustments":"Cantidad inicial sin los ajustes personales de este usuario","Initial quantity:":"Cantidad inicial:","Initial:":"Inicial:","Input quantity must be set":"La cantidad de entrada debe ser ajustada","Interventions history":"Historico de las intervenciones","Justification, write about this manual adjustment":"Justificación, escribe sobre este ajuste manual","Last renewal:":"Última renovación:","Last update:":"Última actualización:","Lastname":"Apellido","Lastname or firstname":"Apellido o nombre","Leave period":"Período de permisión","Leave periods":"Períodos de permisión","Leave right":"Derecho de permisión","Leaves managment":"Gestión de permisiones","Leaves requests can not be reserved over these periods":"Las solicitudes de permisiones no pueden ser reservadas durante estos períodos","Leaves requests must be included in this calendar":"Las solicitudes de permisiones deben ser incluidas en este calendario","Limit in additional business days consumption in one renewal":"Límite en el consumo de días adicionales de asuntos en una sola renovación","Link with your google calendar":"Enlace con su calendario de Google","Loading...":"Cargando...","Login":"Iniciar sesión","Managed department:":"Departamento gestionado:","Manager, substituting one of his subordinates":"Gerente, sustituyendo a uno de sus subordinados","Max quantity:":"Cantidad máxima:","Maximal consumed quantity:":"Cantidad máximal consumida:","Maximal number of days between entry date and request end date":"Número máximo de días entre la fecha de entrada y la fecha de finalización de la solicitud","Minimal consumed quantity:":"Cantidad mínima consumida:","Minimal number of days between entry date and request start date":"Número mínimo de días entre la fecha de entrada y la fecha de inicio de la solicitud","Modify a compulsory leave":"Modificar un permiso obligatorio","Modify a department":"Modificar un departamento","Modify a leave right":"Modificar un derecho de permiso","Modify a recover quantity":"Modificar una cantidad de recuperación","Modify a right collection":"Modificar un derecho de colección","Modify a right renewal":"Modificar un derecho renovación","Modify a right rule":"Modificar un derecho de regla","Modify a right type":"Modificar un derecho de tipo","Modify a user":"Modificaar un usuario","Monday":"Lunés","Monthly additions:":"Adiciones mensuales:","Move some of your vacation rights to your time saving account, the request will be sent to your supervisor for approval":"Mover algunos de sus derechos de vacaciones a su cuenta de ahorro de tiempo, la solicitud será enviada a su supervisor para su aprobación","My account":"Mi cuenta","My department: {{sessionUser.department.name}}":"Mi departamento {{sessionUser.department.name}}","My rights":"Mis derechos","My vacations":"Mis vacaciones","Name":"Nombre","Name of the event to recover":"Nombre del evento a recuperar","New Password:":"Nueva contraseña:","New account created":"Nueva cuenta creada","New department":"Nuevo departamento","New leave request for {{request.user.name}}":"Nueva solicitud de permisión para {{request.user.name}}","New password":"Nueva contraseña","New user":"Nuevo usuario","Next collection":"Nueva colección","Next page":"Siguiente página","No active renewal":"No hay renovación activa","No available time saving account":"No hay cuenta de ahorro de tiempo disponible","No constraints on right parameters":"Sin restricciones en los parámetros de derecho","No initial quantity, unbounded right":"No hay cantidad inicial, derecho sin límites","No open period":"No hay periodo abierto","No special behaviour":"No hay comportamiento especial","Non working days":"Días no laborables","Non-working days calendar":"Calendario de los días no laborables","Non-working days planning":"Planificación de los días no laborables","Non-working days scheduling for {{user.lastname}} {{user.firstname}}":"Programación de días no laborables para {{user.lastname}} {{user.firstname}}","Nonworking days":"No días de trabajo","Nothing to approve":"Nada que aprobar","Nothing to save":"Nada que salvar","Notifications options:":"Opciones de notificaciones:","Notifications parameters":"Parámetros de notificaciones","Notify me when a request is accepted or rejected":"Notificarme cuando una solicitud es aceptada o rechazada","Notify the user when a request is accepted or rejected":"Notificar al usuario cuando una solicitud es aceptada o rechazada","Number of years before the entry start date to set the period end:":"Número de años antes de la fecha de inicio de la entrada para establecer el final del período:","One right":["Uno derecho","{{$count}} derechos"],"One year old":["Un año de edad","{{$count}} años"],"One year seniority":["Un año de antigüedad","{{$count}} Años de antigüedad"],"Ongoing approval steps":"Pasos de aprobación en curso","Options":"Opciones","Or set the available quantity":"O establecer la cantidad disponible","Owner user account":"Cuenta de usuario del propietario","Package agreement worked days":"Acuerdo de paquete de los días trabajados","Parent department":"Departamento padre","Password":"Contraseña","Password Strength:":"Seguridad de la contraseña:","Password:":"Contraseña:","Period end":"Final del período","Period is booked":"Período reservado","Personal calendar":"Calendario personal","Please create the first admin account to continue.":"Por favor, cree la primera cuenta de administrador para continuar.","Please log into the application to see your account informations":"Por favor, inicie sesión en la aplicación para ver las informaciones de su cuenta","Previous collection":"Colección previa","Previous page":"Pagina anterior","Proceed to the request creation with one of the following:":"Proceda a la creación de solicitud con una de las siguientes opciones:","Proportional to attendance":"Proporcional a la asistencia","Quantity consumption for part-time right collections":"Consumo de cantidad para las colecciones de tiempo parcial","Quantity provided on each renewals":"Cantidad proporcionada en cada renovación","Quantity to add every month":"Cantidad a añadir cada mes","Quantity to recover from the event":"Cantidad a recuperar del evento","Quantity to spare":"Cantidad disponible","Quantity unit":"Unidad cuantitativa","Quantity unit to use in interval modification:":"Unidad de cantidad a utilizar en la modificación de intervalos:","Recover quantities":"Recuperar cantidades","Recovery claimed":"Recuperación reclamada","Recovery request summary":"Resumen de la solicitud de recuperación","Reject":"Rechazar","Rejected":"Rechazado","Remove":"Retirar","Remove the leave on all users with a booked period":"Eliminar el permiso de todos los usuarios con un período reservado","Renewal":"Renovación","Renewals":"Renovaciones","Renewals with remaining quantity":"Renovaciones con cantidad restante","Request period":"Período de solicitud","Requests":"Solicitudes","Requests waiting for approval":"Solicitudes pendientes de aprobación","Require approval":"Requiere aprobación","Reset Your Password?":"¿Restablecer su contraseña?","Right collections":"Derecho de colecciones","Right collections scheduling for {{user.lastname}} {{user.firstname}}":"Programación de las colecciones de derechos para {{user.lastname}} {{user.firstname}}","Right given name:":"Nombre dado correcto:","Right is visible when request period is in the renewal period":"Derecho es visible cuando el período de solicitud está en el período de renovación","Right is visible when the request creation date is in the renewal period":"Derecho es visible cuando la fecha de creación de la solicitud está en el período de renovación","Right is visible when the request period is in a period relative to the user birth date":"Derecha es visible cuando el período de solicitud está en un período relativo a la fecha de nacimiento del usuario","Right is visible when the request period is in a period relative to the user seniority date":"Derecho es visible cuando el período de solicitud está en un período relativo a la fecha de antigüedad del usuario","Right is visible when the user has consumed a quantity defined for a right type on a period":"Derecho es visible cuando el usuario ha consumido una cantidad definida para un tipo de derecho en un período","Right name":"Nombre del derecho","Right quantity claimed by recovery:":"Cantidad correcta reclamada por la recuperación:","Right type name":"Nombre del tipo correcto","Right type to test":"Tipo correcto para probar","Right:":"Derecho:","Rights collection":"Colección de derechos","Rights collections":"Colecciones de derechos","Rights distribution":"Colecciones de derechos","Rights list":"Lista de derechos","Rights types":"Tipos de derechos","Roles":"Roles","Roles:":"Roles:","Rule title, this will be visible from users":"Título de regla, esto será visible de los usuarios","Rule type:":"Tipo de regla:","Rules":"Reglas","Sage registration number":"Número de registro de Sage","Sage registration number:":"Número de registro de Sage:","Saturday":"Sabado","Save":"Guaradar","Save in account":"Guardar en cuenta","Save leave periods to":"Ahorre los períodos de vacaciones a","Saved quantity:":"Cantidad guardada:","Saving limit per renewals":"Límite de ahorro por renovaciones","Saving period":"Período de ahorro","Schedule calendar":"Programar calendario","School holidays":"Vacaciones escolares","School holidays will be displayed on the bottom of the reservation calendar":"Las vacaciones escolares se mostrarán en la parte inferior del calendario de reservas","Search in calendars":"Buscar en los calendarios","Search in collections":"Buscar en las colecciones","Search in compulsory leaves":"Buscar en las permiciones obligatorias","Search in departments":"Buscar en departamentos","Search in recover quantities":"Buscar en cantidades de recuperación","Search in requests":"Buscar en las solicitudes","Search in right types":"Buscar en los tipos de derecho","Search in rights":"Buscar en los derechos","Search in users":"Buscar en usuarios","Search:":"Buscar:","Select rule type":"Seleccionar tipo de regla","Select types":"Seleccionar tipos","Select unit":"Seleccionar unidad","Selected duration:":"Duración seleccionada:","Selected recovery:":"Recuperación seleccionada:","Send Reset":"Enviar Restablecer","Seniority":"Antigüedad","Seniority date:":"Fecha de antigüedad:","Seniority start date":"Fecha de inicio de la antigüedad","Set Password":"Configurar Contraseña","Set a new password":"Establecer una nueva contraseña","Set password":"Configurar la contraseña","Set the adjustment quantity":"Establezca la cantidad de ajuste","Set the consumed quantity interval where the rule will be valid":"Establezca el intervalo de cantidad consumida donde la regla será válida","Settings":"Configuraciones","Sign In":"Registrarse","Some renewals are invalids":"Algunas renovaciones son inválidas","Sort absence rights":"Ordenar los derechos de ausencia","Sort rights":"Derechos de clasificación","Sort rights in type":"Ordenar derechos en el tipo","Special right:":"Derecho especial:","Start":"Comienzo","Status":"Estado","Status:":"Estado:","Step {{step}} approver":"Aprobador {{step}} de paso","Sub-departments":"Sub-departamentos","Sunday":"Domingo","Supervisor":"Supervisor","Supervisors":"Supervisores","The application is in maintenance, requests will not be modifiables":"La aplicación está en mantenimiento, las solicitudes no serán modificables","The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained.":"La hora de mediodia se utiliza para convertir horas en días de duración, por ejemplo, si un período termina antes de la hora de mediodia, una duración de 0,5 día se mantendrá.","The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly":"Los períodos de permiso que se superponen al período de extracción se modificarán para ajustarse al período de extracción, el número de días notificado se ajustará en consecuencia","The number of active users is limited by your plan level":"El número de usuarios activos está limitado por el nivel de su plan","The right will be available only if the user is beetween {{rightrule.interval.min}} years old and {{rightrule.interval.max}} years old on the first day of the requested leave.":"El derecho estará disponible sólo si el usuario está entre {{rightrule.interval.min}} años y {{rightrule.interval.max}} años de edad en el primer día del permiso solicitado.","The start renewal quantity is dynamicaly computed":"La cantidad de renovación inicial se calcula dinámicamente","The user can have vacations rights, absences requests, time saving account ...":"El usuario puede tener derechos de vacaciones, solicitudes de ausencias, cuenta de ahorro de tiempo ...","The user can manager other users and departments, the application parameters ...":"El usuario puede gestionar otros usuarios y departamentos, los parámetros de la aplicación ...","The user is allowed to log in":"El usuario puede iniciar sesión","There are no configured rights to display":"No hay derechos configurados para mostrar","This functionality is not yet available":"Esta funcionalidad aún no está disponible","This manager has no departments configured for approval":"Este gerente no tiene departamentos configurados para su aprobación","This right has no configured renewals":"Este derecho no tiene renovaciones configuradas","This right has no configured rules":"Este derecho no tiene reglas configuradas","This user can not connect to the application":"Este usuario no puede conectarse a la aplicación","This user has no configured non-working days":"Este usuario no tiene días no laborables configurados","This user has no configured specific quantity, rights are set by collection only":"Este usuario no tiene una cantidad específica configurada, los derechos se establecen únicamente por colección","This user has no configured vacation rights for the current period":"Este usuario no tiene derechos de vacaciones configurados para el período actual","This user has no configured work schedule":"Este usuario no tiene un horario de trabajo configurado","This user has no ongoing right collection, check the vacations collections planning to fix it":"Este usuario no tiene una colección de derechos en curso, revisa la planificación de las colecciones de vacaciones para arreglarlo","This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it":"Este usuario no tiene un calendario de horario de trabajo en curso, consulte la planificación del calendario de horario de trabajo para solucionarlo","This value is used to establish a proportionality beetween rights in days and rights in hours":"Este valor se utiliza para establecer una proporcionalidad entre derechos en días y derechos en horas","Thursday":"Jueves","Time saving account deposit":"Depósito de la cuenta del ahorro de tiempo","Time saving deposit":"Depósito de ahorro de tiempo","Time saving deposit request":"Solicitud de depósito de ahorro de tiempo","Title":"Título","To":"A","To pick-up on right":"A tomar en el derecho","To right":"Hasta el derecho","To right:":"Hasta el derecho:","To supervise collaborators, a department with members must be associated to user first":"Para supervisar a los colaboradores, un departamento con miembros debe estar asociado al usuario primero","To:":"A:","Total consumption:":"Consumo total:","Total duration:":"Duración total:","Tuesday":"Martes","Type":"Tipo","Type:":"Tipo:","Up to {{renewal.finish|date}}":"Hasta {{renewal.finish | date}}","Url of the calendar ICS file":"URL del archivo ICS del calendario","Usage period":"Período de uso","Use default active span":"Utilizar el intervalo activo predeterminado","Use default saving interval (renewal interval)":"Utilizar el intervalo de ahorro predeterminado (intervalo de renovación)","User account":"Cuenta de usuario","User quantity":"Cantidad del usuario","User requests":"Solicitudes de los usuarios","Users":"Usuarios","Users list":"Lista de usuarios","Vacation request":"Solicitud de vacaciones","Vacation right":"Derecho de vacaciones","Vacation right:":"Derecho de vacaciones:","Vacation rights in collection":"Derechos de vacaciones en la colección","Vacations collections planning":"Planificación de las colecciones de vacaciones","Vacations rights":"Derechos de vacaciones","Valid users:":"Usuarios válidos:","View":"Ver","View calendar":"Ver el calendario","View more":"Ver más","View rights":"Ver derechos","View sub-departments":"Ver subdepartamentos","Waiting":"Esperando","Waiting approval":"Esperando aprovación","Waiting approval for delete":"Esperando aprobación para borrar","Waiting {{request.dispType}} request":"Esperando {{request.dispType}} solicitud","Wednesday":"Miércoles","Wellcome":"Bienvenido","Wellcome to your absence manager":"Bienvenido a su gerente de ausencias","Work schedule":"Horario de trabajo","Worked duration:":"Duración trabajada:","Working time recover request":"Solicitud de recuperación de tiempo de trabajo","Workperiod recover":"Recuperación del tiempo de trabajo","Workperiod recover request":"Solicitud de recuperación de workperiod","Workschedule planning":"Planificación del plan de trabajo","Wrong events count":"Cuenta de eventos erróneos","Years":"Años","Years after the birth date to set the period end:":"Años después de la fecha de nacimiento para fijar el final del período:","Years after the birth date to set the period start:":"Años después de la fecha de nacimiento para establecer el inicio del período:","Years are ignored and computed back to fit in the renewal period, as a consequence, this rule type will work only with yearly or less renewal periods.":"Los años son ignorados y calculados de nuevo para ajustarse en el período de renovación, como consecuencia, este tipo de regla funcionará sólo con períodos de renovación anuales o menores.","Years before renewal end date":"Años antes de la fecha de finalización de la renovación","Years before renewal start date":"Años antes de la fecha de inicio de la renovación","Years before the entry start date to set the period start:":"Años antes de la fecha de inicio eligida para establecer el inicio del período:","Your account have no access to a rôle in this application,\n            the administrators have been made aware of the problem. You will be notified by email when they give you access\n            to your absences rights account.":"Su cuenta no tiene acceso a un papel en esta aplicación,\n           Los administradores han sido informados del problema. Se le notificará por correo electrónico cuando le den acceso\n           a su cuenta de derechos de ausencia.","Your account parameters":"Los parámetros de su cuenta","Your calendar is connected":"Su calendario está conectado","Your calendar is not connected":"Su calendario no está conectado","Your email:":"Su correo electrónico:","Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights":"La selección de su período de {{selection.days}} (o {{selection.hours}}) debe distribuirse en los siguientes derechos de vacaciones","adjustments included":"ajustamientos incluidos","calendar":"calendario","collections":"colecciónes","day":["día","días"],"departments":"departamentos","from":"de","hour":["hora","horas"],"or":"o","to":"a","{quantity} up to {date}":"{quantity} hasta {date}","{{renewalChart.percentDays|number}}% consumed":"{{renewalChart.percentDays|number}}% consumidos","{{usersstat.activeUsers}} users / {{company.max_users}} Max":"{{usersstat.activeUsers}} usuarios / {{company.max_users}} Maximum"});
+    gettextCatalog.setStrings('fr', {"1 day":["1 jour","{{deposit.quantity| number}} jours"],"1 hour":["1 heure","{{deposit.quantity| number}} heures"],"A department is a group of employees, managers may be assigned to the approval of leave requests made by the department members":"Un service est un groupe d'employés, des gestionnaires peuvent êtres affectés à l'approbation des demandes de congés effectuées par les membres du service","A user account is required to continue":"Un compte utilisateur est requis pour continuer","Absence":"Absence","Absence request":"Demande d'absence","Absence rights":"Droit d'absences","Absences account":"Compte utilisateur \"Absences\"","Absences user account":"Compte utilisateur \"Absences\"","Accept":"Accepter","Accepted":"Accepté","Activate the out of collection right according to the request period":"Activer le droit hors régime en fonction de la période demandée","Activate the right according to consumed quantity":"Activer le droit en fonction de la quantité consommée","Activate the right according to the age":"Activer le droit en fonction de l'âge","Activate the right according to the consumed quantity on a right type":"Activer le droit en fonction de la quantité consommée sur un type de droit","Activate the right according to the entry creation date":"Activer le droit en fonction de la date de création de la demande","Activate the right according to the request period":"Activer le droit en fonction de la période demandée","Activate the right according to the seniority":"Activer le droit en fonction de l'ancienneté","Activate the right according to the user age":"Activer le droit en fonction de l'âge de l'utilisateur","Activate the right according to the user seniority":"Activer le droit en fonction de l'ancienneté","Active for the administrator":"Actif pour l'administrateur","Active for the user":"Actif pour l'utilisateur","Active for:":"Actif pour :","Actual quantity:":"Quantité actuelle :","Add":"Ajouter","Add Collection":"Ajouter un régime","Add Department":"Ajouter un service","Add Type":"Ajouter un type","Add User":"Ajouter un utilisateur","Add a calendar":"Ajouter un agenda","Add a list of of email addresses and send the invitations":"Ajouter une liste d'adresses emails et envoyer les invitations","Add a quantity adjustment":"Ajouter un ajustement","Add a recover quantity":"Ajouter une quantité à récupérer","Add a request":"Ajouter une demande","Add a request...":"Ajouter une demande...","Add compulsory leave":"Ajouter un congé obligatoire","Add period":"Ajouter une période","Add right":"Ajouter un droit","Add right collection":"Ajouter un régime de congés","Add vacation right":"Ajouter un droits de congés","Addition / modification":"Ajout / modification","Additional days after the renewal end date:":"Jours supplémentaires après la date de fin du renouvellement :","Additional days before the renewal start date:":"Jours supplémentaires avant la date de début du renouvellement :","Additional rights scheduling for {{user.lastname}} {{user.firstname}}":"Planification des droits hors régime pour {{user.lastname}} {{user.firstname}}","Adjust the available quantity automatically from the consumption of other rights":"Ajuster la quantité disponible à partir de la consommation sur d'autres droits","Adjustements quantity":"Quantité des ajustements","Admin":"Administration","Admin, substituting one of his subordinates":"Administrateur, se substituant à l'un de ces subordonnés","Administrator":"Administrateur","Age":"Âge","All managers must confirm approval step":"Tout les gestionnaires doivent confirmer l'étape d'approbation","All the users who accept the invitation will be saved into the same department, used for leave requests approval":"Tous les utilisateurs qui acceptent l'invitation serons enregistrés dans le même service, qui sera utilisé pour l'approbation des demandes de congé","Allow to save quantity from this right to the time deposit account":"Autoriser l'épargne de ce droit vers les comptes épargne temps","Always available":"Toujours disponible","An adjustment of {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} is automatically created every {{right.autoAdjustment.step | number}} {{right.disp_unit}} consumed on":"Un ajustement de {{right.autoAdjustment.quantity | number}} {{right.disp_unit}} est automatiquement créé tous les {{right.autoAdjustment.step | number}} {{right.disp_unit}} consommés sur","Application administrator":"Administrateur de l'application","Approvers":"Approbateurs","Are you sure you want to delete the absence request?":"Êtes-vous sûr de vouloir supprimer cette demande d'absence?","Are you sure you want to delete this compulsory leave?":"Êtes-vous sûr de vouloir supprimer ce congé obligatoire?","Are you sure you want to delete this user?":"Êtes-vous sûr de vouloir supprimer cet utilisateur?","Arrival date":"Date d'arrivée","Arrival date:":"Date d'arrivée :","At least one manager must confirm approval step":"Au moins un approbateur doit approuver l'étape","At least one type must be selected":"Au moins un type doit être sélectionné","Attendance":"Présence","Attendance (percentage relative to full-time)":"Présence (pourcentage relatif au temps complet)","Author":"Auteur","Auto monthly update":"Mise à jour mensuelles automatiques","Availability duration after the period end date from the user/right link:":"Durée supplémentaires après la date de fin de la période définie sur le lien utilisateur/droit :","Availability duration after the renewal end date:":"Jours supplémentaires après la date de fin du renouvellement :","Availability duration before the period start date from the user/right link:":"Durée supplémentaires avant la date de début de la période définie sur le lien utilisateur/droit :","Availability duration before the renewal start date:":"Jours supplémentaires avant la date de début du renouvellement :","Available for booking":"Disponible à la réservation","Available on period":"Disponible sur la période","Available on right":"Disponibilité du droit","Available quantity":"Quantité disponible","Available:":"Disponible :","Average hours per day":"Moyenne du nombre d'heures par jour","Back to Login":"Retour à l'authentification","Balance state the:":"État du solde le :","Begin date":"Date de début","Birth date":"Date de naissance","Birth date:":"Date de naissance :","Book available periods":"Réserver les périodes disponibles","Business days for the users associated to this collection":"Jours ouvrés pour les utilisateurs associés à ce régime","By collection:":"Par régime :","By department:":"Par service :","By name:":"Par nom :","By right:":"Par droit :","By status:":"Par état :","By type:":"Par type :","By user name:":"Par nom d'utilisateur :","CAS login":"Login CAS","Calendar":"Agenda","Calendar name":"Nom de l'agenda","Calendar summary":"Résumé de l'agenda","Calendar type:":"Type d'agenda :","Calendars":"Agendas","Cancel":"Annuler","Change the initial quantity":"Modifier la quantité initiale","Change your password":"Modifier votre mot de passe","Choose from your remnant quantity":"Choisir à partir de votre quantité restante","Classification used for the creation of leave requests":"Classification utilisée pour la création des périodes de congé","Client Id:":"Client Id:","Client Secret:":"Client Secret:","Collaborators":"Collaborateurs","Collaborators to supervise with request approvals":"Collaborateurs à superviser lors des demandes d'approbation","Collection name":"Nom du régime","Collection on the selected period: {{collection.name}}":"Régime sur la période sélectionnée : {{collection.name}}","Collection:":"Régime :","Color":"Couleur","Comment":"Commentaire","Compulsory leave":"Congé imposé","Compulsory leave name (this will be visible on users calendars)":"Nom du congé obligatoire (il sera visible sur les agendas des utilisateurs)","Compulsory leaves":"Congés obligatoires","Confirm Password:":"Confirmer le mot de passe :","Confirm new password":"Confirmer le nouveau mot de passe","Confirm password":"Confirmer le mot de passe","Confirmed":"Confirmé","Congratulation, this server has just been created and contain no users, please do not leave it that way.":"Félicitations, ce serveur viens d'être créé et ne contient pas d'utilisateurs, vous pouvez corriger cela!","Connect":"Connecter","Consume next business days":"Consommer le jour ouvré suivant","Consume worked days":"Utiliser les jours travaillés","Consumed":"Consommé","Consumed on types":"Consommée sur les types","Consumed quantity":"Quantité consommée","Consumed:":"Consommé :","Consumption":"Consommation","Consuption":"Consommation","Continue":"Continuer","Create a compulsory leave":"Créer un congé obligatoire","Create a department":"Créer un service","Create a leave on all valid users":"Créer un congé sur tous les utilisateurs valides","Create a leave right":"Créer un droit d'absence","Create a new department":"Créer un nouveau service","Create a new secondary calendar in your google account to host a copy of your leave periods.":"Créer un nouvel agenda secondaire sur votre compte google pour héberger une copie de vos périodes de congés.","Create a new time saving deposit for {{request.user.name}}":"Créer un nouveau dépôt sur le Compte Épargne Temps pour {{request.user.name}}","Create a new time saving deposit request":"Créer un nouveau dépôt sur le Compte Épargne Temps","Create a new vacation request":"Créer une nouvelle demande d'absence","Create a new workperiod recover request":"Créer une nouvelle déclaration de jour travaillé donnant droit à récupération","Create a new workperiod recover request for {{request.user.name}}":"Créer une nouvelle demande de récupération pour {{request.user.name}}","Create a recover quantity":"Créer une quantité à récupérer","Create a request on behalf of a user":"Créer une demande à la place de l'utilisateur","Create a right collection":"Créer un régime de congés","Create a right renewal":"Créer un renouvellement de droit","Create a right rule":"Créer un règle de droit","Create a right type":"Créer un type de droit","Create a user":"Créer un utilisateur","Create absence request between two dates, the request will be sent to your supervisor for approval":"Créer une demande d'absence entre deux dates, la demande sera envoyée à votre supérieur hiérarchique pour approbation.","Create an adjustment every":"Créer un ajustement tous les","Create first administrator":"Créer le premier administrateur","Create leaves for users in":"Créer des congés pour les utilisateurs dans un","Create new request":"Créer une nouvelle demande","Create the first user":"Créer le premier utilisateur","Created the":"Créé le","Current rights collection:":"Régime de congés en cours :","Current workschedule calendar:":"Agenda du rythme de travail en cours :","Date":"Date","Day":["Jour","Jours"],"Days":"Jours","Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights":"Déclarer une période travaillée en dehors de vos horaires de travail habituels, la demande sera envoyée à votre chef de service pour approbation et vous fera bénéficier de droits de congés supplémentaires.","Default absence length":"Durée de l'absence par défaut","Default quantity":"Quantité par défaut","Default quantity on start renewal:":"Quantité au début du renouvellement :","Define the periods that will be used to measure the consumed quantity":"Définir les périodes qui serons utilisées pour mesurer la quantité consommée","Delete":"Supprimer","Delete API tokens":"Supprimer les clés API","Deletion":"Suppression","Department":"Service","Department Management":["Gestion du service","Gestion des services"],"Department manager":"Chef de service","Department name":"Nom du service","Department:":"Service :","Departments":"Services","Departments supervision":"Supervision des services","Departments to supervise with request approvals":"Services à superviser lors des demandes d'approbation","Description":"Description","Disconnect":"Se déconnecter","Display type folded in the request creation page":"Afficher le type plié sur la page de création de la demande","Distribution":"Répartition","Do not add monthly quantity if renewal quantity greater than":"Ne pas ajouter la quantité mensuelle si la quantité du renouvellement est supérieure à","Do not notify the user when a request is accepted or rejected":"Ne pas notifier l'utilisateur lorsque la demande est acceptée ou refusée","Do not require approval":"Ne requiert pas d'approbation","Do you really want to delete this invitation?":"Voulez-vous vraiment supprimer cette invitation?","Download":"Téléchargement","Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave":"La durée ne correspond pas : {duration} heures restent non consommées après la création de {nbEvents} événements, veuillez vérifier votre période d'absence, elle ne doit pas être à cheval sur un autre congé.","Edit":"Modifier","Edit a leave request from {{request.user.name}}":"Modifier une demande de congé pour {{request.user.name}}","Edit a time saving deposit for {{request.user.name}}":"Modifier un dépôt sur le Compte Épargne Temps pour {{request.user.name}}","Edit a time saving deposit request":"Modifier un dépôt sur le Compte Épargne Temps","Edit a vacation request":"Modifier une demande d'absence","Edit a workperiod recover request":"Modifier une période travaillée donnant droit à récupération","Edit a workperiod recover request for {{request.user.name}}":"Modifier la demande récupération pour {{request.user.name}}","Edit leave right":"Modifier un droit de congé","Edit quantity in renewal from: {{renewal.start|date}} to: {{renewal.finish|date}}":"Modifier la quantité pour le renouvellement du: {{renewal.start|date}} au: {{renewal.finish|date}}","Email":"Email","End date":"Date de fin","Enter Your Email:":"Entrez votre email :","Entitlement quantity:":"Quantité récupérée :","Entry date":"Date d'écriture","Exceptional quantity modifications":"Modification exceptionnelle de la quantité","Export balance":"Export des soldes","Export for Sage":"Export pour Sage","Export in XLSX file":"Exporter dans une feuille de calcul XLSX","Export in XLSX spreadsheet":"Exporter dans une feuille de calcul XLSX","Export in sage format":"Export dans le format Sage","Export requests":"Exporter les demandes","Export requests between two dates for all your users or a balance status of all your users rights on a specific date. The output format is a spreadsheet in the Office Open XML format (.xlsx)":"Exporter les demandes entre deux dates pour tous les utilisateurs ou le solde des droits de tous les utilisateurs à une date précise. Le format de sortie est un tableau Office Open XML (.xlsx)","Export requests for your monthy payroll in sage, only users with the sage registration number set will be exported":"Exporter les demandes pour les fiches de paye mensuelles dans sage, seulement les utilisateurs avec un matricule sage enregistré serons exportés","Export to a spreadsheet":"Exporter vers une feuille de calcul","Export to sage":"Exporter vers Sage","Exports":"Exports","Finish":"Fin","Firstname":"Prénom","Fix count":"Corriger le décompte","Folded":"Plié","Follow Gadael on your favorite social network!":"Suivez Gadael sur votre réseau social favori!","For an absence with today as start date, if the seniority date of is beetween {{estimated.min|date}} and {{estimated.max|date}}, the right will be available.":"Pour une absence démarrant aujourd'hui, si la date d'ancienneté est entre le {{estimated.min|date}} et le {{estimated.max|date}}, le droit sera disponible.","For example, R&D or HR...":"Par exemple, R&D ou RH...","Forget your password?":"Mot de passe oublié?","Forgot Your Password?":"Mot de passe oublié?","Friday":"Vendredi","From":"Du","From date:":"Depuis le :","From right":"Depuis le droit","From right:":"Depuis le droit :","From {{accountRight.renewal.start|date}} to {{accountRight.renewal.finish|date}}":"Du {{accountRight.renewal.start|date}} au {{accountRight.renewal.finish|date}}","From {{selection.begin|date:'medium'}}, to the {{selection.end|date:'medium'}}":"Du {{selection.begin|date:'medium'}}, au {{selection.end|date:'medium'}}","From:":"De :","Gadael - %s":"Gadael - %s","Get API tokens":"Obtenir les clés API","Get only periods from the following types:":"Sélectionner seulement les périodes depuis les types :","Google login":"Se connecter par Google","Group title for rights (plural form)":"Titre du groupe de droits (forme plurielle)","Half day hour":"Heure de la demi-journée","Hide the right in user list, but can be visible on request creation if active for account":"Cacher le droit dans la liste des utilisateurs, mais il peut être visible lors de la création d'une demande si actif pour le compte","Home":"Accueil","Hour":"Heure","Hours":"Heures","If this rule is not verified, the right will not be available in the second step of a request, once the request dates are set.":"Si la règle n'est pas vérifiée, le droit ne sera pas disponible lors de la deuxième étape de la demande, après avoir défini les dates de la période demandée.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating":"Si la règle n'est pas vérifiée, le droit ne sera pas visible par l'utilisateur dans la liste de ces droits et lors de la répartition.","If this rule is not verified, the right will not be visible by the user in the rights list and when allocating:":"Si la règle n'est pas vérifiée, le droit ne sera pas visible par l'utilisateur dans la liste de ces droits et lors de la répartition :","Ignore consumption beyond":"Ignorer la consommation au delà de","Initial quantity on renewal creation":"Quantité par défaut à la création d'un renouvellement","Initial quantity without this user personal adjustments":"Quantité initiale sans les ajustements de l'utilisateur","Initial quantity:":"Quantité initiale :","Initial:":"Initiale :","Input quantity must be set":"La quantité saisie doit être définie","Insert the invited users into a department":"Insérer les invités dans un service","Interventions history":"Historique des interventions","Invitations":"Invitations","Invite a list of persons to register":"Inviter une liste de personnes à s'inscrire","Invite new members to your application":"Inviter des nouveaux membres sur votre application","Invite someone":"Inviter quelqu'un","Justification, write about this manual adjustment":"Justificatif à propos de cet ajustement manuel","Last renewal:":"Dernier renouvellement :","Last update:":"Dernière mise à jour :","Lastname":"Nom","Lastname or firstname":"Nom ou prénom","Leave period":"Période de congé","Leave periods":"Périodes de congé","Leave right":"Droit de congé","Leaves managment":"Gestion des absences","Leaves requests can not be reserved over these periods":"Des demandes d'absences ne peuvent pas être réservées sur ces périodes","Leaves requests must be included in this calendar":"Les demandes de congés doivent être créées dans les événements de cet agenda","Legal absence length":"Durée légale de l'absence","Legal absence length:":"Durée légale de l'absence :","Legal duration:":"Durée légale :","Legal leave duration":"Durée légale du congé :","Legal leave duration:":"Durée légale du congé :","Legal quantity for one leave":"Quantité légale pour un congé","Limit in additional business days consumption in one renewal":"Limite des jours travaillés supplémentaires consommés dans un renouvellement","Link with your google calendar":"Lien vers votre agenda Google","List of emails to invite, one per line":"Liste des emails à inviter, une adresse par ligne","Loading...":"Chargement...","Login":"Connexion","Lunch breaks":"Chèques déjeuner","Lunch breaks by months":"Chèques déjeuner par mois","Lunch payment on absences with this right":"Les chèques déjeuner son comptabilisés lors de l'utilisation de ce droit","Lunch payments from":"Paiement des repas à partir de","Lunch payments to":"Paiements des repas jusqu'au","Managed department:":"Service supervisés :","Manager, substituting one of his subordinates":"Chef de service, se substituant à l'un de ces subordonnés","Max quantity:":"Quantité maximale :","Maximal consumed quantity:":"Quantité maximale consommée","Maximal number of days between entry date and request end date":"Nombre maximal de jours entre la date de la demande et la date de fin de la période demandée","Minimal consumed quantity:":"Quantité minimale consommée","Minimal number of active users":"Nombre minimal d'utilisateurs actifs","Minimal number of days between entry date and request start date":"Nombre minimal de jours entre la date de la demande et la date de début de la période demandée","Modify a compulsory leave":"Modifier un congé obligatoire","Modify a department":"Modifier un service","Modify a leave right":"Modifier un droit de congés","Modify a recover quantity":"Modifier une quantité récupérée","Modify a right collection":"Modifier un régime de congés","Modify a right renewal":"Modifier un renouvellement de droit","Modify a right rule":"Modifier une règle de droit","Modify a right type":"Modifier un type de droit","Modify a user":"Modifier un utilisateur","Monday":"Lundi","Monthly additions:":"Ajouts mensuels :","Move some of your vacation rights to your time saving account, the request will be sent to your supervisor for approval":"Déplacer une partie de vos droits de congés vers votre compte épargne temps, la demande sera envoyée à votre chef de service pour approbation","My account":"Mon compte","My department":"Mon service","My department: {{sessionUser.department.name}}":"Mon service : {{sessionUser.department.name}}","My rights":"Mes droits","My vacations":"Mes congés","Name":"Nom","Name of the event to recover":"Nom de l'événement à récupérer","New Password:":"Nouveau mot de passe :","New account created":"Nouveau compte créé","New department":"Nouveau service","New leave request for {{request.user.name}}":"Nouvelle demande de congé pour {{request.user.name}}","New leave requests will be forbidden if the number of available users in department is equal to this value":"Les nouvelles demandes de congés ne serons pas permises si le nombre d'utilisateurs disponibles dans le service est égal à cette valeur","New password":"Nouveau mot de passe","New user":"Nouvel utilisateur","Next":"Suivant","Next collection":"Régime suivant","Next page":"Page suivante","No active renewal":"Pas de renouvellement actif","No available time saving account":"Pas de compte épargne temps disponible","No constraints on right parameters":"Pas de contraintes sur les paramètres du droit","No existing lunch breaks yet for this user":"Pas de chèques déjeuner enregistrés pour cet utilisateur","No initial quantity, unbounded right":"Pas de quantité initial, droit non borné","No open period":"pas de période ouverte","No special behaviour":"Pas de comportement spécifique","Non working days":"Jours fériés","Non-working days calendar":"Agenda des jours fériés","Non-working days planning":"Agenda des jours fériés","Non-working days scheduling for {{user.lastname}} {{user.firstname}}":"Agenda des jours fériés pour {{user.lastname}} {{user.firstname}}","Non-working days:":"Jours fériés :","Nonworking days":"Jours fériés","Nothing to approve":"Rien à approuver","Nothing to save":"Rien à enregistrer","Notifications options:":"Options des notifications :","Notifications parameters":"Paramètres des notifications","Notify me when a request is accepted or rejected":"Me notifier si une demande a été acceptée ou refusée","Notify the user when a request is accepted or rejected":"Notifier l'utilisateur lorsqu'une demande est acceptée ou rejetée","Number of years before the entry start date to set the period end:":"Nombre d'années avant la date de début de la demande pour définir la fin de la période :","On request creation, the user will be notified if period does not match legal duration.":"Lors de la création de la demande, l'utilisateur sera prévenu si la période ne correspond pas à la durée légale.","One right":["Un droit","{{$count}} droits"],"One year old":["un an d'ancienneté","{{$count}} ans d'anciennetés"],"One year seniority":["un an d'ancienneté","{{$count}} ans d'anciennetés"],"Ongoing approval steps":"étapes d'approbation en cours","Only the rights out of user collection are listed here, you can add more rights only if they are lot linked to a collection.\n                According to the same principle, the rights linked to users will not be available to build a collection.":"Seul les droits hors régime sont listés ici, vous pouvez ajouter plus de droits seulement s'ils ne sont pas liés à un régime.\nSelon le même principe, les droits liés à des utilisateurs ne serons pas disponibles pour créer un régime.","Options":"Options","Or set the available quantity":"Ou définir la quantité disponible","Out of collection right":"Droit hors régime","Owner user account":"Compte utilisateur du propriétaire","Package agreement worked days":"Jours travaillés de la convention collective","Paid leaves:":"Congés payés :","Parent department":"Service parent","Password":"Mot de passe","Password Strength:":"Solidité du mot de passe :","Password:":"Mot de passe :","Period end":"Fin de période","Period is booked":"La période est réservée","Personal calendar":"Agenda personnel","Please create the first admin account to continue.":"Veuillez créer le premier administrateur pour continuer.","Please log into the application to see your account informations":"Veuillez vous connecter à l'application pour voir les informations de votre compte","Please setup your account.":"Veuillez configurer votre compte.","Previous collection":"Régime de congés précédent","Previous page":"Page précédente","Proceed to the request creation with one of the following:":"Procéder à la création de la demande avec un des boutons suivants :","Proportional to attendance":"Proportionnel à la présence","Quantity":"Quantité","Quantity consumption for part-time right collections":"Consommation pour les régimes à temps partiel","Quantity from the request in modification":"Quantité de la demande en cours de modification","Quantity provided on each renewals":"Quantité fournie à chaque renouvellements","Quantity to add every month":"Quantité à ajouter tout les mois","Quantity to recover from the event":"Quantité à récupérer pour l'événement","Quantity to spare":"Quantité à épargner","Quantity unit":"Unité","Quantity unit to use in interval modification:":"Unité à utiliser pour la modification de l'intervalle :","Recover quantities":"Quantités à récupérer","Recovery claimed":"Récupération revendiquée","Recovery request summary":"Résumé de la demande de récupération","Reject":"Refuser","Rejected":"Refusée","Remove":"Enlever","Remove booked periods":"Supprimer les périodes réservées","Remove the leave on all users with a booked period":"Retirer le congé pour tous les utilisateurs avec un période réservée","Renewal":"Renouvellement","Renewals":"Renouvellements","Renewals with remaining quantity":"Renouvellements avec une quantité restante","Request in user interval":"Demande dans l'intervalle utilisateur","Request period":"Période de la demande","Requests":"Demandes","Requests waiting for approval":"Demandes en attente d'approbation","Require approval":"Requiert une approbation","Reset Your Password?":"Réinitialiser votre mot de passe?","Right collections":"Régimes de congés","Right collections scheduling for {{user.lastname}} {{user.firstname}}":"Planification des régimes de congés pour {{user.lastname}} {{user.firstname}}","Right given name:":"Nom du droit :","Right is visible when request period is in period set on the user/right link":"Le droit est visible quand la demande est dans la période définie sur le lien utilisateur/droit","Right is visible when request period is in the renewal period":"Le droit est visible quand la demande est dans la période du renouvellement","Right is visible when the request creation date is in the renewal period":"Le droit est visible quand la date de création de la demande est dans la période du renouvellement","Right is visible when the request period is in a period relative to the user birth date":"Le droit est visible quand la demande est dans une période relative à la date de naissance de l'utilisateur","Right is visible when the request period is in a period relative to the user seniority date":"Le droit est visible quand la période de la demande est dans une période relative à la date d'ancienneté de l'utilisateur","Right is visible when the user has consumed a quantity defined for a right type on a period":"Le droit est visible quand l'utilisateur à consommé la quantité définie pour le type de droit sur la période","Right name":"Nom du droit","Right quantity claimed by recovery:":"Quantité revendiquée par récupération :","Right type name":"Nom du type de droit","Right type to test":"Type de droit à tester","Right:":"Droit :","Rights collection":"Régime de congés","Rights collections":"Régimes de congés","Rights distribution":"Répartition des droits","Rights list":"Liste des droits","Rights types":"Types de droits","Roles":"Rôles","Roles:":"Rôles :","Rule title, this will be visible from users":"Titre de la règle, ceci sera visible par les utilisateurs","Rule type:":"Type de règle :","Rules":"Règles","Sage registration number":"Numéro de matricule Sage","Sage registration number:":"Numéro de matricule Sage :","Same as the non-working duration":"Identique à la durée non-travaillée","Saturday":"Samedi","Save":"Enregistrer","Save in account":"Enregistrer dans le compte","Save leave periods to":"Enregistrer les périodes de congés dans","Saved quantity:":"Quantité épargnée :","Saving limit per renewals":"Limite d'épargne par renouvellement","Saving period":"Période d'épargne","Schedule calendar":"Agenda des horaires travaillés","School holidays":"Vacances scolaires","School holidays will be displayed on the bottom of the reservation calendar":"Les vacances scolaires serons affichées en bas de l'agenda de réservation","Search in calendars":"Rechercher dans les agendas","Search in collections":"Rechercher dans les régimes","Search in compulsory leaves":"Rechercher dans les congés obligatoires","Search in departments":"Rechercher dans les services","Search in recover quantities":"Rechercher dans les récupérations","Search in requests":"Rechercher dans les demandes","Search in right types":"Rechercher dans les types de droits","Search in rights":"Rechercher parmi les droits","Search in users":"Rechercher dans les utilisateurs","Search:":"Rechercher :","Select rule type":"Sélectionner le type de la règle","Select types":"Sélectionner les types","Select unit":"Sélectionner l'unité","Selected duration:":"Durée sélectionnée :","Selected recovery:":"Récupération sélectionnée :","Send Reset":"Réinitialiser","Send invitations":"Envoyer les invitations","Seniority":"Ancienneté","Seniority date:":"Date d'anciennetée","Seniority start date":"Date de début d'anciennetée","Set Password":"Définir le mot de passe","Set a new password":"Définir un nouveau mot de passe","Set a non-working days calendar":"Définir un agenda des jours fériés","Set password":"Définir le mot de passe","Set the adjustment quantity":"Définir la quantité de l'ajustement","Set the consumed quantity interval where the rule will be valid":"Définir l'intervale de quantité consommée ou la règle sera valide","Set the department where the invited peoples will be recorded":"Définir le service ou vos invités serons enregistrés","Set the new department name":"Définir le nom du nouveau service","Settings":"Paramètres","Sign In":"Connexion","Some renewals are invalids":"Certains renouvellements ne sont pas valides","Sort absence rights":"Ordonner les droits d'absence","Sort rights":"Ordonner les droits","Sort rights in type":"Ordonner les droits dans le type","Special right:":"Droit spécial :","Start":"Début","Status":"État","Status:":"État :","Step {{step}} approver":"Approbateur de l'étape {{step}}","Sub-departments":"Sous-services","Sunday":"Dimanche","Supervisor":"Supérieur hiérarchique","Supervisors":"Chefs de service","The application is in maintenance, requests will not be modifiables":"L'application est en maintenance, les demandes ne serons pas modifiables","The half day hour is used to convert hours in days durations, for example, if a period end before the half day hour, a duration of 0,5 day will be retained.":"L'heure du milieu de journée est utilisé pour convertir les heures en jours, par exemple, si une période termine après l'heure de milieu de journée, une durée de 0,5 jour supplémentaire sera ajoutée à la matinée.","The leave period must be in the next {{right.activeSpan.max}} days after the request date.":"La période du congé doit être dans les {{right.activeSpan.max}} jours après la date de création de la demande.","The leave periods overlapping the extracting period will be modified to fit in the extracting period, the reported number of days will adjusted accordingly":"Les périodes de congés qui chevauchent la période d'extraction seront modifiées pour tenir exactement dans la période, le nombre de jours reporté sera modifié en fonction","The number of active users is limited by your plan level":"Le nombre d'utilisateurs actifs est limité par le niveau de votre abonnement","The optional period configured here can be used as a reference in right rules.":"La période optionnelle configurée ici peut être utilisée comme référence dans les règles de droits.","The request must be created at least {{right.activeSpan.min}} days before the leave start date.":"La demande doit être créée au moins {{right.activeSpan.min}} jours avant le début du congé.","The right is linked to collections":"Le droit est lié à des régimes","The right is linked to users":"Le droit est lié à des utilisateurs","The right will be available only if the user is beetween {{rightrule.interval.min}} years old and {{rightrule.interval.max}} years old on the first day of the requested leave.":"Le droit sera disponible seulement si l'utilisateur a entre {{rightrule.interval.min}} ans et {{rightrule.interval.max}} ans au premier jour de la demande d'absence.","The start renewal quantity is dynamicaly computed":"La quantité initiale d'un renouvellement est calculée dynamiquement","The user can have vacations rights, absences requests, time saving account ...":"L'utilisateur peut avoir des droits de congés, des demandes de congés, un compte épargne temps ...","The user can manager other users and departments, the application parameters ...":"L'utilisateur peut gérer les autres utilisateurs et les services, tous les paramètres de l'application...","The user is allowed to log in":"Cet utilisateur peut se connecter à l'application","The user may be involved in the validation of requests by the members of his department":"L'utilisateur peut être impliqué dans la validation des demandes des membres de son service","The users will create their accounts on their first connexion!":"Vos utilisateurs vont créer leurs comptes lors de leur première connexion!","There are no configured rights to display":"Il n'y a pas de droits configurés à afficher","This application is provided to you by {{company.name}}":"Cette application vous est proposée par {{company.name}}","This functionality is not yet available":"Cette fonctionnalité n'est pas encore disponible","This manager has no departments configured for approval":"Ce gestionnaire n'a aucun régime configuré pour l'approbation","This right has no configured renewals":"Ce droit n'a pas de renouvellements configurées","This right has no configured rules":"Le droit n'a pas de règles configurées","This user can not connect to the application":"Cet utilisateur ne peut pas se connecter à l'application","This user has no configured non-working days":"Cet utilisateur n'a pas de jours fériés configurés","This user has no configured specific quantity, rights are set by collection only":"Cet utilisateur n'a pas de quantité spécifique configurée, les droits sont définis uniquement par le régime","This user has no configured vacation rights for the current period":"Cet utilisateur n'a pas de droits de congés configuré pour la période en cours","This user has no configured work schedule":"Cet utilisateur n'a pas de rythme de travail configuré","This user has no ongoing right collection, check the vacations collections planning to fix it":"Cet utilisateur n'a pas de régime de congés, vérifiez le planning des régimes pour corriger cela","This user has no ongoing workschedule calendar, check the workschedule calendar planning to fix it":"Cet utilisateur n'a pas de d'horaires de travail, vérifiez le planning des horaires de travail pour corriger cela.","This value is used to establish a proportionality beetween rights in days and rights in hours":"Cette valeur est utilisée pour établir une proportionnalité entre les droits en jours et les droits en heures","Thursday":"Jeudi","Time saving account deposit":"Dépôt sur le Compte Épargne Temps","Time saving deposit":"Dépôt d'épargne Temps","Time saving deposit request":"Demande de dépôt sur le compte épargne temps","Title":"Titre","To":"Au","To pick-up on right":"À prendre sur le droit","To right":"Vers le droit","To right:":"Vers le droit :","To supervise collaborators, a department with members must be associated to user first":"Pour superviser les collaborateurs, un service contenant des membres doit être associé à l'utilisateur","To:":"Au :","Total consumption:":"Consommation :","Total duration:":"Durée totale :","Tuesday":"Mardi","Type":"Type","Type:":"Type :","Up to {{renewal.finish|date}}":"Jusqu'au {{renewal.finish|date}}","Url of the calendar ICS file":"Url du fichier ICS de l'agenda","Usage period":"Période d'utilisation","Use default active span":"Utiliser la période d'ouverture par défaut","Use default saving interval (renewal interval)":"Utiliser la période d'épargne par défaut (période du renouvellement)","Use lunch break payments":"Utiliser le paiement des pause déjeuner","Use the approval workflow on this request":"Lancer l'approbation sur cette demande","Use the user workschedule calendar to compute worked days":"Utiliser le planning de travail de l'utilisateur pour déterminer les jours travaillés","User account":"Compte utilisateur","User quantity":"Quantité de l'utilisateur","User requests":"Demandes de l'utilisateur","Users":"Utilisateurs","Users list":"Liste des utilisateurs","Users will not be allowed to consume more than this value on one request, except if the default length is set to zero.":"Les utilisateurs ne serons pas autorisés à consommer plus que cette valeur sur une demande, sauf si la valeur par défaut est zero.","Using this feature, you save the vacation right entitlement for future use":"En utilisant cette fonctionnalité, vous épargnez vos droits de congés pour une utilisation ultérieure.","Vacation request":"Demande d'absences","Vacation right":"Droit d'absence","Vacation right:":"Droit d'absence :","Vacation rights in collection":"Droits de congés du régime","Vacations collections planning":"Planning des régimes de congés","Vacations rights":"Droits d'absences","Valid users:":"Utilisateurs valides :","View":"Voir","View calendar":"Voir l'agenda","View more":"Voir plus","View rights":"Voir les droits","View sub-departments":"Voir les sous-services","Waiting":"En attente","Waiting approval":"En attente d'approbation","Waiting approval for delete":"En attente d'approbation de suppression","Waiting approval:":"En attente d'approbation :","Waiting delete approval":"En attente de suppression","Waiting delete approval:":"En attente de suppression :","Waiting for response":"En attente de réponse","Waiting {{request.dispType}} request":"Demande de {{request.dispType}} en attente d'approbation","Waiting:":"En attente :","Wednesday":"Mercredi","Week-ends:":"Week-ends :","Wellcome":"Bienvenue","Wellcome to Gadael":"Bienvenue sur Gadael","Wellcome to your absence manager":"Bienvenue dans votre gestionnaire d'absences","Work schedule":"Rythme de travail","Worked days in a week (RTT calculation)":"Jours travaillés dans une semaine (calcul des RTT)","Worked duration:":"Durée travaillée :","Working time recover request":"Demande de récupération pour une période travaillée","Workperiod recover":"Récupération de jour travaillé","Workperiod recover request":"Demande de récupération de jours travaillés","Workschedule planning":"Planning des heures travaillées","Wrong events count":"Le nombre d'événements n'est pas correct","Years":"ans","Years after the birth date to set the period end:":"Années après la date naissance pour définir la fin de la période :","Years after the birth date to set the period start:":"Années après la date de naissance pour définir le début de la période :","Years are ignored and computed back to fit in the renewal period, as a consequence, this rule type will work only with yearly or less renewal periods.":"Les années sont ignorées et recalculées pour êtres contenues dans la période du renouvellement, cela à pour conséquence que ce type de règle fonctionne que pour les périodes d'une année ou moins.","Years before renewal end date":"Années avant la date de fin du renouvellement","Years before renewal start date":"Années avant la date de début du renouvellement","Years before the entry start date to set the period start:":"Années avant la date de début de la demande pour définir le début de la période :","You can invite someone to use this application if you know his email.":"Vous pouvez inviter quelqu'un à utiliser cette application si vous connaissez son adresse email.","You have been invited by {{invitation.createdBy.name}} to create an account on the leave management application!":"Vous avez été invité par {{invitation.createdBy.name}} pour créer un compte sur l'application de gestion des congés!","You must input one email address at least":"Vous devez renseigner au moins une adresse email","You must link this right to a collection or users so that it is accessible":"Vous devez lier ce droit à un régime ou à des utilisateurs pour qu'il soit accessible","Your account have no access to a rôle in this application,\n            the administrators have been made aware of the problem. You will be notified by email when they give you access\n            to your absences rights account.":"Votre compte n'a accès a aucun rôle dans cette application,\n            les administrateurs ont été informés de ce problème. Vous serez notifié par email quand ils vous donnerons accès\n            à votre compte de droits d'absences.","Your account parameters":"Les paramètres de votre compte","Your calendar is connected":"Votre agenda est connecté","Your calendar is not connected":"Votre agenda n'est pas connecté","Your email:":"Votre email :","Your leave plan or work regime":"Votre régime de congé","Your only role on the application is administrator, you can update your own account using the administration ➤ users menu":"Votre seul rôle sur l'application est administrateur, vous pouvez mettre à jour votre compte en utilisant le menu administration ➤ utilisateurs","Your period selection of {{selection.days}} (or {{selection.hours}}) must be distribued into the following vacation rights":"Votre période sélectionnée de {{selection.days}} (ou {{selection.hours}}) doit être répartie parmi les droits de congés suivants","Your workschedule for a week":"Votre rythme de travail sur une semaine","adjustments included":"Ajustements inclus","calendar":"agenda","collections":"régimes","day":["jour","jours"],"departments":"services","done":"fait","from":"de","hour":["heure","heures"],"lunchs":"repas","or":"ou","to":"au","{quantity} up to {date}":"{quantity} jusqu'au {date}","{{renewal.rtt.nonWorkingDays}} days":"{{renewal.rtt.nonWorkingDays}} jours","{{renewal.rtt.paidLeaves}} days":"{{renewal.rtt.paidLeaves}} jours","{{renewal.rtt.weekEnds}} days":"{{renewal.rtt.weekEnds}} jours","{{renewalChart.percentDays|number}}% consumed":"{{renewalChart.percentDays|number}}% consommé","{{usersstat.activeUsers}} users / {{company.max_users}} Max":"{{usersstat.activeUsers}} utilisateurs / {{company.max_users}} Max"});
 /* jshint +W100 */
 }]);
 define("translation", ["angularGettext"], function(){});
@@ -39199,7 +40050,7 @@ define("paginateAnything", ["angular"], function(){});
 angular.module("vr.passwordStrength",["vr.filters.passwordStrength","vr.directives.passwordStrength"]),angular.module("vr.filters.passwordStrength",["vr.filters.passwordStrength.percent","vr.filters.passwordStrength.level"]),angular.module("vr.directives.passwordStrength",["vr.directives.passwordStrength.class","vr.directives.passwordStrength.width"]),angular.module("vr.services.passwordStrength",[]).factory("passwordStrengthComputations",function(){function a(a){var c=0,d=0;return angular.forEach(b,function(b){0!=b.weight&&(c+=b.weight>0?b.weight:0,d+=b.strength(a))}),c>0?100*(d/c):0}var b={minimumLength:{min:8,weight:30,strength:function(a){if(a){var c=a.length;return c<b.minimumLength.min&&(c/=2),c/b.minimumLength.min*b.minimumLength.weight}return 0}},uppercaseLetters:{min:1,weight:10,strength:function(a){if(a){var c=a.match(/[A-Z]/g);return c?c.length>=b.uppercaseLetters.min?b.uppercaseLetters.weight:c.length/b.uppercaseLetters.min*b.uppercaseLetters.weight:0}return 0}},lowercaseLetters:{min:1,weight:10,strength:function(a){if(a){var c=a.match(/[a-z]/g);return c?c.length>=b.lowercaseLetters.min?b.lowercaseLetters.weight:c.length/b.lowercaseLetters.min*b.lowercaseLetters.weight:0}return 0}},symbols:{min:1,weight:10,strength:function(a){if(a){var c=a.match(/[$-/:-?{-~!\"^_`\[\]]/g);return c?c.length>=b.symbols.min?b.symbols.weight:c.length/b.symbols.min*b.symbols.weight:0}return 0}},numbers:{min:1,weight:10,strength:function(a){if(a){var c=a.match(/[0-9]/g);return c?c.length>=b.numbers.min?b.numbers.weight:c.length/b.numbers.min*b.numbers.weight:0}return 0}},duplicates:{max:3,weight:-30,strength:function(a){if(a){var c=0,d=a.match(new RegExp("(.)\\1{"+b.duplicates.max+",}","g"));return angular.forEach(d,function(a){c+=(a.length-b.duplicates.max)*b.duplicates.weight}),c}return 0}},consecutive:{max:3,weight:-10,strength:function(a){if(a){for(var c=0,d=0,e=!0,f=0,g=0;g<=a.length;g++){var h=-99;g<a.length&&(h=a.charCodeAt(g)),h==d+1?(e?f++:f=2,e=!0):h==d-1?(e?f=2:f++,e=!1):(c+=f>b.consecutive.max?(f-b.consecutive.max)*b.consecutive.weight:0,f=1),d=h}return c}return 0}},dictionary:{words:["asdf","password","qwerty","monkey","letmein","dragon","baseball","iloveyou","trustno1","sunshine","master","welcome","shadow","ashley","football","jesus","michael","ninja","mustang","test"],weight:-40,strength:function(a){if(a){var c=0;return angular.forEach(b.dictionary.words,function(d){c+=a.indexOf(d)>=0?b.dictionary.weight:0}),c}return 0}}};return{aspects:b,getRawStrength:a,getStrength:function(b){var c=a(b);return c>100?100:0>c?0:c},isStrongEnough:function(b,c){return a(b)>=c}}}),angular.module("vr.directives.passwordStrength.class",["vr.filters.passwordStrength.level"]).directive("pwClass",["$filter",function(a){return{restrict:"A",link:function(b,c,d){function e(b,d){""!=f&&c.removeClass(f),""!=b?(f="pw-"+a("passwordLevel")(b,d),c.addClass(f)):f=""}var f="";b.$watch(function(){return d.pwClass},function(a){b.password=a,e(a,b.levels)}),b.$watch(function(){return d.pwLevels},function(a){b.levels=a?parseInt(a):void 0,e(b.password,a)})}}}]),angular.module("vr.directives.passwordStrength.width",["vr.filters.passwordStrength.percent"]).directive("pwWidth",["$filter",function(a){return{restrict:"A",link:function(b,c,d){b.$watch(function(){return d.pwWidth},function(b){c.css("width",a("passwordPercent")(b))})}}}]),angular.module("vr.filters.passwordStrength.level",["vr.services.passwordStrength"]).filter("passwordLevel",["passwordStrengthComputations",function(a){return function(b,c){angular.isUndefined(c)&&(c=5);var d=Math.ceil(a.getStrength(b)/(100/c));return"level"+(0==d?1:d)}}]),angular.module("vr.filters.passwordStrength.percent",["vr.services.passwordStrength"]).filter("passwordPercent",["passwordStrengthComputations",function(a){return function(b){return Math.round(a.getStrength(b))+"%"}}]);
 define("passwordStrength", ["angular"], function(){});
 
-angular.module("colorpicker.module",[]).factory("Helper",function(){"use strict";return{closestSlider:function(e){var o=e.matches||e.webkitMatchesSelector||e.mozMatchesSelector||e.msMatchesSelector;return o.bind(e)("I")?e.parentNode:e},getOffset:function(e,o){for(var t=0,r=0,n=e.getBoundingClientRect();e&&!isNaN(e.offsetLeft)&&!isNaN(e.offsetTop);)o||"BODY"!==e.tagName?(t+=e.scrollLeft,r+=e.scrollTop):(t+=document.documentElement.scrollLeft||e.scrollLeft,r+=document.documentElement.scrollTop||e.scrollTop),e=e.offsetParent;return{top:n.top+window.pageYOffset,left:n.left+window.pageXOffset,scrollX:t,scrollY:r}},stringParsers:[{re:/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,parse:function(e){return[e[1],e[2],e[3],e[4]]}},{re:/rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,parse:function(e){return[2.55*e[1],2.55*e[2],2.55*e[3],e[4]]}},{re:/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,parse:function(e){return[parseInt(e[1],16),parseInt(e[2],16),parseInt(e[3],16)]}},{re:/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,parse:function(e){return[parseInt(e[1]+e[1],16),parseInt(e[2]+e[2],16),parseInt(e[3]+e[3],16)]}}]}}).factory("Color",["Helper",function(e){"use strict";return{value:{h:1,s:1,b:1,a:1},rgb:function(){var e=this.toRGB();return"rgb("+e.r+","+e.g+","+e.b+")"},rgba:function(){var e=this.toRGB();return"rgba("+e.r+","+e.g+","+e.b+","+e.a+")"},hex:function(){return this.toHex()},RGBtoHSB:function(e,o,t,r){e/=255,o/=255,t/=255;var n,i,l,s;return l=Math.max(e,o,t),s=l-Math.min(e,o,t),n=0===s?null:l===e?(o-t)/s:l===o?(t-e)/s+2:(e-o)/s+4,n=(n+360)%6*60/360,i=0===s?0:s/l,{h:n||1,s:i,b:l,a:r||1}},setColor:function(o){o=o?o.toLowerCase():o;for(var t in e.stringParsers)if(e.stringParsers.hasOwnProperty(t)){var r=e.stringParsers[t],n=r.re.exec(o),i=n&&r.parse(n);if(i)return this.value=this.RGBtoHSB.apply(null,i),!1}},setHue:function(e){this.value.h=1-e},setSaturation:function(e){this.value.s=e},setLightness:function(e){this.value.b=1-e},setAlpha:function(e){this.value.a=parseInt(100*(1-e),10)/100},toRGB:function(e,o,t,r){e||(e=this.value.h,o=this.value.s,t=this.value.b),e*=360;var n,i,l,s,c;return e=e%360/60,c=t*o,s=c*(1-Math.abs(e%2-1)),n=i=l=t-c,e=~~e,n+=[c,s,0,0,s,c][e],i+=[s,c,c,s,0,0][e],l+=[0,0,s,c,c,s][e],{r:Math.round(255*n),g:Math.round(255*i),b:Math.round(255*l),a:r||this.value.a}},toHex:function(e,o,t,r){var n=this.toRGB(e,o,t,r);return"#"+(1<<24|parseInt(n.r,10)<<16|parseInt(n.g,10)<<8|parseInt(n.b,10)).toString(16).substr(1)}}}]).factory("Slider",["Helper",function(e){"use strict";var o={maxLeft:0,maxTop:0,callLeft:null,callTop:null,knob:{top:0,left:0}},t={};return{getSlider:function(){return o},getLeftPosition:function(e){return Math.max(0,Math.min(o.maxLeft,o.left+((e.pageX||t.left)-t.left)))},getTopPosition:function(e){return Math.max(0,Math.min(o.maxTop,o.top+((e.pageY||t.top)-t.top)))},setSlider:function(r,n){var i=e.closestSlider(r.target),l=e.getOffset(i,n),s=i.getBoundingClientRect(),c=r.clientX-s.left,a=r.clientY-s.top;o.knob=i.children[0].style,o.left=r.pageX-l.left-window.pageXOffset+l.scrollX,o.top=r.pageY-l.top-window.pageYOffset+l.scrollY,t={left:r.pageX-(c-o.left),top:r.pageY-(a-o.top)}},setSaturation:function(e,t,r){o={maxLeft:r,maxTop:r,callLeft:"setSaturation",callTop:"setLightness"},this.setSlider(e,t)},setHue:function(e,t,r){o={maxLeft:0,maxTop:r,callLeft:!1,callTop:"setHue"},this.setSlider(e,t)},setAlpha:function(e,t,r){o={maxLeft:0,maxTop:r,callLeft:!1,callTop:"setAlpha"},this.setSlider(e,t)},setKnob:function(e,t){o.knob.top=e+"px",o.knob.left=t+"px"}}}]).directive("colorpicker",["$document","$compile","Color","Slider","Helper",function(e,o,t,r,n){"use strict";return{require:"?ngModel",restrict:"A",link:function(i,l,s,c){function a(){e.on("mousemove",u),e.on("mouseup",f)}function p(){try{Y.css("backgroundColor",M[x]())}catch(e){Y.css("backgroundColor",M.toHex())}D.css("backgroundColor",M.toHex(M.value.h,1,1,1)),"rgba"===x&&(b.css.backgroundColor=M.toHex())}function u(e){var o=r.getLeftPosition(e),t=r.getTopPosition(e),n=r.getSlider();r.setKnob(t,o),n.callLeft&&M[n.callLeft].call(M,o/L),n.callTop&&M[n.callTop].call(M,t/L),p();var s=M[x]();return l.val(s),c&&i.$apply(c.$setViewValue(s)),C&&R.val(s),!1}function f(){m("colorpicker-selected"),e.off("mousemove",u),e.off("mouseup",f)}function d(e){M.value=A,M.setColor(l.val()),C&&!e&&R.val(l.val()),F.eq(0).css({left:M.value.s*L+"px",top:L-M.value.b*L+"px"}),F.eq(1).css("top",L*(1-M.value.h)+"px"),F.eq(2).css("top",L*(1-M.value.a)+"px"),A=M.value,p()}function h(){var e,o=n.getOffset(l[0]);return angular.isDefined(s.colorpickerParent)&&(o.left=0,o.top=0),"top"===w?e={top:o.top-147,left:o.left}:"right"===w?e={top:o.top,left:o.left+126}:"bottom"===w?e={top:o.top+l[0].offsetHeight+2,left:o.left}:"left"===w&&(e={top:o.top,left:o.left-150}),{top:e.top+"px",left:e.left+"px"}}function g(){v()}function k(){y.hasClass("colorpicker-visible")||(d(),y.addClass("colorpicker-visible").css(h()),m("colorpicker-shown"),$===!1&&e.on("mousedown",g),s.colorpickerIsOpen&&(i[s.colorpickerIsOpen]=!0,i.$$phase&&i.$root.$$phase||i.$digest()))}function m(e){c&&i.$emit(e,{name:s.ngModel,value:c.$modelValue})}function v(){y.hasClass("colorpicker-visible")&&(y.removeClass("colorpicker-visible"),m("colorpicker-closed"),e.off("mousedown",g),s.colorpickerIsOpen&&(i[s.colorpickerIsOpen]=!1,i.$$phase&&i.$root.$$phase||i.$digest()))}var b,x=s.colorpicker?s.colorpicker:"hex",w=angular.isDefined(s.colorpickerPosition)?s.colorpickerPosition:"bottom",$=!!angular.isDefined(s.colorpickerInline)&&s.colorpickerInline,S=!!angular.isDefined(s.colorpickerFixedPosition)&&s.colorpickerFixedPosition,I=angular.isDefined(s.colorpickerParent)?l.parent():angular.element(document.body),C=!!angular.isDefined(s.colorpickerWithInput)&&s.colorpickerWithInput,L=angular.isDefined(s.colorpickerSize)?s.colorpickerSize:100,P=L+"px",H=C?'<input type="text" name="colorpicker-input" spellcheck="false">':"",T=$?"":'<button type="button" class="close close-colorpicker">&times;</button>',O='<div class="colorpicker dropdown"><div class="dropdown-menu"><colorpicker-saturation><i></i></colorpicker-saturation><colorpicker-hue><i></i></colorpicker-hue><colorpicker-alpha><i></i></colorpicker-alpha><colorpicker-preview></colorpicker-preview>'+H+T+"</div></div>",y=angular.element(O),M=t,A={h:1,s:0,b:1,a:1},B=y.find("colorpicker-hue"),D=y.find("colorpicker-saturation"),Y=y.find("colorpicker-preview"),F=y.find("i");if(o(y)(i),y.css("min-width",parseInt(L)+29+"px"),D.css({width:P,height:P}),B.css("height",P),C){var R=y.find("input");R.css("width",P),R.on("mousedown",function(e){e.stopPropagation()}).on("keyup",function(){var e=this.value;l.val(e),c&&c.$modelValue!==e&&(i.$apply(c.$setViewValue(e)),d(!0))})}"rgba"===x&&(y.addClass("alpha"),b=y.find("colorpicker-alpha"),b.css("height",P),b.on("click",function(e){r.setAlpha(e,S,L),u(e)}).on("mousedown",function(e){r.setAlpha(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-alpha")})),B.on("click",function(e){r.setHue(e,S,L),u(e)}).on("mousedown",function(e){r.setHue(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-hue")}),D.on("click",function(e){r.setSaturation(e,S,L),u(e),angular.isDefined(s.colorpickerCloseOnSelect)&&v()}).on("mousedown",function(e){r.setSaturation(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-saturation")}),S&&y.addClass("colorpicker-fixed-position"),y.addClass("colorpicker-position-"+w),"true"===$&&y.addClass("colorpicker-inline"),I.append(y),c&&(c.$render=function(){l.val(c.$viewValue),d()}),l.on("blur keyup change",function(){d()}),l.on("$destroy",function(){y.remove()}),$===!1?l.on("click",k):k(),y.on("mousedown",function(e){e.stopPropagation(),e.preventDefault()}),y.find("button").on("click",function(){v()}),s.colorpickerIsOpen&&i.$watch(s.colorpickerIsOpen,function(e){e===!0?k():e===!1&&v()})}}}]);
+angular.module("colorpicker.module",[]).factory("Helper",function(){"use strict";return{closestSlider:function(e){var o=e.matches||e.webkitMatchesSelector||e.mozMatchesSelector||e.msMatchesSelector;return o.bind(e)("I")?e.parentNode:e},getOffset:function(e,o){for(var t=0,r=0,n=e.getBoundingClientRect();e&&!isNaN(e.offsetLeft)&&!isNaN(e.offsetTop);)o||"BODY"!==e.tagName?(t+=e.scrollLeft,r+=e.scrollTop):(t+=document.documentElement.scrollLeft||e.scrollLeft,r+=document.documentElement.scrollTop||e.scrollTop),e=e.offsetParent;return{top:n.top+window.pageYOffset,left:n.left+window.pageXOffset,scrollX:t,scrollY:r}},stringParsers:[{re:/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,parse:function(e){return[e[1],e[2],e[3],e[4]]}},{re:/rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,parse:function(e){return[2.55*e[1],2.55*e[2],2.55*e[3],e[4]]}},{re:/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,parse:function(e){return[parseInt(e[1],16),parseInt(e[2],16),parseInt(e[3],16)]}},{re:/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,parse:function(e){return[parseInt(e[1]+e[1],16),parseInt(e[2]+e[2],16),parseInt(e[3]+e[3],16)]}}]}}).factory("Color",["Helper",function(e){"use strict";return{value:{h:1,s:1,b:1,a:1},rgb:function(){var e=this.toRGB();return"rgb("+e.r+","+e.g+","+e.b+")"},rgba:function(){var e=this.toRGB();return"rgba("+e.r+","+e.g+","+e.b+","+e.a+")"},hex:function(){return this.toHex()},RGBtoHSB:function(e,o,t,r){e/=255,o/=255,t/=255;var n,i,l,s;return l=Math.max(e,o,t),s=l-Math.min(e,o,t),n=0===s?null:l===e?(o-t)/s:l===o?(t-e)/s+2:(e-o)/s+4,n=(n+360)%6*60/360,i=0===s?0:s/l,{h:n||1,s:i,b:l,a:r||1}},setColor:function(o){o=o?o.toLowerCase():o;for(var t in e.stringParsers)if(e.stringParsers.hasOwnProperty(t)){var r=e.stringParsers[t],n=r.re.exec(o),i=n&&r.parse(n);if(i)return this.value=this.RGBtoHSB.apply(null,i),!1}},setHue:function(e){this.value.h=1-e},setSaturation:function(e){this.value.s=e},setLightness:function(e){this.value.b=1-e},setAlpha:function(e){this.value.a=parseInt(100*(1-e),10)/100},toRGB:function(e,o,t,r){e||(e=this.value.h,o=this.value.s,t=this.value.b),e*=360;var n,i,l,s,c;return e=e%360/60,c=t*o,s=c*(1-Math.abs(e%2-1)),n=i=l=t-c,e=~~e,n+=[c,s,0,0,s,c][e],i+=[s,c,c,s,0,0][e],l+=[0,0,s,c,c,s][e],{r:Math.round(255*n),g:Math.round(255*i),b:Math.round(255*l),a:r||this.value.a}},toHex:function(e,o,t,r){var n=this.toRGB(e,o,t,r);return"#"+(1<<24|parseInt(n.r,10)<<16|parseInt(n.g,10)<<8|parseInt(n.b,10)).toString(16).substr(1)}}}]).factory("Slider",["Helper",function(e){"use strict";var o={maxLeft:0,maxTop:0,callLeft:null,callTop:null,knob:{top:0,left:0}},t={};return{getSlider:function(){return o},getLeftPosition:function(e){return Math.max(0,Math.min(o.maxLeft,o.left+((e.pageX||t.left)-t.left)))},getTopPosition:function(e){return Math.max(0,Math.min(o.maxTop,o.top+((e.pageY||t.top)-t.top)))},setSlider:function(r,n){var i=e.closestSlider(r.target),l=e.getOffset(i,n),s=i.getBoundingClientRect(),c=r.clientX-s.left,a=r.clientY-s.top;o.knob=i.children[0].style,o.left=r.pageX-l.left-window.pageXOffset+l.scrollX,o.top=r.pageY-l.top-window.pageYOffset+l.scrollY,t={left:r.pageX-(c-o.left),top:r.pageY-(a-o.top)}},setSaturation:function(e,t,r){o={maxLeft:r,maxTop:r,callLeft:"setSaturation",callTop:"setLightness"},this.setSlider(e,t)},setHue:function(e,t,r){o={maxLeft:0,maxTop:r,callLeft:!1,callTop:"setHue"},this.setSlider(e,t)},setAlpha:function(e,t,r){o={maxLeft:0,maxTop:r,callLeft:!1,callTop:"setAlpha"},this.setSlider(e,t)},setKnob:function(e,t){o.knob.top=e+"px",o.knob.left=t+"px"}}}]).directive("colorpicker",["$document","$compile","Color","Slider","Helper",function(e,o,t,r,n){"use strict";return{require:"?ngModel",restrict:"A",link:function(i,l,s,c){function a(){e.on("mousemove",u),e.on("mouseup",f)}function p(){try{Y.css("backgroundColor",M[x]())}catch(e){Y.css("backgroundColor",M.toHex())}D.css("backgroundColor",M.toHex(M.value.h,1,1,1)),"rgba"===x&&(b.css.backgroundColor=M.toHex())}function u(e){var o=r.getLeftPosition(e),t=r.getTopPosition(e),n=r.getSlider();r.setKnob(t,o),n.callLeft&&M[n.callLeft].call(M,o/L),n.callTop&&M[n.callTop].call(M,t/L),p();var s=M[x]();return l.val(s),c&&i.$apply(c.$setViewValue(s)),C&&V.val(s),!1}function f(){m("colorpicker-selected"),e.off("mousemove",u),e.off("mouseup",f)}function d(e){M.value=A,M.setColor(l.val()),C&&!e&&V.val(l.val()),F.eq(0).css({left:M.value.s*L+"px",top:L-M.value.b*L+"px"}),F.eq(1).css("top",L*(1-M.value.h)+"px"),F.eq(2).css("top",L*(1-M.value.a)+"px"),A=M.value,p()}function h(){var e,o=n.getOffset(l[0]),t=2;return angular.isDefined(s.colorpickerParent)&&(o.left=0,o.top=0),"top"===w?e={top:o.top-X-t,left:o.left}:"right"===w?e={top:o.top,left:o.left+l[0].offsetWidth+t}:"bottom"===w?e={top:o.top+l[0].offsetHeight+t,left:o.left}:"left"===w&&(e={top:o.top,left:o.left-R-t}),{top:e.top+"px",left:e.left+"px"}}function g(){v()}function k(){y.hasClass("colorpicker-visible")||(d(),y.addClass("colorpicker-visible").css(h()),m("colorpicker-shown"),$===!1&&e.on("mousedown",g),s.colorpickerIsOpen&&(i[s.colorpickerIsOpen]=!0,i.$$phase&&i.$root.$$phase||i.$digest()))}function m(e){c&&i.$emit(e,{name:s.ngModel,value:c.$modelValue})}function v(){y.hasClass("colorpicker-visible")&&(y.removeClass("colorpicker-visible"),m("colorpicker-closed"),e.off("mousedown",g),s.colorpickerIsOpen&&(i[s.colorpickerIsOpen]=!1,i.$$phase&&i.$root.$$phase||i.$digest()))}var b,x=s.colorpicker?s.colorpicker:"hex",w=angular.isDefined(s.colorpickerPosition)?s.colorpickerPosition:"bottom",$=!!angular.isDefined(s.colorpickerInline)&&s.colorpickerInline,S=!!angular.isDefined(s.colorpickerFixedPosition)&&s.colorpickerFixedPosition,I=angular.isDefined(s.colorpickerParent)?l.parent():angular.element(document.body),C=!!angular.isDefined(s.colorpickerWithInput)&&s.colorpickerWithInput,L=angular.isDefined(s.colorpickerSize)?s.colorpickerSize:100,P=L+"px",H=C?'<input type="text" name="colorpicker-input" spellcheck="false">':"",T=$?"":'<button type="button" class="close close-colorpicker">&times;</button>',O='<div class="colorpicker dropdown"><div class="dropdown-menu"><colorpicker-saturation><i></i></colorpicker-saturation><colorpicker-hue><i></i></colorpicker-hue><colorpicker-alpha><i></i></colorpicker-alpha><colorpicker-preview></colorpicker-preview>'+H+T+"</div></div>",y=angular.element(O),M=t,A={h:1,s:0,b:1,a:1},B=y.find("colorpicker-hue"),D=y.find("colorpicker-saturation"),Y=y.find("colorpicker-preview"),F=y.find("i"),R=parseInt(L)+29+("rgba"===x?15:0),X=parseInt(L)+55;if(o(y)(i),y.css("min-width",R+"px"),D.css({width:P,height:P}),B.css("height",P),C){var V=y.find("input");V.css("width",P),V.on("mousedown",function(e){e.stopPropagation()}).on("keyup",function(){var e=this.value;l.val(e),c&&c.$modelValue!==e&&(i.$apply(c.$setViewValue(e)),d(!0))})}"rgba"===x&&(y.addClass("alpha"),b=y.find("colorpicker-alpha"),b.css("height",P),b.on("click",function(e){r.setAlpha(e,S,L),u(e)}).on("mousedown",function(e){r.setAlpha(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-alpha")})),B.on("click",function(e){r.setHue(e,S,L),u(e)}).on("mousedown",function(e){r.setHue(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-hue")}),D.on("click",function(e){r.setSaturation(e,S,L),u(e),angular.isDefined(s.colorpickerCloseOnSelect)&&v()}).on("mousedown",function(e){r.setSaturation(e,S,L),a()}).on("mouseup",function(e){m("colorpicker-selected-saturation")}),S&&y.addClass("colorpicker-fixed-position"),y.addClass("colorpicker-position-"+w),"true"===$&&y.addClass("colorpicker-inline"),I.append(y),c&&(c.$render=function(){l.val(c.$viewValue),d()}),l.on("blur keyup change",function(){d()}),l.on("$destroy",function(){y.remove()}),$===!1?l.on("click",k):k(),y.on("mousedown",function(e){e.stopPropagation(),e.preventDefault()}),y.find("button").on("click",function(){v()}),s.colorpickerIsOpen&&i.$watch(s.colorpickerIsOpen,function(e){e===!0?k():e===!1&&v()})}}}]);
 define("angularColorpicker", function(){});
 
 /**
@@ -47153,6 +48004,7 @@ define("teleperiod", ["q","d3"], function(){});
                             object: teleperiodScope.d3Svg,
                             focusDate: focusDate,
                             selectedEvents: editList,
+                            dateLocale: 'en-US',
                             workingtimes: function(interval) {
                                 return teleperiodScope.getPromisedData(attrs.workingtimes, interval);
                             },
@@ -47176,6 +48028,11 @@ define("teleperiod", ["q","d3"], function(){});
 
                         if (undefined !== attrs.daylastminute) {
                             options.dayLastMinute = $parse(attrs.daylastminute)(scope);
+                        }
+
+                        if (undefined !== attrs.options) {
+                            var extendOptions = $parse(attrs.options)(scope);
+                            options = angular.merge(option, extendOptions);
                         }
 
                         teleperiodScope.teleperiod = new Teleperiod(options);
