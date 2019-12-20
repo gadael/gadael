@@ -1705,8 +1705,8 @@ msgstr[1] "{{$count}} droits"
 #: public/partials/admin/user-view-account.html:18
 msgid "One year old"
 msgid_plural "{{$count}} years old"
-msgstr[0] "un an d'ancienneté"
-msgstr[1] "{{$count}} ans d'anciennetés"
+msgstr[0] "un an"
+msgstr[1] "{{$count}} ans"
 
 #: public/partials/admin/user-view-account.html:29
 msgid "One year seniority"
