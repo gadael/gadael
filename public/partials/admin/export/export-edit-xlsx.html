@@ -9,23 +9,26 @@
         <div class="radio">
             <label><input type="radio" ng-model="type" value="balance"> <span translate>Export balance</span></label>
         </div>
+        <div class="radio">
+            <label><input type="radio" ng-model="type" value="lunchs"> <span translate>Export lunch breaks</span></label>
+        </div>
     </div>
-
 
     <ng-include ng-if="type=='requests'" src="'partials/utils/common/exports/export-edit.html'"></ng-include>
 
     <div ng-if="type=='balance'" class="form-group">
-
         <label for="exportMoment" translate>Balance state the:</label>
-
         <div class="input-group">
             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
             <input id="exportMoment" class="form-control" ng-model="period.moment" bs-datepicker type="text" data-autoclose="1" />
         </div>
-
     </div>
 
-
+    <div ng-if="type=='lunchs'" class="form-group">
+        <label for="exportMonth" translate>Total number of lunch breaks for month:</label>
+        <select class="form-control" id="exportMonth" ng-model="period.month" ng-options="month | date:'MMMM yyyy' for month in lunchMonths">
+        </select>
+    </div>
 
     <button class="btn btn-primary" ng-click="download()">
         <i class="fa fa-download"></i> <span translate>Download</span>

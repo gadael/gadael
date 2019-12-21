@@ -54,6 +54,21 @@ exports = module.exports = function(services, app) {
             });
         },
 
+        /**
+         * Number of lunchs by user in XLSX
+         * @param {Object} params
+         * @returns {Promise}
+         */
+        lunchs: function(params) {
+            return new Promise(function(resolve, reject) {
+
+                if (undefined === params.month) {
+                    return reject(gt.gettext('month is a mandatory parameter'));
+                }
+
+                resolve(require('./lunchs')(service, params.month));
+            });
+        },
 
         /**
          * Get requests for all users between 2 dates in sage text format
@@ -89,13 +104,12 @@ exports = module.exports = function(services, app) {
     service.getResultPromise = function(params) {
 
         let type = 'balance';
-        if (undefined !== params.type && -1 !== ['balance', 'requests', 'sage'].indexOf(params.type)) {
+        if (undefined !== params.type && -1 !== ['balance', 'requests', 'sage', 'lunchs'].indexOf(params.type)) {
             type = params.type;
         }
 
         exportTypes[type](params)
         .then(data => {
-
             let tmpname = tmp.tmpNameSync();
 
             function callback(err) {
