@@ -51,7 +51,7 @@
     "jurassic": "0.11.5",
     "latinize": "~0.2.0",
     "mailgen": "^2.0.7",
-    "mongoose": "^5.5.1",
+    "mongoose": "5.7.5",
     "mongoose-mpath": "^2.0.4",
     "morgan": "^1.9.1",
     "node-gettext": "~2.0.0",
