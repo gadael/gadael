@@ -52,12 +52,56 @@ describe('Account', function() {
         }).catch(done);
     });
 
-    it('test account getLunchBreaks method with working hours', function(done) {
+    it('provide getLunchBreaks method with working hours', function(done) {
         const dtstart = new Date(2016,4,1);
         const dtend = new Date(2016,4,7);
         user.getAccount().then(account => account.getLunchBreaks(dtstart, dtend))
         .then(list => {
             expect(list.length).toBeGreaterThan(0);
+            done();
+        })
+        .catch(done);
+    });
+
+    it('provide getLunchBreaks method on monday', function(done) {
+        const dtstart = new Date(2018, 11, 24, 0, 0, 0, 0);
+        const dtend = new Date(2018, 11, 24, 23, 59, 59, 999);
+        user.getAccount().then(account => account.getLunchBreaks(dtstart, dtend))
+        .then(list => {
+            expect(list.length).toEqual(1);
+            done();
+        })
+        .catch(done);
+    });
+
+    it('provide getLunchBreaks method on chrismas day', function(done) {
+        const dtstart = new Date(2018, 11, 25, 0, 0, 0, 0);
+        const dtend = new Date(2018, 11, 25, 23, 59, 59, 999);
+        user.getAccount().then(account => account.getLunchBreaks(dtstart, dtend))
+        .then(list => {
+            expect(list.length).toEqual(0);
+            done();
+        })
+        .catch(done);
+    });
+
+    it('provide getLunchBreaks method on wednesday', function(done) {
+        const dtstart = new Date(2018, 11, 26, 0, 0, 0, 0);
+        const dtend = new Date(2018, 11, 26, 23, 59, 59, 999);
+        user.getAccount().then(account => account.getLunchBreaks(dtstart, dtend))
+        .then(list => {
+            expect(list.length).toEqual(1);
+            done();
+        })
+        .catch(done);
+    });
+
+    it('provide getLunchBreaks method with overlapping non-working day', function(done) {
+        const dtstart = new Date(2018, 11, 24, 0, 0, 0, 0);
+        const dtend = new Date(2018, 11, 26, 23, 59, 59, 999);
+        user.getAccount().then(account => account.getLunchBreaks(dtstart, dtend))
+        .then(list => {
+            expect(list.length).toEqual(2);
             done();
         })
         .catch(done);
