@@ -34,9 +34,9 @@
         </div>
 
         <div class="col-xs-11">
+                <div class="col-md-5" ng-if="request.absence.distribution.length == 1">
 
-                <div class="col-md-5" ng-if="request.absence.distribution">
-                    <strong>{{request.dispType}}</strong>
+                    <i class="fa fa-asterisk" style="color:{{request.absence.distribution[0].right.type.color}}" title="{{request.absence.distribution[0].right.type.name}}"></i> <strong>{{request.absence.distribution[0].right.name}} </strong>
 
                     <div class="row">
                         <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
@@ -44,7 +44,17 @@
                     </div>
 
                 </div>
+                <div class="col-md-5" ng-if="request.absence.distribution.length > 1">
 
+                        <strong>{{request.dispType}}</strong>
+    
+                        <div class="row">
+                            <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
+                            <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
+                        </div>
+    
+                    </div>
+    
                 <div class="col-md-4 hidden-xs hidden-sm">
                     <span translate>Created the</span><br />
                     {{request.timeCreated|date}}
