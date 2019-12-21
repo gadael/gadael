@@ -9,9 +9,10 @@ exports = module.exports = function createConfiguration() {
     var config = {};
 
     config.loghttp = process.env.LOGHTTP === "true";
-    config.csrfProtection =  process.env.CSRFPROTECTION === "true";
-    config.postpone =  process.env.POSTPHONE === "true"; // postpone some tasks after HTTP result in REST service
+    config.csrfProtection = process.env.CSRFPROTECTION === "true";
+    config.postpone = process.env.POSTPONE === "true";   // postpone some tasks after HTTP result in REST service
                                                          // postpone=false for unit tests but true in production for speed
+    config.useSchudeledRefreshStat = process.env.USE_SCHEDULED_REFRESH_STAT === "true";
 
     config.url =  process.env.CALLBACK_URL;              // used by oauth2 callback url
                                                          // and links in Emails
