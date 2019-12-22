@@ -296,6 +296,14 @@ msgstr ""
 msgid "Attendance (percentage relative to full-time)"
 msgstr ""
 
+#: public/partials/login/login.html:46
+msgid "Authenticate using CAS"
+msgstr ""
+
+#: public/partials/login/login.html:37
+msgid "Authenticate using your google account"
+msgstr ""
+
 #: public/partials/utils/common/renewal/combined-adjutments.html:5
 msgid "Author"
 msgstr ""
