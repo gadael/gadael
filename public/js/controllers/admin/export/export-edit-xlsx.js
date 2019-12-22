@@ -7,23 +7,31 @@ define([], function() {
 
 		$scope.setPageTitle(gettext('Export in XLSX file'));
 
-        // default type
+        $scope.lunchMonths = [];
+        var monthLoop = new Date();
+        monthLoop.setDate(1);
+        monthLoop.setHours(0, 0, 0, 0);
 
+        for (var i=0; i<12; i++) {
+            monthLoop.setMonth(monthLoop.getMonth() -1);
+            $scope.lunchMonths.push(new Date(monthLoop));
+        }
+
+        // default type
         $timeout(function() {
             $scope.type = 'requests';
             $scope.period = {
                 from: null,
                 to: null,
-                moment: new Date()
+                moment: new Date(),
+                month: $scope.lunchMonths[0]
             };
 
             $scope.downloadUrl = null;
         });
 
         $scope.download = function() {
-
             var parameters = [];
-
             parameters.push('type='+$scope.type);
 
             if ('requests' === $scope.type) {
@@ -33,6 +41,10 @@ define([], function() {
 
             if ('balance' === $scope.type) {
                 parameters.push('moment='+$scope.period.moment.toJSON());
+            }
+
+            if ('lunchs' === $scope.type) {
+                parameters.push('month='+$scope.period.month.toJSON());
             }
 
             $scope.downloadUrl = 'rest/admin/export?'+parameters.join('&');

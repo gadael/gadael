@@ -4,13 +4,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: public/partials/utils/common/request/request-list-type.html:24
+#: public/partials/utils/common/request/request-list-type.html:32
 msgid "1 day"
 msgid_plural "{{deposit.quantity| number}} days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/partials/utils/common/request/request-list-type.html:25
+#: public/partials/utils/common/request/request-list-type.html:33
 msgid "1 hour"
 msgid_plural "{{deposit.quantity| number}} hours"
 msgstr[0] ""
@@ -26,7 +26,7 @@ msgstr ""
 
 #: public/partials/account/request/requests.html:61
 #: public/partials/admin/request/requests.html:68
-#: public/partials/utils/common/request/request-list-type.html:2
+#: public/partials/utils/common/request/request-list-type.html:10
 msgid "Absence"
 msgstr ""
 
@@ -222,7 +222,7 @@ msgstr ""
 msgid "Administrator"
 msgstr ""
 
-#: public/js/optimized.js:36362
+#: public/js/optimized.js:36675
 #: public/js/services.js:461
 msgid "Age"
 msgstr ""
@@ -355,7 +355,7 @@ msgstr ""
 msgid "Back to Login"
 msgstr ""
 
-#: public/partials/admin/export/export-edit-xlsx.html:19
+#: public/partials/admin/export/export-edit-xlsx.html:20
 msgid "Balance state the:"
 msgstr ""
 
@@ -463,7 +463,7 @@ msgstr ""
 #: public/partials/admin/compulsoryleave-edit.html:87
 #: public/partials/admin/department-edit.html:52
 #: public/partials/admin/export/export-edit-sage.html:26
-#: public/partials/admin/export/export-edit-xlsx.html:34
+#: public/partials/admin/export/export-edit-xlsx.html:37
 #: public/partials/admin/invitation-edit.html:41
 #: public/partials/admin/recoverquantity-edit.html:24
 #: public/partials/admin/right-edit.html:241
@@ -598,7 +598,7 @@ msgstr ""
 msgid "Consumption"
 msgstr ""
 
-#: public/js/optimized.js:36363
+#: public/js/optimized.js:36676
 #: public/js/services.js:462
 msgid "Consuption"
 msgstr ""
@@ -708,7 +708,7 @@ msgid "Create the first user"
 msgstr ""
 
 #: public/partials/account/request/requests.html:38
-#: public/partials/manager/waitingrequests.html:49
+#: public/partials/manager/waitingrequests.html:56
 msgid "Created the"
 msgstr ""
 
@@ -879,7 +879,7 @@ msgid "Do you really want to delete this invitation?"
 msgstr ""
 
 #: public/partials/admin/export/export-edit-sage.html:24
-#: public/partials/admin/export/export-edit-xlsx.html:31
+#: public/partials/admin/export/export-edit-xlsx.html:34
 msgid "Download"
 msgstr ""
 
@@ -961,7 +961,7 @@ msgstr ""
 msgid "Entitlement quantity:"
 msgstr ""
 
-#: public/js/optimized.js:36358
+#: public/js/optimized.js:36671
 #: public/js/services.js:457
 msgid "Entry date"
 msgstr ""
@@ -988,6 +988,10 @@ msgstr ""
 
 #: public/js/controllers/admin/export/export-edit-sage.js:8
 msgid "Export in sage format"
+msgstr ""
+
+#: public/partials/admin/export/export-edit-xlsx.html:13
+msgid "Export lunch breaks"
 msgstr ""
 
 #: public/partials/admin/export/export-edit-xlsx.html:7
@@ -1070,10 +1074,12 @@ msgstr ""
 #: public/partials/admin/user-view-account.html:131
 #: public/partials/admin/user-view-account.html:165
 #: public/partials/admin/user-view-account.html:64
-#: public/partials/manager/waitingrequests.html:42
+#: public/partials/manager/waitingrequests.html:41
+#: public/partials/manager/waitingrequests.html:50
 #: public/partials/utils/common/calendar/popover-event.html:11
 #: public/partials/utils/common/request/absence-view.html:47
-#: public/partials/utils/common/request/request-list-type.html:14
+#: public/partials/utils/common/request/request-list-type.html:13
+#: public/partials/utils/common/request/request-list-type.html:22
 #: public/partials/utils/common/request/request-list-type.html:5
 msgid "From"
 msgstr ""
@@ -1083,7 +1089,7 @@ msgstr ""
 msgid "From date:"
 msgstr ""
 
-#: public/partials/utils/common/request/request-list-type.html:29
+#: public/partials/utils/common/request/request-list-type.html:37
 msgid "From right"
 msgstr ""
 
@@ -1107,7 +1113,7 @@ msgid "From:"
 msgstr ""
 
 #: public/js/app.js:66
-#: public/js/optimized.js:41878
+#: public/js/optimized.js:42191
 msgid "Gadael - %s"
 msgstr ""
 
@@ -1265,7 +1271,7 @@ msgid "Leave right"
 msgstr ""
 
 #: public/js/app.js:135
-#: public/js/optimized.js:41947
+#: public/js/optimized.js:42260
 msgid "Leaves managment"
 msgstr ""
 
@@ -1791,12 +1797,12 @@ msgstr ""
 msgid "Renewals with remaining quantity"
 msgstr ""
 
-#: public/js/optimized.js:36360
+#: public/js/optimized.js:36673
 #: public/js/services.js:459
 msgid "Request in user interval"
 msgstr ""
 
-#: public/js/optimized.js:36359
+#: public/js/optimized.js:36672
 #: public/js/services.js:458
 msgid "Request period"
 msgstr ""
@@ -2077,7 +2083,7 @@ msgstr ""
 msgid "Send invitations"
 msgstr ""
 
-#: public/js/optimized.js:36361
+#: public/js/optimized.js:36674
 #: public/js/services.js:460
 msgid "Seniority"
 msgstr ""
@@ -2328,7 +2334,7 @@ msgstr ""
 
 #: public/partials/account/request/requests.html:62
 #: public/partials/admin/request/requests.html:69
-#: public/partials/utils/common/request/request-list-type.html:20
+#: public/partials/utils/common/request/request-list-type.html:28
 msgid "Time saving deposit"
 msgstr ""
 
@@ -2348,10 +2354,12 @@ msgstr ""
 #: public/partials/admin/user-view-account.html:132
 #: public/partials/admin/user-view-account.html:166
 #: public/partials/admin/user-view-account.html:65
-#: public/partials/manager/waitingrequests.html:43
+#: public/partials/manager/waitingrequests.html:42
+#: public/partials/manager/waitingrequests.html:51
 #: public/partials/utils/common/calendar/popover-event.html:12
 #: public/partials/utils/common/request/absence-view.html:48
-#: public/partials/utils/common/request/request-list-type.html:15
+#: public/partials/utils/common/request/request-list-type.html:14
+#: public/partials/utils/common/request/request-list-type.html:23
 #: public/partials/utils/common/request/request-list-type.html:6
 msgid "To"
 msgstr ""
@@ -2360,7 +2368,7 @@ msgstr ""
 msgid "To pick-up on right"
 msgstr ""
 
-#: public/partials/utils/common/request/request-list-type.html:30
+#: public/partials/utils/common/request/request-list-type.html:38
 msgid "To right"
 msgstr ""
 
@@ -2388,6 +2396,10 @@ msgstr ""
 
 #: public/partials/utils/common/request/absence-view.html:22
 msgid "Total duration:"
+msgstr ""
+
+#: public/partials/admin/export/export-edit-xlsx.html:28
+msgid "Total number of lunch breaks for month:"
 msgstr ""
 
 #: public/partials/admin/collection-edit.html:30
@@ -2608,7 +2620,7 @@ msgstr ""
 
 #: public/partials/account/request/requests.html:63
 #: public/partials/admin/request/requests.html:70
-#: public/partials/utils/common/request/request-list-type.html:12
+#: public/partials/utils/common/request/request-list-type.html:20
 msgid "Workperiod recover"
 msgstr ""
 

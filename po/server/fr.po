@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-19 20:06+0100\n"
-"PO-Revision-Date: 2019-12-19 20:08+0100\n"
+"POT-Creation-Date: 2019-12-22 13:21+0100\n"
+"PO-Revision-Date: 2019-12-22 13:22+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -351,16 +351,22 @@ msgstr "moment est un paramètre obligatoire"
 msgid "from and to are mandatory parameters"
 msgstr "from et to sont des paramètres obligatoires"
 
-#: api/services/admin/exports/get.js:70
+#: api/services/admin/exports/get.js:66
+msgid "month is a mandatory parameter"
+msgstr "month est un paramètre obligatoire"
+
+#: api/services/admin/exports/get.js:85
 msgid "from,to and rightType are mandatory parameters"
 msgstr "from,to et rightType sont des paramètres obligatoires"
 
 #: api/services/admin/exports/requests.js:18
+#: api/services/admin/exports/lunchs.js:13
 #: api/services/admin/exports/balance.js:50
 msgid "Name"
 msgstr "Nom"
 
 #: api/services/admin/exports/requests.js:19
+#: api/services/admin/exports/lunchs.js:14
 #: api/services/admin/exports/balance.js:51
 msgid "Department"
 msgstr "Service"
@@ -389,6 +395,11 @@ msgstr "Durée"
 msgid "Status"
 msgstr "Statut"
 
+#: api/services/admin/exports/lunchs.js:15
+#: api/services/admin/exports/balance.js:56
+msgid "Quantity"
+msgstr "Quantité"
+
 #: api/services/admin/exports/balance.js:52
 msgid "Right"
 msgstr "Droit"
@@ -404,10 +415,6 @@ msgstr "Début du renouvellement"
 #: api/services/admin/exports/balance.js:55
 msgid "Renewal finish"
 msgstr "Fin du renouvellement"
-
-#: api/services/admin/exports/balance.js:56
-msgid "Quantity"
-msgstr "Quantité"
 
 #: api/services/admin/exports/balance.js:57
 msgid "Consumed quantity"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-19 20:06+0100\n"
+"POT-Creation-Date: 2019-12-22 13:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -323,16 +323,22 @@ msgstr ""
 msgid "from and to are mandatory parameters"
 msgstr ""
 
-#: api/services/admin/exports/get.js:70
+#: api/services/admin/exports/get.js:66
+msgid "month is a mandatory parameter"
+msgstr ""
+
+#: api/services/admin/exports/get.js:85
 msgid "from,to and rightType are mandatory parameters"
 msgstr ""
 
 #: api/services/admin/exports/requests.js:18
+#: api/services/admin/exports/lunchs.js:13
 #: api/services/admin/exports/balance.js:50
 msgid "Name"
 msgstr ""
 
 #: api/services/admin/exports/requests.js:19
+#: api/services/admin/exports/lunchs.js:14
 #: api/services/admin/exports/balance.js:51
 msgid "Department"
 msgstr ""
@@ -361,6 +367,11 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
+#: api/services/admin/exports/lunchs.js:15
+#: api/services/admin/exports/balance.js:56
+msgid "Quantity"
+msgstr ""
+
 #: api/services/admin/exports/balance.js:52
 msgid "Right"
 msgstr ""
@@ -375,10 +386,6 @@ msgstr ""
 
 #: api/services/admin/exports/balance.js:55
 msgid "Renewal finish"
-msgstr ""
-
-#: api/services/admin/exports/balance.js:56
-msgid "Quantity"
 msgstr ""
 
 #: api/services/admin/exports/balance.js:57

@@ -8,10 +8,11 @@ const fs = require('fs');
  *
  * rest service parameters are:
  *  format xlsx|sage|csv...
- *  type balance|requests
+ *  type balance|requests|lunchs
  *  from
  *  to
  *  moment
+ *  month
  */
 function getController() {
     ctrlFactory.get.call(this, '/rest/admin/export');

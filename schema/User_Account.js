@@ -1112,9 +1112,10 @@ exports = module.exports = function(params) {
 
     /**
      * Save lunch breaks in database
+     * @param {Date} limit optional argument to limit creation period
      * @return {Promise}
      */
-    accountSchema.methods.saveLunchBreaks = function() {
+    accountSchema.methods.saveLunchBreaks = function(limit) {
         let start = this.lunch.createdUpTo;
         if (this.arrival && (!start || start < this.arrival)) {
             start = this.arrival;
@@ -1130,6 +1131,10 @@ exports = module.exports = function(params) {
             end = this.lunch.to;
         }
         end.setHours(23, 59, 59, 999);
+
+        if (limit !== undefined && limit < end && limit > start) {
+            end = limit;
+        }
 
         if (end <= this.lunch.createdUpTo) {
             // Nothing to save
