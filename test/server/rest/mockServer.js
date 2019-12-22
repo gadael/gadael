@@ -58,6 +58,7 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
             config.mongodb.dbname = serverInst.dbname;
             config.csrfProtection = false;
             config.postpone = false;
+            config.useSchudeledRefreshStat = false;
 
             let app = api.getExpress(config, models);
 
