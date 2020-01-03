@@ -298,7 +298,7 @@ describe('Mail object', function() {
         });
     });
 
-
+    let lastCreatedRequestsCount = 0;
 
     it('verify the approbalert query', function(done) {
         createPendingWorkperiodRecovery()
@@ -307,6 +307,7 @@ describe('Mail object', function() {
                                                          // 0 disable the functionality
             approbalertquery(server.app)
             .then(list => {
+                lastCreatedRequestsCount = list.length;
                 expect(list.length).toBeGreaterThan(0);
                 return done();
             })
@@ -317,7 +318,39 @@ describe('Mail object', function() {
         });
     });
 
+    let workingPeriod;
 
+    it('increment alert count with one more request', function(done) {
+        createPendingWorkperiodRecovery()
+        .then(wp => {
+            workingPeriod = wp;
+            approbalertquery(server.app)
+            .then(list => {
+                expect(list.length).toBe(lastCreatedRequestsCount + 1);
+                return done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            });
+        });
+    });
+
+    it('Do not send alert on deleted request in waiting state', function(done) {
+        workingPeriod.status.deleted = 'accepted';
+        workingPeriod.save()
+        .then(wp => {
+            approbalertquery(server.app)
+            .then(list => {
+                expect(list.length).toBe(lastCreatedRequestsCount);
+                return done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            });
+        });
+    });
 
     it('close the mock server', function(done) {
         server.close(done);

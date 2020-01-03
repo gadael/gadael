@@ -56,7 +56,10 @@ exports = module.exports = function(app) {
 
     return Request.find()
     .or([
-        { 'status.created': 'waiting' },
+        { $and: [
+            { 'status.created': 'waiting' },
+            { 'status.deleted': null }
+        ]},
         { 'status.deleted': 'waiting' }
     ])
     .where('lastUpdate').lte(limit)
