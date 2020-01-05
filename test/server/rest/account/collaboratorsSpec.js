@@ -32,12 +32,11 @@ describe('Collaborators', function() {
 
 
     beforeEach(function(done) {
-        var mockServerModule = require('../mockServer');
+        var helpers = require('../mockServer');
         var mockApproval = require('../manager/mockApproval');
 
-        mockServerModule.mockServer('colaborators', function(_mockServer) {
+        helpers.mockServer('colaborators', function(_mockServer) {
             server = _mockServer;
-
             approval = new mockApproval(server);
             done();
         });

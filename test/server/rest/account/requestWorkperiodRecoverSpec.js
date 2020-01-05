@@ -26,6 +26,8 @@ describe('request workperiod recover account rest service', function() {
         helpers.mockServer('accountRequestWorkperiodRecover', function(_mockServer) {
             server = _mockServer;
             done();
+        }, {
+            workperiod_recovery_by_approver: true
         });
     });
 

@@ -17,7 +17,7 @@ exports = module.exports = function(params) {
         country: { type: String, maxlength: 2, minlength: 2 },          // Country code used for database initialisation ISO 3166-1 alpha-2
 
 		workperiod_recover_request: { type: Boolean, default: true },	// allow creation of workperiod recover requests
-        workperiod_recovery_by_approver: { type: Boolean, default: true },// The approver convert overtime to absence right
+        workperiod_recovery_by_approver: { type: Boolean, default: false },// The approver convert overtime to absence right
                                                                         // If false, the overtime may be converted or settled afterward by the administrator
 
 		maintenance:  { type: Boolean, default: false },				// maintenance mode, the app is read only
