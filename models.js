@@ -42,6 +42,7 @@ const Message = require('./schema/Message');
 const Invitation = require('./schema/Invitation');
 const UserRenewalStat = require('./schema/UserRenewalStat');
 const Lunch = require('./schema/Lunch');
+const Overtime = require('./schema/Overtime');
 
 var models = {};
 
@@ -112,6 +113,7 @@ models.load = function() {
 	Invitation(requirements);
 	UserRenewalStat(requirements);
     Lunch(requirements);
+    Overtime(requirements);
 
 	if (!requirements.autoIndex) {
 		// Nothing to index

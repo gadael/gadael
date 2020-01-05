@@ -10,18 +10,17 @@ exports = module.exports = function(params) {
         recoverQuantity: { type: mongoose.Schema.Types.ObjectId, ref: 'RecoverQuantity' },
         quantity: { type: Number, required: true },         // quantity equal du duration of period in the planning
         gainedQuantity: { type: Number, required: true },   // quantity earned from recovery of the period, can be modified by approvers
-        waitingSettlementQuantity: { type: Number, required: true },
-        settledQuantity: Number,
         right: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-            name: String,                                   // right created after approval in recovery by aprover mode
+            name: String,                                   // right created after approval in recovery by approver mode
             quantity_unit: { type: String, enum:['D', 'H'], required: true },
             renewal: {                                      // open period for the recovery right
                 id: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' },
                 start: Date,
                 finish: Date
             }
-        }
+        },
+        overtime: { type: mongoose.Schema.Types.ObjectId, ref: 'Overtime' } // set after approval if workperiod_recovery_by_approver == false
 	});
 
 	wpRecoverSchema.set('autoIndex', params.autoIndex);

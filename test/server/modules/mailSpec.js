@@ -87,8 +87,7 @@ describe('Mail object', function() {
                 name: 'Test'
             },
             gainedQuantity: 0,
-            quantity: 0,
-            waitingSettlementQuantity: 0
+            quantity: 0
         }];
 
 
