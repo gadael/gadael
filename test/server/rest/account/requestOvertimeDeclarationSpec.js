@@ -168,8 +168,7 @@ describe('overtime declartion account rest service', function() {
             }]
         };
 
-        server.post('/rest/account/requests', params,
-            function(res, body) {
+        server.post('/rest/account/requests', params, function(res, body) {
             expect(res.statusCode).toEqual(200);
 
             expect(body._id).toBeDefined();

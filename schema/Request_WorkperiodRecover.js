@@ -13,7 +13,7 @@ exports = module.exports = function(params) {
         right: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
             name: String,                                   // right created after approval in recovery by approver mode
-            quantity_unit: { type: String, enum:['D', 'H'], required: true },
+            quantity_unit: { type: String, enum:['D', 'H'] },
             renewal: {                                      // open period for the recovery right
                 id: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' },
                 start: Date,

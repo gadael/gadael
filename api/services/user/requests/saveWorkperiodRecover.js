@@ -56,17 +56,18 @@ function getFieldsToSet(service, wrParams)
         return Promise.reject(e);
     }
 
+    // the real quantity from the list of events, must be in the quantity unit of the recover quantity
     var fieldsToSet = {
-        right: {
-            id: null,
-            name: null
-        }
+        quantity: wrParams.quantity
     };
 
-    // the real quantity from the list of events, must be in the quantity unit of the recover quantity
-    fieldsToSet.quantity = wrParams.quantity;
-
     if (service.app.config.company.workperiod_recovery_by_approver) {
+
+        fieldsToSet.right = {
+            id: null,
+            name: null
+        };
+
         // name set by creator for the new right
         fieldsToSet.right.name = wrParams.right.name;
         const RecoverQuantityModel = service.app.db.models.RecoverQuantity;
@@ -90,7 +91,6 @@ function getFieldsToSet(service, wrParams)
     }
 
     fieldsToSet.gainedQuantity = wrParams.quantity;
-    fieldsToSet.right.quantity_unit = 'H';
     fieldsToSet.waitingSettlementQuantity = wrParams.quantity;
     return Promise.resolve(fieldsToSet);
 }
