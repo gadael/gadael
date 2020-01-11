@@ -14,7 +14,7 @@ exports = module.exports = function createConfiguration() {
                                                 // postpone=false for unit tests but true in production for speed
     config.useSchudeledRefreshStat = false;     // Set to true to schedule stat refresh every hours
 
-    config.url = '';                            // used by oauth2 callback url
+    config.url = 'http://localhost:3000/';      // used by oauth2 callback url
                                                 // and links in Emails
 
                                                 // where the http server accept connexion to
