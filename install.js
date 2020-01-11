@@ -22,5 +22,6 @@ if (undefined !== process.argv[4]) {
 api.company.createDb(api.headless, dbName, companyValues)
 .then(company => {
     console.log(util.format('Database %s created, please use `node app.js 3000 %s` to start your Gadael instance', dbName, dbName));
+    process.exit();
 })
 .catch(console.error);

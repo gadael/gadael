@@ -14,14 +14,14 @@ exports = module.exports = function createConfiguration() {
                                                 // postpone=false for unit tests but true in production for speed
     config.useSchudeledRefreshStat = false;     // Set to true to schedule stat refresh every hours
 
-    config.url = 'https//demo.gadael.com';      // used by oauth2 callback url
+    config.url = '';                            // used by oauth2 callback url
                                                 // and links in Emails
 
                                                 // where the http server accept connexion to
     config.host = 'localhost';                  // if host undefined: any host
     config.port = 3000;
     config.mongodb = {
-        init: true,                             // database initialisation on first connexion
+        init: false,                            // database initialisation on first connexion, setting used for packaged version DEB or RPM
         prefix: 'localhost/',
         dbname: 'gadael',
         autoIndex: true,
