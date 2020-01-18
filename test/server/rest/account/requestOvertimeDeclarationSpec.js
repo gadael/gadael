@@ -299,6 +299,12 @@ describe('overtime declartion account rest service', function() {
                 var lastLog = body.requestLog[body.requestLog.length -1];
                 expect(lastLog.action).toEqual('wf_end');
             }
+            expect(body.workperiod_recover).toBeDefined();
+            expect(body.workperiod_recover.length).toEqual(1);
+            if (1 === body.workperiod_recover.length) {
+                expect(body.workperiod_recover[0].overtime).toBeDefined();
+                expect(body.workperiod_recover[0].overtime === null).toBeFalsy();
+            }
             done();
         });
     });

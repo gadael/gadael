@@ -29,17 +29,9 @@ function testRequired(wrParams, workperiodRecoveryByApprover)
     return true;
 }
 
-
-
-
-
 /**
  * Get object to set into request.workperiod_recover on save
- *
- *
  * @param {Object}      wrParams        Worperiod recover request parmeters from post|put request
- *
- *
  * @return {Promise}
  */
 function getFieldsToSet(service, wrParams)
@@ -57,7 +49,7 @@ function getFieldsToSet(service, wrParams)
     }
 
     // the real quantity from the list of events, must be in the quantity unit of the recover quantity
-    var fieldsToSet = {
+    const fieldsToSet = {
         quantity: wrParams.quantity
     };
 
@@ -88,6 +80,9 @@ function getFieldsToSet(service, wrParams)
             return fieldsToSet;
 
         });
+    } else {
+        // will be set after approval
+        fieldsToSet.overtime = null;
     }
 
     fieldsToSet.gainedQuantity = wrParams.quantity;
