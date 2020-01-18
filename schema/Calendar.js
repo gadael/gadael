@@ -66,7 +66,7 @@ exports = module.exports = function(params) {
 
                 var EventModel = params.db.models.CalendarEvent;
 
-                EventModel.remove({ calendar: calendar._id }, (err) => {
+                EventModel.deleteMany({ calendar: calendar._id }, (err) => {
 
                     if (err)
                     {

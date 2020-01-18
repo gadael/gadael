@@ -42,7 +42,7 @@ module.exports = exports = function pagedFindPlugin (schema) {
     };
 
     var countResults = function(callback) {
-      thisSchema.count(options.filters, function(err, count) {
+      thisSchema.countDocuments(options.filters, function(err, count) {
         output.items.total = count;
         callback(null, 'done counting');
       });

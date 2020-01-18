@@ -70,7 +70,7 @@ exports = module.exports = function(params) {
             .where('start').lt(this.finish)
             .where('finish').gt(this.start)
             .where('_id').ne(this._id)
-            .count()
+            .countDocuments()
             .exec()
             .then(renewals => {
                 if (renewals > 0) {

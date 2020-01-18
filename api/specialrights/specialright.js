@@ -66,7 +66,7 @@ SpecialRight.prototype.canCreate = function(RightModel) {
 
     let special = this.constructor.name;
 
-    return RightModel.count({ special: special }).then(count => {
+    return RightModel.countDocuments({ special: special }).then(count => {
         return (count === 0);
     });
 };

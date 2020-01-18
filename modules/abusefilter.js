@@ -22,8 +22,8 @@ exports = module.exports = function abuseFilter(req) {
     let gt = req.app.utility.gettext;
 
     return Promise.all([
-        LoginAttempt.count({ ip: req.ip }),
-        LoginAttempt.count({ ip: req.ip, user: req.body.username })
+        LoginAttempt.countDocuments({ ip: req.ip }),
+        LoginAttempt.countDocuments({ ip: req.ip, user: req.body.username })
     ])
     .then(arr => {
         if (arr[0] >= config.forIp || arr[1] >= config.forIpAndUser) {

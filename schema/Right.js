@@ -261,11 +261,11 @@ exports = module.exports = function(params) {
         let Request = this.model('Request');
 
 
-        let absences = AbsenceElem.count()
+        let absences = AbsenceElem.countDocuments()
         .where('right.id', right._id)
         .exec();
 
-        let tsdOrWorkRecover = Request.count({ $and: [
+        let tsdOrWorkRecover = Request.countDocuments({ $and: [
             { 'status.deleted' : { $ne: 'accepted' } },
             { $or:
                  [

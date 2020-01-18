@@ -20,7 +20,7 @@ function validate(service, params) {
 
     var RightModel = service.app.db.models.Right;
 
-    RightModel.count({ _id: params.right }).exec((err, count) => {
+    RightModel.countDocuments({ _id: params.right }).exec((err, count) => {
         if (err) {
             return service.error(err);
         }
