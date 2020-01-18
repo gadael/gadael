@@ -92,16 +92,18 @@ function getFieldsToSet(service, wrParams)
 
 
 /**
- * Create right if no approval
- *
+ * Settle the request when no approval step
  * @param {User}        user            Request owner
  * @param {Request}     document
  *
- * @return {Promise}    resolve to the Beneficiary document or null if right has not been created
+ * @return {Promise}
  */
-function createRight(user, document)
+function settle(user, document)
 {
-    return document.createRecoveryBeneficiary(user);
+    return Promise.all([
+        document.createOvertime(user),
+        document.createRecoveryBeneficiary(user)
+    ]);
 }
 
 
@@ -143,5 +145,5 @@ function getEventsPromise(service, param)
 exports = module.exports = {
     getEventsPromise: getEventsPromise,
     getFieldsToSet: getFieldsToSet,
-    createRight: createRight
+    settle: settle
 };

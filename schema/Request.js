@@ -676,6 +676,26 @@ exports = module.exports = function(params) {
         if (params.app.config.company.workperiod_recovery_by_approver) {
             return Promise.resolve(null);
         }
+
+        const recover = this.workperiod_recover[0];
+        const request = this;
+        const Overtime = request.model('Overtime');
+
+        var overtime = new Overtime();
+        overtime.user = request.user;
+        overtime.events = request.events;
+        overtime.quantity = recover.gainedQuantity;
+        overtime.settled = false;
+        overtime.settlements = [];
+
+        return overtime.save()
+        .then(overtime => {
+            recover.overtime = overtime._id;
+            return request.save()
+            .then(() => {
+                return overtime;
+            });
+        });
     };
 
     /**

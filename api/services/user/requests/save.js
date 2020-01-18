@@ -290,7 +290,7 @@ function saveRequest(service, params) {
 
             if (document.workperiod_recover !== undefined) {
                 // create right if no approval
-                return saveWorkperiodRecover.createRight(userDocument, document);
+                return saveWorkperiodRecover.settle(userDocument, document);
             }
 
             if (document.time_saving_deposit !== undefined) {

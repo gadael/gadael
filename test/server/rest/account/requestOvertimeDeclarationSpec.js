@@ -326,7 +326,21 @@ describe('overtime declartion account rest service', function() {
         });
     });
 
-    // TODO check the overtime linked to request
+    it('request list of requests with the confirmed request', function(done) {
+        server.get('/rest/account/requests', {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            expect(body[0]).toBeDefined();
+            if (body[0]) {
+                expect(body[0].status.created).toEqual('accepted');
+                expect(body[0].workperiod_recover).toBeDefined();
+                const recover = body[0].workperiod_recover[0];
+                expect(recover.overtime).toBeDefined();
+                expect(recover.overtime === null).toBeFalsy();
+            }
+            done();
+        });
+    });
 
     it('delete a request', function(done) {
         server.delete('/rest/account/requests/'+request1._id, function(res, body) {
