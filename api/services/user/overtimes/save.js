@@ -17,13 +17,7 @@ function validate(service, params) {
     if (params.events.length === undefined || params.events.length < 1) {
         return service.error(gt.gettext('At least one event is required'));
     }
-
-    params.events.forEach(event => {
-        if (service.needRequiredFields(event, ['dtstart', 'dtend', 'summary', 'user'])) {
-            return;
-        }
-    });
-
+    
     if (params.id) {
         saveOvertime(service, params)
         .then(overtime => {
@@ -34,10 +28,16 @@ function validate(service, params) {
         })
         .catch(service.error);
     } else {
+        params.events.forEach(event => {
+            if (service.needRequiredFields(event, ['dtstart', 'dtend'])) {
+                return;
+            }
+        });
+
         // Save events only on overtime creation
-        createEvents(service, params.events)
+        createEvents(service, params.events, params.user.id)
         .then(events => {
-            return saveOvertime(service, params)
+            return saveOvertime(service, params, events)
             .then(overtime => {
                 updateEvents(events, overtime)
                 .then(() => {
@@ -56,17 +56,19 @@ function validate(service, params) {
  * Save events to database
  * @param {apiService} service
  * @param {Array} events List of events from params
+ * @param {String|Object} user
  * @return {Promise}
  */
-function createEvents(service, events) {
+function createEvents(service, events, user) {
     const UserModel = service.app.db.models.User;
     const CalendarEventModel = service.app.db.models.CalendarEvent;
-    const userId = events[0].user.id === undefined ? events[0].user : events[0].user.id;
+    const userId = user.id === undefined ? user : user.id;
     return UserModel.findOne({ _id: userId })
     .then(user => {
         return Promise.all(events.map(params => {
             const event = new CalendarEventModel();
             event.set(params);
+            event.summary = 'Overtime';
             event.user = {
                 id: user._id,
                 name: user.getName()
@@ -95,8 +97,9 @@ function updateEvents(events, overtime) {
  *
  * @param {apiService} service
  * @param {Object} params
+ * @param {Array} [events]
  */
-function saveOvertime(service, params) {
+function saveOvertime(service, params, events) {
     const UserModel = service.app.db.models.User;
     const OvertimeModel = service.app.db.models.Overtime;
     const gt = service.app.utility.gettext;
@@ -126,7 +129,12 @@ function saveOvertime(service, params) {
         }
 
         if (params.id) {
-            return OvertimeModel.findOne({ _id: params.id }, overtime => {
+            return OvertimeModel.findOne({ _id: params.id })
+            .exec()
+            .then(overtime => {
+                if (null === overtime) {
+                    return service.error(gt.gettext('Overtime not found'));
+                }
                 if (overtime.settled) {
                     return service.forbidden(gt.gettext('The overtime is settled'));
                 }
@@ -138,6 +146,7 @@ function saveOvertime(service, params) {
         } else {
             const overtime = new OvertimeModel();
             overtime.set(fieldsToSet);
+            overtime.events = events;
             return overtime.save();
         }
     });

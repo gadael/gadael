@@ -134,6 +134,7 @@ exports = module.exports = function(app, passport)
     controllers.add('./admin/consumption', true);
     controllers.add('./admin/invitations', true);
     controllers.add('./admin/lunchs');
+    controllers.add('./admin/overtimes', true);
 
     controllers.add('./anonymous/createfirstadmin');
     controllers.add('./anonymous/invitation');

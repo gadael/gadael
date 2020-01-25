@@ -21,7 +21,7 @@ exports = module.exports = function(services, app) {
             return service.forbidden('Missing id parameter');
         }
 
-        service.app.db.models.Calendar
+        service.app.db.models.Overtime
         .findOne({ '_id' : params.id})
         .exec(function(err, document) {
             if (service.handleMongoError(err))
