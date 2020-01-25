@@ -67,7 +67,7 @@
     "passport-trusted-header": "~1.1.0",
     "passport-oauth": "~1.0.0",
     "passport-oauth2-refresh": "~1.0.0",
-    "restitute": "~0.1.1",
+    "restitute": "~0.1.2",
     "rrule-alt": "git://github.com/polo2ro/rrule-alt.git#405713e90790a8a5654aeab5f2746bd7c3a6b238",
     "serve-static": "^1.13.2",
     "sprintf-js": "~1.0.3",
