@@ -673,7 +673,7 @@ exports = module.exports = function(params) {
      */
     requestSchema.methods.createOvertime = function(user)
     {
-        if (params.app.config.company.workperiod_recovery_by_approver) {
+        if (1 !== this.workperiod_recover.length || params.app.config.company.workperiod_recovery_by_approver) {
             return Promise.resolve(null);
         }
 
