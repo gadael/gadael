@@ -12,13 +12,13 @@ const mongoose = require('mongoose');
  */
 var query = function(service, params) {
     const aggregate = service.app.db.models.Overtime.aggregate();
-    if (service.needRequiredFields(params, ['user.id'])) {
-        return;
+    if (undefined === params['user.id']) {
+        return service.error('Missing user.id parameter');
     }
 
     aggregate.match({ 'user.id': mongoose.Types.ObjectId(params['user.id']) });
     aggregate.group({
-        _id: { $dateToString: { format: '%Y', date: '$timeCreated' } },
+        _id: { $dateToString: { format: '%Y', date: '$day' } },
         total: { $sum: '$quantity' },
         settled: { $sum: '$settlements.quantity' }
     });

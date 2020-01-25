@@ -8,6 +8,7 @@ exports = module.exports = function(params) {
             name: { type: String, required: true },
             department: String
         },
+        day: { type: Date, required: true },
         events: [{
             type: mongoose.Schema.Types.ObjectId, ref: 'CalendarEvent' // same event IDs as the workperiod recover request
         }],

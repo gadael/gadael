@@ -17,7 +17,7 @@ function validate(service, params) {
     if (params.events.length === undefined || params.events.length < 1) {
         return service.error(gt.gettext('At least one event is required'));
     }
-    
+
     if (params.id) {
         saveOvertime(service, params)
         .then(overtime => {
@@ -119,6 +119,10 @@ function saveOvertime(service, params, events) {
             },
             quantity: params.quantity
         };
+
+        if (events) {
+            fieldsToSet.day = events[0].dtstart;
+        }
 
         if (user.department) {
             fieldsToSet.user.department = user.department.name;

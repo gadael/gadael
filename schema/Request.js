@@ -683,6 +683,7 @@ exports = module.exports = function(params) {
 
         var overtime = new Overtime();
         overtime.user = request.user;
+        overtime.day = request.events[0].dtstart;
         overtime.events = request.events;
         overtime.quantity = recover.gainedQuantity;
         overtime.settled = false;
