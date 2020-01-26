@@ -1,0 +1,53 @@
+
+<form role="form" name="accountNWDaysCalendarsEdit">
+
+
+
+    <div class="row">
+
+        <h3 class="col-md-9" translate>Add overtime for {{user.lastname}} {{user.firstname}}</h3>
+
+        <div class="col-md-3 text-right">
+            <br />
+            <button class="btn btn-primary" ng-click="addOvertime()">
+                <i class="fa fa-plus-circle"></i> <span translate>Add</span>
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="row" ng-repeat="overtime in overtimes">
+
+        <div class="col-sm-4 col-xs-12 form-group">
+            <label for="day" translate>Date</label>
+            <input type="text" id="day" class="form-control" ng-model="overtime.day" data-autoclose="1" container="body" ng-required bs-datepicker />
+        </div>
+
+        <div class="col-sm-3 col-xs-4 form-group">
+            <label for="hour_from" translate>From</label>
+            <input type="text" id="hour_from" class="form-control" ng-model="overtime.from" />
+        </div>
+
+        <div class="col-sm-3 col-xs-4 form-group">
+            <label for="hour_to" translate>To</label>
+            <input type="text" id="hour_to" class="form-control" ng-model="overtime.to" />
+        </div>
+
+        <div class="col-sm-2 col-xs-4 form-group">
+            <label for="duration" translate>Duration</label>
+            <div class="input-group">
+                <input class="form-control" id="duration" type="text" ng-model="overtime.duration" readonly />
+                <div class="input-group-addon">H</div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-12 text-center top30">
+        <button class="btn btn-primary" ng-click="saveOvertimes()" translate>Save</button>
+        <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
+    </div>
+
+</form>
