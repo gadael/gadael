@@ -12,14 +12,13 @@ const mongoose = require('mongoose');
  */
 var query = function(service, params) {
     const aggregate = service.app.db.models.Overtime.aggregate();
-    if (undefined === params['user.id']) {
-        return service.error('Missing user.id parameter');
-    }
 
-    aggregate.match({ 'user.id': mongoose.Types.ObjectId(params['user.id']) });
+    aggregate.match({ 'user.id': mongoose.Types.ObjectId(params.user) });
     aggregate.group({
         _id: { $dateToString: { format: '%Y', date: '$day' } },
+        declarations: { $sum: 1 },
         total: { $sum: '$quantity' },
+        unsettled: { $sum: { $subtract:['$quantity', '$settledQuantity'] }},
         settled: { $sum: '$settledQuantity' }
     });
     aggregate.sort({ '_id': -1 });
@@ -40,6 +39,11 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
+        if (undefined === params.user) {
+            service.error('Missing user parameter');
+            return service.deferred.promise;
+        }
+
         service.resolveQuery(
             query(service, params),
             paginate

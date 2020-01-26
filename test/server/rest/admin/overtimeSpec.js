@@ -150,7 +150,9 @@ describe('Overtime admin rest service', function() {
     it('have settled the overtime quantity', function(done) {
         server.get('/rest/admin/overtimesummary', { 'user.id': userAccount.user.id }, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            expect(body[0].declarations).toEqual(2);
             expect(body[0].total).toEqual(17);
+            expect(body[0].unsettled).toEqual(7);
             expect(body[0].settled).toEqual(10);
             done();
         });
