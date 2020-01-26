@@ -20,7 +20,7 @@ var query = function(service, params) {
     aggregate.group({
         _id: { $dateToString: { format: '%Y', date: '$day' } },
         total: { $sum: '$quantity' },
-        settled: { $sum: '$settlements.quantity' }
+        settled: { $sum: '$settledQuantity' }
     });
     aggregate.sort({ '_id': -1 });
 

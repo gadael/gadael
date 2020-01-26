@@ -1,6 +1,56 @@
 'use strict';
 
 /**
+ * Create recovery right from request
+ * Return the overtime conversion to save in account
+ * @param {OvertimeSettlement} settlement
+ * @param {Date} startDate
+ * @return {Promise}
+ */
+function createRecoveryRight(settlement, startDate) {
+
+    /**
+     * @param {apiService   service
+     * @param {Object} wrParams
+     * @return {Promise}
+     */
+    function createRight()
+    {
+        const rightModel = settlement.model('Right');
+        const right = new rightModel();
+        right.name = settlement.right.name;
+        right.type = '5740adf51cf1a569643cc50a';
+        right.quantity = settlement.quantity;
+        right.quantity_unit = 'H';
+        right.rules = [{
+            title: 'Active for request dates in the renewal period',
+            type: 'request_period'
+        }];
+
+        return right.save();
+    }
+
+    if (undefined === settlement.right) {
+        return Promise.resolve(settlement);
+    }
+
+    return createRight()
+    .then(right => {
+        if (null === right) {
+            return settlement;
+        }
+        settlement.right.id = right._id;
+        return right.createovertimeSettlementRenewal({ start: startDate })
+        .then(renewal => {
+            if (undefined === renewal._id) {
+                throw new Error('The new renewal ID is required');
+            }
+            return settlement;
+        });
+    });
+}
+
+/**
  * convert overtimes quantity to a right or just settle quantity with a comment
  * @param {apiService} service
  * @param {Object} params
@@ -9,14 +59,15 @@ function convertOvertimeQuantity(service, params) {
     const gt = service.app.utility.gettext;
     const AccountModel = service.app.db.models.Account;
     const OvertimeModel = service.app.db.models.Overtime;
-    const OvertimeSettlementModel = service.app.db.models.OvertimeSettlement;
 
-    if (service.needRequiredFields(params, ['userCreated', 'user.id', 'quantity', 'comment'])) {
+    if (service.needRequiredFields(params, ['userCreated', 'user', 'quantity'])) {
         return;
     }
 
+    const userId = params.user.id ? params.user.id : params.user;
+
     AccountModel.findOne()
-    .where('user.id', params['user.id'])
+    .where('user.id', userId)
     .then(account => {
         if (!account) {
             throw new Error('Account not found');
@@ -30,7 +81,7 @@ function convertOvertimeQuantity(service, params) {
                 account.overtimeConversions = [];
             }
 
-            const settlement = new OvertimeSettlementModel();
+            const settlement = {};
 
             if (undefined !== params['right.name']) {
                 settlement.right = {
@@ -45,7 +96,7 @@ function convertOvertimeQuantity(service, params) {
                 name: params.userCreated.getName()
             };
 
-            return settlement.createRecoveryRight()
+            return createRecoveryRight(settlement)
             .then(settlement => {
                 let remainQuantity = params.quantity;
                 const documentsToSave = [];
@@ -74,6 +125,12 @@ function convertOvertimeQuantity(service, params) {
                 return Promise.all(documentsToSave.map(doc => doc.save()));
             });
         });
+    })
+    .then(() => {
+        service.resolveSuccess(
+            params,
+            gt.gettext('Overtime quantity has been settled')
+        );
     })
     .catch(service.error);
 }

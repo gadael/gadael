@@ -12,8 +12,11 @@ listController.prototype = new ctrlFactory.list();
 
 function convertController() {
     ctrlFactory.create.call(this, '/rest/admin/overtimesummary');
+    const controller = this;
     this.controllerAction = function() {
-        this.jsonService(this.service('admin/overtimesummary/save'));
+        this.jsonService(this.service('admin/overtimesummary/save', {
+            userCreated: controller.req.user
+        }));
     };
 }
 convertController.prototype = new ctrlFactory.create();

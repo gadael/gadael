@@ -125,6 +125,33 @@ describe('Overtime admin rest service', function() {
             expect(body.length).toEqual(1);
             expect(body[0]._id).toEqual('2019');
             expect(body[0].total).toEqual(17);
+            expect(body[0].settled).toEqual(0);
+            done();
+        });
+    });
+
+    it('convert overtime quantity to absence right', function(done) {
+        const settlement = {
+            quantity: 10,
+            user: {
+                id: userAccount.user.id
+            },
+            comment: '',
+            right: {
+                name: 'Conversion'
+            }
+        };
+        server.post('/rest/admin/overtimesummary', settlement, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+    it('have settled the overtime quantity', function(done) {
+        server.get('/rest/admin/overtimesummary', { 'user.id': userAccount.user.id }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body[0].total).toEqual(17);
+            expect(body[0].settled).toEqual(10);
             done();
         });
     });
@@ -132,6 +159,15 @@ describe('Overtime admin rest service', function() {
     it('delete the overtime', function(done) {
         server.delete('/rest/admin/overtimes/'+overtime, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
+
+    it('have deleted a part of the overtime quantity', function(done) {
+        server.get('/rest/admin/overtimesummary', { 'user.id': userAccount.user.id }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body[0].total).toEqual(8);
+            expect(body[0].settled).toEqual(1);
             done();
         });
     });
