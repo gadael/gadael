@@ -11,6 +11,7 @@ const Request_WorkperiodRecover = require('./schema/Request_WorkperiodRecover');
 const Request_TimeSavingDeposit = require('./schema/Request_TimeSavingDeposit');
 const ValidInterval = require('./schema/ValidInterval');
 const CompulsoryLeaveRequest = require('./schema/CompulsoryLeaveRequest');
+const OvertimeSettlement = require('./schema/OvertimeSettlement');
 
 //then regular docs
 
@@ -82,6 +83,7 @@ models.load = function() {
     Request_TimeSavingDeposit(requirements);
     ValidInterval(requirements);
     CompulsoryLeaveRequest(requirements);
+    OvertimeSettlement(requirements);
 
 	//then regular docs
 

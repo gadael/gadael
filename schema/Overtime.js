@@ -15,14 +15,7 @@ exports = module.exports = function(params) {
         quantity: { type: Number, required: true },
 		timeCreated: { type: Date, default: Date.now },
         settled: { type: Boolean, default: false },
-        settlements: [{
-            timeCreated: { type: Date, default: Date.now },
-            quantity: { type: Number, required: true },
-            createdBy: {
-                id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-                name: { type: String, required: true },
-            }
-        }]
+        settlements: [params.embeddedSchemas.OvertimeSettlement]
 	});
 
 	overtimeSchema.set('autoIndex', params.autoIndex);

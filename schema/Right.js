@@ -350,18 +350,35 @@ exports = module.exports = function(params) {
         return rightRenewal.save();
     };
 
+    /**
+     * create a renewal for overtime conversion
+     * @param {Object} params  Renewal parameters
+     * @return {Promise}
+     */
+    rightSchema.methods.createOvertimeConversionRenewal = function createOvertimeConversionRenewal(params) {
+        if (!params.start) {
+            params.start = new Date();
+        }
+
+        if (!params.finish) {
+            params.finish = new Date(params.start);
+            params.finish.setFullYear(params.finish.getFullYear() + 1);
+        }
+
+        // round to full days
+        params.start.setHours(0,0,0,0);
+        params.finish.setHours(23,59,59,999);
+        return this.createRenewal(params.start, params.finish);
+    };
 
     /**
      * create a renewal for a recover request
-     * start on the date of the recovery period end end one year laster
+     * start on the date of the recovery period end end one year later
      *
      * @param {Object} request  Request document
      * @return {Promise}
      */
     rightSchema.methods.createRecoveryRenewal = function createRecoveryRenewal(request) {
-
-        let r = request.workperiod_recover[0].right.renewal;
-
         if (0 === request.events.length) {
             throw new Error('No events on the recovery request');
         }
@@ -370,22 +387,9 @@ exports = module.exports = function(params) {
             throw new Error('events must be populated on request');
         }
 
-        if (!r.start) {
-            r.start = new Date(request.events[0].dtstart);
-        }
-
-        if (!r.finish) {
-            r.finish = new Date(r.start);
-            r.finish.setFullYear(r.finish.getFullYear() + 1);
-        }
-
-        // round to full days
-
-        r.start.setHours(0,0,0,0);
-        r.finish.setHours(23,59,59,999);
-
-        return this.createRenewal(r.start, r.finish);
+        return this.createOvertimeConversionRenewal(request.workperiod_recover[0].right.renewal);
     };
+
 
 
     rightSchema.methods.getBeneficiaryRef = function() {
