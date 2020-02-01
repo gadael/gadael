@@ -54,7 +54,7 @@ define([], function() {
         $scope.setDuration = function(overtime) {
             if (overtime.day && overtime.to && overtime.from && overtime.from < overtime.to) {
                 // get duration & events from server
-                overtime.duration = 0;
+                overtime.quantity = 0;
                 overtime.events = [];
                 var params = {
                     user: $routeParams.id,
@@ -63,11 +63,11 @@ define([], function() {
                 };
                 unavailableEventsResource.query(params).$promise
                 .then(function(unavailableEvents) {
-                    overtime.duration = Math.round(10 * unavailableEvents.reduce(sumHours, 0)) / 10;
+                    overtime.quantity = Math.round(10 * unavailableEvents.reduce(sumHours, 0)) / 10;
                     overtime.events = unavailableEvents;
                 });
             } else {
-                overtime.duration = null;
+                overtime.quantity = null;
                 overtime.events = null;
             }
         };
@@ -75,7 +75,7 @@ define([], function() {
         $scope.saveOvertimes = function() {
             $q.all(
                 $scope.overtimes.filter(function(overtime) {
-                    return overtime.duration > 0;
+                    return overtime.quantity > 0;
                 })
                 .map(function(overtime) {
                     return catchOutcome(overtime.$create());

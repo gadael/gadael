@@ -35,7 +35,7 @@ function validate(service, params) {
         });
 
         // Save events only on overtime creation
-        createEvents(service, params.events, params.user.id)
+        createEvents(service, params.events, params.user)
         .then(events => {
             return saveOvertime(service, params, events)
             .then(overtime => {
