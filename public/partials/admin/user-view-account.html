@@ -138,8 +138,8 @@
         <tr ng-repeat="overtime in overtimes">
             <td>{{overtime._id}}</td>
             <td>{{overtime.declarations}}</td>
-            <td>{{overtime.unsettled}}</td>
-            <td>{{overtime.settled}}</td>
+            <td translate translate-n="overtime.total - overtime.settled" translate-plural="{{overtime.total - overtime.settled | number}} Hours">1 Hour</td>
+            <td translate translate-n="overtime.settled" translate-plural="{{overtime.settled | number}} Hours">1 Hour</td>
         </tr>
         </tbody>
     </table>

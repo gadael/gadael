@@ -18,7 +18,6 @@ var query = function(service, params) {
         _id: { $dateToString: { format: '%Y', date: '$day' } },
         declarations: { $sum: 1 },
         total: { $sum: '$quantity' },
-        unsettled: { $sum: { $subtract:['$quantity', '$settledQuantity'] }},
         settled: { $sum: '$settledQuantity' }
     });
     aggregate.sort({ '_id': -1 });

@@ -42,7 +42,7 @@ define([], function() {
         }
 
         function composeDate(day, time) {
-            return new Date(day.getFullYear(), day.getMonth() -1, day.getDate(), time.getHours(), time.getMinutes());
+            return new Date(day.getFullYear(), day.getMonth(), day.getDate(), time.getHours(), time.getMinutes());
         }
 
         $scope.overtimes = [createOvertime()];
