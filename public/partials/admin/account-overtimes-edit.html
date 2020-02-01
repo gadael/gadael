@@ -25,19 +25,19 @@
         </div>
 
         <div class="col-sm-3 col-xs-4 form-group">
-            <label for="hour_from" translate>From</label>
-            <input type="text" id="hour_from" class="form-control" ng-model="overtime.from" />
+            <label for="hour_from" translate>From hour</label>
+            <input type="text" id="hour_from" class="form-control" ng-model="overtime.from" ng-change="setDuration(overtime)" bs-timepicker />
         </div>
 
         <div class="col-sm-3 col-xs-4 form-group">
-            <label for="hour_to" translate>To</label>
-            <input type="text" id="hour_to" class="form-control" ng-model="overtime.to" />
+            <label for="hour_to" translate>To hour</label>
+            <input type="text" id="hour_to" class="form-control" ng-model="overtime.to" ng-change="setDuration(overtime)" bs-timepicker />
         </div>
 
         <div class="col-sm-2 col-xs-4 form-group">
             <label for="duration" translate>Duration</label>
             <div class="input-group">
-                <input class="form-control" id="duration" type="text" ng-model="overtime.duration" readonly />
+                <input class="form-control" id="duration" type="number" ng-model="overtime.duration" readonly />
                 <div class="input-group-addon">H</div>
             </div>
         </div>
