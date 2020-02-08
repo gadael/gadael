@@ -312,6 +312,11 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'AdminAccountOvertimesEdit'
 		});
 
+        $routeProvider.when('/admin/users/:id/convert-overtimesummary', {
+			templateUrl: 'partials/admin/account-overtimesummary-edit.html',
+			controller: 'AdminAccountOvertimesummaryEdit'
+		});
+
 
         $routeProvider.when('/admin/compulsoryleaves', {
 			templateUrl: 'partials/admin/compulsoryleaves.html',
