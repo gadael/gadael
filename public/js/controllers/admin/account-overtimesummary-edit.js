@@ -4,10 +4,12 @@ define([], function() {
 	return ['$scope',
 		'$location',
 		'Rest',
+        'catchOutcome',
         function(
 			$scope,
 			$location,
-			Rest
+			Rest,
+            catchOutcome
 		) {
         var Overtimesummary = Rest.admin.overtimesummary.getResource();
         $scope.overtimesummary = new Overtimesummary();
@@ -22,7 +24,7 @@ define([], function() {
             if ('RIGHT' !== $scope.mode && $scope.overtimesummary.right) {
                 delete $scope.overtimesummary.right;
             }
-            $scope.overtimesummary.gadaSave($scope.cancel);
+            catchOutcome($scope.overtimesummary.$create()).then($scope.cancel);
         };
 
 		$scope.cancel = function() {
