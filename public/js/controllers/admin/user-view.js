@@ -95,6 +95,14 @@ define([], function() {
                         });
                     });
 
+                    // Precompute unsettled quantity on overtimes
+
+                    $scope.overtimes.$promise.then(function() {
+                        $scope.overtimes.forEach(function(overtime) {
+                            overtime.unsettled = overtime.total - overtime.settled;
+                        });
+                    });
+
 
                 } else {
                     $scope.beneficiaries = [];
