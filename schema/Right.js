@@ -482,7 +482,7 @@ exports = module.exports = function(params) {
      * Link the right to one user, use a beneficary document with a user ref instead of a right collection
      * The right must not be linked to a collection
      *
-     * @param {User|ObjectId} user
+     * @param {User|ObjectId|string} user
      * @return {Promise}
      */
     rightSchema.methods.addUserBeneficiary = function addUserBeneficiary(user) {
@@ -497,7 +497,7 @@ exports = module.exports = function(params) {
         .then(() => {
             let beneficiary = new model();
             beneficiary.right = this._id;
-            beneficiary.document = user._id;
+            beneficiary.document = id;
             beneficiary.ref = 'User';
 
             return beneficiary.save();

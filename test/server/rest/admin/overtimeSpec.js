@@ -186,6 +186,9 @@ describe('Overtime admin rest service', function() {
             expect(body.settledQuantity).toEqual(10 - firstOvertimeConsuption);
             if (1 === body.settlements.length) {
                 expect(body.settlements[0].quantity).toEqual(10);
+                expect(body.settlements[0].right.name).toEqual('Conversion');
+                expect(body.settlements[0].right.id).toBeDefined();
+                expect(body.settlements[0].right.renewal.id).toBeDefined();
             }
             done();
         });
@@ -234,13 +237,16 @@ describe('Overtime admin rest service', function() {
     it('request list of accessibles rights in renewal', function(done) {
         const now = new Date();
         const end = new Date(now);
-        end.setMonth(end.getMonth()+1);
+        end.setDate(end.getDate()+1);
         server.get('/rest/account/accountrights', {
             dtstart: now.toJSON(),
             dtend: end.toJSON()
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(1);
+            if (1 === body.length) {
+                expect(body[0].name).toEqual('Conversion');
+            }
             done();
         });
     });

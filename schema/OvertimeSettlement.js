@@ -13,7 +13,12 @@ exports = module.exports = function(params) {
         quantity: { type: Number, required: true },                     // quantity input from admin
         right: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-            name: String
+            name: String,
+            renewal: {                                      // open period for the recovery right
+                id: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' },
+                start: Date,
+                finish: Date
+            }
         }
 	});
 

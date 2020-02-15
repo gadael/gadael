@@ -3,11 +3,13 @@
 /**
  * Create recovery right from request
  * Return the overtime conversion to save in account
+ * @parma {Right} RightModel
+ * @param {string} userId
  * @param {OvertimeSettlement} settlement
  * @param {Date} startDate
  * @return {Promise}
  */
-function createRecoveryRight(RightModel, settlement, startDate) {
+function createRecoveryRight(RightModel, userId, settlement, startDate) {
 
     /**
      * @param {apiService   service
@@ -44,6 +46,12 @@ function createRecoveryRight(RightModel, settlement, startDate) {
             if (undefined === renewal._id) {
                 throw new Error('The new renewal ID is required');
             }
+            settlement.right.renewal.id = renewal._id;
+            settlement.right.renewal.start = renewal.start;
+            settlement.right.renewal.finish = renewal.finish;
+
+            right.addUserBeneficiary(userId);
+
             return settlement;
         });
     });
@@ -86,7 +94,8 @@ function convertOvertimeQuantity(service, params) {
 
             if (undefined !== params.right && undefined !== params.right.name) {
                 settlement.right = {
-                    name: params.right.name
+                    name: params.right.name,
+                    renewal: {}
                 };
             }
 
@@ -97,7 +106,7 @@ function convertOvertimeQuantity(service, params) {
                 name: params.userCreated.getName()
             };
 
-            return createRecoveryRight(RightModel, settlement, params.right.startDate || new Date())
+            return createRecoveryRight(RightModel, userId, settlement, params.right.startDate || new Date())
             .then(settlement => {
                 let remainQuantity = params.quantity;
                 const documentsToSave = [];
