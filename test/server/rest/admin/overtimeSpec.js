@@ -246,6 +246,9 @@ describe('Overtime admin rest service', function() {
             expect(body.length).toEqual(1);
             if (1 === body.length) {
                 expect(body[0].name).toEqual('Conversion');
+                expect(body[0].quantity_unit).toEqual('H');
+                expect(body[0].quantity).toEqual(10);
+                expect(body[0].available_quantity).toEqual(10);
             }
             done();
         });
