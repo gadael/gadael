@@ -159,6 +159,33 @@ describe('Overtime admin rest service', function() {
         });
     });
 
+    // Check the 2 overtimes individually
+
+    let firstOvertimeConsuption = null;
+
+    it('Check first overtime consuption', function(done) {
+        server.get('/rest/admin/overtimes/'+overtime, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.settled).toBeTruthy();
+            expect(body.settlements.length).toEqual(1);
+            expect(body.settledQuantity).toEqual(body.quantity);
+            firstOvertimeConsuption = body.settledQuantity;
+            expect(body.settlements[0].quantity).toEqual(10);
+            done();
+        });
+    });
+
+    it('Check second overtime consuption', function(done) {
+        server.get('/rest/admin/overtimes/'+overtime2, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.settled).toBeFalsy();
+            expect(body.settlements.length).toEqual(1);
+            expect(body.settledQuantity).toEqual(10 - firstOvertimeConsuption);
+            expect(body.settlements[0].quantity).toEqual(10);
+            done();
+        });
+    });
+
     it('delete the overtime', function(done) {
         server.delete('/rest/admin/overtimes/'+overtime, function(res, body) {
             expect(res.statusCode).toEqual(200);
