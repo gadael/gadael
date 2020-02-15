@@ -7,7 +7,7 @@
  * @param {Date} startDate
  * @return {Promise}
  */
-function createRecoveryRight(settlement, startDate) {
+function createRecoveryRight(RightModel, settlement, startDate) {
 
     /**
      * @param {apiService   service
@@ -16,8 +16,7 @@ function createRecoveryRight(settlement, startDate) {
      */
     function createRight()
     {
-        const rightModel = settlement.model('Right');
-        const right = new rightModel();
+        const right = new RightModel();
         right.name = settlement.right.name;
         right.type = '5740adf51cf1a569643cc50a';
         right.quantity = settlement.quantity;
@@ -40,7 +39,7 @@ function createRecoveryRight(settlement, startDate) {
             return settlement;
         }
         settlement.right.id = right._id;
-        return right.createovertimeSettlementRenewal({ start: startDate })
+        return right.createOvertimeConversionRenewal({ start: startDate })
         .then(renewal => {
             if (undefined === renewal._id) {
                 throw new Error('The new renewal ID is required');
@@ -59,6 +58,7 @@ function convertOvertimeQuantity(service, params) {
     const gt = service.app.utility.gettext;
     const AccountModel = service.app.db.models.Account;
     const OvertimeModel = service.app.db.models.Overtime;
+    const RightModel = service.app.db.models.Right;
 
     if (service.needRequiredFields(params, ['userCreated', 'user', 'quantity'])) {
         return;
@@ -75,7 +75,8 @@ function convertOvertimeQuantity(service, params) {
 
         return OvertimeModel.find()
         .where('settled', false)
-        .sort({ 'timeCreated': 1 })
+        .where('user.id', userId)
+        .sort({ 'day': 1 })
         .then(overtimes => {
             if (undefined === account.overtimeConversions) {
                 account.overtimeConversions = [];
@@ -83,9 +84,9 @@ function convertOvertimeQuantity(service, params) {
 
             const settlement = {};
 
-            if (undefined !== params['right.name']) {
+            if (undefined !== params.right && undefined !== params.right.name) {
                 settlement.right = {
-                    name: params['right.name']
+                    name: params.right.name
                 };
             }
 
@@ -96,7 +97,7 @@ function convertOvertimeQuantity(service, params) {
                 name: params.userCreated.getName()
             };
 
-            return createRecoveryRight(settlement)
+            return createRecoveryRight(RightModel, settlement, params.right.startDate || new Date())
             .then(settlement => {
                 let remainQuantity = params.quantity;
                 const documentsToSave = [];
@@ -120,7 +121,7 @@ function convertOvertimeQuantity(service, params) {
                     throw new Error(gt.gettext('Not enough overtime quantity'));
                 }
 
-                account.overtimeConversions.push(settlement);
+                account.overtimeSettlements.push(settlement);
                 documentsToSave.push(account);
                 return Promise.all(documentsToSave.map(doc => doc.save()));
             });

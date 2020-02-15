@@ -138,13 +138,14 @@ describe('Overtime admin rest service', function() {
             user: {
                 id: userAccount.user.id
             },
-            comment: '',
+            comment: 'Test settlement to right',
             right: {
                 name: 'Conversion'
             }
         };
         server.post('/rest/admin/overtimesummary', settlement, function(res, body) {
             expect(res.statusCode).toEqual(200);
+            server.expectSuccess(body);
             done();
         });
     });
@@ -170,7 +171,9 @@ describe('Overtime admin rest service', function() {
             expect(body.settlements.length).toEqual(1);
             expect(body.settledQuantity).toEqual(body.quantity);
             firstOvertimeConsuption = body.settledQuantity;
-            expect(body.settlements[0].quantity).toEqual(10);
+            if (1 === body.settlements.length) {
+                expect(body.settlements[0].quantity).toEqual(10);
+            }
             done();
         });
     });
@@ -181,7 +184,9 @@ describe('Overtime admin rest service', function() {
             expect(body.settled).toBeFalsy();
             expect(body.settlements.length).toEqual(1);
             expect(body.settledQuantity).toEqual(10 - firstOvertimeConsuption);
-            expect(body.settlements[0].quantity).toEqual(10);
+            if (1 === body.settlements.length) {
+                expect(body.settlements[0].quantity).toEqual(10);
+            }
             done();
         });
     });
@@ -202,6 +207,14 @@ describe('Overtime admin rest service', function() {
         });
     });
 
+    it('account contain settlement history', function(done) {
+        server.get('/rest/admin/users/'+userAccount.user.id, {}, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.roles.account.overtimeSettlements.length).toEqual(1);
+            done();
+        });
+    });
+
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
             expect(res.statusCode).toEqual(200);
@@ -209,8 +222,33 @@ describe('Overtime admin rest service', function() {
         });
     });
 
-    it('close the mock server', function(done) {
-        server.close(done);
+    // Check if the user see the recovery right
+
+    it('Authenticate user account session', function(done) {
+        expect(userAccount.user.roles.account).toBeDefined();
+        server.authenticateUser(userAccount).then(function() {
+            done();
+        });
     });
 
+    it('request list of accessibles rights in renewal', function(done) {
+        const now = new Date();
+        const end = new Date(now);
+        end.setMonth(end.getMonth()+1);
+        server.get('/rest/account/accountrights', {
+            dtstart: now.toJSON(),
+            dtend: end.toJSON()
+        }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            done();
+        });
+    });
+
+    it('logout & close the mock server', function(done) {
+        server.get('/rest/logout', {}, function(res) {
+            expect(res.statusCode).toEqual(200);
+            server.close(done);
+        });
+    });
 });
