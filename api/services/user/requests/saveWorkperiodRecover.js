@@ -50,7 +50,8 @@ function getFieldsToSet(service, wrParams)
 
     // the real quantity from the list of events, must be in the quantity unit of the recover quantity
     const fieldsToSet = {
-        quantity: wrParams.quantity
+        quantity: wrParams.quantity,
+        summary: wrParams.summary
     };
 
     if (service.app.config.company.workperiod_recovery_by_approver) {

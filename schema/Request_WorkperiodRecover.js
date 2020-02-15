@@ -20,6 +20,7 @@ exports = module.exports = function(params) {
                 finish: Date
             }
         },
+        summary: String,
         overtime: { type: mongoose.Schema.Types.ObjectId, ref: 'Overtime' } // set after approval if workperiod_recovery_by_approver == false
 	});
 

@@ -23,7 +23,6 @@ define(['services/request-edit'], function(loadRequestEdit) {
                     dtend: interval.to
                 };
 
-
                 if (undefined !== user) {
                     queryParams.user = user._id;
                 }
@@ -45,20 +44,22 @@ define(['services/request-edit'], function(loadRequestEdit) {
                 delete $scope.request.approvalSteps;
 
                 var q;
-                if ('H' === $scope.request.workperiod_recover[0].recoverQuantity.quantity_unit) {
+
+                var quantity_unit = 'H';
+                if ($scope.request.workperiod_recover[0].recoverQuantity) {
+                    quantity_unit = $scope.request.workperiod_recover[0].recoverQuantity.quantity_unit;
+                }
+
+                if ('H' === quantity_unit) {
                     q = $scope.selection.hours.split(' ')[0];
                 } else {
                     q = $scope.selection.days.split(' ')[0];
                 }
 
                 q = q.replace(',', '.');
-
                 $scope.request.workperiod_recover[0].quantity = q;
-
-
                 $scope.request.events = $scope.selection.periods;
                 $scope.request.gadaSave($scope.back);
-
             };
         }
 

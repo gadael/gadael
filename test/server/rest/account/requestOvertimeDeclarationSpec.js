@@ -164,7 +164,8 @@ describe('overtime declartion account rest service', function() {
                 dtend: new Date(2015,1,1, 22).toJSON()
             }],
             workperiod_recover: [{
-                quantity: 3
+                quantity: 3,
+                summary: 'The user message'
             }]
         };
 
@@ -185,6 +186,7 @@ describe('overtime declartion account rest service', function() {
                     expect(body.workperiod_recover[0].gainedQuantity).toEqual(3);
                     expect(body.workperiod_recover[0].right).toBeUndefined();
                     expect(body.workperiod_recover[0].overtime).toBe(null);
+                    expect(body.workperiod_recover[0].summary).toEqual('The user message');
                 }
             }
             request1 = body;
