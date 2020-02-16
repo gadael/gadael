@@ -75,9 +75,9 @@ exports = module.exports = function(params) {
 
         var models = params.db.models;
 
-        models.Admin.remove({ 'user.id': this._id }).exec();
-        models.Account.remove({ 'user.id': this._id }).exec();
-        models.Manager.remove({ 'user.id': this._id }).exec();
+        models.Admin.deleteMany({ 'user.id': this._id }).exec();
+        models.Account.deleteMany({ 'user.id': this._id }).exec();
+        models.Manager.deleteMany({ 'user.id': this._id }).exec();
 
         next();
     });
@@ -121,7 +121,7 @@ exports = module.exports = function(params) {
             return next();
         }
 
-        userModel.count()
+        userModel.countDocuments()
 		.where('isActive', true)
 		.ne('_id', user._id)
 		.exec(function(err, existingUsers) {

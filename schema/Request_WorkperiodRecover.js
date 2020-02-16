@@ -12,20 +12,18 @@ exports = module.exports = function(params) {
         gainedQuantity: { type: Number, required: true },   // quantity earned from recovery of the period, can be modified by approvers
         right: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Right' },
-            name: { type: String, required: true },         // right created after approval
-            quantity_unit: { type: String, enum:['D', 'H'], required: true },
+            name: String,                                   // right created after approval in recovery by approver mode
+            quantity_unit: { type: String, enum:['D', 'H'] },
             renewal: {                                      // open period for the recovery right
                 id: { type: mongoose.Schema.Types.ObjectId, ref: 'RightRenewal' },
                 start: Date,
                 finish: Date
             }
-        }
+        },
+        summary: String,
+        overtime: { type: mongoose.Schema.Types.ObjectId, ref: 'Overtime' } // set after approval if workperiod_recovery_by_approver == false
 	});
 
-
-
-
 	wpRecoverSchema.set('autoIndex', params.autoIndex);
-
     params.embeddedSchemas.WorperiodRecover = wpRecoverSchema;
 };

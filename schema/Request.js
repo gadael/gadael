@@ -666,26 +666,54 @@ exports = module.exports = function(params) {
 
     };
 
+    /**
+     * Create overtime
+     * @param {User}        user            Request owner
+     * @return {Promise}    resolve to the Overtime document or null if overtime has not been created
+     */
+    requestSchema.methods.createOvertime = function(user)
+    {
+        if (1 !== this.workperiod_recover.length || params.app.config.company.workperiod_recovery_by_approver) {
+            return Promise.resolve(null);
+        }
 
+        const recover = this.workperiod_recover[0];
+        const request = this;
+        const Overtime = request.model('Overtime');
 
+        var overtime = new Overtime();
+        overtime.user = request.user;
+        overtime.day = request.events[0].dtstart;
+        overtime.events = request.events;
+        overtime.quantity = recover.gainedQuantity;
+        overtime.settled = false;
+        overtime.settlements = [];
 
+        return overtime.save()
+        .then(overtime => {
+            recover.overtime = overtime._id;
+            return request.save()
+            .then(() => {
+                return overtime;
+            });
+        });
+    };
 
     /**
      * Create right and beneficiary
      * resolve to null if the request is not a recovery request
-     *
      * @param {User}        user            Request owner
-     * @param {Request}     document
-     *
      * @return {Promise}    resolve to the Beneficiary document or null if right has not been created
      */
     requestSchema.methods.createRecoveryBeneficiary = function(user)
     {
-        let request  = this;
+        if (!params.app.config.company.workperiod_recovery_by_approver) {
+            return Promise.resolve(null);
+        }
 
+        const request  = this;
         return request.createRecoveryRight()
         .then(right => {
-
             if (null === right || undefined === right) {
                 return Promise.resolve(null);
             }
@@ -694,9 +722,6 @@ exports = module.exports = function(params) {
             return right.addUserBeneficiary(user);
         });
     };
-
-
-
 
     /**
      * Open a validity interval

@@ -38,6 +38,7 @@ exports = module.exports = function(params) {
 		},
         absenceElem: { type: mongoose.Schema.Types.ObjectId, ref: 'AbsenceElem', index: true }, // for absence
         request: { type: mongoose.Schema.Types.ObjectId, ref: 'Request', index: true }, // for absence or workperiod_recover
+        overtime: { type: mongoose.Schema.Types.ObjectId, ref: 'Overtime', index: true }, // for workperiod_recover after approval or overtime without request
 		timeCreated: { type: Date, default: Date.now },
         lunch: Boolean // count lunch only if true, info from right spec
 	});

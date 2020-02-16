@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-22 13:21+0100\n"
-"PO-Revision-Date: 2019-12-22 13:22+0100\n"
+"POT-Creation-Date: 2020-02-15 15:45+0100\n"
+"PO-Revision-Date: 2020-02-15 15:49+0100\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: api/specialrights/timesavingaccount.js:25
@@ -181,6 +181,14 @@ msgstr "Le service a été modifié"
 #: api/services/admin/departments/save.js:78
 msgid "The department has been created"
 msgstr "Le service a été créé"
+
+#: api/services/admin/overtimesummary/save.js:130
+msgid "Not enough overtime quantity"
+msgstr "Pas assez d'heures supplémentaires"
+
+#: api/services/admin/overtimesummary/save.js:142
+msgid "Overtime quantity has been settled"
+msgstr "Les heures supplémentaires ont été soldées"
 
 #: api/services/admin/beneficiaries/get.js:46
 msgid "This beneficiary does not exists"
@@ -591,6 +599,39 @@ msgstr "Le régime du compte a été modifié"
 msgid "The account collection has been created"
 msgstr "le régime du compte a été créé"
 
+#: api/services/user/overtimes/get.js:33
+msgid "This overtime does not exists"
+msgstr "Cette déclaration d'heures supplémentaire n'existe pas"
+
+#: api/services/user/overtimes/delete.js:17
+msgid "the overtime does not exists"
+msgstr "La déclaration d'heures supplémentaire n'existe pas"
+
+#: api/services/user/overtimes/delete.js:23
+msgid "The overtime has been deleted"
+msgstr "La déclaration d'heures supplémentaires à été supprimée"
+
+#: api/services/user/overtimes/save.js:18
+msgid "At least one event is required"
+msgstr "Au moins un événement est requis"
+
+#: api/services/user/overtimes/save.js:26
+#: api/services/user/overtimes/save.js:46
+msgid "The overtime has been created"
+msgstr "La déclaration d'heures supplémentaires à été crée"
+
+#: api/services/user/overtimes/save.js:112
+msgid "The user does not exists"
+msgstr "Cet utilisateur n'existe pas"
+
+#: api/services/user/overtimes/save.js:140
+msgid "Overtime not found"
+msgstr "Déclaration d'heures supplémentaires introuvable"
+
+#: api/services/user/overtimes/save.js:143
+msgid "The overtime is settled"
+msgstr "Cette déclaration d'heures supplémentaires est soldée"
+
 #: api/services/user/consumption/get.js:18
 #: api/services/account/collection/get.js:21
 msgid "user parameter is mandatory"
@@ -652,7 +693,7 @@ msgstr "Cette demande n'existe pas"
 msgid "This request has been deleted"
 msgstr "Cette demande à été supprimée"
 
-#: api/services/user/requests/saveWorkperiodRecover.js:53
+#: api/services/user/requests/saveWorkperiodRecover.js:42
 msgid "Workperiod recover requests are disabled by administrator"
 msgstr ""
 "Les récupérations de jours travaillés sont désactivés par l'administrateur"
@@ -762,25 +803,25 @@ msgstr "Un agenda secondaire a été créé"
 msgid "Leave periods provided by gadael"
 msgstr "Périodes de congés fournies par Gadael"
 
-#: api/services/manager/waitingrequests/save.js:153
+#: api/services/manager/waitingrequests/save.js:156
 msgid "The request has been confirmed"
 msgstr "La demande a été confirmée"
 
-#: api/services/manager/waitingrequests/save.js:165
+#: api/services/manager/waitingrequests/save.js:168
 msgid "The request has been cancelled"
 msgstr "La demande a été annulée"
 
-#: api/services/manager/waitingrequests/save.js:178
+#: api/services/manager/waitingrequests/save.js:181
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr "Le demandeur a requis une suppression, la demande a été annulée"
 
-#: api/services/manager/waitingrequests/save.js:190
+#: api/services/manager/waitingrequests/save.js:193
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 "Le demandeur a requis une suppression, la demande a été supprimée malgré tout"
 
-#: api/services/manager/waitingrequests/save.js:200
+#: api/services/manager/waitingrequests/save.js:203
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
@@ -788,7 +829,7 @@ msgstr ""
 "Votre acceptation a été enregistrée, d'autres approbation sont requises pour "
 "que l'étape soit terminée"
 
-#: api/services/manager/waitingrequests/save.js:207
+#: api/services/manager/waitingrequests/save.js:210
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 "La demande a été transmise à la prochaine étape du circuit d'approbation"
@@ -868,14 +909,14 @@ msgid "Please, check the request status"
 msgstr "Veuillez vérifier le statut de la demande"
 
 #: modules/emails/approbalert.js:42 modules/emails/pendingapproval.js:47
-#: modules/emails/requestaccepted.js:66 modules/emails/requestrejected.js:46
+#: modules/emails/requestaccepted.js:65 modules/emails/requestrejected.js:46
 #: modules/emails/requestcreated.js:38
 msgid "View request"
 msgstr "Voir la demande"
 
 #: modules/emails/approbalert.js:46 modules/emails/invitation.js:51
 #: modules/emails/pendingapproval.js:51 modules/emails/rolesupdated.js:36
-#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:75
+#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:74
 #: modules/emails/requestrejected.js:50 modules/emails/requestcreated.js:42
 #: modules/emails/usercreated.js:36
 msgid "Yours truly"
@@ -1005,13 +1046,13 @@ msgstr "%s : demande annulée"
 msgid "As requested by %s, the %s request has been canceled"
 msgstr "Comme demandé par %s, la demande %s a été annulée"
 
-#: modules/emails/requestaccepted.js:64 modules/emails/requestrejected.js:44
+#: modules/emails/requestaccepted.js:63 modules/emails/requestrejected.js:44
 msgid "Consult the request actions history after login into the application"
 msgstr ""
 "Consultez l'historique des actions sur la demande une fois connecté à "
 "l'application"
 
-#: modules/emails/requestaccepted.js:71
+#: modules/emails/requestaccepted.js:70
 #, javascript-format
 msgid "Workflow step by %s the %s"
 msgstr "Étape du workflow par %s le %s"
@@ -1535,7 +1576,7 @@ msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
 msgid "Interval values must be set in a correct order"
 msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 
-#: schema/User_Account.js:1050
+#: schema/User_Account.js:1052
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr "Pas de semaine trouvée pour %s"

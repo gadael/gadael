@@ -24,6 +24,7 @@ define([], function() {
         var accountScheduleCalendars = Rest.admin.accountschedulecalendars.getResource();
         var accountNWDaysCalendars = Rest.admin.accountnwdayscalendars.getResource();
         var adjustmentsResource = Rest.admin.adjustments.getResource();
+        var overtimesummaryResource = Rest.admin.overtimesummary.getResource();
 
         if ($scope.user.$promise) {
             $scope.user.$promise.then(function() {
@@ -42,6 +43,7 @@ define([], function() {
                     $scope.accountCollections = accountCollection.query({ account: account._id });
                     $scope.beneficiaries = accountBeneficiaries.query({ account: account._id });
                     $scope.adjustments = adjustmentsResource.query({ user: $scope.user._id });
+                    $scope.overtimes = overtimesummaryResource.query({ user: $scope.user._id });
 
                     var today = new Date();
 
@@ -93,6 +95,14 @@ define([], function() {
                         });
                     });
 
+                    // Precompute unsettled quantity on overtimes
+
+                    $scope.overtimes.$promise.then(function() {
+                        $scope.overtimes.forEach(function(overtime) {
+                            overtime.unsettled = overtime.total - overtime.settled;
+                        });
+                    });
+
 
                 } else {
                     $scope.beneficiaries = [];
@@ -105,6 +115,9 @@ define([], function() {
 
 
         $scope.createRequest = getCreateRequest($scope);
+        $scope.createOvertime = function(user) {
+			$location.path('/admin/users/'+user.id+'/create-overtime');
+		};
 
 		$scope.cancel = function() {
 			$location.path('/admin/users');

@@ -143,7 +143,10 @@ function saveRequest(service, params) {
 
 
                         if ('accepted' === request.status.created) {
-                            document.createRecoveryBeneficiary(user)
+                            Promise.all([
+                                document.createOvertime(user),
+                                document.createRecoveryBeneficiary(user)
+                            ])
                             .then(() => {
                                 return request.setEventsStatus('CONFIRMED');
                             })

@@ -60,7 +60,9 @@ exports = module.exports = function(params) {
             createdUpTo: { type: Date, default: Date.now() },
             from: Date,
             to: Date
-        }
+        },
+
+        overtimeSettlements: [params.embeddedSchemas.OvertimeSettlement]
     });
 
     accountSchema.index({ user: 1 });
@@ -1165,6 +1167,29 @@ exports = module.exports = function(params) {
         });
     };
 
+    /**
+     * Get overtime unsettled quantity
+     * @return {Promise} int
+     */
+    accountSchema.methods.getOvertimeQuantity = function() {
+        const aggregate = this.model('Overtime').aggregate();
+
+        let userId = this.user.id;
+        if (this.user.id instanceof this.model('User')) {
+            userId = this.user.id._id;
+        }
+        aggregate.match({ 'user.id': userId });
+        aggregate.match({ 'settled': false });
+        aggregate.group({
+            _id: null,
+            total: { $sum: '$quantity' },
+            settled: { $sum: '$settlements.quantity' }
+        });
+
+        return aggregate.exec().then(list => {
+            return (list[0].total - list[0].settled);
+        });
+    };
 
     params.db.model('Account', accountSchema);
 };

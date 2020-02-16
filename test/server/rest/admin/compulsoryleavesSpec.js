@@ -179,11 +179,13 @@ describe('Compulsory leaves admin rest service', function() {
             server.expectSuccess(body);
 
             compulsoryleave1 = body;
-
-            expect(body.requests[0].request).toBeDefined();
-            expect(body.requests[0].request.length).toEqual(24); // The ID
-            expect(body.requests[0].quantity).toBeGreaterThan(0);
-            request1 = body.requests[0].request;
+            expect(body.requests[0]).toBeDefined();
+            if (body.requests[0]) {
+                expect(body.requests[0].request).toBeDefined();
+                expect(body.requests[0].request.length).toEqual(24); // The ID
+                expect(body.requests[0].quantity).toBeGreaterThan(0);
+                request1 = body.requests[0].request;
+            }
             done();
         });
     });

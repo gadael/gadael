@@ -15,7 +15,7 @@ const requestdateparams = require('../../../../modules/requestdateparams');
 function getEvents(service, params)
 {
     if (undefined === params.user) {
-        throw new Error('The user parameter is mandatory in the personalevents service');
+        throw new Error('The user parameter is mandatory in the unavailableevents service');
     }
 
 

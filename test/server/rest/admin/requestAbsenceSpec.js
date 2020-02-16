@@ -421,9 +421,6 @@ describe('request absence admin rest service', function() {
     });
 
 
-
-
-
     it('delete a request', function(done) {
         server.delete('/rest/admin/requests/'+request1._id, function(res, body) {
             expect(res.statusCode).toEqual(200);

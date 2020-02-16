@@ -1,0 +1,50 @@
+
+<form role="form" name="accountNWDaysCalendarsEdit">
+
+    <div class="row">
+        <h3 class="col-md-12" translate>Convert overtime for {{user.lastname}} {{user.firstname}}</h3>
+    </div>
+
+    <div class="alert alert-danger" role="alert" ng-if="overtimesummaryLoaded && !overtimesummary.quantity">
+        <span translate>There is no overtime to convert</span>
+    </div>
+
+    <div class="radio top30">
+        <label>
+            <input type="radio" value="RIGHT" ng-model="mode" />
+            <span translate>Convert overtime to absence right</span>
+        </label>
+    </div>
+
+    <div class="radio">
+        <label>
+            <input type="radio" value="SETTLE" ng-model="mode" />
+            <span translate>Settle overtime quantity</span>
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="quantity" translate>Quantity</label>
+        <div class="input-group">
+            <input type="number" step="any" class="form-control" id="quantity" ng-model="overtimesummary.quantity" />
+            <div class="input-group-addon" translate>Hours</div>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="mode=='RIGHT'">
+        <label for="right_name" translate>Right name</label>
+        <input type="text" class="form-control" id="right_name" ng-model="overtimesummary.right.name" />
+    </div>
+
+    <div class="form-group top30">
+        <label for="comment" translate>Comment</label>
+        <textarea class="form-control" id="comment" ng-model="overtimesummary.comment"></textarea>
+    </div>
+
+
+    <div class="col-sm-12 text-center top30">
+        <button class="btn btn-primary" ng-click="saveOvertimesummary()" translate>Convert</button>
+        <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
+    </div>
+
+</form>

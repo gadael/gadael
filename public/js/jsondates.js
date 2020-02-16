@@ -25,6 +25,10 @@ define([], function () {
             var match;
             // Check for string properties which look like dates.
             if (typeof value === "string" && (match = value.match(regexIso8601))) {
+                if (!match[1] || !match[2] || !match[3] || !match[4] || !match[5] || !match[6]) {
+                    // Require at least year mont day hour minute second
+                    continue;
+                }
                 var milliseconds = Date.parse(match[0]);
                 if (!isNaN(milliseconds)) {
                     input[key] = new Date(milliseconds);

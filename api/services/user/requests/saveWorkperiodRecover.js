@@ -3,105 +3,108 @@
 /**
  * @throws Error
  * @param {Object}  wrParams        Worperiod recover request parmeters from post|put request
+ * @param {Boolean} workperiodRecoveryByApprover
  */
-function testRequired(wrParams)
+function testRequired(wrParams, workperiodRecoveryByApprover)
 {
     if (undefined === wrParams.quantity || wrParams.quantity <= 0) {
         throw new Error('The quantity parameter must be positive number');
     }
 
-    if (undefined === wrParams.right) {
-        throw new Error('The right parameter is mandatory');
-    }
+    if (workperiodRecoveryByApprover) {
+        if (undefined === wrParams.right) {
+            throw new Error('The right parameter is mandatory');
+        }
 
-    var emptyName = (undefined === wrParams.right.name || '' === wrParams.right.name);
-    if (emptyName || wrParams.right.name.length < 4) {
-        throw new Error('The right.name parameter must be 3 characters at least');
-    }
+        var emptyName = (undefined === wrParams.right.name || '' === wrParams.right.name);
+        if (emptyName || wrParams.right.name.length < 4) {
+            throw new Error('The right.name parameter must be 3 characters at least');
+        }
 
-    if (undefined === wrParams.recoverQuantity) {
-        throw new Error('The recoverQuantity parameter is mandatory');
+        if (undefined === wrParams.recoverQuantity) {
+            throw new Error('The recoverQuantity parameter is mandatory');
+        }
     }
 
     return true;
 }
 
-
-
-
-
 /**
  * Get object to set into request.workperiod_recover on save
- *
- *
  * @param {Object}      wrParams        Worperiod recover request parmeters from post|put request
- *
- *
  * @return {Promise}
  */
 function getFieldsToSet(service, wrParams)
 {
     const gt = service.app.utility.gettext;
 
-    try {
-        testRequired(wrParams);
-    } catch (e) {
-        return Promise.reject(e);
-    }
-
     if (!service.app.config.company.workperiod_recover_request) {
         return Promise.reject(new Error(gt.gettext('Workperiod recover requests are disabled by administrator')));
     }
 
-    var fieldsToSet = {
-        right: {}
-    };
+    try {
+        testRequired(wrParams, service.app.config.company.workperiod_recovery_by_approver);
+    } catch (e) {
+        return Promise.reject(e);
+    }
 
     // the real quantity from the list of events, must be in the quantity unit of the recover quantity
-    fieldsToSet.quantity = wrParams.quantity;
+    const fieldsToSet = {
+        quantity: wrParams.quantity,
+        summary: wrParams.summary
+    };
 
-    // name set by creator for the new right
-    fieldsToSet.right.id = null;
-    fieldsToSet.right.name = wrParams.right.name;
+    if (service.app.config.company.workperiod_recovery_by_approver) {
 
+        fieldsToSet.right = {
+            id: null,
+            name: null
+        };
 
-    var RecoverQuantityModel = service.app.db.models.RecoverQuantity;
+        // name set by creator for the new right
+        fieldsToSet.right.name = wrParams.right.name;
+        const RecoverQuantityModel = service.app.db.models.RecoverQuantity;
+        return RecoverQuantityModel
+        .findOne({ _id: wrParams.recoverQuantity._id })
+        .then(function(recoverQuantity) {
 
+            if (!recoverQuantity) {
+                throw new Error('Failed to get recover quantity from '+wrParams.recoverQuantity);
+            }
 
+            fieldsToSet.recoverQuantity = recoverQuantity._id;
+            // gainedQuantity is the quantity provided by the selected recover quantity
+            fieldsToSet.gainedQuantity = recoverQuantity.quantity;
+            fieldsToSet.waitingSettlementQuantity = recoverQuantity.quantity;
+            fieldsToSet.right.quantity_unit = recoverQuantity.quantity_unit;
 
-    return RecoverQuantityModel
-    .findOne({ _id: wrParams.recoverQuantity._id })
-    .then(function(recoverQuantity) {
+            return fieldsToSet;
 
-        if (!recoverQuantity) {
-            throw new Error('Failed to get recover quantity from '+wrParams.recoverQuantity);
-        }
+        });
+    } else {
+        // will be set after approval
+        fieldsToSet.overtime = null;
+    }
 
-        fieldsToSet.recoverQuantity = recoverQuantity._id;
-
-        // gainedQuantity is the quantity provided by the selected recover quantity
-        fieldsToSet.gainedQuantity = recoverQuantity.quantity;
-
-        fieldsToSet.right.quantity_unit = recoverQuantity.quantity_unit;
-
-        return fieldsToSet;
-
-    });
-
+    fieldsToSet.gainedQuantity = wrParams.quantity;
+    fieldsToSet.waitingSettlementQuantity = wrParams.quantity;
+    return Promise.resolve(fieldsToSet);
 }
 
 
 /**
- * Create right if no approval
- *
+ * Settle the request when no approval step
  * @param {User}        user            Request owner
  * @param {Request}     document
  *
- * @return {Promise}    resolve to the Beneficiary document or null if right has not been created
+ * @return {Promise}
  */
-function createRight(user, document)
+function settle(user, document)
 {
-    return document.createRecoveryBeneficiary(user);
+    return Promise.all([
+        document.createOvertime(user),
+        document.createRecoveryBeneficiary(user)
+    ]);
 }
 
 
@@ -143,5 +146,5 @@ function getEventsPromise(service, param)
 exports = module.exports = {
     getEventsPromise: getEventsPromise,
     getFieldsToSet: getFieldsToSet,
-    createRight: createRight
+    settle: settle
 };

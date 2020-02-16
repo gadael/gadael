@@ -73,7 +73,9 @@ define(function() {
                 export                  : init('admin/export'),
                 consumption             : init('admin/consumption'),
                 invitations             : init('admin/invitations/:id'),
-                apitokens               : init('admin/apitokens/:id')
+                apitokens               : init('admin/apitokens/:id'),
+                overtimes               : init('admin/overtimes/:id'),
+                overtimesummary         : init('admin/overtimesummary')
             },
 
             account: {

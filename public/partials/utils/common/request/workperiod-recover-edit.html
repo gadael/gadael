@@ -46,11 +46,11 @@
         </div>
 
         <div class="form-group">
-            <label for="right_name" translate>Recovery request summary</label>
-		    <input type="text" class="form-control" id="right_name" ng-model="request.workperiod_recover[0].right.name" required />
+            <label for="summary" translate>Recovery request summary</label>
+		    <input type="text" class="form-control" id="summary" ng-model="request.workperiod_recover[0].summary" required />
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-if="recoverquantities.length">
             <label for="right_quantity" translate>Recovery claimed</label>
 		    <select id="right_quantity" class="form-control" ng-model="request.workperiod_recover[0].recoverQuantity" ng-options="option.name for option in recoverquantities  track by option._id">
             </select>
@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="panel  panel-primary top30">
+        <div class="panel  panel-primary top30" ng-if="recoverquantities.length">
             <div class="panel-body bg-primary">
                 <h4 translate>Right quantity claimed by recovery:</h4>
                 <p>{{request.workperiod_recover[0].recoverQuantity.quantity}} {{request.workperiod_recover[0].recoverQuantity.quantity_dispUnit}}</p>

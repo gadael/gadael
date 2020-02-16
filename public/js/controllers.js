@@ -173,6 +173,14 @@ define(['angular', 'services'], function (angular) {
             invokeController('controllers/admin/account-renewalquantity-edit', this, $scope, $injector);
 		}])
 
+        .controller('AdminAccountOvertimesEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/account-overtimes-edit', this, $scope, $injector);
+		}])
+
+        .controller('AdminAccountOvertimesummaryEdit', ['$scope', '$injector', function($scope, $injector) {
+            invokeController('controllers/admin/account-overtimesummary-edit', this, $scope, $injector);
+		}])
+
 		.controller('AdminDepartments', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/departments', this, $scope, $injector);
 		}])
@@ -244,6 +252,8 @@ define(['angular', 'services'], function (angular) {
         .controller('AdminRightRuleEdit', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/admin/rightrule-edit', this, $scope, $injector);
 		}])
+
+
 
 		.controller('Signup', ['$scope', '$injector', function($scope, $injector) {
             invokeController('controllers/signup', this, $scope, $injector);

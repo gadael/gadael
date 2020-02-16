@@ -11,13 +11,11 @@ const querystring = require('querystring');
  * @param {String} dbname
  * @param {Integer} port
  * @param {Function} readyCallback
- * @param {String} countryCode          Database initialization
- * @param {String} languageCode         Language code (the mo file to use)
- * @param {Date} [timeCreated]          Optional creation date of the company document
- *                                      The date is used in Shema initTasks, ex: for rights renewals initialisation
+ * @param {Object} [company]              Company settings
+ * @param {String} [languageCode]         Language code (the mo file to use)
  *
  */
-function mockServer(dbname, port, readyCallback, countryCode, languageCode, timeCreated) {
+function mockServer(dbname, port, readyCallback, company, languageCode, timeCreated) {
 
     var mockServerDbName = dbname+port;
 
@@ -31,10 +29,9 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
     this.requireCloseOn = null;
     this.lastUse = Date.now();
 
-    if (undefined === countryCode) {
-        countryCode = 'FR'; // all tests on rest services are based on french initial data
+    if (undefined === company) {
+        company = {};
     }
-
 
     if (undefined !== languageCode) {
         config.language = languageCode;
@@ -44,12 +41,13 @@ function mockServer(dbname, port, readyCallback, countryCode, languageCode, time
     headless.config = config;
 
     function createRestService() {
-        var company = {
+
+        company = Object.assign({
             name: 'The Fake Company REST service',
             port: port,
-            country: countryCode,
+            country: 'FR',
             timeCreated: timeCreated
-        };
+        }, company);
 
         api.createDb(headless, serverInst.dbname, company)
         .then(() => {
@@ -663,12 +661,10 @@ exports = module.exports = {
      *
      * @param {String} [dbname]     optionnal database name
      * @param {function} ready      callback
-     * @param {String} countryCode
+     * @param {Object} company
      * @param {String} languageCode
-     * @param {Date} [timeCreated]          Optional creation date of the company document
-     *                                      The date is used in Shema initTasks, ex: for rights renewals initialisation
      */
-    mockServer: function(dbname, ready, countryCode, languageCode, timeCreated) {
+    mockServer: function(dbname, ready, company, languageCode, timeCreated) {
 
         if (ready === undefined && typeof(dbname) === 'function') {
             ready = dbname;
@@ -681,7 +677,7 @@ exports = module.exports = {
             new mockServer(dbname, port, function(server) {
                 serverList[dbname] = server;
                 ready(server);
-            }, countryCode, languageCode, timeCreated);
+            }, company, languageCode, timeCreated);
 
         } else {
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-22 13:49+0100\n"
+"POT-Creation-Date: 2020-02-15 15:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -158,6 +158,14 @@ msgstr ""
 
 #: api/services/admin/departments/save.js:78
 msgid "The department has been created"
+msgstr ""
+
+#: api/services/admin/overtimesummary/save.js:130
+msgid "Not enough overtime quantity"
+msgstr ""
+
+#: api/services/admin/overtimesummary/save.js:142
+msgid "Overtime quantity has been settled"
 msgstr ""
 
 #: api/services/admin/beneficiaries/get.js:46
@@ -558,6 +566,39 @@ msgstr ""
 msgid "The account collection has been created"
 msgstr ""
 
+#: api/services/user/overtimes/get.js:33
+msgid "This overtime does not exists"
+msgstr ""
+
+#: api/services/user/overtimes/delete.js:17
+msgid "the overtime does not exists"
+msgstr ""
+
+#: api/services/user/overtimes/delete.js:23
+msgid "The overtime has been deleted"
+msgstr ""
+
+#: api/services/user/overtimes/save.js:18
+msgid "At least one event is required"
+msgstr ""
+
+#: api/services/user/overtimes/save.js:26
+#: api/services/user/overtimes/save.js:46
+msgid "The overtime has been created"
+msgstr ""
+
+#: api/services/user/overtimes/save.js:112
+msgid "The user does not exists"
+msgstr ""
+
+#: api/services/user/overtimes/save.js:140
+msgid "Overtime not found"
+msgstr ""
+
+#: api/services/user/overtimes/save.js:143
+msgid "The overtime is settled"
+msgstr ""
+
 #: api/services/user/consumption/get.js:18
 #: api/services/account/collection/get.js:21
 msgid "user parameter is mandatory"
@@ -615,7 +656,7 @@ msgstr ""
 msgid "This request has been deleted"
 msgstr ""
 
-#: api/services/user/requests/saveWorkperiodRecover.js:53
+#: api/services/user/requests/saveWorkperiodRecover.js:42
 msgid "Workperiod recover requests are disabled by administrator"
 msgstr ""
 
@@ -722,30 +763,30 @@ msgstr ""
 msgid "Leave periods provided by gadael"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:153
+#: api/services/manager/waitingrequests/save.js:156
 msgid "The request has been confirmed"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:165
+#: api/services/manager/waitingrequests/save.js:168
 msgid "The request has been cancelled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:178
+#: api/services/manager/waitingrequests/save.js:181
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:190
+#: api/services/manager/waitingrequests/save.js:193
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:200
+#: api/services/manager/waitingrequests/save.js:203
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:207
+#: api/services/manager/waitingrequests/save.js:210
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 
@@ -821,14 +862,14 @@ msgid "Please, check the request status"
 msgstr ""
 
 #: modules/emails/approbalert.js:42 modules/emails/pendingapproval.js:47
-#: modules/emails/requestaccepted.js:66 modules/emails/requestrejected.js:46
+#: modules/emails/requestaccepted.js:65 modules/emails/requestrejected.js:46
 #: modules/emails/requestcreated.js:38
 msgid "View request"
 msgstr ""
 
 #: modules/emails/approbalert.js:46 modules/emails/invitation.js:51
 #: modules/emails/pendingapproval.js:51 modules/emails/rolesupdated.js:36
-#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:75
+#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:74
 #: modules/emails/requestrejected.js:50 modules/emails/requestcreated.js:42
 #: modules/emails/usercreated.js:36
 msgid "Yours truly"
@@ -947,11 +988,11 @@ msgstr ""
 msgid "As requested by %s, the %s request has been canceled"
 msgstr ""
 
-#: modules/emails/requestaccepted.js:64 modules/emails/requestrejected.js:44
+#: modules/emails/requestaccepted.js:63 modules/emails/requestrejected.js:44
 msgid "Consult the request actions history after login into the application"
 msgstr ""
 
-#: modules/emails/requestaccepted.js:71
+#: modules/emails/requestaccepted.js:70
 #, javascript-format
 msgid "Workflow step by %s the %s"
 msgstr ""
@@ -1456,7 +1497,7 @@ msgstr ""
 msgid "Interval values must be set in a correct order"
 msgstr ""
 
-#: schema/User_Account.js:1050
+#: schema/User_Account.js:1052
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr ""

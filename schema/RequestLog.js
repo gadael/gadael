@@ -55,10 +55,6 @@ exports = module.exports = function(params) {
         return gt.gettext('Unknown action');
     };
 
-
 	requestLogSchema.set('autoIndex', params.autoIndex);
-
-	//params.db.model('RequestLog', requestLogSchema);
-
     params.embeddedSchemas.RequestLog = requestLogSchema;
 };

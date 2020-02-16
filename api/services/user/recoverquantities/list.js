@@ -2,7 +2,7 @@
 
 
 /**
- * The Admin recover quantities list service
+ * The recover quantities list service
  */
 
 
@@ -45,10 +45,6 @@ exports = module.exports = function(services, app) {
      * @return {Promise}
      */
     service.getResultPromise = function(params, paginate) {
-
-
-
-
         service.resolveQuery(
             query(service, params).select('name quantity quantity_unit').sort('name'),
             paginate,
