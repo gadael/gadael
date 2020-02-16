@@ -33804,7 +33804,7 @@ define('services/absence-edit',['angular', 'services/request-edit'], function(an
              */
             function isCompleted(days, hours) {
                 var daysCompleted = ($scope.selection.businessDays === days) && !hours;
-                var hoursCompleted = ($scope.selection.duration === (hours*360000)) && !days;
+                var hoursCompleted = ($scope.selection.duration === (hours*3600000)) && !days;
                 return (daysCompleted || hoursCompleted);
             }
 
