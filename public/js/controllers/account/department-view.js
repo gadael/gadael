@@ -8,20 +8,15 @@ define([], function() {
         '$q',
         'departmentReload',
         'gettext',
-        '$http',
-        'getCreateRequest',
-        '$modal',
-        '$location',
-            function(
-                $scope,
-                Rest,
-                $q,
-                departmentReload,
-                gettext) {
+        function(
+            $scope,
+            Rest,
+            $q,
+            departmentReload,
+            gettext) {
 
         var collaboratorsResource;
         var calendareventsResource = Rest.user.calendarevents.getResource();
-
 
         $scope.setPageTitle(gettext('My department'));
 

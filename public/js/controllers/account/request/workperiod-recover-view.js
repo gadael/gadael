@@ -6,12 +6,16 @@ define([], function() {
 		'Rest',
         'getRequestStat',
         'canEditRequest',
+        'gettext',
+        'gettextCatalog',
         function(
 			$scope,
 			$location,
 			Rest,
             getRequestStat,
-            canEditRequest
+            canEditRequest,
+            gettext,
+            gettextCatalog
 		) {
 
 
@@ -34,7 +38,7 @@ define([], function() {
          * Delete
          */
 		$scope.delete = function() {
-            if (confirm('Are you sure you want to delete the workperiod recover request?')) {
+            if (confirm(gettextCatalog.getString(gettext('Are you sure you want to delete the workperiod recover request?')))) {
 
                 $scope.request.gadaDelete($scope.backToList);
             }

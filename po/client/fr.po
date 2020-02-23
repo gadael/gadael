@@ -247,7 +247,7 @@ msgstr "Administrateur, se substituant à l'un de ces subordonnés"
 msgid "Administrator"
 msgstr "Administrateur"
 
-#: public/js/optimized.js:36675 public/js/services.js:461
+#: public/js/optimized.js:36682 public/js/services.js:461
 msgid "Age"
 msgstr "Âge"
 
@@ -290,10 +290,23 @@ msgstr "Administrateur de l'application"
 msgid "Approvers"
 msgstr "Approbateurs"
 
-#: public/js/controllers/account/request/absence-view.js:39
-#: public/js/controllers/admin/request/absence-view.js:40
+#: public/js/controllers/account/request/absence-view.js:41
+#: public/js/controllers/admin/request/absence-view.js:19
+#: public/js/controllers/admin/request/absence-view.js:43
 msgid "Are you sure you want to delete the absence request?"
 msgstr "Êtes-vous sûr de vouloir supprimer cette demande d'absence?"
+
+#: public/js/controllers/account/request/time-saving-deposit-view.js:41
+#: public/js/controllers/admin/request/time-saving-deposit-view.js:37
+msgid "Are you sure you want to delete the time saving deposit request?"
+msgstr "Êtes-vous sûr de vouloir supprimer ce dépôt sur compte épargne temps?"
+
+#: public/js/controllers/account/request/workperiod-recover-view.js:41
+#: public/js/controllers/admin/request/workperiod-recover-view.js:37
+msgid "Are you sure you want to delete the workperiod recover request?"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer cette déclaration d'heures "
+"supplémentaires?"
 
 #: public/js/controllers/admin/compulsoryleave-view.js:338
 msgid "Are you sure you want to delete this compulsory leave?"
@@ -342,7 +355,7 @@ msgstr "Se connecter avec un compte google"
 msgid "Author"
 msgstr "Auteur"
 
-#: public/js/optimized.js:35265 public/js/services/beneficiary.js:226
+#: public/js/optimized.js:35272 public/js/services/beneficiary.js:226
 msgid "Auto monthly update"
 msgstr "Mise à jour mensuelles automatiques"
 
@@ -380,7 +393,7 @@ msgstr "Disponible sur la période"
 msgid "Available on right"
 msgstr "Disponibilité du droit"
 
-#: public/js/optimized.js:35348 public/js/services/beneficiary.js:309
+#: public/js/optimized.js:35355 public/js/services/beneficiary.js:309
 #: public/partials/account/beneficiaries.html:21
 #: public/partials/admin/user-view-account.html:92
 #: public/partials/utils/common/request/absence-edit.html:59
@@ -627,7 +640,7 @@ msgstr "Consommer le jour ouvré suivant"
 msgid "Consume worked days"
 msgstr "Utiliser les jours travaillés"
 
-#: public/js/optimized.js:32678 public/js/services/renewalChart.js:181
+#: public/js/optimized.js:32682 public/js/services/renewalChart.js:181
 msgid "Consumed"
 msgstr "Consommé"
 
@@ -648,7 +661,7 @@ msgstr "Consommé :"
 msgid "Consumption"
 msgstr "Consommation"
 
-#: public/js/optimized.js:36676 public/js/services.js:462
+#: public/js/optimized.js:36683 public/js/services.js:462
 msgid "Consuption"
 msgstr "Consommation"
 
@@ -801,7 +814,7 @@ msgstr "Agenda du rythme de travail en cours :"
 msgid "Date"
 msgstr "Date"
 
-#: public/js/optimized.js:32688 public/js/services/renewalChart.js:191
+#: public/js/optimized.js:32692 public/js/services/renewalChart.js:191
 msgid "Day"
 msgid_plural "Days"
 msgstr[0] "Jour"
@@ -829,8 +842,8 @@ msgstr[1] "Jours"
 #: public/partials/admin/rightrule-edit.html:359
 #: public/partials/admin/rightrule-edit.html:87
 #: public/partials/admin/rightrule-edit.html:97
-#: public/partials/utils/common/request/absence-view.html:21
-#: public/partials/utils/common/request/absence-view.html:22
+#: public/partials/utils/common/request/absence-view.html:23
+#: public/partials/utils/common/request/absence-view.html:24
 msgid "Days"
 msgstr "Jours"
 
@@ -978,7 +991,7 @@ msgstr "Téléchargement"
 msgid "Duration"
 msgstr "Durée"
 
-#: public/js/optimized.js:34008 public/js/services/absence-edit.js:279
+#: public/js/optimized.js:34014 public/js/services/absence-edit.js:279
 msgid ""
 "Duration mismatch: {duration} hours remain unconsumed after the creation of "
 "{nbEvents} events, please check your absence period, it must not overlap "
@@ -1061,11 +1074,11 @@ msgstr "Date de fin"
 msgid "Enter Your Email:"
 msgstr "Entrez votre email :"
 
-#: public/partials/utils/common/request/workperiod-recover-view.html:19
+#: public/partials/utils/common/request/workperiod-recover-view.html:24
 msgid "Entitlement quantity:"
 msgstr "Quantité récupérée :"
 
-#: public/js/optimized.js:36671 public/js/services.js:457
+#: public/js/optimized.js:36678 public/js/services.js:457
 msgid "Entry date"
 msgstr "Date d'écriture"
 
@@ -1196,7 +1209,7 @@ msgstr "Vendredi"
 #: public/partials/manager/waitingrequests.html:41
 #: public/partials/manager/waitingrequests.html:50
 #: public/partials/utils/common/calendar/popover-event.html:11
-#: public/partials/utils/common/request/absence-view.html:47
+#: public/partials/utils/common/request/absence-view.html:53
 #: public/partials/utils/common/request/request-list-type.html:13
 #: public/partials/utils/common/request/request-list-type.html:22
 #: public/partials/utils/common/request/request-list-type.html:5
@@ -1242,7 +1255,7 @@ msgstr ""
 msgid "From:"
 msgstr "De :"
 
-#: public/js/app.js:66 public/js/optimized.js:42191
+#: public/js/app.js:66 public/js/optimized.js:42208
 msgid "Gadael - %s"
 msgstr "Gadael - %s"
 
@@ -1289,6 +1302,7 @@ msgstr "Heure"
 
 #: public/js/controllers/admin/recoverquantity-edit.js:16
 #: public/js/controllers/admin/right-edit.js:108
+#: public/partials/admin/account-overtimesummary-edit.html:30
 #: public/partials/admin/right-edit.html:184
 #: public/partials/admin/right-edit.html:58
 #: public/partials/admin/right-edit.html:68
@@ -1298,6 +1312,9 @@ msgstr "Heure"
 #: public/partials/admin/rightrule-edit.html:279
 #: public/partials/admin/rightrule-edit.html:349
 #: public/partials/admin/rightrule-edit.html:360
+#: public/partials/utils/common/request/absence-view.html:27
+#: public/partials/utils/common/request/absence-view.html:28
+#: public/partials/utils/common/request/workperiod-recover-view.html:19
 msgid "Hours"
 msgstr "Heures"
 
@@ -1349,7 +1366,7 @@ msgstr "Quantité initiale :"
 msgid "Initial:"
 msgstr "Initiale :"
 
-#: public/js/optimized.js:34047 public/js/services/absence-edit.js:318
+#: public/js/optimized.js:34053 public/js/services/absence-edit.js:318
 msgid "Input quantity must be set"
 msgstr "La quantité saisie doit être définie"
 
@@ -1414,7 +1431,7 @@ msgstr "Périodes de congé"
 msgid "Leave right"
 msgstr "Droit de congé"
 
-#: public/js/app.js:135 public/js/optimized.js:42260
+#: public/js/app.js:135 public/js/optimized.js:42277
 msgid "Leaves managment"
 msgstr "Gestion des absences"
 
@@ -1591,7 +1608,8 @@ msgstr ""
 msgid "My account"
 msgstr "Mon compte"
 
-#: public/js/controllers/account/department-view.js:26
+#: public/js/controllers/account/department-view.js:21
+#: public/js/controllers/admin/request/absence-view.js:20
 msgid "My department"
 msgstr "Mon service"
 
@@ -1666,7 +1684,7 @@ msgstr "Page suivante"
 msgid "No active renewal"
 msgstr "Pas de renouvellement actif"
 
-#: public/js/optimized.js:34707 public/js/services/timesavingdeposit-edit.js:50
+#: public/js/optimized.js:34714 public/js/services/timesavingdeposit-edit.js:50
 msgid "No available time saving account"
 msgstr "Pas de compte épargne temps disponible"
 
@@ -1718,7 +1736,7 @@ msgstr "Jours fériés"
 msgid "Nothing to approve"
 msgstr "Rien à approuver"
 
-#: public/js/optimized.js:34106 public/js/services/absence-edit.js:377
+#: public/js/optimized.js:34112 public/js/services/absence-edit.js:377
 msgid "Nothing to save"
 msgstr "Rien à enregistrer"
 
@@ -1969,11 +1987,11 @@ msgstr "Renouvellements"
 msgid "Renewals with remaining quantity"
 msgstr "Renouvellements avec une quantité restante"
 
-#: public/js/optimized.js:36673 public/js/services.js:459
+#: public/js/optimized.js:36680 public/js/services.js:459
 msgid "Request in user interval"
 msgstr "Demande dans l'intervalle utilisateur"
 
-#: public/js/optimized.js:36672 public/js/services.js:458
+#: public/js/optimized.js:36679 public/js/services.js:458
 msgid "Request period"
 msgstr "Période de la demande"
 
@@ -2007,7 +2025,7 @@ msgid "Right collections scheduling for {{user.lastname}} {{user.firstname}}"
 msgstr ""
 "Planification des régimes de congés pour {{user.lastname}} {{user.firstname}}"
 
-#: public/partials/utils/common/request/workperiod-recover-view.html:20
+#: public/partials/utils/common/request/workperiod-recover-view.html:25
 msgid "Right given name:"
 msgstr "Nom du droit :"
 
@@ -2084,7 +2102,7 @@ msgstr "Régime de congés"
 msgid "Rights collections"
 msgstr "Régimes de congés"
 
-#: public/partials/utils/common/request/absence-view.html:41
+#: public/partials/utils/common/request/absence-view.html:47
 msgid "Rights distribution"
 msgstr "Répartition des droits"
 
@@ -2264,7 +2282,7 @@ msgstr "Sélectionner l'unité"
 msgid "Selected duration:"
 msgstr "Durée sélectionnée :"
 
-#: public/partials/utils/common/request/workperiod-recover-view.html:17
+#: public/partials/utils/common/request/workperiod-recover-view.html:23
 msgid "Selected recovery:"
 msgstr "Récupération sélectionnée :"
 
@@ -2277,7 +2295,7 @@ msgstr "Réinitialiser"
 msgid "Send invitations"
 msgstr "Envoyer les invitations"
 
-#: public/js/optimized.js:36674 public/js/services.js:460
+#: public/js/optimized.js:36681 public/js/services.js:460
 msgid "Seniority"
 msgstr "Ancienneté"
 
@@ -2623,7 +2641,7 @@ msgstr "Titre"
 #: public/partials/manager/waitingrequests.html:42
 #: public/partials/manager/waitingrequests.html:51
 #: public/partials/utils/common/calendar/popover-event.html:12
-#: public/partials/utils/common/request/absence-view.html:48
+#: public/partials/utils/common/request/absence-view.html:54
 #: public/partials/utils/common/request/request-list-type.html:14
 #: public/partials/utils/common/request/request-list-type.html:23
 #: public/partials/utils/common/request/request-list-type.html:6
@@ -2664,11 +2682,13 @@ msgid "To:"
 msgstr "Au :"
 
 #: public/partials/utils/common/request/absence-edit.html:118
-#: public/partials/utils/common/request/absence-view.html:21
+#: public/partials/utils/common/request/absence-view.html:23
+#: public/partials/utils/common/request/absence-view.html:27
 msgid "Total consumption:"
 msgstr "Consommation :"
 
-#: public/partials/utils/common/request/absence-view.html:22
+#: public/partials/utils/common/request/absence-view.html:24
+#: public/partials/utils/common/request/absence-view.html:28
 msgid "Total duration:"
 msgstr "Durée totale :"
 
@@ -2769,7 +2789,7 @@ msgstr ""
 "une utilisation ultérieure."
 
 #: public/partials/account/request/absence-view.html:3
-#: public/partials/admin/request/absence-view.html:9
+#: public/partials/admin/request/absence-view.html:4
 msgid "Vacation request"
 msgstr "Demande d'absences"
 
@@ -2777,7 +2797,7 @@ msgstr "Demande d'absences"
 msgid "Vacation right"
 msgstr "Droit d'absence"
 
-#: public/partials/utils/common/request/absence-view.html:26
+#: public/partials/utils/common/request/absence-view.html:32
 msgid "Vacation right:"
 msgstr "Droit d'absence :"
 
@@ -2896,7 +2916,7 @@ msgstr "Rythme de travail"
 msgid "Worked days in a week (RTT calculation)"
 msgstr "Jours travaillés dans une semaine (calcul des RTT)"
 
-#: public/partials/utils/common/request/workperiod-recover-view.html:18
+#: public/partials/utils/common/request/workperiod-recover-view.html:17
 msgid "Worked duration:"
 msgstr "Durée travaillée :"
 
@@ -2919,7 +2939,7 @@ msgstr "Demande de récupération de jours travaillés"
 msgid "Workschedule planning"
 msgstr "Planning des heures travaillées"
 
-#: public/js/optimized.js:34003 public/js/services/absence-edit.js:274
+#: public/js/optimized.js:34009 public/js/services/absence-edit.js:274
 msgid "Wrong events count"
 msgstr "Le nombre d'événements n'est pas correct"
 
@@ -3066,7 +3086,7 @@ msgstr "agenda"
 msgid "collections"
 msgstr "régimes"
 
-#: public/js/optimized.js:33408 public/js/services/request-edit.js:29
+#: public/js/optimized.js:33414 public/js/services/request-edit.js:29
 #: public/partials/admin/compulsoryleave-view.html:70
 #: public/partials/admin/compulsoryleave-view.html:80
 #: public/partials/admin/recoverquantities.html:31
@@ -3088,7 +3108,7 @@ msgstr "fait"
 msgid "from"
 msgstr "de"
 
-#: public/js/optimized.js:33409 public/js/services/request-edit.js:30
+#: public/js/optimized.js:33415 public/js/services/request-edit.js:30
 #: public/partials/admin/compulsoryleave-view.html:71
 #: public/partials/admin/compulsoryleave-view.html:81
 #: public/partials/admin/recoverquantities.html:32
@@ -3114,7 +3134,7 @@ msgstr "ou"
 msgid "to"
 msgstr "au"
 
-#: public/js/optimized.js:34764
+#: public/js/optimized.js:34771
 #: public/js/services/timesavingdeposit-edit.js:107
 msgid "{quantity} up to {date}"
 msgstr "{quantity} jusqu'au {date}"

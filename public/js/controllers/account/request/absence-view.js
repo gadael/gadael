@@ -7,13 +7,15 @@ define([], function() {
         'getRequestStat',
         'canEditRequest',
         'gettext',
+        'gettextCatalog',
             function(
 			$scope,
 			$location,
 			Rest,
             getRequestStat,
             canEditRequest,
-            gettext
+            gettext,
+            gettextCatalog
 		) {
 
 
@@ -36,7 +38,7 @@ define([], function() {
          * Delete the absence request
          */
 		$scope.delete = function() {
-            if (confirm(gettext('Are you sure you want to delete the absence request?'))) {
+            if (confirm(gettextCatalog.getString(gettext('Are you sure you want to delete the absence request?')))) {
                 $scope.request.gadaDelete($scope.backToList);
             }
 

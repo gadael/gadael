@@ -6,15 +6,18 @@ define([], function() {
 		'Rest',
         'getRequestStat',
         'gettext',
+        'gettextCatalog',
         function(
 			$scope,
 			$location,
 			Rest,
             getRequestStat,
-            gettext
+            gettext,
+            gettextCatalog
 		) {
 
-
+        console.log(gettext('Are you sure you want to delete the absence request?'));
+        console.log(gettext('My department'));
 		$scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
 
         $scope.request.$promise.then(function() {
@@ -37,7 +40,7 @@ define([], function() {
          * Cancel the absence request
          */
 		$scope.delete = function() {
-            if (confirm(gettext('Are you sure you want to delete the absence request?'))) {
+            if (confirm(gettextCatalog.getString(gettext('Are you sure you want to delete the absence request?')))) {
                 $scope.request.gadaDelete($scope.backToList);
             }
 
