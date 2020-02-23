@@ -18,8 +18,8 @@ define([], function() {
 		$scope.request = Rest.admin.requests.getFromUrl().loadRouteId();
 
         $scope.request.$promise.then(function() {
-            var status = $scope.request.status.created;
-            $scope.canEdit = ('accepted' === status || 'waiting' === status);
+            var status = $scope.request.status;
+            $scope.canEdit = ('accepted' === status.created || 'waiting' === status.created || 'waiting' === status.deleted);
         });
 
 
