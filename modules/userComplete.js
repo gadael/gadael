@@ -53,14 +53,16 @@ exports = module.exports = function userComplete(userDoc)
             var calendar = results[1];
             var departments = results[2];
 
-            user.roles.account.currentCollection = null;
+            if (user.roles.account) {
+                user.roles.account.currentCollection = null;
 
-            if (null !== collection && undefined !== collection) {
-                user.roles.account.currentCollection = collection.toObject();
-            }
+                if (null !== collection && undefined !== collection) {
+                    user.roles.account.currentCollection = collection.toObject();
+                }
 
-            if (null !== calendar && undefined !== calendar) {
-                user.roles.account.currentScheduleCalendar = calendar.toObject();
+                if (null !== calendar && undefined !== calendar) {
+                    user.roles.account.currentScheduleCalendar = calendar.toObject();
+                }
             }
 
             if (null !== departments && undefined !== departments) {
