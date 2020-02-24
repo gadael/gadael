@@ -205,7 +205,9 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                         var params = {
                             type: 'workschedule',
                             dtstart: begin,
-                            dtend: end
+                            dtend: end,
+                            subtractNonWorkingDays: true,
+                            subtractPersonalEvents: true
                         };
 
                         // Admin only?
