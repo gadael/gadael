@@ -227,7 +227,7 @@ msgstr ""
 msgid "Administrator"
 msgstr ""
 
-#: public/js/optimized.js:36682
+#: public/js/optimized.js:36684
 #: public/js/services.js:461
 msgid "Age"
 msgstr ""
@@ -267,14 +267,14 @@ msgstr ""
 msgid "Are you sure you want to delete the absence request?"
 msgstr ""
 
+#: public/js/controllers/account/request/workperiod-recover-view.js:41
+#: public/js/controllers/admin/request/workperiod-recover-view.js:37
+msgid "Are you sure you want to delete the overtime declaration?"
+msgstr ""
+
 #: public/js/controllers/account/request/time-saving-deposit-view.js:41
 #: public/js/controllers/admin/request/time-saving-deposit-view.js:37
 msgid "Are you sure you want to delete the time saving deposit request?"
-msgstr ""
-
-#: public/js/controllers/account/request/workperiod-recover-view.js:41
-#: public/js/controllers/admin/request/workperiod-recover-view.js:37
-msgid "Are you sure you want to delete the workperiod recover request?"
 msgstr ""
 
 #: public/js/controllers/admin/compulsoryleave-view.js:338
@@ -324,7 +324,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: public/js/optimized.js:35272
+#: public/js/optimized.js:35274
 #: public/js/services/beneficiary.js:226
 msgid "Auto monthly update"
 msgstr ""
@@ -357,7 +357,7 @@ msgstr ""
 msgid "Available on right"
 msgstr ""
 
-#: public/js/optimized.js:35355
+#: public/js/optimized.js:35357
 #: public/js/services/beneficiary.js:309
 #: public/partials/account/beneficiaries.html:21
 #: public/partials/admin/user-view-account.html:92
@@ -625,7 +625,7 @@ msgstr ""
 msgid "Consumption"
 msgstr ""
 
-#: public/js/optimized.js:36683
+#: public/js/optimized.js:36685
 #: public/js/services.js:462
 msgid "Consuption"
 msgstr ""
@@ -674,6 +674,14 @@ msgstr ""
 msgid "Create a new department"
 msgstr ""
 
+#: public/partials/account/request/workperiod-recover-edit.html:2
+msgid "Create a new overtime declaration"
+msgstr ""
+
+#: public/partials/admin/request/workperiod-recover-edit.html:2
+msgid "Create a new overtime declaration for {{request.user.name}}"
+msgstr ""
+
 #: public/partials/user/settings-calendar-new.html:9
 msgid "Create a new secondary calendar in your google account to host a copy of your leave periods."
 msgstr ""
@@ -688,14 +696,6 @@ msgstr ""
 
 #: public/partials/account/request/absence-edit.html:2
 msgid "Create a new vacation request"
-msgstr ""
-
-#: public/partials/account/request/workperiod-recover-edit.html:2
-msgid "Create a new workperiod recover request"
-msgstr ""
-
-#: public/partials/admin/request/workperiod-recover-edit.html:2
-msgid "Create a new workperiod recover request for {{request.user.name}}"
 msgstr ""
 
 #: public/partials/admin/recoverquantity-edit.html:1
@@ -807,7 +807,7 @@ msgid "Declarations"
 msgstr ""
 
 #: public/partials/utils/common/request/request-create-select-type.html:29
-msgid "Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval benefit from additional vacations rights"
+msgid "Declare a worked period outside of your working hours, the request will be sent to your supervisor for approval and increase your overtime account"
 msgstr ""
 
 #: public/partials/admin/user-view.html:32
@@ -939,7 +939,7 @@ msgstr ""
 msgid "Duration"
 msgstr ""
 
-#: public/js/optimized.js:34014
+#: public/js/optimized.js:34016
 #: public/js/services/absence-edit.js:279
 msgid "Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave"
 msgstr ""
@@ -981,11 +981,11 @@ msgid "Edit a vacation request"
 msgstr ""
 
 #: public/partials/account/request/workperiod-recover-edit.html:3
-msgid "Edit a workperiod recover request"
+msgid "Edit an overtime declaration"
 msgstr ""
 
 #: public/partials/admin/request/workperiod-recover-edit.html:3
-msgid "Edit a workperiod recover request for {{request.user.name}}"
+msgid "Edit an overtime declaration for {{request.user.name}}"
 msgstr ""
 
 #: public/partials/utils/wellcome.html:41
@@ -1017,7 +1017,7 @@ msgstr ""
 msgid "Entitlement quantity:"
 msgstr ""
 
-#: public/js/optimized.js:36678
+#: public/js/optimized.js:36680
 #: public/js/services.js:457
 msgid "Entry date"
 msgstr ""
@@ -1173,7 +1173,7 @@ msgid "From:"
 msgstr ""
 
 #: public/js/app.js:66
-#: public/js/optimized.js:42208
+#: public/js/optimized.js:42210
 msgid "Gadael - %s"
 msgstr ""
 
@@ -1268,7 +1268,7 @@ msgstr ""
 msgid "Initial:"
 msgstr ""
 
-#: public/js/optimized.js:34053
+#: public/js/optimized.js:34055
 #: public/js/services/absence-edit.js:318
 msgid "Input quantity must be set"
 msgstr ""
@@ -1335,7 +1335,7 @@ msgid "Leave right"
 msgstr ""
 
 #: public/js/app.js:135
-#: public/js/optimized.js:42277
+#: public/js/optimized.js:42279
 msgid "Leaves managment"
 msgstr ""
 
@@ -1575,7 +1575,7 @@ msgstr ""
 msgid "No active renewal"
 msgstr ""
 
-#: public/js/optimized.js:34714
+#: public/js/optimized.js:34716
 #: public/js/services/timesavingdeposit-edit.js:50
 msgid "No available time saving account"
 msgstr ""
@@ -1629,7 +1629,7 @@ msgstr ""
 msgid "Nothing to approve"
 msgstr ""
 
-#: public/js/optimized.js:34112
+#: public/js/optimized.js:34114
 #: public/js/services/absence-edit.js:377
 msgid "Nothing to save"
 msgstr ""
@@ -1702,6 +1702,15 @@ msgstr ""
 
 #: public/partials/admin/user-view-account.html:121
 msgid "Overtime"
+msgstr ""
+
+#: public/partials/account/request/requests.html:63
+#: public/partials/account/request/workperiod-recover-view.html:3
+#: public/partials/admin/request/requests.html:70
+#: public/partials/admin/request/workperiod-recover-view.html:5
+#: public/partials/utils/common/request/request-create-select-type.html:31
+#: public/partials/utils/common/request/request-list-type.html:20
+msgid "Overtime declaration"
 msgstr ""
 
 #: public/partials/admin/request/owner.html:3
@@ -1867,12 +1876,12 @@ msgstr ""
 msgid "Renewals with remaining quantity"
 msgstr ""
 
-#: public/js/optimized.js:36680
+#: public/js/optimized.js:36682
 #: public/js/services.js:459
 msgid "Request in user interval"
 msgstr ""
 
-#: public/js/optimized.js:36679
+#: public/js/optimized.js:36681
 #: public/js/services.js:458
 msgid "Request period"
 msgstr ""
@@ -2155,7 +2164,7 @@ msgstr ""
 msgid "Send invitations"
 msgstr ""
 
-#: public/js/optimized.js:36681
+#: public/js/optimized.js:36683
 #: public/js/services.js:460
 msgid "Seniority"
 msgstr ""
@@ -2708,26 +2717,11 @@ msgstr ""
 msgid "Worked duration:"
 msgstr ""
 
-#: public/partials/utils/common/request/request-create-select-type.html:31
-msgid "Working time recover request"
-msgstr ""
-
-#: public/partials/account/request/requests.html:63
-#: public/partials/admin/request/requests.html:70
-#: public/partials/utils/common/request/request-list-type.html:20
-msgid "Workperiod recover"
-msgstr ""
-
-#: public/partials/account/request/workperiod-recover-view.html:3
-#: public/partials/admin/request/workperiod-recover-view.html:5
-msgid "Workperiod recover request"
-msgstr ""
-
 #: public/partials/admin/user-view-account.html:150
 msgid "Workschedule planning"
 msgstr ""
 
-#: public/js/optimized.js:34009
+#: public/js/optimized.js:34011
 #: public/js/services/absence-edit.js:274
 msgid "Wrong events count"
 msgstr ""
@@ -2894,7 +2888,7 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: public/js/optimized.js:34771
+#: public/js/optimized.js:34773
 #: public/js/services/timesavingdeposit-edit.js:107
 msgid "{quantity} up to {date}"
 msgstr ""

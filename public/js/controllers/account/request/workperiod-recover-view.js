@@ -38,7 +38,7 @@ define([], function() {
          * Delete
          */
 		$scope.delete = function() {
-            if (confirm(gettextCatalog.getString(gettext('Are you sure you want to delete the workperiod recover request?')))) {
+            if (confirm(gettextCatalog.getString(gettext('Are you sure you want to delete the overtime declaration?')))) {
 
                 $scope.request.gadaDelete($scope.backToList);
             }

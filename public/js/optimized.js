@@ -34578,7 +34578,7 @@ define('services/workperiod-recover-edit',['services/request-edit'], function(lo
 
         var RequestEdit = loadRequestEdit(gettextCatalog);
 
-        // Service to edit a workperiod recover request,
+        // Service to edit a overtime declaration,
         // shared by account/request/worperiod-recover-edit and admin/request/worperiod-recover-edit
 
 

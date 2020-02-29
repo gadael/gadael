@@ -34,7 +34,7 @@ define([], function() {
          * Cancel the request
          */
 		$scope.delete = function() {
-            if (confirm(gettextCatalog.getString(gettext('Are you sure you want to delete the workperiod recover request?')))) {
+            if (confirm(gettextCatalog.getString(gettext('Are you sure you want to delete the overtime declaration?')))) {
                 $location.path('/admin/requests');
             }
 		};
