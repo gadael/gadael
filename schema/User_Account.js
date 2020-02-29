@@ -2,16 +2,15 @@
 
 const jurassic = require('jurassic');
 const util = require('util');
+const userAccountCustomize = require('./plugins/userAccountCustomize');
 
 /**
  * Account is a user with a collection or rights
  * registrations on site create accounts
  */
 exports = module.exports = function(params) {
-
-    var mongoose = params.mongoose;
-
-    var accountSchema = new mongoose.Schema({
+    const mongoose = params.mongoose;
+    const accountSchema = new mongoose.Schema({
         user: {
           id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true, unique: true },
           name: { type: String, default: '' }
@@ -68,8 +67,7 @@ exports = module.exports = function(params) {
     accountSchema.index({ user: 1 });
     accountSchema.index({ 'status.id': 1 });
     accountSchema.set('autoIndex', params.autoIndex);
-
-
+    accountSchema.plugin(userAccountCustomize);
 
     /**
      * Find rights collections
