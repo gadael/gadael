@@ -4,6 +4,20 @@
 const util = require('util');
 const Mail = require('../mail');
 
+const getViewUrl = function(request) {
+    if (request.absence.distribution.length > 0) {
+        return '/admin/requests/absences/'+request._id;
+    }
+
+    if (request.workperiod_recover.length > 0) {
+        return '/admin/requests/workperiod-recovers/'+request._id;
+    }
+
+    if (request.time_saving_deposit.length > 0) {
+        return '/admin/requests/time-saving-deposits/'+request._id;
+    }
+};
+
 /**
  * Notification for admin about the approval list
  *
@@ -25,7 +39,7 @@ exports = module.exports = function getMail(app, request, user) {
         app.config.company.approb_alert
     ));
 
-    let requestLink = app.config.url +'/#/admin/requests/'+ request._id;
+    let requestLink = app.config.url +'/#'+getViewUrl(request);
 
     mail.addTo(user);
 
