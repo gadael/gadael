@@ -159,10 +159,9 @@ api.createRandomUser = function(app, email, password, lastname, firstname) {
 
 };
 
-
-
 /**
  * Create an admin user from encrypted password
+ * This is for new user, will give the wellcome page 
  * @param {Express} app
  * @param {string} email
  * @param {string} password		Encrypted password
@@ -173,27 +172,7 @@ api.createRandomUser = function(app, email, password, lastname, firstname) {
 api.createEncAdmin = function(app, email, password, lastname, firstname) {
 
 	let user = api.createEncUser(app, email, password, lastname, firstname);
-    return user.saveAdmin()
-	.then(user => {
-		if ('FR' !== app.config.company.country) {
-			return user;
-		}
-		// If possible add account informations
-		return user.saveAccount()
-		.then(user => {
-			return user.getAccount()
-			.then(account => {
-				return Promise.all([
-					linkDefaultAccountCollection(app, account),
-					linkFrenchDefaultScheduleCalendar(app, account),
-					linkFrenchDefaultNWDaysCalendar(app, account)
-				]);
-			})
-			.then(() => {
-				return user;
-			});
-		});
-	});
+    return user.saveAdmin();
 };
 
 

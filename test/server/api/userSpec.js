@@ -51,12 +51,7 @@ describe("User API", function UserTestSuite() {
         api.user.createEncAdmin(server.app, 'test@test.com', 'encryptedPassword', 'Lastname', 'Firstname')
         .then(user => {
             expect(user.email).toBeDefined();
-            user.getAccount().then(account => {
-                account.getRights().then(rights => {
-                    expect(rights.length).toBeGreaterThan(0);
-                    done();
-                });
-            });
+            done();
         });
     });
 
