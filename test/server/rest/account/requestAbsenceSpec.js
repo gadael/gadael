@@ -280,7 +280,6 @@ describe('request absence account rest service', function() {
 
 
     it('check that right1 is not accessible if the associated rule is not verified', function(done) {
-
         where = {
             dtstart: new Date(2014,12,1, 8).toJSON(),
             dtend: new Date(2014,12,1, 18).toJSON()
@@ -297,9 +296,16 @@ describe('request absence account rest service', function() {
         });
     });
 
+    it('Check email number before creation', function(done) {
+        const Message = server.app.db.models.Message;
+        Message.countDocuments().then(n => {
+            expect(n).toEqual(0);
+            done();
+        });
+    });
+
 
     it('Create absence', function(done) {
-
         var distribution = [
             {
                 right: {
@@ -344,6 +350,13 @@ describe('request absence account rest service', function() {
         });
     });
 
+    it('Check email number after creation', function(done) {
+        const Message = server.app.db.models.Message;
+        Message.countDocuments().then(n => {
+            expect(n).toEqual(1);
+            done();
+        });
+    });
 
     let request1_events_ids = [];
     let request1_elems_ids = [];
@@ -455,7 +468,7 @@ describe('request absence account rest service', function() {
 
 
     it('make sure the 2 previous events are now deleted', function(done) {
-        let CalendarEvent = server.app.db.models.CalendarEvent;
+        const CalendarEvent = server.app.db.models.CalendarEvent;
         CalendarEvent.find({ _id: { $in: request1_events_ids } }).exec()
         .then(arr => {
             expect(arr.length).toEqual(0);

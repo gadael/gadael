@@ -5,6 +5,7 @@ const saveAbsence = require('./saveAbsence');
 const saveTimeSavingDeposit = require('./saveTimeSavingDeposit');
 const saveWorkperiodRecover = require('./saveWorkperiodRecover');
 const requestcreated = require('../../../../modules/emails/requestcreated');
+const pendingapproval = require('../../../../modules/emails/pendingapproval');
 
 /**
  * Validate params fields
@@ -298,30 +299,30 @@ function saveRequest(service, params) {
             }
 
             throw new Error('Document without goal');
-
-
         })
         .then(() => {
             return deleteOldEvents(savedDocument);
         })
         .then(() => {
-            // No postpone her because the next step need updated values
             return savedDocument.updateAutoAdjustments();
         })
         .then(() => {
             return postpone(document.updateRenewalsStat.bind(document));
         })
         .then(() => {
-
             service.resolveSuccessGet(
                 savedDocument._id,
                 message
             );
 
-            // if event created by an administrator for a user, notify him
+            // if event in waiting state notifty approver
+            if (savedDocument.status.created === 'waiting') {
+                pendingapproval(service.app, savedDocument).then(mail => mail.send());
+            }
 
+            // if event created by an administrator for a user, notify him
             if (!params.id && savedDocument.status.created === 'accepted' && !savedDocument.user.id.equals(savedDocument.createdBy.id)) {
-                requestcreated(service.app, savedDocument);
+                requestcreated(service.app, savedDocument).then(mail => mail.send());
             }
 
             return savedDocument;
