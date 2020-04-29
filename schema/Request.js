@@ -756,7 +756,7 @@ exports = module.exports = function(params) {
      * @param {User} user
      * @param {String} comment
      *
-     * @return {Int}
+     * @return {Int|null}
      */
     requestSchema.methods.accept = function accept(approvalStep, user, comment) {
 
@@ -808,7 +808,7 @@ exports = module.exports = function(params) {
         // add log entry
         this.forwardApproval(nextStep);
 
-        return 0;
+        return null;
     };
 
 
