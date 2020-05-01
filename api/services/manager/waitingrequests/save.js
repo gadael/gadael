@@ -35,7 +35,7 @@ function validate(service, params)
  * Send mail to next approvers or request owner
  * @param {Object} app Express
  * @param {Request} request The saved request
- * @param {Number} remainingApprovers
+ * @param {Number} remainingApprovers Remaining approvers on step with AND condition
  * @return {Promise}
  */
 function sendEmail(app, request, remainingApprovers)
@@ -49,20 +49,21 @@ function sendEmail(app, request, remainingApprovers)
             return requestrejected(app, request);
         }
 
-        if (remainingApprovers > 0) {
-            return pendingapproval(app, request);
-        }
-
-        return Promise.reject(new Error('Unexpected request, there are no remaining approvers but the request is not accepted nor rejected'));
+        return pendingapproval(app, request);
     }
 
+    if (remainingApprovers > 0) {
+        return Promise.resolve(request);
+    }
 
     return getPromise()
     .then(mail => {
         return mail.send();
+    })
+    .then(mail => {
+        request.messages.push(mail._id);
+        return request.save();
     });
-
-
 }
 
 
@@ -109,7 +110,7 @@ function saveRequest(service, params) {
                      * Greater than 0 if more approvers acceptations are required to complete the step
                      * @var {Int}
                      */
-                    var remainingApprovers = 0;
+                    let remainingApprovers = 0;
 
                     try {
                         if ('wf_accept' === params.action) {
@@ -131,17 +132,13 @@ function saveRequest(service, params) {
                         });
                     })
                     .then(request => {
-
                         return request.populate('events')
                         .execPopulate();
                     })
                     .then(request => {
-                        sendEmail(service.app, request, remainingApprovers)
-                        .catch(err => {
-                            console.log(err.stack);
-                        });
-
-
+                        return sendEmail(service.app, request, remainingApprovers);
+                    })
+                    .then(request => {
                         if ('accepted' === request.status.created) {
                             Promise.all([
                                 document.createOvertime(user),

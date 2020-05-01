@@ -310,22 +310,31 @@ function saveRequest(service, params) {
             return postpone(document.updateRenewalsStat.bind(document));
         })
         .then(() => {
-            service.resolveSuccessGet(
-                savedDocument._id,
-                message
-            );
+            const sendEmail = mail => {
+                return mail.send()
+                .then(mail => {
+                    savedDocument.messages.push(mail._id);
+                    return savedDocument.save();
+                });
+            };
 
             // if event in waiting state notifty approver
             if (savedDocument.status.created === 'waiting') {
-                pendingapproval(service.app, savedDocument).then(mail => mail.send());
+                return pendingapproval(service.app, savedDocument).then(sendEmail);
             }
 
             // if event created by an administrator for a user, notify him
             if (!params.id && savedDocument.status.created === 'accepted' && !savedDocument.user.id.equals(savedDocument.createdBy.id)) {
-                requestcreated(service.app, savedDocument).then(mail => mail.send());
+                return requestcreated(service.app, savedDocument).then(sendEmail);
             }
 
             return savedDocument;
+        })
+        .then(savedDocument => {
+            service.resolveSuccessGet(
+                savedDocument._id,
+                message
+            );
         });
     }
 

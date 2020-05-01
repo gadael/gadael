@@ -756,7 +756,7 @@ exports = module.exports = function(params) {
      * @param {User} user
      * @param {String} comment
      *
-     * @return {Int}
+     * @return {Int}   Return the remaining approver on the step
      */
     requestSchema.methods.accept = function accept(approvalStep, user, comment) {
 

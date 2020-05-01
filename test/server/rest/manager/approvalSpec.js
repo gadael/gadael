@@ -144,7 +144,6 @@ describe('Approval on absence request', function() {
 
 
     it('contain at least one approval step per request', function() {
-
         for(var i=0; i< requests.length; i++) {
             expect(requests[i].approvalSteps.length).toBeGreaterThan(0);
         }
@@ -308,6 +307,16 @@ describe('Approval on absence request', function() {
         done();
     });
 
+    it('Verify messages in the waiting request', function(done) {
+        server.app.db.models.Request
+        .findOne()
+        .where('_id', request_from_d6._id)
+        .exec()
+        .then(request => {
+            expect(request.messages.length).toEqual(1);
+            done();
+        });
+    });
 
     it('Accept request from d6', function(done) {
 
@@ -323,6 +332,22 @@ describe('Approval on absence request', function() {
         });
     });
 
+
+    it('Check email sent to first approver', function(done) {
+        server.app.db.models.Request
+        .findOne()
+        .where('_id', request_from_d6._id)
+        .populate('messages')
+        .exec()
+        .then(request => {
+            expect(request.messages.length).toEqual(2);
+            const message = request.messages[request.messages.length - 1];
+            expect(message.subject).toMatch('Une demande est en attente de votre validation');
+            const testedRecipients = message.to.filter(recipient => recipient.address === managersByDepartment.d4[0].user.email);
+            expect(testedRecipients.length).toEqual(1);
+            done();
+        });
+    });
 
     it('Get list of waiting requests once the request has been accepted', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
@@ -381,7 +406,6 @@ describe('Approval on absence request', function() {
 
 
     it('Accept request from d6 (first approver)', function(done) {
-
         var steps = request_from_d6.approvalSteps;
         var secondStep = steps[steps.length-2];
 
@@ -455,6 +479,21 @@ describe('Approval on absence request', function() {
         });
     });
 
+    it('Check email sent to d0 approver', function(done) {
+        server.app.db.models.Request
+        .findOne()
+        .where('_id', request_from_d6._id)
+        .populate('messages')
+        .exec()
+        .then(request => {
+            expect(request.messages.length).toEqual(3);
+            const message = request.messages[request.messages.length - 1];
+            expect(message.subject).toMatch('Une demande est en attente de votre validation');
+            const testedRecipients = message.to.filter(recipient => recipient.address === managersByDepartment.d0[0].user.email);
+            expect(testedRecipients.length).toEqual(1);
+            done();
+        });
+    });
 
     it('Get list of waiting requests once the request has been accepted by the second approver', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
@@ -514,6 +553,20 @@ describe('Approval on absence request', function() {
             if (body.status) {
                 expect(body.status.created).toEqual('accepted');
             }
+            done();
+        });
+    });
+
+    it('Check email sent to appliquant', function(done) {
+        server.app.db.models.Request
+        .findOne()
+        .where('_id', request_from_d6._id)
+        .populate('messages')
+        .exec()
+        .then(request => {
+            expect(request.messages.length).toEqual(4);
+            const message = request.messages[request.messages.length - 1];
+            expect(message.subject).toMatch('demande acceptée');
             done();
         });
     });

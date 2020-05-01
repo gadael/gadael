@@ -466,6 +466,13 @@ describe('request absence account rest service', function() {
         });
     });
 
+    it('Check email number after update', function(done) {
+        const Message = server.app.db.models.Message;
+        Message.countDocuments().then(n => {
+            expect(n).toEqual(2);
+            done();
+        });
+    });
 
     it('make sure the 2 previous events are now deleted', function(done) {
         const CalendarEvent = server.app.db.models.CalendarEvent;
@@ -627,7 +634,13 @@ describe('request absence account rest service', function() {
         });
     });
 
-
+    it('Check email number after approval', function(done) {
+        const Message = server.app.db.models.Message;
+        Message.countDocuments().then(n => {
+            expect(n).toEqual(3);
+            done();
+        });
+    });
 
     it('logout', function(done) {
         server.get('/rest/logout', {}, function(res) {
