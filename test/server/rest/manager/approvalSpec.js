@@ -479,7 +479,7 @@ describe('Approval on absence request', function() {
         });
     });
 
-    it('Check email sent to d2 approver', function(done) {
+    it('Check email sent to d0 approver', function(done) {
         server.app.db.models.Request
         .findOne()
         .where('_id', request_from_d6._id)
@@ -489,8 +489,8 @@ describe('Approval on absence request', function() {
             expect(request.messages.length).toEqual(3);
             const message = request.messages[request.messages.length - 1];
             expect(message.subject).toMatch('Une demande est en attente de votre validation');
-            // const testedRecipients = message.to.filter(recipient => recipient.address === managersByDepartment.d2[0].user.email);
-            // expect(testedRecipients.length).toEqual(1);
+            const testedRecipients = message.to.filter(recipient => recipient.address === managersByDepartment.d0[0].user.email);
+            expect(testedRecipients.length).toEqual(1);
             done();
         });
     });

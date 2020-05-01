@@ -35,7 +35,7 @@ function validate(service, params)
  * Send mail to next approvers or request owner
  * @param {Object} app Express
  * @param {Request} request The saved request
- * @param {Number} remainingApprovers
+ * @param {Number} remainingApprovers Remaining approvers on step with AND condition
  * @return {Promise}
  */
 function sendEmail(app, request, remainingApprovers)
@@ -49,13 +49,12 @@ function sendEmail(app, request, remainingApprovers)
             return requestrejected(app, request);
         }
 
-        if (remainingApprovers > 0 || null === remainingApprovers) {
-            return pendingapproval(app, request);
-        }
-
-        return Promise.reject(new Error('Unexpected request, there are no remaining approvers but the request is not accepted nor rejected'));
+        return pendingapproval(app, request);
     }
 
+    if (remainingApprovers > 0) {
+        return Promise.resolve(request);
+    }
 
     return getPromise()
     .then(mail => {

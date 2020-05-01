@@ -756,7 +756,7 @@ exports = module.exports = function(params) {
      * @param {User} user
      * @param {String} comment
      *
-     * @return {Int|null}
+     * @return {Int}   Return the remaining approver on the step
      */
     requestSchema.methods.accept = function accept(approvalStep, user, comment) {
 
@@ -808,7 +808,7 @@ exports = module.exports = function(params) {
         // add log entry
         this.forwardApproval(nextStep);
 
-        return null;
+        return 0;
     };
 
 

@@ -51,7 +51,7 @@ exports = module.exports = function getMail(app, request) {
             mail.addTo(user);
             let log = request.getLastApprovalRequestLog();
 
-            if ('wf_accept' !== log.action) {
+            if ('wf_accept' !== log.action && 'delete' !== log.action) {
                 throw new Error(util.format('Unexpected last approval request log "%s"', log.action));
             }
 
