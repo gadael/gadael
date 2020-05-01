@@ -557,6 +557,20 @@ describe('Approval on absence request', function() {
         });
     });
 
+    it('Check email sent to appliquant', function(done) {
+        server.app.db.models.Request
+        .findOne()
+        .where('_id', request_from_d6._id)
+        .populate('messages')
+        .exec()
+        .then(request => {
+            expect(request.messages.length).toEqual(4);
+            const message = request.messages[request.messages.length - 1];
+            expect(message.subject).toMatch('demande acceptée');
+            done();
+        });
+    });
+
 
     it('Get list of waiting requests once the request has been accepted', function(done) {
         server.get('/rest/manager/waitingrequests', {}, function(res, body) {
