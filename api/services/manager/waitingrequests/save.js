@@ -92,15 +92,11 @@ function saveRequest(service, params) {
     .populate('events')
     .exec(function(err, document) {
         if (service.handleMongoError(err)) {
-
             if (!document) {
                 return service.notFound('Request not found');
             }
 
-
-            var approvalStep = document.approvalSteps.id(params.approvalStep);
-
-
+            const approvalStep = document.approvalSteps.id(params.approvalStep);
             UserModel.findOne({ _id: params.user })
             .exec(function(err, user) {
 

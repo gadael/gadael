@@ -10,7 +10,8 @@ define([], function() {
         'catchOutcome',
         '$http',
         '$q',
-        function($scope, $route, Rest, getRequestStat, catchOutcome, $http, $q) {
+        '$modal',
+        function($scope, $route, Rest, getRequestStat, catchOutcome, $http, $q, $modal) {
 
 
             var waitingRequestResource = Rest.manager.waitingrequests.getResource();
@@ -44,7 +45,7 @@ define([], function() {
              * @param {Object} request
              * @return {Promise}
              */
-            function saveApprovalStatus(request) {
+            function save(comment, request) {
                  /*jshint validthis:true */
                 var action = this;
                 var approvalStep;
@@ -58,20 +59,39 @@ define([], function() {
                 return catchOutcome(
                     $http.put('rest/manager/waitingrequests/'+request._id, {
                         approvalStep: approvalStep,
-                        action: action
+                        action: action,
+                        comment: comment
                     })
                 );
             }
 
+            function addCommentThenSave(requests, action) {
+                var modalscope = $scope.$new();
+                modalscope.action = action;
+                modalscope.comment = '';
+
+                var modal = $modal({
+                    scope: modalscope,
+                    templateUrl: 'partials/manager/comment-approval-modal.html',
+                    show: true
+                });
+
+                modalscope.cancel = function() {
+                    modal.hide();
+                };
+
+                modalscope.save = function() {
+                    $q.all(requests.map(save.bind(action, modalscope.comment)))
+                    .then($route.reload);
+                };
+            }
 
             $scope.accept = function(requests) {
-                $q.all(requests.map(saveApprovalStatus.bind('wf_accept')))
-                .then($route.reload);
+                addCommentThenSave(requests, 'wf_accept');
             };
 
             $scope.reject = function(requests) {
-                $q.all(requests.map(saveApprovalStatus.bind('wf_reject')))
-                .then($route.reload);
+                addCommentThenSave(requests, 'wf_reject');
             };
 
 	}];
