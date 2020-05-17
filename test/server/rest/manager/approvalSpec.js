@@ -571,7 +571,7 @@ describe('Approval on absence request', function() {
             expect(request.messages.length).toEqual(4);
             const message = request.messages[request.messages.length - 1];
             expect(message.subject).toMatch('demande acceptée');
-            expect(message.body).toMatch('Test comment');
+            expect(message.html).toContain('Test comment');
             done();
         });
     });
