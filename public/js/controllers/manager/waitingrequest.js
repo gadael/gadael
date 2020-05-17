@@ -55,7 +55,7 @@ define([], function() {
 
 
         function save(action, comment) {
-            catchOutcome(
+            return catchOutcome(
                 $http.put('rest/manager/waitingrequests/'+$scope.request._id, {
                     approvalStep: approvalStep,
                     action: action,
@@ -66,8 +66,7 @@ define([], function() {
 
         function addCommentThenSave(action) {
             var modalscope = $scope.$new();
-            modalscope.action = action;
-            modalscope.comment = '';
+            modalscope.log = {};
 
             var modal = $modal({
                 scope: modalscope,
@@ -80,7 +79,7 @@ define([], function() {
             };
 
             modalscope.save = function() {
-                save(action, modalscope.comment).then(modal.hide);
+                save(action, modalscope.log.comment).then(modal.hide);
             };
         }
 
