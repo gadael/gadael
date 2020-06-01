@@ -89,7 +89,7 @@ describe('unavailableevents accout rest service', function() {
         var find = server.app.db.models.Calendar.findOne({ type: 'workschedule' });
         find.exec(function(err, calendar) {
             var from = new Date(2015,1,1);
-            var to = new Date(2016,1,1);
+            var to = new Date(2022,1,1);
 
             server.post('/rest/admin/accountschedulecalendars', {
                 user: userAccount.user._id,
@@ -168,12 +168,47 @@ describe('unavailableevents accout rest service', function() {
         dtend = new Date(2016,0,1).toJSON();
 
         server.get('/rest/account/unavailableevents', { dtstart: dtstart, dtend: dtend }, function(res, body) {
+            expect(body.length).toEqual(463);
             expect(res.statusCode).toEqual(200);
             done();
         });
     });
 
+    it('request unavailableevents on a working day', function(done) {
+        const dtstart = new Date(2020,5,2, 7, 0);
+        const dtend = new Date(2020,5,2, 12, 0);
+        server.get('/rest/account/unavailableevents', { dtstart: dtstart.toJSON(), dtend: dtend.toJSON() }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            const event = body[0];
+            const dtstart = new Date(event.dtstart);
+            const dtend = new Date(event.dtend);
+            expect(dtstart.getDate()).toEqual(2);
+            expect(dtend.getDate()).toEqual(2);
+            const startHour = (dtstart.getHours() + (dtstart.getMinutes() / 60));
+            const endHour = (dtend.getHours() + (dtend.getMinutes() / 60));
+            expect(endHour - startHour).toEqual(1);
+            done();
+        });
+    });
 
+    it('request unavailableevents on a non working day', function(done) {
+        const dtstart = new Date(2020,5,1, 8, 0);
+        const dtend = new Date(2020,5,1, 12, 0);
+        server.get('/rest/account/unavailableevents', { dtstart: dtstart.toJSON(), dtend: dtend.toJSON() }, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            expect(body.length).toEqual(1);
+            const event = body[0];
+            const dtstart = new Date(event.dtstart);
+            const dtend = new Date(event.dtend);
+            expect(dtstart.getDate()).toEqual(1);
+            expect(dtend.getDate()).toEqual(1);
+            const startHour = (dtstart.getHours() + (dtstart.getMinutes() / 60));
+            const endHour = (dtend.getHours() + (dtend.getMinutes() / 60));
+            expect(endHour - startHour).toEqual(4);
+            done();
+        });
+    });
 
     it('close the mock server', function(done) {
         server.close(done);
@@ -181,4 +216,3 @@ describe('unavailableevents accout rest service', function() {
 
 
 });
-

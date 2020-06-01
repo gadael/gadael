@@ -499,6 +499,15 @@ exports = module.exports = function(params) {
                 let calendar = plannings[i].calendar;
 
                 for (let j=0; j<calendarEvents.length; j++) {
+                    if (calendarEvents[j].dtstart < dtstart) {
+                        calendarEvents[j].dtstart = dtstart;
+                    }
+                    if (calendarEvents[j].dtend > dtend) {
+                        calendarEvents[j].dtend = dtend;
+                    }
+                    if (calendarEvents[j].dtend <= dtstart || calendarEvents[j].dtstart >= dtend) {
+                        continue;
+                    }
                     events.addPeriod(calendarEvents[j]);
                     var last = events.periods.length-1;
                     events.periods[last].businessDays = events.periods[last].getBusinessDays(calendar.halfDayHour);
@@ -537,7 +546,8 @@ exports = module.exports = function(params) {
 
         account.checkInterval(dtstart, dtend);
 
-        return account.getPeriodScheduleCalendars(dtstart, dtend).then(function(ascList) {
+        return account.getPeriodScheduleCalendars(dtstart, dtend)
+        .then(function(ascList) {
             return account.getPlanningEvents(ascList, dtstart, dtend);
         });
 
@@ -556,8 +566,9 @@ exports = module.exports = function(params) {
 
         account.checkInterval(dtstart, dtend);
 
-        return account.getPeriodNWDaysCalendars(dtstart, dtend).then(function(ascList) {
-            return account.getPlanningEvents(ascList, dtstart, dtend);
+        return account.getPeriodNWDaysCalendars(dtstart, dtend)
+        .then(function(nwdcList) {
+            return account.getPlanningEvents(nwdcList, dtstart, dtend);
         });
     };
 
