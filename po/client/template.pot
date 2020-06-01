@@ -48,6 +48,7 @@ msgstr ""
 msgid "Absences user account"
 msgstr ""
 
+#: public/partials/manager/comment-approval-modal.html:7
 #: public/partials/manager/waitingrequest.html:10
 #: public/partials/manager/waitingrequests.html:18
 msgid "Accept"
@@ -360,7 +361,7 @@ msgstr ""
 #: public/js/optimized.js:35357
 #: public/js/services/beneficiary.js:309
 #: public/partials/account/beneficiaries.html:21
-#: public/partials/admin/user-view-account.html:92
+#: public/partials/admin/user-view-account.html:91
 #: public/partials/utils/common/request/absence-edit.html:59
 msgid "Available quantity"
 msgstr ""
@@ -459,8 +460,8 @@ msgid "Calendar"
 msgstr ""
 
 #: public/partials/admin/calendar-edit.html:4
-#: public/partials/admin/user-view-account.html:160
-#: public/partials/admin/user-view-account.html:194
+#: public/partials/admin/user-view-account.html:159
+#: public/partials/admin/user-view-account.html:193
 msgid "Calendar name"
 msgstr ""
 
@@ -498,6 +499,7 @@ msgstr ""
 #: public/partials/admin/rightrule-edit.html:72
 #: public/partials/admin/type-edit.html:28
 #: public/partials/admin/user-edit.html:95
+#: public/partials/manager/comment-approval-modal.html:26
 #: public/partials/user/settings-calendar-new.html:18
 #: public/partials/utils/common/request/absence-edit.html:123
 msgid "Cancel"
@@ -536,7 +538,7 @@ msgid "Collaborators to supervise with request approvals"
 msgstr ""
 
 #: public/partials/admin/collection-edit.html:7
-#: public/partials/admin/user-view-account.html:63
+#: public/partials/admin/user-view-account.html:62
 msgid "Collection name"
 msgstr ""
 
@@ -553,7 +555,9 @@ msgid "Color"
 msgstr ""
 
 #: public/partials/admin/account-overtimesummary-edit.html:40
+#: public/partials/manager/comment-approval-modal.html:21
 #: public/partials/utils/common/renewal/combined-adjutments.html:7
+#: public/partials/utils/common/request/request-view-embed.html:49
 msgid "Comment"
 msgstr ""
 
@@ -571,6 +575,10 @@ msgstr ""
 
 #: public/partials/login/reset.html:15
 msgid "Confirm Password:"
+msgstr ""
+
+#: public/partials/manager/comment-approval-modal.html:16
+msgid "Confirm and add a comment on your approval"
 msgstr ""
 
 #: public/partials/admin/user-edit.html:67
@@ -641,7 +649,7 @@ msgstr ""
 msgid "Convert"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:124
+#: public/partials/admin/user-view-account.html:123
 msgid "Convert or settle"
 msgstr ""
 
@@ -802,7 +810,7 @@ msgstr[1] ""
 msgid "Days"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:132
+#: public/partials/admin/user-view-account.html:131
 msgid "Declarations"
 msgstr ""
 
@@ -819,7 +827,7 @@ msgid "Default absence length"
 msgstr ""
 
 #: public/partials/admin/right-edit.html:38
-#: public/partials/admin/user-view-account.html:230
+#: public/partials/admin/user-view-account.html:229
 msgid "Default quantity"
 msgstr ""
 
@@ -954,11 +962,11 @@ msgstr ""
 #: public/partials/admin/right-view.html:68
 #: public/partials/admin/right-view.html:97
 #: public/partials/admin/types.html:26
-#: public/partials/admin/user-view-account.html:153
-#: public/partials/admin/user-view-account.html:187
-#: public/partials/admin/user-view-account.html:221
-#: public/partials/admin/user-view-account.html:56
-#: public/partials/admin/user-view-account.html:84
+#: public/partials/admin/user-view-account.html:152
+#: public/partials/admin/user-view-account.html:186
+#: public/partials/admin/user-view-account.html:220
+#: public/partials/admin/user-view-account.html:55
+#: public/partials/admin/user-view-account.html:83
 #: public/partials/admin/user-view.html:62
 #: public/partials/utils/common/request/request-buttons.html:2
 msgid "Edit"
@@ -1022,7 +1030,7 @@ msgstr ""
 msgid "Entry date"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:218
+#: public/partials/admin/user-view-account.html:217
 msgid "Exceptional quantity modifications"
 msgstr ""
 
@@ -1127,9 +1135,9 @@ msgstr ""
 #: public/partials/admin/account-schedulecalendars-edit.html:34
 #: public/partials/admin/beneficiary-edit.html:37
 #: public/partials/admin/rights.html:35
-#: public/partials/admin/user-view-account.html:161
-#: public/partials/admin/user-view-account.html:195
-#: public/partials/admin/user-view-account.html:64
+#: public/partials/admin/user-view-account.html:160
+#: public/partials/admin/user-view-account.html:194
+#: public/partials/admin/user-view-account.html:63
 #: public/partials/manager/waitingrequests.html:41
 #: public/partials/manager/waitingrequests.html:50
 #: public/partials/utils/common/calendar/popover-event.html:11
@@ -1608,7 +1616,7 @@ msgstr ""
 msgid "Non-working days calendar"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:184
+#: public/partials/admin/user-view-account.html:183
 msgid "Non-working days planning"
 msgstr ""
 
@@ -1696,11 +1704,11 @@ msgid "Or set the available quantity"
 msgstr ""
 
 #: public/partials/admin/beneficiary-edit.html:36
-#: public/partials/admin/user-view-account.html:107
+#: public/partials/admin/user-view-account.html:106
 msgid "Out of collection right"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:121
+#: public/partials/admin/user-view-account.html:120
 msgid "Overtime"
 msgstr ""
 
@@ -1837,6 +1845,7 @@ msgstr ""
 msgid "Recovery request summary"
 msgstr ""
 
+#: public/partials/manager/comment-approval-modal.html:11
 #: public/partials/manager/waitingrequest.html:14
 #: public/partials/manager/waitingrequests.html:22
 msgid "Reject"
@@ -1864,7 +1873,7 @@ msgstr ""
 msgid "Remove the leave on all users with a booked period"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:229
+#: public/partials/admin/user-view-account.html:228
 msgid "Renewal"
 msgstr ""
 
@@ -1872,7 +1881,7 @@ msgstr ""
 msgid "Renewals"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:93
+#: public/partials/admin/user-view-account.html:92
 msgid "Renewals with remaining quantity"
 msgstr ""
 
@@ -1944,8 +1953,8 @@ msgid "Right is visible when the user has consumed a quantity defined for a righ
 msgstr ""
 
 #: public/partials/admin/account-overtimesummary-edit.html:35
-#: public/partials/admin/user-view-account.html:228
-#: public/partials/admin/user-view-account.html:91
+#: public/partials/admin/user-view-account.html:227
+#: public/partials/admin/user-view-account.html:90
 msgid "Right name"
 msgstr ""
 
@@ -2049,6 +2058,7 @@ msgstr ""
 #: public/partials/admin/user-edit.html:94
 #: public/partials/login/createfirstadmin.html:49
 #: public/partials/login/invitation.html:82
+#: public/partials/manager/comment-approval-modal.html:25
 #: public/partials/user/settings-calendar-new.html:17
 #: public/partials/user/settings-calendar.html:70
 #: public/partials/user/settings-password.html:35
@@ -2218,7 +2228,7 @@ msgstr ""
 msgid "Settle overtime quantity"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:134
+#: public/partials/admin/user-view-account.html:133
 msgid "Settled h."
 msgstr ""
 
@@ -2229,7 +2239,7 @@ msgstr ""
 msgid "Sign In"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:103
+#: public/partials/admin/user-view-account.html:102
 msgid "Some renewals are invalids"
 msgstr ""
 
@@ -2386,20 +2396,20 @@ msgstr ""
 msgid "This user can not connect to the application"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:210
+#: public/partials/admin/user-view-account.html:209
 msgid "This user has no configured non-working days"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:248
+#: public/partials/admin/user-view-account.html:247
 msgid "This user has no configured specific quantity, rights are set by collection only"
 msgstr ""
 
 #: public/partials/account/beneficiaries.html:67
-#: public/partials/admin/user-view-account.html:115
+#: public/partials/admin/user-view-account.html:114
 msgid "This user has no configured vacation rights for the current period"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:176
+#: public/partials/admin/user-view-account.html:175
 msgid "This user has no configured work schedule"
 msgstr ""
 
@@ -2444,9 +2454,9 @@ msgstr ""
 #: public/partials/admin/account-nwdayscalendars-edit.html:40
 #: public/partials/admin/account-rights-edit.html:45
 #: public/partials/admin/account-schedulecalendars-edit.html:39
-#: public/partials/admin/user-view-account.html:162
-#: public/partials/admin/user-view-account.html:196
-#: public/partials/admin/user-view-account.html:65
+#: public/partials/admin/user-view-account.html:161
+#: public/partials/admin/user-view-account.html:195
+#: public/partials/admin/user-view-account.html:64
 #: public/partials/manager/waitingrequests.html:42
 #: public/partials/manager/waitingrequests.html:51
 #: public/partials/utils/common/calendar/popover-event.html:12
@@ -2519,7 +2529,7 @@ msgstr ""
 msgid "Type:"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:133
+#: public/partials/admin/user-view-account.html:132
 msgid "Unsettled h."
 msgstr ""
 
@@ -2559,7 +2569,7 @@ msgstr ""
 msgid "User account"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:231
+#: public/partials/admin/user-view-account.html:230
 msgid "User quantity"
 msgstr ""
 
@@ -2601,12 +2611,12 @@ msgstr ""
 msgid "Vacation rights in collection"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:53
+#: public/partials/admin/user-view-account.html:52
 msgid "Vacations collections planning"
 msgstr ""
 
 #: public/partials/account/beneficiaries.html:2
-#: public/partials/admin/user-view-account.html:81
+#: public/partials/admin/user-view-account.html:80
 msgid "Vacations rights"
 msgstr ""
 
@@ -2717,7 +2727,7 @@ msgstr ""
 msgid "Worked duration:"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:150
+#: public/partials/admin/user-view-account.html:149
 msgid "Workschedule planning"
 msgstr ""
 
@@ -2726,7 +2736,7 @@ msgstr ""
 msgid "Wrong events count"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:131
+#: public/partials/admin/user-view-account.html:130
 msgid "Year"
 msgstr ""
 
@@ -2893,13 +2903,13 @@ msgstr ""
 msgid "{quantity} up to {date}"
 msgstr ""
 
-#: public/partials/admin/user-view-account.html:142
+#: public/partials/admin/user-view-account.html:141
 msgid "{{overtime.settled | number}} Hour"
 msgid_plural "{{overtime.settled | number}} Hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/partials/admin/user-view-account.html:141
+#: public/partials/admin/user-view-account.html:140
 msgid "{{overtime.unsettled | number}} Hour"
 msgid_plural "{{overtime.unsettled | number}} Hours"
 msgstr[0] ""

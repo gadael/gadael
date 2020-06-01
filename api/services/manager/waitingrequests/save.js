@@ -36,17 +36,18 @@ function validate(service, params)
  * @param {Object} app Express
  * @param {Request} request The saved request
  * @param {Number} remainingApprovers Remaining approvers on step with AND condition
+ * @param {String} comment  Approver comment
  * @return {Promise}
  */
-function sendEmail(app, request, remainingApprovers)
+function sendEmail(app, request, remainingApprovers, comment)
 {
     function getPromise() {
         if ('accepted' === request.status.created || 'accepted' === request.status.deleted) {
-            return requestaccepted(app, request);
+            return requestaccepted(app, request, comment);
         }
 
         if ('rejected' === request.status.created || 'rejected' === request.status.deleted) {
-            return requestrejected(app, request);
+            return requestrejected(app, request, comment);
         }
 
         return pendingapproval(app, request);
@@ -92,15 +93,11 @@ function saveRequest(service, params) {
     .populate('events')
     .exec(function(err, document) {
         if (service.handleMongoError(err)) {
-
             if (!document) {
                 return service.notFound('Request not found');
             }
 
-
-            var approvalStep = document.approvalSteps.id(params.approvalStep);
-
-
+            const approvalStep = document.approvalSteps.id(params.approvalStep);
             UserModel.findOne({ _id: params.user })
             .exec(function(err, user) {
 
@@ -136,7 +133,7 @@ function saveRequest(service, params) {
                         .execPopulate();
                     })
                     .then(request => {
-                        return sendEmail(service.app, request, remainingApprovers);
+                        return sendEmail(service.app, request, remainingApprovers, params.comment);
                     })
                     .then(request => {
                         if ('accepted' === request.status.created) {

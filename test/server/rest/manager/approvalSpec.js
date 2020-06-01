@@ -325,7 +325,8 @@ describe('Approval on absence request', function() {
 
         server.put('/rest/manager/waitingrequests/'+request_from_d6._id, {
             approvalStep: firstStep._id,
-            action: 'wf_accept'
+            action: 'wf_accept',
+            comment: 'Test comment'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             done();
@@ -383,6 +384,8 @@ describe('Approval on absence request', function() {
             expect(res.statusCode).toEqual(200);
             expect(body.length).toEqual(3); // one request from d4 and the request from d6
                                             // and one request from d7 (no managers in d7)
+            const searchByComment = body.filter(request => request.requestLog.filter(log => log.comment === 'Test comment').length === 1);
+            expect(searchByComment.length).toEqual(1);
             done();
         });
     });
@@ -546,7 +549,8 @@ describe('Approval on absence request', function() {
 
         server.put('/rest/manager/waitingrequests/'+request_from_d6._id, {
             approvalStep: thirdStep._id,
-            action: 'wf_accept'
+            action: 'wf_accept',
+            comment: 'Test comment'
         }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.status).toBeDefined();
@@ -567,6 +571,7 @@ describe('Approval on absence request', function() {
             expect(request.messages.length).toEqual(4);
             const message = request.messages[request.messages.length - 1];
             expect(message.subject).toMatch('demande acceptée');
+            expect(message.html).toContain('Test comment');
             done();
         });
     });

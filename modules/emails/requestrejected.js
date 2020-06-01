@@ -8,9 +8,10 @@ const Mail = require('../mail');
  * Mail send to request owner
  * @param {Object} app      Express
  * @param {Request} request
+ * @param {String} comment Approver comment or empty string
  * @returns {Promise}
  */
-exports = module.exports = function getMail(app, request) {
+exports = module.exports = function getMail(app, request, comment) {
 
     const gt = app.utility.gettext;
 
@@ -39,7 +40,10 @@ exports = module.exports = function getMail(app, request) {
             mail.setMailgenData({
                 body: {
                     title: request.user.name,
-                    intro: util.format(gt.gettext('Your %s has been rejected'), request.getDispType()),
+                    intro: [
+                        util.format(gt.gettext('Your %s has been rejected'), request.getDispType()),
+                        comment
+                    ],
                     action: {
                         instructions: gt.gettext('Consult the request actions history after login into the application'),
                         button: {

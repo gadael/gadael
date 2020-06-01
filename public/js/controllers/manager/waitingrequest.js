@@ -7,14 +7,17 @@ define([], function() {
         'getRequestStat',
         '$alert',
         '$http',
-        'catchOutcome', function(
+        'catchOutcome',
+        '$modal',
+        function(
 			$scope,
 			$location,
 			Rest,
             getRequestStat,
             $alert,
             $http,
-            catchOutcome
+            catchOutcome,
+            $modal
 		) {
 
 
@@ -51,24 +54,43 @@ define([], function() {
         };
 
 
-        function save(action) {
-            catchOutcome(
+        function save(action, comment) {
+            return catchOutcome(
                 $http.put('rest/manager/waitingrequests/'+$scope.request._id, {
                     approvalStep: approvalStep,
-                    action: action
+                    action: action,
+                    comment: comment
                 })
             ).then($scope.backToList);
         }
 
+        function addCommentThenSave(action) {
+            var modalscope = $scope.$new();
+            modalscope.log = {};
+
+            var modal = $modal({
+                scope: modalscope,
+                templateUrl: 'partials/manager/comment-approval-modal.html',
+                show: true
+            });
+
+            modalscope.cancel = function() {
+                modal.hide();
+            };
+
+            modalscope.save = function() {
+                save(action, modalscope.log.comment).then(modal.hide);
+            };
+        }
+
         $scope.accept = function() {
-            save('wf_accept');
+            addCommentThenSave('wf_accept');
         };
 
         $scope.reject = function() {
-            save('wf_reject');
+            addCommentThenSave('wf_reject');
         };
 
 
 	}];
 });
-

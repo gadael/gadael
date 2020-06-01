@@ -44,8 +44,12 @@
             </div>
             <div class="col-md-10">
                 <p class="text-primary"><i class="fa fa-calendar"></i> {{log.timeCreated|date:'medium'}}</p>
-                <p>{{log.actionSummary}}</p>
-                <p>{{log.comment}}</p>
+                <div ng-if="log.comment" class="panel panel-default">
+                  <div class="panel-body">
+                    <i class="glyphicon glyphicon-comment text-primary" title="{{'Comment'|translate}}" bs-tooltip></i>&nbsp; {{log.comment}}
+                  </div>
+                </div>
+                <p><small>{{log.actionSummary}}</small></p>
             </div>
 
 

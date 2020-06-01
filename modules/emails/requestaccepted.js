@@ -11,9 +11,10 @@ const Mail = require('../mail');
  *
  * @param {Object} app      Express
  * @param {Request} request
+ * @param {String} comment Approver comment or empty string
  * @returns {Promise}
  */
-exports = module.exports = function getMail(app, request) {
+exports = module.exports = function getMail(app, request, comment) {
 
     const gt = app.utility.gettext;
 
@@ -54,11 +55,11 @@ exports = module.exports = function getMail(app, request) {
             if ('wf_accept' !== log.action && 'delete' !== log.action) {
                 throw new Error(util.format('Unexpected last approval request log "%s"', log.action));
             }
-
+            
             mail.setMailgenData({
                 body: {
                     title: request.user.name,
-                    intro: intro,
+                    intro: [intro, comment],
                     action: {
                         instructions: gt.gettext('Consult the request actions history after login into the application'),
                         button: {
