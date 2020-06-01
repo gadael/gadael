@@ -14,10 +14,6 @@ function validate(service, params) {
 
     const gt = service.app.utility.gettext;
 
-    if (params.events.length === undefined || params.events.length < 1) {
-        return service.error(gt.gettext('At least one event is required'));
-    }
-
     if (params.id) {
         saveOvertime(service, params)
         .then(overtime => {
@@ -60,6 +56,9 @@ function validate(service, params) {
  * @return {Promise}
  */
 function createEvents(service, events, user) {
+    if (0 === events.length) {
+        return Promise.resolve([]);
+    }
     const UserModel = service.app.db.models.User;
     const CalendarEventModel = service.app.db.models.CalendarEvent;
     const userId = user.id === undefined ? user : user.id;
@@ -98,6 +97,7 @@ function updateEvents(events, overtime) {
  * @param {apiService} service
  * @param {Object} params
  * @param {Array} [events]
+ * @return {Promise}
  */
 function saveOvertime(service, params, events) {
     const UserModel = service.app.db.models.User;
@@ -109,7 +109,7 @@ function saveOvertime(service, params, events) {
     .exec()
     .then(user => {
         if (!user) {
-            return service.error(gt.gettext('The user does not exists'));
+            throw new Error(gt.gettext('The user does not exists'));
         }
 
         var fieldsToSet = {
@@ -119,10 +119,6 @@ function saveOvertime(service, params, events) {
             },
             quantity: params.quantity
         };
-
-        if (events) {
-            fieldsToSet.day = events[0].dtstart;
-        }
 
         if (user.department) {
             fieldsToSet.user.department = user.department.name;
@@ -148,9 +144,15 @@ function saveOvertime(service, params, events) {
             });
 
         } else {
+            // Creation
             const overtime = new OvertimeModel();
             overtime.set(fieldsToSet);
-            overtime.events = events;
+            if (events.length > 0) {
+                overtime.day = events[0].dtstart;
+                overtime.events = events;
+            } else {
+                overtime.day = new Date();
+            }
             return overtime.save();
         }
     });

@@ -106,7 +106,14 @@ function convertOvertimeQuantity(service, params) {
                 name: params.userCreated.getName()
             };
 
-            return createRecoveryRight(RightModel, userId, settlement, params.right.startDate || new Date())
+            function updateSettlementWithRight() {
+                if (!settlement.right) {
+                    return Promise.resolve(settlement);
+                }
+                return createRecoveryRight(RightModel, userId, settlement, params.right.startDate || new Date());
+            }
+
+            updateSettlementWithRight(settlement)
             .then(settlement => {
                 let remainQuantity = params.quantity;
                 const documentsToSave = [];
