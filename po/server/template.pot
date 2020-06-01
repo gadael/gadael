@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-29 15:11+0100\n"
+"POT-Creation-Date: 2020-06-01 13:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -661,7 +661,7 @@ msgid "Workperiod recover requests are disabled by administrator"
 msgstr ""
 
 #: api/services/user/requests/delete.js:22
-#: api/services/user/requests/save.js:24
+#: api/services/user/requests/save.js:25
 #: api/services/manager/waitingrequests/save.js:22
 msgid "Request modifications are not allowed in maintenance mode"
 msgstr ""
@@ -683,17 +683,17 @@ msgstr ""
 msgid "Start workflow to delete a confirmed absence"
 msgstr ""
 
-#: api/services/user/requests/save.js:41
+#: api/services/user/requests/save.js:42
 msgid ""
 "This leave has been created in a compulsory leave, modification is not "
 "allowed"
 msgstr ""
 
-#: api/services/user/requests/save.js:373
+#: api/services/user/requests/save.js:383
 msgid "The request has been modified"
 msgstr ""
 
-#: api/services/user/requests/save.js:412
+#: api/services/user/requests/save.js:422
 msgid "The request has been created"
 msgstr ""
 
@@ -763,30 +763,30 @@ msgstr ""
 msgid "Leave periods provided by gadael"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:156
+#: api/services/manager/waitingrequests/save.js:150
 msgid "The request has been confirmed"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:168
+#: api/services/manager/waitingrequests/save.js:162
 msgid "The request has been cancelled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:181
+#: api/services/manager/waitingrequests/save.js:175
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:193
+#: api/services/manager/waitingrequests/save.js:187
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:203
+#: api/services/manager/waitingrequests/save.js:197
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
 msgstr ""
 
-#: api/services/manager/waitingrequests/save.js:210
+#: api/services/manager/waitingrequests/save.js:204
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 
@@ -843,34 +843,34 @@ msgstr ""
 msgid "Access denied for logged in users"
 msgstr ""
 
-#: modules/emails/approbalert.js:23
+#: modules/emails/approbalert.js:37
 #, javascript-format
 msgid "The approval status of the %s request has not been modified in %d days"
 msgstr ""
 
-#: modules/emails/approbalert.js:33
+#: modules/emails/approbalert.js:47
 msgid "Pending request"
 msgstr ""
 
-#: modules/emails/approbalert.js:35
+#: modules/emails/approbalert.js:49
 #, javascript-format
 msgid "%s is waiting for a response on the %s"
 msgstr ""
 
-#: modules/emails/approbalert.js:40
+#: modules/emails/approbalert.js:54
 msgid "Please, check the request status"
 msgstr ""
 
-#: modules/emails/approbalert.js:42 modules/emails/pendingapproval.js:47
-#: modules/emails/requestaccepted.js:65 modules/emails/requestrejected.js:46
+#: modules/emails/approbalert.js:56 modules/emails/pendingapproval.js:47
+#: modules/emails/requestaccepted.js:66 modules/emails/requestrejected.js:50
 #: modules/emails/requestcreated.js:38
 msgid "View request"
 msgstr ""
 
-#: modules/emails/approbalert.js:46 modules/emails/invitation.js:51
+#: modules/emails/approbalert.js:60 modules/emails/invitation.js:51
 #: modules/emails/pendingapproval.js:51 modules/emails/rolesupdated.js:36
-#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:74
-#: modules/emails/requestrejected.js:50 modules/emails/requestcreated.js:42
+#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:75
+#: modules/emails/requestrejected.js:54 modules/emails/requestcreated.js:42
 #: modules/emails/usercreated.js:36
 msgid "Yours truly"
 msgstr ""
@@ -968,41 +968,41 @@ msgid ""
 "If you do not have requested a password modification, just ignore this email"
 msgstr ""
 
-#: modules/emails/requestaccepted.js:29
+#: modules/emails/requestaccepted.js:30
 #, javascript-format
 msgid "%s: request accepted"
 msgstr ""
 
-#: modules/emails/requestaccepted.js:30
+#: modules/emails/requestaccepted.js:31
 #, javascript-format
 msgid "Your %s has been accepted"
 msgstr ""
 
-#: modules/emails/requestaccepted.js:35
+#: modules/emails/requestaccepted.js:36
 #, javascript-format
 msgid "%s: request canceled"
 msgstr ""
 
-#: modules/emails/requestaccepted.js:37
+#: modules/emails/requestaccepted.js:38
 #, javascript-format
 msgid "As requested by %s, the %s request has been canceled"
 msgstr ""
 
-#: modules/emails/requestaccepted.js:63 modules/emails/requestrejected.js:44
+#: modules/emails/requestaccepted.js:64 modules/emails/requestrejected.js:48
 msgid "Consult the request actions history after login into the application"
 msgstr ""
 
-#: modules/emails/requestaccepted.js:70
+#: modules/emails/requestaccepted.js:71
 #, javascript-format
 msgid "Workflow step by %s the %s"
 msgstr ""
 
-#: modules/emails/requestrejected.js:19
+#: modules/emails/requestrejected.js:20
 #, javascript-format
 msgid "%s: request rejected"
 msgstr ""
 
-#: modules/emails/requestrejected.js:42
+#: modules/emails/requestrejected.js:44
 #, javascript-format
 msgid "Your %s has been rejected"
 msgstr ""
@@ -1497,7 +1497,7 @@ msgstr ""
 msgid "Interval values must be set in a correct order"
 msgstr ""
 
-#: schema/User_Account.js:1052
+#: schema/User_Account.js:1050
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr ""
