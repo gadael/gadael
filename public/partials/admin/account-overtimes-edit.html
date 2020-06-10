@@ -23,12 +23,12 @@
             <div class="input-group">
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" bs-dropdown>
-                    <span ng-if="overtime.mode=='period'"><span ng-translate>Date</span></span>
-                    <span ng-if="overtime.mode=='duration'"><span ng-translate>Hours</span></span>
+                    <span ng-if="overtime.mode=='period'"><span translate>Date</span></span>
+                    <span ng-if="overtime.mode=='duration'"><span translate>Hours</span></span>
                      <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                  <li><a ng-click="overtime.mode='period'"><span ng-translate>Set date</span></a></li>
-                  <li><a ng-click="overtime.mode='duration'"><span ng-translate>Set hours</span></a></li>
+                  <li><a ng-click="overtime.mode='period'"><span translate>Set date</span></a></li>
+                  <li><a ng-click="overtime.mode='duration'"><span translate>Set hours</span></a></li>
                 </ul>
               </div>
             <input type="text" id="day" class="form-control" ng-model="overtime.day" data-autoclose="1" container="body" ng-change="setDuration(overtime)" ng-readonly="overtime.mode=='duration'" ng-required bs-datepicker />
