@@ -1,5 +1,5 @@
 
-<form role="form" name="accountNWDaysCalendarsEdit">
+<form role="form" name="overtimesummeryedit">
 
     <div class="row">
         <h3 class="col-md-12" translate>Convert overtime for {{user.lastname}} {{user.firstname}}</h3>
@@ -26,14 +26,14 @@
     <div class="form-group">
         <label for="quantity" translate>Quantity</label>
         <div class="input-group">
-            <input type="number" step="any" class="form-control" id="quantity" ng-model="overtimesummary.quantity" />
+            <input type="number" step="any" class="form-control" id="quantity" ng-model="overtimesummary.quantity" required />
             <div class="input-group-addon" translate>Hours</div>
         </div>
     </div>
 
     <div class="form-group" ng-if="mode=='RIGHT'">
         <label for="right_name" translate>Right name</label>
-        <input type="text" class="form-control" id="right_name" ng-model="overtimesummary.right.name" />
+        <input type="text" class="form-control" id="right_name" ng-model="overtimesummary.right.name" ng-required="mode=='RIGHT'" />
     </div>
 
     <div class="form-group top30">
@@ -43,7 +43,7 @@
 
 
     <div class="col-sm-12 text-center top30">
-        <button class="btn btn-primary" ng-click="saveOvertimesummary()" translate>Convert</button>
+        <button class="btn btn-primary" ng-click="overtimesummeryedit.$valid && saveOvertimesummary()" translate>Convert</button>
         <button class="btn btn-link" ng-click="cancel()" translate>Cancel</button>
     </div>
 
