@@ -479,7 +479,7 @@ msgstr ""
 
 #: public/partials/admin/account-collections-edit.html:48
 #: public/partials/admin/account-nwdayscalendars-edit.html:49
-#: public/partials/admin/account-overtimes-edit.html:50
+#: public/partials/admin/account-overtimes-edit.html:61
 #: public/partials/admin/account-overtimesummary-edit.html:47
 #: public/partials/admin/account-renewalquantity-edit.html:100
 #: public/partials/admin/account-rights-edit.html:54
@@ -771,7 +771,7 @@ msgstr ""
 msgid "Current workschedule calendar:"
 msgstr ""
 
-#: public/partials/admin/account-overtimes-edit.html:23
+#: public/partials/admin/account-overtimes-edit.html:26
 #: public/partials/utils/common/renewal/combined-adjutments.html:4
 msgid "Date"
 msgstr ""
@@ -943,7 +943,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: public/partials/admin/account-overtimes-edit.html:38
+#: public/partials/admin/account-overtimes-edit.html:49
 msgid "Duration"
 msgstr ""
 
@@ -1153,7 +1153,7 @@ msgstr ""
 msgid "From date:"
 msgstr ""
 
-#: public/partials/admin/account-overtimes-edit.html:28
+#: public/partials/admin/account-overtimes-edit.html:39
 msgid "From hour"
 msgstr ""
 
@@ -1225,6 +1225,7 @@ msgstr ""
 
 #: public/js/controllers/admin/recoverquantity-edit.js:16
 #: public/js/controllers/admin/right-edit.js:108
+#: public/partials/admin/account-overtimes-edit.html:27
 #: public/partials/admin/account-overtimesummary-edit.html:30
 #: public/partials/admin/right-edit.html:184
 #: public/partials/admin/right-edit.html:58
@@ -2041,7 +2042,7 @@ msgstr ""
 
 #: public/partials/admin/account-collections-edit.html:47
 #: public/partials/admin/account-nwdayscalendars-edit.html:48
-#: public/partials/admin/account-overtimes-edit.html:49
+#: public/partials/admin/account-overtimes-edit.html:60
 #: public/partials/admin/account-renewalquantity-edit.html:99
 #: public/partials/admin/account-rights-edit.html:53
 #: public/partials/admin/account-schedulecalendars-edit.html:47
@@ -2197,6 +2198,14 @@ msgstr ""
 
 #: public/partials/admin/invitation-edit.html:29
 msgid "Set a non-working days calendar"
+msgstr ""
+
+#: public/partials/admin/account-overtimes-edit.html:30
+msgid "Set date"
+msgstr ""
+
+#: public/partials/admin/account-overtimes-edit.html:31
+msgid "Set hours"
 msgstr ""
 
 #: public/partials/login/createfirstadmin.html:32
@@ -2467,7 +2476,7 @@ msgstr ""
 msgid "To"
 msgstr ""
 
-#: public/partials/admin/account-overtimes-edit.html:33
+#: public/partials/admin/account-overtimes-edit.html:44
 msgid "To hour"
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-01 13:15+0200\n"
+"POT-Creation-Date: 2020-06-10 20:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,11 +160,11 @@ msgstr ""
 msgid "The department has been created"
 msgstr ""
 
-#: api/services/admin/overtimesummary/save.js:130
+#: api/services/admin/overtimesummary/save.js:137
 msgid "Not enough overtime quantity"
 msgstr ""
 
-#: api/services/admin/overtimesummary/save.js:142
+#: api/services/admin/overtimesummary/save.js:149
 msgid "Overtime quantity has been settled"
 msgstr ""
 
@@ -578,12 +578,8 @@ msgstr ""
 msgid "The overtime has been deleted"
 msgstr ""
 
-#: api/services/user/overtimes/save.js:18
-msgid "At least one event is required"
-msgstr ""
-
-#: api/services/user/overtimes/save.js:26
-#: api/services/user/overtimes/save.js:46
+#: api/services/user/overtimes/save.js:22
+#: api/services/user/overtimes/save.js:42
 msgid "The overtime has been created"
 msgstr ""
 
@@ -591,11 +587,11 @@ msgstr ""
 msgid "The user does not exists"
 msgstr ""
 
-#: api/services/user/overtimes/save.js:140
+#: api/services/user/overtimes/save.js:136
 msgid "Overtime not found"
 msgstr ""
 
-#: api/services/user/overtimes/save.js:143
+#: api/services/user/overtimes/save.js:139
 msgid "The overtime is settled"
 msgstr ""
 
@@ -1497,7 +1493,7 @@ msgstr ""
 msgid "Interval values must be set in a correct order"
 msgstr ""
 
-#: schema/User_Account.js:1050
+#: schema/User_Account.js:1061
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr ""

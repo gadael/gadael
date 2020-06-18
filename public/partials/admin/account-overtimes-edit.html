@@ -18,26 +18,37 @@
 
 
     <div class="row" ng-repeat="overtime in overtimes">
-
         <div class="col-sm-4 col-xs-12 form-group">
-            <label for="day" translate>Date</label>
-            <input type="text" id="day" class="form-control" ng-model="overtime.day" data-autoclose="1" container="body" ng-change="setDuration(overtime)" ng-required bs-datepicker />
+            <label for="day">Date</label>
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" bs-dropdown>
+                    <span ng-if="overtime.mode=='period'"><span translate>Date</span></span>
+                    <span ng-if="overtime.mode=='duration'"><span translate>Hours</span></span>
+                     <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a ng-click="overtime.mode='period'"><span translate>Set date</span></a></li>
+                  <li><a ng-click="overtime.mode='duration'"><span translate>Set hours</span></a></li>
+                </ul>
+              </div>
+            <input type="text" id="day" class="form-control" ng-model="overtime.day" data-autoclose="1" container="body" ng-change="setDuration(overtime)" ng-readonly="overtime.mode=='duration'" ng-required bs-datepicker />
+            </div>
         </div>
 
         <div class="col-sm-3 col-xs-4 form-group">
             <label for="hour_from" translate>From hour</label>
-            <input type="text" id="hour_from" class="form-control" ng-model="overtime.from" ng-change="setDuration(overtime)" bs-timepicker />
+            <input type="text" id="hour_from" class="form-control" ng-model="overtime.from" ng-change="setDuration(overtime)" ng-readonly="overtime.mode=='duration'" bs-timepicker />
         </div>
 
         <div class="col-sm-3 col-xs-4 form-group">
             <label for="hour_to" translate>To hour</label>
-            <input type="text" id="hour_to" class="form-control" ng-model="overtime.to" ng-change="setDuration(overtime)" bs-timepicker />
+            <input type="text" id="hour_to" class="form-control" ng-model="overtime.to" ng-change="setDuration(overtime)" ng-readonly="overtime.mode=='duration'" bs-timepicker />
         </div>
 
         <div class="col-sm-2 col-xs-4 form-group">
             <label for="quantity" translate>Duration</label>
             <div class="input-group">
-                <input class="form-control" id="quantity" type="number" ng-model="overtime.quantity" readonly />
+                <input class="form-control" id="quantity" type="number" ng-model="overtime.quantity" ng-readonly="overtime.mode=='period'" />
                 <div class="input-group-addon">H</div>
             </div>
         </div>

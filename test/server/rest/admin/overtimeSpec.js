@@ -119,6 +119,7 @@ describe('Overtime admin rest service', function() {
         });
     });
 
+
     it('request overtime summary list as admin', function(done) {
         server.get('/rest/admin/overtimesummary', { 'user': userAccount.user.id }, function(res, body) {
             expect(res.statusCode).toEqual(200);
@@ -150,15 +151,38 @@ describe('Overtime admin rest service', function() {
         });
     });
 
+    it('settle quantity', function(done) {
+        const settlement = {
+            quantity: 2,
+            user: {
+                id: userAccount.user.id
+            },
+            comment: 'Test basic settlement'
+        };
+        server.post('/rest/admin/overtimesummary', settlement, function(res, body) {
+            expect(res.statusCode).toEqual(200);
+            server.expectSuccess(body);
+            done();
+        });
+    });
+
+
     it('have settled the overtime quantity', function(done) {
         server.get('/rest/admin/overtimesummary', { 'user': userAccount.user.id }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body[0].declarations).toEqual(2);
             expect(body[0].total).toEqual(17);
-            expect(body[0].settled).toEqual(10);
+            expect(body[0].settled).toEqual(12);
             done();
         });
     });
+
+    /*
+     2 overtimes:
+     - 9h -> settlement1 10h (9h)
+     - 8h -> settlement1 10h (1h)
+          -> settlement2 2h  (2h)
+     */
 
     // Check the 2 overtimes individually
 
@@ -182,13 +206,15 @@ describe('Overtime admin rest service', function() {
         server.get('/rest/admin/overtimes/'+overtime2, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body.settled).toBeFalsy();
-            expect(body.settlements.length).toEqual(1);
-            expect(body.settledQuantity).toEqual(10 - firstOvertimeConsuption);
-            if (1 === body.settlements.length) {
+            expect(body.settlements.length).toEqual(2);
+            expect(body.settledQuantity).toEqual(3);
+            if (2 === body.settlements.length) {
                 expect(body.settlements[0].quantity).toEqual(10);
                 expect(body.settlements[0].right.name).toEqual('Conversion');
                 expect(body.settlements[0].right.id).toBeDefined();
                 expect(body.settlements[0].right.renewal.id).toBeDefined();
+
+                expect(body.settlements[1].quantity).toEqual(2);
             }
             done();
         });
@@ -205,7 +231,7 @@ describe('Overtime admin rest service', function() {
         server.get('/rest/admin/overtimesummary', { 'user': userAccount.user.id }, function(res, body) {
             expect(res.statusCode).toEqual(200);
             expect(body[0].total).toEqual(8);
-            expect(body[0].settled).toEqual(1);
+            expect(body[0].settled).toEqual(3);
             done();
         });
     });
@@ -213,7 +239,7 @@ describe('Overtime admin rest service', function() {
     it('account contain settlement history', function(done) {
         server.get('/rest/admin/users/'+userAccount.user.id, {}, function(res, body) {
             expect(res.statusCode).toEqual(200);
-            expect(body.roles.account.overtimeSettlements.length).toEqual(1);
+            expect(body.roles.account.overtimeSettlements.length).toEqual(2);
             done();
         });
     });

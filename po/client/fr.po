@@ -511,7 +511,7 @@ msgstr "Agendas"
 
 #: public/partials/admin/account-collections-edit.html:48
 #: public/partials/admin/account-nwdayscalendars-edit.html:49
-#: public/partials/admin/account-overtimes-edit.html:50
+#: public/partials/admin/account-overtimes-edit.html:61
 #: public/partials/admin/account-overtimesummary-edit.html:47
 #: public/partials/admin/account-renewalquantity-edit.html:100
 #: public/partials/admin/account-rights-edit.html:54
@@ -817,7 +817,7 @@ msgstr "Régime de congés en cours :"
 msgid "Current workschedule calendar:"
 msgstr "Agenda du rythme de travail en cours :"
 
-#: public/partials/admin/account-overtimes-edit.html:23
+#: public/partials/admin/account-overtimes-edit.html:26
 #: public/partials/utils/common/renewal/combined-adjutments.html:4
 msgid "Date"
 msgstr "Date"
@@ -995,7 +995,7 @@ msgstr "Voulez-vous vraiment supprimer cette invitation?"
 msgid "Download"
 msgstr "Téléchargement"
 
-#: public/partials/admin/account-overtimes-edit.html:38
+#: public/partials/admin/account-overtimes-edit.html:49
 msgid "Duration"
 msgstr "Durée"
 
@@ -1230,7 +1230,7 @@ msgstr "Du"
 msgid "From date:"
 msgstr "Depuis le :"
 
-#: public/partials/admin/account-overtimes-edit.html:28
+#: public/partials/admin/account-overtimes-edit.html:39
 msgid "From hour"
 msgstr "Heure de début"
 
@@ -1311,6 +1311,7 @@ msgstr "Heure"
 
 #: public/js/controllers/admin/recoverquantity-edit.js:16
 #: public/js/controllers/admin/right-edit.js:108
+#: public/partials/admin/account-overtimes-edit.html:27
 #: public/partials/admin/account-overtimesummary-edit.html:30
 #: public/partials/admin/right-edit.html:184
 #: public/partials/admin/right-edit.html:58
@@ -2180,7 +2181,7 @@ msgstr "Samedi"
 
 #: public/partials/admin/account-collections-edit.html:47
 #: public/partials/admin/account-nwdayscalendars-edit.html:48
-#: public/partials/admin/account-overtimes-edit.html:49
+#: public/partials/admin/account-overtimes-edit.html:60
 #: public/partials/admin/account-renewalquantity-edit.html:99
 #: public/partials/admin/account-rights-edit.html:53
 #: public/partials/admin/account-schedulecalendars-edit.html:47
@@ -2338,6 +2339,14 @@ msgstr "Définir un nouveau mot de passe"
 #: public/partials/admin/invitation-edit.html:29
 msgid "Set a non-working days calendar"
 msgstr "Définir un agenda des jours fériés"
+
+#: public/partials/admin/account-overtimes-edit.html:30
+msgid "Set date"
+msgstr "Spécifier la date"
+
+#: public/partials/admin/account-overtimes-edit.html:31
+msgid "Set hours"
+msgstr "Définir les heures"
 
 #: public/partials/login/createfirstadmin.html:32
 #: public/partials/login/invitation.html:61
@@ -2668,7 +2677,7 @@ msgstr "Titre"
 msgid "To"
 msgstr "Au"
 
-#: public/partials/admin/account-overtimes-edit.html:33
+#: public/partials/admin/account-overtimes-edit.html:44
 msgid "To hour"
 msgstr "Heure de fin"
 

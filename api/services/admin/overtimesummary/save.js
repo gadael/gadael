@@ -106,7 +106,14 @@ function convertOvertimeQuantity(service, params) {
                 name: params.userCreated.getName()
             };
 
-            return createRecoveryRight(RightModel, userId, settlement, params.right.startDate || new Date())
+            function updateSettlementWithRight() {
+                if (!settlement.right) {
+                    return Promise.resolve(settlement);
+                }
+                return createRecoveryRight(RightModel, userId, settlement, params.right.startDate || new Date());
+            }
+
+            updateSettlementWithRight(settlement)
             .then(settlement => {
                 let remainQuantity = params.quantity;
                 const documentsToSave = [];
@@ -114,15 +121,22 @@ function convertOvertimeQuantity(service, params) {
                     if (remainQuantity <= 0) {
                         return;
                     }
+                    if (undefined === overtime.settledQuantity) {
+                        overtime.settledQuantity = 0;
+                    }
+                    if (undefined === overtime.settlements) {
+                        overtime.settlements = [];
+                    }
+
                     if (overtime.quantity < remainQuantity) {
                         remainQuantity -= overtime.quantity;
                         overtime.settledQuantity = overtime.quantity;
                         overtime.settled = true;
                     } else {
-                        overtime.settledQuantity = remainQuantity;
+                        overtime.settledQuantity += remainQuantity;
                         remainQuantity = 0;
                     }
-                    overtime.settlements = [settlement];
+                    overtime.settlements.push(settlement);
                     documentsToSave.push(overtime);
                 });
 

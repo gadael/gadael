@@ -38,6 +38,7 @@ define([], function() {
         function createOvertime() {
             var overtime = new overtimeResource();
             overtime.user = $routeParams.id;
+            overtime.mode = 'period';
             return overtime;
         }
 
@@ -78,6 +79,9 @@ define([], function() {
                     return overtime.quantity > 0;
                 })
                 .map(function(overtime) {
+                    if (overtime.events === undefined) {
+                        overtime.events = [];
+                    }
                     return catchOutcome(overtime.$create());
                 })
             )
