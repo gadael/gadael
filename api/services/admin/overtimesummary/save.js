@@ -121,15 +121,22 @@ function convertOvertimeQuantity(service, params) {
                     if (remainQuantity <= 0) {
                         return;
                     }
+                    if (undefined === overtime.settledQuantity) {
+                        overtime.settledQuantity = 0;
+                    }
+                    if (undefined === overtime.settlements) {
+                        overtime.settlements = [];
+                    }
+
                     if (overtime.quantity < remainQuantity) {
                         remainQuantity -= overtime.quantity;
                         overtime.settledQuantity = overtime.quantity;
                         overtime.settled = true;
                     } else {
-                        overtime.settledQuantity = remainQuantity;
+                        overtime.settledQuantity += remainQuantity;
                         remainQuantity = 0;
                     }
-                    overtime.settlements = [settlement];
+                    overtime.settlements.push(settlement);
                     documentsToSave.push(overtime);
                 });
 
