@@ -69,6 +69,7 @@ exports = module.exports = function(params) {
     accountSchema.set('autoIndex', params.autoIndex);
     accountSchema.plugin(userAccountCustomize);
 
+
     /**
      * Find rights collections
      * @returns {Query} A mongoose query on the account collection schema
@@ -1145,6 +1146,12 @@ exports = module.exports = function(params) {
 
         if (limit !== undefined && limit < end && limit > start) {
             end = limit;
+        }
+
+        if (this.lunch.from && this.lunch.from < this.lunch.createdUpTo) {
+            // start date has been specified in the past, recreate lunchs
+            this.lunch.createdUpTo = this.lunch.from;
+            start = this.lunch.from;
         }
 
         if (end <= this.lunch.createdUpTo) {

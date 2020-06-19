@@ -2769,7 +2769,7 @@ msgstr "Utiliser la période d'épargne par défaut (période du renouvellement)
 
 #: public/partials/admin/user-edit-account.html:37
 msgid "Use lunch break payments"
-msgstr "Utiliser le paiement des pause déjeuner"
+msgstr "Utiliser le paiement des pauses déjeuner"
 
 #: public/partials/admin/request/absence-edit.html:6
 msgid "Use the approval workflow on this request"
