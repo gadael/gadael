@@ -27,7 +27,8 @@ exports.login = function(req, res, next) {
     return passport.authenticate('google', {
         session: false,
         accessType: 'offline',
-        approvalPrompt: 'force'
+        approvalPrompt: 'force',
+        scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
     })(req, res, next);
 };
 

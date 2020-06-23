@@ -1,8 +1,6 @@
 'use strict';
 
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
-
+const GoogleStrategy = require('passport-google-oauth2' ).Strategy;
 
 /**
  * This module export a google strategy used to link the google calendar with the user events
