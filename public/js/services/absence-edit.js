@@ -1,30 +1,13 @@
 define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) {
-
     'use strict';
 
-
-
-
-
-
-
-
-
-
-
-
     return function(gettextCatalog) {
-
-
         var RequestEdit = loadRequestEdit(gettextCatalog);
-
-
 
         /**
          * store quantity_unit for each loaded right ID
          */
         var quantity_unit = {};
-
 
         /**
          * available quantity per renewal ID
@@ -32,19 +15,11 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
          */
         var available = {};
 
-
-
-
-
-
-
         /**
          * Callback used to watch the distribution object in scope
          * @param {object} distribution
          */
         function distributionWatch(distribution, $scope) {
-
-
             /**
              * Browse the rights appliquable for distribution
              * @param {function} action     function to call on each rights
@@ -59,7 +34,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 }
             }
 
-
             /**
              * Test if distribution is completed
              * @param {Number} days     Sum of days distributed on rights
@@ -72,8 +46,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 var hoursCompleted = ($scope.selection.duration === (hours*3600000)) && !days;
                 return (daysCompleted || hoursCompleted);
             }
-
-
 
             /**
              * Get a classname for the input field
@@ -106,8 +78,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
                 return 'has-success';
             }
-
-
 
             if (distribution === undefined) {
                 $scope.distribution = {
@@ -559,7 +529,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
         function getNextButtonJob($scope, user, accountRights) {
 
             return function() {
-
                 // hide the period selection
                 $scope.periodSelection = false;
 
@@ -574,24 +543,15 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     completed: false
                 };
 
-
-
-
                 /**
                  * Load accountRights
                  * the list of rights accessible on the selected period
                  */
-
                 $scope.accountRights = accountRights.query({
                     user: user._id, // need that if the request is created by the admin, ignored if created by the user
                     dtstart: $scope.selection.begin,
                     dtend: $scope.selection.end
                 });
-
-
-
-
-
 
                 function createAccountRenewal(item, renewalIndex)
                 {
@@ -606,9 +566,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     return accountRightRenewal;
                 }
 
-
-
-
                 $scope.getIcon = function(listItem) {
                     if (listItem.fold) {
                         return 'fa-minus-square';
@@ -617,14 +574,9 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     }
                 };
 
-
-
-
                 $scope.accountRights.$promise.then(function(ar) {
                     // loaded
-
                     var days=0, hours=0;
-
 
                     function updateTotal(right, accountRightRenewal, groupAvailable) {
                         available[accountRightRenewal.renewal._id] = ar[i].available_quantity;
@@ -643,19 +595,14 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                         }
                     }
 
-
                     // Group by types
-
                     var typesIndex = {};
                     $scope.types = [];
                     var accountRightRenewal;
 
                     for (var i=0; i<ar.length; i++) {
-
                         var type = ar[i].type;
-
                         if (ar[i].renewals.length > 0) {
-
                             if (undefined === typesIndex[type._id]) {
                                 $scope.types.push({
                                     fold: !type.group,
@@ -678,19 +625,14 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                     }
 
                     // total on each type group
-
                     $scope.types.forEach(function(item) {
                         item.available.display = RequestEdit.getDuration(item.available.days, item.available.hours);
                     });
 
-
                     // grand total
-
                     $scope.available = {
                         total: RequestEdit.getDuration(days, hours)
                     };
-
-
 
                     // load distribution if this is a request modification
                     if (undefined !== $scope.request.absence && $scope.request.absence.distribution.length > 0) {
@@ -719,10 +661,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
 
 
 
-
-
-
-
         /**
          * Process scope once the user document is available
          * Add the watchs
@@ -744,10 +682,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
                 distributionWatch(distribution, $scope);
             }, true);
 
-
-
             $scope.$watch('distribution.renewal', function(newValue, oldValue) {
-
                 // detect renewal modifications
                 for (var rId in newValue) {
                     if (newValue.hasOwnProperty(rId)) {
@@ -760,11 +695,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
         }
 
 
-
-
-
-
-
         /**
          * Get Period picker callback for working times
          * @param {Resource} calendarEvents
@@ -774,13 +704,7 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
          * @return function
          */
         function getLoadWorkingTimes(calendarEvents, personalEventList, user) {
-
-
-
             return function(interval) {
-
-
-
                 var queryParams = {
                     type: 'workschedule',
                     dtstart: interval.from,
@@ -805,19 +729,12 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
         }
 
 
-
-
-
-
         // Service to edit an absence,
         // shared by account/request/absence-edit and admin/request/absence-edit
 
         return {
-
             initScope: RequestEdit.initScope,
-
             setSelectionFromRequest: RequestEdit.setSelectionFromRequest,
-
             getLoadPersonalEvents: RequestEdit.getLoadPersonalEvents,
             getLoadNonWorkingDaysEvents: RequestEdit.getLoadNonWorkingDaysEvents,
             getLoadEvents: RequestEdit.getLoadEvents,
@@ -828,7 +745,6 @@ define(['angular', 'services/request-edit'], function(angular, loadRequestEdit) 
             getNextButtonJob: getNextButtonJob,
             onceUserLoaded: onceUserLoaded,
             getLoadWorkingTimes: getLoadWorkingTimes
-
         };
     };
 });

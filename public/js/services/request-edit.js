@@ -1,23 +1,14 @@
-define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration, Q) {
-
+define(['angular', 'moment', 'momentDurationFormat', 'q'],
+    function(angular, moment, momentDuration, Q) {
     'use strict';
-
     momentDuration(moment);
 
-
-
     return function requestEdit(gettextCatalog) {
-
-
-
         /**
          * Duration in milliseconds updated on every period changes
          * @var {int}
          */
         var duration = 0;
-
-
-
 
         function getMomentPaterns(momentDays, momentHours)
         {
@@ -30,8 +21,6 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                 hour: 'h ['+gettextCatalog.getPlural(hours, 'hour', 'hours')+']'
             };
         }
-
-
 
         /**
          * Set a duration visible to the final user
@@ -54,16 +43,10 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
             $scope.selection.isValid = duration > 0;
         }
 
-
-
-
-
-
         // Service to edit an absence,
         // shared by account/request/absence-edit and admin/request/absence-edit
 
         return {
-
             /**
              * Get duration as string
              * @param {Number} days
@@ -114,10 +97,7 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                     days: undefined,
                     hours: undefined
                 };
-
-
             },
-
 
             /**
              * Set a selection object from request data
@@ -144,15 +124,8 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
 
                 });
 
-
                 setDuration($scope, us);
-
             },
-
-
-
-
-
 
             /**
              * Process scope once the user document is available
@@ -163,9 +136,6 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
              */
             onceUserLoaded: function onceUserLoaded($scope, user, calendarEvents)
             {
-
-
-
                 /**
                  * get the onUpdateInterval function
                  * @param   {Object}   $scope
@@ -174,8 +144,6 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                  * @returns {function}
                  */
                 function getOnUpdateInterval($scope, account, calendarEvents) {
-
-
 
                     /**
                      * Get notified if interval is modified
@@ -210,18 +178,23 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                             subtractPersonalEvents: true
                         };
 
-                        // Admin only?
-                        params.user = user._id;
+                        if (user) {
+                            params.user = user._id;
+                        }
+
+                        if (angular.isArray($scope.request.events) && $scope.request.events.length > 0) {
+                            params.subtractException = [];
+                            $scope.request.events.forEach(function(personalEvent) {
+                                params.subtractException.push(personalEvent._id);
+                            });
+                        }
 
                         calendarEvents.query(params).$promise.then(function(periods) {
-
                             var p;
                             duration = 0;
                             $scope.selection.businessDays = 0;
 
-
                             for(var i=0; i<periods.length; i++) {
-
                                 if (undefined === periods[i].businessDays) {
                                     throw new Error('businessDays is not defined on period from '+periods[i].dtstart+' to '+periods[i].dtend+' (onUpdateInterval)');
                                 }
@@ -232,7 +205,6 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                                 };
 
                                 duration += p.dtend.getTime() - p.dtstart.getTime();
-
                                 $scope.selection.businessDays += periods[i].businessDays;
                             }
 
@@ -251,20 +223,12 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                 $scope.$watch(function() { return $scope.selection.end; }, function(end) {
                     onUpdateInterval($scope.selection.begin, end);
                 });
-
             },
-
-
-
-
-
 
             getLoadPersonalEvents: function(userPromise, personalEvents) {
                 return function(interval) {
-
                     return userPromise
                     .then(function(user) {
-
                         return personalEvents.query({
                             user: user._id,
                             dtstart: interval.from,
@@ -273,8 +237,6 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                     });
                 };
             },
-
-
 
             /**
              * Get period picker callback for non working days
@@ -306,18 +268,13 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                 };
             },
 
-
             getLoadEvents: function(userPromise, personalEvents, calendars, calendarEvents) {
 
                 var loadPersonalEvents = this.getLoadPersonalEvents(userPromise, personalEvents);
                 var loadNonWorkingDaysEvents = this.getLoadNonWorkingDaysEvents(calendars, calendarEvents, userPromise);
 
-
-
                 return  function getLoadEvents(interval) {
-
                     var promises = [];
-
                     promises.push(loadPersonalEvents(interval));
                     promises.push(loadNonWorkingDaysEvents(interval));
 
@@ -327,7 +284,6 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                     });
                 };
             },
-
 
             /**
              * Get period picker callback for scholar holidays
@@ -342,10 +298,6 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                     }).$promise;
                 };
             },
-
-
-
-
         };
     };
 });
