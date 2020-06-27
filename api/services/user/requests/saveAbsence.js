@@ -9,10 +9,8 @@ const util = require('util');
  */
 function getElementIgniter(service, collection, user)
 {
-    let RightModel = service.app.db.models.Right;
-
-
-
+    const RightModel = service.app.db.models.Right;
+    const gt = service.app.utility.gettext;
 
     /**
      * Set properties of an element object
@@ -32,6 +30,10 @@ function getElementIgniter(service, collection, user)
         .exec()
         .then(right => {
             rightDocument = right;
+            // validate element quantity compatibility with right
+            if ('D' === rightDocument.quantity_unit && elem.quantity % 1 !== 0 && false === rightDocument.halfDays) {
+                throw new Error(util.format(gt.gettext('Half days quantity is not allowed on right %s'), rightDocument.name));
+            }
             // get renewal to save in element
             if (elem.right.renewal) {
                 // a specific renewal is given as parameter

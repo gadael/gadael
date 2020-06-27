@@ -44,6 +44,8 @@ exports = module.exports = function(params) {
 
         quantity_unit: { type: String, enum:['D', 'H'], required: true },   // Days our Hours
 
+        halfDays: { type: Boolean, default:true },                  // if quantiy_unit === 'D'
+
         defaultAbsenceLength: Number,                               // defaut duration of the absence period
                                                                     // this is used for a meternity leave for example
 

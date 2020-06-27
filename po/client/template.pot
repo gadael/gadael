@@ -325,6 +325,10 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
+#: public/partials/admin/right-edit.html:231
+msgid "Authorize half-days consuption"
+msgstr ""
+
 #: public/js/optimized.js:35274
 #: public/js/services/beneficiary.js:226
 msgid "Auto monthly update"
@@ -493,7 +497,7 @@ msgstr ""
 #: public/partials/admin/export/export-edit-xlsx.html:37
 #: public/partials/admin/invitation-edit.html:41
 #: public/partials/admin/recoverquantity-edit.html:24
-#: public/partials/admin/right-edit.html:241
+#: public/partials/admin/right-edit.html:247
 #: public/partials/admin/rightrenewal-edit.html:22
 #: public/partials/admin/rightrule-edit.html:374
 #: public/partials/admin/rightrule-edit.html:72
@@ -1411,7 +1415,7 @@ msgstr ""
 msgid "Lunch breaks by months"
 msgstr ""
 
-#: public/partials/admin/right-edit.html:231
+#: public/partials/admin/right-edit.html:237
 msgid "Lunch payment on absences with this right"
 msgstr ""
 
@@ -2052,7 +2056,7 @@ msgstr ""
 #: public/partials/admin/compulsoryleave-edit.html:86
 #: public/partials/admin/department-edit.html:51
 #: public/partials/admin/recoverquantity-edit.html:23
-#: public/partials/admin/right-edit.html:240
+#: public/partials/admin/right-edit.html:246
 #: public/partials/admin/rightrenewal-edit.html:21
 #: public/partials/admin/rightrule-edit.html:372
 #: public/partials/admin/type-edit.html:27

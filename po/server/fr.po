@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gadael 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-15 15:45+0100\n"
-"PO-Revision-Date: 2020-02-15 15:49+0100\n"
+"POT-Creation-Date: 2020-06-27 14:13+0200\n"
+"PO-Revision-Date: 2020-06-27 14:15+0200\n"
 "Last-Translator: Paul de Rosanbo <paul.derosanbo@cantico.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: api/specialrights/timesavingaccount.js:25
@@ -182,11 +182,11 @@ msgstr "Le service a été modifié"
 msgid "The department has been created"
 msgstr "Le service a été créé"
 
-#: api/services/admin/overtimesummary/save.js:130
+#: api/services/admin/overtimesummary/save.js:144
 msgid "Not enough overtime quantity"
 msgstr "Pas assez d'heures supplémentaires"
 
-#: api/services/admin/overtimesummary/save.js:142
+#: api/services/admin/overtimesummary/save.js:156
 msgid "Overtime quantity has been settled"
 msgstr "Les heures supplémentaires ont été soldées"
 
@@ -548,11 +548,11 @@ msgstr "Impossible de supprimer, le droit est utilisé dans %d demandes"
 msgid "The leave right has been deleted"
 msgstr "Le droit de congés a été supprimé"
 
-#: api/services/admin/rights/save.js:166
+#: api/services/admin/rights/save.js:167
 msgid "The vacation right has been created"
 msgstr "Le droit de congés a été créé"
 
-#: api/services/admin/rights/save.js:168
+#: api/services/admin/rights/save.js:169
 msgid "The vacation right has been modified"
 msgstr "Le droit de congés a été modifié"
 
@@ -611,12 +611,8 @@ msgstr "La déclaration d'heures supplémentaire n'existe pas"
 msgid "The overtime has been deleted"
 msgstr "La déclaration d'heures supplémentaires à été supprimée"
 
-#: api/services/user/overtimes/save.js:18
-msgid "At least one event is required"
-msgstr "Au moins un événement est requis"
-
-#: api/services/user/overtimes/save.js:26
-#: api/services/user/overtimes/save.js:46
+#: api/services/user/overtimes/save.js:22
+#: api/services/user/overtimes/save.js:42
 msgid "The overtime has been created"
 msgstr "La déclaration d'heures supplémentaires à été crée"
 
@@ -624,11 +620,11 @@ msgstr "La déclaration d'heures supplémentaires à été crée"
 msgid "The user does not exists"
 msgstr "Cet utilisateur n'existe pas"
 
-#: api/services/user/overtimes/save.js:140
+#: api/services/user/overtimes/save.js:136
 msgid "Overtime not found"
 msgstr "Déclaration d'heures supplémentaires introuvable"
 
-#: api/services/user/overtimes/save.js:143
+#: api/services/user/overtimes/save.js:139
 msgid "The overtime is settled"
 msgstr "Cette déclaration d'heures supplémentaires est soldée"
 
@@ -662,7 +658,12 @@ msgstr "Impossible de charger le document user"
 msgid "Failed to load the collection document"
 msgstr "Impossible de charger le document du régime"
 
-#: api/services/user/requests/saveAbsence.js:337
+#: api/services/user/requests/saveAbsence.js:35
+#, javascript-format
+msgid "Half days quantity is not allowed on right %s"
+msgstr "La consommation en demi-journée n'est pas autorisée sur le droit %s"
+
+#: api/services/user/requests/saveAbsence.js:339
 #, javascript-format
 msgid ""
 "The rule \"%s\" cannot be verified when saving absence event from %s to %s "
@@ -671,11 +672,11 @@ msgstr ""
 "La règle \"%s\" ne peut pas être vérifiée lors de l'enregistrement de "
 "l'absence du %s au %s sur le renouvellement du %s au %s avec le droit %s"
 
-#: api/services/user/requests/saveAbsence.js:349
+#: api/services/user/requests/saveAbsence.js:351
 msgid "Arrival date must be before renewal finish"
 msgstr "La date d'arrivée doit être avant la date de fin du renouvellement"
 
-#: api/services/user/requests/saveAbsence.js:357
+#: api/services/user/requests/saveAbsence.js:359
 #, javascript-format
 msgid ""
 "The quantity requested on right \"%s\" is not available, available quantity "
@@ -699,7 +700,7 @@ msgstr ""
 "Les récupérations de jours travaillés sont désactivés par l'administrateur"
 
 #: api/services/user/requests/delete.js:22
-#: api/services/user/requests/save.js:24
+#: api/services/user/requests/save.js:25
 #: api/services/manager/waitingrequests/save.js:22
 msgid "Request modifications are not allowed in maintenance mode"
 msgstr ""
@@ -723,17 +724,17 @@ msgstr "Ce congé est un congé imposé, la suppression n'est pas autorisée"
 msgid "Start workflow to delete a confirmed absence"
 msgstr "Début du circuit d'approbation pour supprimer une absence confirmée"
 
-#: api/services/user/requests/save.js:41
+#: api/services/user/requests/save.js:42
 msgid ""
 "This leave has been created in a compulsory leave, modification is not "
 "allowed"
 msgstr "Ce congé est un congé imposé, la modification n'est pas permise"
 
-#: api/services/user/requests/save.js:373
+#: api/services/user/requests/save.js:383
 msgid "The request has been modified"
 msgstr "La demande a été modifiée"
 
-#: api/services/user/requests/save.js:412
+#: api/services/user/requests/save.js:422
 msgid "The request has been created"
 msgstr "La demande a été créée"
 
@@ -803,25 +804,25 @@ msgstr "Un agenda secondaire a été créé"
 msgid "Leave periods provided by gadael"
 msgstr "Périodes de congés fournies par Gadael"
 
-#: api/services/manager/waitingrequests/save.js:156
+#: api/services/manager/waitingrequests/save.js:150
 msgid "The request has been confirmed"
 msgstr "La demande a été confirmée"
 
-#: api/services/manager/waitingrequests/save.js:168
+#: api/services/manager/waitingrequests/save.js:162
 msgid "The request has been cancelled"
 msgstr "La demande a été annulée"
 
-#: api/services/manager/waitingrequests/save.js:181
+#: api/services/manager/waitingrequests/save.js:175
 msgid "The appliquant has requested a delete, the request has been canceled"
 msgstr "Le demandeur a requis une suppression, la demande a été annulée"
 
-#: api/services/manager/waitingrequests/save.js:193
+#: api/services/manager/waitingrequests/save.js:187
 msgid ""
 "The appliquant has requested a delete, the request has been confirmed anyway"
 msgstr ""
 "Le demandeur a requis une suppression, la demande a été supprimée malgré tout"
 
-#: api/services/manager/waitingrequests/save.js:203
+#: api/services/manager/waitingrequests/save.js:197
 msgid ""
 "Your approval has been saved, others approvals are required to complete this "
 "step"
@@ -829,7 +830,7 @@ msgstr ""
 "Votre acceptation a été enregistrée, d'autres approbation sont requises pour "
 "que l'étape soit terminée"
 
-#: api/services/manager/waitingrequests/save.js:210
+#: api/services/manager/waitingrequests/save.js:204
 msgid "The request has been forwarded to the next approval step"
 msgstr ""
 "La demande a été transmise à la prochaine étape du circuit d'approbation"
@@ -888,36 +889,36 @@ msgstr "Accès refusé pour les utilisateurs anonymes"
 msgid "Access denied for logged in users"
 msgstr "Accès refusé pour les utilisateurs connectés"
 
-#: modules/emails/approbalert.js:23
+#: modules/emails/approbalert.js:37
 #, javascript-format
 msgid "The approval status of the %s request has not been modified in %d days"
 msgstr ""
 "Le statut d'approbation de la demande de %s n'a pas été modifié depuis %d "
 "jours"
 
-#: modules/emails/approbalert.js:33
+#: modules/emails/approbalert.js:47
 msgid "Pending request"
 msgstr "Demande en attente"
 
-#: modules/emails/approbalert.js:35
+#: modules/emails/approbalert.js:49
 #, javascript-format
 msgid "%s is waiting for a response on the %s"
 msgstr "%s est en attente de réponse sur le %s"
 
-#: modules/emails/approbalert.js:40
+#: modules/emails/approbalert.js:54
 msgid "Please, check the request status"
 msgstr "Veuillez vérifier le statut de la demande"
 
-#: modules/emails/approbalert.js:42 modules/emails/pendingapproval.js:47
-#: modules/emails/requestaccepted.js:65 modules/emails/requestrejected.js:46
+#: modules/emails/approbalert.js:56 modules/emails/pendingapproval.js:47
+#: modules/emails/requestaccepted.js:66 modules/emails/requestrejected.js:50
 #: modules/emails/requestcreated.js:38
 msgid "View request"
 msgstr "Voir la demande"
 
-#: modules/emails/approbalert.js:46 modules/emails/invitation.js:51
+#: modules/emails/approbalert.js:60 modules/emails/invitation.js:51
 #: modules/emails/pendingapproval.js:51 modules/emails/rolesupdated.js:36
-#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:74
-#: modules/emails/requestrejected.js:50 modules/emails/requestcreated.js:42
+#: modules/emails/resetpassword.js:40 modules/emails/requestaccepted.js:75
+#: modules/emails/requestrejected.js:54 modules/emails/requestcreated.js:42
 #: modules/emails/usercreated.js:36
 msgid "Yours truly"
 msgstr "Cordialement"
@@ -1026,43 +1027,43 @@ msgstr ""
 "Si vous n'avez pas demandé de modification de votre mot de passe, vous "
 "pouvez ignorer cet email"
 
-#: modules/emails/requestaccepted.js:29
+#: modules/emails/requestaccepted.js:30
 #, javascript-format
 msgid "%s: request accepted"
 msgstr "%s : demande acceptée"
 
-#: modules/emails/requestaccepted.js:30
+#: modules/emails/requestaccepted.js:31
 #, javascript-format
 msgid "Your %s has been accepted"
 msgstr "Votre %s a été acceptée"
 
-#: modules/emails/requestaccepted.js:35
+#: modules/emails/requestaccepted.js:36
 #, javascript-format
 msgid "%s: request canceled"
 msgstr "%s : demande annulée"
 
-#: modules/emails/requestaccepted.js:37
+#: modules/emails/requestaccepted.js:38
 #, javascript-format
 msgid "As requested by %s, the %s request has been canceled"
 msgstr "Comme demandé par %s, la demande %s a été annulée"
 
-#: modules/emails/requestaccepted.js:63 modules/emails/requestrejected.js:44
+#: modules/emails/requestaccepted.js:64 modules/emails/requestrejected.js:48
 msgid "Consult the request actions history after login into the application"
 msgstr ""
 "Consultez l'historique des actions sur la demande une fois connecté à "
 "l'application"
 
-#: modules/emails/requestaccepted.js:70
+#: modules/emails/requestaccepted.js:71
 #, javascript-format
 msgid "Workflow step by %s the %s"
 msgstr "Étape du workflow par %s le %s"
 
-#: modules/emails/requestrejected.js:19
+#: modules/emails/requestrejected.js:20
 #, javascript-format
 msgid "%s: request rejected"
 msgstr "%s : demande rejetée"
 
-#: modules/emails/requestrejected.js:42
+#: modules/emails/requestrejected.js:44
 #, javascript-format
 msgid "Your %s has been rejected"
 msgstr "Votre %s a été rejetée"
@@ -1291,7 +1292,7 @@ msgstr "Le mot de passe a été modifié"
 msgid "You must be logged in"
 msgstr "Vous devez être connecté"
 
-#: rest/user/googlecalendar.js:95
+#: rest/user/googlecalendar.js:96
 msgid "You are disconnected from your google calendar"
 msgstr "Vous êtes déconnecté de votre agenda Google"
 
@@ -1576,7 +1577,7 @@ msgstr "Les valeurs de l'intervalle doivent êtres un nombre d'année"
 msgid "Interval values must be set in a correct order"
 msgstr "Les valeurs de l'intervalle doivent êtres définies dans l'ordre"
 
-#: schema/User_Account.js:1052
+#: schema/User_Account.js:1062
 #, javascript-format
 msgid "No weeks found for %s"
 msgstr "Pas de semaine trouvée pour %s"
@@ -1710,6 +1711,9 @@ msgstr "Jours fériés en Irlande du Nord"
 #: schema/Calendar.js:468
 msgid "Scotland legal holidays"
 msgstr "Jours fériés en Écosse"
+
+#~ msgid "At least one event is required"
+#~ msgstr "Au moins un événement est requis"
 
 #~ msgid "Annual leaves"
 #~ msgstr "Congé payés"

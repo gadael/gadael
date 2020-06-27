@@ -226,6 +226,12 @@
                         </div>
                     </div>
 
+                    <div class="form-group" ng-if="right.quantity_unit=='D'">
+                        <label><input type="checkbox" id="halfDays" ng-model="right.halfDays" />
+                            <span translate>Authorize half-days consuption</span>
+                        </label>
+                    </div>
+
                     <div class="form-group">
                         <label><input type="checkbox" id="lunch" ng-model="right.lunch" />
                             <span translate>Lunch payment on absences with this right</span>

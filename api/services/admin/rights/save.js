@@ -131,6 +131,7 @@ function saveRight(service, params) {
         consumption: params.consumption,
         consumptionBusinessDaysLimit: params.consumptionBusinessDaysLimit,
         activeSpan: params.activeSpan,
+        halfDays: params.halfDays,
         lunch: params.lunch
     };
 
