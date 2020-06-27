@@ -35,6 +35,7 @@ exports = module.exports = function(service, month) {
         return Promise.all(aggRows.map(agg => {
             return service.app.db.models.User.findOne()
             .where('_id', agg._id)
+            .populate('department')
             .exec()
             .then(user => {
                 const row = {};

@@ -33530,7 +33530,7 @@ define('services/request-edit',['moment', 'momentDurationFormat', 'q'], function
                 });
 
 
-                setDuration($scope, us, $scope.selection.businessDays);
+                setDuration($scope, us);
 
             },
 
