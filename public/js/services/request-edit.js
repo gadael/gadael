@@ -145,7 +145,7 @@ define(['moment', 'momentDurationFormat', 'q'], function(moment, momentDuration,
                 });
 
 
-                setDuration($scope, us, $scope.selection.businessDays);
+                setDuration($scope, us);
 
             },
 
