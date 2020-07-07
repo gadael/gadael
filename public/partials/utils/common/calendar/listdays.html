@@ -1,4 +1,4 @@
-<div class="col-xs-4 text-right">
+<div class="col-xs-4 text-right top30">
     <button class="btn btn-default" ng-click="previousMonth()" title="{{'Previous month' | translate}}"><i class="fa fa-arrow-left"></i></button>
     <button class="btn btn-default" ng-click="nextMonth()" title="{{'Next month' | translate}}"><i class="fa fa-arrow-right"></i></button>
 </div>
@@ -14,18 +14,15 @@
         <div class="day" translate>Saturday</div>
         <div class="day" translate>Sunday</div>
     </div>
-    <div class="week row" ng-repeat="week in cal.calendar.weeks">
-
+    <div ng-if="!isLoading" class="week row" ng-repeat="week in cal.calendar.weeks">
         <div class="weeknumber text-muted hidden-xs" id="{{week.id}}" title="{{ 'Week number' | translate }}">{{week.label}}</div>
         <div class="day" ng-repeat="day in week.days">
-            <div class="cell" ng-class="{ 'cal-available': !isLoading && day.isScheduled(), 'cal-notscheduled': !isLoading && day.isNotScheduled(),  'cal-nonworking': day.isNonWorkingDay() }">
+            <div class="cell" ng-class="{ 'cal-available': !isLoading && day.isScheduled(), 'cal-notscheduled': !isLoading && day.isNotScheduled(), 'cal-nonworking': day.isNonWorkingDay(), 'cal-inmonth': day.isInMonth() }">
                 <div>
                     <small>{{day.label}}</small>
                 </div>
-
                 <div class="text-center" ng-repeat="event in day.events">
-                    <a
-                        href=""
+                    <a href=""
                         ng-attr-title="{{event.summary}}"
                         data-content-template="partials/utils/common/calendar/popover-event.html"
                         data-auto-close="1"
@@ -34,7 +31,6 @@
                         <i ng-if="event.status=='CONFIRMED'" class="hidden-xs fa fa-check-circle text-success" ng-attr-title="{{'Confirmed'|translate}}"></i>
                         <i ng-if="event.status=='TENTATIVE'" class="hidden-xs fa fa-hourglass-half text-warning" ng-attr-title="{{'Waiting approval'|translate}}"></i>
                         <i ng-if="event.status=='PRECANCEL'" class="hidden-xs fa fa-hourglass-half text-danger" ng-attr-title="{{'Waiting approval for delete'|translate}}"></i>
-
 
                         <span class="hidden-sm hidden-xs">
                             <span ng-if="day.isStart(event)">{{event.dtstart|date:'shortTime'}}</span>

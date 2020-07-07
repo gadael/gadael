@@ -6,7 +6,7 @@ define(['moment'], function(moment) {
         /**
          * Object for calendar day
          */
-        function Day(loopDate)
+        function Day(loopDate, monthStartDate)
         {
             this.label = loopDate.getDate();
             if (1 === this.label) {
@@ -16,6 +16,7 @@ define(['moment'], function(moment) {
             this.workschedule = [];
             this.events = [];
             this.nonworkingday = [];
+            this.monthStartDate = monthStartDate;
 
             var s = new Date(loopDate); s.setHours(0,0,0,0);
             var e = new Date(s);        e.setDate(e.getDate()+1);
@@ -46,6 +47,11 @@ define(['moment'], function(moment) {
             return (this.nonworkingday.length > 0);
         };
 
+        Day.prototype.isInMonth = function()
+        {
+            return this.d.getMonth() === this.monthStartDate.getMonth();
+        };
+
 
         /**
          * Test if start date of the event is in day
@@ -74,7 +80,7 @@ define(['moment'], function(moment) {
         /**
          * Add weeks lines to calendar
          */
-        function addToCalendar(calendar, loopDate, endDate)
+        function addToCalendar(calendar, loopDate, endDate, startDate)
         {
             var weekprop, id, lastid, monthid;
 
@@ -106,7 +112,8 @@ define(['moment'], function(moment) {
 
                 var weekkey = calendar.keys[weekprop];
 
-                calendar.weeks[weekkey].days.push(new Day(loopDate));
+                var day = new Day(loopDate, startDate);
+                calendar.weeks[weekkey].days.push(day);
 
                 var dayprop = 'day'+loopDate.getDate();
                 calendar.weeks[weekkey].keys[dayprop] = calendar.weeks[weekkey].days.length -1;
@@ -322,7 +329,6 @@ define(['moment'], function(moment) {
             var lastweek = calendar.weeks[0].days;
             var lastDate = new Date(lastweek[lastweek.length-1].d);
             lastDate.setDate(1);
-
             return lastDate;
         }
 
@@ -349,12 +355,12 @@ define(['moment'], function(moment) {
             var calendar = cal.calendar;
             calendar.weeks = [];
             calendar.keys = [];
-            setMonday(startDate);
 
             var loopDate = new Date(startDate);
+            setMonday(loopDate);
             var endDate = new Date(loopDate);
             endDate.setDate(endDate.getDate() + (7 * startDate.countWeeksOfMonth()));
-            addToCalendar(calendar, new Date(loopDate), endDate);
+            addToCalendar(calendar, new Date(loopDate), endDate, startDate);
 
             return addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource, user);
         }
@@ -398,7 +404,6 @@ define(['moment'], function(moment) {
                     setMonthView($scope.cal, startDate, calendarEventsResource, personalEventsResource, $scope.user)
                     .then(function() {
                         $scope.isLoading = false;
-
                     }, function(error) {
                         $scope.isLoading = false;
                         throw error;
@@ -414,7 +419,6 @@ define(['moment'], function(moment) {
                     setMonthView($scope.cal, startDate, calendarEventsResource, personalEventsResource, $scope.user)
                     .then(function() {
                         $scope.isLoading = false;
-
                     }, function(error) {
                         $scope.isLoading = false;
                         throw error;

@@ -20,19 +20,10 @@ define([], function() {
             var requestsResource = Rest.admin.requests.getResource();
 
             $scope.user.$promise.then(function() {
-
                 $scope.setPageTitle($scope.user.lastname+' '+$scope.user.firstname+' '+gettext('calendar'));
 
-                Calendar.initLoadMoreData($scope, calendarEventsResource, personalEventsResource, requestsResource);
-
-                $scope.loadPreviousYear = function() {
-                    $location.path('/admin/users/'+$scope.user._id+'/calendar/'+$scope.previousYear+'/0');
-                };
-
-
+                Calendar.initNextPrevious($scope, calendarEventsResource, personalEventsResource, requestsResource);
             });
-
-
 	    }
     ];
 });

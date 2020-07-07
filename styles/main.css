@@ -339,11 +339,15 @@
     border:#eee 1px solid;
     margin:2px;
     padding: 0 2px;
+    opacity: 0.5;
 }
 
 
 /* Calendar views */
 
+.calendar .week .day .cal-inmonth {
+    opacity: 1;
+}
 
 .cal-nonworking {
 	background: #f2d714;
