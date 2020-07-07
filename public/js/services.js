@@ -496,9 +496,9 @@ define([
     /**
      * Load the collection of REST services
      */
-    .factory('Calendar', ['$locale', '$q', '$routeParams', '$scrollspy', '$anchorScroll',
-        function(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll) {
-            return getCalendar(gettext, $locale, $q, $routeParams, $scrollspy, $anchorScroll);
+    .factory('Calendar', ['$locale', '$q', '$routeParams',
+        function(gettext, $locale, $q, $routeParams) {
+            return getCalendar(gettext, $locale, $q, $routeParams);
         }
     ]);
 
