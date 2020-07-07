@@ -35632,8 +35632,6 @@ define('services/calendar',['moment'], function(moment) {
                 year = now.getFullYear();
             }
 
-
-
             if (undefined !== $routeParams.month) {
                 month = parseInt($routeParams.month, 10);
                 routeSet = true;
@@ -35641,6 +35639,7 @@ define('services/calendar',['moment'], function(moment) {
                 month = now.getMonth();
             }
 
+            $scope.titleDate = new Date(year, month, 1);
             $scope.cal = createCalendar(year, month, calendarEventsResource, personalEventsResource, $scope.user);
             $scope.isLoading = false;
 
@@ -35649,6 +35648,7 @@ define('services/calendar',['moment'], function(moment) {
                     $scope.isLoading = true;
                     var startDate = getCalendarFirstDayInMonth($scope.cal.calendar);
                     startDate.setMonth(startDate.getMonth() - 1);
+                    $scope.titleDate = startDate;
                     setMonthView($scope.cal, startDate, calendarEventsResource, personalEventsResource, $scope.user)
                     .then(function() {
                         $scope.isLoading = false;
@@ -35664,6 +35664,7 @@ define('services/calendar',['moment'], function(moment) {
                     $scope.isLoading = true;
                     var startDate = getCalendarFirstDayInMonth($scope.cal.calendar);
                     startDate.setMonth(startDate.getMonth() + 1);
+                    $scope.titleDate = startDate;
                     setMonthView($scope.cal, startDate, calendarEventsResource, personalEventsResource, $scope.user)
                     .then(function() {
                         $scope.isLoading = false;
