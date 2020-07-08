@@ -20,7 +20,7 @@
     <div ng-if="!isLoading" class="week row" ng-repeat="week in cal.calendar.weeks">
         <div class="weeknumber text-muted hidden-xs" id="{{week.id}}" title="{{ 'Week number' | translate }}">{{week.label}}</div>
         <div class="day" ng-repeat="day in week.days">
-            <div class="cell" ng-class="{ 'cal-available': !isLoading && day.isScheduled(), 'cal-notscheduled': !isLoading && day.isNotScheduled(), 'cal-nonworking': day.isNonWorkingDay(), 'cal-inmonth': day.isInMonth() }">
+            <div class="cell" ng-class="{ 'cal-available': !isLoading && day.isScheduled(), 'cal-notscheduled': !isLoading && day.isNotScheduled(), 'cal-nonworking': day.isNonWorkingDay(), 'cal-outmonth': !day.isInMonth() }">
                 <div>
                     <small>{{day.label}}</small>
                 </div>

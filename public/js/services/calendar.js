@@ -128,7 +128,7 @@ define(['moment'], function(moment) {
             var daysToAdd = 0;
 
             if (d === 0) { // sunday
-                daysToAdd = 1;
+                daysToAdd = -6;
             }
 
             if (d > 1) {
@@ -332,14 +332,19 @@ define(['moment'], function(moment) {
             return lastDate;
         }
 
-        Date.prototype.countWeeksOfMonth = function() {
-            var year         = this.getFullYear();
-            var month_number = this.getMonth();
-            var firstOfMonth = new Date(year, month_number-1, 1);
-            var lastOfMonth  = new Date(year, month_number, 0);
-            var used         = firstOfMonth.getDay() + lastOfMonth.getDate();
-            return Math.ceil( used / 7);
-        };
+        function getWeeksOfMonth(dt) {
+            function daysDifference(d0, d1) {
+                var diff = new Date(+d1).setHours(12) - new Date(+d0).setHours(12);
+                return Math.round(diff/8.64e7);
+            }
+            var year         = dt.getFullYear();
+            var month_number = dt.getMonth();
+            var firstOfMonth = new Date(year, month_number, 1);
+            setMonday(firstOfMonth);
+            var lastOfMonth  = new Date(year, month_number+1, 0);
+            var used         = daysDifference(firstOfMonth, lastOfMonth) + 1;
+            return Math.ceil(used / 7);
+        }
 
         /**
          * refresh calendar object with number of weeks
@@ -359,7 +364,7 @@ define(['moment'], function(moment) {
             var loopDate = new Date(startDate);
             setMonday(loopDate);
             var endDate = new Date(loopDate);
-            endDate.setDate(endDate.getDate() + (7 * startDate.countWeeksOfMonth()));
+            endDate.setDate(endDate.getDate() + (7 * getWeeksOfMonth(startDate)));
             addToCalendar(calendar, new Date(loopDate), endDate, startDate);
 
             return addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource, user);
