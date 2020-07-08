@@ -332,6 +332,9 @@
 
 .calendar .header .day {
     text-align:center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
 }
 
 .calendar .week .day .cell {
