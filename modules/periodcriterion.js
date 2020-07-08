@@ -22,7 +22,7 @@ exports = module.exports = function periodCriterion(find, dtstart, dtend) {
 
     find.or([
         { rrule: { $exists: true } },
-        { rdate: { $exists: true } },
+        { rdate: { $exists: true, $ne: [] } },
         { $and:
             [
                 { rrule: { $exists: false } },
