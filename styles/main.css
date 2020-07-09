@@ -332,18 +332,25 @@
 
 .calendar .header .day {
     text-align:center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
 }
 
 .calendar .week .day .cell {
     height: 6em;
-    border:#eee 1px solid;
-    margin:2px;
+    border: #eee 1px solid;
+    margin: 2px;
     padding: 0 2px;
 }
 
 
 /* Calendar views */
 
+.calendar .week .day .cal-outmonth {
+    background: #f7f7f7;
+    color: #999;
+}
 
 .cal-nonworking {
 	background: #f2d714;

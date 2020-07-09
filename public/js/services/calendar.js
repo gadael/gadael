@@ -1,15 +1,12 @@
-define(['moment', 'angular'], function(moment, angular) {
-
+define(['moment'], function(moment) {
     'use strict';
 
+    return function loadCalendarService($locale, $q, $routeParams) {
 
-    return function loadCalendarService($locale, $q, $routeParams, $scrollspy, $anchorScroll) {
-
-
-
-
-
-        function Day(loopDate)
+        /**
+         * Object for calendar day
+         */
+        function Day(loopDate, monthStartDate)
         {
             this.label = loopDate.getDate();
             if (1 === this.label) {
@@ -19,6 +16,7 @@ define(['moment', 'angular'], function(moment, angular) {
             this.workschedule = [];
             this.events = [];
             this.nonworkingday = [];
+            this.monthStartDate = monthStartDate;
 
             var s = new Date(loopDate); s.setHours(0,0,0,0);
             var e = new Date(s);        e.setDate(e.getDate()+1);
@@ -29,8 +27,6 @@ define(['moment', 'angular'], function(moment, angular) {
             };
         }
 
-
-
         Day.prototype.isAbsence = function()
         {
             return (this.events.length > 0);
@@ -39,7 +35,6 @@ define(['moment', 'angular'], function(moment, angular) {
         Day.prototype.isScheduled = function()
         {
             return (this.workschedule.length > 0 && this.events.length === 0 && this.nonworkingday.length === 0);
-            // TODO: check overlapping
         };
 
         Day.prototype.isNotScheduled = function()
@@ -51,6 +46,12 @@ define(['moment', 'angular'], function(moment, angular) {
         {
             return (this.nonworkingday.length > 0);
         };
+
+        Day.prototype.isInMonth = function()
+        {
+            return this.d.getMonth() === this.monthStartDate.getMonth();
+        };
+
 
         /**
          * Test if start date of the event is in day
@@ -79,16 +80,14 @@ define(['moment', 'angular'], function(moment, angular) {
         /**
          * Add weeks lines to calendar
          */
-        function addToCalendar(calendar, loopDate, endDate)
+        function addToCalendar(calendar, loopDate, endDate, startDate)
         {
             var weekprop, id, lastid, monthid;
 
             while (loopDate < endDate) {
-
                 weekprop = moment(loopDate).format('GGGGW');
 
                 if (undefined === calendar.keys[weekprop]) {
-
                     id = null;
                     lastid = null;
 
@@ -97,11 +96,9 @@ define(['moment', 'angular'], function(moment, angular) {
                     }
 
                     monthid = 'month'+loopDate.getFullYear()+loopDate.getMonth();
-
                     if (lastid !== monthid) {
                         id = monthid;
                     }
-
 
                     calendar.weeks.push({
                         label: moment(loopDate).format('WW'),
@@ -115,7 +112,8 @@ define(['moment', 'angular'], function(moment, angular) {
 
                 var weekkey = calendar.keys[weekprop];
 
-                calendar.weeks[weekkey].days.push(new Day(loopDate));
+                var day = new Day(loopDate, startDate);
+                calendar.weeks[weekkey].days.push(day);
 
                 var dayprop = 'day'+loopDate.getDate();
                 calendar.weeks[weekkey].keys[dayprop] = calendar.weeks[weekkey].days.length -1;
@@ -124,63 +122,13 @@ define(['moment', 'angular'], function(moment, angular) {
             }
         }
 
-
-
-
-        /**
-         * Add months lines to left navigation
-         */
-        function addToNav(nav, loopDate, endDate)
-        {
-            while (loopDate < endDate) {
-
-
-                var yearprop = loopDate.getFullYear();
-                var monthprop = loopDate.getMonth();
-
-                if (undefined === nav.keys[yearprop]) {
-                    nav.years.push({
-                        y: loopDate.getFullYear(),
-                        months: [],
-                        keys: {}
-                    });
-
-                    nav.keys[yearprop] = nav.years.length -1;
-                }
-
-                var yearkey = nav.keys[yearprop];
-
-                if (undefined === nav.years[yearkey].keys[monthprop]) {
-
-                    var label;
-
-                    try {
-                        label = loopDate.toLocaleDateString($locale.id, { month: 'long' });
-                    } catch (e) {
-                        label = loopDate.getMonth()+1;
-                    }
-
-                    nav.years[yearkey].months.push({
-                        m: loopDate.getMonth(),
-                        label: label
-                    });
-
-                    nav.years[yearkey].keys[monthprop] = nav.years[yearkey].months.length - 1;
-                }
-
-                loopDate.setMonth(loopDate.getMonth()+1);
-            }
-        }
-
-
-
         function setMonday(mydate)
         {
             var d = mydate.getDay();
             var daysToAdd = 0;
 
             if (d === 0) { // sunday
-                daysToAdd = 1;
+                daysToAdd = -6;
             }
 
             if (d > 1) {
@@ -190,12 +138,8 @@ define(['moment', 'angular'], function(moment, angular) {
             mydate.setDate(mydate.getDate() + daysToAdd);
         }
 
-
-
-
-
         /**
-         * Add event to nav
+         * Add event to calendar
          * @param {Object} cal
          * @param {Object} event
          * @param {String} typeProperty     A property of the day object
@@ -214,7 +158,6 @@ define(['moment', 'angular'], function(moment, angular) {
                 return false;
             }
 
-
             var loopDate = new Date(event.dtstart);
             var endDate = new Date(event.dtend);
             var weekprop, weekkey, dayprop, daykey, day, events;
@@ -224,7 +167,6 @@ define(['moment', 'angular'], function(moment, angular) {
                 dayprop = 'day'+loopDate.getDate();
 
                 if (undefined === cal.calendar.keys[weekprop]) {
-                    console.log(event);
                     console.log('Failed to add event to date because week is not loaded '+weekprop);
                     loopDate.setDate(loopDate.getDate()+1);
                     continue;
@@ -371,57 +313,59 @@ define(['moment', 'angular'], function(moment, angular) {
          */
         function createCalendar(year, month, calendarEventsResource, personalEventsResource, user) {
 
-            var nbWeeks = 50;
             var cal = {
                 calendar: {
                     weeks: [],
                     keys: {}
-                },
-                nav: {
-                    years: [],
-                    keys: {}
                 }
             };
 
-            var loopDate = new Date(year, month -6, 1);
-            setMonday(loopDate);
-
-
-            var endDate = new Date(loopDate);
-            endDate.setDate(endDate.getDate()+(7*nbWeeks));
-
-            addToCalendar(cal.calendar, new Date(loopDate), endDate);
-            addToNav(cal.nav, new Date(loopDate), endDate);
-
-            addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource, user);
+            setMonthView(cal, new Date(year, month, 1), calendarEventsResource, personalEventsResource, user);
 
             return cal;
         }
 
+        function getCalendarFirstDayInMonth(calendar) {
+            var lastweek = calendar.weeks[0].days;
+            var lastDate = new Date(lastweek[lastweek.length-1].d);
+            lastDate.setDate(1);
+            return lastDate;
+        }
+
+        function getWeeksOfMonth(dt) {
+            function daysDifference(d0, d1) {
+                var diff = new Date(+d1).setHours(12) - new Date(+d0).setHours(12);
+                return Math.round(diff/8.64e7);
+            }
+            var year         = dt.getFullYear();
+            var month_number = dt.getMonth();
+            var firstOfMonth = new Date(year, month_number, 1);
+            setMonday(firstOfMonth);
+            var lastOfMonth  = new Date(year, month_number+1, 0);
+            var used         = daysDifference(firstOfMonth, lastOfMonth) + 1;
+            return Math.ceil(used / 7);
+        }
+
         /**
-         * update nav object with number of weeks
+         * refresh calendar object with number of weeks
          * @param {Object} cal
-         * @param {Integer} nbWeeks
+         * @param {Date} startDate
          * @param {Object} calendarEventsResource
          * @param {Object} personalEventsResource
          * @param {Object} [user]
          * @return {Promise}
          */
-        function addWeeks(cal, nbWeeks, calendarEventsResource, personalEventsResource, user) {
+        function setMonthView(cal, startDate, calendarEventsResource, personalEventsResource, user) {
 
             var calendar = cal.calendar;
-            var nav = cal.nav;
+            calendar.weeks = [];
+            calendar.keys = [];
 
-            var lastweek = calendar.weeks[calendar.weeks.length-1].days;
-
-            var loopDate = new Date(lastweek[lastweek.length-1].d);
-            loopDate.setDate(loopDate.getDate()+1);
-
+            var loopDate = new Date(startDate);
+            setMonday(loopDate);
             var endDate = new Date(loopDate);
-            endDate.setDate(endDate.getDate()+(7*nbWeeks));
-
-            addToCalendar(calendar, new Date(loopDate), endDate);
-            addToNav(nav, new Date(loopDate), endDate);
+            endDate.setDate(endDate.getDate() + (7 * getWeeksOfMonth(startDate)));
+            addToCalendar(calendar, new Date(loopDate), endDate, startDate);
 
             return addEvents(cal, loopDate, endDate, calendarEventsResource, personalEventsResource, user);
         }
@@ -432,7 +376,7 @@ define(['moment', 'angular'], function(moment, angular) {
          * Initialize the Load more data function on scope, callback for the on scroll directive
          * @param {object} $scope [[Description]]
          */
-        function initLoadMoreData($scope, calendarEventsResource, personalEventsResource, requestsResource) {
+        function initNextPrevious($scope, calendarEventsResource, personalEventsResource, requestsResource) {
 
             var year, month, now = new Date();
             var routeSet = false;
@@ -445,8 +389,6 @@ define(['moment', 'angular'], function(moment, angular) {
                 year = now.getFullYear();
             }
 
-
-
             if (undefined !== $routeParams.month) {
                 month = parseInt($routeParams.month, 10);
                 routeSet = true;
@@ -454,35 +396,19 @@ define(['moment', 'angular'], function(moment, angular) {
                 month = now.getMonth();
             }
 
+            $scope.titleDate = new Date(year, month, 1);
             $scope.cal = createCalendar(year, month, calendarEventsResource, personalEventsResource, $scope.user);
-            $scope.previousYear = $scope.cal.nav.years[0].y - 1;
-
-
-
-            $scope.scrollTo = function(id) {
-                $anchorScroll(id);
-            };
-
-            if (!routeSet) {
-                setTimeout(function() {
-                    $anchorScroll('month'+now.getFullYear()+now.getMonth());
-                }, 500);
-            }
-
-
             $scope.isLoading = false;
 
-            $scope.loadMoreData = function loadMoreData() {
+            $scope.previousMonth = function previousMonth() {
                 if (!$scope.isLoading) {
                     $scope.isLoading = true;
-                    addWeeks($scope.cal, 6, calendarEventsResource, personalEventsResource, $scope.user)
+                    var startDate = getCalendarFirstDayInMonth($scope.cal.calendar);
+                    startDate.setMonth(startDate.getMonth() - 1);
+                    $scope.titleDate = startDate;
+                    setMonthView($scope.cal, startDate, calendarEventsResource, personalEventsResource, $scope.user)
                     .then(function() {
                         $scope.isLoading = false;
-
-                        // refresh scrollSpy
-                        var scrollspy = $scrollspy(angular.element(document.getElementsByClassName('bs-sidenav')[0]), {});
-                        scrollspy.init();
-
                     }, function(error) {
                         $scope.isLoading = false;
                         throw error;
@@ -490,6 +416,21 @@ define(['moment', 'angular'], function(moment, angular) {
                 }
             };
 
+            $scope.nextMonth = function nextMonth() {
+                if (!$scope.isLoading) {
+                    $scope.isLoading = true;
+                    var startDate = getCalendarFirstDayInMonth($scope.cal.calendar);
+                    startDate.setMonth(startDate.getMonth() + 1);
+                    $scope.titleDate = startDate;
+                    setMonthView($scope.cal, startDate, calendarEventsResource, personalEventsResource, $scope.user)
+                    .then(function() {
+                        $scope.isLoading = false;
+                    }, function(error) {
+                        $scope.isLoading = false;
+                        throw error;
+                    });
+                }
+            };
 
             $scope.getRequest = function(request) {
 
@@ -505,8 +446,8 @@ define(['moment', 'angular'], function(moment, angular) {
 
         return {
             createCalendar: createCalendar,
-            addWeeks: addWeeks,
-            initLoadMoreData: initLoadMoreData
+            setMonthView: setMonthView,
+            initNextPrevious: initNextPrevious
         };
     };
 

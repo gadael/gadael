@@ -2,6 +2,7 @@
 
 
 const requestdateparams = require('../../../../modules/requestdateparams');
+const periodCriterion = require('../../../../modules/periodcriterion');
 
 /**
  * The personal events list service
@@ -35,10 +36,7 @@ function getEvents(service, params)
 
     find.where('user.id').equals(params.user);
     find.where('status').in(params.status);
-
-    var periodCriterion = require('../../../../modules/periodcriterion');
     periodCriterion(find, params.dtstart, params.dtend);
-
 
     find.populate('absenceElem');
     find.populate('request');

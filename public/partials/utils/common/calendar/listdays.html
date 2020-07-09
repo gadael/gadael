@@ -1,24 +1,13 @@
-<div class="col-md-2 hidden-sm hidden-xs bs-sidebar">
-
-    <ul class="nav bs-sidenav"  data-offset-top="-10" bs-affix>
-
-        <li><a href="" ng-click="loadPreviousYear()">{{previousYear}}</a></li>
-        <li ng-repeat="year in cal.nav.years" data-target="#month{{year.y}}{{year.months[0].m}}" bs-scrollspy>
-            <a href="" ng-click="scrollTo('month'+year.y+year.months[0].m)">{{year.y}}</a>
-            <ul class="nav">
-                <li ng-repeat="month in year.months" data-target="#month{{year.y}}{{month.m}}" bs-scrollspy>
-                    <a href="" ng-click="scrollTo('month'+year.y+month.m)">{{month.label}}</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-
+<div class="col-md-12 text-right">
+    <strong class="text-primary">{{titleDate|date:'MMMM yyyy'}} &nbsp;</strong>
+    <span class="text-nowrap">
+        <button class="btn btn-default" ng-click="previousMonth()" title="{{'Previous month' | translate}}"><i class="fa fa-arrow-left"></i></button>
+        <button class="btn btn-default" ng-click="nextMonth()" title="{{'Next month' | translate}}"><i class="fa fa-arrow-right"></i></button>
+    </span>
 </div>
 
-
-<div class="col-md-10 calendar" scroll="loadMoreData()">
-
-    <div class="header row hidden-xs">
+<div class="col-md-12 top10 calendar">
+    <div class="header row">
         <div class="weeknumber hidden-xs">&nbsp;</div>
         <div class="day" translate>Monday</div>
         <div class="day" translate>Tuesday</div>
@@ -28,20 +17,15 @@
         <div class="day" translate>Saturday</div>
         <div class="day" translate>Sunday</div>
     </div>
-
-
-    <div class="week row" ng-repeat="week in cal.calendar.weeks">
-
-        <div class="weeknumber text-muted hidden-xs" id="{{week.id}}">{{week.label}}</div>
+    <div ng-if="!isLoading" class="week row" ng-repeat="week in cal.calendar.weeks">
+        <div class="weeknumber text-muted hidden-xs" id="{{week.id}}" title="{{ 'Week number' | translate }}">{{week.label}}</div>
         <div class="day" ng-repeat="day in week.days">
-            <div class="cell" ng-class="{ 'cal-available': !isLoading && day.isScheduled(), 'cal-notscheduled': !isLoading && day.isNotScheduled(),  'cal-nonworking': day.isNonWorkingDay() }">
+            <div class="cell" ng-class="{ 'cal-available': !isLoading && day.isScheduled(), 'cal-notscheduled': !isLoading && day.isNotScheduled(), 'cal-nonworking': day.isNonWorkingDay(), 'cal-outmonth': !day.isInMonth() }">
                 <div>
                     <small>{{day.label}}</small>
                 </div>
-
                 <div class="text-center" ng-repeat="event in day.events">
-                    <a
-                        href=""
+                    <a href=""
                         ng-attr-title="{{event.summary}}"
                         data-content-template="partials/utils/common/calendar/popover-event.html"
                         data-auto-close="1"
@@ -50,7 +34,6 @@
                         <i ng-if="event.status=='CONFIRMED'" class="hidden-xs fa fa-check-circle text-success" ng-attr-title="{{'Confirmed'|translate}}"></i>
                         <i ng-if="event.status=='TENTATIVE'" class="hidden-xs fa fa-hourglass-half text-warning" ng-attr-title="{{'Waiting approval'|translate}}"></i>
                         <i ng-if="event.status=='PRECANCEL'" class="hidden-xs fa fa-hourglass-half text-danger" ng-attr-title="{{'Waiting approval for delete'|translate}}"></i>
-
 
                         <span class="hidden-sm hidden-xs">
                             <span ng-if="day.isStart(event)">{{event.dtstart|date:'shortTime'}}</span>
