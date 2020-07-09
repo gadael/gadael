@@ -159,15 +159,16 @@ describe('unavailableevents accout rest service', function() {
         testDate(new Date(2015, 4, 1), 1, done);
     });
 
+    it('request unavailableevents as account on one month', function(done) {
+        server.get('/rest/account/unavailableevents', { dtstart: new Date(2015,11,1).toJSON(), dtend: new Date(2016,0,1).toJSON() }, function(res, body) {
+            expect(body.length).toEqual(45);
+            expect(res.statusCode).toEqual(200);
+            done();
+        });
+    });
 
     it('request unavailableevents as account on one year', function(done) {
-
-        var dtstart, dtend;
-
-        dtstart = new Date(2015,0,1).toJSON();
-        dtend = new Date(2016,0,1).toJSON();
-
-        server.get('/rest/account/unavailableevents', { dtstart: dtstart, dtend: dtend }, function(res, body) {
+        server.get('/rest/account/unavailableevents', { dtstart: new Date(2015,0,1).toJSON(), dtend: new Date(2016,0,1).toJSON() }, function(res, body) {
             expect(body.length).toEqual(463);
             expect(res.statusCode).toEqual(200);
             done();
