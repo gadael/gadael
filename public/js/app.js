@@ -9,6 +9,7 @@ define([
 	'directives',
 	'gettext',
 	'controllers',
+	'controllers-custom',
 	'angularRoute',
 	'angularAuth',
 	'paginateAnything',
@@ -27,6 +28,7 @@ define([
 	var gadael = angular.module('gadael', [
 		'ngRoute',
 		'gadael.controllers',
+		'gadael.controllers.custom',
 		'gadael.filters',
 		'gadael.services',
 		'gadael.directives',
