@@ -5,12 +5,21 @@ const util = require('util');
 
 /**
  * Get a function used to set properties on a element object
+ * Also used for consuption simulation
+ * @param {Service} service
+ * @param {Collection} collection
+ * @param {User} user
+ * @param {Boolean} checkRight Check if the right allow the consuption, default false
  * @return {Function}
  */
-function getElementIgniter(service, collection, user)
+function getElementIgniter(service, collection, user, checkRight)
 {
     const RightModel = service.app.db.models.Right;
     const gt = service.app.utility.gettext;
+
+    if (undefined === checkRight) {
+        checkRight = false;
+    }
 
     /**
      * Set properties of an element object
@@ -31,7 +40,7 @@ function getElementIgniter(service, collection, user)
         .then(right => {
             rightDocument = right;
             // validate element quantity compatibility with right
-            if ('D' === rightDocument.quantity_unit && elem.quantity % 1 !== 0 && false === rightDocument.halfDays) {
+            if (checkRight && 'D' === rightDocument.quantity_unit && elem.quantity % 1 !== 0 && false === rightDocument.halfDays) {
                 throw new Error(util.format(gt.gettext('Half days quantity is not allowed on right %s'), rightDocument.name));
             }
             // get renewal to save in element
@@ -438,7 +447,7 @@ function saveAbsenceDistribution(service, user, params, collection) {
     let i, elem,
         containsPromises = [];
 
-    let setElemProperties = getElementIgniter(service, collection, user);
+    let setElemProperties = getElementIgniter(service, collection, user, true);
 
     // promisify all elements in the contain objects
 
