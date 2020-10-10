@@ -20,7 +20,8 @@
     <i class="fa fa-undo text-primary"></i> <strong translate>Overtime declaration</strong>
     <div class="row">
         <span class="col-xs-3" translate>From</span> {{request.events[0].dtstart|date:'medium'}}<br />
-        <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}
+        <span class="col-xs-3" translate>To</span> {{request.events[request.events.length-1].dtend|date:'medium'}}<br />
+        <span class="col-xs-12">{{request.workperiod_recover[0].summary}}</span>
     </div>
 </div>
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-27 14:13+0200\n"
+"POT-Creation-Date: 2020-10-10 18:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -625,23 +625,23 @@ msgstr ""
 msgid "Failed to load the collection document"
 msgstr ""
 
-#: api/services/user/requests/saveAbsence.js:35
+#: api/services/user/requests/saveAbsence.js:44
 #, javascript-format
 msgid "Half days quantity is not allowed on right %s"
 msgstr ""
 
-#: api/services/user/requests/saveAbsence.js:339
+#: api/services/user/requests/saveAbsence.js:348
 #, javascript-format
 msgid ""
 "The rule \"%s\" cannot be verified when saving absence event from %s to %s "
 "on the renewal from %s to %s from the right %s"
 msgstr ""
 
-#: api/services/user/requests/saveAbsence.js:351
+#: api/services/user/requests/saveAbsence.js:360
 msgid "Arrival date must be before renewal finish"
 msgstr ""
 
-#: api/services/user/requests/saveAbsence.js:359
+#: api/services/user/requests/saveAbsence.js:368
 #, javascript-format
 msgid ""
 "The quantity requested on right \"%s\" is not available, available quantity "
@@ -1259,7 +1259,7 @@ msgid "Time saving deposit"
 msgstr ""
 
 #: schema/Request.js:359
-msgid "Workperiod recover"
+msgid "Overtime declaration"
 msgstr ""
 
 #: schema/Request.js:362

@@ -356,7 +356,7 @@ exports = module.exports = function(params) {
         }
 
         if (this.workperiod_recover && this.workperiod_recover.length > 0) {
-            return gt.gettext('Workperiod recover');
+            return gt.gettext('Overtime declaration');
         }
 
         return gt.gettext('Unknown');

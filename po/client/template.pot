@@ -4,13 +4,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: public/partials/utils/common/request/request-list-type.html:32
+#: public/partials/utils/common/request/request-list-type.html:33
 msgid "1 day"
 msgid_plural "{{deposit.quantity| number}} days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: public/partials/utils/common/request/request-list-type.html:33
+#: public/partials/utils/common/request/request-list-type.html:34
 msgid "1 hour"
 msgid_plural "{{deposit.quantity| number}} hours"
 msgstr[0] ""
@@ -228,7 +228,7 @@ msgstr ""
 msgid "Administrator"
 msgstr ""
 
-#: public/js/optimized.js:36684
+#: public/js/optimized.js:36493
 #: public/js/services.js:461
 msgid "Age"
 msgstr ""
@@ -269,12 +269,12 @@ msgid "Are you sure you want to delete the absence request?"
 msgstr ""
 
 #: public/js/controllers/account/request/workperiod-recover-view.js:41
-#: public/js/controllers/admin/request/workperiod-recover-view.js:37
+#: public/js/controllers/admin/request/workperiod-recover-view.js:41
 msgid "Are you sure you want to delete the overtime declaration?"
 msgstr ""
 
 #: public/js/controllers/account/request/time-saving-deposit-view.js:41
-#: public/js/controllers/admin/request/time-saving-deposit-view.js:37
+#: public/js/controllers/admin/request/time-saving-deposit-view.js:41
 msgid "Are you sure you want to delete the time saving deposit request?"
 msgstr ""
 
@@ -329,7 +329,7 @@ msgstr ""
 msgid "Authorize half-days consuption"
 msgstr ""
 
-#: public/js/optimized.js:35274
+#: public/js/optimized.js:35142
 #: public/js/services/beneficiary.js:226
 msgid "Auto monthly update"
 msgstr ""
@@ -362,7 +362,7 @@ msgstr ""
 msgid "Available on right"
 msgstr ""
 
-#: public/js/optimized.js:35357
+#: public/js/optimized.js:35225
 #: public/js/services/beneficiary.js:309
 #: public/partials/account/beneficiaries.html:21
 #: public/partials/admin/user-view-account.html:91
@@ -595,7 +595,7 @@ msgstr ""
 msgid "Confirm password"
 msgstr ""
 
-#: public/partials/utils/common/calendar/listdays.html:50
+#: public/partials/utils/common/calendar/listdays.html:34
 msgid "Confirmed"
 msgstr ""
 
@@ -637,7 +637,7 @@ msgstr ""
 msgid "Consumption"
 msgstr ""
 
-#: public/js/optimized.js:36685
+#: public/js/optimized.js:36494
 #: public/js/services.js:462
 msgid "Consuption"
 msgstr ""
@@ -951,8 +951,8 @@ msgstr ""
 msgid "Duration"
 msgstr ""
 
-#: public/js/optimized.js:34016
-#: public/js/services/absence-edit.js:279
+#: public/js/optimized.js:33938
+#: public/js/services/absence-edit.js:249
 msgid "Duration mismatch: {duration} hours remain unconsumed after the creation of {nbEvents} events, please check your absence period, it must not overlap another leave"
 msgstr ""
 
@@ -1029,7 +1029,7 @@ msgstr ""
 msgid "Entitlement quantity:"
 msgstr ""
 
-#: public/js/optimized.js:36680
+#: public/js/optimized.js:36489
 #: public/js/services.js:457
 msgid "Entry date"
 msgstr ""
@@ -1128,7 +1128,7 @@ msgstr ""
 
 #: public/partials/admin/collection-edit.html:39
 #: public/partials/admin/collection-edit.html:83
-#: public/partials/utils/common/calendar/listdays.html:27
+#: public/partials/utils/common/calendar/listdays.html:16
 msgid "Friday"
 msgstr ""
 
@@ -1161,7 +1161,7 @@ msgstr ""
 msgid "From hour"
 msgstr ""
 
-#: public/partials/utils/common/request/request-list-type.html:37
+#: public/partials/utils/common/request/request-list-type.html:38
 msgid "From right"
 msgstr ""
 
@@ -1185,7 +1185,7 @@ msgid "From:"
 msgstr ""
 
 #: public/js/app.js:66
-#: public/js/optimized.js:42210
+#: public/js/optimized.js:42019
 msgid "Gadael - %s"
 msgstr ""
 
@@ -1281,8 +1281,8 @@ msgstr ""
 msgid "Initial:"
 msgstr ""
 
-#: public/js/optimized.js:34055
-#: public/js/services/absence-edit.js:318
+#: public/js/optimized.js:33977
+#: public/js/services/absence-edit.js:288
 msgid "Input quantity must be set"
 msgstr ""
 
@@ -1348,7 +1348,7 @@ msgid "Leave right"
 msgstr ""
 
 #: public/js/app.js:135
-#: public/js/optimized.js:42279
+#: public/js/optimized.js:42088
 msgid "Leaves managment"
 msgstr ""
 
@@ -1398,7 +1398,7 @@ msgid "List of emails to invite, one per line"
 msgstr ""
 
 #: public/partials/user/settings-calendar.html:11
-#: public/partials/utils/common/calendar/listdays.html:78
+#: public/partials/utils/common/calendar/listdays.html:61
 msgid "Loading..."
 msgstr ""
 
@@ -1497,7 +1497,7 @@ msgstr ""
 
 #: public/partials/admin/collection-edit.html:27
 #: public/partials/admin/collection-edit.html:71
-#: public/partials/utils/common/calendar/listdays.html:23
+#: public/partials/utils/common/calendar/listdays.html:12
 msgid "Monday"
 msgstr ""
 
@@ -1579,6 +1579,10 @@ msgstr ""
 msgid "Next collection"
 msgstr ""
 
+#: public/partials/utils/common/calendar/listdays.html:5
+msgid "Next month"
+msgstr ""
+
 #: public/partials/utils/common/department/nextweek.html:34
 #: public/partials/utils/common/department/nextweek.html:40
 msgid "Next page"
@@ -1588,7 +1592,7 @@ msgstr ""
 msgid "No active renewal"
 msgstr ""
 
-#: public/js/optimized.js:34716
+#: public/js/optimized.js:34584
 #: public/js/services/timesavingdeposit-edit.js:50
 msgid "No available time saving account"
 msgstr ""
@@ -1642,8 +1646,8 @@ msgstr ""
 msgid "Nothing to approve"
 msgstr ""
 
-#: public/js/optimized.js:34114
-#: public/js/services/absence-edit.js:377
+#: public/js/optimized.js:34036
+#: public/js/services/absence-edit.js:347
 msgid "Nothing to save"
 msgstr ""
 
@@ -1765,7 +1769,7 @@ msgstr ""
 msgid "Period is booked"
 msgstr ""
 
-#: public/js/controllers/account/calendar-view.js:16
+#: public/js/controllers/account/calendar-view.js:15
 #: public/partials/account/calendar.html:1
 msgid "Personal calendar"
 msgstr ""
@@ -1784,6 +1788,10 @@ msgstr ""
 
 #: public/partials/admin/account-renewalquantity-edit.html:22
 msgid "Previous collection"
+msgstr ""
+
+#: public/partials/utils/common/calendar/listdays.html:4
+msgid "Previous month"
 msgstr ""
 
 #: public/partials/utils/common/department/nextweek.html:22
@@ -1890,12 +1898,12 @@ msgstr ""
 msgid "Renewals with remaining quantity"
 msgstr ""
 
-#: public/js/optimized.js:36682
+#: public/js/optimized.js:36491
 #: public/js/services.js:459
 msgid "Request in user interval"
 msgstr ""
 
-#: public/js/optimized.js:36681
+#: public/js/optimized.js:36490
 #: public/js/services.js:458
 msgid "Request period"
 msgstr ""
@@ -2040,7 +2048,7 @@ msgstr ""
 
 #: public/partials/admin/collection-edit.html:42
 #: public/partials/admin/collection-edit.html:86
-#: public/partials/utils/common/calendar/listdays.html:28
+#: public/partials/utils/common/calendar/listdays.html:17
 msgid "Saturday"
 msgstr ""
 
@@ -2179,7 +2187,7 @@ msgstr ""
 msgid "Send invitations"
 msgstr ""
 
-#: public/js/optimized.js:36683
+#: public/js/optimized.js:36492
 #: public/js/services.js:460
 msgid "Seniority"
 msgstr ""
@@ -2298,7 +2306,7 @@ msgstr ""
 
 #: public/partials/admin/collection-edit.html:24
 #: public/partials/admin/collection-edit.html:68
-#: public/partials/utils/common/calendar/listdays.html:29
+#: public/partials/utils/common/calendar/listdays.html:18
 msgid "Sunday"
 msgstr ""
 
@@ -2440,7 +2448,7 @@ msgstr ""
 
 #: public/partials/admin/collection-edit.html:36
 #: public/partials/admin/collection-edit.html:80
-#: public/partials/utils/common/calendar/listdays.html:26
+#: public/partials/utils/common/calendar/listdays.html:15
 msgid "Thursday"
 msgstr ""
 
@@ -2450,7 +2458,7 @@ msgstr ""
 
 #: public/partials/account/request/requests.html:62
 #: public/partials/admin/request/requests.html:69
-#: public/partials/utils/common/request/request-list-type.html:28
+#: public/partials/utils/common/request/request-list-type.html:29
 msgid "Time saving deposit"
 msgstr ""
 
@@ -2488,7 +2496,7 @@ msgstr ""
 msgid "To pick-up on right"
 msgstr ""
 
-#: public/partials/utils/common/request/request-list-type.html:38
+#: public/partials/utils/common/request/request-list-type.html:39
 msgid "To right"
 msgstr ""
 
@@ -2526,7 +2534,7 @@ msgstr ""
 
 #: public/partials/admin/collection-edit.html:30
 #: public/partials/admin/collection-edit.html:74
-#: public/partials/utils/common/calendar/listdays.html:24
+#: public/partials/utils/common/calendar/listdays.html:13
 msgid "Tuesday"
 msgstr ""
 
@@ -2672,11 +2680,11 @@ msgid "Waiting"
 msgstr ""
 
 #: public/partials/account/beneficiaries.html:31
-#: public/partials/utils/common/calendar/listdays.html:51
+#: public/partials/utils/common/calendar/listdays.html:35
 msgid "Waiting approval"
 msgstr ""
 
-#: public/partials/utils/common/calendar/listdays.html:52
+#: public/partials/utils/common/calendar/listdays.html:36
 msgid "Waiting approval for delete"
 msgstr ""
 
@@ -2706,8 +2714,12 @@ msgstr ""
 
 #: public/partials/admin/collection-edit.html:33
 #: public/partials/admin/collection-edit.html:77
-#: public/partials/utils/common/calendar/listdays.html:25
+#: public/partials/utils/common/calendar/listdays.html:14
 msgid "Wednesday"
+msgstr ""
+
+#: public/partials/utils/common/calendar/listdays.html:21
+msgid "Week number"
 msgstr ""
 
 #: public/partials/admin/beneficiary-edit.html:104
@@ -2744,8 +2756,8 @@ msgstr ""
 msgid "Workschedule planning"
 msgstr ""
 
-#: public/js/optimized.js:34011
-#: public/js/services/absence-edit.js:274
+#: public/js/optimized.js:33933
+#: public/js/services/absence-edit.js:244
 msgid "Wrong events count"
 msgstr ""
 
@@ -2852,7 +2864,7 @@ msgstr ""
 msgid "adjustments included"
 msgstr ""
 
-#: public/js/controllers/admin/calendar-view.js:24
+#: public/js/controllers/admin/calendar-view.js:23
 #: public/partials/admin/calendar.html:1
 msgid "calendar"
 msgstr ""
@@ -2861,8 +2873,8 @@ msgstr ""
 msgid "collections"
 msgstr ""
 
-#: public/js/optimized.js:33414
-#: public/js/services/request-edit.js:29
+#: public/js/optimized.js:33405
+#: public/js/services/request-edit.js:20
 #: public/partials/admin/compulsoryleave-view.html:70
 #: public/partials/admin/compulsoryleave-view.html:80
 #: public/partials/admin/recoverquantities.html:31
@@ -2884,8 +2896,8 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: public/js/optimized.js:33415
-#: public/js/services/request-edit.js:30
+#: public/js/optimized.js:33406
+#: public/js/services/request-edit.js:21
 #: public/partials/admin/compulsoryleave-view.html:71
 #: public/partials/admin/compulsoryleave-view.html:81
 #: public/partials/admin/recoverquantities.html:32
@@ -2911,7 +2923,7 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: public/js/optimized.js:34773
+#: public/js/optimized.js:34641
 #: public/js/services/timesavingdeposit-edit.js:107
 msgid "{quantity} up to {date}"
 msgstr ""
