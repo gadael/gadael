@@ -13,20 +13,14 @@ define([], function() {
         'Beneficiary',
         function($scope, $location, $routeParams, Rest, $modal, catchOutcome, gettext, Beneficiary) {
 
-
-
         var userResource = Rest.admin.users.getResource();
         var accountbeneficiaryResource = Rest.admin.accountbeneficiaries.getResource();
         var adjustmentResource = Rest.admin.adjustments.getResource();
         var requestResource = Rest.admin.requests.getResource();
 
-
-
         if (!$location.search().user) {
             throw new Error('The user parameter is mandatory');
         }
-
-
 
         var requests = requestResource.query({
             'user.id': $location.search().user,
@@ -47,14 +41,7 @@ define([], function() {
             });
         });
 
-
-
-
-
         $scope.xAxisTickFormat_Date_Format = Beneficiary.xAxisTickFormat_Date_Format;
-
-
-
 
 		$scope.back = function back() {
 			$location.path('/admin/users/'+$scope.user._id);
@@ -67,6 +54,7 @@ define([], function() {
 
             modalscope.adjustment = new adjustmentResource();
 
+            modalscope.adjustment.beneficiary = $routeParams.id;
             modalscope.adjustment.rightRenewal = renewal._id;
             modalscope.adjustment.user = $scope.user._id;
             modalscope.adjustment.quantity = 0;
