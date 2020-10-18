@@ -61,7 +61,7 @@ define([], function() {
                     action: action,
                     comment: comment
                 })
-            ).then($scope.backToList);
+            );
         }
 
         function addCommentThenSave(action) {
@@ -79,7 +79,10 @@ define([], function() {
             };
 
             modalscope.save = function() {
-                save(action, modalscope.log.comment).then(modal.hide);
+                save(action, modalscope.log.comment).then(function() {
+                    modal.hide();
+                    $scope.backToList();
+                });
             };
         }
 
