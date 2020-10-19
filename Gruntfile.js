@@ -270,7 +270,7 @@ module.exports = function(grunt) {
     [ 'jshint', 'concurrent:dev']);
 
     grunt.registerTask('build'    , 'minify css, create translations files from po, aggregate js files, copy fonts',
-    ['shell:translation', 'copy:fonts', 'cssmin', 'requirejs', 'nggettext_compile']);
+    ['shell:translation', 'copy:fonts', 'cssmin','nggettext_compile', 'requirejs']);
 
     grunt.registerTask('allpot'   , 'Create all POT files from source',
     ['shell:pot_server', 'nggettext_extract']);
