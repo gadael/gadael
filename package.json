@@ -96,7 +96,7 @@
     "jasmine-node": "^1.16.2",
     "nodemailer-stub-transport": "~1.0.0",
     "sharp": "^0.17.0",
-    "shelljs": "^0.2.6",
+    "shelljs": "^0.8.5",
     "webshot": "~0.18.0"
   }
 }
