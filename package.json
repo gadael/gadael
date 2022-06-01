@@ -95,7 +95,7 @@
     "image-size": "^0.5.1",
     "jasmine-node": "^1.16.2",
     "nodemailer-stub-transport": "~1.0.0",
-    "sharp": "^0.17.0",
+    "sharp": "^0.30.5",
     "shelljs": "^0.2.6",
     "webshot": "~0.18.0"
   }
