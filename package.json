@@ -40,7 +40,7 @@
     "connect-mongodb-session": "~2.1.1",
     "cookie-parser": "^1.4.4",
     "csurf": "~1.8.3",
-    "express": "~4.16.4",
+    "express": "~4.17.3",
     "express-oauth-server": "^2.0.0",
     "express-session": "^1.16.1",
     "gettext-parser": "~1.2.2",
